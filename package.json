@@ -1,6 +1,6 @@
 {
   "name": "@bonustrack/snapshot.js",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0",
   "repository": "bonustrack/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
