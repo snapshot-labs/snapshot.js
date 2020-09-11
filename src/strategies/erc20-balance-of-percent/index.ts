@@ -25,7 +25,7 @@ export async function strategy(provider, addresses, options, snapshot) {
       total+=value;                 //37 35 40
   }
 
-  var r = 0.5; //factor
+  var r = 50; //factor
   
   data = Object.fromEntries(
     response.map((value, i) => [
