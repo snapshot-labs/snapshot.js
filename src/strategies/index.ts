@@ -6,8 +6,8 @@ import { strategy as makerDsChief } from './maker-ds-chief';
 
 export default {
   balancer,
-  erc20BalanceOf,
-  erc20BalanceOfFixedTotal,
-  erc20BalanceOfCv,
-  makerDsChief
+  'erc20-balance-of': erc20BalanceOf,
+  'erc20-balance-of-fixed-total': erc20BalanceOfFixedTotal,
+  'erc20-balance-of-cv': erc20BalanceOfCv,
+  'maker-ds-chief': makerDsChief
 };
