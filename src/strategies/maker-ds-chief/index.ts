@@ -3,7 +3,7 @@ import { multicall } from '../../utils';
 import { abi } from './DSChief.json';
 
 const MAKER_DS_CHIEF_ADDRESS = {
-  'eth.homestead': '0x9ef05f7f6deb616fd37ac3c959a2ddd25a54e4f5'
+  1: '0x9ef05f7f6deb616fd37ac3c959a2ddd25a54e4f5'
 }
 
 export async function strategy(network, provider, addresses, options, snapshot) {

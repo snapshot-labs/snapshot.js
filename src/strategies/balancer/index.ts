@@ -2,8 +2,8 @@ import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 
 const BALANCER_SUBGRAPH_URL = {
-  'eth.homestead': 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-beta',
-  'eth.kovan': 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan'
+  1: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-beta',
+  42: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan'
 }
 
 export async function strategy(network, provider, addresses, options, snapshot) {
