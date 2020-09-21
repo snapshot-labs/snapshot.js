@@ -1,6 +1,6 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
-import { abi } from './Uni.json';
+import abi from './Uni.json';
 
 const UNI_ADDRESS = {
   1: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'
