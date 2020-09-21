@@ -14,10 +14,10 @@ export async function strategy(network, provider, addresses, options, snapshot) 
     abi,
     addresses.map((address: any) => [
       UNI_ADDRESS[network],
-      'getPriorVotes',
-      [address, snapshot]
-    ]),
-    { blockTag }
+      'getCurrentVotes',
+      [address.toLowerCase()],
+      { blockTag }
+    ])
   );
   return Object.fromEntries(
     response.map((value, i) => [
