@@ -2,6 +2,7 @@ import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import { abi as multicallAbi } from './abi/Multicall.json';
+import _strategies from './strategies';
 
 const MULTICALL = {
   1: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
@@ -43,4 +44,24 @@ export async function subgraphRequest(url, query) {
   });
   const { data } = await res.json();
   return data || {};
+}
+
+export async function getScores(strategies, network, provider, addresses, snapshot = 'latest') {
+  return await Promise.all(
+    strategies.map(strategy =>
+      _strategies[strategy[0]](
+        network,
+        provider,
+        addresses,
+        strategy[1],
+        snapshot
+      )
+    )
+  );
+}
+
+export default {
+  multicall,
+  subgraphRequest,
+  getScores
 }
