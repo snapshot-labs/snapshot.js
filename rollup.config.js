@@ -1,6 +1,7 @@
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
+import json from 'rollup-plugin-json';
 import pkg from './package.json';
 
 const name = 'snapshot';
@@ -17,6 +18,7 @@ export default [
       format: 'iife'
     },
     plugins: [
+      json(),
       typescript({ clean: true }),
       terser(),
       filesize()
@@ -30,6 +32,7 @@ export default [
       { file: pkg.module, format: 'es' }
     ],
     plugins: [
+      json(),
       typescript({ clean: true })
     ]
   }

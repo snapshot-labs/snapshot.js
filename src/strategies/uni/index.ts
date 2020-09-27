@@ -1,9 +1,9 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
-import { abi } from './DSChief.json';
+import abi from './Uni.json';
 
-const MAKER_DS_CHIEF_ADDRESS = {
-  1: '0x9ef05f7f6deb616fd37ac3c959a2ddd25a54e4f5'
+const UNI_ADDRESS = {
+  1: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'
 }
 
 export async function strategy(network, provider, addresses, options, snapshot) {
@@ -13,11 +13,11 @@ export async function strategy(network, provider, addresses, options, snapshot) 
     provider,
     abi,
     addresses.map((address: any) => [
-      MAKER_DS_CHIEF_ADDRESS[network],
-      'deposits',
-      [address]
-    ]),
-    { blockTag }
+      UNI_ADDRESS[network],
+      'getCurrentVotes',
+      [address.toLowerCase()],
+      { blockTag }
+    ])
   );
   return Object.fromEntries(
     response.map((value, i) => [

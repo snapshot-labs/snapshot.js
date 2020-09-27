@@ -1,24 +1,33 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
-import { abi } from './DSChief.json';
 
-const MAKER_DS_CHIEF_ADDRESS = {
-  1: '0x9ef05f7f6deb616fd37ac3c959a2ddd25a54e4f5'
+function getArgs(options, address: string) {
+  const args: Array<string | number> = options.args || ['%{address}'];
+  return args.map(arg =>
+    typeof arg === 'string' ? arg.replace(/%{address}/g, address) : arg
+  );
 }
 
-export async function strategy(network, provider, addresses, options, snapshot) {
+export async function strategy(
+  network,
+  provider,
+  addresses,
+  options,
+  snapshot
+) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const response = await multicall(
     network,
     provider,
-    abi,
+    [options.methodABI],
     addresses.map((address: any) => [
-      MAKER_DS_CHIEF_ADDRESS[network],
-      'deposits',
-      [address]
+      options.address,
+      options.methodABI.name,
+      getArgs(options, address)
     ]),
     { blockTag }
   );
+
   return Object.fromEntries(
     response.map((value, i) => [
       addresses[i],

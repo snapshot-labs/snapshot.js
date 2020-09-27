@@ -5,7 +5,10 @@
     "module": "es6",
     "noImplicitAny": false,
     "outDir": "./dist",
-    "target": "es5"
+    "target": "es5",
+    "lib": ["es2018", "dom", "esnext"],
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*"

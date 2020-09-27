@@ -1,10 +1,12 @@
 import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 
-const BALANCER_SUBGRAPH_URL =
-  'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer';
+const BALANCER_SUBGRAPH_URL = {
+  1: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-beta',
+  42: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan'
+}
 
-export async function strategy(provider, addresses, options, snapshot) {
+export async function strategy(network, provider, addresses, options, snapshot) {
   const params = {
     poolShares: {
       __args: {
@@ -33,7 +35,7 @@ export async function strategy(provider, addresses, options, snapshot) {
     // @ts-ignore
     params.poolShares.__args.block = { number: snapshot };
   }
-  const result = await subgraphRequest(BALANCER_SUBGRAPH_URL, params);
+  const result = await subgraphRequest(BALANCER_SUBGRAPH_URL[network], params);
   const score = {};
   if (result && result.poolShares) {
     result.poolShares.forEach(poolShare =>
