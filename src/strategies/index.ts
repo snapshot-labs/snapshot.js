@@ -5,6 +5,7 @@ import { strategy as erc20BalanceOfCv } from './erc20-balance-of-cv';
 import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
 import { strategy as contractCall } from './contract-call';
+import { strategy as uniswap } from './uniswap';
 
 export default {
   balancer,
@@ -13,5 +14,6 @@ export default {
   'erc20-balance-of-cv': erc20BalanceOfCv,
   'maker-ds-chief': makerDsChief,
   'uni': uni,
-  'contract-call': contractCall
+  'contract-call': contractCall,
+  'uniswap' : uniswap
 };
