@@ -1,6 +1,9 @@
 import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 
+export const author = 'bonustrack';
+export const version = '0.1.0';
+
 const BALANCER_SUBGRAPH_URL = {
   1: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-beta',
   42: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan'
