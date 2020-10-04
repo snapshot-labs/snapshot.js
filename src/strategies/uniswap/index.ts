@@ -31,8 +31,8 @@ export async function strategy(network, provider, addresses, options, snapshot) 
     )
   ]);
 
-  const totalSupply = res[0].map((value, _) => value)[0];
-  const tokenBalanceInUni = res[1].map((value, _) => value)[0];
+  const totalSupply = res[0][0];
+  const tokenBalanceInUni = res[1][0];
   const tokensPerUni = (tokenBalanceInUni / 10 ** options.decimals) / (totalSupply / 1e18);
 
   const response = res[2];
