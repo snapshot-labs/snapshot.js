@@ -97,7 +97,6 @@ export async function strategy(network, provider, addresses, options, snapshot) 
     { blockTag }
   );
 
-
   const response = await multicall(
     network,
     provider,
