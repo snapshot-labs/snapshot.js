@@ -116,5 +116,4 @@ export async function strategy(network, provider, addresses, options, snapshot) 
       parseFloat(formatUnits(value.shares.toString(), options.decimals))
     ])
   );
-
 }
