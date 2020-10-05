@@ -7,6 +7,7 @@ import { strategy as ethBalance } from './eth-balance';
 import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
 import { strategy as yearnVault } from './yearn-vault';
+import { strategy as moloch } from './moloch';
 
 export default {
   balancer,
@@ -17,5 +18,6 @@ export default {
   'eth-balance': ethBalance,
   'maker-ds-chief': makerDsChief,
   uni,
-  'yearn-vault': yearnVault
+  'yearn-vault': yearnVault,
+  moloch
 };
