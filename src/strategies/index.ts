@@ -8,6 +8,7 @@ import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
 import { strategy as yearnVault } from './yearn-vault';
 import { strategy as moloch } from './moloch';
+import { strategy as pancake } from './pancake';
 
 export default {
   balancer,
@@ -19,5 +20,6 @@ export default {
   'maker-ds-chief': makerDsChief,
   uni,
   'yearn-vault': yearnVault,
-  moloch
+  moloch,
+  pancake
 };
