@@ -1,5 +1,6 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
+import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 
 export const author = 'bonustrack';
 export const version = '0.1.0';
@@ -7,14 +8,8 @@ export const version = '0.1.0';
 const abi = [
   {
     constant: true,
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'account',
-        type: 'address'
-      }
-    ],
-    name: 'balanceOf',
+    inputs: [],
+    name: 'getPricePerFullShare',
     outputs: [
       {
         internalType: 'uint256',
@@ -30,17 +25,21 @@ const abi = [
 
 export async function strategy(network, provider, addresses, options, snapshot) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
-  const response = await multicall(
-    network,
-    provider,
-    abi,
-    addresses.map((address: any) => [options.address, 'balanceOf', [address]]),
-    { blockTag }
-  );
+  let [score, [pricePerFullShare]] = await Promise.all([
+    erc20BalanceOfStrategy(network, provider, addresses, options, snapshot),
+    multicall(
+      network,
+      provider,
+      abi,
+      [[options.address, 'getPricePerFullShare', []]],
+      { blockTag }
+    )
+  ]);
+  pricePerFullShare = parseFloat(formatUnits(pricePerFullShare.toString(), 18));
   return Object.fromEntries(
-    response.map((value, i) => [
-      addresses[i],
-      parseFloat(formatUnits(value.toString(), options.decimals))
+    Object.entries(score).map((address: any) => [
+      address[0],
+      address[1] * pricePerFullShare
     ])
   );
 }
