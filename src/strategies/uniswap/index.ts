@@ -63,7 +63,7 @@ export async function strategy(network, provider, addresses, options, snapshot) 
   return Object.fromEntries(
     response.map((value, i) => [
       addresses[i],
-      parseFloat(formatUnits((value * tokensPerUni).toString(), options.decimals))
+      value / 10 ** options.decimals * tokensPerUni
     ])
   );
 }
