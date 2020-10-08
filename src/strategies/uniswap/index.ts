@@ -1,7 +1,30 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 import { abi as uniAbi } from './UniV2.json';
-import { abi as tokenAbi } from '../erc20-balance-of/TestToken.json';
+
+const tokenAbi = [
+  {
+    constant: true,
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
+    ],
+    name: 'balanceOf',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  }
+];
 
 //options.address is the Uni-V2 token address
 //options.tokenAddress is the token we are extracting
