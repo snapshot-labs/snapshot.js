@@ -14,11 +14,16 @@ const strategies = [
     "tokenAddress": "0x6e36556b3ee5aa28def2a8ec3dae30ec2b208739",
     "symbol": "BUILD",
     "decimals": 18
+  }],
+  ['unigraph', {
+    "address": "0x6e36556b3ee5aa28def2a8ec3dae30ec2b208739",
+    "symbol": "BUILD",
+    "decimals": 18
   }]
 ];
 
 const addresses = [
-  '0x01ba5319fb2dc2d379b96068f25afff27fd18c46'
+  '0xcd07a45b8f8656594dae6d0b64de50ae73ffe375'
 ];
 
 async function test() {

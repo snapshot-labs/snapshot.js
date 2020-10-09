@@ -9,6 +9,7 @@ import { strategy as uni } from './uni';
 import { strategy as uniswap } from './uniswap';
 import { strategy as yearnVault } from './yearn-vault';
 import { strategy as moloch } from './moloch';
+import { strategy as unigraph } from './unigraph';
 
 export default {
   balancer,
@@ -21,5 +22,6 @@ export default {
   uni,
   uniswap,
   'yearn-vault': yearnVault,
-  moloch
+  moloch,
+  unigraph
 };
