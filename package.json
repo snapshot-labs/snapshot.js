@@ -1,7 +1,7 @@
 {
-  "name": "@bonustrack/snapshot.js",
-  "version": "0.1.0",
-  "repository": "bonustrack/snapshot.js",
+  "name": "@vfatouros/snapshot.js",
+  "version": "0.1.1",
+  "repository": "vfatouros/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
   "module": "dist/snapshot.esm.js",
