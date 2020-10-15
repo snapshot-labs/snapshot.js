@@ -5,13 +5,23 @@ import { abi } from '../../abi/Multicall.json';
 export const author = 'bonustrack';
 export const version = '0.1.0';
 
-export async function strategy(network, provider, addresses, options, snapshot) {
+export async function strategy(
+  network,
+  provider,
+  addresses,
+  options,
+  snapshot
+) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const response = await multicall(
     network,
     provider,
     abi,
-    addresses.map((address: any) => [MULTICALL[network], 'getEthBalance', [address]]),
+    addresses.map((address: any) => [
+      MULTICALL[network],
+      'getEthBalance',
+      [address]
+    ]),
     { blockTag }
   );
   return Object.fromEntries(

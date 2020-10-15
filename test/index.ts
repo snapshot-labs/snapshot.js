@@ -2,7 +2,7 @@ const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 
 const network = 1;
-const url = 'https://eth-mainnet.alchemyapi.io/v2/rXKbp7PTFm6hcrxU8NL-JGp5RMfRHDwg';
+const url = 'https://eth-mainnet.alchemyapi.io/v2/fimsdrLNuwLMmDgFvuH_XRLgwE1hpHiR';
 const provider = new JsonRpcProvider(url);
 
 const strategies = [
