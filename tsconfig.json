@@ -8,7 +8,8 @@
     "target": "es5",
     "lib": ["es2018", "dom", "esnext"],
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node"
   },
   "include": [
     "src/**/*"
