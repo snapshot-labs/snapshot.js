@@ -47,17 +47,21 @@ export async function subgraphRequest(url, query) {
 }
 
 export async function getScores(strategies, network, provider, addresses, snapshot = 'latest') {
-  return await Promise.all(
-    strategies.map(strategy =>
-      _strategies[strategy[0]](
-        network,
-        provider,
-        addresses,
-        strategy[1],
-        snapshot
+  try {
+    return await Promise.all(
+      strategies.map(strategy =>
+        _strategies[strategy[0]](
+          network,
+          provider,
+          addresses,
+          strategy[1],
+          snapshot
+        )
       )
-    )
-  );
+    );
+  } catch (error) {
+    console.log(error);
+  } 
 }
 
 export default {
