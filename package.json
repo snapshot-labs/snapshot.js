@@ -1,7 +1,7 @@
 {
-  "name": "@bonustrack/snapshot.js",
+  "name": "@snapshot-labs/snapshot.js",
   "version": "0.1.0",
-  "repository": "bonustrack/snapshot.js",
+  "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
   "module": "dist/snapshot.esm.js",
@@ -31,7 +31,8 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "node test/index.ts",
-    "pretest": "npm run build"
+    "pretest": "npm run build",
+    "lint": "prettier 'src/**/*.ts' -w -c"
   },
   "files": [
     "dist",

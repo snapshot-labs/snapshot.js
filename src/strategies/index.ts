@@ -10,6 +10,8 @@ import { strategy as uniswap } from './uniswap';
 import { strategy as yearnVault } from './yearn-vault';
 import { strategy as moloch } from './moloch';
 import { strategy as unigraph } from './unigraph';
+import { strategy as pancake } from './pancake';
+import { strategy as synthetix } from './synthetix';
 
 export default {
   balancer,
@@ -23,5 +25,7 @@ export default {
   uniswap,
   'yearn-vault': yearnVault,
   moloch,
-  unigraph
+  unigraph,
+  pancake,
+  synthetix
 };
