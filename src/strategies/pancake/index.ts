@@ -65,7 +65,7 @@ export async function strategy(
       address[0],
       address[1] +
         balances.reduce(
-          (prev: number, cur: number) =>
+          (prev: number, cur: any) =>
             prev +
             parseFloat(
               formatUnits(cur[index].amount.toString(), options.decimals)
