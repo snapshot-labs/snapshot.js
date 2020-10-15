@@ -14,14 +14,14 @@ import { strategy as synthetix } from './synthetix';
 
 export default {
   balancer,
-  "contract-call": contractCall,
-  "erc20-balance-of": erc20BalanceOf,
-  "erc20-balance-of-fixed-total": erc20BalanceOfFixedTotal,
-  "erc20-balance-of-cv": erc20BalanceOfCv,
-  "eth-balance": ethBalance,
-  "maker-ds-chief": makerDsChief,
+  'contract-call': contractCall,
+  'erc20-balance-of': erc20BalanceOf,
+  'erc20-balance-of-fixed-total': erc20BalanceOfFixedTotal,
+  'erc20-balance-of-cv': erc20BalanceOfCv,
+  'eth-balance': ethBalance,
+  'maker-ds-chief': makerDsChief,
   uni,
-  "yearn-vault": yearnVault,
+  'yearn-vault': yearnVault,
   moloch,
   pancake,
   synthetix
