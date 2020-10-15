@@ -11,7 +11,6 @@ import { strategy as moloch } from './moloch';
 import { strategy as pancake } from './pancake';
 import { strategy as synthetix } from './synthetix';
 
-
 export default {
   balancer,
   'contract-call': contractCall,

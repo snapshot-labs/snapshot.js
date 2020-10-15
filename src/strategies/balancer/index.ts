@@ -7,14 +7,20 @@ export const version = '0.1.0';
 const BALANCER_SUBGRAPH_URL = {
   1: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-beta',
   42: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan'
-}
+};
 
-export async function strategy(network, provider, addresses, options, snapshot) {
+export async function strategy(
+  network,
+  provider,
+  addresses,
+  options,
+  snapshot
+) {
   const params = {
     poolShares: {
       __args: {
         where: {
-          userAddress_in: addresses.map(address => address.toLowerCase()),
+          userAddress_in: addresses.map((address) => address.toLowerCase()),
           balance_gt: 0
         },
         first: 1000,
@@ -41,8 +47,8 @@ export async function strategy(network, provider, addresses, options, snapshot) 
   const result = await subgraphRequest(BALANCER_SUBGRAPH_URL[network], params);
   const score = {};
   if (result && result.poolShares) {
-    result.poolShares.forEach(poolShare =>
-      poolShare.poolId.tokens.map(poolToken => {
+    result.poolShares.forEach((poolShare) =>
+      poolShare.poolId.tokens.map((poolToken) => {
         const [, tokenAddress] = poolToken.id.split('-');
         if (tokenAddress === options.address.toLowerCase()) {
           const userAddress = getAddress(poolShare.userAddress.id);

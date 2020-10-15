@@ -12,14 +12,14 @@ export const MULTICALL = {
   42: '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
   56: '0x1ee38d535d541c55c9dae27b12edf090c608e6fb',
   100: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a'
-}
+};
 
 export async function multicall(network, provider, abi, calls, options?) {
   const multi = new Contract(MULTICALL[network], multicallAbi, provider);
   const itf = new Interface(abi);
   try {
     const [, response] = await multi.aggregate(
-      calls.map(call => [
+      calls.map((call) => [
         call[0].toLowerCase(),
         itf.encodeFunctionData(call[1], call[2])
       ]),
@@ -46,9 +46,15 @@ export async function subgraphRequest(url, query) {
   return data || {};
 }
 
-export async function getScores(strategies, network, provider, addresses, snapshot = 'latest') {
+export async function getScores(
+  strategies,
+  network,
+  provider,
+  addresses,
+  snapshot = 'latest'
+) {
   return await Promise.all(
-    strategies.map(strategy =>
+    strategies.map((strategy) =>
       _strategies[strategy[0]](
         network,
         provider,
@@ -64,4 +70,4 @@ export default {
   multicall,
   subgraphRequest,
   getScores
-}
+};

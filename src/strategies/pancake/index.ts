@@ -1,35 +1,47 @@
-import { formatUnits } from "@ethersproject/units";
-import { multicall } from "../../utils";
-import { strategy as erc20BalanceOfStrategy } from "../erc20-balance-of";
+import { formatUnits } from '@ethersproject/units';
+import { multicall } from '../../utils';
+import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 
-export const author = "pancake-swap";
-export const version = "0.0.1";
+export const author = 'pancake-swap';
+export const version = '0.0.1';
 
 const abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '',
+        type: 'address'
+      }
     ],
-    name: "userInfo",
+    name: 'userInfo',
     outputs: [
       {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
-  },
+    stateMutability: 'view',
+    type: 'function'
+  }
 ];
 
-export async function strategy(network, provider, addresses, options, snapshot) {
-  const blockTag = typeof snapshot === "number" ? snapshot : "latest";
-  const score = await erc20BalanceOfStrategy(network, provider, addresses, options, snapshot);
+export async function strategy(
+  network,
+  provider,
+  addresses,
+  options,
+  snapshot
+) {
+  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+  const score = await erc20BalanceOfStrategy(
+    network,
+    provider,
+    addresses,
+    options,
+    snapshot
+  );
 
   const balances = await Promise.all(
     options.chefAddresses.map((chefAddress) =>
@@ -39,9 +51,9 @@ export async function strategy(network, provider, addresses, options, snapshot) 
         abi,
         addresses.map((address: any) => [
           chefAddress,
-          "userInfo",
+          'userInfo',
           [address],
-          { blockTag },
+          { blockTag }
         ]),
         { blockTag }
       )
@@ -54,11 +66,12 @@ export async function strategy(network, provider, addresses, options, snapshot) 
       address[1] +
         balances.reduce(
           (prev: number, cur: number) =>
-            prev + parseFloat(
+            prev +
+            parseFloat(
               formatUnits(cur[index].amount.toString(), options.decimals)
             ),
           0
-        ),
+        )
     ])
   );
 }

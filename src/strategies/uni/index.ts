@@ -6,7 +6,7 @@ export const version = '0.1.0';
 
 const UNI_ADDRESS = {
   1: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'
-}
+};
 
 const abi = [
   {
@@ -32,7 +32,13 @@ const abi = [
   }
 ];
 
-export async function strategy(network, provider, addresses, options, snapshot) {
+export async function strategy(
+  network,
+  provider,
+  addresses,
+  options,
+  snapshot
+) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const response = await multicall(
     network,
