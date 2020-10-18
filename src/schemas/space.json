@@ -55,7 +55,8 @@
             },
             "required": [
               "name"
-            ]
+            ],
+            "additionalProperties": false
           },
           "title": "strategies"
         },
@@ -80,15 +81,16 @@
             "onlyMembers": {
               "type": "boolean"
             },
-            "invalid": {
+            "invalids": {
               "type": "array",
               "items": {
                 "type": "string",
                 "maxLength": 64
               },
-              "title": "invalid"
+              "title": "invalids"
             }
-          }
+          },
+          "additionalProperties": false
         }
       },
       "required": [
