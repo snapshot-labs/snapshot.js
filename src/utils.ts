@@ -55,11 +55,11 @@ export async function getScores(
 ) {
   return await Promise.all(
     strategies.map((strategy) =>
-      _strategies[strategy[0]](
+      _strategies[strategy.name](
         network,
         provider,
         addresses,
-        strategy[1],
+        strategy.params,
         snapshot
       )
     )
