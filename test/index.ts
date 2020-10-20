@@ -6,15 +6,23 @@ const url = 'https://eth-mainnet.alchemyapi.io/v2/fimsdrLNuwLMmDgFvuH_XRLgwE1hpH
 const provider = new JsonRpcProvider(url);
 
 const strategies = [
-  ['erc20-balance-of', {
-    address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-    decimals: 18
-  }],
-  ['yearn-vault', {
-    address: '0xBA2E7Fed597fd0E3e70f5130BcDbbFE06bB94fe1',
-    decimals: 18
-  }],
-  ['eth-balance'],
+  {
+    name: 'erc20-balance-of',
+    params: {
+      address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+      decimals: 18
+    }
+  },
+  {
+    name: 'yearn-vault',
+    params: {
+      address: '0xBA2E7Fed597fd0E3e70f5130BcDbbFE06bB94fe1',
+      decimals: 18
+    }
+  },
+  {
+    name: 'eth-balance'
+  }
 ];
 
 const addresses = [
