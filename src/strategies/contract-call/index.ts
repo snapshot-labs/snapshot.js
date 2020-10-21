@@ -6,7 +6,7 @@ export const version = '0.1.0';
 
 function getArgs(options, address: string) {
   const args: Array<string | number> = options.args || ['%{address}'];
-  return args.map(arg =>
+  return args.map((arg) =>
     typeof arg === 'string' ? arg.replace(/%{address}/g, address) : arg
   );
 }

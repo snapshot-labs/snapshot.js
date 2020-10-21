@@ -1,6 +1,6 @@
 import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 
-export const author = 'bonustrack';
+export const author = 'jxde';
 export const version = '0.1.0';
 
 export async function strategy(
@@ -18,6 +18,6 @@ export async function strategy(
     snapshot
   );
   return Object.fromEntries(
-    Object.entries(score).map((address) => [address[0], Math.sqrt(address[1])])
+    Object.entries(score).map((address: any) => [address[0], address[1] * options.coeff])
   );
 }

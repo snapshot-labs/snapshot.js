@@ -11,12 +11,12 @@ const synthetixStateAbi = [
     name: 'issuanceData',
     outputs: [
       { name: 'initialDebtOwnership', type: 'uint256' },
-      { name: 'debtEntryIndex', type: 'uint256' },
+      { name: 'debtEntryIndex', type: 'uint256' }
     ],
     payable: false,
     stateMutability: 'view',
-    type: 'function',
-  },
+    type: 'function'
+  }
 ];
 
 const synthetixStateContractAddress =
@@ -31,7 +31,7 @@ export async function strategy(network, provider, addresses, _, snapshot) {
     addresses.map((address: any) => [
       synthetixStateContractAddress,
       'issuanceData',
-      [address],
+      [address]
     ]),
     { blockTag }
   );
@@ -49,7 +49,7 @@ export async function strategy(network, provider, addresses, _, snapshot) {
         // initialDebtOwnership returns in 27 decimal places
         quadraticWeighting(
           parseFloat(formatUnits(value.initialDebtOwnership.toString(), 27))
-        ),
+        )
       ];
     })
   );
