@@ -62,8 +62,10 @@ export async function getScores(
         strategy.params,
         snapshot
       )
-    )
-  );
+    );
+  } catch (error) {
+    console.log(error);
+  } 
 }
 
 export default {
