@@ -11,6 +11,7 @@ import { strategy as yearnVault } from './yearn-vault';
 import { strategy as moloch } from './moloch';
 import { strategy as pancake } from './pancake';
 import { strategy as synthetix } from './synthetix';
+import { strategy as uniswapv2 } from './uniswapv2';
 
 export default {
   balancer,
@@ -25,5 +26,6 @@ export default {
   'yearn-vault': yearnVault,
   moloch,
   pancake,
-  synthetix
+  synthetix,
+  uniswapv2
 };
