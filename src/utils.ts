@@ -14,18 +14,27 @@ export const MULTICALL = {
   100: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a'
 };
 
+export async function call(provider, abi, call, options?) {
+  const contract = new Contract(call[0], abi, provider);
+  try {
+    return await contract[call[1]](...call[2], options || {});
+  } catch (e) {
+    return Promise.reject(e);
+  }
+}
+
 export async function multicall(network, provider, abi, calls, options?) {
   const multi = new Contract(MULTICALL[network], multicallAbi, provider);
   const itf = new Interface(abi);
   try {
-    const [, response] = await multi.aggregate(
+    const [, res] = await multi.aggregate(
       calls.map((call) => [
         call[0].toLowerCase(),
         itf.encodeFunctionData(call[1], call[2])
       ]),
       options || {}
     );
-    return response.map((call, i) =>
+    return res.map((call, i) =>
       itf.decodeFunctionResult(calls[i][1], call)
     );
   } catch (e) {
