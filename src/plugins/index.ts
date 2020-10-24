@@ -1,5 +1,5 @@
-import Aragon from './aragon';
+import aragon from './aragon';
 
 export default {
-  Aragon
+  aragon
 };
