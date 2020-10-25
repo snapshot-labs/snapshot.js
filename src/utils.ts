@@ -34,9 +34,7 @@ export async function multicall(network, provider, abi, calls, options?) {
       ]),
       options || {}
     );
-    return res.map((call, i) =>
-      itf.decodeFunctionResult(calls[i][1], call)
-    );
+    return res.map((call, i) => itf.decodeFunctionResult(calls[i][1], call));
   } catch (e) {
     return Promise.reject();
   }
@@ -53,6 +51,21 @@ export async function subgraphRequest(url, query) {
   });
   const { data } = await res.json();
   return data || {};
+}
+
+export async function sendTransaction(
+  web3,
+  contractAddress,
+  abi,
+  action,
+  params
+) {
+  const signer = web3.getSigner();
+  const contract = new Contract(contractAddress, abi, web3);
+  const contractWithSigner = contract.connect(signer);
+  const overrides = {};
+  // overrides.gasLimit = 12e6;
+  return await contractWithSigner[action](...params, overrides);
 }
 
 export async function getScores(
@@ -76,7 +89,9 @@ export async function getScores(
 }
 
 export default {
+  call,
   multicall,
   subgraphRequest,
+  sendTransaction,
   getScores
 };

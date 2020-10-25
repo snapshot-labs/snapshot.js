@@ -18,6 +18,9 @@ export async function strategy(
     snapshot
   );
   return Object.fromEntries(
-    Object.entries(score).map((address: any) => [address[0], address[1] * options.coeff])
+    Object.entries(score).map((address: any) => [
+      address[0],
+      address[1] * options.coeff
+    ])
   );
 }
