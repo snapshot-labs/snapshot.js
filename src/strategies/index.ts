@@ -12,7 +12,7 @@ import { strategy as yearnVault } from './yearn-vault';
 import { strategy as moloch } from './moloch';
 import { strategy as pancake } from './pancake';
 import { strategy as synthetix } from './synthetix';
-import { strategy as cTokenVotingWeight } from './cToken-voting-weight';
+import { strategy as cToken } from './cToken';
 
 export default {
   balancer,
@@ -29,5 +29,5 @@ export default {
   moloch,
   pancake,
   synthetix,
-  'cToken-voting-weight': cTokenVotingWeight
+  cToken
 };
