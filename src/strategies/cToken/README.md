@@ -14,7 +14,7 @@ Can be used instead of the erc20-balance-of strategy, the space config will look
 ```JSON
 "strategies": [
     {
-      "name": "cToken-voting-weight",
+      "name": "cToken",
       "params": {
         "address": "0x35A18000230DA775CAc24873d00Ff85BccdeD550",
         "symbol": "cUNI",
