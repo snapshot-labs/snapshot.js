@@ -1,7 +1,7 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 
-export const author = 'bonustrack';
+export const author = 'Arr00';
 export const version = '0.1.0';
 
 const abi = [
@@ -51,7 +51,6 @@ const abi = [
 ];
 
 export async function strategy(network, provider, addresses, options, snapshot) {
-  //const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   let blockTag = typeof snapshot === 'number' ? (snapshot) : 'latest';
  
 
@@ -72,7 +71,7 @@ export async function strategy(network, provider, addresses, options, snapshot) 
     )
   ]); 
 
-  blockTag = typeof snapshot === 'number' ? (snapshot-options.offsetCheck) : 'latest';
+  blockTag = typeof snapshot === 'number' ? (snapshot-options.offsetCheck) : await (provider.getBlockNumber() - options.offsetCheck);
 
   const balanceOldResponse = await multicall(
       network,
