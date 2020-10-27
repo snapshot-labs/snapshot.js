@@ -14,20 +14,27 @@ export const MULTICALL = {
   100: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a'
 };
 
+export async function call(provider, abi, call, options?) {
+  const contract = new Contract(call[0], abi, provider);
+  try {
+    return await contract[call[1]](...call[2], options || {});
+  } catch (e) {
+    return Promise.reject(e);
+  }
+}
+
 export async function multicall(network, provider, abi, calls, options?) {
   const multi = new Contract(MULTICALL[network], multicallAbi, provider);
   const itf = new Interface(abi);
   try {
-    const [, response] = await multi.aggregate(
+    const [, res] = await multi.aggregate(
       calls.map((call) => [
         call[0].toLowerCase(),
         itf.encodeFunctionData(call[1], call[2])
       ]),
       options || {}
     );
-    return response.map((call, i) =>
-      itf.decodeFunctionResult(calls[i][1], call)
-    );
+    return res.map((call, i) => itf.decodeFunctionResult(calls[i][1], call));
   } catch (e) {
     return Promise.reject();
   }
@@ -44,6 +51,21 @@ export async function subgraphRequest(url, query) {
   });
   const { data } = await res.json();
   return data || {};
+}
+
+export async function sendTransaction(
+  web3,
+  contractAddress,
+  abi,
+  action,
+  params
+) {
+  const signer = web3.getSigner();
+  const contract = new Contract(contractAddress, abi, web3);
+  const contractWithSigner = contract.connect(signer);
+  const overrides = {};
+  // overrides.gasLimit = 12e6;
+  return await contractWithSigner[action](...params, overrides);
 }
 
 export async function getScores(
@@ -67,7 +89,9 @@ export async function getScores(
 }
 
 export default {
+  call,
   multicall,
   subgraphRequest,
+  sendTransaction,
   getScores
 };
