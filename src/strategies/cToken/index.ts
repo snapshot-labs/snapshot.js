@@ -1,7 +1,7 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 
-export const author = 'Arr00';
+export const author = 'arr00';
 export const version = '0.1.0';
 
 const abi = [
@@ -47,48 +47,45 @@ const abi = [
     stateMutability: 'view',
     type: 'function'
   }
-
 ];
 
 export async function strategy(network, provider, addresses, options, snapshot) {
-  let blockTag = typeof snapshot === 'number' ? (snapshot) : 'latest';
- 
+  const blockTag = typeof snapshot === 'number' ? (snapshot) : 'latest';
+  const oldBlockTag = typeof snapshot === 'number' ? (snapshot - options.offsetCheck) : ((await provider.getBlockNumber()) - options.offsetCheck);
 
-  const [balanceNowResponse, borrowResponse]  = await Promise.all([
+  let balanceOfCalls = addresses.map((address: any) => [options.address, 'balanceOf', [address]]);
+  let borrowBalanceCalls = addresses.map((address: any) => [options.address, 'borrowBalanceStored', [address]]);
+  let calls = balanceOfCalls.concat(borrowBalanceCalls);
+
+  const [response,balancesOldResponse]  = await Promise.all([
     multicall(
       network,
       provider,
       abi,
-      addresses.map((address: any) => [options.address, 'balanceOf', [address]]),
-      { blockTag }
+      calls,
+      {blockTag}
     ),
     multicall(
       network,
       provider,
       abi,
-      addresses.map((address: any) => [options.address, 'borrowBalanceStored', [address]]),
-      { blockTag }
-    )
-  ]); 
-
-  blockTag = typeof snapshot === 'number' ? (snapshot-options.offsetCheck) : await (provider.getBlockNumber() - options.offsetCheck);
-
-  const balanceOldResponse = await multicall(
-      network,
-      provider,
-      abi,
       addresses.map((address: any) => [options.address, 'balanceOf', [address]]),
-      { blockTag }
-    );
+      {"blockTag":oldBlockTag}
+    )
+  ]);
+
+  const balancesNowResponse = response.slice(0,addresses.length);
+  const borrowsNowResponse = response.slice(addresses.length);
 
   let resultData = {};
-  for(let i = 0; i < balanceNowResponse.length; i++) {
+  for(let i = 0; i < balancesNowResponse.length; i++) {
     let noBorrow = 1;
     if(options.borrowingRestricted) {
-      noBorrow = borrowResponse[i].toString().localeCompare('0') == 0 ? 1:0;
+      noBorrow = borrowsNowResponse[i].toString().localeCompare('0') == 0 ? 1:0;
     }
-    resultData[addresses[i]] = Math.min(parseFloat(formatUnits(balanceNowResponse[i].toString(), options.decimals)), parseFloat(formatUnits(balanceOldResponse[i].toString(), options.decimals))) * noBorrow;
+    const balanceNow = parseFloat(formatUnits(balancesNowResponse[i].toString(), options.decimals));
+    const balanceOld = parseFloat(formatUnits(balancesOldResponse[i].toString(), options.decimals));
+    resultData[addresses[i]] = Math.min(balanceNow, balanceOld) * noBorrow;
   }
-
   return resultData;
 }
