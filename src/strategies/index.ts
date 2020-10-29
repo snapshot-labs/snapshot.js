@@ -5,6 +5,7 @@ import { strategy as erc20BalanceOf } from './erc20-balance-of';
 import { strategy as erc20BalanceOfCoeff } from './erc20-balance-of-coeff';
 import { strategy as erc20BalanceOfFixedTotal } from './erc20-balance-of-fixed-total';
 import { strategy as erc20BalanceOfCv } from './erc20-balance-of-cv';
+import { strategy as erc20WithBalance } from './erc20-with-balance';
 import { strategy as ethBalance } from './eth-balance';
 import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
@@ -12,7 +13,7 @@ import { strategy as yearnVault } from './yearn-vault';
 import { strategy as moloch } from './moloch';
 import { strategy as pancake } from './pancake';
 import { strategy as synthetix } from './synthetix';
-import { strategy as erc20WithBalance } from './erc20-with-balance';
+import { strategy as ctoken } from './ctoken';
 
 export default {
   balancer,
@@ -29,5 +30,6 @@ export default {
   'yearn-vault': yearnVault,
   moloch,
   pancake,
-  synthetix
+  synthetix,
+  ctoken
 };
