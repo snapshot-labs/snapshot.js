@@ -44,7 +44,10 @@ export async function strategy(
     // @ts-ignore
     params.poolShares.__args.block = { number: snapshot };
   }
-  const result = await subgraphRequest(CREAM_SWAP_SUBGRAPH_URL[network], params);
+  const result = await subgraphRequest(
+    CREAM_SWAP_SUBGRAPH_URL[network],
+    params
+  );
   const score = {};
   if (result && result.poolShares) {
     result.poolShares.forEach((poolShare) =>
