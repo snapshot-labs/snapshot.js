@@ -1,3 +1,4 @@
+// import fetch from 'node-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
@@ -12,6 +13,12 @@ export const MULTICALL = {
   42: '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
   56: '0x1ee38d535d541c55c9dae27b12edf090c608e6fb',
   100: '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a'
+};
+
+export const SNAPSHOT_SUBGRAPH_URL = {
+  1: 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot',
+  4: 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
+  42: 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan'
 };
 
 export async function call(provider, abi, call, options?) {
