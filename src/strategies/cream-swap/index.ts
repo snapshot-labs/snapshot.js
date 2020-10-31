@@ -5,8 +5,8 @@ export const author = 'bun919tw';
 export const version = '0.1.0';
 
 const CREAM_SWAP_SUBGRAPH_URL = {
-  1: 'https://api.thegraph.com/subgraphs/name/creamfinancedev/cream-swap-v2',
-  3: 'https://api.thegraph.com/subgraphs/name/creamfinancedev/cream-swap-dev'
+  '1': 'https://api.thegraph.com/subgraphs/name/creamfinancedev/cream-swap-v2',
+  '3': 'https://api.thegraph.com/subgraphs/name/creamfinancedev/cream-swap-dev'
 };
 
 export async function strategy(
