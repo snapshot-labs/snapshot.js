@@ -41,8 +41,7 @@ export async function strategy(
   options,
   snapshot
 ) {
-
-  const creamAddress = options.pools.find(pool => pool.name === 'CREAM').address;
+  const creamAddress = options.address;
   let [score, creamBalance] = await Promise.all([
     creamSwapScore(network, addresses, creamAddress, snapshot),
     creamBalanceOf(network, provider, addresses, options, snapshot)
