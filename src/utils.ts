@@ -16,6 +16,12 @@ export const MULTICALL = {
   'wanchain': '0xba5934ab3056fca1fa458d30fbb3810c3eb5145f'
 };
 
+export const SNAPSHOT_SUBGRAPH_URL = {
+  '1': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot',
+  '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
+  '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan'
+};
+
 export async function call(provider, abi, call, options?) {
   const contract = new Contract(call[0], abi, provider);
   try {
