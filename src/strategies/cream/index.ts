@@ -15,22 +15,22 @@ const longTermPoolABI = [
     constant: true,
     inputs: [
       {
-        internalType: "address",
-        name: "account",
-        type: "address"
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
       }
     ],
-    name: "balanceOf",
+    name: 'balanceOf',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256"
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
       }
     ],
     payable: false,
-    stateMutability: "view",
-    type: "function"
+    stateMutability: 'view',
+    type: 'function'
   }
 ];
 
@@ -52,14 +52,9 @@ export async function strategy(
   }
 
   return score || {};
-};
+}
 
-async function creamSwapScore(
-  network,
-  addresses,
-  creamAddress,
-  snapshot
-) {
+async function creamSwapScore(network, addresses, creamAddress, snapshot) {
   const params = {
     poolShares: {
       __args: {
@@ -109,37 +104,37 @@ async function creamSwapScore(
     );
   }
   return score || {};
-};
+}
 
-async function creamBalanceOf(
-  network,
-  provider,
-  addresses,
-  options,
-  snapshot
-) {
+async function creamBalanceOf(network, provider, addresses, options, snapshot) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const numPool = options.pools.length;
   const numAddress = addresses.length;
 
-  const calls = [];
+  const calls: any = [];
   for (let i = 0; i < numPool; i++) {
-    calls.push(...addresses.map(address => [options.pools[i].address, 'balanceOf', [address]]));
+    calls.push(
+      ...addresses.map((address) => [
+        options.pools[i].address,
+        'balanceOf',
+        [address]
+      ])
+    );
   }
 
-  const balances = await multicall(
-    network,
-    provider,
-    longTermPoolABI,
-    calls,
-    { blockTag }
-  );
+  const balances = await multicall(network, provider, longTermPoolABI, calls, {
+    blockTag
+  });
 
-  return Object.fromEntries(addresses.map((address, i) => {
-    let sum = 0;
-    for (let j = 0; j < numPool; j++) {
-      sum += parseFloat(formatUnits(balances[i + j*numAddress].toString(), 18));
-    }
-    return [address, sum];
-  }))
-};
+  return Object.fromEntries(
+    addresses.map((address, i) => {
+      let sum = 0;
+      for (let j = 0; j < numPool; j++) {
+        sum += parseFloat(
+          formatUnits(balances[i + j * numAddress].toString(), 18)
+        );
+      }
+      return [address, sum];
+    })
+  );
+}

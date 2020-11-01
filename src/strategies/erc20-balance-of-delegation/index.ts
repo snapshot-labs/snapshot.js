@@ -31,10 +31,13 @@ export async function strategy(
   }
   const result = await subgraphRequest(SNAPSHOT_SUBGRAPH_URL[network], params);
   if (result && result.delegations) {
-    const delegators = result.delegations.map(delegation => delegation.delegator);
+    const delegators = result.delegations.map(
+      (delegation) => delegation.delegator
+    );
     const delegatorsByAddress = {};
-    result.delegations.forEach(delegation => {
-      if (!delegatorsByAddress[delegation.delegate]) delegatorsByAddress[delegation.delegate] = [];
+    result.delegations.forEach((delegation) => {
+      if (!delegatorsByAddress[delegation.delegate])
+        delegatorsByAddress[delegation.delegate] = [];
       delegatorsByAddress[delegation.delegate].push(delegation.delegator);
     });
     const score = await erc20BalanceOfStrategy(
@@ -44,12 +47,17 @@ export async function strategy(
       options,
       snapshot
     );
-    return Object.fromEntries(addresses.map(address => {
-      const addressScore = delegatorsByAddress[address.toLowerCase()]
-        ? delegatorsByAddress[address.toLowerCase()].reduce((a, b) => a + score[b], 0)
-        : 0;
-      return [address, addressScore];
-    }));
+    return Object.fromEntries(
+      addresses.map((address) => {
+        const addressScore = delegatorsByAddress[address.toLowerCase()]
+          ? delegatorsByAddress[address.toLowerCase()].reduce(
+              (a, b) => a + score[b],
+              0
+            )
+          : 0;
+        return [address, addressScore];
+      })
+    );
   }
   return {};
 }
