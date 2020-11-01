@@ -6,37 +6,33 @@
       "title": "Space",
       "type": "object",
       "properties": {
-        "token": {
-          "type": "string",
-          "title": "token",
-          "maxLength": 64
-        },
         "name": {
-          "type": "string",
           "title": "name",
+          "type": "string",
           "maxLength": 32
         },
         "network": {
-          "type": "string",
           "title": "network",
+          "type": "string",
           "maxLength": 32
         },
         "symbol": {
-          "type": "string",
           "title": "symbol",
+          "type": "string",
           "maxLength": 12
         },
         "skin": {
-          "type": "string",
           "title": "skin",
+          "type": "string",
           "maxLength": 32
         },
         "domain": {
-          "type": "string",
           "title": "domain",
+          "type": "string",
           "maxLength": 64
         },
         "strategies": {
+          "title": "strategies",
           "type": "array",
           "minItems": 1,
           "maxItems": 3,
@@ -44,29 +40,30 @@
             "type": "object",
             "properties": {
               "name": {
+                "title": "name",
                 "type": "string",
-                "maxLength": 64,
-                "title": "name"
+                "maxLength": 64
               },
               "params": {
-                "type": "object",
-                "title": "params"
+                "title": "params",
+                "type": "object"
               }
             },
-            "required": [
-              "name"
-            ],
+            "required": ["name"],
             "additionalProperties": false
-          },
-          "title": "strategies"
+          }
         },
         "members": {
+          "title": "members",
           "type": "array",
           "items": {
             "type": "string",
             "maxLength": 64
-          },
-          "title": "members"
+          }
+        },
+        "plugins": {
+          "title": "plugins",
+          "type": "object"
         },
         "filters": {
           "type": "object",
@@ -82,24 +79,18 @@
               "type": "boolean"
             },
             "invalids": {
+              "title": "invalids",
               "type": "array",
               "items": {
                 "type": "string",
                 "maxLength": 64
-              },
-              "title": "invalids"
+              }
             }
           },
           "additionalProperties": false
         }
       },
-      "required": [
-        "token",
-        "name",
-        "network",
-        "symbol",
-        "strategies"
-      ],
+      "required": ["name", "network", "symbol", "strategies"],
       "additionalProperties": false
     }
   }
