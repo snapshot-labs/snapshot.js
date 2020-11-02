@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "erc20-balance-of-delegation",
+      "params": {
+        "address": "0xd0a1e359811322d97991e03f863a0c30c2cf029c",
+        "symbol": "WETH",
+        "decimals": 18
+      }
+    },
+    "network": "42",
+    "addresses": [
+      "0x0000000000000000000000000000000000baddad",
+      "0xa478c2975ab1ea89e8196811f51a7b7ade33eb11",
+      "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
+      "0xBA2E7Fed597fd0E3e70f5130BcDbbFE06bB94fe1",
+      "0xBA2E7Fed597fd0E3e70f5130BcDbbFE06bB94fe1",
+      "0x4C7909d6F029b3a5798143C843F4f8e5341a3473"
+    ],
+    "snapshot": 21830631
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "name": "Bonustrack",
+  "network": "1",
+  "symbol": "BONUS",
+  "strategies": [
+    {
+      "name": "erc-20-balance-of",
+      "params": {
+        "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+        "symbol": "DAI",
+        "decimals": "18"
+      }
+    }
+  ],
+  "members": [
+    "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
+    "0x4C7909d6F029b3a5798143C843F4f8e5341a3473"
+  ],
+  "filters": {
+    "minScore": 100
+  }
+}

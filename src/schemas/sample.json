@@ -1,0 +1,29 @@
+{
+  "name": "Sample",
+  "network": "1",
+  "symbol": "SAMPLE",
+  "skin": "sample",
+  "domain": "sample.com",
+  "strategies": [
+    {
+      "name": "erc-20-balance-of",
+      "params": {
+        "address": "0x0AaCfbeC6a24756c20D41914F2caba817C0d8521",
+        "symbol": "SAMPLE"
+      }
+    }
+  ],
+  "members": [
+    "0x4C7909d6F029b3a5798143C843F4f8e5341a3473",
+    "0x683A78bA1f6b25E29fbBC9Cd1BFA29A51520De84"
+  ],
+  "filters": {
+    "defaultTab": "core",
+    "minScore": 100,
+    "onlyMembers": false,
+    "invalids": [
+      "Qmc4VSHwY3SVmo4oofhL2qDPaYcGaQqndM4oqdQQe2aZHQ",
+      "QmTMAgnPy2q6LRMNwvj27PHvWEgZ3bw7yTtNNEucBZCWhZ"
+    ]
+  }
+}
