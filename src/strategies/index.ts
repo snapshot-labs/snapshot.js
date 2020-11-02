@@ -33,12 +33,9 @@ export default {
   uniswap,
   'yearn-vault': yearnVault,
   moloch,
-<<<<<<< HEAD
-  unigraph
-=======
+  unigraph,
   pancake,
   synthetix,
   ctoken,
   cream
->>>>>>> upstream/master
 };
