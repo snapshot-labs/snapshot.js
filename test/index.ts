@@ -6,21 +6,31 @@ const url = 'https://eth-mainnet.alchemyapi.io/v2/rXKbp7PTFm6hcrxU8NL-JGp5RMfRHD
 const provider = new JsonRpcProvider(networks[1].rpcUrl);
 
 const strategies = [
-  ['erc20-balance-of', {
-    "address": '0x6e36556b3ee5aa28def2a8ec3dae30ec2b208739',
-    "decimals": 18
-  }],
-  ['uniswap', {
-    "address": "0xDf6b861B4FBCFaffb62dD1906fCd3a863955704b",
-    "tokenAddress": "0x6e36556b3ee5aa28def2a8ec3dae30ec2b208739",
-    "symbol": "BUILD",
-    "decimals": 18
-  }],
-  ['unigraph', {
-    "address": "0x6e36556b3ee5aa28def2a8ec3dae30ec2b208739",
-    "symbol": "BUILD",
-    "decimals": 18
-  }]
+  {
+      "name": "erc20-balance-of",
+      "params": {
+        "address": "0x6e36556b3ee5aa28def2a8ec3dae30ec2b208739",
+        "symbol": "BUILD",
+        "decimals": 18
+      }
+  },
+  {
+      "name": "uniswap",
+      "params": {
+        "address": "0xDf6b861B4FBCFaffb62dD1906fCd3a863955704b",
+        "tokenAddress": "0x6e36556b3ee5aa28def2a8ec3dae30ec2b208739",
+        "symbol": "BUILD",
+        "decimals": 18
+      }
+  },
+  {
+      "name": "unigraph",
+      "params": {
+        "address": "0xDf6b861B4FBCFaffb62dD1906fCd3a863955704b",
+        "symbol": "BUILD",
+        "decimals": 18
+      }
+  }
 ];
 
 const addresses = [
