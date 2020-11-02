@@ -30,6 +30,31 @@ const strategies = [
         "symbol": "BUILD",
         "decimals": 18
       }
+  },
+  {
+    "name": "contract-call",
+    "params": {
+      "address": "0x859a9d0d8bBF57C390A0BD8Fb4f5DE617e1De535",
+      "decimals": 18,
+      "symbol": "BUILD Staked",
+      "methodABI": {
+        "constant": true,
+        "inputs": [{
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }],
+        "name": "balanceOf",
+        "outputs": [{
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      }
+    }
   }
 ];
 
