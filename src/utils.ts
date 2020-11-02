@@ -3,6 +3,7 @@ import { Contract } from '@ethersproject/contracts';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import { abi as multicallAbi } from './abi/Multicall.json';
 import _strategies from './strategies';
+const fetch = require("node-fetch");
 
 export const MULTICALL = {
   1: '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',

@@ -1,8 +1,9 @@
 const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
+const networks = require('../src/networks.json');
 
 const url = 'https://eth-mainnet.alchemyapi.io/v2/rXKbp7PTFm6hcrxU8NL-JGp5RMfRHDwg';
-const provider = new JsonRpcProvider(url);
+const provider = new JsonRpcProvider(networks[1].rpcUrl);
 
 const strategies = [
   ['erc20-balance-of', {
