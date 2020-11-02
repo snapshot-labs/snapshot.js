@@ -6,11 +6,6 @@
       "title": "Space",
       "type": "object",
       "properties": {
-        "token": {
-          "type": "string",
-          "title": "token",
-          "maxLength": 64
-        },
         "name": {
           "type": "string",
           "title": "name",
@@ -94,7 +89,6 @@
         }
       },
       "required": [
-        "token",
         "name",
         "network",
         "symbol",
