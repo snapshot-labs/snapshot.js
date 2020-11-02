@@ -1,7 +1,6 @@
 const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
-<<<<<<< HEAD
 
 const url = 'https://eth-mainnet.alchemyapi.io/v2/rXKbp7PTFm6hcrxU8NL-JGp5RMfRHDwg';
 const provider = new JsonRpcProvider(networks[1].rpcUrl);
@@ -34,21 +33,3 @@ async function test() {
 }
 
 test();
-=======
-const example = require('../src/strategies/erc20-balance-of-delegation/examples.json')[0];
-
-(async () => {
-  try {
-    const scores = await snapshot.utils.getScores(
-      [example.strategy],
-      example.network,
-      new JsonRpcProvider(networks[example.network].rpcUrl),
-      example.addresses,
-      example.snapshot
-    );
-    console.log(example.name, scores);
-  } catch (e) {
-    console.error(e);
-  }
-})();
->>>>>>> upstream/master
