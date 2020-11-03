@@ -37,8 +37,8 @@ export async function strategy(
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
-  const increaceWeighting = (number, increaceFactor) => {
-    return number * increaceFactor
+  const increaceWeighting = (number) => {
+    return number * options.omUniScale
   }
 
   const omStakingResponse = await multicall(
