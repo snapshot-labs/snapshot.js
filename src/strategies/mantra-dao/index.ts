@@ -67,7 +67,7 @@ export async function strategy(
 
   addresses.forEach((address, i) => {
     uni[i] = [address, 
-      (increaceWeighting(uni[i][1], 2) + om[i][1])]
+      (increaceWeighting(uni[i][1]) + om[i][1])]
   });
   let combined = uni
   return Object.fromEntries(
