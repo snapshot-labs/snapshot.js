@@ -2,7 +2,7 @@ global['fetch'] = require('cross-fetch');
 const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
-const example = require('../src/strategies/erc20-balance-of-delegation/examples.json')[0];
+const example = require('../src/strategies/erc20-balance-of/examples.json')[0];
 
 (async () => {
   try {
@@ -10,7 +10,7 @@ const example = require('../src/strategies/erc20-balance-of-delegation/examples.
     const scores = await snapshot.utils.getScores(
       [example.strategy],
       example.network,
-      new JsonRpcProvider(networks[example.network].rpcUrl),
+      new JsonRpcProvider(networks[example.network].rpc[0]),
       example.addresses,
       example.snapshot
     );
