@@ -5,7 +5,7 @@ export const author = 'bonustrack';
 export const version = '0.1.0';
 
 const UNI_ADDRESS = {
-  1: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'
+  '1': '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'
 };
 
 const abi = [

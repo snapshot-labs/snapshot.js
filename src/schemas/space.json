@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/Space",
+  "definitions": {
+    "Space": {
+      "title": "Space",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "name",
+          "maxLength": 32
+        },
+        "network": {
+          "type": "string",
+          "title": "network",
+          "maxLength": 32
+        },
+        "symbol": {
+          "type": "string",
+          "title": "symbol",
+          "maxLength": 12
+        },
+        "skin": {
+          "type": "string",
+          "title": "skin",
+          "maxLength": 32
+        },
+        "domain": {
+          "type": "string",
+          "title": "domain",
+          "maxLength": 64
+        },
+        "strategies": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 64,
+                "title": "name"
+              },
+              "params": {
+                "type": "object",
+                "title": "params"
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false
+          },
+          "title": "strategies"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "title": "members"
+        },
+        "filters": {
+          "type": "object",
+          "properties": {
+            "defaultTab": {
+              "type": "string"
+            },
+            "minScore": {
+              "type": "number",
+              "minimum": 0
+            },
+            "onlyMembers": {
+              "type": "boolean"
+            },
+            "invalids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 64
+              },
+              "title": "invalids"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "name",
+        "network",
+        "symbol",
+        "strategies"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
