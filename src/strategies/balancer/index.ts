@@ -1,7 +1,7 @@
 import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 
-export const author = 'vfat';
+export const author = 'bonustrack';
 export const version = '0.1.0';
 
 const BALANCER_SUBGRAPH_URL = {
