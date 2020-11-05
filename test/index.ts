@@ -22,12 +22,12 @@ const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 
 const network = 1;
-const url = 'https://mainnet.infura.io/v3/1f6548267265429ca5afaeccc1b6e45e';
+const url = 'https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv';
 const provider = new JsonRpcProvider(url);
 
 const strategies = [
   {
-    name: 'erc20-balance-of',
+    name: 'mantra-dao',
     params: {
       omStakingAddress: '0x2bCD929283Ad0EE603E743412ddb214b91fbab88',
       omUniStakingAddress: '0x99b1db3318aa3040f336fb65c55400e164ddcd7f',
