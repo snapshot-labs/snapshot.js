@@ -187,7 +187,6 @@ const EMPTY_BYTES = '0x00';
 async function scheduleAction(
   web3,
   daoName,
-  governQueueAddress,
   account,
   proof,
   actionsFromAragonPlugin
@@ -213,7 +212,7 @@ async function scheduleAction(
   return await sendTransaction(
     web3,
     abi,
-    governQueueAddress,
+    registryEntry.queue.address,
     'schedule',
     {
       payload: {
@@ -266,7 +265,6 @@ export default class Plugin {
       return await scheduleAction(
         web3,
         spaceOptions.daoName,
-        spaceOptions.governQueueAddress,
         account,
         proposalId,
         proposalOptions[`choice${winningChoice}`]
