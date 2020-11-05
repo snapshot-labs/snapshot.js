@@ -5,7 +5,7 @@ export const author = 'bonustrack';
 export const version = '0.1.0';
 
 const MAKER_DS_CHIEF_ADDRESS = {
-  1: '0x9ef05f7f6deb616fd37ac3c959a2ddd25a54e4f5'
+  '1': '0x9ef05f7f6deb616fd37ac3c959a2ddd25a54e4f5'
 };
 
 const abi = [
