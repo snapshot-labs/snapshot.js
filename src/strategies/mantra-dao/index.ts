@@ -41,9 +41,7 @@ export async function strategy(
     return number * increaceFactor
   }
 
-  addresses = [...addresses, ...addresses]
-
-  console.log(addresses)
+  let mergedAddresses = [...addresses, ...addresses]
 
   let omStakingResponse = [];
   try {
@@ -51,8 +49,8 @@ export async function strategy(
       network,
       provider,
       abi,
-      addresses.map((address: any, i: any) => [
-        (i < (addresses.length - addresses.length/2) - 1) ? options.omStakingAddress : options.omUniStakingAddress, 'balanceOf', [address]
+      mergedAddresses.map((address: any, i: any) => [
+        (i < (mergedAddresses.length - mergedAddresses.length/2) - 1) ? options.omStakingAddress : options.omUniStakingAddress, 'balanceOf', [address]
       ]),
       { blockTag }
     );
@@ -60,35 +58,25 @@ export async function strategy(
     console.log(error)
   }
 
-  console.log(omStakingResponse)
-  
-  // const uniStakingResponse = await multicall(
-  //   network,
-  //   provider,
-  //   abi,
-  //   addresses.map((address: any) => [options.omUniStakingAddress, 'balanceOf', [address]]),
-  //   { blockTag }
-  // );
-
   try {
 
-    let om = (omStakingResponse.slice(0, addresses.length/2)).map((value, i) => [
-      addresses[i],
+    let om = (omStakingResponse.slice(0, mergedAddresses.length/2)).map((value, i) => [
+      mergedAddresses[i],
       parseFloat(formatUnits((value).toString() , options.decimals))
     ])
-    let uni = (omStakingResponse.slice(addresses.length/2, addresses.length)).map((value, i) => [
-      addresses[i],
+    let uni = (omStakingResponse.slice(mergedAddresses.length/2, mergedAddresses.length)).map((value, i) => [
+      mergedAddresses[i],
       parseFloat(formatUnits((value).toString() , options.decimals))
     ])
   
-    addresses.forEach((address, i) => {
+    mergedAddresses.forEach((address, i) => {
       uni[i] = [address, 
-        (increaceWeighting(uni[i][1], 4) + om[i][1])]
+        (increaceWeighting(uni[i][1], options.omUniScalingFactor) + om[i][1])]
     });
     let combined = uni
-    return {scores: Object.fromEntries(
+    return Object.fromEntries(
       combined
-    ), addresses: addresses, stakingResponse: omStakingResponse};
+    );
     
   } catch (error) {
     console.log(error)
