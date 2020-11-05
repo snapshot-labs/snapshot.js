@@ -1,4 +1,3 @@
-// import fetch from 'node-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
