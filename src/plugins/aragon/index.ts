@@ -4,8 +4,8 @@ import { toUtf8Bytes } from '@ethersproject/strings';
 import { sendTransaction, subgraphRequest } from '../../utils';
 
 const ARAGON_SUBGRAPH_URL = {
-  '1': 'https://thegraph.com/explorer/subgraph/aragon/aragon-govern-mainnet',
-  '4': 'https://thegraph.com/explorer/subgraph/aragon/aragon-govern-rinkeby'
+  '1': 'https://api.thegraph.com/subgraphs/name/aragon/aragon-govern-mainnet',
+  '4': 'https://api.thegraph.com/subgraphs/name/aragon/aragon-govern-rinkeby'
 };
 
 const abi = [
@@ -150,7 +150,7 @@ const abi = [
 const GQL_QUERY = {
   registryEntry: {
     __args: {
-      id: '$daoName'
+      id: undefined
     },
     executor: {
       address: true
@@ -193,50 +193,46 @@ async function scheduleAction(
 ) {
   const query = GQL_QUERY;
   query.registryEntry.__args.id = daoName;
-  const { registryEntry } = await subgraphRequest(
-    ARAGON_SUBGRAPH_URL[4],
-    query
-  );
+  const result = await subgraphRequest(ARAGON_SUBGRAPH_URL['4'], query);
+  const config = result.registryEntry.queue.config;
 
   // Building the nonce for the next tx
-  const nonce = await web3.nonce();
+  const nonce = await web3.getTransactionCount(account, 'pending');
   const bnNonce = new BN(nonce.toString());
   const newNonce = bnNonce.add(new BN('1'));
   // We also need to get a timestamp bigger or equal to the current block.timestamp + config.executionDelay
   // Right now + execution delay + 60 seconds into the future
   const currentDate =
-    Math.round(Date.now() / 1000) +
-    Number(registryEntry.queue.config.executionDelay) +
-    60;
+    Math.round(Date.now() / 1000) + Number(config.executionDelay) + 60;
 
   return await sendTransaction(
     web3,
     abi,
-    registryEntry.queue.address,
+    result.registryEntry.queue.address,
     'schedule',
     {
       payload: {
         nonce: newNonce.toString(),
         executionTime: currentDate,
         submitter: account,
-        executor: registryEntry.queue.executor.address,
+        executor: result.registryEntry.executor.address,
         actions: actionsFromAragonPlugin,
         allowFailuresMap: FAILURE_MAP,
         // proof in snapshot's case, could be the proposal's IPFS CID
         proof: proof ? keccak256(toUtf8Bytes(proof)) : EMPTY_BYTES
       },
       config: {
-        executionDelay: registryEntry.config.executionDelay,
+        executionDelay: config.executionDelay,
         scheduleDeposit: {
-          token: registryEntry.queue.config.scheduleDeposit.token.id,
-          amount: registryEntry.queue.config.scheduleDeposit.amount
+          token: config.scheduleDeposit.token.id,
+          amount: config.scheduleDeposit.amount
         },
         challengeDeposit: {
-          token: registryEntry.queue.config.challengeDeposit.token.id,
-          amount: registryEntry.queue.config.challengeDeposit.amount
+          token: config.challengeDeposit.token.id,
+          amount: config.challengeDeposit.amount
         },
-        resolver: registryEntry.queue.config.resolver,
-        rules: registryEntry.queue.config.rules
+        resolver: config.resolver,
+        rules: config.rules
       }
     },
     {
@@ -253,15 +249,9 @@ export default class Plugin {
   public website = 'https://aragon.org/blog/snapshot';
   public options: any;
 
-  async execute(
-    web3,
-    spaceOptions,
-    proposalOptions,
-    proposalId,
-    winningChoice
-  ) {
+  async action(web3, spaceOptions, proposalOptions, proposalId, winningChoice) {
     try {
-      const account = web3.getAddress();
+      const [account] = await web3.listAccounts();
       return await scheduleAction(
         web3,
         spaceOptions.daoName,
