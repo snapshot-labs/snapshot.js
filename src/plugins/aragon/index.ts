@@ -144,6 +144,19 @@ const abi = [
     ],
     stateMutability: 'nonpayable',
     type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'nonce',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
   }
 ];
 
@@ -197,7 +210,11 @@ async function scheduleAction(
   const config = result.registryEntry.queue.config;
 
   // Building the nonce for the next tx
-  const nonce = await call(web3, abi, [result.registryEntry.queue.address, 'nonce', ''])
+  const nonce = await call(web3, abi, [
+    result.registryEntry.queue.address,
+    'nonce',
+    ''
+  ]);
   const bnNonce = new BN(nonce.toString());
   const newNonce = bnNonce.add(new BN('1'));
   // We also need to get a timestamp bigger or equal to the current block.timestamp + config.executionDelay
@@ -264,4 +281,3 @@ export default class Plugin {
     }
   }
 }
-
