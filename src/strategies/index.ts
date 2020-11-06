@@ -15,7 +15,7 @@ import { strategy as pancake } from './pancake';
 import { strategy as synthetix } from './synthetix';
 import { strategy as ctoken } from './ctoken';
 import { strategy as cream } from './cream';
-import { strategy as diadata } from './diadata';
+import { strategy as erc20BalanceOfMinimum } from './erc20-balance-of-minimum';
 
 export default {
   balancer,
@@ -27,6 +27,7 @@ export default {
   'erc20-with-balance': erc20WithBalance,
   'erc20-balance-of-delegation': erc20BalanceOfDelegation,
   'eth-balance': ethBalance,
+  'erc20-balance-of-minimum' : erc20BalanceOfMinimum,
   'maker-ds-chief': makerDsChief,
   uni,
   'yearn-vault': yearnVault,
@@ -34,6 +35,5 @@ export default {
   pancake,
   synthetix,
   ctoken,
-  cream,
-  diadata
+  cream
 };
