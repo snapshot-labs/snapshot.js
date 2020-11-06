@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import { keccak256 } from '@ethersproject/keccak256';
 import { toUtf8Bytes } from '@ethersproject/strings';
-import { sendTransaction, subgraphRequest } from '../../utils';
+import { call, sendTransaction, subgraphRequest } from '../../utils';
 
 const ARAGON_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/aragon/aragon-govern-mainnet',
@@ -197,7 +197,7 @@ async function scheduleAction(
   const config = result.registryEntry.queue.config;
 
   // Building the nonce for the next tx
-  const nonce = await web3.getTransactionCount(account, 'pending');
+  const nonce = await call(web3, abi, [result.registryEntry.queue.address, 'nonce', ''])
   const bnNonce = new BN(nonce.toString());
   const newNonce = bnNonce.add(new BN('1'));
   // We also need to get a timestamp bigger or equal to the current block.timestamp + config.executionDelay
@@ -224,11 +224,11 @@ async function scheduleAction(
       config: {
         executionDelay: config.executionDelay,
         scheduleDeposit: {
-          token: config.scheduleDeposit.token.id,
+          token: config.scheduleDeposit.token,
           amount: config.scheduleDeposit.amount
         },
         challengeDeposit: {
-          token: config.challengeDeposit.token.id,
+          token: config.challengeDeposit.token,
           amount: config.challengeDeposit.amount
         },
         resolver: config.resolver,
@@ -264,3 +264,4 @@ export default class Plugin {
     }
   }
 }
+
