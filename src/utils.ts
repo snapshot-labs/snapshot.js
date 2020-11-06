@@ -24,7 +24,8 @@ export const SNAPSHOT_SUBGRAPH_URL = {
 export async function call(provider, abi, call, options?) {
   const contract = new Contract(call[0], abi, provider);
   try {
-    return await contract[call[1]](...call[2], options || {});
+    const params = call[2] || [];
+    return await contract[call[1]](...params, options || {});
   } catch (e) {
     return Promise.reject(e);
   }

@@ -212,8 +212,7 @@ async function scheduleAction(
   // Building the nonce for the next tx
   const nonce = await call(web3, abi, [
     result.registryEntry.queue.address,
-    'nonce',
-    ''
+    'nonce'
   ]);
   const bnNonce = new BN(nonce.toString());
   const newNonce = bnNonce.add(new BN('1'));
