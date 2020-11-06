@@ -5,7 +5,7 @@ import { call, sendTransaction, subgraphRequest } from '../../utils';
 
 const ARAGON_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/aragon/aragon-govern-mainnet',
-  '4': 'https://api.thegraph.com/subgraphs/name/aragon/aragon-govern-rinkeby'
+  '4': 'https://api.thegraph.com/subgraphs/name/evalir/aragon-govern-rinkeby'
 };
 
 const abi = [
@@ -198,6 +198,7 @@ const EMPTY_BYTES = '0x00';
  * the actionsFromAragonPlugin is an array of objects with the form { to, value, data }
  */
 async function scheduleAction(
+  network,
   web3,
   daoName,
   account,
@@ -206,7 +207,7 @@ async function scheduleAction(
 ) {
   const query = GQL_QUERY;
   query.registryEntry.__args.id = daoName;
-  const result = await subgraphRequest(ARAGON_SUBGRAPH_URL['4'], query);
+  const result = await subgraphRequest(ARAGON_SUBGRAPH_URL[network], query);
   const config = result.registryEntry.queue.config;
 
   // Building the nonce for the next tx
@@ -223,34 +224,36 @@ async function scheduleAction(
 
   return await sendTransaction(
     web3,
-    abi,
     result.registryEntry.queue.address,
+    abi,
     'schedule',
-    {
-      payload: {
-        nonce: newNonce.toString(),
-        executionTime: currentDate,
-        submitter: account,
-        executor: result.registryEntry.executor.address,
-        actions: actionsFromAragonPlugin,
-        allowFailuresMap: FAILURE_MAP,
-        // proof in snapshot's case, could be the proposal's IPFS CID
-        proof: proof ? keccak256(toUtf8Bytes(proof)) : EMPTY_BYTES
-      },
-      config: {
-        executionDelay: config.executionDelay,
-        scheduleDeposit: {
-          token: config.scheduleDeposit.token,
-          amount: config.scheduleDeposit.amount
+    [
+      {
+        payload: {
+          nonce: newNonce.toString(),
+          executionTime: currentDate,
+          submitter: account,
+          executor: result.registryEntry.executor.address,
+          actions: actionsFromAragonPlugin,
+          allowFailuresMap: FAILURE_MAP,
+          // proof in snapshot's case, could be the proposal's IPFS CID
+          proof: proof ? keccak256(toUtf8Bytes(proof)) : EMPTY_BYTES
         },
-        challengeDeposit: {
-          token: config.challengeDeposit.token,
-          amount: config.challengeDeposit.amount
-        },
-        resolver: config.resolver,
-        rules: config.rules
+        config: {
+          executionDelay: config.executionDelay,
+          scheduleDeposit: {
+            token: config.scheduleDeposit.token,
+            amount: config.scheduleDeposit.amount
+          },
+          challengeDeposit: {
+            token: config.challengeDeposit.token,
+            amount: config.challengeDeposit.amount
+          },
+          resolver: config.resolver,
+          rules: config.rules
+        }
       }
-    },
+    ],
     {
       // This can probably be optimized
       gasLimit: 500000
@@ -265,15 +268,23 @@ export default class Plugin {
   public website = 'https://aragon.org/blog/snapshot';
   public options: any;
 
-  async action(web3, spaceOptions, proposalOptions, proposalId, winningChoice) {
+  async action(
+    network,
+    web3,
+    spaceOptions,
+    proposalOptions,
+    proposalId,
+    winningChoice
+  ) {
     try {
       const [account] = await web3.listAccounts();
       return await scheduleAction(
+        network,
         web3,
-        spaceOptions.daoName,
+        spaceOptions.id,
         account,
         proposalId,
-        proposalOptions[`choice${winningChoice}`]
+        proposalOptions[`choice${winningChoice}`].actions
       );
     } catch (e) {
       console.error(e);
