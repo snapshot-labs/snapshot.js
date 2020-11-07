@@ -9,6 +9,7 @@ export const author = 'vfatouros';
 export const version = '0.1.0';
 
 export async function strategy(
+  space,
   network,
   provider,
   addresses,

@@ -35,6 +35,7 @@ const longTermPoolABI = [
 ];
 
 export async function strategy(
+  space,
   network,
   provider,
   addresses,

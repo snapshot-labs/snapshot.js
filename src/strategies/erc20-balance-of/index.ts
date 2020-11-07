@@ -29,6 +29,7 @@ const abi = [
 ];
 
 export async function strategy(
+  space,
   network,
   provider,
   addresses,

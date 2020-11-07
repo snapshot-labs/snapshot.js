@@ -5,6 +5,7 @@ export const author = 'bonustrack';
 export const version = '0.1.0';
 
 export async function strategy(
+  space,
   network,
   provider,
   addresses,
@@ -41,6 +42,7 @@ export async function strategy(
       delegatorsByAddress[delegation.delegate].push(delegation.delegator);
     });
     const score = await erc20BalanceOfStrategy(
+      space,
       network,
       provider,
       delegators,

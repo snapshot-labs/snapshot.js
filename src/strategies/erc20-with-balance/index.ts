@@ -4,6 +4,7 @@ export const author = 'BenjaminLu';
 export const version = '0.1.1';
 
 export async function strategy(
+  space,
   network,
   provider,
   addresses,
@@ -11,6 +12,7 @@ export async function strategy(
   snapshot
 ) {
   const score = await erc20BalanceOfStrategy(
+    space,
     network,
     provider,
     addresses,

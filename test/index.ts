@@ -9,6 +9,7 @@ const example = require('../src/strategies/erc20-balance-of/examples.json')[0];
     console.log(example.name);
     console.time('getScores');
     const scores = await snapshot.utils.getScores(
+      '',
       [example.strategy],
       example.network,
       new JsonRpcProvider(networks[example.network].rpc[0]),

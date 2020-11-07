@@ -77,6 +77,7 @@ export async function sendTransaction(
 }
 
 export async function getScores(
+  space,
   strategies,
   network,
   provider,
@@ -86,6 +87,7 @@ export async function getScores(
   return await Promise.all(
     strategies.map((strategy) =>
       _strategies[strategy.name](
+        space,
         network,
         provider,
         addresses,
