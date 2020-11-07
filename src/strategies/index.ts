@@ -11,6 +11,7 @@ import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
 import { strategy as yearnVault } from './yearn-vault';
 import { strategy as moloch } from './moloch';
+import { strategy as uniswap } from './uniswap';
 import { strategy as pancake } from './pancake';
 import { strategy as synthetix } from './synthetix';
 import { strategy as ctoken } from './ctoken';
@@ -30,6 +31,7 @@ export default {
   uni,
   'yearn-vault': yearnVault,
   moloch,
+  uniswap,
   pancake,
   synthetix,
   ctoken,
