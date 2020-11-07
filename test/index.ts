@@ -6,7 +6,7 @@ const example = require('../src/strategies/erc20-balance-of/examples.json')[0];
 
 (async () => {
   try {
-    console.log('getScores');
+    console.log(example.name);
     console.time('getScores');
     const scores = await snapshot.utils.getScores(
       [example.strategy],
