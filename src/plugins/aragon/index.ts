@@ -1,5 +1,5 @@
 import BN from 'bn.js';
-import { formatBytes32String } from '@ethersproject/strings';
+import { toUtf8Bytes } from '@ethersproject/strings';
 import { call, sendTransaction, subgraphRequest } from '../../utils';
 
 const ARAGON_SUBGRAPH_URL = {
@@ -236,7 +236,7 @@ async function scheduleAction(
           actions: actionsFromAragonPlugin,
           allowFailuresMap: FAILURE_MAP,
           // proof in snapshot's case, could be the proposal's IPFS CID
-          proof: proof ? formatBytes32String(proof) : EMPTY_BYTES
+          proof: proof ? toUtf8Bytes(proof) : EMPTY_BYTES
         },
         config: {
           executionDelay: config.executionDelay,
