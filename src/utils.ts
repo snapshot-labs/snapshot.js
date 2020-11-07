@@ -21,7 +21,7 @@ export const SNAPSHOT_SUBGRAPH_URL = {
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan'
 };
 
-export async function call(provider, abi, call, options?) {
+export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
   try {
     const params = call[2] || [];
@@ -31,7 +31,13 @@ export async function call(provider, abi, call, options?) {
   }
 }
 
-export async function multicall(network, provider, abi, calls, options?) {
+export async function multicall(
+  network: string,
+  provider,
+  abi: any[],
+  calls: any[],
+  options?
+) {
   const multi = new Contract(MULTICALL[network], multicallAbi, provider);
   const itf = new Interface(abi);
   try {
@@ -48,7 +54,7 @@ export async function multicall(network, provider, abi, calls, options?) {
   }
 }
 
-export async function subgraphRequest(url, query) {
+export async function subgraphRequest(url: string, query) {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -63,10 +69,10 @@ export async function subgraphRequest(url, query) {
 
 export async function sendTransaction(
   web3,
-  contractAddress,
-  abi,
-  action,
-  params,
+  contractAddress: string,
+  abi: any[],
+  action: string,
+  params: any[],
   overrides = {}
 ) {
   const signer = web3.getSigner();
@@ -77,11 +83,11 @@ export async function sendTransaction(
 }
 
 export async function getScores(
-  space,
-  strategies,
-  network,
+  space: string,
+  strategies: any[],
+  network: string,
   provider,
-  addresses,
+  addresses: string[],
   snapshot = 'latest'
 ) {
   return await Promise.all(
