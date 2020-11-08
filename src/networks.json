@@ -6,7 +6,8 @@
     "network": "homestead",
     "rpc": [
       "https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv",
-      "https://eth-archival.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
+      "https://eth-archival.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
+      "https://cloudflare-eth.com"
     ],
     "ws": [
       "wss://eth-mainnet.ws.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv"
@@ -60,7 +61,9 @@
     "chainId": 56,
     "network": "mainnet",
     "rpc": [
-      "https://bsc-dataseed1.binance.org"
+      "https://bsc-dataseed1.binance.org",
+      "https://bsc-dataseed2.binance.org",
+      "https://bsc-dataseed3.binance.org"
     ],
     "explorer": "https://bscscan.com"
   },

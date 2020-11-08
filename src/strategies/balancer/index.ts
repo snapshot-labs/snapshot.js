@@ -10,6 +10,7 @@ const BALANCER_SUBGRAPH_URL = {
 };
 
 export async function strategy(
+  space,
   network,
   provider,
   addresses,
