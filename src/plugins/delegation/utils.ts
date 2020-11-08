@@ -13,7 +13,7 @@ export async function getDelegations(
       __args: {
         where: {
           delegate_in: addresses.map((address) => address.toLowerCase()),
-          delegator_not: addresses.map((address) => address.toLowerCase()),
+          delegator_not_in: addresses.map((address) => address.toLowerCase()),
           space_in: ['', space]
         },
         first: 1000
@@ -31,11 +31,11 @@ export async function getDelegations(
   if (!result || !result.delegations) return {};
 
   const delegationsReverse = {};
+  result.delegations.forEach(
+    (delegation) =>
+      (delegationsReverse[delegation.delegator] = delegation.delegate)
+  );
   result.delegations
-    .forEach(
-      (delegation) =>
-        (delegationsReverse[delegation.delegator] = delegation.delegate)
-    )
     .filter((delegation) => delegation.space !== '')
     .forEach(
       (delegation) =>

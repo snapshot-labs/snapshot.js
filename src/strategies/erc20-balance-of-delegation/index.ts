@@ -21,6 +21,7 @@ export async function strategy(
     snapshot
   );
   if (Object.keys(delegations).length === 0) return {};
+  console.debug('Delegations', delegations);
 
   const score = await erc20BalanceOfStrategy(
     space,
@@ -32,11 +33,12 @@ export async function strategy(
     options,
     snapshot
   );
+  console.debug('Delegators score', score);
 
   return Object.fromEntries(
     addresses.map((address) => {
-      const addressScore = delegations[address.toLowerCase()]
-        ? delegations[address.toLowerCase()].reduce((a, b) => a + score[b], 0)
+      const addressScore = delegations[address]
+        ? delegations[address].reduce((a, b) => a + score[b], 0)
         : 0;
       return [address, addressScore];
     })
