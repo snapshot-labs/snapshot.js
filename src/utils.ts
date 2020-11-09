@@ -67,6 +67,15 @@ export async function subgraphRequest(url: string, query) {
   return data || {};
 }
 
+export async function ipfsGet(
+  gateway: string,
+  ipfsHash: string,
+  protocolType: string = 'ipfs'
+) {
+  const url = `https://${gateway}/${protocolType}/${ipfsHash}`;
+  return fetch(url).then((res) => res.json());
+}
+
 export async function sendTransaction(
   web3,
   contractAddress: string,
@@ -108,6 +117,7 @@ export default {
   call,
   multicall,
   subgraphRequest,
+  ipfsGet,
   sendTransaction,
   getScores
 };
