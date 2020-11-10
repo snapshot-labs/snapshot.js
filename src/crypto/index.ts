@@ -1,4 +1,5 @@
 const sigUtil = require('eth-sig-util');
+const EIP712Domain = require('eth-typed-data').default;
 
 function getVoteDomainType(verifyingContract, chainId) {
   const DomainType = {
@@ -19,37 +20,55 @@ function getVoteDomainType(verifyingContract, chainId) {
       ]
   };
 
-  // The data to sign
-  const value = {
-      from: {
-          name: 'Cow',
-          wallet: '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826'
-      },
-      to: {
-          name: 'Bob',
-          wallet: '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB'
-      },
-      contents: 'Hello, Bob!'
-  };
   return { DomainType, VoteType}
 }
 
-async function signVoteMessage(web3, vote, verifyingContract, chainId) {  
-  const {DomainType, VoteType} = getVoteDomainType(verifyingContract, chainId);
-
-  const signer = web3.getSigner();
-  
-  return signer._signTypedData(DomainType, VoteType, vote);
+async function signVoteMessage(signer, vote, verifyingContract, chainId) {
+  return signer(vote, verifyingContract, chainId);
 }
 
-async function validateVote(vote, address, verifyingContract, chainId, signature ) {
+function validateVote(vote, address, verifyingContract, chainId, signature ) {
   const {DomainType, VoteType} = getVoteDomainType(verifyingContract, chainId); 
+  
+  const msgParams = {
+    domain: DomainType,
+    message: vote,
+    primaryType: 'Vote',
+    types: VoteType
+  };
+  
+  const recoverAddress = sigUtil.recoverTypedSignature_v4({ data: msgParams, sig: signature })
+  return address.toLowerCase() === recoverAddress.toLowerCase();
+}
 
-  return address === sigUtil.recoverTypedSignature_v4({ data: "", sig: signature });
+function Web3Signer(web3) {
+  return function(vote, verifyingContract, chainId) {
+    const {DomainType, VoteType} = getVoteDomainType(verifyingContract, chainId);
+    const signer = web3.getSigner();
+    
+    return signer._signTypedData(DomainType, VoteType, vote);
+  }
+}
+
+function SigUtilSigner(privateKeyStr) {
+  return function(vote, verifyingContract, chainId) {
+    const privateKey = Buffer.from(privateKeyStr, 'hex');
+    const {DomainType, VoteType} = getVoteDomainType(verifyingContract, chainId);
+    const msgParams = {
+      domain: DomainType,
+      message: vote,
+      primaryType: 'Vote',
+      types: VoteType
+    };
+    
+    return sigUtil.signTypedData(privateKey, {data: msgParams});
+  }
 }
 
 module.exports = {
   validateVote,
   getVoteDomainType,
-  signVoteMessage
+  signVoteMessage,
+  Web3Signer,
+  SigUtilSigner
 };
