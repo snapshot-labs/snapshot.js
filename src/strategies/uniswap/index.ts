@@ -65,11 +65,13 @@ export async function strategy(
         .forEach((lp) => {
           const token0perUni = lp.pair.reserve0 / lp.pair.totalSupply;
           const token1perUni = lp.pair.reserve1 / lp.pair.totalSupply;
-          const userScore =
+          let userScore =
             lp.pair.token0.id == tokenAddress
               ? token0perUni * lp.liquidityTokenBalance
               : token1perUni * lp.liquidityTokenBalance;
-
+          //if a ratio exist, apply it
+          if(options.weight)
+            userScore = userScore * options.weight
           const userAddress = getAddress(u.id);
           if (!score[userAddress]) score[userAddress] = 0;
           score[userAddress] = score[userAddress] + userScore;
