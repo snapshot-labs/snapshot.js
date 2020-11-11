@@ -1,17 +1,17 @@
 const sigUtil = require('eth-sig-util');
 const EIP712Domain = require('eth-typed-data').default;
 
-function getVoteDomainType(verifyingContract, chainId) {
+function getDomainType(verifyingContract, chainId) {
   const DomainType = {
-    name: 'Snapshot Vote',
+    name: 'Snapshot Message',
     version: '1',
     chainId,
     verifyingContract
   };
 
   // The named list of all type definitions
-  const VoteType = {
-      Vote: [
+  const MessageType = {
+      Message: [
         { name: 'version', type: 'string' },
         { name: 'timestamp', type: 'uint256' },
         { name: 'space', type: 'string' },
@@ -20,21 +20,21 @@ function getVoteDomainType(verifyingContract, chainId) {
       ]
   };
 
-  return { DomainType, VoteType}
+  return { DomainType, MessageType}
 }
 
-async function signVoteMessage(signer, vote, verifyingContract, chainId) {
-  return signer(vote, verifyingContract, chainId);
+async function signMessage(signer, message, verifyingContract, chainId) {
+  return signer(message, verifyingContract, chainId);
 }
 
-function validateVote(vote, address, verifyingContract, chainId, signature ) {
-  const {DomainType, VoteType} = getVoteDomainType(verifyingContract, chainId); 
+function validateMessage(message, address, verifyingContract, chainId, signature ) {
+  const {DomainType, MessageType} = getDomainType(verifyingContract, chainId); 
   
   const msgParams = {
     domain: DomainType,
-    message: vote,
-    primaryType: 'Vote',
-    types: VoteType
+    message: message,
+    primaryType: 'Message',
+    types: MessageType
   };
   
   const recoverAddress = sigUtil.recoverTypedSignature_v4({ data: msgParams, sig: signature })
@@ -42,23 +42,23 @@ function validateVote(vote, address, verifyingContract, chainId, signature ) {
 }
 
 function Web3Signer(web3) {
-  return function(vote, verifyingContract, chainId) {
-    const {DomainType, VoteType} = getVoteDomainType(verifyingContract, chainId);
+  return function(message, verifyingContract, chainId) {
+    const {DomainType, MessageType} = getDomainType(verifyingContract, chainId);
     const signer = web3.getSigner();
     
-    return signer._signTypedData(DomainType, VoteType, vote);
+    return signer._signTypedData(DomainType, MessageType, message);
   }
 }
 
 function SigUtilSigner(privateKeyStr) {
   return function(vote, verifyingContract, chainId) {
     const privateKey = Buffer.from(privateKeyStr, 'hex');
-    const {DomainType, VoteType} = getVoteDomainType(verifyingContract, chainId);
+    const {DomainType, MessageType} = getDomainType(verifyingContract, chainId);
     const msgParams = {
       domain: DomainType,
       message: vote,
-      primaryType: 'Vote',
-      types: VoteType
+      primaryType: 'Message',
+      types: MessageType
     };
     
     return sigUtil.signTypedData(privateKey, {data: msgParams});
@@ -66,9 +66,9 @@ function SigUtilSigner(privateKeyStr) {
 }
 
 module.exports = {
-  validateVote,
-  getVoteDomainType,
-  signVoteMessage,
+  validateMessage,
+  getDomainType,
+  signMessage,
   Web3Signer,
   SigUtilSigner
 };
