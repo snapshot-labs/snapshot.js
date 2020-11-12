@@ -1,5 +1,18 @@
 const sigUtil = require('eth-sig-util');
 
+function getMessageERC712Hash(message, verifyingContract, chainId) {
+  const m = Object.assign(message);
+    m.payload.metadata = JSON.stringify(message.payload.metadata);
+    const {DomainType, MessageType} = getDomainType(m, verifyingContract, chainId);
+    const msgParams = {
+      domain: DomainType,
+      message: m,
+      primaryType: 'Message',
+      types: MessageType
+    };
+    return '0x' + sigUtil.TypedDataUtils.sign(msgParams).toString('hex');
+}
+
 function getDomainType(message, verifyingContract, chainId) {
   switch(message.type) {
     case "vote":
@@ -119,5 +132,6 @@ module.exports = {
   getDomainType,
   signMessage,
   Web3Signer,
-  SigUtilSigner
+  SigUtilSigner,
+  getMessageERC712Hash
 };

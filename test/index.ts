@@ -3,7 +3,7 @@ const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
 const example = require('../src/strategies/erc20-balance-of/examples.json')[0];
-const {signMessage, validateMessage, SigUtilSigner, getDomainType} = require('../src/crypto/index.ts');
+const {signMessage, validateMessage, SigUtilSigner, getDomainType, getMessageERC712Hash} = require('../src/crypto/index.ts');
 const sigUtil = require('eth-sig-util');
 
 (async () => {
@@ -69,6 +69,7 @@ const sigUtil = require('eth-sig-util');
 
     const proposalSignature = await signMessage(SigUtilSigner('7e91fc4c3424c0594078bcd9c80a7f788ec345e77254e50d3e197e9396e0c472'), proposalMessage, verifyingContract, chainId);
     const isProposalValid = validateMessage(proposalMessage, '0x3098C683320703B2B0922f7a2CE67D2ee321EaA9', verifyingContract, chainId, proposalSignature);
+    console.log('proposal hash:', getMessageERC712Hash(proposalMessage, verifyingContract, chainId));
     console.log('proposal validation:', isProposalValid);
   } catch (e) {
     console.error(e);
