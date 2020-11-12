@@ -30,8 +30,8 @@ const GQL_QUERY = {
 export default class Plugin {
   public author = 'David';
   public version = '0.0.1';
-  public name = 'Gnosis Agreements';
-  public website = 'https://gnosis.io';
+  public name = 'Omen Impact Predictions';
+  public website = 'https://omen.eth.link';
   public options: any;
 
   async action(
