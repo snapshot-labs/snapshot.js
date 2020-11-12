@@ -3,7 +3,8 @@ const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
 const example = require('../src/strategies/erc20-balance-of/examples.json')[0];
-const {signMessage, validateMessage, SigUtilSigner} = require('../src/crypto/index.ts');
+const {signMessage, validateMessage, SigUtilSigner, getDomainType} = require('../src/crypto/index.ts');
+const sigUtil = require('eth-sig-util');
 
 (async () => {
   try {
@@ -29,16 +30,24 @@ const {signMessage, validateMessage, SigUtilSigner} = require('../src/crypto/ind
 (async () => {
   try {
     console.log('start signature ...');
-    const web3 = new JsonRpcProvider('http://localhost:7545');
+  
     const message = {
-        version: "0.1.3",
-        timestamp: 123456789,
-        space: "myspace",
-        type: "vote",
-        payload: "1"};
+      "payload":{
+        "choice":1,
+        "proposal":"QmcHcqAAz81aaBLtYfepSJGkbSqTfchMs1Qp8TdzMKp9DN",
+        "metadata":{
+          "memberAddress":"0xDe6ab16a4015c680daab58021815D09ddB57db8E"
+        }
+      },
+      timestamp:1605099139,
+      space:"myspace",
+      type:"vote",
+      version:"0.1.3"
+    }
+    const chainId = 5777;
     const verifyingContract = '0xcFc2206eAbFDc5f3d9e7fA54f855A8C15D196c05';
-    const signature = await signMessage(SigUtilSigner('7e91fc4c3424c0594078bcd9c80a7f788ec345e77254e50d3e197e9396e0c472'), message, verifyingContract, 5777);
-    const isValid = validateMessage(message, '0x3098C683320703B2B0922f7a2CE67D2ee321EaA9', verifyingContract, 5777, signature);
+    const signature = await signMessage(SigUtilSigner('7e91fc4c3424c0594078bcd9c80a7f788ec345e77254e50d3e197e9396e0c472'), message, verifyingContract, chainId);
+    const isValid = validateMessage(message, '0x3098C683320703B2B0922f7a2CE67D2ee321EaA9', verifyingContract, chainId, signature);
     console.log('all done!', isValid);
   } catch (e) {
     console.error(e);
