@@ -110,7 +110,7 @@ function SigUtilSigner(privateKeyStr) {
       primaryType: 'Message',
       types: MessageType
     };
-    return sigUtil.signTypedData(privateKey, {data: msgParams});
+    return sigUtil.signTypedData_v4(privateKey, {data: msgParams});
   }
 }
 
