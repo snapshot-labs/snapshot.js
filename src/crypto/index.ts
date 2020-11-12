@@ -1,16 +1,16 @@
 const sigUtil = require('eth-sig-util');
+const {keccak} = require('ethereumjs-util');
 
 function getMessageERC712Hash(message, verifyingContract, chainId) {
-  const m = Object.assign(message);
-    m.payload.metadata = JSON.stringify(message.payload.metadata);
-    const {DomainType, MessageType} = getDomainType(m, verifyingContract, chainId);
-    const msgParams = {
-      domain: DomainType,
-      message: m,
-      primaryType: 'Message',
-      types: MessageType
-    };
-    return '0x' + sigUtil.TypedDataUtils.sign(msgParams).toString('hex');
+  const m = prepareMessage(message, verifyingContract, chainId);
+  const {DomainType, MessageType} = getDomainType(m, verifyingContract, chainId);
+  const msgParams = {
+    domain: DomainType,
+    message: m,
+    primaryType: 'Message',
+    types: MessageType
+  };
+  return '0x' + sigUtil.TypedDataUtils.sign(msgParams).toString('hex');
 }
 
 function getDomainType(message, verifyingContract, chainId) {
@@ -35,16 +35,15 @@ function getVoteDomainType(verifyingContract, chainId) {
   // The named list of all type definitions
   const MessageType = {
       Message: [
-        { name: 'version', type: 'string' },
+        { name: 'versionHash', type: 'bytes32' },
         { name: 'timestamp', type: 'uint256' },
-        { name: 'space', type: 'string' },
-        { name: 'type', type: 'string' },
+        { name: 'spaceHash', type: 'bytes32' },
         { name: 'payload', type: 'MessagePayload' }
       ],
       MessagePayload: [
         { name: 'choice', type: 'uint256' },
-        { name: 'proposal', type: 'string' },
-        { name: 'metadata', type: 'string' }
+        { name: 'proposalHash', type: 'bytes32' },
+        { name: 'metadataHash', type: 'bytes32' }
       ]
   };
 
@@ -59,23 +58,21 @@ function getProposalDomainType(verifyingContract, chainId) {
     verifyingContract
   };
 
-  // The named list of all type definitions
   const MessageType = {
       Message: [
-        { name: 'version', type: 'string' },
+        { name: 'versionHash', type: 'bytes32' },
         { name: 'timestamp', type: 'uint256' },
-        { name: 'space', type: 'string' },
-        { name: 'type', type: 'string' },
+        { name: 'spaceHash', type: 'bytes32' },
         { name: 'payload', type: 'MessagePayload' }
       ],
       MessagePayload: [
-        { name: 'name', type: 'string' },
-        { name: 'body', type: 'string' },
+        { name: 'nameHash', type: 'bytes32' },
+        { name: 'bodyHash', type: 'bytes32' },
         { name: 'choices', type: 'string[]' },
         { name: 'start', type: 'uint256' },
         { name: 'end', type: 'uint256' },
         { name: 'snapshot', type: 'uint256' },
-        { name: 'metadata', type: 'string' }
+        { name: 'metadataHash', type: 'bytes32' }
       ]
   };
 
@@ -102,8 +99,7 @@ function validateMessage(message, address, verifyingContract, chainId, signature
 
 function Web3Signer(web3) {
   return function(message, verifyingContract, chainId) {
-    const m = Object.assign(message);
-    m.payload.metadata = JSON.stringify(message.payload.metadata);
+    const m = prepareMessage(message, verifyingContract, chainId);
     const {DomainType, MessageType} = getDomainType(m, verifyingContract, chainId);
     const signer = web3.getSigner();
     
@@ -113,8 +109,7 @@ function Web3Signer(web3) {
 
 function SigUtilSigner(privateKeyStr) {
   return function(message, verifyingContract, chainId) {
-    const m = Object.assign(message);
-    m.payload.metadata = JSON.stringify(message.payload.metadata);
+    const m = prepareMessage(message, verifyingContract, chainId);
     const privateKey = Buffer.from(privateKeyStr, 'hex');
     const {DomainType, MessageType} = getDomainType(m, verifyingContract, chainId);
     const msgParams = {
@@ -125,6 +120,48 @@ function SigUtilSigner(privateKeyStr) {
     };
     return sigUtil.signTypedData_v4(privateKey, {data: msgParams});
   }
+}
+
+function prepareMessage(message, verifyingContract, chainId) {
+  switch(message.type) {
+    case "vote":
+      return prepareVoteMessage(message, verifyingContract, chainId);
+    case "proposal":
+      return prepareProposalMessage(message);
+    default:
+      throw new Error("unknown type " + message.type);
+  }
+}
+
+function prepareVoteMessage(message, verifyingContract, chainId) {
+  return Object.assign(message, {
+    versionHash: keccak(message.version),
+    spaceHash: keccak(message.space),
+    payload: prepareVotePayload(message.payload, verifyingContract, chainId)
+  });
+}
+
+function prepareVotePayload(payload, verifyingContract, chainId) {
+  return Object.assign(payload, {
+      metadataHash: keccak(JSON.stringify(payload.metadata)),
+      proposalHash: getMessageERC712Hash(payload.proposal, verifyingContract, chainId)
+  });
+}
+
+function prepareProposalMessage(message) {
+  return Object.assign(message, {
+    versionHash: keccak(message.version),
+    spaceHash: keccak(message.space),
+    payload: prepareProposalPayload(message.payload)
+  });
+}
+
+function prepareProposalPayload(payload) {
+  return Object.assign(payload, {
+      nameHash: keccak(payload.name),
+      bodyHash: keccak(payload.body),
+      metadataHash: keccak(JSON.stringify(payload.metadata))
+  });
 }
 
 module.exports = {
