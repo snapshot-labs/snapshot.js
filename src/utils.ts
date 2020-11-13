@@ -11,6 +11,7 @@ export const MULTICALL = {
   '6': '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
   '42': '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
   '56': '0x1ee38d535d541c55c9dae27b12edf090c608e6fb',
+  '97': '0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46',
   '100': '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
   wanchain: '0xba5934ab3056fca1fa458d30fbb3810c3eb5145f'
 };
