@@ -1,6 +1,7 @@
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
+import Ajv from 'ajv';
 import { abi as multicallAbi } from './abi/Multicall.json';
 import _strategies from './strategies';
 
@@ -114,11 +115,19 @@ export async function getScores(
   );
 }
 
+export function validateSchema(schema, data) {
+  const ajv = new Ajv();
+  const validate = ajv.compile(schema);
+  const valid = validate(data);
+  return valid ? valid : validate.errors;
+}
+
 export default {
   call,
   multicall,
   subgraphRequest,
   ipfsGet,
   sendTransaction,
-  getScores
+  getScores,
+  validateSchema
 };
