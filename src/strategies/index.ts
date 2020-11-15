@@ -1,3 +1,4 @@
+import { strategy as anjStaked } from './anj-staked';
 import { strategy as balancer } from './balancer';
 import { strategy as contractCall } from './contract-call';
 import { strategy as erc20BalanceOf } from './erc20-balance-of';
@@ -18,6 +19,7 @@ import { strategy as ctoken } from './ctoken';
 import { strategy as cream } from './cream';
 
 export default {
+  'anj-staked': anjStaked,
   balancer,
   'contract-call': contractCall,
   'erc20-balance-of': erc20BalanceOf,
