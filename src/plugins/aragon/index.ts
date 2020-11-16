@@ -263,7 +263,7 @@ async function scheduleAction(
 export default class Plugin {
   public author = 'Evalir';
   public version = '0.1.3';
-  public name = 'Aragon Agreements';
+  public name = 'Aragon Govern';
   public website = 'https://aragon.org/blog/snapshot';
   public options: any;
 
