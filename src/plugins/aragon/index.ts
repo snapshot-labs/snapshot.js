@@ -2,12 +2,14 @@ import BN from 'bn.js';
 import { toUtf8Bytes } from '@ethersproject/strings';
 import { call, sendTransaction, subgraphRequest } from '../../utils';
 
+const NO_TOKEN = `${'0x'.padEnd(42, '0')}`;
+
 const ARAGON_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/aragon/aragon-govern-mainnet',
   '4': 'https://api.thegraph.com/subgraphs/name/evalir/aragon-govern-rinkeby'
 };
 
-const abi = [
+const queueAbi = [
   {
     inputs: [
       {
@@ -159,6 +161,55 @@ const abi = [
   }
 ];
 
+const ercAbi = [
+  {
+    constant: false,
+    inputs: [
+      {
+        name: '_spender',
+        type: 'address'
+      },
+      {
+        name: '_value',
+        type: 'uint256'
+      }
+    ],
+    name: 'approve',
+    outputs: [
+      {
+        name: '',
+        type: 'bool'
+      }
+    ],
+    payable: false,
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: '_owner',
+        type: 'address'
+      },
+      {
+        name: '_spender',
+        type: 'address'
+      }
+    ],
+    name: 'allowance',
+    outputs: [
+      {
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  }
+];
+
 const GQL_QUERY = {
   registryEntry: {
     __args: {
@@ -210,7 +261,7 @@ async function scheduleAction(
   const config = result.registryEntry.queue.config;
 
   // Building the nonce for the next tx
-  const nonce = await call(web3, abi, [
+  const nonce = await call(web3, queueAbi, [
     result.registryEntry.queue.address,
     'nonce'
   ]);
@@ -221,10 +272,46 @@ async function scheduleAction(
   const currentDate =
     Math.round(Date.now() / 1000) + Number(config.executionDelay) + 60;
 
+  const allowance = await call(web3, ercAbi, [
+    config.scheduleDeposit.token,
+    'allowance',
+    account,
+    result.registryEntry.queue.address
+  ]);
+
+  // First, let's handle token approvals.
+  // There are 3 cases to check
+  // 1. The user has more allowance than needed, we can skip. (0 tx)
+  // 2. The user has less allowance than needed, and we need to raise it. (2 tx)
+  // 3. The user has 0 allowance, we just need to approve the needed amount. (1 tx)
+  if (
+    allowance.lt(new BN(config.scheduleDeposit.amount)) &&
+    config.scheduleDeposit.token !== NO_TOKEN
+  ) {
+    if (!allowance.isZero()) {
+      const resetTx = await sendTransaction(
+        web3,
+        config.scheduleDeposit.token,
+        ercAbi,
+        'approve',
+        [account, '0']
+      );
+      await resetTx.wait(1);
+    }
+
+    await sendTransaction(
+      web3,
+      config.scheduleDeposit.token,
+      ercAbi,
+      'approve',
+      [account, config.scheduleDeposit.amount]
+    );
+  }
+
   return await sendTransaction(
     web3,
     result.registryEntry.queue.address,
-    abi,
+    queueAbi,
     'schedule',
     [
       {
