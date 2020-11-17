@@ -28,6 +28,7 @@ const abi = [
 ];
 
 export async function strategy(
+  space,
   network,
   provider,
   addresses,
@@ -36,6 +37,7 @@ export async function strategy(
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const score = await erc20BalanceOfStrategy(
+    space,
     network,
     provider,
     addresses,

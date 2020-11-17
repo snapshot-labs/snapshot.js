@@ -22,7 +22,14 @@ const synthetixStateAbi = [
 const synthetixStateContractAddress =
   '0x4b9Ca5607f1fF8019c1C6A3c2f0CC8de622D5B82';
 
-export async function strategy(network, provider, addresses, _, snapshot) {
+export async function strategy(
+  space,
+  network,
+  provider,
+  addresses,
+  _,
+  snapshot
+) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const response = await multicall(
     network,

@@ -1,0 +1,49 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "erc20-with-balance",
+      "params": {
+        "address": "0x84cA8bc7997272c7CfB4D0Cd3D55cd942B3c9419",
+        "symbol": "DIA",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x0000000000000000000000000000000000baddad",
+      "0xa478c2975ab1ea89e8196811f51a7b7ade33eb11",
+      "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
+      "0xBA2E7Fed597fd0E3e70f5130BcDbbFE06bB94fe1",
+      "0xBA2E7Fed597fd0E3e70f5130BcDbbFE06bB94fe1",
+      "0x4C7909d6F029b3a5798143C843F4f8e5341a3473",
+      "0x84cA8bc7997272c7CfB4D0Cd3D55cd942B3c9419",
+      "0x72ac1760daf52986421b1552bdca04707e78950e"
+    ],
+    "snapshot": 11184248
+  },
+  {
+    "name": "Example query with minimum balance",
+    "strategy": {
+      "name": "erc20-with-balance",
+      "params": {
+        "address": "0x84cA8bc7997272c7CfB4D0Cd3D55cd942B3c9419",
+        "symbol": "DIA",
+        "decimals": 18,
+        "minBalance": 10
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x0000000000000000000000000000000000baddad",
+      "0xa478c2975ab1ea89e8196811f51a7b7ade33eb11",
+      "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
+      "0xBA2E7Fed597fd0E3e70f5130BcDbbFE06bB94fe1",
+      "0xBA2E7Fed597fd0E3e70f5130BcDbbFE06bB94fe1",
+      "0x4C7909d6F029b3a5798143C843F4f8e5341a3473",
+      "0x84cA8bc7997272c7CfB4D0Cd3D55cd942B3c9419",
+      "0x72ac1760daf52986421b1552bdca04707e78950e"
+    ],
+    "snapshot": 11184248
+  }
+]

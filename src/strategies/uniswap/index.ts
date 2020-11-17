@@ -5,7 +5,7 @@ const UNISWAP_SUBGRAPH_URL = {
   1: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2'
 };
 
-export const author = 'bonustrack';
+export const author = 'vfatouros';
 export const version = '0.1.0';
 
 export async function strategy(

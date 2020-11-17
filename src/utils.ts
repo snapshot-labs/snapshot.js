@@ -1,6 +1,7 @@
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
+import Ajv from 'ajv';
 import { abi as multicallAbi } from './abi/Multicall.json';
 import _strategies from './strategies';
 
@@ -11,6 +12,7 @@ export const MULTICALL = {
   '6': '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
   '42': '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
   '56': '0x1ee38d535d541c55c9dae27b12edf090c608e6fb',
+  '97': '0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46',
   '100': '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
   wanchain: '0xba5934ab3056fca1fa458d30fbb3810c3eb5145f'
 };
@@ -21,16 +23,23 @@ export const SNAPSHOT_SUBGRAPH_URL = {
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan'
 };
 
-export async function call(provider, abi, call, options?) {
+export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
   try {
-    return await contract[call[1]](...call[2], options || {});
+    const params = call[2] || [];
+    return await contract[call[1]](...params, options || {});
   } catch (e) {
     return Promise.reject(e);
   }
 }
 
-export async function multicall(network, provider, abi, calls, options?) {
+export async function multicall(
+  network: string,
+  provider,
+  abi: any[],
+  calls: any[],
+  options?
+) {
   const multi = new Contract(MULTICALL[network], multicallAbi, provider);
   const itf = new Interface(abi);
   try {
@@ -47,7 +56,7 @@ export async function multicall(network, provider, abi, calls, options?) {
   }
 }
 
-export async function subgraphRequest(url, query) {
+export async function subgraphRequest(url: string, query) {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -60,31 +69,42 @@ export async function subgraphRequest(url, query) {
   return data || {};
 }
 
+export async function ipfsGet(
+  gateway: string,
+  ipfsHash: string,
+  protocolType: string = 'ipfs'
+) {
+  const url = `https://${gateway}/${protocolType}/${ipfsHash}`;
+  return fetch(url).then((res) => res.json());
+}
+
 export async function sendTransaction(
   web3,
-  contractAddress,
-  abi,
-  action,
-  params
+  contractAddress: string,
+  abi: any[],
+  action: string,
+  params: any[],
+  overrides = {}
 ) {
   const signer = web3.getSigner();
   const contract = new Contract(contractAddress, abi, web3);
   const contractWithSigner = contract.connect(signer);
-  const overrides = {};
   // overrides.gasLimit = 12e6;
   return await contractWithSigner[action](...params, overrides);
 }
 
 export async function getScores(
-  strategies,
-  network,
+  space: string,
+  strategies: any[],
+  network: string,
   provider,
-  addresses,
+  addresses: string[],
   snapshot = 'latest'
 ) {
   return await Promise.all(
     strategies.map((strategy) =>
       _strategies[strategy.name](
+        space,
         network,
         provider,
         addresses,
@@ -95,10 +115,19 @@ export async function getScores(
   );
 }
 
+export function validateSchema(schema, data) {
+  const ajv = new Ajv();
+  const validate = ajv.compile(schema);
+  const valid = validate(data);
+  return valid ? valid : validate.errors;
+}
+
 export default {
   call,
   multicall,
   subgraphRequest,
+  ipfsGet,
   sendTransaction,
-  getScores
+  getScores,
+  validateSchema
 };
