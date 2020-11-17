@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Build-ETH LP staked in rewards contract",
+    "strategy": {
+      "name": "staked-uniswap",
+      "params": {
+        "tokenAddress": "0x6e36556b3ee5aa28def2a8ec3dae30ec2b208739",
+        "uniswapAddress" : "0xdf6b861b4fbcfaffb62dd1906fcd3a863955704b",
+        "stakingAddress" : "0xfd15657341492d1918e3a8b7421e9627d52056e9",
+        "symbol": "BUILD",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x87616fA850c87a78f307878f32D808dad8f4d401"
+    ],
+    "snapshot": 11270000
+  }
+]
