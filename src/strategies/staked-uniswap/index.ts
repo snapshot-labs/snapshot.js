@@ -1,5 +1,4 @@
 import { multicall } from '../../utils';
-import { abi as uniAbi } from './UniV2.json';
 
 export const author = 'vfatouros';
 export const version = '0.1.0';
@@ -25,7 +24,20 @@ const tokenAbi = [
     payable: false,
     stateMutability: 'view',
     type: 'function'
-  }
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "totalSupply",
+    outputs: [{
+        internalType: "uint256",
+        name: "",
+        type: "uint256"
+    }],
+    payable: false,
+    stateMutability: "view",
+    type: "function"
+}
 ];
 
 export async function strategy(
@@ -41,7 +53,7 @@ export async function strategy(
     multicall(
       network,
       provider,
-      uniAbi,
+      tokenAbi,
       [[options.uniswapAddress, 'totalSupply', []],
        [options.tokenAddress, 'balanceOf', [options.uniswapAddress]]]
        .concat(addresses.map((address: any) => [options.stakingAddress, 'balanceOf', [address]]))

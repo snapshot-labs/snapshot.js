@@ -11,7 +11,7 @@ export const version = '0.1.0';
 export async function strategy(
   _space,
   network,
-  _provider,
+  provider,
   addresses,
   options,
   snapshot
