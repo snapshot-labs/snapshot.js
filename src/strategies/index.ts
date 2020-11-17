@@ -9,14 +9,14 @@ import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegat
 import { strategy as ethBalance } from './eth-balance';
 import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
-import { strategy as uniswap } from './uniswap';
 import { strategy as yearnVault } from './yearn-vault';
 import { strategy as moloch } from './moloch';
-import { strategy as unigraph } from './unigraph';
+import { strategy as uniswap } from './uniswap';
 import { strategy as pancake } from './pancake';
 import { strategy as synthetix } from './synthetix';
 import { strategy as ctoken } from './ctoken';
 import { strategy as cream } from './cream';
+import { strategy as stakedUniswap } from './staked-uniswap';
 
 export default {
   balancer,
@@ -30,12 +30,12 @@ export default {
   'eth-balance': ethBalance,
   'maker-ds-chief': makerDsChief,
   uni,
-  uniswap,
   'yearn-vault': yearnVault,
   moloch,
-  unigraph,
+  uniswap,
   pancake,
   synthetix,
   ctoken,
-  cream
+  cream,
+  "staked-uniswap" : stakedUniswap
 };
