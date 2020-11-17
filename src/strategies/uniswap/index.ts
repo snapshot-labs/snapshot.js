@@ -2,7 +2,7 @@ import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 
 const UNISWAP_SUBGRAPH_URL = {
-  1: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2'
+  '1': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2'
 };
 
 export const author = 'vfatouros';
