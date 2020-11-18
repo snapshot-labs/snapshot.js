@@ -27,7 +27,7 @@ export default {
   'erc20-balance-of-coeff': erc20BalanceOfCoeff,
   'erc20-with-balance': erc20WithBalance,
   'erc20-balance-of-delegation': erc20BalanceOfDelegation,
-  'erc20-balance-of-with-uncalimed': erc20BalanceOfWithUnclaimed,
+  'erc20-balance-of-with-unclaimed': erc20BalanceOfWithUnclaimed,
   'eth-balance': ethBalance,
   'maker-ds-chief': makerDsChief,
   uni,

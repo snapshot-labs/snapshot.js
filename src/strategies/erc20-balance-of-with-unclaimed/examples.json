@@ -2,16 +2,18 @@
   {
     "name": "Example query",
     "strategy": {
-      "name": "erc20-balance-of",
+      "name": "erc20-balance-of-with-unclaimed",
       "params": {
         "address": "0x0954906da0Bf32d5479e25f46056d22f08464cab",
+        "stakingAddress": "0x8f06FBA4684B5E0988F215a47775Bb611Af0F986",
         "symbol": "INDEX",
         "decimals": 18
       }
     },
     "network": "1",
     "addresses": [
-      "0xf6401adc23Faa6B9AD83eA8604CA7254CB7F53e7"
+      "0xf6401adc23Faa6B9AD83eA8604CA7254CB7F53e7",
+      "0x355108B59b64A47F65b7F280f80e8a84206996EF"
     ],
     "snapshot": 11278974
   }
