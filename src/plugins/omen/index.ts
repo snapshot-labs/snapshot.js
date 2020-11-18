@@ -22,9 +22,6 @@ const GQL_QUERY = {
       }
     }
   }
-
-
-
 };
 
 export default class Plugin {
@@ -34,13 +31,13 @@ export default class Plugin {
   public website = 'https://omen.eth.link';
   public options: any;
 
-  async action(
+  async getPriceImpact(
     network,
-    questionId,
+    proposalOptions,
   ) {
     try {
       const query = GQL_QUERY;
-      query.question.__args.id = questionId;
+      query.question.__args.id = proposalOptions.questionId;
       const result = await subgraphRequest(OMEN_SUBGRAPH_URL[network], query);
       return result;
     } catch (e) {
