@@ -18,7 +18,7 @@ const GQL_QUERY = {
         id: true,
         collateralToken: true,
         outcomeTokenAmounts: true,
-        outcomeTokenMarginalPric: true
+        outcomeTokenMarginalPrices: true
       }
     }
   }
