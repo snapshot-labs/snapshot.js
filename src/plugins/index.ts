@@ -1,7 +1,7 @@
 import aragon from './aragon';
-import omen from './omen';
+import gnosis from './gnosis';
 
 export default {
   aragon,
-  omen
+  gnosis
 };

@@ -27,8 +27,8 @@ const GQL_QUERY = {
 export default class Plugin {
   public author = 'David';
   public version = '0.0.1';
-  public name = 'Omen Impact Predictions';
-  public website = 'https://omen.eth.link';
+  public name = 'Gnosis Impact';
+  public website = 'https://gnosis.io';
   public options: any;
 
   async getPriceImpact(
