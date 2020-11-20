@@ -1,3 +1,5 @@
+import { getAddress } from '@ethersproject/address';
+
 import { call, subgraphRequest } from '../../utils';
 
 const OMEN_SUBGRAPH_URL = {
@@ -46,6 +48,7 @@ export default class Plugin {
     try {
       return await {
         address: tokenAddress,
+        checksumAddress: getAddress(tokenAddress),
         name: await getTokenMethod(web3, tokenAddress, 'name'),
         symbol: await getTokenMethod(web3, tokenAddress, 'symbol'),
       }
