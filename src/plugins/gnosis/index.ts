@@ -1,7 +1,5 @@
 import { call, subgraphRequest } from '../../utils';
 
-
-const API_ENDPOINT_URL = "https://api.coingecko.com/api/v3/simple/token_price/ethereum"
 const OMEN_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/protofire/omen',
   '4': 'https://api.thegraph.com/subgraphs/name/protofire/omen-rinkeby'
@@ -37,21 +35,6 @@ const getTokenMethod = async (web3, tokenAddress, method) => {
     ]);
 }
 
-const getTokenPrices = async (tokenAddressList: Array<string>, currency: string) => {
-  return fetch(
-    `${API_ENDPOINT_URL}?contract_addresses=${tokenAddressList.join(',')}&vs_currencies=${currency}`,
-    { method: 'GET', headers: { 'Content-Type': 'application/json' } }
-  )
-    .then(res => res.json())
-    .catch(error => console.error('Error:', error))
-    .then(json => {
-      if (json.error) {
-        throw new Error(json.error.message);
-      }
-      return json;
-    });
-}
-
 export default class Plugin {
   public author = 'David';
   public version = '0.0.1';
@@ -65,21 +48,6 @@ export default class Plugin {
         address: tokenAddress,
         name: await getTokenMethod(web3, tokenAddress, 'name'),
         symbol: await getTokenMethod(web3, tokenAddress, 'symbol'),
-      }
-    } catch (e) {
-      throw new Error(e);
-    }
-  }
-
-  async getTokenPrices(tokenAddressList: Array<string>) {
-    try {
-      if (tokenAddressList.length > 0) {
-        const pricesRate = await getTokenPrices(tokenAddressList, 'usd');
-        const result = [];
-        for(const tokenAddress in pricesRate) {
-          result[tokenAddress] = pricesRate[tokenAddress].usd;
-        }
-        return result;
       }
     } catch (e) {
       throw new Error(e);
