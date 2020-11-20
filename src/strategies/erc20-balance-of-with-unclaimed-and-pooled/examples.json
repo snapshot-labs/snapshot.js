@@ -2,7 +2,7 @@
   {
     "name": "Example query",
     "strategy": {
-      "name": "erc20-balance-of-with-unclaimed",
+      "name": "erc20-balance-of-with-unclaimed-and-pooled",
       "params": {
         "address": "0x0954906da0Bf32d5479e25f46056d22f08464cab",
         "stakingAddress": "0x8f06FBA4684B5E0988F215a47775Bb611Af0F986",
