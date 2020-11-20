@@ -34,7 +34,7 @@ const getTokenMethod = async (web3, tokenAddress, method) => {
     return await call(web3, erc20Abi, [
       tokenAddress,
       method
-    ]).toString();
+    ]);
 }
 
 const getTokenPrices = async (tokenAddressList: Array<string>, currency: string) => {
@@ -61,11 +61,10 @@ export default class Plugin {
 
   async getTokenInfo(web3: any, tokenAddress: string) {
     try {
-      return {
+      return await {
         address: tokenAddress,
         name: await getTokenMethod(web3, tokenAddress, 'name'),
         symbol: await getTokenMethod(web3, tokenAddress, 'symbol'),
-        decimals: await getTokenMethod(web3, tokenAddress, 'decimals')
       }
     } catch (e) {
       throw new Error(e);
@@ -87,7 +86,7 @@ export default class Plugin {
     }
   }
 
-  async getSubgrapInfo(network: number, conditionId: string) {
+  async getSubgrapInfo(network: number, conditionId: any) {
     try {
       const query = GQL_QUERY;
       query.condition.__args.id = conditionId;
