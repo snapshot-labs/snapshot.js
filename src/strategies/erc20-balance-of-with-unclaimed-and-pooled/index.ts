@@ -1,5 +1,6 @@
 import { multicall } from '../../utils';
 import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
+import { strategy as lpStrategy } from '../uniswap';
 import { formatUnits } from "@ethersproject/units";
 
 export const author = 'ncitron';
@@ -45,6 +46,16 @@ export async function strategy(
     snapshot
   );
 
+  //get balances in LP pools
+  const lpBalances = await lpStrategy(
+    space,
+    network,
+    provider,
+    addresses,
+    options,
+    snapshot
+  );
+
   //get unclaimed token balance
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const unclaimed = await multicall(
@@ -59,7 +70,7 @@ export async function strategy(
   return Object.fromEntries(
     unclaimed.map((value, i) => [
       addresses[i],
-      parseFloat(formatUnits(value.toString(), options.decimals)) + balances[addresses[i]]
+      parseFloat(formatUnits(value.toString(), options.decimals)) + balances[addresses[i]] + lpBalances[addresses[i]] || 0
     ])
   );
 }
