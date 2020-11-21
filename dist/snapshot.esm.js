@@ -6,6 +6,11 @@ import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import { getAddress } from '@ethersproject/address';
 import { formatUnits } from '@ethersproject/units';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import contentHash from '@ensdomains/content-hash';
+import { namehash } from '@ethersproject/hash';
+import { isHexString } from '@ethersproject/bytes';
+import bs58 from 'bs58';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1120,6 +1125,364 @@ var strategies = {
     cream: strategy$h
 };
 
+var wanchain = {
+	key: "wanchain",
+	name: "Wanchain",
+	chainId: 1,
+	network: "mainnet",
+	rpc: [
+		"https://gwan-ssl.wandevs.org:56891"
+	],
+	ws: [
+		"wss://api.wanchain.org:8443/ws/v3/ddd16770c68f30350a21114802d5418eafe039b722de52b488e7eee1ee2cd73f"
+	],
+	explorer: "https://www.wanscan.org"
+};
+var networks = {
+	"1": {
+	key: "1",
+	name: "Ethereum Mainnet",
+	chainId: 1,
+	network: "homestead",
+	rpc: [
+		{
+			url: "https://api-geth-archive.ankr.com",
+			user: "balancer_user",
+			password: "balancerAnkr20201015"
+		},
+		"https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv",
+		"https://eth-archival.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
+		"https://cloudflare-eth.com"
+	],
+	ws: [
+		"wss://eth-mainnet.ws.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv"
+	],
+	explorer: "https://etherscan.io"
+},
+	"4": {
+	key: "4",
+	name: "Ethereum Testnet Rinkeby",
+	chainId: 4,
+	network: "rinkeby",
+	rpc: [
+		"https://eth-rinkeby.alchemyapi.io/v2/twReQE9Px03E-E_N_Fbb3OVF7YgHxoGq",
+		"https://eth-rinkeby.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
+	],
+	ws: [
+		"wss://eth-rinkeby.ws.alchemyapi.io/v2/twReQE9Px03E-E_N_Fbb3OVF7YgHxoGq"
+	],
+	explorer: "https://rinkeby.etherscan.io"
+},
+	"7": {
+	key: "7",
+	name: "ThaiChain",
+	chainId: 7,
+	network: "mainnet",
+	rpc: [
+		"https://rpc.dome.cloud"
+	],
+	ws: [
+		"wss://ws.dome.cloud"
+	],
+	explorer: "https://exp.tch.in.th"
+},
+	"42": {
+	key: "42",
+	name: "Ethereum Testnet Kovan",
+	chainId: 42,
+	network: "kovan",
+	rpc: [
+		"https://eth-kovan.alchemyapi.io/v2/QCsM2iU0bQ49eGDmZ7-Y--Wpu0lVWXSO",
+		"https://poa-kovan.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
+	],
+	ws: [
+		"wss://eth-kovan.ws.alchemyapi.io/v2/QCsM2iU0bQ49eGDmZ7-Y--Wpu0lVWXSO"
+	],
+	explorer: "https://kovan.etherscan.io"
+},
+	"56": {
+	key: "56",
+	name: "Binance Smart Chain Mainnet",
+	chainId: 56,
+	network: "mainnet",
+	rpc: [
+		"https://bsc-dataseed1.binance.org",
+		"https://bsc-dataseed2.binance.org",
+		"https://bsc-dataseed3.binance.org"
+	],
+	explorer: "https://bscscan.com"
+},
+	"61": {
+	key: "61",
+	name: "Ethereum Classic Mainnet",
+	chainId: 61,
+	network: "mainnet",
+	rpc: [
+		"https://ethereumclassic.network"
+	],
+	explorer: "https://blockscout.com/etc/mainnet"
+},
+	"97": {
+	key: "97",
+	name: "Binance Smart Chain Testnet",
+	chainId: 97,
+	network: "testnet",
+	rpc: [
+		"https://data-seed-prebsc-1-s1.binance.org:8545"
+	],
+	explorer: "https://testnet.bscscan.com"
+},
+	"100": {
+	key: "100",
+	name: "xDAI Chain",
+	chainId: 100,
+	network: "mainnet",
+	rpc: [
+		"https://xdai-archive.blockscout.com",
+		"https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
+	],
+	ws: [
+		"wss://rpc.xdaichain.com/wss"
+	],
+	explorer: "https://blockscout.com/poa/xdai"
+},
+	"137": {
+	key: "137",
+	name: "Matic Mainnet",
+	chainId: 137,
+	network: "mainnet",
+	rpc: [
+		"https://rpc-mainnet.matic.network"
+	],
+	ws: [
+		"wss://ws-mainnet.matic.network"
+	],
+	explorer: ""
+},
+	"420": {
+	key: "420",
+	name: "Optimistic Ethereum",
+	chainId: 420,
+	network: "mainnet",
+	explorer: ""
+},
+	"32659": {
+	key: "32659",
+	name: "Fusion Mainnet",
+	chainId: 32659,
+	network: "mainnet",
+	rpc: [
+		"https://vote.anyswap.exchange/mainnet"
+	],
+	ws: [
+		"wss://mainnetpublicgateway1.fusionnetwork.io:10001"
+	],
+	explorer: "https://fsnex.com"
+},
+	"80001": {
+	key: "80001",
+	name: "Matic Mumbai",
+	chainId: 80001,
+	network: "testnet",
+	rpc: [
+		"https://rpc-mumbai.matic.today"
+	],
+	ws: [
+		"wss://ws-mumbai.matic.today"
+	],
+	explorer: ""
+},
+	wanchain: wanchain
+};
+
+var providers = {};
+function getProvider(network) {
+    var url = networks[network].rpc[0];
+    if (!providers[network])
+        providers[network] = new JsonRpcProvider(url);
+    return providers[network];
+}
+
+var supportedCodecs = ['ipns-ns', 'ipfs-ns', 'swarm-ns', 'onion', 'onion3'];
+var REGISTRAR_ABI = [
+    {
+        constant: true,
+        inputs: [
+            {
+                name: 'node',
+                type: 'bytes32'
+            }
+        ],
+        name: 'resolver',
+        outputs: [
+            {
+                name: 'resolverAddress',
+                type: 'address'
+            }
+        ],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    }
+];
+var REGISTRAR_ADDRESS = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
+var RESOLVER_ABI = [
+    {
+        constant: true,
+        inputs: [
+            {
+                internalType: 'bytes32',
+                name: 'node',
+                type: 'bytes32'
+            }
+        ],
+        name: 'contenthash',
+        outputs: [
+            {
+                internalType: 'bytes',
+                name: '',
+                type: 'bytes'
+            }
+        ],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    }
+];
+function decodeContenthash(encoded) {
+    var decoded, protocolType, error;
+    if (encoded.error) {
+        return { protocolType: null, decoded: encoded.error };
+    }
+    if (encoded) {
+        try {
+            decoded = contentHash.decode(encoded);
+            var codec = contentHash.getCodec(encoded);
+            if (codec === 'ipfs-ns') {
+                // convert the ipfs from base58 to base32 (url host compatible)
+                // if needed the hash can now be resolved through a secured origin gateway (<hash>.gateway.com)
+                decoded = contentHash.helpers.cidV0ToV1Base32(decoded);
+                protocolType = 'ipfs';
+            }
+            else if (codec === 'ipns-ns') {
+                decoded = bs58.decode(decoded).slice(2).toString();
+                protocolType = 'ipns';
+            }
+            else if (codec === 'swarm-ns') {
+                protocolType = 'bzz';
+            }
+            else if (codec === 'onion') {
+                protocolType = 'onion';
+            }
+            else if (codec === 'onion3') {
+                protocolType = 'onion3';
+            }
+            else {
+                decoded = encoded;
+            }
+        }
+        catch (e) {
+            error = e.message;
+        }
+    }
+    return { protocolType: protocolType, decoded: decoded, error: error };
+}
+function validateContent(encoded) {
+    return (contentHash.isHashOfType(encoded, contentHash.Types.ipfs) ||
+        contentHash.isHashOfType(encoded, contentHash.Types.swarm));
+}
+function isValidContenthash(encoded) {
+    try {
+        var codec = contentHash.getCodec(encoded);
+        return isHexString(encoded) && supportedCodecs.includes(codec);
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+function encodeContenthash(text) {
+    var content, contentType;
+    var encoded = false;
+    if (text) {
+        var matched = text.match(/^(ipfs|ipns|bzz|onion|onion3):\/\/(.*)/) ||
+            text.match(/\/(ipfs)\/(.*)/) ||
+            text.match(/\/(ipns)\/(.*)/);
+        if (matched) {
+            contentType = matched[1];
+            content = matched[2];
+        }
+        try {
+            if (contentType === 'ipfs') {
+                if (content.length >= 4) {
+                    encoded = '0x' + contentHash.encode('ipfs-ns', content);
+                }
+            }
+            else if (contentType === 'ipns') {
+                var bs58content = bs58.encode(Buffer.concat([
+                    Buffer.from([0, content.length]),
+                    Buffer.from(content)
+                ]));
+                encoded = '0x' + contentHash.encode('ipns-ns', bs58content);
+            }
+            else if (contentType === 'bzz') {
+                if (content.length >= 4) {
+                    encoded = '0x' + contentHash.fromSwarm(content);
+                }
+            }
+            else if (contentType === 'onion') {
+                if (content.length == 16) {
+                    encoded = '0x' + contentHash.encode('onion', content);
+                }
+            }
+            else if (contentType === 'onion3') {
+                if (content.length == 56) {
+                    encoded = '0x' + contentHash.encode('onion3', content);
+                }
+            }
+            else {
+                console.warn('Unsupported protocol or invalid value', {
+                    contentType: contentType,
+                    text: text
+                });
+            }
+        }
+        catch (err) {
+            console.warn('Error encoding content hash', { text: text, encoded: encoded });
+            //throw 'Error encoding content hash'
+        }
+    }
+    return encoded;
+}
+/**
+ * Fetches and decodes the result of an ENS contenthash lookup on mainnet to a URI
+ * @param ensName to resolve
+ * @param provider provider to use to fetch the data
+ */
+function resolveENSContentHash(ensName, provider) {
+    return __awaiter(this, void 0, void 0, function () {
+        var hash, resolverAddress;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    hash = namehash(ensName);
+                    return [4 /*yield*/, call(provider, REGISTRAR_ABI, [
+                            REGISTRAR_ADDRESS,
+                            'resolver',
+                            [hash]
+                        ])];
+                case 1:
+                    resolverAddress = _a.sent();
+                    return [4 /*yield*/, call(provider, RESOLVER_ABI, [
+                            resolverAddress,
+                            'contenthash',
+                            [hash]
+                        ])];
+                case 2: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+
 var MULTICALL = {
     '1': '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
     '4': '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821',
@@ -1260,7 +1623,13 @@ var utils = {
     ipfsGet: ipfsGet,
     sendTransaction: sendTransaction,
     getScores: getScores,
-    validateSchema: validateSchema
+    validateSchema: validateSchema,
+    getProvider: getProvider,
+    decodeContenthash: decodeContenthash,
+    validateContent: validateContent,
+    isValidContenthash: isValidContenthash,
+    encodeContenthash: encodeContenthash,
+    resolveENSContentHash: resolveENSContentHash
 };
 
 var ARAGON_SUBGRAPH_URL = {

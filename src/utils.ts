@@ -4,6 +4,14 @@ import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import { abi as multicallAbi } from './abi/Multicall.json';
 import _strategies from './strategies';
+import getProvider from './utils/provider';
+import {
+  decodeContenthash,
+  validateContent,
+  isValidContenthash,
+  encodeContenthash,
+  resolveENSContentHash
+} from './utils/contentHash';
 
 export const MULTICALL = {
   '1': '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
@@ -129,5 +137,11 @@ export default {
   ipfsGet,
   sendTransaction,
   getScores,
-  validateSchema
+  validateSchema,
+  getProvider,
+  decodeContenthash,
+  validateContent,
+  isValidContenthash,
+  encodeContenthash,
+  resolveENSContentHash
 };

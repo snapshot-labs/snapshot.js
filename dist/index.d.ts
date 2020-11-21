@@ -119,6 +119,12 @@ declare const _default: {
         sendTransaction: typeof import("./utils").sendTransaction;
         getScores: typeof import("./utils").getScores;
         validateSchema: typeof import("./utils").validateSchema;
+        getProvider: typeof import("./utils/provider").default;
+        decodeContenthash: typeof import("./utils/contentHash").decodeContenthash;
+        validateContent: typeof import("./utils/contentHash").validateContent;
+        isValidContenthash: typeof import("./utils/contentHash").isValidContenthash;
+        encodeContenthash: typeof import("./utils/contentHash").encodeContenthash;
+        resolveENSContentHash: typeof import("./utils/contentHash").resolveENSContentHash;
     };
 };
 export default _default;

@@ -1,3 +1,5 @@
+import getProvider from './utils/provider';
+import { decodeContenthash, validateContent, isValidContenthash, encodeContenthash, resolveENSContentHash } from './utils/contentHash';
 export declare const MULTICALL: {
     1: string;
     4: string;
@@ -29,5 +31,11 @@ declare const _default: {
     sendTransaction: typeof sendTransaction;
     getScores: typeof getScores;
     validateSchema: typeof validateSchema;
+    getProvider: typeof getProvider;
+    decodeContenthash: typeof decodeContenthash;
+    validateContent: typeof validateContent;
+    isValidContenthash: typeof isValidContenthash;
+    encodeContenthash: typeof encodeContenthash;
+    resolveENSContentHash: typeof resolveENSContentHash;
 };
 export default _default;
