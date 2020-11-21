@@ -1516,7 +1516,7 @@ var Plugin = /** @class */ (function () {
     function Plugin() {
         this.author = 'Evalir';
         this.version = '0.1.3';
-        this.name = 'Aragon Agreements';
+        this.name = 'Aragon Govern';
         this.website = 'https://aragon.org/blog/snapshot';
     }
     Plugin.prototype.action = function (network, web3, spaceOptions, proposalOptions, proposalId, winningChoice) {
