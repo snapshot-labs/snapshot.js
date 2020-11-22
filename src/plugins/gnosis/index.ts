@@ -30,15 +30,12 @@ const OMEN_GQL_QUERY = {
 const UNISWAP_V2_GQL_QUERY = {
   pairs: {
     __args: {
-      first: 1,
       where: {
         token0: true,
         token1: true
       }
     },
-    id: true,
-    token0Price: true,
-    token1Price: true
+    token0Price: true
   }
 }
 
