@@ -1,6 +1,7 @@
 declare const _default: {
     plugins: {
         aragon: typeof import("./plugins/aragon").default;
+        gnosis: typeof import("./plugins/gnosis").default;
     };
     strategies: {
         balancer: typeof import("./strategies/balancer").strategy;

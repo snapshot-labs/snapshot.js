@@ -4,7 +4,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var BN = _interopDefault(require('bn.js'));
 var strings = require('@ethersproject/strings');
-var abi$9 = require('@ethersproject/abi');
+var abi$8 = require('@ethersproject/abi');
 var contracts = require('@ethersproject/contracts');
 var jsonToGraphqlQuery = require('json-to-graphql-query');
 var Ajv = _interopDefault(require('ajv'));
@@ -1531,7 +1531,7 @@ function multicall(network, provider, abi$1, calls, options) {
             switch (_b.label) {
                 case 0:
                     multi = new contracts.Contract(MULTICALL[network], abi, provider);
-                    itf = new abi$9.Interface(abi$1);
+                    itf = new abi$8.Interface(abi$1);
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, , 4]);
@@ -1636,11 +1636,12 @@ var utils = {
     resolveENSContentHash: resolveENSContentHash
 };
 
+var NO_TOKEN = "" + '0x'.padEnd(42, '0');
 var ARAGON_SUBGRAPH_URL = {
     '1': 'https://api.thegraph.com/subgraphs/name/aragon/aragon-govern-mainnet',
     '4': 'https://api.thegraph.com/subgraphs/name/evalir/aragon-govern-rinkeby'
 };
-var abi$8 = [
+var queueAbi = [
     {
         inputs: [
             {
@@ -1791,6 +1792,54 @@ var abi$8 = [
         type: 'function'
     }
 ];
+var ercAbi = [
+    {
+        constant: false,
+        inputs: [
+            {
+                name: '_spender',
+                type: 'address'
+            },
+            {
+                name: '_value',
+                type: 'uint256'
+            }
+        ],
+        name: 'approve',
+        outputs: [
+            {
+                name: '',
+                type: 'bool'
+            }
+        ],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [
+            {
+                name: '_owner',
+                type: 'address'
+            },
+            {
+                name: '_spender',
+                type: 'address'
+            }
+        ],
+        name: 'allowance',
+        outputs: [
+            {
+                name: '',
+                type: 'uint256'
+            }
+        ],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    }
+];
 var GQL_QUERY = {
     registryEntry: {
         __args: {
@@ -1827,7 +1876,7 @@ var EMPTY_BYTES = '0x00';
  */
 function scheduleAction(network, web3, daoName, account, proof, actionsFromAragonPlugin) {
     return __awaiter(this, void 0, void 0, function () {
-        var query, result, config, nonce, bnNonce, newNonce, currentDate;
+        var query, result, config, nonce, bnNonce, newNonce, currentDate, allowance, resetTx;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -1837,7 +1886,7 @@ function scheduleAction(network, web3, daoName, account, proof, actionsFromArago
                 case 1:
                     result = _a.sent();
                     config = result.registryEntry.queue.config;
-                    return [4 /*yield*/, call(web3, abi$8, [
+                    return [4 /*yield*/, call(web3, queueAbi, [
                             result.registryEntry.queue.address,
                             'nonce'
                         ])];
@@ -1846,37 +1895,59 @@ function scheduleAction(network, web3, daoName, account, proof, actionsFromArago
                     bnNonce = new BN(nonce.toString());
                     newNonce = bnNonce.add(new BN('1'));
                     currentDate = Math.round(Date.now() / 1000) + Number(config.executionDelay) + 60;
-                    return [4 /*yield*/, sendTransaction(web3, result.registryEntry.queue.address, abi$8, 'schedule', [
-                            {
-                                payload: {
-                                    nonce: newNonce.toString(),
-                                    executionTime: currentDate,
-                                    submitter: account,
-                                    executor: result.registryEntry.executor.address,
-                                    actions: actionsFromAragonPlugin,
-                                    allowFailuresMap: FAILURE_MAP,
-                                    // proof in snapshot's case, could be the proposal's IPFS CID
-                                    proof: proof ? strings.toUtf8Bytes(proof) : EMPTY_BYTES
+                    return [4 /*yield*/, call(web3, ercAbi, [
+                            config.scheduleDeposit.token,
+                            'allowance',
+                            account,
+                            result.registryEntry.queue.address
+                        ])];
+                case 3:
+                    allowance = _a.sent();
+                    if (!(allowance.lt(new BN(config.scheduleDeposit.amount)) &&
+                        config.scheduleDeposit.token !== NO_TOKEN)) return [3 /*break*/, 8];
+                    if (!!allowance.isZero()) return [3 /*break*/, 6];
+                    return [4 /*yield*/, sendTransaction(web3, config.scheduleDeposit.token, ercAbi, 'approve', [account, '0'])];
+                case 4:
+                    resetTx = _a.sent();
+                    return [4 /*yield*/, resetTx.wait(1)];
+                case 5:
+                    _a.sent();
+                    _a.label = 6;
+                case 6: return [4 /*yield*/, sendTransaction(web3, config.scheduleDeposit.token, ercAbi, 'approve', [account, config.scheduleDeposit.amount])];
+                case 7:
+                    _a.sent();
+                    _a.label = 8;
+                case 8: return [4 /*yield*/, sendTransaction(web3, result.registryEntry.queue.address, queueAbi, 'schedule', [
+                        {
+                            payload: {
+                                nonce: newNonce.toString(),
+                                executionTime: currentDate,
+                                submitter: account,
+                                executor: result.registryEntry.executor.address,
+                                actions: actionsFromAragonPlugin,
+                                allowFailuresMap: FAILURE_MAP,
+                                // proof in snapshot's case, could be the proposal's IPFS CID
+                                proof: proof ? strings.toUtf8Bytes(proof) : EMPTY_BYTES
+                            },
+                            config: {
+                                executionDelay: config.executionDelay,
+                                scheduleDeposit: {
+                                    token: config.scheduleDeposit.token,
+                                    amount: config.scheduleDeposit.amount
                                 },
-                                config: {
-                                    executionDelay: config.executionDelay,
-                                    scheduleDeposit: {
-                                        token: config.scheduleDeposit.token,
-                                        amount: config.scheduleDeposit.amount
-                                    },
-                                    challengeDeposit: {
-                                        token: config.challengeDeposit.token,
-                                        amount: config.challengeDeposit.amount
-                                    },
-                                    resolver: config.resolver,
-                                    rules: config.rules
-                                }
+                                challengeDeposit: {
+                                    token: config.challengeDeposit.token,
+                                    amount: config.challengeDeposit.amount
+                                },
+                                resolver: config.resolver,
+                                rules: config.rules
                             }
-                        ], {
-                            // This can probably be optimized
-                            gasLimit: 500000
-                        })];
-                case 3: return [2 /*return*/, _a.sent()];
+                        }
+                    ], {
+                        // This can probably be optimized
+                        gasLimit: 500000
+                    })];
+                case 9: return [2 /*return*/, _a.sent()];
             }
         });
     });
@@ -1912,8 +1983,524 @@ var Plugin = /** @class */ (function () {
     return Plugin;
 }());
 
+var UNISWAP_V2_SUBGRAPH_URL = {
+    '1': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
+    '4': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2-rinkeby'
+};
+var OMEN_SUBGRAPH_URL = {
+    '1': 'https://api.thegraph.com/subgraphs/name/protofire/omen',
+    '4': 'https://api.thegraph.com/subgraphs/name/protofire/omen-rinkeby'
+};
+var OMEN_GQL_QUERY = {
+    condition: {
+        __args: {
+            id: undefined
+        },
+        id: true,
+        fixedProductMarketMakers: {
+            id: true,
+            collateralToken: true,
+            outcomeTokenAmounts: true,
+            outcomeTokenMarginalPrices: true
+        }
+    }
+};
+var UNISWAP_V2_GQL_QUERY = {
+    pairs: {
+        __args: {
+            where: {
+                token0: true,
+                token1: true
+            }
+        },
+        token0Price: true
+    }
+};
+var erc20Abi = [
+    {
+        constant: true,
+        inputs: [],
+        name: 'name',
+        outputs: [{ name: '', type: 'string' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [{ name: '_upgradedAddress', type: 'address' }],
+        name: 'deprecate',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [
+            { name: '_spender', type: 'address' },
+            { name: '_value', type: 'uint256' }
+        ],
+        name: 'approve',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'deprecated',
+        outputs: [{ name: '', type: 'bool' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [{ name: '_evilUser', type: 'address' }],
+        name: 'addBlackList',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'totalSupply',
+        outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [
+            { name: '_from', type: 'address' },
+            { name: '_to', type: 'address' },
+            { name: '_value', type: 'uint256' }
+        ],
+        name: 'transferFrom',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'upgradedAddress',
+        outputs: [{ name: '', type: 'address' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [{ name: '', type: 'address' }],
+        name: 'balances',
+        outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'decimals',
+        outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'maximumFee',
+        outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: '_totalSupply',
+        outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [],
+        name: 'unpause',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [{ name: '_maker', type: 'address' }],
+        name: 'getBlackListStatus',
+        outputs: [{ name: '', type: 'bool' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [
+            { name: '', type: 'address' },
+            { name: '', type: 'address' }
+        ],
+        name: 'allowed',
+        outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'paused',
+        outputs: [{ name: '', type: 'bool' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [{ name: 'who', type: 'address' }],
+        name: 'balanceOf',
+        outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [],
+        name: 'pause',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'getOwner',
+        outputs: [{ name: '', type: 'address' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'owner',
+        outputs: [{ name: '', type: 'address' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'symbol',
+        outputs: [{ name: '', type: 'string' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [
+            { name: '_to', type: 'address' },
+            { name: '_value', type: 'uint256' }
+        ],
+        name: 'transfer',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [
+            { name: 'newBasisPoints', type: 'uint256' },
+            { name: 'newMaxFee', type: 'uint256' }
+        ],
+        name: 'setParams',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [{ name: 'amount', type: 'uint256' }],
+        name: 'issue',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [{ name: 'amount', type: 'uint256' }],
+        name: 'redeem',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [
+            { name: '_owner', type: 'address' },
+            { name: '_spender', type: 'address' }
+        ],
+        name: 'allowance',
+        outputs: [{ name: 'remaining', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'basisPointsRate',
+        outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [{ name: '', type: 'address' }],
+        name: 'isBlackListed',
+        outputs: [{ name: '', type: 'bool' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [{ name: '_clearedUser', type: 'address' }],
+        name: 'removeBlackList',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'MAX_UINT',
+        outputs: [{ name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [{ name: 'newOwner', type: 'address' }],
+        name: 'transferOwnership',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        constant: false,
+        inputs: [{ name: '_blackListedUser', type: 'address' }],
+        name: 'destroyBlackFunds',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function'
+    },
+    {
+        inputs: [
+            { name: '_initialSupply', type: 'uint256' },
+            { name: '_name', type: 'string' },
+            { name: '_symbol', type: 'string' },
+            { name: '_decimals', type: 'uint256' }
+        ],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'constructor'
+    },
+    {
+        anonymous: false,
+        inputs: [{ indexed: false, name: 'amount', type: 'uint256' }],
+        name: 'Issue',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [{ indexed: false, name: 'amount', type: 'uint256' }],
+        name: 'Redeem',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [{ indexed: false, name: 'newAddress', type: 'address' }],
+        name: 'Deprecate',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [
+            { indexed: false, name: 'feeBasisPoints', type: 'uint256' },
+            { indexed: false, name: 'maxFee', type: 'uint256' }
+        ],
+        name: 'Params',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [
+            { indexed: false, name: '_blackListedUser', type: 'address' },
+            { indexed: false, name: '_balance', type: 'uint256' }
+        ],
+        name: 'DestroyedBlackFunds',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [{ indexed: false, name: '_user', type: 'address' }],
+        name: 'AddedBlackList',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [{ indexed: false, name: '_user', type: 'address' }],
+        name: 'RemovedBlackList',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [
+            { indexed: true, name: 'owner', type: 'address' },
+            { indexed: true, name: 'spender', type: 'address' },
+            { indexed: false, name: 'value', type: 'uint256' }
+        ],
+        name: 'Approval',
+        type: 'event'
+    },
+    {
+        anonymous: false,
+        inputs: [
+            { indexed: true, name: 'from', type: 'address' },
+            { indexed: true, name: 'to', type: 'address' },
+            { indexed: false, name: 'value', type: 'uint256' }
+        ],
+        name: 'Transfer',
+        type: 'event'
+    },
+    { anonymous: false, inputs: [], name: 'Pause', type: 'event' },
+    { anonymous: false, inputs: [], name: 'Unpause', type: 'event' }
+];
+/**
+ * Returns the token `method` from a given ERC-20 contract address
+ * @param web3
+ * @param tokenAddress
+ * @param method
+ */
+var getTokenMethod = function (web3, tokenAddress, method) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, call(web3, erc20Abi, [tokenAddress, method])];
+            case 1: return [2 /*return*/, _a.sent()];
+        }
+    });
+}); };
+var Plugin$1 = /** @class */ (function () {
+    function Plugin() {
+        this.author = 'davidalbela';
+        this.version = '0.0.1';
+        this.name = 'Gnosis Impact';
+        this.website = 'https://gnosis.io';
+    }
+    Plugin.prototype.getTokenInfo = function (web3, tokenAddress) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, e_1;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 3, , 4]);
+                        _a = {
+                            address: tokenAddress,
+                            checksumAddress: address.getAddress(tokenAddress)
+                        };
+                        return [4 /*yield*/, getTokenMethod(web3, tokenAddress, 'name')];
+                    case 1:
+                        _a.name = _b.sent();
+                        return [4 /*yield*/, getTokenMethod(web3, tokenAddress, 'symbol')];
+                    case 2: return [2 /*return*/, (_a.symbol = _b.sent(),
+                            _a)];
+                    case 3:
+                        e_1 = _b.sent();
+                        throw new Error(e_1);
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Plugin.prototype.getOmenCondition = function (network, conditionId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var query, e_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        query = OMEN_GQL_QUERY;
+                        query.condition.__args.id = conditionId;
+                        return [4 /*yield*/, subgraphRequest(OMEN_SUBGRAPH_URL[network], query)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                    case 2:
+                        e_2 = _a.sent();
+                        console.error(e_2);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Plugin.prototype.getUniswapPair = function (network, token0, token1) {
+        return __awaiter(this, void 0, void 0, function () {
+            var query, e_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        query = UNISWAP_V2_GQL_QUERY;
+                        query.pairs.__args.where = {
+                            token0: token0.toLowerCase(),
+                            token1: token1.toLowerCase()
+                        };
+                        return [4 /*yield*/, subgraphRequest(UNISWAP_V2_SUBGRAPH_URL[network], query)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                    case 2:
+                        e_3 = _a.sent();
+                        console.error(e_3);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return Plugin;
+}());
+
 var plugins = {
-    aragon: Plugin
+    aragon: Plugin,
+    gnosis: Plugin$1
 };
 
 var $schema = "http://json-schema.org/draft-07/schema#";
