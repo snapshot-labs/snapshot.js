@@ -55,7 +55,7 @@ const getTokenMethod = async (web3, tokenAddress, method) => {
 }
 
 export default class Plugin {
-  public author = 'David';
+  public author = 'davidalbela';
   public version = '0.0.1';
   public name = 'Gnosis Impact';
   public website = 'https://gnosis.io';
