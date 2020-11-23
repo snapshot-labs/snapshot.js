@@ -11,6 +11,11 @@ const OMEN_SUBGRAPH_URL = {
   '4': 'https://api.thegraph.com/subgraphs/name/protofire/omen-rinkeby'
 };
 
+const WETH_ADDRESS = {
+  '1': '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+  '4': '0xc778417e063141139fce010982780140aa0cd5ab'
+};
+
 const OMEN_GQL_QUERY = {
   condition: {
     __args: {
@@ -439,6 +444,21 @@ const getTokenMethod = async (web3, tokenAddress, method) => {
   return await call(web3, erc20Abi, [tokenAddress, method]);
 };
 
+/**
+ * Returns token pairs from Uniswap-v2
+ * based on WETH for the given `network` id.
+ * @param network
+ * @param tokenAddresss
+ */
+const getTokenPairWithWETH = async (network, tokenAddresss) => {
+  const query = UNISWAP_V2_GQL_QUERY;
+  query.pairs.__args.where = {
+    token0: tokenAddresss.toLowerCase(),
+    token1: WETH_ADDRESS[network]
+  };
+  return await subgraphRequest(UNISWAP_V2_SUBGRAPH_URL[network], query);
+}
+
 export default class Plugin {
   public author = 'davidalbela';
   public version = '0.0.1';
@@ -476,7 +496,20 @@ export default class Plugin {
         token0: token0.toLowerCase(),
         token1: token1.toLowerCase()
       };
-      return await subgraphRequest(UNISWAP_V2_SUBGRAPH_URL[network], query);
+      const result = await subgraphRequest(UNISWAP_V2_SUBGRAPH_URL[network], query);
+      if (result.pairs.length > 0) {
+        return result;
+      }
+      const resultToken0 = await getTokenPairWithWETH(network, token0);
+      const resultToken1 = await getTokenPairWithWETH(network, token1);
+      if (resultToken0.pairs.length > 0 && resultToken1.pairs.length > 0) {
+          result.pairs[0] =  { token0Price:
+            (parseFloat(resultToken0.pairs[0].token0Price) /
+            parseFloat(resultToken1.pairs[0].token0Price)).toString()
+          };
+          return result;
+      }
+      throw new Error(`Does not exist market pairs for ${token0} and ${token1}.`);
     } catch (e) {
       console.error(e);
     }
