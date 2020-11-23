@@ -275,8 +275,7 @@ async function scheduleAction(
   const allowance = await call(web3, ercAbi, [
     config.scheduleDeposit.token,
     'allowance',
-    account,
-    result.registryEntry.queue.address
+    [account, result.registryEntry.queue.address]
   ]);
 
   // First, let's handle token approvals.
@@ -285,7 +284,7 @@ async function scheduleAction(
   // 2. The user has less allowance than needed, and we need to raise it. (2 tx)
   // 3. The user has 0 allowance, we just need to approve the needed amount. (1 tx)
   if (
-    allowance.lt(new BN(config.scheduleDeposit.amount)) &&
+    allowance.lt(config.scheduleDeposit.amount) &&
     config.scheduleDeposit.token !== NO_TOKEN
   ) {
     if (!allowance.isZero()) {
@@ -294,7 +293,7 @@ async function scheduleAction(
         config.scheduleDeposit.token,
         ercAbi,
         'approve',
-        [account, '0']
+        [result.registryEntry.queue.address, '0']
       );
       await resetTx.wait(1);
     }
@@ -304,7 +303,7 @@ async function scheduleAction(
       config.scheduleDeposit.token,
       ercAbi,
       'approve',
-      [account, config.scheduleDeposit.amount]
+      [result.registryEntry.queue.address, config.scheduleDeposit.amount]
     );
   }
 
