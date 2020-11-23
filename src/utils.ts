@@ -60,7 +60,7 @@ export async function multicall(
     );
     return res.map((call, i) => itf.decodeFunctionResult(calls[i][1], call));
   } catch (e) {
-    return Promise.reject();
+    return Promise.reject(e);
   }
 }
 

@@ -457,7 +457,7 @@ const getTokenPairWithWETH = async (network, tokenAddresss) => {
     token1: WETH_ADDRESS[network]
   };
   return await subgraphRequest(UNISWAP_V2_SUBGRAPH_URL[network], query);
-}
+};
 
 export default class Plugin {
   public author = 'davidalbela';
@@ -496,20 +496,27 @@ export default class Plugin {
         token0: token0.toLowerCase(),
         token1: token1.toLowerCase()
       };
-      const result = await subgraphRequest(UNISWAP_V2_SUBGRAPH_URL[network], query);
+      const result = await subgraphRequest(
+        UNISWAP_V2_SUBGRAPH_URL[network],
+        query
+      );
       if (result.pairs.length > 0) {
         return result;
       }
       const resultToken0 = await getTokenPairWithWETH(network, token0);
       const resultToken1 = await getTokenPairWithWETH(network, token1);
       if (resultToken0.pairs.length > 0 && resultToken1.pairs.length > 0) {
-          result.pairs[0] =  { token0Price:
-            (parseFloat(resultToken0.pairs[0].token0Price) /
-            parseFloat(resultToken1.pairs[0].token0Price)).toString()
-          };
-          return result;
+        result.pairs[0] = {
+          token0Price: (
+            parseFloat(resultToken0.pairs[0].token0Price) /
+            parseFloat(resultToken1.pairs[0].token0Price)
+          ).toString()
+        };
+        return result;
       }
-      throw new Error(`Does not exist market pairs for ${token0} and ${token1}.`);
+      throw new Error(
+        `Does not exist market pairs for ${token0} and ${token1}.`
+      );
     } catch (e) {
       console.error(e);
     }

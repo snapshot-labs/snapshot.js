@@ -1149,12 +1149,12 @@ var networks = {
 	chainId: 1,
 	network: "homestead",
 	rpc: [
+		"https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv",
 		{
 			url: "https://api-geth-archive.ankr.com",
 			user: "balancer_user",
 			password: "balancerAnkr20201015"
 		},
-		"https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv",
 		"https://eth-archival.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
 		"https://cloudflare-eth.com"
 	],
@@ -1544,7 +1544,7 @@ function multicall(network, provider, abi$1, calls, options) {
                     return [2 /*return*/, res.map(function (call, i) { return itf.decodeFunctionResult(calls[i][1], call); })];
                 case 3:
                     e_2 = _b.sent();
-                    return [2 /*return*/, Promise.reject()];
+                    return [2 /*return*/, Promise.reject(e_2)];
                 case 4: return [2 /*return*/];
             }
         });
@@ -1898,22 +1898,21 @@ function scheduleAction(network, web3, daoName, account, proof, actionsFromArago
                     return [4 /*yield*/, call(web3, ercAbi, [
                             config.scheduleDeposit.token,
                             'allowance',
-                            account,
-                            result.registryEntry.queue.address
+                            [account, result.registryEntry.queue.address]
                         ])];
                 case 3:
                     allowance = _a.sent();
-                    if (!(allowance.lt(new BN(config.scheduleDeposit.amount)) &&
+                    if (!(allowance.lt(config.scheduleDeposit.amount) &&
                         config.scheduleDeposit.token !== NO_TOKEN)) return [3 /*break*/, 8];
                     if (!!allowance.isZero()) return [3 /*break*/, 6];
-                    return [4 /*yield*/, sendTransaction(web3, config.scheduleDeposit.token, ercAbi, 'approve', [account, '0'])];
+                    return [4 /*yield*/, sendTransaction(web3, config.scheduleDeposit.token, ercAbi, 'approve', [result.registryEntry.queue.address, '0'])];
                 case 4:
                     resetTx = _a.sent();
                     return [4 /*yield*/, resetTx.wait(1)];
                 case 5:
                     _a.sent();
                     _a.label = 6;
-                case 6: return [4 /*yield*/, sendTransaction(web3, config.scheduleDeposit.token, ercAbi, 'approve', [account, config.scheduleDeposit.amount])];
+                case 6: return [4 /*yield*/, sendTransaction(web3, config.scheduleDeposit.token, ercAbi, 'approve', [result.registryEntry.queue.address, config.scheduleDeposit.amount])];
                 case 7:
                     _a.sent();
                     _a.label = 8;
@@ -1990,6 +1989,10 @@ var UNISWAP_V2_SUBGRAPH_URL = {
 var OMEN_SUBGRAPH_URL = {
     '1': 'https://api.thegraph.com/subgraphs/name/protofire/omen',
     '4': 'https://api.thegraph.com/subgraphs/name/protofire/omen-rinkeby'
+};
+var WETH_ADDRESS = {
+    '1': '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+    '4': '0xc778417e063141139fce010982780140aa0cd5ab'
 };
 var OMEN_GQL_QUERY = {
     condition: {
@@ -2420,6 +2423,27 @@ var getTokenMethod = function (web3, tokenAddress, method) { return __awaiter(vo
         }
     });
 }); };
+/**
+ * Returns token pairs from Uniswap-v2
+ * based on WETH for the given `network` id.
+ * @param network
+ * @param tokenAddresss
+ */
+var getTokenPairWithWETH = function (network, tokenAddresss) { return __awaiter(void 0, void 0, void 0, function () {
+    var query;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                query = UNISWAP_V2_GQL_QUERY;
+                query.pairs.__args.where = {
+                    token0: tokenAddresss.toLowerCase(),
+                    token1: WETH_ADDRESS[network]
+                };
+                return [4 /*yield*/, subgraphRequest(UNISWAP_V2_SUBGRAPH_URL[network], query)];
+            case 1: return [2 /*return*/, _a.sent()];
+        }
+    });
+}); };
 var Plugin$1 = /** @class */ (function () {
     function Plugin() {
         this.author = 'davidalbela';
@@ -2474,23 +2498,41 @@ var Plugin$1 = /** @class */ (function () {
     };
     Plugin.prototype.getUniswapPair = function (network, token0, token1) {
         return __awaiter(this, void 0, void 0, function () {
-            var query, e_3;
+            var query, result, resultToken0, resultToken1, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
+                        _a.trys.push([0, 4, , 5]);
                         query = UNISWAP_V2_GQL_QUERY;
                         query.pairs.__args.where = {
                             token0: token0.toLowerCase(),
                             token1: token1.toLowerCase()
                         };
                         return [4 /*yield*/, subgraphRequest(UNISWAP_V2_SUBGRAPH_URL[network], query)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        result = _a.sent();
+                        if (result.pairs.length > 0) {
+                            return [2 /*return*/, result];
+                        }
+                        return [4 /*yield*/, getTokenPairWithWETH(network, token0)];
                     case 2:
+                        resultToken0 = _a.sent();
+                        return [4 /*yield*/, getTokenPairWithWETH(network, token1)];
+                    case 3:
+                        resultToken1 = _a.sent();
+                        if (resultToken0.pairs.length > 0 && resultToken1.pairs.length > 0) {
+                            result.pairs[0] = {
+                                token0Price: (parseFloat(resultToken0.pairs[0].token0Price) /
+                                    parseFloat(resultToken1.pairs[0].token0Price)).toString()
+                            };
+                            return [2 /*return*/, result];
+                        }
+                        throw new Error("Does not exist market pairs for " + token0 + " and " + token1 + ".");
+                    case 4:
                         e_3 = _a.sent();
                         console.error(e_3);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
