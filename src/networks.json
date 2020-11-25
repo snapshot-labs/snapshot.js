@@ -82,6 +82,16 @@
     ],
     "explorer": "https://blockscout.com/etc/mainnet"
   },
+  "82": {
+    "key": "82",
+    "name": "Meter.io Mainnet",
+    "chainId": 82,
+    "network": "mainnet",
+    "rpc": [
+      "https://rpc.meter.io"
+    ],
+    "explorer": "https://scan.meter.io"
+  },
   "97": {
     "key": "97",
     "name": "Binance Smart Chain Testnet",
