@@ -5,7 +5,7 @@ import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 export const author = 'pancake-swap';
 export const version = '0.0.1';
 
-const sousChefabi = [
+const abi = [
   {
     inputs: [
       {
@@ -26,43 +26,6 @@ const sousChefabi = [
     type: 'function'
   }
 ];
-
-const masterChefAbi = [
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      },
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address'
-      }
-    ],
-    name: 'userInfo',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256'
-      },
-      {
-        internalType: 'uint256',
-        name: 'rewardDebt',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  }
-];
-
-
-
-const masterChefContractAddress =
-  '0x73feaa1eE314F8c655E354234017bE2193C9E24E';
 
 export async function strategy(
   space,
@@ -82,26 +45,14 @@ export async function strategy(
     snapshot
   );
 
-  const masterBalance = await multicall(
-    network,
-    provider,
-    masterChefAbi,
-    addresses.map((address: any) => [
-      masterChefContractAddress,
-      'userInfo',
-      ['0', address]
-    ]),
-    { blockTag }
-  );
-
-  const sousBalances = await Promise.all(
-    options.chefAddresses.map((item) =>
+  const balances = await Promise.all(
+    options.chefAddresses.map((chefAddress) =>
       multicall(
         network,
         provider,
-        sousChefabi,
+        abi,
         addresses.map((address: any) => [
-          item.address,
+          chefAddress,
           'userInfo',
           [address],
           { blockTag }
@@ -115,20 +66,11 @@ export async function strategy(
     Object.entries(score).map((address, index) => [
       address[0],
       address[1] +
-        masterBalances.reduce(
-          (prev: number, cur: any, idx: number) =>
+        balances.reduce(
+          (prev: number, cur: any) =>
             prev +
             parseFloat(
-              formatUnits(cur.amount.toString(), 18)
-            ),
-          0
-        )
-        +
-        sousBalances.reduce(
-          (prev: number, cur: any, idx: number) =>
-            prev +
-            parseFloat(
-              formatUnits(cur[index].amount.toString(), options.chefAddresses[idx].decimals)
+              formatUnits(cur[index].amount.toString(), options.decimals)
             ),
           0
         )
