@@ -115,9 +115,15 @@ export async function strategy(
     Object.entries(score).map((address, index) => [
       address[0],
       address[1] +
-        parseFloat(
-          formatUnits(masterBalance.amount.toString(), 18)
-        ) +
+        masterBalances.reduce(
+          (prev: number, cur: any, idx: number) =>
+            prev +
+            parseFloat(
+              formatUnits(cur.amount.toString(), 18)
+            ),
+          0
+        )
+        +
         sousBalances.reduce(
           (prev: number, cur: any, idx: number) =>
             prev +
