@@ -95,13 +95,13 @@ export async function strategy(
   );
 
   const sousBalances = await Promise.all(
-    options.chefAddresses.map((chefAddress) =>
+    options.chefAddresses.map((item) =>
       multicall(
         network,
         provider,
         sousChefabi,
         addresses.map((address: any) => [
-          chefAddress,
+          item.address,
           'userInfo',
           [address],
           { blockTag }
@@ -119,10 +119,10 @@ export async function strategy(
           formatUnits(masterBalance.amount.toString(), 18)
         ) +
         sousBalances.reduce(
-          (prev: number, cur: any) =>
+          (prev: number, cur: any, idx: number) =>
             prev +
             parseFloat(
-              formatUnits(cur[index].amount.toString(), options.decimals)
+              formatUnits(cur[index].amount.toString(), options.chefAddresses[idx].decimals)
             ),
           0
         )
