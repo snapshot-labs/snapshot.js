@@ -11,15 +11,11 @@ import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
 import { strategy as yearnVault } from './yearn-vault';
 import { strategy as moloch } from './moloch';
-<<<<<<< HEAD
 import { strategy as uniswap } from './uniswap';
 import { strategy as pancake } from './pancake';
 import { strategy as synthetix } from './synthetix';
 import { strategy as ctoken } from './ctoken';
 import { strategy as cream } from './cream';
-=======
-import { strategy as pancake } from './pancake';
->>>>>>> b2411ca... add pancake strategy
 
 export default {
   balancer,
@@ -35,13 +31,9 @@ export default {
   uni,
   'yearn-vault': yearnVault,
   moloch,
-<<<<<<< HEAD
   uniswap,
   pancake,
   synthetix,
   ctoken,
   cream
-=======
-  pancake
->>>>>>> b2411ca... add pancake strategy
 };
