@@ -4,7 +4,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var BN = _interopDefault(require('bn.js'));
 var strings = require('@ethersproject/strings');
-var abi$8 = require('@ethersproject/abi');
+var abi$7 = require('@ethersproject/abi');
 var contracts = require('@ethersproject/contracts');
 var jsonToGraphqlQuery = require('json-to-graphql-query');
 var Ajv = _interopDefault(require('ajv'));
@@ -760,7 +760,7 @@ function strategy$d(space, network, provider, addresses, options, snapshot) {
     });
 }
 
-var abi$6 = [
+var sousChefabi = [
     {
         inputs: [
             {
@@ -781,9 +781,41 @@ var abi$6 = [
         type: 'function'
     }
 ];
+var masterChefAbi = [
+    {
+        inputs: [
+            {
+                internalType: 'uint256',
+                name: '',
+                type: 'uint256'
+            },
+            {
+                internalType: 'address',
+                name: '',
+                type: 'address'
+            }
+        ],
+        name: 'userInfo',
+        outputs: [
+            {
+                internalType: 'uint256',
+                name: 'amount',
+                type: 'uint256'
+            },
+            {
+                internalType: 'uint256',
+                name: 'rewardDebt',
+                type: 'uint256'
+            }
+        ],
+        stateMutability: 'view',
+        type: 'function'
+    }
+];
+var masterChefContractAddress = '0x73feaa1eE314F8c655E354234017bE2193C9E24E';
 function strategy$e(space, network, provider, addresses, options, snapshot) {
     return __awaiter(this, void 0, void 0, function () {
-        var blockTag, score, balances;
+        var blockTag, score, masterBalances, sousBalances;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -791,22 +823,32 @@ function strategy$e(space, network, provider, addresses, options, snapshot) {
                     return [4 /*yield*/, strategy$2(space, network, provider, addresses, options, snapshot)];
                 case 1:
                     score = _a.sent();
-                    return [4 /*yield*/, Promise.all(options.chefAddresses.map(function (chefAddress) {
-                            return multicall(network, provider, abi$6, addresses.map(function (address) { return [
-                                chefAddress,
+                    return [4 /*yield*/, multicall(network, provider, masterChefAbi, addresses.map(function (address) { return [
+                            masterChefContractAddress,
+                            'userInfo',
+                            ['0', address]
+                        ]; }), { blockTag: blockTag })];
+                case 2:
+                    masterBalances = _a.sent();
+                    return [4 /*yield*/, Promise.all(options.chefAddresses.map(function (item) {
+                            return multicall(network, provider, sousChefabi, addresses.map(function (address) { return [
+                                item.address,
                                 'userInfo',
                                 [address],
                                 { blockTag: blockTag }
                             ]; }), { blockTag: blockTag });
                         }))];
-                case 2:
-                    balances = _a.sent();
+                case 3:
+                    sousBalances = _a.sent();
                     return [2 /*return*/, Object.fromEntries(Object.entries(score).map(function (address, index) { return [
                             address[0],
                             address[1] +
-                                balances.reduce(function (prev, cur) {
+                                masterBalances.reduce(function (prev, cur, idx) {
+                                    return prev + parseFloat(units.formatUnits(cur.amount.toString(), 18));
+                                }, 0) +
+                                sousBalances.reduce(function (prev, cur, idx) {
                                     return prev +
-                                        parseFloat(units.formatUnits(cur[index].amount.toString(), options.decimals));
+                                        parseFloat(units.formatUnits(cur[index].amount.toString(), options.chefAddresses[idx].decimals));
                                 }, 0)
                         ]; }))];
             }
@@ -861,7 +903,7 @@ function strategy$f(space, network, provider, addresses, _, snapshot) {
     });
 }
 
-var abi$7 = [
+var abi$6 = [
     {
         constant: true,
         inputs: [
@@ -933,8 +975,8 @@ function strategy$g(space, network, provider, addresses, options, snapshot) {
                     ]; });
                     calls = balanceOfCalls.concat(borrowBalanceCalls);
                     return [4 /*yield*/, Promise.all([
-                            multicall(network, provider, abi$7, calls, { blockTag: blockTag }),
-                            multicall(network, provider, abi$7, addresses.map(function (address) { return [
+                            multicall(network, provider, abi$6, calls, { blockTag: blockTag }),
+                            multicall(network, provider, abi$6, addresses.map(function (address) { return [
                                 options.address,
                                 'balanceOf',
                                 [address]
@@ -1531,7 +1573,7 @@ function multicall(network, provider, abi$1, calls, options) {
             switch (_b.label) {
                 case 0:
                     multi = new contracts.Contract(MULTICALL[network], abi, provider);
-                    itf = new abi$8.Interface(abi$1);
+                    itf = new abi$7.Interface(abi$1);
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, , 4]);
