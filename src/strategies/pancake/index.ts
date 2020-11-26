@@ -59,10 +59,7 @@ const masterChefAbi = [
   }
 ];
 
-
-
-const masterChefContractAddress =
-  '0x73feaa1eE314F8c655E354234017bE2193C9E24E';
+const masterChefContractAddress = '0x73feaa1eE314F8c655E354234017bE2193C9E24E';
 
 export async function strategy(
   space,
@@ -82,7 +79,7 @@ export async function strategy(
     snapshot
   );
 
-  const masterBalance = await multicall(
+  const masterBalances = await multicall(
     network,
     provider,
     masterChefAbi,
@@ -117,18 +114,17 @@ export async function strategy(
       address[1] +
         masterBalances.reduce(
           (prev: number, cur: any, idx: number) =>
-            prev +
-            parseFloat(
-              formatUnits(cur.amount.toString(), 18)
-            ),
+            prev + parseFloat(formatUnits(cur.amount.toString(), 18)),
           0
-        )
-        +
+        ) +
         sousBalances.reduce(
           (prev: number, cur: any, idx: number) =>
             prev +
             parseFloat(
-              formatUnits(cur[index].amount.toString(), options.chefAddresses[idx].decimals)
+              formatUnits(
+                cur[index].amount.toString(),
+                options.chefAddresses[idx].decimals
+              )
             ),
           0
         )
