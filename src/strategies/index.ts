@@ -16,6 +16,7 @@ import { strategy as pancake } from './pancake';
 import { strategy as synthetix } from './synthetix';
 import { strategy as ctoken } from './ctoken';
 import { strategy as cream } from './cream';
+import { strategy as esd } from './esd';
 
 export default {
   balancer,
@@ -35,5 +36,6 @@ export default {
   pancake,
   synthetix,
   ctoken,
-  cream
+  cream,
+  esd
 };
