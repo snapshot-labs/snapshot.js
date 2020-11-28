@@ -2597,16 +2597,19 @@ var definitions = {
 			name: {
 				type: "string",
 				title: "name",
+				minLength: 1,
 				maxLength: 32
 			},
 			network: {
 				type: "string",
 				title: "network",
+				minLength: 1,
 				maxLength: 32
 			},
 			symbol: {
 				type: "string",
 				title: "symbol",
+				minLength: 1,
 				maxLength: 12
 			},
 			skin: {
@@ -2674,6 +2677,9 @@ var definitions = {
 					}
 				},
 				additionalProperties: false
+			},
+			plugins: {
+				type: "object"
 			}
 		},
 		required: [

@@ -31,16 +31,19 @@ declare const _default: {
                 name: {
                     type: string;
                     title: string;
+                    minLength: number;
                     maxLength: number;
                 };
                 network: {
                     type: string;
                     title: string;
+                    minLength: number;
                     maxLength: number;
                 };
                 symbol: {
                     type: string;
                     title: string;
+                    minLength: number;
                     maxLength: number;
                 };
                 skin: {
@@ -106,6 +109,9 @@ declare const _default: {
                         };
                     };
                     additionalProperties: boolean;
+                };
+                plugins: {
+                    type: string;
                 };
             };
             required: string[];
