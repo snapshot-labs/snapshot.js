@@ -689,7 +689,7 @@ function strategy$c(space, network, provider, addresses, options, snapshot) {
 var UNISWAP_SUBGRAPH_URL = {
     '1': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2'
 };
-function strategy$d(space, network, provider, addresses, options, snapshot) {
+function strategy$d(_space, network, provider, addresses, options, snapshot) {
     return __awaiter(this, void 0, void 0, function () {
         var params, tokenAddress, result, score;
         return __generator(this, function (_a) {
@@ -1151,6 +1151,74 @@ function creamBalanceOf(network, provider, addresses, options, snapshot) {
     });
 }
 
+var tokenAbi = [
+    {
+        constant: true,
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'account',
+                type: 'address'
+            }
+        ],
+        name: 'balanceOf',
+        outputs: [
+            {
+                internalType: 'uint256',
+                name: '',
+                type: 'uint256'
+            }
+        ],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'totalSupply',
+        outputs: [
+            {
+                internalType: 'uint256',
+                name: '',
+                type: 'uint256'
+            }
+        ],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    }
+];
+function strategy$i(_space, network, provider, addresses, options, snapshot) {
+    return __awaiter(this, void 0, void 0, function () {
+        var blockTag, res, totalSupply, tokenBalanceInUni, tokensPerUni, response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+                    return [4 /*yield*/, multicall(network, provider, tokenAbi, [
+                            [options.uniswapAddress, 'totalSupply', []],
+                            [options.tokenAddress, 'balanceOf', [options.uniswapAddress]]
+                        ].concat(addresses.map(function (address) { return [
+                            options.stakingAddress,
+                            'balanceOf',
+                            [address]
+                        ]; })), { blockTag: blockTag })];
+                case 1:
+                    res = _a.sent();
+                    totalSupply = res[0];
+                    tokenBalanceInUni = res[1];
+                    tokensPerUni = tokenBalanceInUni / Math.pow(10, options.decimals) / (totalSupply / 1e18);
+                    response = res.slice(2);
+                    return [2 /*return*/, Object.fromEntries(response.map(function (value, i) { return [
+                            addresses[i],
+                            (value / Math.pow(10, options.decimals)) * tokensPerUni
+                        ]; }))];
+            }
+        });
+    });
+}
+
 var strategies = {
     balancer: strategy,
     'contract-call': strategy$1,
@@ -1169,7 +1237,8 @@ var strategies = {
     pancake: strategy$e,
     synthetix: strategy$f,
     ctoken: strategy$g,
-    cream: strategy$h
+    cream: strategy$h,
+    'staked-uniswap': strategy$i
 };
 
 var wanchain = {

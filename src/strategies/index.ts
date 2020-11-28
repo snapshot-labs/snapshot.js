@@ -37,5 +37,5 @@ export default {
   synthetix,
   ctoken,
   cream,
-  "staked-uniswap" : stakedUniswap
+  'staked-uniswap': stakedUniswap
 };

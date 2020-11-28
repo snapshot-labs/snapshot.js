@@ -22,6 +22,7 @@ declare const _default: {
         synthetix: typeof import("./strategies/synthetix").strategy;
         ctoken: typeof import("./strategies/ctoken").strategy;
         cream: typeof import("./strategies/cream").strategy;
+        'staked-uniswap': typeof import("./strategies/staked-uniswap").strategy;
     };
     schemas: {
         space: {
