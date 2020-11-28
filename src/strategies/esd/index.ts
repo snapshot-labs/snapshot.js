@@ -43,48 +43,41 @@ export async function strategy(
   snapshot
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
-  // Fetch DAO Bonded tokens
-  const daoBondedBalance = await multicall(
-    network,
-    provider,
-    abi,
-    addresses.map((address: any) => [
-      options.dao,
-      'balanceOfBonded',
-      [address]
-    ]),
-    { blockTag }
-  );
-  // Fetch LP Tokens
-  const lpBonded = await multicall(
-    network,
-    provider,
-    abi,
-    addresses.map((address: any) => [
-      options.rewards,
-      'balanceOfBonded',
-      [address]
-    ]),
-    { blockTag }
-  );
-  // Fetch total ESD in Uniswap Pool and total UNI-V2 supply
-  const [uniswapESD, uniswapTotalSupply] = await multicall(
+
+  const daoQuery = addresses.map((address: any) => [
+    options.dao,
+    'balanceOfBonded',
+    [address]
+  ]);
+
+  const lpQuery = addresses.map((address: any) => [
+    options.rewards,
+    'balanceOfBonded',
+    [address]
+  ]);
+
+  const response = await multicall(
     network,
     provider,
     abi,
     [
       [options.token, 'balanceOf', [options.uniswap]],
-      [options.uniswap, 'totalSupply']
+      [options.uniswap, 'totalSupply'],
+      ...daoQuery,
+      ...lpQuery
     ],
     { blockTag }
   );
 
+  const uniswapESD = response[0];
+  const uniswapTotalSupply = response[1];
+  const daoBalances = response.slice(2, addresses.length + 2);
+  const lpBalances = response.slice(
+    addresses.length + 2,
+    addresses.length * 2 + 2
+  );
+
   return Object.fromEntries(
-    // Slightly complex 😅
-    // 1. Create an empty array the length 'addresses'
-    // 2. Loop through them
-    // 3. Return address & value of bonded ESD in DAO & LP
-    // 3a. Calc for ESD: (esdInUniswapPool / totalUniswapLPTokens * addressesLPTokens) + addressEsdInDao
     Array(addresses.length)
       .fill('x')
       .map((_, i) => [
@@ -93,8 +86,8 @@ export async function strategy(
           formatUnits(
             uniswapESD[0]
               .div(uniswapTotalSupply[0])
-              .mul(lpBonded[i][0])
-              .add(daoBondedBalance[i][0])
+              .mul(lpBalances[i][0])
+              .add(daoBalances[i][0])
               .toString(),
             options.decimals
           )
