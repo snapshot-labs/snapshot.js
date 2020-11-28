@@ -8,6 +8,7 @@ export declare const MULTICALL: {
     6: string;
     42: string;
     56: string;
+    82: string;
     97: string;
     100: string;
     wanchain: string;

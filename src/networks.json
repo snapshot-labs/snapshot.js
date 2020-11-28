@@ -22,6 +22,7 @@
   "4": {
     "key": "4",
     "name": "Ethereum Testnet Rinkeby",
+    "shortName": "Rinkeby",
     "chainId": 4,
     "network": "rinkeby",
     "rpc": [
@@ -49,6 +50,7 @@
   "42": {
     "key": "42",
     "name": "Ethereum Testnet Kovan",
+    "shortName": "Kovan",
     "chainId": 42,
     "network": "kovan",
     "rpc": [
@@ -63,6 +65,7 @@
   "56": {
     "key": "56",
     "name": "Binance Smart Chain Mainnet",
+    "shortName": "BSC",
     "chainId": 56,
     "network": "mainnet",
     "rpc": [
@@ -75,6 +78,7 @@
   "61": {
     "key": "61",
     "name": "Ethereum Classic Mainnet",
+    "shortName": "Ethereum Classic",
     "chainId": 61,
     "network": "mainnet",
     "rpc": [
@@ -84,7 +88,8 @@
   },
   "82": {
     "key": "82",
-    "name": "Meter.io Mainnet",
+    "name": "Meter Mainnet",
+    "shortName": "Meter",
     "chainId": 82,
     "network": "mainnet",
     "rpc": [
@@ -95,6 +100,7 @@
   "97": {
     "key": "97",
     "name": "Binance Smart Chain Testnet",
+    "shortName": "BSC Testnet",
     "chainId": 97,
     "network": "testnet",
     "rpc": [
@@ -105,6 +111,7 @@
   "100": {
     "key": "100",
     "name": "xDAI Chain",
+    "shortName": "xDAI",
     "chainId": 100,
     "network": "mainnet",
     "rpc": [
@@ -119,6 +126,7 @@
   "137": {
     "key": "137",
     "name": "Matic Mainnet",
+    "shortName": "Matic",
     "chainId": 137,
     "network": "mainnet",
     "rpc": [

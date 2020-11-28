@@ -1209,6 +1209,7 @@ var networks = {
 	"4": {
 	key: "4",
 	name: "Ethereum Testnet Rinkeby",
+	shortName: "Rinkeby",
 	chainId: 4,
 	network: "rinkeby",
 	rpc: [
@@ -1236,6 +1237,7 @@ var networks = {
 	"42": {
 	key: "42",
 	name: "Ethereum Testnet Kovan",
+	shortName: "Kovan",
 	chainId: 42,
 	network: "kovan",
 	rpc: [
@@ -1250,6 +1252,7 @@ var networks = {
 	"56": {
 	key: "56",
 	name: "Binance Smart Chain Mainnet",
+	shortName: "BSC",
 	chainId: 56,
 	network: "mainnet",
 	rpc: [
@@ -1262,6 +1265,7 @@ var networks = {
 	"61": {
 	key: "61",
 	name: "Ethereum Classic Mainnet",
+	shortName: "Ethereum Classic",
 	chainId: 61,
 	network: "mainnet",
 	rpc: [
@@ -1269,9 +1273,21 @@ var networks = {
 	],
 	explorer: "https://blockscout.com/etc/mainnet"
 },
+	"82": {
+	key: "82",
+	name: "Meter Mainnet",
+	shortName: "Meter",
+	chainId: 82,
+	network: "mainnet",
+	rpc: [
+		"https://rpc.meter.io"
+	],
+	explorer: "https://scan.meter.io"
+},
 	"97": {
 	key: "97",
 	name: "Binance Smart Chain Testnet",
+	shortName: "BSC Testnet",
 	chainId: 97,
 	network: "testnet",
 	rpc: [
@@ -1282,6 +1298,7 @@ var networks = {
 	"100": {
 	key: "100",
 	name: "xDAI Chain",
+	shortName: "xDAI",
 	chainId: 100,
 	network: "mainnet",
 	rpc: [
@@ -1296,6 +1313,7 @@ var networks = {
 	"137": {
 	key: "137",
 	name: "Matic Mainnet",
+	shortName: "Matic",
 	chainId: 137,
 	network: "mainnet",
 	rpc: [
@@ -1582,6 +1600,7 @@ var MULTICALL = {
     '6': '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
     '42': '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
     '56': '0x1ee38d535d541c55c9dae27b12edf090c608e6fb',
+    '82': '0x579De77CAEd0614e3b158cb738fcD5131B9719Ae',
     '97': '0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46',
     '100': '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
     wanchain: '0xba5934ab3056fca1fa458d30fbb3810c3eb5145f'
