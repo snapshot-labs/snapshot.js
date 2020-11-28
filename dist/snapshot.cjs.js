@@ -15,6 +15,7 @@ var contentHash = _interopDefault(require('@ensdomains/content-hash'));
 var hash = require('@ethersproject/hash');
 var bytes = require('@ethersproject/bytes');
 var bs58 = _interopDefault(require('bs58'));
+var ethereumjsUtil = require('ethereumjs-util');
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1528,6 +1529,51 @@ function resolveENSContentHash(ensName, provider) {
         });
     });
 }
+function resolveContent(provider, name) {
+    return __awaiter(this, void 0, void 0, function () {
+        var contentHash;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, resolveENSContentHash(name, provider)];
+                case 1:
+                    contentHash = _a.sent();
+                    return [2 /*return*/, decodeContenthash(contentHash)];
+            }
+        });
+    });
+}
+
+function signMessage(web3, msg, address) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    msg = ethereumjsUtil.bufferToHex(new Buffer(msg, 'utf8'));
+                    return [4 /*yield*/, web3.send('personal_sign', [msg, address])];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+function getBlockNumber(provider) {
+    return __awaiter(this, void 0, void 0, function () {
+        var blockNumber, e_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, provider.getBlockNumber()];
+                case 1:
+                    blockNumber = _a.sent();
+                    return [2 /*return*/, parseInt(blockNumber)];
+                case 2:
+                    e_1 = _a.sent();
+                    return [2 /*return*/, Promise.reject()];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
 
 var MULTICALL = {
     '1': '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
@@ -1675,7 +1721,10 @@ var utils = {
     validateContent: validateContent,
     isValidContenthash: isValidContenthash,
     encodeContenthash: encodeContenthash,
-    resolveENSContentHash: resolveENSContentHash
+    resolveENSContentHash: resolveENSContentHash,
+    resolveContent: resolveContent,
+    signMessage: signMessage,
+    getBlockNumber: getBlockNumber
 };
 
 var NO_TOKEN = "" + '0x'.padEnd(42, '0');

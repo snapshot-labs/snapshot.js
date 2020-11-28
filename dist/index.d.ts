@@ -132,6 +132,9 @@ declare const _default: {
         isValidContenthash: typeof import("./utils/contentHash").isValidContenthash;
         encodeContenthash: typeof import("./utils/contentHash").encodeContenthash;
         resolveENSContentHash: typeof import("./utils/contentHash").resolveENSContentHash;
+        resolveContent: typeof import("./utils/contentHash").resolveContent;
+        signMessage: typeof import("./utils/web3").signMessage;
+        getBlockNumber: typeof import("./utils/web3").getBlockNumber;
     };
 };
 export default _default;

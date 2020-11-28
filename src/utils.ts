@@ -10,8 +10,10 @@ import {
   validateContent,
   isValidContenthash,
   encodeContenthash,
-  resolveENSContentHash
+  resolveENSContentHash,
+  resolveContent
 } from './utils/contentHash';
+import { signMessage, getBlockNumber } from './utils/web3';
 
 export const MULTICALL = {
   '1': '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
@@ -143,5 +145,8 @@ export default {
   validateContent,
   isValidContenthash,
   encodeContenthash,
-  resolveENSContentHash
+  resolveENSContentHash,
+  resolveContent,
+  signMessage,
+  getBlockNumber
 };

@@ -1,5 +1,6 @@
 import getProvider from './utils/provider';
-import { decodeContenthash, validateContent, isValidContenthash, encodeContenthash, resolveENSContentHash } from './utils/contentHash';
+import { decodeContenthash, validateContent, isValidContenthash, encodeContenthash, resolveENSContentHash, resolveContent } from './utils/contentHash';
+import { signMessage, getBlockNumber } from './utils/web3';
 export declare const MULTICALL: {
     1: string;
     4: string;
@@ -37,5 +38,8 @@ declare const _default: {
     isValidContenthash: typeof isValidContenthash;
     encodeContenthash: typeof encodeContenthash;
     resolveENSContentHash: typeof resolveENSContentHash;
+    resolveContent: typeof resolveContent;
+    signMessage: typeof signMessage;
+    getBlockNumber: typeof getBlockNumber;
 };
 export default _default;

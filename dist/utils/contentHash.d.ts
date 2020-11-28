@@ -17,3 +17,12 @@ export declare function encodeContenthash(text: any): any;
  * @param provider provider to use to fetch the data
  */
 export declare function resolveENSContentHash(ensName: string, provider: Provider): Promise<string>;
+export declare function resolveContent(provider: any, name: any): Promise<{
+    protocolType: any;
+    decoded: any;
+    error?: undefined;
+} | {
+    protocolType: any;
+    decoded: any;
+    error: any;
+}>;
