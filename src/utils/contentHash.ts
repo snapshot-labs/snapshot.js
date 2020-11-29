@@ -178,3 +178,8 @@ export async function resolveENSContentHash(
     [hash]
   ]);
 }
+
+export async function resolveContent(provider, name) {
+  const contentHash = await resolveENSContentHash(name, provider);
+  return decodeContenthash(contentHash);
+}

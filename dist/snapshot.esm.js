@@ -11,6 +11,7 @@ import contentHash from '@ensdomains/content-hash';
 import { namehash } from '@ethersproject/hash';
 import { isHexString } from '@ethersproject/bytes';
 import bs58 from 'bs58';
+import { bufferToHex } from 'ethereumjs-util';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -684,7 +685,7 @@ function strategy$c(space, network, provider, addresses, options, snapshot) {
 var UNISWAP_SUBGRAPH_URL = {
     '1': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2'
 };
-function strategy$d(space, network, provider, addresses, options, snapshot) {
+function strategy$d(_space, network, provider, addresses, options, snapshot) {
     return __awaiter(this, void 0, void 0, function () {
         var params, tokenAddress, result, score;
         return __generator(this, function (_a) {
@@ -1146,6 +1147,74 @@ function creamBalanceOf(network, provider, addresses, options, snapshot) {
     });
 }
 
+var tokenAbi = [
+    {
+        constant: true,
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'account',
+                type: 'address'
+            }
+        ],
+        name: 'balanceOf',
+        outputs: [
+            {
+                internalType: 'uint256',
+                name: '',
+                type: 'uint256'
+            }
+        ],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'totalSupply',
+        outputs: [
+            {
+                internalType: 'uint256',
+                name: '',
+                type: 'uint256'
+            }
+        ],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    }
+];
+function strategy$i(_space, network, provider, addresses, options, snapshot) {
+    return __awaiter(this, void 0, void 0, function () {
+        var blockTag, res, totalSupply, tokenBalanceInUni, tokensPerUni, response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+                    return [4 /*yield*/, multicall(network, provider, tokenAbi, [
+                            [options.uniswapAddress, 'totalSupply', []],
+                            [options.tokenAddress, 'balanceOf', [options.uniswapAddress]]
+                        ].concat(addresses.map(function (address) { return [
+                            options.stakingAddress,
+                            'balanceOf',
+                            [address]
+                        ]; })), { blockTag: blockTag })];
+                case 1:
+                    res = _a.sent();
+                    totalSupply = res[0];
+                    tokenBalanceInUni = res[1];
+                    tokensPerUni = tokenBalanceInUni / Math.pow(10, options.decimals) / (totalSupply / 1e18);
+                    response = res.slice(2);
+                    return [2 /*return*/, Object.fromEntries(response.map(function (value, i) { return [
+                            addresses[i],
+                            (value / Math.pow(10, options.decimals)) * tokensPerUni
+                        ]; }))];
+            }
+        });
+    });
+}
+
 var strategies = {
     balancer: strategy,
     'contract-call': strategy$1,
@@ -1164,7 +1233,8 @@ var strategies = {
     pancake: strategy$e,
     synthetix: strategy$f,
     ctoken: strategy$g,
-    cream: strategy$h
+    cream: strategy$h,
+    'staked-uniswap': strategy$i
 };
 
 var wanchain = {
@@ -1204,6 +1274,7 @@ var networks = {
 	"4": {
 	key: "4",
 	name: "Ethereum Testnet Rinkeby",
+	shortName: "Rinkeby",
 	chainId: 4,
 	network: "rinkeby",
 	rpc: [
@@ -1231,6 +1302,7 @@ var networks = {
 	"42": {
 	key: "42",
 	name: "Ethereum Testnet Kovan",
+	shortName: "Kovan",
 	chainId: 42,
 	network: "kovan",
 	rpc: [
@@ -1245,6 +1317,7 @@ var networks = {
 	"56": {
 	key: "56",
 	name: "Binance Smart Chain Mainnet",
+	shortName: "BSC",
 	chainId: 56,
 	network: "mainnet",
 	rpc: [
@@ -1257,6 +1330,7 @@ var networks = {
 	"61": {
 	key: "61",
 	name: "Ethereum Classic Mainnet",
+	shortName: "Ethereum Classic",
 	chainId: 61,
 	network: "mainnet",
 	rpc: [
@@ -1264,9 +1338,21 @@ var networks = {
 	],
 	explorer: "https://blockscout.com/etc/mainnet"
 },
+	"82": {
+	key: "82",
+	name: "Meter Mainnet",
+	shortName: "Meter",
+	chainId: 82,
+	network: "mainnet",
+	rpc: [
+		"https://rpc.meter.io"
+	],
+	explorer: "https://scan.meter.io"
+},
 	"97": {
 	key: "97",
 	name: "Binance Smart Chain Testnet",
+	shortName: "BSC Testnet",
 	chainId: 97,
 	network: "testnet",
 	rpc: [
@@ -1277,6 +1363,7 @@ var networks = {
 	"100": {
 	key: "100",
 	name: "xDAI Chain",
+	shortName: "xDAI",
 	chainId: 100,
 	network: "mainnet",
 	rpc: [
@@ -1291,6 +1378,7 @@ var networks = {
 	"137": {
 	key: "137",
 	name: "Matic Mainnet",
+	shortName: "Matic",
 	chainId: 137,
 	network: "mainnet",
 	rpc: [
@@ -1524,6 +1612,51 @@ function resolveENSContentHash(ensName, provider) {
         });
     });
 }
+function resolveContent(provider, name) {
+    return __awaiter(this, void 0, void 0, function () {
+        var contentHash;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, resolveENSContentHash(name, provider)];
+                case 1:
+                    contentHash = _a.sent();
+                    return [2 /*return*/, decodeContenthash(contentHash)];
+            }
+        });
+    });
+}
+
+function signMessage(web3, msg, address) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    msg = bufferToHex(new Buffer(msg, 'utf8'));
+                    return [4 /*yield*/, web3.send('personal_sign', [msg, address])];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+function getBlockNumber(provider) {
+    return __awaiter(this, void 0, void 0, function () {
+        var blockNumber, e_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, provider.getBlockNumber()];
+                case 1:
+                    blockNumber = _a.sent();
+                    return [2 /*return*/, parseInt(blockNumber)];
+                case 2:
+                    e_1 = _a.sent();
+                    return [2 /*return*/, Promise.reject()];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
 
 var MULTICALL = {
     '1': '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
@@ -1532,6 +1665,7 @@ var MULTICALL = {
     '6': '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
     '42': '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
     '56': '0x1ee38d535d541c55c9dae27b12edf090c608e6fb',
+    '82': '0x579De77CAEd0614e3b158cb738fcD5131B9719Ae',
     '97': '0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46',
     '100': '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
     wanchain: '0xba5934ab3056fca1fa458d30fbb3810c3eb5145f'
@@ -1671,7 +1805,10 @@ var utils = {
     validateContent: validateContent,
     isValidContenthash: isValidContenthash,
     encodeContenthash: encodeContenthash,
-    resolveENSContentHash: resolveENSContentHash
+    resolveENSContentHash: resolveENSContentHash,
+    resolveContent: resolveContent,
+    signMessage: signMessage,
+    getBlockNumber: getBlockNumber
 };
 
 var NO_TOKEN = "" + '0x'.padEnd(42, '0');
@@ -2593,16 +2730,19 @@ var definitions = {
 			name: {
 				type: "string",
 				title: "name",
+				minLength: 1,
 				maxLength: 32
 			},
 			network: {
 				type: "string",
 				title: "network",
+				minLength: 1,
 				maxLength: 32
 			},
 			symbol: {
 				type: "string",
 				title: "symbol",
+				minLength: 1,
 				maxLength: 12
 			},
 			skin: {
@@ -2670,6 +2810,9 @@ var definitions = {
 					}
 				},
 				additionalProperties: false
+			},
+			plugins: {
+				type: "object"
 			}
 		},
 		required: [

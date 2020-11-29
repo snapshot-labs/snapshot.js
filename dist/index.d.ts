@@ -22,6 +22,7 @@ declare const _default: {
         synthetix: typeof import("./strategies/synthetix").strategy;
         ctoken: typeof import("./strategies/ctoken").strategy;
         cream: typeof import("./strategies/cream").strategy;
+        'staked-uniswap': typeof import("./strategies/staked-uniswap").strategy;
     };
     schemas: {
         space: {
@@ -31,16 +32,19 @@ declare const _default: {
                 name: {
                     type: string;
                     title: string;
+                    minLength: number;
                     maxLength: number;
                 };
                 network: {
                     type: string;
                     title: string;
+                    minLength: number;
                     maxLength: number;
                 };
                 symbol: {
                     type: string;
                     title: string;
+                    minLength: number;
                     maxLength: number;
                 };
                 skin: {
@@ -107,6 +111,9 @@ declare const _default: {
                     };
                     additionalProperties: boolean;
                 };
+                plugins: {
+                    type: string;
+                };
             };
             required: string[];
             additionalProperties: boolean;
@@ -126,6 +133,9 @@ declare const _default: {
         isValidContenthash: typeof import("./utils/contentHash").isValidContenthash;
         encodeContenthash: typeof import("./utils/contentHash").encodeContenthash;
         resolveENSContentHash: typeof import("./utils/contentHash").resolveENSContentHash;
+        resolveContent: typeof import("./utils/contentHash").resolveContent;
+        signMessage: typeof import("./utils/web3").signMessage;
+        getBlockNumber: typeof import("./utils/web3").getBlockNumber;
     };
 };
 export default _default;
