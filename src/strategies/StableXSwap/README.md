@@ -1,4 +1,4 @@
-# Contract call strategy
+# stablexswap Snapshot Strategy
 
 Allows the tokens staked in chef contracts to be used to calculate voter scores.
 
