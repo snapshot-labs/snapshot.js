@@ -13,6 +13,7 @@ import { strategy as yearnVault } from './yearn-vault';
 import { strategy as moloch } from './moloch';
 import { strategy as uniswap } from './uniswap';
 import { strategy as pancake } from './pancake';
+import { strategy as stablexswap } from './stablexswap';
 import { strategy as synthetix } from './synthetix';
 import { strategy as ctoken } from './ctoken';
 import { strategy as cream } from './cream';
@@ -34,6 +35,7 @@ export default {
   moloch,
   uniswap,
   pancake,
+  stablexswap,
   synthetix,
   ctoken,
   cream,
