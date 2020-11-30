@@ -91,6 +91,7 @@ export async function strategy(
     { blockTag }
   );
 
+
   const sousBalances = await Promise.all(
     options.chefAddresses.map((item) =>
       multicall(
@@ -112,11 +113,8 @@ export async function strategy(
     Object.entries(score).map((address, index) => [
       address[0],
       address[1] +
-        masterBalances.reduce(
-          (prev: number, cur: any, idx: number) =>
-            prev + parseFloat(formatUnits(cur.amount.toString(), 18)),
-          0
-        ) +
+        parseFloat(formatUnits(masterBalances[index].amount.toString(), 18)),
+        +
         sousBalances.reduce(
           (prev: number, cur: any, idx: number) =>
             prev +
