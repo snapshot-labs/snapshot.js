@@ -55,7 +55,6 @@ export async function strategy(
           staxAddress,
           'userInfo',
           [address],
-          { blockTag }
         ]),
         { blockTag }
       )
