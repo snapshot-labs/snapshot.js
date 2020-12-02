@@ -79,7 +79,6 @@ export async function strategy(
     snapshot
   );
 
-  console.log(options, options.address)
 
   const masterBalances = await multicall(
     network,
