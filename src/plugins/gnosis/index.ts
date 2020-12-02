@@ -464,7 +464,7 @@ const erc20Abi = [
 const getTokenInfo = async (web3, tokenAddress) => {
   return await multicall(web3.network.chainId.toString(), web3, erc20Abi, [
     [tokenAddress, 'name'],
-    [tokenAddress, 'symbol'],
+    [tokenAddress, 'symbol']
   ]);
 };
 
@@ -521,8 +521,10 @@ export default class Plugin {
 
       if (result.pairsTokens.length > 0) {
         return result.pairsTokens[0];
-      } else if (result.pairsTokens0.length > 0
-        && result.pairsTokens1.length > 0) {
+      } else if (
+        result.pairsTokens0.length > 0 &&
+        result.pairsTokens1.length > 0
+      ) {
         return {
           token0Price: (
             parseFloat(result.pairsTokens0[0].token0Price) /
