@@ -63,7 +63,7 @@ const sigUtil = require('eth-sig-util');
         token: '0x8f56682a50becb1df2fb8136954f2062871bc7fc',
         space: 'myspace',
         type: 'proposal',
-        version: '0.1.3',
+        version: '0.2.0',
         chainId: chainId,
         verifyingContract: verifyingContract
       }
@@ -106,7 +106,7 @@ const sigUtil = require('eth-sig-util');
       msg: {
         payload: {
           choice: 1,
-          proposal: proposalIpfs, //we dont need to pass the entire proposal obj
+          proposal: 'QmZSVGjAyQPQtsLjBmmoPqNJar2haGTM2yQJK9kfYW81PB', //we dont need to pass the entire proposal obj
           metadata: {
             memberAddress: '0xDe6ab16a4015c680daab58021815D09ddB57db8E'
           }
@@ -115,21 +115,19 @@ const sigUtil = require('eth-sig-util');
         token: '0x8f56682a50becb1df2fb8136954f2062871bc7fc',
         space: 'myspace',
         type: 'vote',
-        version: '0.1.3',
+        version: '0.2.0',
         chainId: chainId,
         verifyingContract: verifyingContract
       }
     };
 
-    const voteMsg = { ...voteMessage.msg };
-
     const voteSignature = await signMessage(
       SigUtilSigner(
         '7e91fc4c3424c0594078bcd9c80a7f788ec345e77254e50d3e197e9396e0c472'
       ),
-      voteMsg,
-      voteMsg.verifyingContract,
-      voteMsg.chainId
+      voteMessage.msg,
+      voteMessage.msg.verifyingContract,
+      voteMessage.msg.chainId
     );
     const isVoteValid = validateMessage(
       voteMessage.msg,

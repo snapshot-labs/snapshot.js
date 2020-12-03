@@ -2,7 +2,7 @@ const sigUtil = require('eth-sig-util');
 const { keccak } = require('ethereumjs-util');
 
 function getMessageERC712Hash(message, verifyingContract, chainId) {
-  const m = prepareMessage(message, verifyingContract, chainId);
+  const m = prepareMessage(message);
   const { DomainType, MessageType } = getDomainType(
     m,
     verifyingContract,
@@ -88,7 +88,6 @@ function getProposalDomainType(verifyingContract, chainId) {
 }
 
 async function signMessage(signer, message, verifyingContract, chainId) {
-  console.log('Type: ', message.type);
   return signer(message, verifyingContract, chainId);
 }
 
@@ -121,7 +120,7 @@ function validateMessage(
 
 function Web3Signer(web3) {
   return function (message, verifyingContract, chainId) {
-    const m = prepareMessage(message, verifyingContract, chainId);
+    const m = prepareMessage(message);
     const { DomainType, MessageType } = getDomainType(
       m,
       verifyingContract,
@@ -135,8 +134,7 @@ function Web3Signer(web3) {
 
 function SigUtilSigner(privateKeyStr) {
   return function (message, verifyingContract, chainId) {
-    console.log('Sign:', message.type);
-    const m = prepareMessage(message, verifyingContract, chainId);
+    const m = prepareMessage(message);
     const privateKey = Buffer.from(privateKeyStr, 'hex');
     const { DomainType, MessageType } = getDomainType(
       m,
@@ -153,11 +151,10 @@ function SigUtilSigner(privateKeyStr) {
   };
 }
 
-function prepareMessage(message, verifyingContract, chainId) {
-  console.log('Prepara: ', JSON.stringify(message));
+function prepareMessage(message) {
   switch (message.type) {
     case 'vote':
-      return prepareVoteMessage(message, verifyingContract, chainId);
+      return prepareVoteMessage(message);
     case 'proposal':
       return prepareProposalMessage(message);
     default:
@@ -165,22 +162,17 @@ function prepareMessage(message, verifyingContract, chainId) {
   }
 }
 
-function prepareVoteMessage(message, verifyingContract, chainId) {
+function prepareVoteMessage(message) {
   return Object.assign(message, {
     versionHash: hexKeccak(message.version),
     spaceHash: hexKeccak(message.space),
-    payload: prepareVotePayload(message.payload, verifyingContract, chainId)
+    payload: prepareVotePayload(message.payload)
   });
 }
 
-function prepareVotePayload(payload, verifyingContract, chainId) {
+function prepareVotePayload(payload) {
   return Object.assign(payload, {
-    metadataHash: hexKeccak(JSON.stringify(payload.metadata)),
-    proposalHash: getMessageERC712Hash(
-      payload.proposal,
-      verifyingContract,
-      chainId
-    )
+    metadataHash: hexKeccak(JSON.stringify(payload.metadata))
   });
 }
 
