@@ -1147,6 +1147,77 @@ function creamBalanceOf(network, provider, addresses, options, snapshot) {
     });
 }
 
+var abi$7 = [
+    {
+        constant: true,
+        inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
+        name: 'balanceOfBonded',
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [{ internalType: 'address', name: '', type: 'address' }],
+        name: 'balanceOf',
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'totalSupply',
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    }
+];
+function strategy$i(space, network, provider, addresses, options, snapshot) {
+    return __awaiter(this, void 0, void 0, function () {
+        var blockTag, daoQuery, lpQuery, response, uniswapESD, uniswapTotalSupply, daoBalances, lpBalances;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+                    daoQuery = addresses.map(function (address) { return [
+                        options.dao,
+                        'balanceOfBonded',
+                        [address]
+                    ]; });
+                    lpQuery = addresses.map(function (address) { return [
+                        options.rewards,
+                        'balanceOfBonded',
+                        [address]
+                    ]; });
+                    return [4 /*yield*/, multicall(network, provider, abi$7, __spreadArrays([
+                            [options.token, 'balanceOf', [options.uniswap]],
+                            [options.uniswap, 'totalSupply']
+                        ], daoQuery, lpQuery), { blockTag: blockTag })];
+                case 1:
+                    response = _a.sent();
+                    uniswapESD = response[0];
+                    uniswapTotalSupply = response[1];
+                    daoBalances = response.slice(2, addresses.length + 2);
+                    lpBalances = response.slice(addresses.length + 2, addresses.length * 2 + 2);
+                    return [2 /*return*/, Object.fromEntries(Array(addresses.length)
+                            .fill('x')
+                            .map(function (_, i) { return [
+                            addresses[i],
+                            parseFloat(formatUnits(uniswapESD[0]
+                                .div(uniswapTotalSupply[0])
+                                .mul(lpBalances[i][0])
+                                .add(daoBalances[i][0])
+                                .toString(), options.decimals))
+                        ]; }))];
+            }
+        });
+    });
+}
+
 var tokenAbi = [
     {
         constant: true,
@@ -1185,7 +1256,7 @@ var tokenAbi = [
         type: 'function'
     }
 ];
-function strategy$i(_space, network, provider, addresses, options, snapshot) {
+function strategy$j(_space, network, provider, addresses, options, snapshot) {
     return __awaiter(this, void 0, void 0, function () {
         var blockTag, res, totalSupply, tokenBalanceInUni, tokensPerUni, response;
         return __generator(this, function (_a) {
@@ -1234,7 +1305,8 @@ var strategies = {
     synthetix: strategy$f,
     ctoken: strategy$g,
     cream: strategy$h,
-    'staked-uniswap': strategy$i
+    'staked-uniswap': strategy$j,
+    esd: strategy$i
 };
 
 var wanchain = {
@@ -1257,13 +1329,13 @@ var networks = {
 	chainId: 1,
 	network: "homestead",
 	rpc: [
-		"https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv",
 		{
 			url: "https://api-geth-archive.ankr.com",
 			user: "balancer_user",
 			password: "balancerAnkr20201015"
 		},
 		"https://eth-archival.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
+		"https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv",
 		"https://cloudflare-eth.com"
 	],
 	ws: [

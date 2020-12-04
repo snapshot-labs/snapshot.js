@@ -23,6 +23,7 @@ declare const _default: {
         ctoken: typeof import("./strategies/ctoken").strategy;
         cream: typeof import("./strategies/cream").strategy;
         'staked-uniswap': typeof import("./strategies/staked-uniswap").strategy;
+        esd: typeof import("./strategies/esd").strategy;
     };
     schemas: {
         space: {
