@@ -182,5 +182,15 @@
       "wss://api.wanchain.org:8443/ws/v3/ddd16770c68f30350a21114802d5418eafe039b722de52b488e7eee1ee2cd73f"
     ],
     "explorer": "https://www.wanscan.org"
+  },
+  "1337": {
+    "key": "1337",
+    "name": "Localhost 8545",
+    "shortName": "localhost",
+    "chainId": 1337,
+    "network": "localhost",
+    "rpc": [
+      "http://localhost:8545"
+    ]
   }
 }
