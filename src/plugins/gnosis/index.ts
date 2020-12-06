@@ -1,5 +1,5 @@
 import { getAddress } from '@ethersproject/address';
-import { multicall, subgraphRequest } from '../../utils';
+import { call, subgraphRequest } from '../../utils';
 
 const UNISWAP_V2_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
@@ -32,28 +32,7 @@ const OMEN_GQL_QUERY = {
 };
 
 const UNISWAP_V2_GQL_QUERY = {
-  pairsTokens: {
-    __aliasFor: 'pairs',
-    __args: {
-      where: {
-        token0: true,
-        token1: true
-      }
-    },
-    token0Price: true
-  },
-  pairsTokens0: {
-    __aliasFor: 'pairs',
-    __args: {
-      where: {
-        token0: true,
-        token1: true
-      }
-    },
-    token0Price: true
-  },
-  pairsTokens1: {
-    __aliasFor: 'pairs',
+  pairs: {
     __args: {
       where: {
         token0: true,
@@ -456,16 +435,28 @@ const erc20Abi = [
 ];
 
 /**
- * Returns the token `name` and `symbol` from a given ERC-20 contract address
+ * Returns the token `method` from a given ERC-20 contract address
  * @param web3
  * @param tokenAddress
  * @param method
  */
-const getTokenInfo = async (web3, tokenAddress) => {
-  return await multicall(web3.network.chainId.toString(), web3, erc20Abi, [
-    [tokenAddress, 'name'],
-    [tokenAddress, 'symbol']
-  ]);
+const getTokenMethod = async (web3, tokenAddress, method) => {
+  return await call(web3, erc20Abi, [tokenAddress, method]);
+};
+
+/**
+ * Returns token pairs from Uniswap-v2
+ * based on WETH for the given `network` id.
+ * @param network
+ * @param tokenAddresss
+ */
+const getTokenPairWithWETH = async (network, tokenAddresss) => {
+  const query = UNISWAP_V2_GQL_QUERY;
+  query.pairs.__args.where = {
+    token0: tokenAddresss.toLowerCase(),
+    token1: WETH_ADDRESS[network]
+  };
+  return await subgraphRequest(UNISWAP_V2_SUBGRAPH_URL[network], query);
 };
 
 export default class Plugin {
@@ -477,12 +468,11 @@ export default class Plugin {
 
   async getTokenInfo(web3: any, tokenAddress: string) {
     try {
-      const tokenInfo = await getTokenInfo(web3, tokenAddress);
       return {
         address: tokenAddress,
         checksumAddress: getAddress(tokenAddress),
-        name: tokenInfo[0][0],
-        symbol: tokenInfo[1][0]
+        name: await getTokenMethod(web3, tokenAddress, 'name'),
+        symbol: await getTokenMethod(web3, tokenAddress, 'symbol')
       };
     } catch (e) {
       throw new Error(e);
@@ -502,35 +492,27 @@ export default class Plugin {
   async getUniswapPair(network: number, token0: any, token1: any) {
     try {
       const query = UNISWAP_V2_GQL_QUERY;
-      query.pairsTokens.__args.where = {
+      query.pairs.__args.where = {
         token0: token0.toLowerCase(),
         token1: token1.toLowerCase()
-      };
-      query.pairsTokens0.__args.where = {
-        token0: token0.toLowerCase(),
-        token1: WETH_ADDRESS[network]
-      };
-      query.pairsTokens1.__args.where = {
-        token0: token1.toLowerCase(),
-        token1: WETH_ADDRESS[network]
       };
       const result = await subgraphRequest(
         UNISWAP_V2_SUBGRAPH_URL[network],
         query
       );
-
-      if (result.pairsTokens.length > 0) {
-        return result.pairsTokens[0];
-      } else if (
-        result.pairsTokens0.length > 0 &&
-        result.pairsTokens1.length > 0
-      ) {
-        return {
+      if (result.pairs.length > 0) {
+        return result;
+      }
+      const resultToken0 = await getTokenPairWithWETH(network, token0);
+      const resultToken1 = await getTokenPairWithWETH(network, token1);
+      if (resultToken0.pairs.length > 0 && resultToken1.pairs.length > 0) {
+        result.pairs[0] = {
           token0Price: (
-            parseFloat(result.pairsTokens0[0].token0Price) /
-            parseFloat(result.pairsTokens1[0].token0Price)
+            parseFloat(resultToken0.pairs[0].token0Price) /
+            parseFloat(resultToken1.pairs[0].token0Price)
           ).toString()
         };
+        return result;
       }
       throw new Error(
         `Does not exist market pairs for ${token0} and ${token1}.`
