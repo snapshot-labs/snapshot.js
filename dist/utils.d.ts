@@ -11,6 +11,7 @@ export declare const MULTICALL: {
     82: string;
     97: string;
     100: string;
+    1337: string;
     wanchain: string;
 };
 export declare const SNAPSHOT_SUBGRAPH_URL: {
