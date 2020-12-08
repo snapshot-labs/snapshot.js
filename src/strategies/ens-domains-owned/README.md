@@ -5,8 +5,7 @@ Allows subdomain owners of a ENS domain to vote depending on the number of domai
 
 ## Params
 
-- `address` - Cream Swap LP include this token count as valid score.
-- `pools` - Contracts must have `balanceOf(address)` in the ABI.
+- `domain` - The name of the parent domain.
 
 ## Examples
 
