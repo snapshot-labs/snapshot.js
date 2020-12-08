@@ -4,12 +4,12 @@
     "strategy": {
       "name": "ens-domains-owned",
       "params": {
-        "domain": "ethglobal.eth"
+        "domain": "ismoney.eth"
       }
     },
     "network": "1",
     "addresses": [
-      "0x14341f81dF14cA86E1420eC9e6Abd343Fb1c5bfC",
+      "0xaCf4C2950107eF9b1C37faA1F9a866C8F0da88b9",
       "0x0239769A1aDF4DeF9f07Da824B80B9C4fCB59593"
     ],
     "snapshot": 11414195

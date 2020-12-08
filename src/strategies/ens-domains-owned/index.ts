@@ -4,7 +4,7 @@ const ENS_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
   '3': 'https://api.thegraph.com/subgraphs/name/ensdomains/ensropsten',
   '4': 'https://api.thegraph.com/subgraphs/name/ensdomains/ensrinkeby',
-  '5': 'https://thegraph.com/explorer/subgraph/ensdomains/ensgoerli'
+  '5': 'https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli'
 };
 
 export const author = 'makoto';
