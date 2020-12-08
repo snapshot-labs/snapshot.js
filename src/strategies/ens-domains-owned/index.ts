@@ -13,6 +13,7 @@ export const version = '0.1.0';
 export async function strategy(
   _space,
   network,
+  provider,
   addresses,
   options,
   snapshot
