@@ -192,5 +192,15 @@
     "rpc": [
       "http://localhost:8545"
     ]
+  },
+  "108": {
+    "key": "108",
+    "name": "Thundercore Mainnet",
+    "chainId": 108,
+    "network": "mainnet",
+    "rpc": [
+      "https://mainnet-rpc.thundercore.com"
+    ],
+    "explorer": "https://scan.thundercore.com"
   }
 }
