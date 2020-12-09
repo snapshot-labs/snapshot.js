@@ -1323,7 +1323,7 @@ var chunk = function (arr, size) { return Array.from({ length: Math.ceil(arr.len
 }); };
 function strategy$k(space, network, provider, addresses, options, snapshot) {
     return __awaiter(this, void 0, void 0, function () {
-        var blockTag, doughv1Query, doughv2Query, eDOUGHQuery, stakedDoughQuery, response, doughv2BPT, doughv2BptTotalSupply, responseClean, chunks, doughv1Balances, doughv2Balances, stakedDough, eDOUGHBalances;
+        var blockTag, doughv1Query, doughv2Query, eDOUGHQuery, stakedDoughQuery, lpDoughQuery, response, doughv2BPT, doughv2BptTotalSupply, responseClean, chunks, doughv1Balances, doughv2Balances, eDOUGHBalances, stakedDoughBalances, lpDoughBalances;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -1348,10 +1348,15 @@ function strategy$k(space, network, provider, addresses, options, snapshot) {
                         'balanceOf',
                         [address]
                     ]; });
+                    lpDoughQuery = addresses.map(function (address) { return [
+                        options.BPT,
+                        'balanceOf',
+                        [address]
+                    ]; });
                     return [4 /*yield*/, multicall(network, provider, abi$8, __spreadArrays([
                             [options.doughv2, 'balanceOf', [options.BPT]],
                             [options.BPT, 'totalSupply']
-                        ], doughv1Query, doughv2Query, eDOUGHQuery, stakedDoughQuery), { blockTag: blockTag })];
+                        ], doughv1Query, doughv2Query, eDOUGHQuery, stakedDoughQuery, lpDoughQuery), { blockTag: blockTag })];
                 case 1:
                     response = _a.sent();
                     doughv2BPT = response[0];
@@ -1360,15 +1365,19 @@ function strategy$k(space, network, provider, addresses, options, snapshot) {
                     chunks = chunk(responseClean, addresses.length);
                     doughv1Balances = chunks[0];
                     doughv2Balances = chunks[1];
-                    stakedDough = chunks[2];
-                    eDOUGHBalances = chunks[3];
+                    eDOUGHBalances = chunks[2];
+                    stakedDoughBalances = chunks[3];
+                    lpDoughBalances = chunks[4];
                     return [2 /*return*/, Object.fromEntries(Array(addresses.length)
                             .fill('x')
                             .map(function (_, i) { return [
                             addresses[i],
                             parseFloat(formatUnits(doughv2BPT[0]
+                                .mul(stakedDoughBalances[i][0])
                                 .div(doughv2BptTotalSupply[0])
-                                .mul(stakedDough[i][0])
+                                .add(doughv2BPT[0]
+                                .mul(lpDoughBalances[i][0])
+                                .div(doughv2BptTotalSupply[0]))
                                 .add(doughv1Balances[i][0])
                                 .add(doughv2Balances[i][0])
                                 .add(eDOUGHBalances[i][0])

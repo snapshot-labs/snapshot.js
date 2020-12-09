@@ -75,6 +75,12 @@ export async function strategy(
     [address]
   ]);
 
+  const lpDoughQuery = addresses.map((address: any) => [
+    options.BPT,
+    'balanceOf',
+    [address]
+  ]);
+
   const response = await multicall(
     network,
     provider,
@@ -86,6 +92,7 @@ export async function strategy(
       ...doughv2Query,
       ...eDOUGHQuery,
       ...stakedDoughQuery,
+      ...lpDoughQuery
     ],
     { blockTag }
   );
@@ -97,8 +104,9 @@ export async function strategy(
   const chunks = chunk(responseClean, addresses.length);
   const doughv1Balances = chunks[0];
   const doughv2Balances = chunks[1];
-  const stakedDough = chunks[2];
-  const eDOUGHBalances = chunks[3];
+  const eDOUGHBalances = chunks[2];
+  const stakedDoughBalances = chunks[3];
+  const lpDoughBalances = chunks[4];
 
   return Object.fromEntries(
     Array(addresses.length)
@@ -108,8 +116,13 @@ export async function strategy(
         parseFloat(
           formatUnits(
             doughv2BPT[0]
+              .mul(stakedDoughBalances[i][0])
               .div(doughv2BptTotalSupply[0])
-              .mul(stakedDough[i][0])
+                .add(
+                  doughv2BPT[0]
+                    .mul(lpDoughBalances[i][0])
+                    .div(doughv2BptTotalSupply[0])
+                )
                 .add(doughv1Balances[i][0])
                 .add(doughv2Balances[i][0])
                 .add(eDOUGHBalances[i][0])
