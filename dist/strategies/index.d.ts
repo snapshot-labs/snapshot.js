@@ -18,6 +18,7 @@ import { strategy as ctoken } from './ctoken';
 import { strategy as cream } from './cream';
 import { strategy as esd } from './esd';
 import { strategy as stakedUniswap } from './staked-uniswap';
+import { strategy as piedao } from './piedao';
 declare const _default: {
     balancer: typeof balancer;
     'contract-call': typeof contractCall;
@@ -39,5 +40,6 @@ declare const _default: {
     cream: typeof cream;
     'staked-uniswap': typeof stakedUniswap;
     esd: typeof esd;
+    piedao: typeof piedao;
 };
 export default _default;
