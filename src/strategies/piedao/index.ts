@@ -37,9 +37,10 @@ const abi = [
   }
 ];
 
-const chunk = (arr, size) => Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
-  arr.slice(i * size, i * size + size)
-);
+const chunk = (arr, size) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+    arr.slice(i * size, i * size + size)
+  );
 
 export async function strategy(
   space,
@@ -96,7 +97,7 @@ export async function strategy(
     ],
     { blockTag }
   );
-    
+
   const doughv2BPT = response[0];
   const doughv2BptTotalSupply = response[1];
   const responseClean = response.slice(2, response.length);
@@ -118,14 +119,14 @@ export async function strategy(
             doughv2BPT[0]
               .mul(stakedDoughBalances[i][0])
               .div(doughv2BptTotalSupply[0])
-                .add(
-                  doughv2BPT[0]
-                    .mul(lpDoughBalances[i][0])
-                    .div(doughv2BptTotalSupply[0])
-                )
-                .add(doughv1Balances[i][0])
-                .add(doughv2Balances[i][0])
-                .add(eDOUGHBalances[i][0])
+              .add(
+                doughv2BPT[0]
+                  .mul(lpDoughBalances[i][0])
+                  .div(doughv2BptTotalSupply[0])
+              )
+              .add(doughv1Balances[i][0])
+              .add(doughv2Balances[i][0])
+              .add(eDOUGHBalances[i][0])
               .toString(),
             options.decimals
           )
