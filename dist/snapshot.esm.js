@@ -14,18 +14,18 @@ import bs58 from 'bs58';
 import { bufferToHex } from 'ethereumjs-util';
 
 /*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+Copyright (c) Microsoft Corporation.
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
 function __awaiter(thisArg, _arguments, P, generator) {
@@ -1286,6 +1286,108 @@ function strategy$j(_space, network, provider, addresses, options, snapshot) {
     });
 }
 
+var abi$8 = [
+    {
+        constant: true,
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'account',
+                type: 'address'
+            }
+        ],
+        name: 'balanceOf',
+        outputs: [
+            {
+                internalType: 'uint256',
+                name: '',
+                type: 'uint256'
+            }
+        ],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'totalSupply',
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    }
+];
+var chunk = function (arr, size) { return Array.from({ length: Math.ceil(arr.length / size) }, function (v, i) {
+    return arr.slice(i * size, i * size + size);
+}); };
+function strategy$k(space, network, provider, addresses, options, snapshot) {
+    return __awaiter(this, void 0, void 0, function () {
+        var blockTag, doughv1Query, doughv2Query, eDOUGHQuery, stakedDoughQuery, lpDoughQuery, response, doughv2BPT, doughv2BptTotalSupply, responseClean, chunks, doughv1Balances, doughv2Balances, eDOUGHBalances, stakedDoughBalances, lpDoughBalances;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+                    doughv1Query = addresses.map(function (address) { return [
+                        options.doughv1,
+                        'balanceOf',
+                        [address]
+                    ]; });
+                    doughv2Query = addresses.map(function (address) { return [
+                        options.doughv2,
+                        'balanceOf',
+                        [address]
+                    ]; });
+                    eDOUGHQuery = addresses.map(function (address) { return [
+                        options.eDOUGH,
+                        'balanceOf',
+                        [address]
+                    ]; });
+                    stakedDoughQuery = addresses.map(function (address) { return [
+                        options.stakedDough,
+                        'balanceOf',
+                        [address]
+                    ]; });
+                    lpDoughQuery = addresses.map(function (address) { return [
+                        options.BPT,
+                        'balanceOf',
+                        [address]
+                    ]; });
+                    return [4 /*yield*/, multicall(network, provider, abi$8, __spreadArrays([
+                            [options.doughv2, 'balanceOf', [options.BPT]],
+                            [options.BPT, 'totalSupply']
+                        ], doughv1Query, doughv2Query, eDOUGHQuery, stakedDoughQuery, lpDoughQuery), { blockTag: blockTag })];
+                case 1:
+                    response = _a.sent();
+                    doughv2BPT = response[0];
+                    doughv2BptTotalSupply = response[1];
+                    responseClean = response.slice(2, response.length);
+                    chunks = chunk(responseClean, addresses.length);
+                    doughv1Balances = chunks[0];
+                    doughv2Balances = chunks[1];
+                    eDOUGHBalances = chunks[2];
+                    stakedDoughBalances = chunks[3];
+                    lpDoughBalances = chunks[4];
+                    return [2 /*return*/, Object.fromEntries(Array(addresses.length)
+                            .fill('x')
+                            .map(function (_, i) { return [
+                            addresses[i],
+                            parseFloat(formatUnits(doughv2BPT[0]
+                                .mul(stakedDoughBalances[i][0])
+                                .div(doughv2BptTotalSupply[0])
+                                .add(doughv2BPT[0]
+                                .mul(lpDoughBalances[i][0])
+                                .div(doughv2BptTotalSupply[0]))
+                                .add(doughv1Balances[i][0])
+                                .add(doughv2Balances[i][0])
+                                .add(eDOUGHBalances[i][0])
+                                .toString(), options.decimals))
+                        ]; }))];
+            }
+        });
+    });
+}
+
 var strategies = {
     balancer: strategy,
     'contract-call': strategy$1,
@@ -1306,7 +1408,8 @@ var strategies = {
     ctoken: strategy$g,
     cream: strategy$h,
     'staked-uniswap': strategy$j,
-    esd: strategy$i
+    esd: strategy$i,
+    piedao: strategy$k
 };
 
 var wanchain = {

@@ -1,35 +1,40 @@
 'use strict';
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var BN = _interopDefault(require('bn.js'));
+var BN = require('bn.js');
 var strings = require('@ethersproject/strings');
-var abi$8 = require('@ethersproject/abi');
+var abi$9 = require('@ethersproject/abi');
 var contracts = require('@ethersproject/contracts');
 var jsonToGraphqlQuery = require('json-to-graphql-query');
-var Ajv = _interopDefault(require('ajv'));
+var Ajv = require('ajv');
 var address = require('@ethersproject/address');
 var units = require('@ethersproject/units');
 var providers$1 = require('@ethersproject/providers');
-var contentHash = _interopDefault(require('@ensdomains/content-hash'));
+var contentHash = require('@ensdomains/content-hash');
 var hash = require('@ethersproject/hash');
 var bytes = require('@ethersproject/bytes');
-var bs58 = _interopDefault(require('bs58'));
+var bs58 = require('bs58');
 var ethereumjsUtil = require('ethereumjs-util');
 
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var BN__default = /*#__PURE__*/_interopDefaultLegacy(BN);
+var Ajv__default = /*#__PURE__*/_interopDefaultLegacy(Ajv);
+var contentHash__default = /*#__PURE__*/_interopDefaultLegacy(contentHash);
+var bs58__default = /*#__PURE__*/_interopDefaultLegacy(bs58);
+
 /*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
+Copyright (c) Microsoft Corporation.
 
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
 
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
 function __awaiter(thisArg, _arguments, P, generator) {
@@ -1290,6 +1295,108 @@ function strategy$j(_space, network, provider, addresses, options, snapshot) {
     });
 }
 
+var abi$8 = [
+    {
+        constant: true,
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'account',
+                type: 'address'
+            }
+        ],
+        name: 'balanceOf',
+        outputs: [
+            {
+                internalType: 'uint256',
+                name: '',
+                type: 'uint256'
+            }
+        ],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    },
+    {
+        constant: true,
+        inputs: [],
+        name: 'totalSupply',
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+    }
+];
+var chunk = function (arr, size) { return Array.from({ length: Math.ceil(arr.length / size) }, function (v, i) {
+    return arr.slice(i * size, i * size + size);
+}); };
+function strategy$k(space, network, provider, addresses, options, snapshot) {
+    return __awaiter(this, void 0, void 0, function () {
+        var blockTag, doughv1Query, doughv2Query, eDOUGHQuery, stakedDoughQuery, lpDoughQuery, response, doughv2BPT, doughv2BptTotalSupply, responseClean, chunks, doughv1Balances, doughv2Balances, eDOUGHBalances, stakedDoughBalances, lpDoughBalances;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+                    doughv1Query = addresses.map(function (address) { return [
+                        options.doughv1,
+                        'balanceOf',
+                        [address]
+                    ]; });
+                    doughv2Query = addresses.map(function (address) { return [
+                        options.doughv2,
+                        'balanceOf',
+                        [address]
+                    ]; });
+                    eDOUGHQuery = addresses.map(function (address) { return [
+                        options.eDOUGH,
+                        'balanceOf',
+                        [address]
+                    ]; });
+                    stakedDoughQuery = addresses.map(function (address) { return [
+                        options.stakedDough,
+                        'balanceOf',
+                        [address]
+                    ]; });
+                    lpDoughQuery = addresses.map(function (address) { return [
+                        options.BPT,
+                        'balanceOf',
+                        [address]
+                    ]; });
+                    return [4 /*yield*/, multicall(network, provider, abi$8, __spreadArrays([
+                            [options.doughv2, 'balanceOf', [options.BPT]],
+                            [options.BPT, 'totalSupply']
+                        ], doughv1Query, doughv2Query, eDOUGHQuery, stakedDoughQuery, lpDoughQuery), { blockTag: blockTag })];
+                case 1:
+                    response = _a.sent();
+                    doughv2BPT = response[0];
+                    doughv2BptTotalSupply = response[1];
+                    responseClean = response.slice(2, response.length);
+                    chunks = chunk(responseClean, addresses.length);
+                    doughv1Balances = chunks[0];
+                    doughv2Balances = chunks[1];
+                    eDOUGHBalances = chunks[2];
+                    stakedDoughBalances = chunks[3];
+                    lpDoughBalances = chunks[4];
+                    return [2 /*return*/, Object.fromEntries(Array(addresses.length)
+                            .fill('x')
+                            .map(function (_, i) { return [
+                            addresses[i],
+                            parseFloat(units.formatUnits(doughv2BPT[0]
+                                .mul(stakedDoughBalances[i][0])
+                                .div(doughv2BptTotalSupply[0])
+                                .add(doughv2BPT[0]
+                                .mul(lpDoughBalances[i][0])
+                                .div(doughv2BptTotalSupply[0]))
+                                .add(doughv1Balances[i][0])
+                                .add(doughv2Balances[i][0])
+                                .add(eDOUGHBalances[i][0])
+                                .toString(), options.decimals))
+                        ]; }))];
+            }
+        });
+    });
+}
+
 var strategies = {
     balancer: strategy,
     'contract-call': strategy$1,
@@ -1310,7 +1417,8 @@ var strategies = {
     ctoken: strategy$g,
     cream: strategy$h,
     'staked-uniswap': strategy$j,
-    esd: strategy$i
+    esd: strategy$i,
+    piedao: strategy$k
 };
 
 var wanchain = {
@@ -1572,16 +1680,16 @@ function decodeContenthash(encoded) {
     }
     if (encoded) {
         try {
-            decoded = contentHash.decode(encoded);
-            var codec = contentHash.getCodec(encoded);
+            decoded = contentHash__default['default'].decode(encoded);
+            var codec = contentHash__default['default'].getCodec(encoded);
             if (codec === 'ipfs-ns') {
                 // convert the ipfs from base58 to base32 (url host compatible)
                 // if needed the hash can now be resolved through a secured origin gateway (<hash>.gateway.com)
-                decoded = contentHash.helpers.cidV0ToV1Base32(decoded);
+                decoded = contentHash__default['default'].helpers.cidV0ToV1Base32(decoded);
                 protocolType = 'ipfs';
             }
             else if (codec === 'ipns-ns') {
-                decoded = bs58.decode(decoded).slice(2).toString();
+                decoded = bs58__default['default'].decode(decoded).slice(2).toString();
                 protocolType = 'ipns';
             }
             else if (codec === 'swarm-ns') {
@@ -1604,12 +1712,12 @@ function decodeContenthash(encoded) {
     return { protocolType: protocolType, decoded: decoded, error: error };
 }
 function validateContent(encoded) {
-    return (contentHash.isHashOfType(encoded, contentHash.Types.ipfs) ||
-        contentHash.isHashOfType(encoded, contentHash.Types.swarm));
+    return (contentHash__default['default'].isHashOfType(encoded, contentHash__default['default'].Types.ipfs) ||
+        contentHash__default['default'].isHashOfType(encoded, contentHash__default['default'].Types.swarm));
 }
 function isValidContenthash(encoded) {
     try {
-        var codec = contentHash.getCodec(encoded);
+        var codec = contentHash__default['default'].getCodec(encoded);
         return bytes.isHexString(encoded) && supportedCodecs.includes(codec);
     }
     catch (e) {
@@ -1630,29 +1738,29 @@ function encodeContenthash(text) {
         try {
             if (contentType === 'ipfs') {
                 if (content.length >= 4) {
-                    encoded = '0x' + contentHash.encode('ipfs-ns', content);
+                    encoded = '0x' + contentHash__default['default'].encode('ipfs-ns', content);
                 }
             }
             else if (contentType === 'ipns') {
-                var bs58content = bs58.encode(Buffer.concat([
+                var bs58content = bs58__default['default'].encode(Buffer.concat([
                     Buffer.from([0, content.length]),
                     Buffer.from(content)
                 ]));
-                encoded = '0x' + contentHash.encode('ipns-ns', bs58content);
+                encoded = '0x' + contentHash__default['default'].encode('ipns-ns', bs58content);
             }
             else if (contentType === 'bzz') {
                 if (content.length >= 4) {
-                    encoded = '0x' + contentHash.fromSwarm(content);
+                    encoded = '0x' + contentHash__default['default'].fromSwarm(content);
                 }
             }
             else if (contentType === 'onion') {
                 if (content.length == 16) {
-                    encoded = '0x' + contentHash.encode('onion', content);
+                    encoded = '0x' + contentHash__default['default'].encode('onion', content);
                 }
             }
             else if (contentType === 'onion3') {
                 if (content.length == 56) {
-                    encoded = '0x' + contentHash.encode('onion3', content);
+                    encoded = '0x' + contentHash__default['default'].encode('onion3', content);
                 }
             }
             else {
@@ -1790,7 +1898,7 @@ function multicall(network, provider, abi$1, calls, options) {
             switch (_b.label) {
                 case 0:
                     multi = new contracts.Contract(MULTICALL[network], abi, provider);
-                    itf = new abi$8.Interface(abi$1);
+                    itf = new abi$9.Interface(abi$1);
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, , 4]);
@@ -1874,7 +1982,7 @@ function getScores(space, strategies$1, network, provider, addresses, snapshot) 
     });
 }
 function validateSchema(schema, data) {
-    var ajv = new Ajv();
+    var ajv = new Ajv__default['default']();
     var validate = ajv.compile(schema);
     var valid = validate(data);
     return valid ? valid : validate.errors;
@@ -2154,8 +2262,8 @@ function scheduleAction(network, web3, daoName, account, proof, actionsFromArago
                         ])];
                 case 2:
                     nonce = _a.sent();
-                    bnNonce = new BN(nonce.toString());
-                    newNonce = bnNonce.add(new BN('1'));
+                    bnNonce = new BN__default['default'](nonce.toString());
+                    newNonce = bnNonce.add(new BN__default['default']('1'));
                     currentDate = Math.round(Date.now() / 1000) + Number(config.executionDelay) + 60;
                     return [4 /*yield*/, call(web3, ercAbi, [
                             config.scheduleDeposit.token,

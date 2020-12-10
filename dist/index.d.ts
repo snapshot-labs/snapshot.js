@@ -24,6 +24,7 @@ declare const _default: {
         cream: typeof import("./strategies/cream").strategy;
         'staked-uniswap': typeof import("./strategies/staked-uniswap").strategy;
         esd: typeof import("./strategies/esd").strategy;
+        piedao: typeof import("./strategies/piedao").strategy;
     };
     schemas: {
         space: {
