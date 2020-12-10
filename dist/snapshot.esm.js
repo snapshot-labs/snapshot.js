@@ -14,18 +14,18 @@ import bs58 from 'bs58';
 import { bufferToHex } from 'ethereumjs-util';
 
 /*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
 
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
 
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
 ***************************************************************************** */
 
 function __awaiter(thisArg, _arguments, P, generator) {
@@ -1318,9 +1318,11 @@ var abi$8 = [
         type: 'function'
     }
 ];
-var chunk = function (arr, size) { return Array.from({ length: Math.ceil(arr.length / size) }, function (v, i) {
-    return arr.slice(i * size, i * size + size);
-}); };
+var chunk = function (arr, size) {
+    return Array.from({ length: Math.ceil(arr.length / size) }, function (v, i) {
+        return arr.slice(i * size, i * size + size);
+    });
+};
 function strategy$k(space, network, provider, addresses, options, snapshot) {
     return __awaiter(this, void 0, void 0, function () {
         var blockTag, doughv1Query, doughv2Query, eDOUGHQuery, stakedDoughQuery, lpDoughQuery, response, doughv2BPT, doughv2BptTotalSupply, responseClean, chunks, doughv1Balances, doughv2Balances, eDOUGHBalances, stakedDoughBalances, lpDoughBalances;
@@ -1549,6 +1551,16 @@ var networks = {
 		"wss://rpc.xdaichain.com/wss"
 	],
 	explorer: "https://blockscout.com/poa/xdai"
+},
+	"108": {
+	key: "108",
+	name: "Thundercore Mainnet",
+	chainId: 108,
+	network: "mainnet",
+	rpc: [
+		"https://mainnet-rpc.thundercore.com"
+	],
+	explorer: "https://scan.thundercore.com"
 },
 	"137": {
 	key: "137",
@@ -2370,7 +2382,28 @@ var OMEN_GQL_QUERY = {
     }
 };
 var UNISWAP_V2_GQL_QUERY = {
-    pairs: {
+    pairsTokens: {
+        __aliasFor: 'pairs',
+        __args: {
+            where: {
+                token0: true,
+                token1: true
+            }
+        },
+        token0Price: true
+    },
+    pairsTokens0: {
+        __aliasFor: 'pairs',
+        __args: {
+            where: {
+                token0: true,
+                token1: true
+            }
+        },
+        token0Price: true
+    },
+    pairsTokens1: {
+        __aliasFor: 'pairs',
         __args: {
             where: {
                 token0: true,
@@ -2771,36 +2804,18 @@ var erc20Abi = [
     { anonymous: false, inputs: [], name: 'Unpause', type: 'event' }
 ];
 /**
- * Returns the token `method` from a given ERC-20 contract address
+ * Returns the token `name` and `symbol` from a given ERC-20 contract address
  * @param web3
  * @param tokenAddress
  * @param method
  */
-var getTokenMethod = function (web3, tokenAddress, method) { return __awaiter(void 0, void 0, void 0, function () {
+var getTokenInfo = function (web3, tokenAddress) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, call(web3, erc20Abi, [tokenAddress, method])];
-            case 1: return [2 /*return*/, _a.sent()];
-        }
-    });
-}); };
-/**
- * Returns token pairs from Uniswap-v2
- * based on WETH for the given `network` id.
- * @param network
- * @param tokenAddresss
- */
-var getTokenPairWithWETH = function (network, tokenAddresss) { return __awaiter(void 0, void 0, void 0, function () {
-    var query;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                query = UNISWAP_V2_GQL_QUERY;
-                query.pairs.__args.where = {
-                    token0: tokenAddresss.toLowerCase(),
-                    token1: WETH_ADDRESS[network]
-                };
-                return [4 /*yield*/, subgraphRequest(UNISWAP_V2_SUBGRAPH_URL[network], query)];
+            case 0: return [4 /*yield*/, multicall(web3.network.chainId.toString(), web3, erc20Abi, [
+                    [tokenAddress, 'name'],
+                    [tokenAddress, 'symbol']
+                ])];
             case 1: return [2 /*return*/, _a.sent()];
         }
     });
@@ -2814,25 +2829,24 @@ var Plugin$1 = /** @class */ (function () {
     }
     Plugin.prototype.getTokenInfo = function (web3, tokenAddress) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, e_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var tokenInfo, e_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        _b.trys.push([0, 3, , 4]);
-                        _a = {
-                            address: tokenAddress,
-                            checksumAddress: getAddress(tokenAddress)
-                        };
-                        return [4 /*yield*/, getTokenMethod(web3, tokenAddress, 'name')];
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, getTokenInfo(web3, tokenAddress)];
                     case 1:
-                        _a.name = _b.sent();
-                        return [4 /*yield*/, getTokenMethod(web3, tokenAddress, 'symbol')];
-                    case 2: return [2 /*return*/, (_a.symbol = _b.sent(),
-                            _a)];
-                    case 3:
-                        e_1 = _b.sent();
+                        tokenInfo = _a.sent();
+                        return [2 /*return*/, {
+                                address: tokenAddress,
+                                checksumAddress: getAddress(tokenAddress),
+                                name: tokenInfo[0][0],
+                                symbol: tokenInfo[1][0]
+                            }];
+                    case 2:
+                        e_1 = _a.sent();
                         throw new Error(e_1);
-                    case 4: return [2 /*return*/];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -2859,41 +2873,43 @@ var Plugin$1 = /** @class */ (function () {
     };
     Plugin.prototype.getUniswapPair = function (network, token0, token1) {
         return __awaiter(this, void 0, void 0, function () {
-            var query, result, resultToken0, resultToken1, e_3;
+            var query, result, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 4, , 5]);
+                        _a.trys.push([0, 2, , 3]);
                         query = UNISWAP_V2_GQL_QUERY;
-                        query.pairs.__args.where = {
+                        query.pairsTokens.__args.where = {
                             token0: token0.toLowerCase(),
                             token1: token1.toLowerCase()
+                        };
+                        query.pairsTokens0.__args.where = {
+                            token0: token0.toLowerCase(),
+                            token1: WETH_ADDRESS[network]
+                        };
+                        query.pairsTokens1.__args.where = {
+                            token0: token1.toLowerCase(),
+                            token1: WETH_ADDRESS[network]
                         };
                         return [4 /*yield*/, subgraphRequest(UNISWAP_V2_SUBGRAPH_URL[network], query)];
                     case 1:
                         result = _a.sent();
-                        if (result.pairs.length > 0) {
-                            return [2 /*return*/, result];
+                        if (result.pairsTokens.length > 0) {
+                            return [2 /*return*/, result.pairsTokens[0]];
                         }
-                        return [4 /*yield*/, getTokenPairWithWETH(network, token0)];
-                    case 2:
-                        resultToken0 = _a.sent();
-                        return [4 /*yield*/, getTokenPairWithWETH(network, token1)];
-                    case 3:
-                        resultToken1 = _a.sent();
-                        if (resultToken0.pairs.length > 0 && resultToken1.pairs.length > 0) {
-                            result.pairs[0] = {
-                                token0Price: (parseFloat(resultToken0.pairs[0].token0Price) /
-                                    parseFloat(resultToken1.pairs[0].token0Price)).toString()
-                            };
-                            return [2 /*return*/, result];
+                        else if (result.pairsTokens0.length > 0 &&
+                            result.pairsTokens1.length > 0) {
+                            return [2 /*return*/, {
+                                    token0Price: (parseFloat(result.pairsTokens0[0].token0Price) /
+                                        parseFloat(result.pairsTokens1[0].token0Price)).toString()
+                                }];
                         }
                         throw new Error("Does not exist market pairs for " + token0 + " and " + token1 + ".");
-                    case 4:
+                    case 2:
                         e_3 = _a.sent();
                         console.error(e_3);
-                        return [3 /*break*/, 5];
-                    case 5: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
