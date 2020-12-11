@@ -19,27 +19,27 @@ export async function strategy(
   snapshot
 ) {
   const params = {
-    domains:{
-      __args:{
+    domains: {
+      __args: {
         where: {
           name: options.domain
         },
         first: 1000
       },
       id: true,
-      labelName:true,
-      subdomains:{
-        __args:{
+      labelName: true,
+      subdomains: {
+        __args: {
           where: {
             owner_in: addresses.map((address) => address.toLowerCase())
-          }  
+          }
         },
-        owner:{
-          id:true
-        }  
+        owner: {
+          id: true
+        }
       }
     }
-  }
+  };
 
   if (snapshot !== 'latest') {
     // @ts-ignore
@@ -49,12 +49,11 @@ export async function strategy(
   const score = {};
   if (result && result.domains) {
     result.domains.forEach((u) => {
-      u.subdomains
-        .forEach((domain) => {
-          const userAddress = domain.owner.id
-          if (!score[userAddress]) score[userAddress] = 0;
-          score[userAddress] = score[userAddress] + 1;
-        });
+      u.subdomains.forEach((domain) => {
+        const userAddress = domain.owner.id;
+        if (!score[userAddress]) score[userAddress] = 0;
+        score[userAddress] = score[userAddress] + 1;
+      });
     });
   }
   return score || {};
