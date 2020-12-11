@@ -34,9 +34,6 @@ export async function strategy(
             owner_in: addresses.map((address) => address.toLowerCase())
           }  
         },
-        id:true,
-        name:true,
-        labelName:true,
         owner:{
           id:true
         }  
