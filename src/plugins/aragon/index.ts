@@ -1,4 +1,4 @@
-import BN from 'bn.js';
+import { BigNumber } from '@ethersproject/bignumber';
 import { toUtf8Bytes } from '@ethersproject/strings';
 import { call, sendTransaction, subgraphRequest } from '../../utils';
 
@@ -265,8 +265,8 @@ async function scheduleAction(
     result.registryEntry.queue.address,
     'nonce'
   ]);
-  const bnNonce = new BN(nonce.toString());
-  const newNonce = bnNonce.add(new BN('1'));
+  const bnNonce = BigNumber.from(nonce);
+  const newNonce = bnNonce.add(BigNumber.from(1));
   // We also need to get a timestamp bigger or equal to the current block.timestamp + config.executionDelay
   // Right now + execution delay + 60 seconds into the future
   const currentDate =
