@@ -46,7 +46,7 @@ export async function strategy(
 
   if (snapshot !== 'latest') {
     // @ts-ignore
-    params.domains.subdomains.__args.block = { number: snapshot };
+    params.domains.__args.block = { number: snapshot };
   }
   const result = await subgraphRequest(ENS_SUBGRAPH_URL[network], params);
   const score = {};
