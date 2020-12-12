@@ -1,0 +1,21 @@
+[
+    {
+        "name": "defi dollar",
+        "strategy": {
+            "name": "defi-dollar",
+            "params": {
+                "DFD": "0x20c36f062a31865bED8a5B1e512D9a1A20AA333A",
+                "BPT": "0xd8e9690eff99e21a2de25e0b148ffaf47f47c972",
+                "stakedBPT": "0xF068236eCAd5FAbb9883bbb26A6445d6C7c9A924",
+                "poolDFDDUSD": "0x28bc65cf4b7ebc38da915b672182c5c0ca04d5d4",
+                "poolDFDETH": "0x303c3276F0F66B55703d475c8cf3509Ecd76a4ad",
+                "decimals": 18
+            }
+        },
+        "network": "1",
+        "addresses": [
+            "0xfA85b884942783f45633cc4B3D910d671f3FDCf1"
+        ],
+        "snapshot": "11350000"
+    }
+]
