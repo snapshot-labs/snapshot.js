@@ -115,14 +115,16 @@ export async function getScores(
 ) {
   return await Promise.all(
     strategies.map((strategy) =>
-      _strategies[strategy.name](
-        space,
-        network,
-        provider,
-        addresses,
-        strategy.params,
-        snapshot
-      )
+      snapshot !== 'latest' && strategy.params?.start > snapshot
+        ? {}
+        : _strategies[strategy.name](
+            space,
+            network,
+            provider,
+            addresses,
+            strategy.params,
+            snapshot
+          )
     )
   );
 }
