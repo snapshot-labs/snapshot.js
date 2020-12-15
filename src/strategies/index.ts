@@ -17,6 +17,7 @@ import { strategy as synthetix } from './synthetix';
 import { strategy as ctoken } from './ctoken';
 import { strategy as cream } from './cream';
 import { strategy as esd } from './esd';
+import { strategy as esdDelegation } from './esd-delegation';
 import { strategy as stakedUniswap } from './staked-uniswap';
 
 export default {
@@ -39,5 +40,6 @@ export default {
   ctoken,
   cream,
   'staked-uniswap': stakedUniswap,
-  esd
+  esd,
+  'esd-delegation': esdDelegation
 };
