@@ -19,6 +19,20 @@
     ],
     "explorer": "https://etherscan.io"
   },
+   "3": {
+    "key": "3",
+    "name": "Ethereum Testnet Ropsten",
+    "chainId": 3,
+    "network": "ropsten",
+    "rpc": [
+      "https://eth-ropsten.alchemyapi.io/v2/YF5o0HdbrDpAuM1mSU50dbpFtbGW_sI3",
+      "https://cloudflare-eth.com"
+    ],
+    "ws": [
+      "wss://eth-ropsten.ws.alchemyapi.io/v2/YF5o0HdbrDpAuM1mSU50dbpFtbGW_sI3"
+    ],
+    "explorer": "https://ropsten.etherscan.io/"
+  },
   "4": {
     "key": "4",
     "name": "Ethereum Testnet Rinkeby",

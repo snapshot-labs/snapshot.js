@@ -2,8 +2,8 @@
 // https://github.com/Uniswap/uniswap-interface/blob/master/src/utils/resolveENSContentHash.ts
 import contentHash from '@ensdomains/content-hash';
 import { Provider } from '@ethersproject/abstract-provider';
-import { namehash } from '@ethersproject/hash';
 import { isHexString } from '@ethersproject/bytes';
+import { namehash } from '@ethersproject/hash';
 import bs58 from 'bs58';
 import { call } from '../utils';
 const supportedCodecs = ['ipns-ns', 'ipfs-ns', 'swarm-ns', 'onion', 'onion3'];
@@ -167,11 +167,13 @@ export async function resolveENSContentHash(
   provider: Provider
 ): Promise<string> {
   const hash = namehash(ensName);
+  console.log('hash', hash)
   const resolverAddress = await call(provider, REGISTRAR_ABI, [
     REGISTRAR_ADDRESS,
     'resolver',
     [hash]
   ]);
+  console.log('resolver address', resolverAddress)
   return await call(provider, RESOLVER_ABI, [
     resolverAddress,
     'contenthash',

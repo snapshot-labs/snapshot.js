@@ -1,22 +1,24 @@
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
-import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
+import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import { abi as multicallAbi } from './abi/Multicall.json';
 import _strategies from './strategies';
-import getProvider from './utils/provider';
 import {
   decodeContenthash,
-  validateContent,
-  isValidContenthash,
-  encodeContenthash,
-  resolveENSContentHash,
-  resolveContent
+
+
+  encodeContenthash, isValidContenthash,
+
+
+  resolveContent, resolveENSContentHash, validateContent
 } from './utils/contentHash';
-import { signMessage, getBlockNumber } from './utils/web3';
+import getProvider from './utils/provider';
+import { getBlockNumber, signMessage } from './utils/web3';
 
 export const MULTICALL = {
   '1': '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
+  '3':'0x76c23acc8589b57Bacf3ed71409f087165f238Fc',
   '4': '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821',
   '5': '0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e',
   '6': '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
