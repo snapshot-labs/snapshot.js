@@ -3,6 +3,7 @@ import { strategy as contractCall } from './contract-call';
 import { strategy as cream } from './cream';
 import { strategy as ctoken } from './ctoken';
 import { strategy as defiDollar } from './defi-dollar';
+import { strategy as ensDomainsOwned } from './ens-domains-owned';
 import { strategy as erc20BalanceOf } from './erc20-balance-of';
 import { strategy as erc20BalanceOfCoeff } from './erc20-balance-of-coeff';
 import { strategy as erc20BalanceOfCv } from './erc20-balance-of-cv';
@@ -25,6 +26,7 @@ import { strategy as yearnVault } from './yearn-vault';
 export default {
   balancer,
   'contract-call': contractCall,
+  'ens-domains-owned': ensDomainsOwned,
   'erc20-balance-of': erc20BalanceOf,
   'erc20-balance-of-fixed-total': erc20BalanceOfFixedTotal,
   'erc20-balance-of-cv': erc20BalanceOfCv,
