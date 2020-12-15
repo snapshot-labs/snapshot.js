@@ -1,5 +1,6 @@
 import { strategy as balancer } from './balancer';
 import { strategy as contractCall } from './contract-call';
+import { strategy as ensDomainsOwned } from './ens-domains-owned';
 import { strategy as erc20BalanceOf } from './erc20-balance-of';
 import { strategy as erc20BalanceOfCoeff } from './erc20-balance-of-coeff';
 import { strategy as erc20BalanceOfFixedTotal } from './erc20-balance-of-fixed-total';
@@ -19,10 +20,12 @@ import { strategy as cream } from './cream';
 import { strategy as esd } from './esd';
 import { strategy as esdDelegation } from './esd-delegation';
 import { strategy as stakedUniswap } from './staked-uniswap';
+import { strategy as piedao } from './piedao';
 
 export default {
   balancer,
   'contract-call': contractCall,
+  'ens-domains-owned': ensDomainsOwned,
   'erc20-balance-of': erc20BalanceOf,
   'erc20-balance-of-fixed-total': erc20BalanceOfFixedTotal,
   'erc20-balance-of-cv': erc20BalanceOfCv,
@@ -41,5 +44,6 @@ export default {
   cream,
   'staked-uniswap': stakedUniswap,
   esd,
-  'esd-delegation': esdDelegation
+  'esd-delegation': esdDelegation,
+  piedao
 };
