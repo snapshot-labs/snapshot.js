@@ -216,5 +216,19 @@
       "wss://ws-testnet.hecochain.com"
     ],
     "explorer": "https://scan-testnet.hecochain.com"
+  },
+  "128": {
+    "key": "128",
+    "name": "Huobi Eco Chain Mainnet",
+    "shortName": "heco",
+    "chainId": 128,
+    "network": "Mainnet",
+    "rpc": [
+      "https://http-mainnet.hecochain.com"
+    ],
+    "ws": [
+      "wss://ws-mainnet.hecochain.com"
+    ],
+    "explorer": "https://scan.hecochain.com"
   }
 }
