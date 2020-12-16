@@ -202,5 +202,33 @@
       "https://mainnet-rpc.thundercore.com"
     ],
     "explorer": "https://scan.thundercore.com"
+  },
+  "256": {
+    "key": "256",
+    "name": "Huobi Eco Chain Testnet",
+    "shortName": "heco",
+    "chainId": 256,
+    "network": "testnet",
+    "rpc": [
+      "https://http-testnet.hecochain.com"
+    ],
+    "ws": [
+      "wss://ws-testnet.hecochain.com"
+    ],
+    "explorer": "https://scan-testnet.hecochain.com"
+  },
+  "128": {
+    "key": "128",
+    "name": "Huobi Eco Chain Mainnet",
+    "shortName": "heco",
+    "chainId": 128,
+    "network": "Mainnet",
+    "rpc": [
+      "https://http-mainnet.hecochain.com"
+    ],
+    "ws": [
+      "wss://ws-mainnet.hecochain.com"
+    ],
+    "explorer": "https://scan.hecochain.com"
   }
 }
