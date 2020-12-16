@@ -1,7 +1,7 @@
 import { strategy as esd } from '../esd';
 import { getDelegations } from '../../plugins/delegation/utils';
 
-export const author = 'lewi';
+export const author = 'l3wi';
 export const version = '0.1.0';
 
 export async function strategy(
