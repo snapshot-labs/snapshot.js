@@ -47,5 +47,5 @@ export default {
   esd,
   'esd-delegation': esdDelegation,
   piedao,
-  'xdai-stake': xDaiStake,
+  'xdai-stake': xDaiStake
 };
