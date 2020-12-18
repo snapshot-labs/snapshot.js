@@ -13,3 +13,12 @@ export async function getBlockNumber(provider) {
     return Promise.reject();
   }
 }
+
+export async function getBlock(provider, blockNumber) {
+  try {
+    const block: any = await provider.getBlock(blockNumber);
+    return block;
+  } catch (e) {
+    return Promise.reject();
+  }
+}
