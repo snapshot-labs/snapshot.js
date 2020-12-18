@@ -1,27 +1,27 @@
 import { strategy as balancer } from './balancer';
 import { strategy as contractCall } from './contract-call';
-import { strategy as cream } from './cream';
-import { strategy as ctoken } from './ctoken';
-import { strategy as defiDollar } from './defidollar';
 import { strategy as ensDomainsOwned } from './ens-domains-owned';
 import { strategy as erc20BalanceOf } from './erc20-balance-of';
 import { strategy as erc20BalanceOfCoeff } from './erc20-balance-of-coeff';
-import { strategy as erc20BalanceOfCv } from './erc20-balance-of-cv';
-import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegation';
 import { strategy as erc20BalanceOfFixedTotal } from './erc20-balance-of-fixed-total';
+import { strategy as erc20BalanceOfCv } from './erc20-balance-of-cv';
 import { strategy as erc20WithBalance } from './erc20-with-balance';
-import { strategy as esd } from './esd';
+import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegation';
 import { strategy as ethBalance } from './eth-balance';
 import { strategy as makerDsChief } from './maker-ds-chief';
-import { strategy as moloch } from './moloch';
-import { strategy as pancake } from './pancake';
-import { strategy as piedao } from './piedao';
-import { strategy as stakedUniswap } from './staked-uniswap';
-import { strategy as synthetix } from './synthetix';
 import { strategy as uni } from './uni';
-import { strategy as uniswap } from './uniswap';
 import { strategy as yearnVault } from './yearn-vault';
-
+import { strategy as moloch } from './moloch';
+import { strategy as uniswap } from './uniswap';
+import { strategy as pancake } from './pancake';
+import { strategy as synthetix } from './synthetix';
+import { strategy as ctoken } from './ctoken';
+import { strategy as cream } from './cream';
+import { strategy as esd } from './esd';
+import { strategy as esdDelegation } from './esd-delegation';
+import { strategy as stakedUniswap } from './staked-uniswap';
+import { strategy as piedao } from './piedao';
+import { strategy as defidollar } from './defidollar';
 
 export default {
   balancer,
@@ -45,6 +45,7 @@ export default {
   cream,
   'staked-uniswap': stakedUniswap,
   esd,
+  'esd-delegation': esdDelegation,
   piedao,
-  'defidollar': defiDollar
+  defidollar
 };
