@@ -2,7 +2,7 @@ import { strategy as balancer } from './balancer';
 import { strategy as contractCall } from './contract-call';
 import { strategy as cream } from './cream';
 import { strategy as ctoken } from './ctoken';
-import { strategy as defiDollar } from './defi-dollar';
+import { strategy as defiDollar } from './defidollar';
 import { strategy as ensDomainsOwned } from './ens-domains-owned';
 import { strategy as erc20BalanceOf } from './erc20-balance-of';
 import { strategy as erc20BalanceOfCoeff } from './erc20-balance-of-coeff';
@@ -46,5 +46,5 @@ export default {
   'staked-uniswap': stakedUniswap,
   esd,
   piedao,
-  'defi-dollar': defiDollar
+  'defidollar': defiDollar
 };
