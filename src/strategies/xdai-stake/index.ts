@@ -1,7 +1,6 @@
 import { formatUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
 import { subgraphRequest, call } from '../../utils';
-import { getBlock } from '../../utils/web3';
 import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 import { calculateEmission } from './utils';
 
@@ -112,7 +111,7 @@ export async function strategy(
     getEasyStakingDeposits(network, addresses, snapshot),
     getEasyStakingParams(network, snapshot),
     erc20BalanceOfStrategy(space, network, provider, addresses, options, snapshot),
-    getBlock(provider, snapshot),
+    provider.getBlock(snapshot),
     call(provider, ercABI, [options.address, 'totalSupply', []]),
   ]);
   if (!easyStakingDeposits || easyStakingDeposits.length === 0) {
