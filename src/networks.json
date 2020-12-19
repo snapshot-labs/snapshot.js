@@ -5,13 +5,13 @@
     "chainId": 1,
     "network": "homestead",
     "rpc": [
-      "https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv",
       {
         "url": "https://api-geth-archive.ankr.com",
         "user": "balancer_user",
         "password": "balancerAnkr20201015"
       },
       "https://eth-archival.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
+      "https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv",
       "https://cloudflare-eth.com"
     ],
     "ws": [
@@ -182,5 +182,53 @@
       "wss://api.wanchain.org:8443/ws/v3/ddd16770c68f30350a21114802d5418eafe039b722de52b488e7eee1ee2cd73f"
     ],
     "explorer": "https://www.wanscan.org"
+  },
+  "1337": {
+    "key": "1337",
+    "name": "Localhost 8545",
+    "shortName": "localhost",
+    "chainId": 1337,
+    "network": "localhost",
+    "rpc": [
+      "http://localhost:8545"
+    ]
+  },
+  "108": {
+    "key": "108",
+    "name": "Thundercore Mainnet",
+    "chainId": 108,
+    "network": "mainnet",
+    "rpc": [
+      "https://mainnet-rpc.thundercore.com"
+    ],
+    "explorer": "https://scan.thundercore.com"
+  },
+  "256": {
+    "key": "256",
+    "name": "Huobi Eco Chain Testnet",
+    "shortName": "heco",
+    "chainId": 256,
+    "network": "testnet",
+    "rpc": [
+      "https://http-testnet.hecochain.com"
+    ],
+    "ws": [
+      "wss://ws-testnet.hecochain.com"
+    ],
+    "explorer": "https://scan-testnet.hecochain.com"
+  },
+  "128": {
+    "key": "128",
+    "name": "Huobi Eco Chain Mainnet",
+    "shortName": "heco",
+    "chainId": 128,
+    "network": "Mainnet",
+    "rpc": [
+      "https://http-mainnet.hecochain.com"
+    ],
+    "ws": [
+      "wss://ws-mainnet.hecochain.com"
+    ],
+    "explorer": "https://scan.hecochain.com"
   }
 }
