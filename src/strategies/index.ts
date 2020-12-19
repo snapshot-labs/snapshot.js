@@ -22,6 +22,7 @@ import { strategy as esdDelegation } from './esd-delegation';
 import { strategy as stakedUniswap } from './staked-uniswap';
 import { strategy as piedao } from './piedao';
 import { strategy as ethPhilanthropy } from './eth-philanthropy';
+import { strategy as xDaiStake } from './xdai-stake';
 
 export default {
   balancer,
@@ -47,5 +48,6 @@ export default {
   'staked-uniswap': stakedUniswap,
   esd,
   'esd-delegation': esdDelegation,
-  piedao
+  piedao,
+  'xdai-stake': xDaiStake
 };
