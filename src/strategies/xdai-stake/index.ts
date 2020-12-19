@@ -60,7 +60,7 @@ async function getEasyStakingDeposits(network, addresses, snapshot) {
     page++;
     if (data.deposits.length < 1000) break;
   }
-  return deposits.map((deposit) => ({
+  return deposits.map((deposit: any) => ({
     ...deposit,
     amount: BigNumber.from(deposit.amount),
     timestamp: BigNumber.from(deposit.timestamp)
