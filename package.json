@@ -10,7 +10,11 @@
     "@ensdomains/content-hash": "^2.5.3",
     "@ethersproject/abi": "^5.0.4",
     "@ethersproject/address": "^5.0.4",
+    "@ethersproject/bignumber": "^5.0.12",
+    "@ethersproject/bytes": "^5.0.8",
     "@ethersproject/contracts": "^5.0.3",
+    "@ethersproject/hash": "^5.0.9",
+    "@ethersproject/providers": "^5.0.17",
     "@ethersproject/strings": "^5.0.5",
     "@ethersproject/units": "^5.0.3",
     "ajv": "^7.0.0-beta.4",
@@ -19,7 +23,6 @@
     "json-to-graphql-query": "^2.0.0"
   },
   "devDependencies": {
-    "@ethersproject/providers": "^5.0.9",
     "@types/node": "^13.9.5",
     "bluebird": "^3.7.2",
     "cross-fetch": "^3.0.6",
