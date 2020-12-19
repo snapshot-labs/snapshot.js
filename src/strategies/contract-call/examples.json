@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "contract-call",
+      "params": {
+        "address": "0xC4323faB07b6944Bf8d06B33fFf398a21D6CA207",
+        "decimals": 18,
+        "symbol": "KUN",
+        "methodABI": {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "voter",
+              "type": "address"
+            }
+          ],
+          "name": "votesOf",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        }
+      }
+    },
+    "network": "97",
+    "addresses": [
+      "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7"
+    ],
+    "snapshot": 3596310
+  }
+]
