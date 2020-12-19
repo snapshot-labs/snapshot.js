@@ -2,12 +2,22 @@ global['fetch'] = require('cross-fetch');
 const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
-const example = require('../src/strategies/erc20-balance-of/examples.json')[0];
+
+const strategyNameArgs = Object.keys(snapshot.strategies).map(
+  (name) => `--strategy=${name}`
+);
+const testStrategy =
+  process.argv
+    .find((arg) => strategyNameArgs.includes(arg))
+    ?.split('--strategy=')
+    .join('') || 'erc20-balance-of';
+
+const example = require(`../src/strategies/${testStrategy}/examples.json`)[0];
 
 (async () => {
+  console.log(example.name);
+  console.time('getScores');
   try {
-    console.log(example.name);
-    console.time('getScores');
     const scores = await snapshot.utils.getScores(
       'yam',
       [example.strategy],
@@ -17,8 +27,8 @@ const example = require('../src/strategies/erc20-balance-of/examples.json')[0];
       example.snapshot
     );
     console.log(scores);
-    console.timeEnd('getScores');
   } catch (e) {
     console.error(e);
   }
+  console.timeEnd('getScores');
 })();

@@ -1,7 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { strategy as etherBalanceStrategy } from '../eth-balance';
+import { strategy as ethReceivedStrategy } from '../eth-received';
 import fetch from 'cross-fetch';
-import { ElasticSearchTxResult } from './ElasticSearchTxResult';
 export const author = 'mccallofthewild';
 export const version = '0.1.0';
 
@@ -21,81 +20,17 @@ const ethCharities = [
 ];
 
 export async function strategy(
-  ...args: [
-    string,
-    string,
-    Web3Provider,
-    string[],
-    { erc20TokenAddress?: string },
-    number
-  ]
+  ...args: [string, string, Web3Provider, string[], {}, number]
 ) {
   const [space, network, provider, addresses, options, snapshot] = args;
-
-  // queries AnyBlock ElasticSearch https://www.anyblockanalytics.com/
-  // Account: yidirel126@95ta.com Pass: xU5KKfys76wb633FvGS6
-  const charitableTransactions: ElasticSearchTxResult = await fetch(
-    'https://api.anyblock.tools/ethereum/ethereum/mainnet/es/tx/search/',
+  return ethReceivedStrategy(
+    space,
+    network,
+    provider,
+    addresses,
     {
-      method: 'POST',
-      body: JSON.stringify({
-        from: 0,
-        size: 10000,
-        query: {
-          bool: {
-            must: [
-              {
-                bool: {
-                  should: [
-                    ...addresses.map((a) => ({
-                      match: {
-                        from: a
-                      }
-                    }))
-                  ]
-                }
-              },
-              {
-                bool: {
-                  should: [
-                    ...ethCharities.map(([name, a]) => ({
-                      match: {
-                        to: a
-                      }
-                    }))
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      }),
-      headers: {
-        Authorization: 'Bearer 8c8b3826-afd5-4535-a8be-540562624fbe',
-        'Content-Type': 'application/json'
-      }
-    }
-  ).then((r) => r.json());
-
-  const etherBalances = await etherBalanceStrategy(...args);
-  const scores = {};
-  console.log(etherBalances);
-  for (const address of addresses) {
-    scores[address] = charitableTransactions.hits.hits
-      .filter((tx) => {
-        const validAddress =
-          tx._source.from.toLowerCase() == address.toLowerCase();
-        return validAddress;
-      })
-      .map((tx) => {
-        return {
-          from: tx._source.from,
-          value: tx._source.value.eth
-        };
-      })
-      .reduce((prev, curr) => {
-        return prev + curr.value * 100;
-      }, etherBalances[address]);
-  }
-  return scores;
+      receivingAddresses: ethCharities.map(([name, address]) => address)
+    },
+    snapshot
+  );
 }
