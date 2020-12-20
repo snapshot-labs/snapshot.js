@@ -89,7 +89,7 @@ export async function strategy(
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
-  const queries = [];
+  const queries: any[] = [];
 
   // curve farm needs special handling
   addresses.forEach((voter) => {
