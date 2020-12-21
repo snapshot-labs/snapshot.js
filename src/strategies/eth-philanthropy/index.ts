@@ -20,16 +20,18 @@ const ethCharities = [
 ];
 
 export async function strategy(
-  ...args: [string, string, Web3Provider, string[], {}, number]
+  ...args: [string, string, Web3Provider, string[], { coeff?: number }, number]
 ) {
   const [space, network, provider, addresses, options, snapshot] = args;
+  const { coeff = 100 } = options;
   return ethReceivedStrategy(
     space,
     network,
     provider,
     addresses,
     {
-      receivingAddresses: ethCharities.map(([name, address]) => address)
+      receivingAddresses: ethCharities.map(([name, address]) => address),
+      coeff
     },
     snapshot
   );

@@ -3,7 +3,9 @@
     "name": "Example ETH Philanthropy Query",
     "strategy": {
       "name": "eth-philanthropy",
-      "params": {}
+      "params": {
+        "coeff": 50
+      }
     },
     "network": "1",
     "addresses": [
@@ -15,6 +17,6 @@
       "0x1F717Ce8ff07597ee7c408b5623dF40AaAf1787C",
       "0x1c7a9275F2BD5a260A9c31069F77d53473b8ae2e"
     ],
-    "snapshot": 11414195
+    "snapshot": 11486650
   }
 ]

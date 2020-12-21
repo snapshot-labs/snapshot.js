@@ -1,44 +1,30 @@
 # Contract call strategy
 
-Enables addresses to increase their score by donating to charity, adding `params.coeff` ETH to their score for every 1 ETH donated. This helps to level the playing field for less wealthy participants and incentivizes altruistic behavior from all participants.
+Scores addresses by how much ETH they have sent to `params.receivingAddresses`, adding `params.coeff` ETH to their score for every 1 ETH sent. 
 
-Implementation of [eth-received](./../eth-received)
-
-### Currently Included Charities:
-- [GiveDirectly](https://www.givedirectly.org/): 0xc7464dbcA260A8faF033460622B23467Df5AEA42
-- [Unsung.org](Unsung.org): 0x02a13ED1805624738Cc129370Fee358ea487B0C6
-- [Heifer.org](Heifer.org): 0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1
-- [GraceAid.org.uk](GraceAid.org.uk): 0x236dAA98f115caa9991A3894ae387CDc13eaaD1B
-- [SENS.org](SENS.org): 0x542EFf118023cfF2821b24156a507a513Fe93539
-- [350.org](350.org): 0x50990F09d4f0cb864b8e046e7edC749dE410916b
-- [EFF.org](EFF.org): 0xb189f76323678E094D4996d182A792E52369c005
-- [WikiLeaks](WikiLeaks.org): 0xE96E2181F6166A37EA4C04F6E6E2bD672D72Acc1
-- [GiveWell.org](GiveWell.org): 0x7cF2eBb5Ca55A8bd671A020F8BDbAF07f60F26C1
-- [CoolEarth.org](CoolEarth.org): 0x3c8cB169281196737c493AfFA8F49a9d823bB9c5
-- [Run2Rescue.org](Run2Rescue.org): 0xd17bcbFa6De9E3741aa43Ed32e64696F6a9FA996
-- [Archive.org](Archive.org): 0xFA8E3920daF271daB92Be9B87d9998DDd94FEF08"
-
+This creates a new fundraising opportunity for projects & organizations, levels the playing field for less wealthy participants, and encourages voters to "put their money where their mouth is".
 
 ## Params
 
-- `coeff` - (**Optional**, `number`, Default: `100`) Amount to multiply the sum of a voter's ether sent to charity. When used in conjunction with other strategies, this enables the increase or decrease of leverage given to voters who donate.
+- `receivingAddresses` - (**Required**, `string[]`) Array of addresses to check for ether transactions from voters
+- `coeff` - (**Optional**, `number`, Default: `1`) Amount to multiply the sum of a voter's ether sent to `receivingAddresses`. When used in conjunction with other strategies, this enables the increase or decrease of leverage given to voter who send ETH.
 
 
 ## Examples
 
 Can be used instead of, or in conjunction with eth-balance strategy. 
-In this example, the `params.coeff` of `1000` makes a 1 ETH donation equivalent to a 1000 ETH address balance. Thus, giving voters a massive incentive to donate.
+In this example, the `params.coeff` of `100` makes a 1 ETH donation equivalent to a 100 ETH address balance. Thus, giving voters a massive incentive to donate.
 
 The space config will look like this:
 
 ```JSON
 "strategies": [
   {
-    "name": "Example ETH-Philanthropy Strategy",
+    "name": "Example ETH-Received Strategy",
     "strategy": {
-      "name": "eth-philanthropy",
+      "name": "eth-received",
       "params": {
-        "coeff": 1000,
+        "coeff": 100,
         "receivingAddresses": [
           "0xc7464dbcA260A8faF033460622B23467Df5AEA42",
           "0x02a13ED1805624738Cc129370Fee358ea487B0C6",

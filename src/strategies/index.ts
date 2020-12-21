@@ -22,10 +22,12 @@ import { strategy as esdDelegation } from './esd-delegation';
 import { strategy as stakedUniswap } from './staked-uniswap';
 import { strategy as piedao } from './piedao';
 import { strategy as ethReceived } from './eth-received';
+import { strategy as erc20Received } from './erc20-received';
 import { strategy as ethPhilanthropy } from './eth-philanthropy';
 
 export default {
   balancer,
+  'erc20-received': erc20Received,
   'contract-call': contractCall,
   'eth-received': ethReceived,
   'eth-philanthropy': ethPhilanthropy,
