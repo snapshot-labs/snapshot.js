@@ -134,7 +134,7 @@ export async function strategy(
     Object.entries(erc20Score).map(([address, balance]: any) => {
       let totalBalance = balance;
       const userDeposits = easyStakingDeposits.filter(
-        (deposit) => deposit.user === address
+        (deposit) => deposit.user.toLowerCase() === address.toLowerCase()
       );
       userDeposits.forEach((deposit) => {
         const timePassed = BigNumber.from(block.timestamp).sub(
