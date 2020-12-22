@@ -2,7 +2,7 @@ global['fetch'] = require('cross-fetch');
 const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
-const example = require('../src/strategies/aavegotchi/examples.json')[0];
+const example = require('../src/strategies/erc20-balance-of/examples.json')[0];
 
 (async () => {
   try {
