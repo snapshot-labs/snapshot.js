@@ -25,6 +25,7 @@ import { strategy as ethReceived } from './eth-received';
 import { strategy as erc20Received } from './erc20-received';
 import { strategy as ethPhilanthropy } from './eth-philanthropy';
 import { strategy as xDaiStake } from './xdai-stake';
+import { strategy as defidollar } from './defidollar';
 
 export default {
   balancer,
@@ -53,5 +54,6 @@ export default {
   esd,
   'esd-delegation': esdDelegation,
   piedao,
-  'xdai-stake': xDaiStake
+  'xdai-stake': xDaiStake,
+  defidollar
 };
