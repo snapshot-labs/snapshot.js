@@ -1,5 +1,5 @@
 import fetch from 'cross-fetch';
-import { Web3Provider } from '@ethersproject/providers';
+import { InfuraProvider, Web3Provider } from '@ethersproject/providers';
 import { formatUnits } from '@ethersproject/units';
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 
@@ -24,54 +24,41 @@ export async function strategy(
   const [space, network, provider, addresses, options, snapshot] = args;
   const { coeff = 1, receivingAddresses, contractAddress, decimals } = options;
 
-  const etherscanApiKey = 'TRBDWD7I5UK25G1ZZAZ3I889S6F4KBP4BN';
-  const logResults: {
-    fromAddress: string;
-    toAddress: string;
-    amount: number;
-  }[] = [];
-  const requestDelay = 1000 / 5;
-  let iteration = 0;
-  let lastFetchTime = Date.now();
-
-  for (let fromAddress of addresses)
-    for (let toAddress of receivingAddresses) {
-      await new Promise((r) =>
-        setTimeout(r, requestDelay - Math.max(0, Date.now() - lastFetchTime))
-      );
-      const r = await fetch(
-        `https://api.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${contractAddress}&topic1=${fromAddress.replace(
-          '0x',
-          '0x000000000000000000000000'
-        )}&topic1_2_opr=and&topic2=${toAddress.replace(
-          '0x',
-          '0x000000000000000000000000'
-        )}&apikey=${etherscanApiKey}`
-      ).then<EtherScanLogResponse>((r) => r.json());
-      if (typeof r.result == 'string')
-        throw new Error(r.message + ' - ' + r.result);
-      logResults.push(
-        ...r.result.map((eventLog) => ({
-          fromAddress,
-          toAddress,
-          amount: parseFloat(
-            formatUnits(BigNumber.from(eventLog.data), BigNumber.from(decimals))
-          )
-        }))
-      );
-    }
-
+  const logResults = await new InfuraProvider().getLogs({
+    address: contractAddress,
+    fromBlock: 0,
+    toBlock: 'latest',
+    topics: [
+      // transfer
+      '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
+      // from
+      addresses.map((a) => a.replace('0x', '0x000000000000000000000000')),
+      // to
+      receivingAddresses.map((a) =>
+        a.replace('0x', '0x000000000000000000000000')
+      )
+    ]
+  });
   const scores = {};
   for (const address of addresses) {
-    scores[address] = logResults
-      .filter((eventLog) => {
+    const logsWithAddress = logResults.filter(
+      ({ topics: [, fromHex, toHex] }) => {
         const validAddress =
-          eventLog.fromAddress.toLowerCase() == address.toLowerCase();
+          fromHex.replace('0x000000000000000000000000', '0x').toLowerCase() ==
+          address.toLowerCase();
         return validAddress;
-      })
-      .reduce((prev, curr) => {
-        return prev + curr.amount * coeff;
-      }, 0);
+      }
+    );
+    // Sum of all transfers
+    scores[address] = logsWithAddress.reduce((prev, curr) => {
+      return (
+        prev +
+        parseFloat(
+          formatUnits(BigNumber.from(curr.data), BigNumber.from(decimals))
+        ) *
+          coeff
+      );
+    }, 0);
   }
   return scores;
 }
