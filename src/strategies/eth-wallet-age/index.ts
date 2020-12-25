@@ -1,9 +1,22 @@
+import { EnumType } from 'json-to-graphql-query';
 import fetch from 'cross-fetch';
+import { subgraphRequest } from '../../utils';
 
 export const author = 'chaituvr';
 export const version = '0.1.0';
 
-const delay = interval => new Promise(resolve => setTimeout(resolve, interval));
+const getJWT = async (dfuseApiKey) => {
+  const rawResponse = await fetch('https://auth.dfuse.io/v1/auth/issue', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"api_key": dfuseApiKey})
+  });
+  const content = await rawResponse.json();
+  return content.token
+};
 
 export async function strategy(
   space,
@@ -14,31 +27,51 @@ export async function strategy(
   snapshot
   ) {
   const apiLimit = 300;
-  let data = []
-
-  data = await Promise.all(addresses.map((address, index) => {
-    return new Promise(resolve => setTimeout(resolve, apiLimit * index))
-      .then(
-        () => fetch(
-          `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&offset=1&page=1&sort=asc&apikey=${options.etherscanApiKey}`
-        )
-      ).then(
-        a => a.json()
-      )
-    }
-  ))
+  let data: any =  []
+  try {
+    const query = Object.fromEntries(addresses.map(address => [`_${address}`, {
+      __aliasFor: 'searchTransactions',
+      __args: {
+        indexName: new EnumType('CALLS'),
+        query: `(from:${address} OR to:${address})`,
+        sort: new EnumType('ASC'),
+        limit: 1,
+      },
+      edges: {
+        block: {
+          header: {
+            timestamp: true
+          },
+          number: true
+        },
+        node: {
+          from: true,
+          to: true
+        }
+      }
+    }]));
+    
+    const dfuseJWT = await getJWT(options.dfuseApiKey);
+    data = await subgraphRequest('https://mainnet.eth.dfuse.io/graphql', query, {
+      headers: {
+        Authorization: 'Bearer ' + dfuseJWT
+      }
+    });
+  } catch (error) {
+    console.error(error)
+  }
+  if(Object.keys(data).length === 0) {
+    data = Object.fromEntries(addresses.map(address => [`_${address}`, {edges: []}]));
+  }
   return Object.fromEntries(
-    data.map((value, i) => [
+    Object.values(data).map((value: any, i) => [
       addresses[i],
       (() => {
-        if(value.status === '1') {
-          const firstTransaction = value.result[0].timeStamp * 1000;
-          const today = new Date().getTime();
-          const diffInSeconds = Math.abs(firstTransaction - today);
-          const walletAgeInDays = Math.floor(diffInSeconds / 1000 / 60 / 60 / 24);
-          return walletAgeInDays
-        }
-        return 0
+        const today = new Date().getTime();
+        const firstTransaction = value.edges[0]?.block?.header?.timestamp || today;
+        const diffInSeconds = Math.abs(firstTransaction - today);
+        const walletAgeInDays = Math.floor(diffInSeconds / 1000 / 60 / 60 / 24);
+        return walletAgeInDays
       })()
     ])
   );

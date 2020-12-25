@@ -4,7 +4,7 @@
     "strategy": {
       "name": "eth-wallet-age",
       "params": {
-        "etherscanApiKey": "AFY48XGA6KDRFCX8GDEIX1H3F1UXV61BHB"
+        "dfuseApiKey": "web_f527db575a38dd11c5b686d7da54d371"
       }
     },
     "network": "1",
