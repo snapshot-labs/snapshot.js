@@ -28,41 +28,34 @@ export async function strategy(
   ) {
   const apiLimit = 300;
   let data: any =  []
-  try {
-    const query = Object.fromEntries(addresses.map(address => [`_${address}`, {
-      __aliasFor: 'searchTransactions',
-      __args: {
-        indexName: new EnumType('CALLS'),
-        query: `(from:${address} OR to:${address})`,
-        sort: new EnumType('ASC'),
-        limit: 1,
-      },
-      edges: {
-        block: {
-          header: {
-            timestamp: true
-          },
-          number: true
+  const query = Object.fromEntries(addresses.map(address => [`_${address}`, {
+    __aliasFor: 'searchTransactions',
+    __args: {
+      indexName: new EnumType('CALLS'),
+      query: `(from:${address} OR to:${address})`,
+      sort: new EnumType('ASC'),
+      limit: 1,
+    },
+    edges: {
+      block: {
+        header: {
+          timestamp: true
         },
-        node: {
-          from: true,
-          to: true
-        }
+        number: true
+      },
+      node: {
+        from: true,
+        to: true
       }
-    }]));
-    
-    const dfuseJWT = await getJWT(options.dfuseApiKey);
-    data = await subgraphRequest('https://mainnet.eth.dfuse.io/graphql', query, {
-      headers: {
-        Authorization: 'Bearer ' + dfuseJWT
-      }
-    });
-  } catch (error) {
-    console.error(error)
-  }
-  if(Object.keys(data).length === 0) {
-    data = Object.fromEntries(addresses.map(address => [`_${address}`, {edges: []}]));
-  }
+    }
+  }]));
+  
+  const dfuseJWT = await getJWT(options.dfuseApiKey || 'web_f527db575a38dd11c5b686d7da54d371');
+  data = await subgraphRequest('https://mainnet.eth.dfuse.io/graphql', query, {
+    headers: {
+      Authorization: 'Bearer ' + dfuseJWT
+    }
+  });
   return Object.fromEntries(
     Object.values(data).map((value: any, i) => [
       addresses[i],
