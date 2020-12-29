@@ -8,7 +8,10 @@
 <body>
 
 <script>
-console.log(snapshot);
+snapshot.utils.ipfsGet(
+  'cloudflare-ipfs.com',
+  'QmWtk4pJ2CNhmLFK9Nhk5gGD7xr2KbsK4cfpFXyR9YCbYG'
+).then(result => console.log(result));
 </script>
 
 </body>
