@@ -10,6 +10,7 @@ This creates a new fundraising opportunity for projects & organizations, levels 
 - `decimals` - (**Required**, `number`) Decimal precision for ERC20 token
 - `receivingAddresses` - (**Required**, `string[]`) Array of addresses to check for ERC20 transactions from voters
 - `coeff` - (**Optional**, `number`, Default: `1`) Amount to multiply the sum of a voter's ERC20 sent to `receivingAddresses`. When used in conjunction with other strategies, this enables the increase or decrease of leverage given to voter who send tokens.
+- `dfuseApiKey` - (**Optional**, `string`, Default: contributor's test key) - Customize Dfuse API key
 
 
 ## Examples

@@ -7,7 +7,6 @@
   "module": "dist/snapshot.esm.js",
   "browser": "dist/snapshot.min.js",
   "dependencies": {
-    "@dfuse/client": "^0.3.17",
     "@ensdomains/content-hash": "^2.5.3",
     "@ethersproject/abi": "^5.0.4",
     "@ethersproject/address": "^5.0.4",

@@ -22,7 +22,8 @@ const testStrategy =
 const example = require(`../src/strategies/${testStrategy}/examples.json`)[0];
 
 (async () => {
-  console.log(example.name);
+  console.log(`Testing Strategy: "${testStrategy}"`);
+  console.log(`> ${example.name}`);
   console.time('getScores');
   try {
     const scores = await snapshot.utils.getScores(
@@ -35,7 +36,7 @@ const example = require(`../src/strategies/${testStrategy}/examples.json`)[0];
     );
     console.log(scores);
   } catch (e) {
-    console.log(`${example.name} failed`);
+    console.log(`-- "${example.name}" failed`);
     console.error(e);
   }
   console.timeEnd('getScores');
