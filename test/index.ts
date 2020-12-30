@@ -6,8 +6,8 @@ const networks = require('../src/networks.json');
 /* 
   ## Usage
   `npm run test` // Tests default (erc20-balance-of)
-  `npm run test -- strategy=erc20-received`
-  `npm run test -- strategy=eth-balance`
+  `npm run test --strategy=erc20-received`
+  `npm run test --strategy=eth-balance`
 */
 
 const strategyArg =
