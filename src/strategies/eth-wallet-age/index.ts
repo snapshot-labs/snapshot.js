@@ -53,7 +53,7 @@ export async function strategy(
   const dfuseJWT = await getJWT(options.dfuseApiKey || 'web_f527db575a38dd11c5b686d7da54d371');
   data = await subgraphRequest('https://mainnet.eth.dfuse.io/graphql', query, {
     headers: {
-      Authorization: 'Bearer ' + dfuseJWT
+      Authorization: `Bearer ${dfuseJWT}`
     }
   });
   return Object.fromEntries(
