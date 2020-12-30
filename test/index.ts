@@ -6,18 +6,19 @@ const networks = require('../src/networks.json');
 /* 
   ## Usage
   `npm run test` // Tests default (erc20-balance-of)
-  `npm run test --strategy=erc20-received`
-  `npm run test --strategy=eth-balance`
+  `npm run test -- strategy=erc20-received`
+  `npm run test -- strategy=eth-balance`
 */
 
-const strategyNameArgs = Object.keys(snapshot.strategies).map(
-  (name) => `--strategy=${name}`
-);
+const strategyArg =
+  process.env['npm_config_strategy'] ||
+  (process.argv.find((arg) => arg.includes('--strategy=')) || '')
+    .split('--strategy=')
+    .pop();
+
 const testStrategy =
-  process.argv
-    .find((arg) => strategyNameArgs.includes(arg))
-    ?.split('--strategy=')
-    .join('') || 'erc20-balance-of';
+  Object.keys(snapshot.strategies).find((s) => strategyArg == s) ||
+  'erc20-balance-of';
 
 const example = require(`../src/strategies/${testStrategy}/examples.json`)[0];
 
