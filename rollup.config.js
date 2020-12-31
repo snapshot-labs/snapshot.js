@@ -16,11 +16,10 @@ export default [
   {
     input,
     context: 'window',
-    output: {
-      name,
-      file: pkg.browser,
-      format: 'iife'
-    },
+    output: [
+      { name, file: 'dist/snapshot.min.js', format: 'iife' },
+      { name, file: pkg.browser, format: 'amd' }
+    ],
     plugins: [
       json(),
       builtins(),
