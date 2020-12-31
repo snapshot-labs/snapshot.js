@@ -17,8 +17,7 @@ export default [
     input,
     context: 'window',
     output: [
-      { name, file: 'dist/snapshot.min.js', format: 'iife' },
-      { name, file: pkg.browser, format: 'amd' }
+      { name, file: pkg.browser, format: 'umd' }
     ],
     plugins: [
       json(),
