@@ -16,11 +16,9 @@ export default [
   {
     input,
     context: 'window',
-    output: {
-      name,
-      file: pkg.browser,
-      format: 'iife'
-    },
+    output: [
+      { name, file: pkg.browser, format: 'umd' }
+    ],
     plugins: [
       json(),
       builtins(),
