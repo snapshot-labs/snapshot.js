@@ -2,7 +2,7 @@ import { EnumType } from 'json-to-graphql-query';
 import fetch from 'cross-fetch';
 import { subgraphRequest } from '../../utils';
 
-export const author = 'chaituvr';
+export const author = 'ChaituVR';
 export const version = '0.1.0';
 
 const getJWT = async (dfuseApiKey) => {
