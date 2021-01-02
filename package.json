@@ -1,6 +1,6 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
@@ -33,7 +33,7 @@
     "eslint-plugin-import": "^2.20.2",
     "prettier": "2.2.0",
     "rollup": "^2.35.1",
-    "rollup-plugin-filesize": "^6.2.1",
+    "rollup-plugin-filesize": "^9.1.0",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
