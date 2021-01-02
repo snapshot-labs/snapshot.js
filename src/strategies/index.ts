@@ -21,13 +21,19 @@ import { strategy as esd } from './esd';
 import { strategy as esdDelegation } from './esd-delegation';
 import { strategy as stakedUniswap } from './staked-uniswap';
 import { strategy as piedao } from './piedao';
+import { strategy as ethReceived } from './eth-received';
+import { strategy as erc20Received } from './erc20-received';
+import { strategy as ethPhilanthropy } from './eth-philanthropy';
 import { strategy as xDaiStake } from './xdai-stake';
 import { strategy as defidollar } from './defidollar';
 import { strategy as aavegotchi } from './aavegotchi';
 
 export default {
   balancer,
+  'erc20-received': erc20Received,
   'contract-call': contractCall,
+  'eth-received': ethReceived,
+  'eth-philanthropy': ethPhilanthropy,
   'ens-domains-owned': ensDomainsOwned,
   'erc20-balance-of': erc20BalanceOf,
   'erc20-balance-of-fixed-total': erc20BalanceOfFixedTotal,
