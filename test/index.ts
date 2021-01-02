@@ -3,11 +3,11 @@ const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
 
-/* 
-  ## Usage
-  `npm run test` // Tests default (erc20-balance-of)
-  `npm run test --strategy=erc20-received`
-  `npm run test --strategy=eth-balance`
+/*
+## Usage
+`npm run test` // Tests default (erc20-balance-of)
+`npm run test --strategy=erc20-received`
+`npm run test --strategy=eth-balance`
 */
 
 const strategyArg =
@@ -15,16 +15,14 @@ const strategyArg =
   (process.argv.find((arg) => arg.includes('--strategy=')) || '')
     .split('--strategy=')
     .pop();
-
-const testStrategy =
+const strategy =
   Object.keys(snapshot.strategies).find((s) => strategyArg == s) ||
   'erc20-balance-of';
-
-const example = require(`../src/strategies/${testStrategy}/examples.json`)[0];
+const example = require(`../src/strategies/${strategy}/examples.json`)[0];
 
 (async () => {
-  console.log(`Testing Strategy: "${testStrategy}"`);
-  console.log(`> ${example.name}`);
+  console.log(`Strategy: "${strategy}"`);
+  console.log(example.name);
   console.time('getScores');
   try {
     const scores = await snapshot.utils.getScores(
@@ -37,7 +35,7 @@ const example = require(`../src/strategies/${testStrategy}/examples.json`)[0];
     );
     console.log(scores);
   } catch (e) {
-    console.log(`-- "${example.name}" failed`);
+    console.log('getScores failed');
     console.error(e);
   }
   console.timeEnd('getScores');
