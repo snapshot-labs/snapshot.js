@@ -193,12 +193,12 @@
       "http://localhost:8545"
     ]
   },
-  "8545": {
-    "key": "8545",
-    "name": "Localhost 8545",
-    "shortName": "localhost",
-    "chainId": 8545,
-    "network": "localhost",
+  "17": {
+    "key": "17",
+    "name": "Docker localhost 8545",
+    "shortName": "dockerLocalhost",
+    "chainId": 17,
+    "network": "docker localhost",
     "rpc": [
       "http://localhost:8545"
     ]
