@@ -28,6 +28,7 @@ import { strategy as ethPhilanthropy } from './eth-philanthropy';
 import { strategy as xDaiStake } from './xdai-stake';
 import { strategy as defidollar } from './defidollar';
 import { strategy as aavegotchi } from './aavegotchi';
+import { strategy as mithcash } from './mithcash';
 
 export default {
   balancer,
@@ -59,5 +60,6 @@ export default {
   piedao,
   'xdai-stake': xDaiStake,
   defidollar,
-  aavegotchi
+  aavegotchi,
+  mithcash
 };
