@@ -193,6 +193,16 @@
       "http://localhost:8545"
     ]
   },
+  "8545": {
+    "key": "8545",
+    "name": "Localhost 8545",
+    "shortName": "localhost",
+    "chainId": 8545,
+    "network": "localhost",
+    "rpc": [
+      "http://localhost:8545"
+    ]
+  },
   "108": {
     "key": "108",
     "name": "Thundercore Mainnet",
