@@ -4,6 +4,7 @@ import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import { abi as multicallAbi } from './abi/Multicall.json';
 import _strategies from './strategies';
+import Multicaller from './utils/multicaller';
 import getProvider from './utils/provider';
 import {
   decodeContenthash,
@@ -156,5 +157,6 @@ export default {
   resolveENSContentHash,
   resolveContent,
   signMessage,
-  getBlockNumber
+  getBlockNumber,
+  Multicaller
 };
