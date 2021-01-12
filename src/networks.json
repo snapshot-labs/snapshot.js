@@ -86,6 +86,17 @@
     ],
     "explorer": "https://blockscout.com/etc/mainnet"
   },
+  "99":{
+    "key": "99",
+    "name": "POA Core",
+    "shortName": "POA",
+    "chainId": 99,
+    "network": "mainnet",
+    "rpc": [
+      "https://core.poa.network"
+    ],
+    "explorer": "https://blockscout.com/poa/core/"
+  },
   "82": {
     "key": "82",
     "name": "Meter Mainnet",
