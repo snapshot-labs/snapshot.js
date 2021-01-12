@@ -20,7 +20,8 @@
     "ajv": "^7.0.0-beta.4",
     "bs58": "^4.0.1",
     "ethereumjs-util": "^7.0.7",
-    "json-to-graphql-query": "^2.0.0"
+    "json-to-graphql-query": "^2.0.0",
+    "lodash.set": "^4.3.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
