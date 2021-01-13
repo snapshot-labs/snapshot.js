@@ -30,6 +30,7 @@ import { strategy as defidollar } from './defidollar';
 import { strategy as aavegotchi } from './aavegotchi';
 import { strategy as mithcash } from './mithcash';
 import { strategy as balancerUnipool } from './balancer-unipool';
+import { strategy as stablexswap } from './stablexswap';
 
 export default {
   balancer,
@@ -63,5 +64,6 @@ export default {
   defidollar,
   aavegotchi,
   mithcash,
-  'balancer-unipool': balancerUnipool
+  'balancer-unipool': balancerUnipool,
+  stablexswap
 };
