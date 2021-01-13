@@ -1,0 +1,33 @@
+[{
+      "stakingDecimals": 18,
+      "masterDecimals": 18,
+      "stakingWeightage": 500,
+      "masterWeightage": 200,
+      "chefAddresses": [
+          {
+            "address": "0x7cd05f8b960ba071fdf69c750c0e5a57c8366500",
+            "_note" : "This is the STAX/Cake pool",
+            "decimals": 18,
+            "weightage": 1
+          },
+          {
+            "address": "0x7fb0017195470bc6978659396ec9d750a35c51fe",
+            "_note" : "This is the STAX/BNB pool",
+            "decimals": 18,
+            "weightage": 1
+          },
+          {
+            "address": "0x13abfa7b781bee80ca7fae7ec71045488d876a8d",
+            "_note" : "This is the STAX/BUSD pool",
+            "decimals": 18,
+            "weightage": 1
+          }
+      ],
+      "addresses": [
+          "0xa0b5edd06ec41beb434bb654e7e373f9a1fdc58f",
+          "0xecae266b38fa64ddb443ab1db44602ff61ff2f3b",
+          "0xa3E56A7d3C97681D443dE712e3d397D8d8D8A077"
+      ],
+      "network": "56",
+      "snapshot": "latest"
+}]
