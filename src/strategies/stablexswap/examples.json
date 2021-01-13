@@ -1,0 +1,16 @@
+[{
+      "stakingDecimals": 18,
+      "masterDecimals": 18,
+      "stakingWeightage": 8,
+      "addresses": [
+          "0xd8fa0957b8e3c3b07210a9b1c14da07572be3a69",
+          "0xecae266b38fa64ddb443ab1db44602ff61ff2f3b",
+          "0xa3E56A7d3C97681D443dE712e3d397D8d8D8A077",
+          "0x3232d9fbb5f1937c90361c6bee938e0b8f98c71d"
+      ],
+      "_comment" : "poolID 0 = STAX/WBNB, poolID 4 = STAX/BUSD",
+      "pools": ["0", "4"],
+      "poolsWeightage": [25, 4],
+      "network": "56",
+      "snapshot": "latest"
+}]
