@@ -1,16 +1,84 @@
-import { formatUnits } from '@ethersproject/units';
+import { formatUnits, parseUnits } from '@ethersproject/units';
 import { getAddress } from '@ethersproject/address';
-import { subgraphRequest, multicall } from '../../utils';
+import { getBlockNumber } from '../../utils/web3';
+import { multicall } from '../../utils';
 
 export const author = 'bun919tw';
-export const version = '0.1.0';
+export const version = '0.2.0';
 
-const CREAM_SWAP_SUBGRAPH_URL = {
-  1: 'https://api.thegraph.com/subgraphs/name/creamfinancedev/cream-swap-v2',
-  3: 'https://api.thegraph.com/subgraphs/name/creamfinancedev/cream-swap-dev'
-};
-
-const longTermPoolABI = [
+const abi = [
+  {
+    constant: true,
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address'
+      }
+    ],
+    name: 'balanceOf',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      },
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address'
+      }
+    ],
+    name: 'userInfo',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      },
+      {
+        internalType: 'uint256',
+        name: 'rewardDebt',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'exchangeRateStored',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  },
   {
     constant: true,
     inputs: [
@@ -20,7 +88,7 @@ const longTermPoolABI = [
         type: 'address'
       }
     ],
-    name: 'balanceOf',
+    name: 'borrowBalanceStored',
     outputs: [
       {
         internalType: 'uint256',
@@ -42,69 +110,36 @@ export async function strategy(
   options,
   snapshot
 ) {
-  const creamAddress = options.address;
-  let [score, creamBalance] = await Promise.all([
-    creamSwapScore(network, addresses, creamAddress, snapshot),
-    creamBalanceOf(network, provider, addresses, options, snapshot)
-  ]);
-  for (const [userAddress, userBalance] of Object.entries(creamBalance)) {
-    if (!score[userAddress]) score[userAddress] = 0;
-    score[userAddress] = score[userAddress] + userBalance;
-  }
-
-  return score || {};
-}
-
-async function creamSwapScore(network, addresses, creamAddress, snapshot) {
-  const params = {
-    poolShares: {
-      __args: {
-        where: {
-          userAddress_in: addresses.map((address) => address.toLowerCase()),
-          balance_gt: 0
-        },
-        first: 1000,
-        orderBy: 'balance',
-        orderDirection: 'desc'
-      },
-      userAddress: {
-        id: true
-      },
-      balance: true,
-      poolId: {
-        totalShares: true,
-        tokens: {
-          id: true,
-          balance: true
-        }
-      }
-    }
-  };
-  if (snapshot !== 'latest') {
-    // @ts-ignore
-    params.poolShares.__args.block = { number: snapshot };
-  }
-  const result = await subgraphRequest(
-    CREAM_SWAP_SUBGRAPH_URL[network],
-    params
-  );
-  const score = {};
-  if (result && result.poolShares) {
-    result.poolShares.forEach((poolShare) =>
-      poolShare.poolId.tokens.map((poolToken) => {
-        const [, tokenAddress] = poolToken.id.split('-');
-        if (tokenAddress === creamAddress.toLowerCase()) {
-          const userAddress = getAddress(poolShare.userAddress.id);
-          if (!score[userAddress]) score[userAddress] = 0;
-          score[userAddress] =
-            score[userAddress] +
-            (poolToken.balance / poolShare.poolId.totalShares) *
-              poolShare.balance;
-        }
-      })
+  const creamAddress = options.token;
+  const blockTag =
+    typeof snapshot === 'number' ? snapshot : await getBlockNumber(provider);
+  let calls = [];
+  for (let i = 0; i < options.weeks; i++) {
+    // if block number < 0, uses blockTag
+    const blocksPerWeek = 40320; // assume 15s per block
+    const blockNumber = blockTag > 40320 * i ? blockTag - 40320 * i : blockTag;
+    calls.push(
+      creamBalanceOf(network, provider, addresses, options, blockNumber),
+      creamSushiswapLP(network, provider, addresses, options, blockNumber),
+      crCREAM(network, provider, addresses, options, blockNumber)
     );
   }
-  return score || {};
+
+  const results = await Promise.all(calls);
+  let score = results.reduce((balance, result) => {
+    for (const [userAddress, userBalance] of Object.entries(result)) {
+      balance[userAddress] = (balance[userAddress] || 0) + userBalance;
+    }
+    return balance;
+  }, {});
+
+  // get average balance of options.weeks
+  for (const [userAddress, userBalance] of Object.entries(score)) {
+    const balance: any = userBalance < 0 ? 0 : userBalance;
+    score[userAddress] = balance / options.weeks;
+  }
+
+  return score;
 }
 
 async function creamBalanceOf(network, provider, addresses, options, snapshot) {
@@ -123,7 +158,7 @@ async function creamBalanceOf(network, provider, addresses, options, snapshot) {
     );
   }
 
-  const balances = await multicall(network, provider, longTermPoolABI, calls, {
+  const balances = await multicall(network, provider, abi, calls, {
     blockTag
   });
 
@@ -137,5 +172,104 @@ async function creamBalanceOf(network, provider, addresses, options, snapshot) {
       }
       return [address, sum];
     })
+  );
+}
+
+async function creamSushiswapLP(
+  network,
+  provider,
+  addresses,
+  options,
+  snapshot
+) {
+  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+
+  const response = await multicall(
+    network,
+    provider,
+    abi,
+    [
+      [options.token, 'balanceOf', [options.sushiswap]],
+      [options.sushiswap, 'totalSupply'],
+      ...addresses.map((address: any) => [
+        options.sushiswap,
+        'balanceOf',
+        [address]
+      ]),
+      ...addresses.map((address: any) => [
+        options.masterChef,
+        'userInfo',
+        [options.pid, address]
+      ])
+    ],
+    { blockTag }
+  );
+
+  const creamPerLP = parseUnits(response[0][0].toString(), 18).div(
+    response[1][0]
+  );
+  const lpBalances = response.slice(2, addresses.length + 2);
+  const stakedUserInfo = response.slice(
+    addresses.length + 2,
+    addresses.length * 2 + 2
+  );
+
+  return Object.fromEntries(
+    Array(addresses.length)
+      .fill('')
+      .map((_, i) => {
+        const lpBalance = lpBalances[i][0].add(stakedUserInfo[i]['amount']);
+        const creamLpBalance = lpBalance
+          .mul(creamPerLP)
+          .div(parseUnits('1', 18));
+
+        return [addresses[i], parseFloat(formatUnits(creamLpBalance, 18))];
+      })
+  );
+}
+
+async function crCREAM(network, provider, addresses, options, snapshot) {
+  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+
+  const response = await multicall(
+    network,
+    provider,
+    abi,
+    [
+      [options.crCREAM, 'exchangeRateStored'],
+      ...addresses.map((address: any) => [
+        options.crCREAM,
+        'balanceOf',
+        [address]
+      ]),
+      ...addresses.map((address: any) => [
+        options.crCREAM,
+        'borrowBalanceStored',
+        [address]
+      ])
+    ],
+    { blockTag }
+  );
+
+  const exchangeRate = response[0][0];
+  const crCREAMBalances = response.slice(1, addresses.length + 1);
+  const borrowBalances = response.slice(
+    addresses.length + 1,
+    addresses.length * 2 + 1
+  );
+
+  return Object.fromEntries(
+    Array(addresses.length)
+      .fill('')
+      .map((_, i) => {
+        const supplyBalance = crCREAMBalances[i][0]
+          .mul(exchangeRate)
+          .div(parseUnits('1', 18));
+        const lockedBalance = formatUnits(
+          supplyBalance.sub(borrowBalances[i][0]),
+          18
+        );
+        return [addresses[i], parseFloat(lockedBalance)];
+      })
   );
 }
