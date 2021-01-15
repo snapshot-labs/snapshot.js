@@ -1,5 +1,4 @@
 import { formatUnits, parseUnits } from '@ethersproject/units';
-import { getAddress } from '@ethersproject/address';
 import { getBlockNumber } from '../../utils/web3';
 import { multicall } from '../../utils';
 
