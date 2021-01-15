@@ -118,6 +118,7 @@ export async function strategy(
     const blocksPerWeek = 40320; // assume 15s per block
     const blockNumber = blockTag > 40320 * i ? blockTag - 40320 * i : blockTag;
     calls.push(
+      // @ts-ignore
       creamBalanceOf(network, provider, addresses, options, blockNumber),
       creamSushiswapLP(network, provider, addresses, options, blockNumber),
       crCREAM(network, provider, addresses, options, blockNumber)
@@ -134,6 +135,7 @@ export async function strategy(
 
   // get average balance of options.weeks
   for (const [userAddress, userBalance] of Object.entries(score)) {
+    // @ts-ignore
     const balance: any = userBalance < 0 ? 0 : userBalance;
     score[userAddress] = balance / options.weeks;
   }
