@@ -60,7 +60,7 @@ export async function strategy(
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
-  const multi = new Multicaller(network, provider, abi, options);
+  const multi = new Multicaller(network, provider, abi, { blockTag });
 
   multi.call('pancakeBalance', options.token, 'balanceOf', [options.pancake]);
   multi.call('pancakeTotalSupply', options.pancake, 'totalSupply');
