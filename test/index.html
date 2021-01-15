@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Snapshot.js</title>
+  <script src="../dist/snapshot.min.js"></script>
+</head>
+<body>
+
+<script>
+snapshot.utils.ipfsGet(
+  'cloudflare-ipfs.com',
+  'QmWtk4pJ2CNhmLFK9Nhk5gGD7xr2KbsK4cfpFXyR9YCbYG'
+).then(result => console.log(result));
+</script>
+
+</body>
+</html>

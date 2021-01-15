@@ -60,7 +60,7 @@ async function getEasyStakingDeposits(network, addresses, snapshot) {
     page++;
     if (data.deposits.length < 1000) break;
   }
-  return deposits.map((deposit) => ({
+  return deposits.map((deposit: any) => ({
     ...deposit,
     amount: BigNumber.from(deposit.amount),
     timestamp: BigNumber.from(deposit.timestamp)
@@ -134,7 +134,7 @@ export async function strategy(
     Object.entries(erc20Score).map(([address, balance]: any) => {
       let totalBalance = balance;
       const userDeposits = easyStakingDeposits.filter(
-        (deposit) => deposit.user === address
+        (deposit) => deposit.user.toLowerCase() === address.toLowerCase()
       );
       userDeposits.forEach((deposit) => {
         const timePassed = BigNumber.from(block.timestamp).sub(
