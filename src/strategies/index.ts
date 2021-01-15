@@ -65,7 +65,6 @@ export default {
   defidollar,
   aavegotchi,
   mithcash,
-  'balancer-unipool': balancerUnipool,
   stablexswap,
   dittomoney,
   'balancer-unipool': balancerUnipool
