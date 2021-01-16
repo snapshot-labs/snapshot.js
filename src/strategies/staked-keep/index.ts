@@ -1,7 +1,7 @@
 import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 
-const UNISWAP_SUBGRAPH_URL = {
+const KEEP_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/miracle2k/all-the-keeps'
 };
 
@@ -32,7 +32,7 @@ export async function strategy(
     // @ts-ignore
     params.operators.__args.block = { number: snapshot };
   }
-  const result = await subgraphRequest(UNISWAP_SUBGRAPH_URL[network], params);
+  const result = await subgraphRequest(KEEP_SUBGRAPH_URL[network], params);
   const score = {};
   if (result && result.operators) {
     result.operators.forEach((op) => {
