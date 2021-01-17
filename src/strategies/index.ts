@@ -31,6 +31,7 @@ import { strategy as aavegotchi } from './aavegotchi';
 import { strategy as mithcash } from './mithcash';
 import { strategy as dittomoney } from './dittomoney';
 import { strategy as balancerUnipool } from './balancer-unipool';
+import { strategy as stakedKeep } from './staked-keep';
 
 export default {
   balancer,
@@ -65,5 +66,6 @@ export default {
   aavegotchi,
   mithcash,
   dittomoney,
+  'staked-keep': stakedKeep,
   'balancer-unipool': balancerUnipool
 };
