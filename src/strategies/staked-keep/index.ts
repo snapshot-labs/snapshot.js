@@ -25,7 +25,7 @@ export async function strategy(
         first: 1000
       },
       owner: true,
-      stakedAmount: true,
+      stakedAmount: true
     }
   };
   if (snapshot !== 'latest') {
@@ -36,9 +36,9 @@ export async function strategy(
   const score = {};
   if (result && result.operators) {
     result.operators.forEach((op) => {
-        const userAddress = getAddress(op.owner);
-        if (!score[userAddress]) score[userAddress] = 0;
-        score[userAddress] = score[userAddress] + Number(op.stakedAmount);
+      const userAddress = getAddress(op.owner);
+      if (!score[userAddress]) score[userAddress] = 0;
+      score[userAddress] = score[userAddress] + Number(op.stakedAmount);
     });
   }
   return score;
