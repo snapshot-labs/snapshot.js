@@ -80,26 +80,24 @@ export async function strategy(
   });
 
   const result = await multi.execute();
-
   const dittoPerLP = result.pancakeBalance;
-  const lpBalances = result.scores[0].pancake;
-  const stakedLpBalances = result.scores[0].totalStaked;
-  const tokenBalances = result.scores[0].balance;
 
   return Object.fromEntries(
     Array(addresses.length)
       .fill('')
       .map((_, i) => {
-        const lpBalance = lpBalances[i].add(stakedLpBalances[i]);
+        const lpBalances = result.scores[addresses[i]].pancake;
+        const stakedLpBalances = result.scores[addresses[i]].totalStaked;
+        const tokenBalances = result.scores[addresses[i]].balance;
+        const lpBalance = lpBalances.add(stakedLpBalances);
         const dittoLpBalance = lpBalance
           .mul(dittoPerLP)
           .div(parseUnits('1', 18));
-
         return [
           addresses[i],
           parseFloat(
             formatUnits(
-              dittoLpBalance[i].add(tokenBalances[i]),
+              dittoLpBalance.add(tokenBalances),
               options.decimals
             )
           )
