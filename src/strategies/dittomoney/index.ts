@@ -96,10 +96,7 @@ export async function strategy(
         return [
           addresses[i],
           parseFloat(
-            formatUnits(
-              dittoLpBalance.add(tokenBalances),
-              options.decimals
-            )
+            formatUnits(dittoLpBalance.add(tokenBalances), options.decimals)
           )
         ];
       })
