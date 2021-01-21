@@ -19,6 +19,17 @@
     ],
     "explorer": "https://etherscan.io"
   },
+  "3": {
+    "key": "3",
+    "name": "Ethereum Testnet Ropsten",
+    "shortName": "Ropsten",
+    "chainId": 3,
+    "network": "ropsten",
+    "rpc": [
+      "https://eth-ropsten.alchemyapi.io/v2/wbsH-Ihl4guFWnM4klEJxh5r64KRp3LV"
+    ],
+    "explorer": "https://ropsten.etherscan.io"
+  },
   "4": {
     "key": "4",
     "name": "Ethereum Testnet Rinkeby",
@@ -33,6 +44,17 @@
       "wss://eth-rinkeby.ws.alchemyapi.io/v2/twReQE9Px03E-E_N_Fbb3OVF7YgHxoGq"
     ],
     "explorer": "https://rinkeby.etherscan.io"
+  },
+  "5": {
+    "key": "5",
+    "name": "Ethereum Testnet Görli",
+    "shortName": "Görli",
+    "chainId": 5,
+    "network": "goerli",
+    "rpc": [
+      "https://eth-goerli.alchemyapi.io/v2/gzMLSQ6EPmP6ZsTd0BOCQ7tPwAmgWpO9"
+    ],
+    "explorer": "https://goerli.etherscan.io"
   },
   "7": {
     "key": "7",
