@@ -1,10 +1,10 @@
 import { formatUnits } from '@ethersproject/units';
-import { multicall } from '../../utils';
+import Multicaller from '../../utils/multicaller';
 
 export const author = 'stablexswap';
 export const version = '0.0.1';
 
-const bep20abi = [
+const abi = [
   {
     inputs: [
       {
@@ -23,10 +23,7 @@ const bep20abi = [
     ],
     stateMutability: 'view',
     type: 'function'
-  }
-];
-
-const masterChefAbi = [
+  },
   {
     inputs: [
       {
@@ -55,10 +52,7 @@ const masterChefAbi = [
     ],
     stateMutability: 'view',
     type: 'function'
-  }
-];
-
-const stakingChefAbi = [
+  },
   {
     inputs: [
       {
@@ -78,11 +72,7 @@ const stakingChefAbi = [
     stateMutability: 'view',
     type: 'function'
   }
-]
-
-const staxERC20ContractAddress = '0x0da6ed8b13214ff28e9ca979dd37439e8a88f6c4';
-const masterChefContractAddress = '0xc80991f9106e26e43bf1c07c764829a85f294c71';
-const stakingChefContractAddress = '0x0c0c475e32212b748c328e451ab3862ffe07369e';
+];
 
 export async function strategy(
   space,
@@ -94,64 +84,39 @@ export async function strategy(
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
-  // For erc20 token balances not staked in any contract
-  const score = await multicall(
-    network,
-    provider,
-    bep20abi,
-    addresses.map((address: any) => [
-      staxERC20ContractAddress,
-      'balanceOf',
-      [address]
-    ]),
-    { blockTag }
-  );
+  const multi = new Multicaller(network, provider, abi, { blockTag });
 
-  // For tokens in stakingChef contract @0x0c0
-  const stakingBalances = await multicall(
-    network,
-    provider,
-    stakingChefAbi,
-    addresses.map((address: any) => [
-      stakingChefContractAddress,
-      'poolsInfo',
-      [address]
-    ]),
-    { blockTag }
-  );
+  addresses.forEach((address: any) => {
+    multi.call(`stax.${address}`, options.staxAddress, 'balanceOf', [address]);
+    multi.call(`stakingChef.${address}`, options.stakingChefAddress, 'poolsInfo', [address]);
+    options.pools.forEach((poolId: any) => {
+      multi.call(
+        `masterChef.${address}.pool_${poolId}`,
+        options.masterChefAddress,
+        'userInfo',
+        [poolId, address]
+      )
+    })
+  });
 
-  // For tokens in Superchef contract @0xc80
-  const masterBalances = await Promise.all(options.pools.map((poolId: any) =>
-    multicall(
-        network,
-        provider,
-        masterChefAbi,
-        addresses.map((address: any) => [
-          masterChefContractAddress,
-          'userInfo',
-          [poolId, address]
-        ])
-        ,
-        { blockTag }
-    )
-  ));
+  const result = await multi.execute();
 
   const parseRes = (elem, decimals) => {
     return parseFloat(
-      formatUnits(elem.amount.toString(), decimals)
+      formatUnits(elem, decimals)
     )
   };
 
   return Object.fromEntries(
-    addresses.map((address, index) => [
-      address,
-      1 * parseRes(score[index], 18)    // unstaked tokens have weight of 1
-        +
-      options.stakingWeightage * parseRes(stakingBalances[index], options.stakingDecimals)
-        +
-      masterBalances.reduce<number>((prev: number, curr: Array<any>, idx: number) =>
-        prev + options.poolsWeightage[idx] * parseRes(curr[index], options.masterDecimals), 0
-      )
-    ])
+    addresses.map((address) => [
+        address,
+        parseRes(result.stax[address], 18) * 1
+          +
+        parseRes(result.stakingChef[address], options.stakingDecimals) * options.stakingWeightage +
+          +
+        options.pools.reduce((prev: number, poolId: any, idx: number) =>
+          prev + parseRes(result.masterChef[address][`pool_${poolId}`], options.masterDecimals) * options.poolsWeightage[idx], 0
+        )
+      ])
   );
 }
