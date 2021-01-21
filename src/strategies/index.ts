@@ -29,6 +29,7 @@ import { strategy as xDaiStake } from './xdai-stake';
 import { strategy as defidollar } from './defidollar';
 import { strategy as aavegotchi } from './aavegotchi';
 import { strategy as mithcash } from './mithcash';
+import { strategy as dittomoney } from './dittomoney';
 import { strategy as balancerUnipool } from './balancer-unipool';
 import { strategy as stablexswap } from './stablexswap';
 
@@ -64,6 +65,7 @@ export default {
   defidollar,
   aavegotchi,
   mithcash,
-  'balancer-unipool': balancerUnipool,
-  stablexswap
+  stablexswap,
+  dittomoney,
+  'balancer-unipool': balancerUnipool
 };
