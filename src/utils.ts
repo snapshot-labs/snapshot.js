@@ -18,6 +18,7 @@ import { signMessage, getBlockNumber } from './utils/web3';
 
 export const MULTICALL = {
   '1': '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
+  '3': '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
   '4': '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821',
   '5': '0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e',
   '6': '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
@@ -28,6 +29,7 @@ export const MULTICALL = {
   '97': '0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46',
   '100': '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
   '128': '0x37ab26db3df780e7026f3e767f65efb739f48d8e',
+  '137': '0xCBca837161be50EfA5925bB9Cc77406468e76751',
   '256': '0xC33994Eb943c61a8a59a918E2de65e03e4e385E0',
   '1337': '0x566131e85d46cc7BBd0ce5C6587E9912Dc27cDAc',
   wanchain: '0xba5934ab3056fca1fa458d30fbb3810c3eb5145f'
