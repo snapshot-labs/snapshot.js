@@ -4,7 +4,7 @@ Allows the tokens staked in chef contracts to be used to calculate voter scores.
 
 ## Usage
 
-Manually testing works. To test locally we need to add Object.fromEntries:
+To use locally we need to add Object.fromEntries:
 
 "npm i -D polyfill-object.fromentries"
 
