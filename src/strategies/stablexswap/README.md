@@ -11,7 +11,7 @@ const scores = await snapshot.strategies.stablexswap(
     example.network,
     new JsonRpcProvider(networks[example.network].rpc[0]),
     example.addresses,
-    example,
+    example.params,
     example.snapshot
   );
 

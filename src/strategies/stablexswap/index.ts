@@ -87,14 +87,14 @@ export async function strategy(
   const multi = new Multicaller(network, provider, abi, { blockTag });
 
   addresses.forEach((address: any) => {
-    multi.call(`stax.${address}`, options.staxAddress, 'balanceOf', [address]);
-    multi.call(`stakingChef.${address}`, options.stakingChefAddress, 'poolsInfo', [address]);
-    options.pools.forEach((poolId: any) => {
+    multi.call(`stax.${address}`, options.stax.address, 'balanceOf', [address]);
+    multi.call(`stakingChef.${address}`, options.stakingchef.address, 'poolsInfo', [address]);
+    options.pools.forEach((pool: any) => {
       multi.call(
-        `masterChef.${address}.pool_${poolId}`,
-        options.masterChefAddress,
+        `masterChef.${address}.pool_${pool.poolId}`,
+        options.masterchef.address,
         'userInfo',
-        [poolId, address]
+        [pool.poolId, address]
       )
     })
   });
@@ -110,12 +110,12 @@ export async function strategy(
   return Object.fromEntries(
     addresses.map((address) => [
         address,
-        parseRes(result.stax[address], 18) * 1
+        parseRes(result.stax[address], options.stax.decimals) * 1
           +
-        parseRes(result.stakingChef[address], options.stakingDecimals) * options.stakingWeightage +
+        parseRes(result.stakingChef[address], options.stakingchef.decimals) * options.stakingchef.weightage +
           +
-        options.pools.reduce((prev: number, poolId: any, idx: number) =>
-          prev + parseRes(result.masterChef[address][`pool_${poolId}`], options.masterDecimals) * options.poolsWeightage[idx], 0
+        options.pools.reduce((prev: number, pool: any, idx: number) =>
+          prev + parseRes(result.masterChef[address][`pool_${pool.poolId}`], options.masterchef.decimals) * pool.weightage, 0
         )
       ])
   );
