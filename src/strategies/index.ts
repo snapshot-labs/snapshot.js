@@ -33,6 +33,7 @@ import { strategy as mithcash } from './mithcash';
 import { strategy as dittomoney } from './dittomoney';
 import { strategy as balancerUnipool } from './balancer-unipool';
 import { strategy as stakedKeep } from './staked-keep';
+import { strategy as typhoon } from './typhoon';
 
 export default {
   balancer,
@@ -69,5 +70,6 @@ export default {
   mithcash,
   dittomoney,
   'staked-keep': stakedKeep,
-  'balancer-unipool': balancerUnipool
+  'balancer-unipool': balancerUnipool,
+  typhoon
 };
