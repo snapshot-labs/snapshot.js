@@ -12,6 +12,7 @@
     },
     "network": "56",
     "addresses": [
+      "0x05ff2b0db69458a0750badebc4f9e13add608c7f",
       "0xd1a8Dd23e356B9fAE27dF5DeF9ea025A602EC81e",
       "0x48f7cb174a2333de834452ad240ce8d3d827dc55",
       "0x0d3cae1ff719d6a2ac0fcd7cd22f599cac64b6ec",
