@@ -27,6 +27,7 @@ import { strategy as ethReceived } from './eth-received';
 import { strategy as erc20Received } from './erc20-received';
 import { strategy as ethPhilanthropy } from './eth-philanthropy';
 import { strategy as xDaiStake } from './xdai-stake';
+import { strategy as xDaiStakeDelegation } from './xdai-stake-delegation';
 import { strategy as defidollar } from './defidollar';
 import { strategy as aavegotchi } from './aavegotchi';
 import { strategy as mithcash } from './mithcash';
@@ -66,6 +67,7 @@ export default {
   'esd-delegation': esdDelegation,
   piedao,
   'xdai-stake': xDaiStake,
+  'xdai-stake-delegation': xDaiStakeDelegation,
   defidollar,
   aavegotchi,
   mithcash,
