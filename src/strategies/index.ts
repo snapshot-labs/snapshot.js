@@ -32,6 +32,7 @@ import { strategy as aavegotchi } from './aavegotchi';
 import { strategy as mithcash } from './mithcash';
 import { strategy as dittomoney } from './dittomoney';
 import { strategy as balancerUnipool } from './balancer-unipool';
+import { strategy as stablexswap } from './stablexswap';
 import { strategy as stakedKeep } from './staked-keep';
 import { strategy as typhoon } from './typhoon';
 
@@ -68,6 +69,7 @@ export default {
   defidollar,
   aavegotchi,
   mithcash,
+  stablexswap,
   dittomoney,
   'staked-keep': stakedKeep,
   'balancer-unipool': balancerUnipool,
