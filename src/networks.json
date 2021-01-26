@@ -160,7 +160,7 @@
     "shortName": "Matic",
     "chainId": 137,
     "network": "mainnet",
-    "rpc": ["https://rpc-mainnet.matic.network"],
+    "rpc": ["https://rpc-mainnet.maticvigil.com"],
     "ws": ["wss://ws-mainnet.matic.network"],
     "explorer": ""
   },

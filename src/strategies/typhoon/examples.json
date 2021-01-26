@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Typhoon",
+        "strategy": {
+            "name": "typhoon",
+            "params": {
+                "token": "0x79256DB1BDB6259315a1a3D7Dd237F69cADFd8FC",
+                "micLP": "0x73F0D7D96206eE96F4A46eF3587A1BBd4385711e",
+                "micRewardPool": "0x7D66Dcd9064272051656D961a25170DD50cDe526",
+                "usdtLP": "0xD1482DC5d5f6C140A69157D945267831d1CF2D6e",
+                "usdtRewardPool": "0x7dF50B4FCAE42581e40e2D91edD7d4FA1B37bae1"
+            }
+        },
+        "network": "1",
+        "addresses": [
+            "0x544fca5eef17d75a273955ba6fd16fe3c6e620aa",
+            "0xcc5b73e4dae936f3bd830f048303c076eae3edf9",
+            "0x5382859146010ac16e142b6708f8e178e77f66bc"
+        ],
+        "snapshot": 11718702
+    }
+]
