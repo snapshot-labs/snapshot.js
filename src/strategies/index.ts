@@ -36,6 +36,7 @@ import { strategy as balancerUnipool } from './balancer-unipool';
 import { strategy as stablexswap } from './stablexswap';
 import { strategy as stakedKeep } from './staked-keep';
 import { strategy as typhoon } from './typhoon';
+import { strategy as delegation } from './delegation';
 
 export default {
   balancer,
@@ -75,5 +76,6 @@ export default {
   dittomoney,
   'staked-keep': stakedKeep,
   'balancer-unipool': balancerUnipool,
-  typhoon
+  typhoon,
+  delegation
 };

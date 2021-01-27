@@ -26,7 +26,7 @@ const example = require(`../src/strategies/${strategy}/examples.json`)[0];
   console.time('getScores');
   try {
     const scores = await snapshot.utils.getScores(
-      'yam',
+      'yearn',
       [example.strategy],
       example.network,
       new JsonRpcProvider(networks[example.network].rpc[0]),
