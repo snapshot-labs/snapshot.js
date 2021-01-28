@@ -46,7 +46,6 @@ export async function strategy(
   const quadraticWeighting = (value) => {
     // Scale the value by 100000
     const scaledValue = value * 1e5;
-    console.log('scaledValue', scaledValue);
     return Math.sqrt(scaledValue);
   };
   return Object.fromEntries(
