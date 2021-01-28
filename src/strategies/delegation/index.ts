@@ -1,5 +1,6 @@
 import { getDelegations } from '../../plugins/delegation/utils';
 import { getScores } from '../../utils';
+import { getAddress } from '@ethersproject/address';
 
 export const author = 'bonustrack';
 export const version = '0.1.0';
@@ -37,7 +38,7 @@ export async function strategy(
     addresses.map((address) => {
       const addressScore = delegations[address]
         ? delegations[address].reduce(
-            (a, b) => a + scores.reduce((x, y) => x + y[b] || 0, 0),
+            (a, b) => a + scores.reduce((x, y) => x + y[getAddress(b)] || 0, 0),
             0
           )
         : 0;
