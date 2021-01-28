@@ -88,35 +88,44 @@ export async function strategy(
 
   addresses.forEach((address: any) => {
     multi.call(`stax.${address}`, options.stax.address, 'balanceOf', [address]);
-    multi.call(`stakingChef.${address}`, options.stakingchef.address, 'poolsInfo', [address]);
+    multi.call(
+      `stakingChef.${address}`,
+      options.stakingchef.address,
+      'poolsInfo',
+      [address]
+    );
     options.pools.forEach((pool: any) => {
       multi.call(
         `masterChef.${address}.pool_${pool.poolId}`,
         options.masterchef.address,
         'userInfo',
         [pool.poolId, address]
-      )
-    })
+      );
+    });
   });
 
   const result = await multi.execute();
 
   const parseRes = (elem, decimals) => {
-    return parseFloat(
-      formatUnits(elem, decimals)
-    )
+    return parseFloat(formatUnits(elem, decimals));
   };
 
   return Object.fromEntries(
     addresses.map((address) => [
-        address,
-        parseRes(result.stax[address], options.stax.decimals) * 1
-          +
-        parseRes(result.stakingChef[address], options.stakingchef.decimals) * options.stakingchef.weightage +
-          +
-        options.pools.reduce((prev: number, pool: any, idx: number) =>
-          prev + parseRes(result.masterChef[address][`pool_${pool.poolId}`], options.masterchef.decimals) * pool.weightage, 0
+      address,
+      parseRes(result.stax[address], options.stax.decimals) * 1 +
+        parseRes(result.stakingChef[address], options.stakingchef.decimals) *
+          options.stakingchef.weightage +
+        +options.pools.reduce(
+          (prev: number, pool: any, idx: number) =>
+            prev +
+            parseRes(
+              result.masterChef[address][`pool_${pool.poolId}`],
+              options.masterchef.decimals
+            ) *
+              pool.weightage,
+          0
         )
-      ])
+    ])
   );
 }
