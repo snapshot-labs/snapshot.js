@@ -7,7 +7,7 @@ import { strategy as erc20BalanceOfFixedTotal } from './erc20-balance-of-fixed-t
 import { strategy as erc20BalanceOfCv } from './erc20-balance-of-cv';
 import { strategy as erc20WithBalance } from './erc20-with-balance';
 import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegation';
-import { strategy as erc20BalanceOfWithMin } from './erc20-balance-of-with-min';
+import { strategy as balanceOfWithMin } from './balance-of-with-min';
 import { strategy as balancerDelegation } from './balancer-delegation';
 import { strategy as ethBalance } from './eth-balance';
 import { strategy as ethWalletAge } from './eth-wallet-age';
@@ -52,7 +52,7 @@ export default {
   'erc20-balance-of-coeff': erc20BalanceOfCoeff,
   'erc20-with-balance': erc20WithBalance,
   'erc20-balance-of-delegation': erc20BalanceOfDelegation,
-  'erc20-balance-of-with-min': erc20BalanceOfWithMin,
+  'balance-of-with-min': balanceOfWithMin,
   'balancer-delegation': balancerDelegation,
   'eth-balance': ethBalance,
   'eth-wallet-age': ethWalletAge,
