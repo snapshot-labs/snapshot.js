@@ -38,6 +38,7 @@ import { strategy as stablexswap } from './stablexswap';
 import { strategy as stakedKeep } from './staked-keep';
 import { strategy as typhoon } from './typhoon';
 import { strategy as delegation } from './delegation';
+import { strategy as ticket } from './ticket';
 
 export default {
   balancer,
@@ -79,5 +80,6 @@ export default {
   'staked-keep': stakedKeep,
   'balancer-unipool': balancerUnipool,
   typhoon,
-  delegation
+  delegation,
+  ticket
 };
