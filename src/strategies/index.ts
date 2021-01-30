@@ -39,6 +39,7 @@ import { strategy as stakedKeep } from './staked-keep';
 import { strategy as typhoon } from './typhoon';
 import { strategy as delegation } from './delegation';
 import { strategy as ticket } from './ticket';
+import { strategy as work } from './work';
 
 export default {
   balancer,
@@ -81,5 +82,6 @@ export default {
   'balancer-unipool': balancerUnipool,
   typhoon,
   delegation,
-  ticket
+  ticket,
+  work
 };
