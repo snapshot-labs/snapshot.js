@@ -40,6 +40,7 @@ import { strategy as typhoon } from './typhoon';
 import { strategy as delegation } from './delegation';
 import { strategy as ticket } from './ticket';
 import { strategy as work } from './work';
+import { strategy as opium } from './opium';
 
 export default {
   balancer,
@@ -83,5 +84,6 @@ export default {
   typhoon,
   delegation,
   ticket,
-  work
+  work,
+  opium
 };
