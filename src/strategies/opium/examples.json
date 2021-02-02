@@ -1,0 +1,22 @@
+[
+    {
+        "name": "opium",
+        "strategy": {
+            "name": "opium",
+            "params": {
+                "OPIUM": "0x888888888889c00c67689029d7856aac1065ec11",
+                "wOPIUM": "0x7a8d51b82b36fa5b50fb77001d6d189e920d2f75",
+                "LP_1INCH_OPIUM_ETH": "0x822e00a929f5a92f3565a16f92581e54af2b90ea",
+                "FARMING_LP_1INCH_OPIUM_ETH": "0x18d410f651289bb978fc32f90d2d7e608f4f4560"
+            }
+        },
+        "network": "1",
+        "addresses": [
+            "0xdbc2f7f3bccccf54f1bda43c57e8ab526e379df1",
+            "0x65402c084f79d698e17f32617f6c4198751dc5a0",
+            "0xfdde7ad56320b9cc691ad319a8fec2c8d6b993e6",
+            "0x6ef7e40b1a35fc336cdf54141e0f11ae004337c0"
+        ],
+        "snapshot": 11766053
+    }
+]
