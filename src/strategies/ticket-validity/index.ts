@@ -20,6 +20,6 @@ export async function strategy(
     snapshot
   );
   return Object.fromEntries(
-    Object.entries(score).map((address: any) => [address[0], (address[1] > 0 ? 1 : 0)])
+    Object.entries(score).map((address: any) => [address[0], (address[1] > options.min || 0 ? 1 : 0)])
   );
 }
