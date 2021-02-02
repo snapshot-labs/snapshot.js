@@ -104,10 +104,10 @@ export async function strategy(
   const responseClean = response.slice(2, response.length);
 
   const chunks = chunk(responseClean, addresses.length);
-  const opiumBalances = chunks[0]
-  const wOpiumBalances = chunks[1]
-  const lp1inchOpiumEthBalances = chunks[2]
-  const farmingLp1inchOpiumEthBalances = chunks[3]
+  const opiumBalances = chunks[0];
+  const wOpiumBalances = chunks[1];
+  const lp1inchOpiumEthBalances = chunks[2];
+  const farmingLp1inchOpiumEthBalances = chunks[3];
 
   return Object.fromEntries(
     Array(addresses.length)
@@ -124,7 +124,9 @@ export async function strategy(
               .add(
                 opiumLp1inchOpiumEth[0]
                   .mul(
-                    lp1inchOpiumEthBalances[i][0].add(farmingLp1inchOpiumEthBalances[i][0])
+                    lp1inchOpiumEthBalances[i][0].add(
+                      farmingLp1inchOpiumEthBalances[i][0]
+                    )
                   )
                   .div(opiumLp1inchOpiumEthTotalSupply[0])
               )
