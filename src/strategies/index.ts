@@ -40,6 +40,7 @@ import { strategy as typhoon } from './typhoon';
 import { strategy as delegation } from './delegation';
 import { strategy as ticket } from './ticket';
 import { strategy as work } from './work';
+import { strategy as ticketValidity } from './ticket-validity';
 import { strategy as opium } from './opium';
 
 export default {
@@ -85,5 +86,6 @@ export default {
   delegation,
   ticket,
   work,
+  'ticket-validity': ticketValidity,
   opium
 };
