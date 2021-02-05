@@ -6,24 +6,22 @@
       "title": "Space",
       "type": "object",
       "properties": {
-        "token": {
-          "type": "string",
-          "title": "token",
-          "maxLength": 64
-        },
         "name": {
           "type": "string",
           "title": "name",
+          "minLength": 1,
           "maxLength": 32
         },
         "network": {
           "type": "string",
           "title": "network",
+          "minLength": 1,
           "maxLength": 32
         },
         "symbol": {
           "type": "string",
           "title": "symbol",
+          "minLength": 1,
           "maxLength": 12
         },
         "skin": {
@@ -91,10 +89,12 @@
             }
           },
           "additionalProperties": false
+        },
+        "plugins": {
+          "type": "object"
         }
       },
       "required": [
-        "token",
         "name",
         "network",
         "symbol",

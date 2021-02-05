@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "uniswap",
+      "params": {
+        "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+        "symbol": "DAI"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x79317fc0fb17bc0ce213a2b50f343e4d4c277704"
+    ],
+    "snapshot": 1111000
+  }
+]

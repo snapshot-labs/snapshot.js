@@ -12,6 +12,7 @@ function getArgs(options, address: string) {
 }
 
 export async function strategy(
+  space,
   network,
   provider,
   addresses,

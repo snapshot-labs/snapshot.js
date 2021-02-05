@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Empty Set Dollar",
+        "strategy": {
+            "name": "esd",
+            "params": {
+                "uniswap": "0x88ff79eB2Bc5850F27315415da8685282C7610F9",
+                "rewards": "0x4082D11E506e3250009A991061ACd2176077C88f",
+                "dao": "0x443d2f2755db5942601fa062cc248aaa153313d3",
+                "token": "0x36F3FD68E7325a35EB768F1AedaAe9EA0689d723",
+                "decimals": 18
+            }
+        },
+        "network": "1",
+        "addresses": [
+            "0x0b7376f2a063c771d460210a4fa8787c9a7379f9",
+            "0x635b230c3fdf6a466bb6dc3b9b51a8ceb0659b67",
+            "0x22fa8cc33a42320385cbd3690ed60a021891cb32",
+            "0xcF63E1C31805254b6fB3Ed7829206c2b2505e3a7",
+            "0xd5d5a7cb1807364cde0bad51d0a7d758943ab114",
+            "0x7055ef0557dc6ff56cdf0c36d28b346d40a1b8ed",
+            "0xd1991b6fd521a3f357d96a15956702ce33342fec"
+        ],
+        "snapshot": 11350000
+    }
+]

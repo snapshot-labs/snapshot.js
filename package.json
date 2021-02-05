@@ -1,28 +1,43 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
   "module": "dist/snapshot.esm.js",
   "browser": "dist/snapshot.min.js",
   "dependencies": {
+    "@ensdomains/content-hash": "^2.5.3",
     "@ethersproject/abi": "^5.0.4",
     "@ethersproject/address": "^5.0.4",
+    "@ethersproject/bignumber": "^5.0.12",
+    "@ethersproject/bytes": "^5.0.8",
     "@ethersproject/contracts": "^5.0.3",
+    "@ethersproject/hash": "^5.0.9",
+    "@ethersproject/providers": "^5.0.17",
+    "@ethersproject/strings": "^5.0.5",
     "@ethersproject/units": "^5.0.3",
-    "json-to-graphql-query": "^2.0.0"
+    "ajv": "^7.0.0-beta.4",
+    "bs58": "^4.0.1",
+    "ethereumjs-util": "^7.0.7",
+    "json-to-graphql-query": "^2.0.0",
+    "lodash.set": "^4.3.2"
   },
   "devDependencies": {
-    "@ethersproject/providers": "^5.0.9",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.1",
     "@types/node": "^13.9.5",
     "bluebird": "^3.7.2",
+    "cross-fetch": "^3.0.6",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
-    "rollup": "^2.3.0",
-    "rollup-plugin-filesize": "^6.2.1",
+    "prettier": "2.2.0",
+    "rollup": "^2.35.1",
+    "rollup-plugin-filesize": "^9.1.0",
     "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-terser": "^7.0.0",
     "rollup-plugin-typescript2": "^0.27.0",
     "typescript": "^3.8.3"
@@ -36,11 +51,6 @@
   },
   "files": [
     "dist",
-    "src",
-    "connectors",
-    "plugins"
-  ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  }
+    "src"
+  ]
 }
