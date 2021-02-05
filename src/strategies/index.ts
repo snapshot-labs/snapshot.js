@@ -34,6 +34,7 @@ import { strategy as aavegotchi } from './aavegotchi';
 import { strategy as mithcash } from './mithcash';
 import { strategy as dittomoney } from './dittomoney';
 import { strategy as balancerUnipool } from './balancer-unipool';
+import { strategy as sushiswap } from './sushiswap';
 import { strategy as stablexswap } from './stablexswap';
 import { strategy as stakedKeep } from './staked-keep';
 import { strategy as typhoon } from './typhoon';
@@ -64,6 +65,7 @@ export default {
   uni,
   'yearn-vault': yearnVault,
   moloch,
+  sushiswap,
   uniswap,
   pancake,
   synthetix,
