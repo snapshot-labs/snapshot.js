@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "masterchef",
+      "params": {
+        "address": "0x66ae32178640813f3c32a9929520bfe4fef5d167",
+        "symbol": "COVER/ETH"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x4688a8b1f292fdab17e9a90c8bc379dc1dbd8713"
+    ],
+    "snapshot": 1111000
+  }
+]
