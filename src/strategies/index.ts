@@ -14,6 +14,7 @@ import { strategy as ethWalletAge } from './eth-wallet-age';
 import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
 import { strategy as yearnVault } from './yearn-vault';
+import { strategy as fraxFinance } from './frax-finance';
 import { strategy as moloch } from './moloch';
 import { strategy as uniswap } from './uniswap';
 import { strategy as pancake } from './pancake';
@@ -63,6 +64,7 @@ export default {
   'eth-wallet-age': ethWalletAge,
   'maker-ds-chief': makerDsChief,
   uni,
+  'frax-finance': fraxFinance,
   'yearn-vault': yearnVault,
   moloch,
   sushiswap,

@@ -17,7 +17,7 @@ const strategyArg =
     .pop();
 const strategy =
   Object.keys(snapshot.strategies).find((s) => strategyArg == s) ||
-  'erc20-balance-of';
+  'frax-finance'; //erc20-balance-of';
 const example = require(`../src/strategies/${strategy}/examples.json`)[0];
 
 (async () => {
@@ -26,7 +26,7 @@ const example = require(`../src/strategies/${strategy}/examples.json`)[0];
   console.time('getScores');
   try {
     const scores = await snapshot.utils.getScores(
-      'yearn',
+      'frax-finance',
       [example.strategy],
       example.network,
       new JsonRpcProvider(networks[example.network].rpc[0]),
