@@ -43,7 +43,7 @@ import { strategy as ticket } from './ticket';
 import { strategy as work } from './work';
 import { strategy as ticketValidity } from './ticket-validity';
 import { strategy as opium } from './opium';
-
+import { strategy as julswap } from './julswap';
 export default {
   balancer,
   'erc20-received': erc20Received,
@@ -89,5 +89,6 @@ export default {
   ticket,
   work,
   'ticket-validity': ticketValidity,
-  opium
+  opium,
+  julswap
 };
