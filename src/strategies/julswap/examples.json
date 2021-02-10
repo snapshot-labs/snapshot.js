@@ -1,0 +1,36 @@
+[
+  {
+    "name": "JulSwap Strategy",
+    "strategy": {
+      "name": "julswap",
+      "params": {
+        "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+        "symbol": "JulD",
+        "decimals": 18,
+        "start": 11437840
+      }
+    },
+    "network": "56",
+    "addresses": [
+      "0x9ee1B8Fd52321De805772EFea2F6AeFeEeDc735d",
+      "0xc5A691eF46624E507d1bF44D48017f5CDe901FcE"
+    ],
+    "snapshot": 11437846
+  },
+  {
+    "name": "JulSwap Strategy Testnet",
+    "strategy": {
+      "name": "julswap",
+      "params": {
+        "address": "0xb5236979738f1a9305d97b836c72123653fca681",
+        "symbol": "JulD",
+        "decimals": 0
+      }
+    },
+    "network": "97",
+    "addresses": [
+      "0x9ee1B8Fd52321De805772EFea2F6AeFeEeDc735d"
+    ],
+    "snapshot": "latest"
+  }
+]
