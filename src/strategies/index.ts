@@ -43,6 +43,7 @@ import { strategy as ticket } from './ticket';
 import { strategy as work } from './work';
 import { strategy as ticketValidity } from './ticket-validity';
 import { strategy as opium } from './opium';
+import { strategy as theGraph } from './the-graph-grt';
 
 export default {
   balancer,
@@ -89,5 +90,6 @@ export default {
   ticket,
   work,
   'ticket-validity': ticketValidity,
-  opium
+  opium,
+  'the-graph-grt': theGraph
 };
