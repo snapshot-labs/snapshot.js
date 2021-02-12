@@ -2,7 +2,7 @@ import { getTokenLockWallets } from './tokenLockWallets';
 import { balanceStrategy } from './balances';
 import { indexersStrategy } from './indexers';
 import { delegatorsStrategy } from './delegators';
-import { GraphAccountScores } from './utils';
+import { GraphAccountScores, NormalizedScores, WEI } from './utils';
 
 export const author = 'davekaj';
 export const version = '0.1.0';
@@ -77,7 +77,7 @@ export async function strategy(
   }
 
   // Combine the Token lock votes into the beneficiaries votes
-  const combinedScores: GraphAccountScores = {};
+  const combinedScores: NormalizedScores = {};
 
   for (const account of addresses) {
     let accountScore = allScores[account];
@@ -88,30 +88,23 @@ export async function strategy(
       });
     }
 
-    combinedScores[account] = accountScore;
+    combinedScores[account] = accountScore.div(WEI).toNumber();
   }
 
-  let printBalance = {};
-  let printIndexers = {};
-  let printDelegators = {};
-  let printAll = {};
-  let printCombinedScores = {};
-
-  for (const key in balanceScore) {
-    printBalance[key] = balanceScore[key].toString();
-    printIndexers[key] = indexersScore[key].toString();
-    printDelegators[key] = delegatorsScore[key].toString();
-    printAll[key] = allScores[key].toString();
-  }
-
-  for (const key in combinedScores) {
-    printCombinedScores[key] = combinedScores[key].toString();
-  }
-  console.log('B SCORE: ', printBalance);
-  console.log('I SCORE: ', printIndexers);
-  console.log('D SCORE: ', printDelegators);
-  console.log('TOTAL SCORE: ', printAll);
-  console.log('COMBINED SCORES: ', printCombinedScores);
+  // let printBalance = {};
+  // let printIndexers = {};
+  // let printDelegators = {};
+  // let printAll = {};
+  // for (const key in balanceScore) {
+  //   printBalance[key] = balanceScore[key].toString();
+  //   printIndexers[key] = indexersScore[key].toString();
+  //   printDelegators[key] = delegatorsScore[key].toString();
+  //   printAll[key] = allScores[key].toString();
+  // }
+  // console.log('B SCORE: ', printBalance);
+  // console.log('I SCORE: ', printIndexers);
+  // console.log('D SCORE: ', printDelegators);
+  // console.log('TOTAL SCORE: ', printAll);
 
   return combinedScores;
 }

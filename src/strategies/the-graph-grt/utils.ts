@@ -13,6 +13,10 @@ export interface GraphAccountScores {
   [key: string]: BigNumber;
 }
 
+export interface NormalizedScores {
+  [key: string]: Number;
+}
+
 // Returns a BigDecimal as a BigNumber with 10^18 extra zeros
 // This allows a BN to be multiplied by a BD
 // Then, the BN must be divided by 10^18 again to get the correct value
