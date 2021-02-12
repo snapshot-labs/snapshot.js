@@ -1,3 +1,4 @@
+import { getTokenLockWallets } from './tokenLockWallets';
 import { balanceStrategy } from './balances';
 import { indexersStrategy } from './indexers';
 import { delegatorsStrategy } from './delegators';
@@ -14,14 +15,38 @@ export async function strategy(
   _options,
   snapshot
 ) {
+  // TODO - if we want to limit sending too many addresses in the request, split up by
+  // groups of 200 and batch. do it in utils
+  // TODO - name signal, and signal
 
+  addresses = addresses.map((address) => address.toLowerCase());
+  const tokenLockWallets = await getTokenLockWallets(
+    _space,
+    network,
+    _provider,
+    addresses,
+    _options,
+    snapshot
+  );
 
+  // console.log(
+  //   'TOKEN LOCK WALLETS: ',
+  //   JSON.stringify(tokenLockWallets, null, 2)
+  // );
+
+  // Take the token lock wallets object and turn it into an array, pass it into the other strategies
+  const allAccounts = [...addresses];
+  for (const beneficiary in tokenLockWallets) {
+    tokenLockWallets[beneficiary].forEach((tw) => {
+      allAccounts.push(tw);
+    });
+  }
 
   const balanceScore = await balanceStrategy(
     _space,
     network,
     _provider,
-    addresses,
+    allAccounts,
     _options,
     snapshot
   );
@@ -29,7 +54,7 @@ export async function strategy(
     _space,
     network,
     _provider,
-    addresses,
+    allAccounts,
     _options,
     snapshot
   );
@@ -37,60 +62,56 @@ export async function strategy(
     _space,
     network,
     _provider,
-    addresses,
+    allAccounts,
     _options,
     snapshot
   );
 
-  const score: GraphAccountScores = {};
+  const allScores: GraphAccountScores = {};
 
   // Add together all the separate scores
   for (const key in balanceScore) {
-    score[key] = balanceScore[key].add(indexersScore[key]).add(delegatorsScore[key]);
+    allScores[key] = balanceScore[key]
+      .add(indexersScore[key])
+      .add(delegatorsScore[key]);
   }
 
-  // let printBalance = {};
-  // let printIndexers = {};
-  // let printDelegators = {};
-  // let printAll = {};
-  // for (const key in balanceScore) {
-  //   printBalance[key] = balanceScore[key].toString();
-  //   printIndexers[key] = indexersScore[key].toString();
-  //   printDelegators[key] = delegatorsScore[key].toString();
-  //   printAll[key] = score[key].toString();
-  // }
-  // console.log('B SCORE: ', printBalance);
-  // console.log('I SCORE: ', printIndexers);
-  // console.log('D SCORE: ', printDelegators);
-  // console.log('TOTAL SCORE: ', printAll);
+  // Combine the Token lock votes into the beneficiaries votes
+  const combinedScores: GraphAccountScores = {};
 
-  return score;
-}
-
-/*
-name signal query below
-
-{
-  graphAccounts(first: 5) {
-    id
-    curator{
-      nameSignals{
-        nameSignal
-        subgraph{
-          id
-          nameSignalAmount
-          currentVersion{
-            subgraphDeployment{
-              stakedTokens
-              signalledTokens
-              signalAmount
-            }
-          }
-        }
-      }
+  for (const account of addresses) {
+    let accountScore = allScores[account];
+    // It was found that this beneficiary has token lock wallets, lets add them
+    if (tokenLockWallets[account] != null) {
+      tokenLockWallets[account].forEach((tw) => {
+        accountScore = accountScore.add(allScores[tw]);
+      });
     }
+
+    combinedScores[account] = accountScore;
   }
+
+  let printBalance = {};
+  let printIndexers = {};
+  let printDelegators = {};
+  let printAll = {};
+  let printCombinedScores = {};
+
+  for (const key in balanceScore) {
+    printBalance[key] = balanceScore[key].toString();
+    printIndexers[key] = indexersScore[key].toString();
+    printDelegators[key] = delegatorsScore[key].toString();
+    printAll[key] = allScores[key].toString();
+  }
+
+  for (const key in combinedScores) {
+    printCombinedScores[key] = combinedScores[key].toString();
+  }
+  console.log('B SCORE: ', printBalance);
+  console.log('I SCORE: ', printIndexers);
+  console.log('D SCORE: ', printDelegators);
+  console.log('TOTAL SCORE: ', printAll);
+  console.log('COMBINED SCORES: ', printCombinedScores);
+
+  return combinedScores;
 }
-
-
-*/

@@ -14,7 +14,7 @@ export async function indexersStrategy(
     graphAccounts: {
       __args: {
         where: {
-          id_in: addresses.map((address) => address.toLowerCase())
+          id_in: addresses
         },
         first: 1000
       },
@@ -42,7 +42,7 @@ export async function indexersStrategy(
       if (ga.indexer != null) {
         indexerScore = BigNumber.from(ga.indexer.stakedTokens);
       }
-      console.log('INDEXER SCORE: ', indexerScore.toString());
+      // console.log(ga.id, 'INDEXER SCORE: ', indexerScore.toString());
 
       score[ga.id] = indexerScore;
     });

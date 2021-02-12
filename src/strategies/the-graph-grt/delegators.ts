@@ -14,7 +14,7 @@ export async function delegatorsStrategy(
     graphAccounts: {
       __args: {
         where: {
-          id_in: addresses.map((address) => address.toLowerCase())
+          id_in: addresses
         },
         first: 1000
       },
@@ -55,7 +55,7 @@ export async function delegatorsStrategy(
         });
       }
 
-      console.log('DELEGATE SCORE: ', delegationScore.toString());
+      // console.log(ga.id, 'DELEGATE SCORE: ', delegationScore.toString());
 
       score[ga.id] = delegationScore;
     });

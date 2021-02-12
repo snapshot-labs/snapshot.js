@@ -14,7 +14,7 @@ export async function balanceStrategy(
     graphAccounts: {
       __args: {
         where: {
-          id_in: addresses.map((address) => address.toLowerCase())
+          id_in: addresses
         },
         first: 1000
       },
@@ -37,7 +37,7 @@ export async function balanceStrategy(
   if (result && result.graphAccounts) {
     result.graphAccounts.forEach((ga) => {
       const balanceScore = BigNumber.from(ga.balance);
-      console.log('BALANCE SCORE: ', balanceScore.toString());
+      // console.log(ga.id, 'BALANCE SCORE: ', balanceScore.toString());
 
       score[ga.id] = balanceScore;
     });

@@ -1,24 +1,33 @@
-import { BigNumber } from '@ethersproject/bignumber';
 import { subgraphRequest } from '../../utils';
-import { GRAPH_NETWORK_SUBGRAPH_URL, WEI, bdToBn, GraphAccountScores } from './utils';
 
-export async function getTokenLockBeneficiaries(
+export const TOKEN_DISTRIBUTION_SUBGRAPH_URL = {
+  '1':
+    'https://api.thegraph.com/subgraphs/name/graphprotocol/token-distribution',
+  '2':
+    'https://api.thegraph.com/subgraphs/name/davekaj/token-distribution-rinkeby'
+};
+interface TokenLockWallets {
+  [key: string]: string[];
+}
+
+export async function getTokenLockWallets(
   _space,
   network,
   _provider,
   addresses,
   _options,
   snapshot
-): Promise<GraphAccountScores> {
+): Promise<TokenLockWallets> {
   const tokenLockParams = {
     tokenLockWallets: {
       __args: {
         where: {
-          beneficiary_in: addresses.map((address) => address.toLowerCase())
+          beneficiary_in: addresses
         },
         first: 1000
       },
       id: true,
+      beneficiary: true
     }
   };
   if (snapshot !== 'latest') {
@@ -26,30 +35,18 @@ export async function getTokenLockBeneficiaries(
     params.graphAccounts.__args.block = { number: snapshot };
   }
   const result = await subgraphRequest(
-    GRAPH_NETWORK_SUBGRAPH_URL[network],
+    TOKEN_DISTRIBUTION_SUBGRAPH_URL[network],
     tokenLockParams
   );
-  const score: GraphAccountScores = {};
-  // console.log('Result: ', JSON.stringify(result, null, 2));
-
+  const tokenLockWallets: TokenLockWallets = {};
   if (result && result.tokenLockWallets) {
-    result.graphAccounts.forEach((ga) => {
-      let delegationScore = BigNumber.from(0);
-      if (ga.delegator != null) {
-        ga.delegator.stakes.forEach((s) => {
-          const derBN = bdToBn(s.indexer.delegationExchangeRate);
-          const delegatedTokens = BigNumber.from(s.shareAmount)
-            .mul(derBN)
-            .div(BigNumber.from(WEI));
-          const dScore = delegatedTokens.add(BigNumber.from(s.lockedTokens));
-          delegationScore = delegationScore.add(dScore);
-        });
-      }
-
-      console.log('DELEGATE SCORE: ', delegationScore.toString());
-
-      score[ga.id] = delegationScore;
+    result.tokenLockWallets.forEach((tw) => {
+      if (tokenLockWallets[tw.beneficiary] == undefined)
+        tokenLockWallets[tw.beneficiary] = [];
+      tokenLockWallets[tw.beneficiary] = tokenLockWallets[
+        tw.beneficiary
+      ].concat(tw.id);
     });
   }
-  return score || {};
+  return tokenLockWallets || {};
 }
