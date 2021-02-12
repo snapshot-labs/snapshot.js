@@ -99,10 +99,10 @@
     "chainId": 56,
     "network": "mainnet",
     "rpc": [
-      "https://bsc-dataseed2.binance.org",
-      "https://bsc-dataseed3.binance.org",
+      "https://bsc-dataseed1.ninicoin.io",
       "https://bsc-dataseed1.binance.org",
-      "https://bsc-dataseed1.ninicoin.io"
+      "https://bsc-dataseed2.binance.org",
+      "https://bsc-dataseed3.binance.org"
     ],
     "explorer": "https://bscscan.com"
   },
