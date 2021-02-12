@@ -4,14 +4,15 @@
     "strategy": {
       "name": "masterchef",
       "params": {
-        "address": "0x66ae32178640813f3c32a9929520bfe4fef5d167",
-        "symbol": "COVER/ETH"
+        "_comment_": "NOTE: this strategy only supports 1 pool in masterchef. If you need better support, contact @0xKiwi",
+        "address": "0x4688a8b1f292fdab17e9a90c8bc379dc1dbd8713",
+        "symbol": "COVER (Masterchef)"
       }
     },
     "network": "1",
     "addresses": [
-      "0x4688a8b1f292fdab17e9a90c8bc379dc1dbd8713"
+      "0x2073513fdd01a70d4a1eb8b0361b992eb6f1c13b"
     ],
-    "snapshot": 1111000
+    "snapshot": 11838909
   }
 ]
