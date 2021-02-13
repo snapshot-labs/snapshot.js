@@ -134,7 +134,7 @@ export async function strategy(
     console.log(pair);
     const token0perUni = pair.reserve0 / pair.totalSupply;
     const token1perUni = pair.reserve1 / pair.totalSupply;
-    stakedBalances.forEach((u) => {
+    stakedBalances.forEach((u: any) => {
       const userScore =
         pair.token0.id == tokenAddress
           ? token0perUni * u.amount
