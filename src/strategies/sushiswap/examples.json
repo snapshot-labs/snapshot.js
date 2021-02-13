@@ -4,14 +4,14 @@
     "strategy": {
       "name": "sushiswap",
       "params": {
-        "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
-        "symbol": "DAI"
+        "address": "0x4688a8b1f292fdab17e9a90c8bc379dc1dbd8713",
+        "symbol": "Cover (sushiswap)"
       }
     },
     "network": "1",
     "addresses": [
-      "0x79317fc0fb17bc0ce213a2b50f343e4d4c277704"
+      "0x3d8d742ee7fbc497ae671528a19a1489ba204482"
     ],
-    "snapshot": 1111000
+    "snapshot": 11618834
   }
 ]
