@@ -9,8 +9,8 @@ export async function indexersStrategy(
   addresses,
   _options,
   snapshot
-  ): Promise<GraphAccountScores> {
-    const indexersParams = {
+): Promise<GraphAccountScores> {
+  const indexersParams = {
     graphAccounts: {
       __args: {
         where: {

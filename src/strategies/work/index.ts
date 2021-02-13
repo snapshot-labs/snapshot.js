@@ -43,7 +43,10 @@ export async function strategy(
       const stake = parseFloat(
         formatUnits(result[address].stake.toString(), options.decimals)
       );
-      return [address, result[address].isWhitelisted ? Math.sqrt(stake) + 1 : 0]
+      return [
+        address,
+        result[address].isWhitelisted ? Math.sqrt(stake) + 1 : 0
+      ];
     })
   );
 }

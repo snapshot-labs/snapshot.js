@@ -22,45 +22,45 @@ export async function strategy(
   snapshot
 ) {
   const tokenAddress = options.address.toLowerCase();
-  console.log(tokenAddress)
+  console.log(tokenAddress);
   const sushiPools0Params = {
     pairs: {
       __args: {
         where: {
-          token0: tokenAddress,
+          token0: tokenAddress
         },
-        first: 100,
+        first: 100
       },
       id: true,
       token0: {
-        id: true,
+        id: true
       },
       reserve0: true,
       token1: {
-        id: true,
+        id: true
       },
       reserve1: true,
-      totalSupply: true,
+      totalSupply: true
     }
   };
   const sushiPools1Params = {
     pairs: {
       __args: {
         where: {
-          token1: tokenAddress,
+          token1: tokenAddress
         },
-        first: 100,
+        first: 100
       },
       id: true,
       token0: {
-        id: true,
+        id: true
       },
       reserve0: true,
       token1: {
-        id: true,
+        id: true
       },
       reserve1: true,
-      totalSupply: true,
+      totalSupply: true
     }
   };
   if (snapshot !== 'latest') {
@@ -69,12 +69,18 @@ export async function strategy(
     // @ts-ignore
     sushiPools1Params.pairs.__args.block = { number: snapshot };
   }
-  const sushiPools0Result = await subgraphRequest(SUSHISWAP_SUBGRAPH_URL[network], sushiPools0Params);
-  const sushiPools1Result = await subgraphRequest(SUSHISWAP_SUBGRAPH_URL[network], sushiPools1Params);
+  const sushiPools0Result = await subgraphRequest(
+    SUSHISWAP_SUBGRAPH_URL[network],
+    sushiPools0Params
+  );
+  const sushiPools1Result = await subgraphRequest(
+    SUSHISWAP_SUBGRAPH_URL[network],
+    sushiPools1Params
+  );
   if (!sushiPools0Result || !sushiPools1Result) {
-    return
+    return;
   }
-  const allSushiPools = sushiPools0Result.pairs.concat(sushiPools1Result.pairs)
+  const allSushiPools = sushiPools0Result.pairs.concat(sushiPools1Result.pairs);
 
   const pools = allSushiPools.map(({ id }) => id.toLowerCase());
 
@@ -82,7 +88,7 @@ export async function strategy(
     pools: {
       __args: {
         where: {
-          pair_in: pools,
+          pair_in: pools
         },
         first: 100
       },
@@ -93,34 +99,39 @@ export async function strategy(
           where: {
             amount_gt: 0,
             address_in: addresses.map((address) => address.toLowerCase())
-          },
+          }
         },
         address: true,
-        amount: true,
-      },
+        amount: true
+      }
     }
   };
   if (snapshot !== 'latest') {
     // @ts-ignore
     masterchefParams.pools.__args.block = { number: snapshot };
   }
-  const masterchefResult = await subgraphRequest(MASTERCHEF_SUBGRAPH_URL[network], masterchefParams);
+  const masterchefResult = await subgraphRequest(
+    MASTERCHEF_SUBGRAPH_URL[network],
+    masterchefParams
+  );
 
-  let stakedBalances = []
+  let stakedBalances = [];
   if (masterchefResult && masterchefResult.pools.length == 1) {
     stakedBalances = masterchefResult.pools[0].users.map((u) => {
       return {
         address: u.address,
-        amount: u.amount,
-      }
-    })
+        amount: u.amount
+      };
+    });
   }
 
   const score = {};
   if (allSushiPools && allSushiPools.length > 0) {
     // We assume there is only one pool in masterchef here, for simplicity.
-    const pair = allSushiPools.filter(({ id }) => id == masterchefResult.pools[0].pair)[0]
-    console.log(pair)
+    const pair = allSushiPools.filter(
+      ({ id }) => id == masterchefResult.pools[0].pair
+    )[0];
+    console.log(pair);
     const token0perUni = pair.reserve0 / pair.totalSupply;
     const token1perUni = pair.reserve1 / pair.totalSupply;
     stakedBalances.forEach((u) => {

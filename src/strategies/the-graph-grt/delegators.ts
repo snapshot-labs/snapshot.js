@@ -1,6 +1,11 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { subgraphRequest } from '../../utils';
-import { GRAPH_NETWORK_SUBGRAPH_URL, WEI, bdToBn, GraphAccountScores } from './utils';
+import {
+  GRAPH_NETWORK_SUBGRAPH_URL,
+  WEI,
+  bdToBn,
+  GraphAccountScores
+} from './utils';
 
 export async function delegatorsStrategy(
   _space,

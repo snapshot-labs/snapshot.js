@@ -9,8 +9,8 @@ export async function balanceStrategy(
   addresses,
   _options,
   snapshot
-  ): Promise<GraphAccountScores> {
-    const balanceParams = {
+): Promise<GraphAccountScores> {
+  const balanceParams = {
     graphAccounts: {
       __args: {
         where: {
