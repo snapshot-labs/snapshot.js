@@ -3,17 +3,20 @@ import { multicall, subgraphRequest } from '../../utils';
 
 const UNISWAP_V2_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
-  '4': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2-rinkeby'
+  '4': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2-rinkeby',
+  '100': 'https://api.thegraph.com/subgraphs/name/1Hive/uniswap-v2'
 };
 
 const OMEN_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/protofire/omen',
-  '4': 'https://api.thegraph.com/subgraphs/name/protofire/omen-rinkeby'
+  '4': 'https://api.thegraph.com/subgraphs/name/protofire/omen-rinkeby',
+  '100': 'https://api.thegraph.com/subgraphs/name/protofire/omen-xdai'
 };
 
 const WETH_ADDRESS = {
   '1': '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-  '4': '0xc778417e063141139fce010982780140aa0cd5ab'
+  '4': '0xc778417e063141139fce010982780140aa0cd5ab',
+  '100': '0x6a023ccd1ff6f2045c3309768ead9e68f978f6e1'
 };
 
 const OMEN_GQL_QUERY = {
