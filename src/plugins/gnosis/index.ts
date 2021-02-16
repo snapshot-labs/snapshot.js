@@ -4,7 +4,7 @@ import { multicall, subgraphRequest } from '../../utils';
 const UNISWAP_V2_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
   '4': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2-rinkeby',
-  '100': 'https://api.thegraph.com/subgraphs/name/1Hive/uniswap-v2'
+  '100': 'https://api.thegraph.com/subgraphs/name/1hive/uniswap-v2'
 };
 
 const OMEN_SUBGRAPH_URL = {
@@ -16,7 +16,7 @@ const OMEN_SUBGRAPH_URL = {
 const WETH_ADDRESS = {
   '1': '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
   '4': '0xc778417e063141139fce010982780140aa0cd5ab',
-  '100': '0x6a023ccd1ff6f2045c3309768ead9e68f978f6e1'
+  '100': '0x0Ae055097C6d159879521C384F1D2123D1f195e6'
 };
 
 const OMEN_GQL_QUERY = {
@@ -465,7 +465,7 @@ const erc20Abi = [
  * @param method
  */
 const getTokenInfo = async (web3, tokenAddress) => {
-  return await multicall(web3.network.chainId.toString(), web3, erc20Abi, [
+  return await multicall(web3._network.chainId.toString(), web3, erc20Abi, [
     [tokenAddress, 'name'],
     [tokenAddress, 'symbol']
   ]);
