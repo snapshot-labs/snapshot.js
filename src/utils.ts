@@ -120,20 +120,24 @@ export async function getScores(
   addresses: string[],
   snapshot = 'latest'
 ) {
-  return await Promise.all(
-    strategies.map((strategy) =>
-      snapshot !== 'latest' && strategy.params?.start > snapshot
-        ? {}
-        : _strategies[strategy.name](
-            space,
-            network,
-            provider,
-            addresses,
-            strategy.params,
-            snapshot
-          )
-    )
-  );
+  try {
+    return await Promise.all(
+      strategies.map((strategy) =>
+        snapshot !== 'latest' && strategy.params?.start > snapshot
+          ? {}
+          : _strategies[strategy.name](
+              space,
+              network,
+              provider,
+              addresses,
+              strategy.params,
+              snapshot
+            )
+      )
+    );
+  } catch (e) {
+    return Promise.reject(e);
+  }
 }
 
 export function validateSchema(schema, data) {
