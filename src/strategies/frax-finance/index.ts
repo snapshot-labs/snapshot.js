@@ -270,9 +270,14 @@ export async function strategy(
         // console.log("Free Sushi FXS/WETH: ", free_sushi_fxs_weth.div(BIG18).toString());
         // console.log("Farmed Sushi FXS/WETH [boosted]: ", farm_sushi_fxs_weth.div(BIG18).toString());
         // console.log("------");
-        // console.log("FXS per Uni FRAX/FXS LP: ", uniLPFraxFxs_fxs_per_LP_E18.toString());
-        // console.log("FXS per Sushi FRAX/FXS LP: ", sushiLPFraxFxs_fxs_per_LP_E18.toString());
-        // console.log("FXS per Sushi FXS/WETH LP: ", sushiLPFxsWeth_fxs_per_LP_E18.toString());
+        // console.log("E18");
+        // console.log("FXS per Uni FRAX/FXS LP E18: ", uniLPFraxFxs_fxs_per_LP_E18.toString());
+        // console.log("FXS per Sushi FRAX/FXS LP E18: ", sushiLPFraxFxs_fxs_per_LP_E18.toString());
+        // console.log("FXS per Sushi FXS/WETH LP E18: ", sushiLPFxsWeth_fxs_per_LP_E18.toString());
+        // console.log("E0");
+        // console.log("FXS per Uni FRAX/FXS LP E0: ", uniLPFraxFxs_fxs_per_LP_E18.div(BIG18).toString());
+        // console.log("FXS per Sushi FRAX/FXS LP E0: ", sushiLPFraxFxs_fxs_per_LP_E18.div(BIG18).toString());
+        // console.log("FXS per Sushi FXS/WETH LP E0: ", sushiLPFxsWeth_fxs_per_LP_E18.div(BIG18).toString());
         // console.log(``);
 
         return [
