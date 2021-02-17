@@ -45,7 +45,9 @@ import { strategy as ticket } from './ticket';
 import { strategy as work } from './work';
 import { strategy as ticketValidity } from './ticket-validity';
 import { strategy as opium } from './opium';
-import { strategy as theGraph } from './the-graph-grt';
+import { strategy as theGraphBalance } from './the-graph-balance';
+import { strategy as theGraphDelegation } from './the-graph-delegation';
+import { strategy as theGraphIndexing } from './the-graph-indexing';
 
 export default {
   balancer,
@@ -95,5 +97,7 @@ export default {
   work,
   'ticket-validity': ticketValidity,
   opium,
-  'the-graph-grt': theGraph
+  'the-graph-balance': theGraphBalance,
+  'the-graph-delegation': theGraphDelegation,
+  'the-graph-indexing': theGraphIndexing
 };

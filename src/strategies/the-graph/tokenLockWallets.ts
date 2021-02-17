@@ -3,13 +3,18 @@ import { subgraphRequest } from '../../utils';
 export const TOKEN_DISTRIBUTION_SUBGRAPH_URL = {
   '1':
     'https://api.thegraph.com/subgraphs/name/graphprotocol/token-distribution',
-  '2':
+  '4':
     'https://api.thegraph.com/subgraphs/name/davekaj/token-distribution-rinkeby'
 };
 interface TokenLockWallets {
   [key: string]: string[];
 }
 
+/*
+  @dev  Takes all options from snapshot
+        Queries the subgraph to find if an address owns any token lock wallets
+  @returns  An object with the beneficiaries as keys and TLWs as values in an array 
+*/
 export async function getTokenLockWallets(
   _space,
   network,
@@ -32,7 +37,7 @@ export async function getTokenLockWallets(
   };
   if (snapshot !== 'latest') {
     // @ts-ignore
-    params.graphAccounts.__args.block = { number: snapshot };
+    tokenLockParams.graphAccounts.__args.block = { number: snapshot };
   }
   const result = await subgraphRequest(
     TOKEN_DISTRIBUTION_SUBGRAPH_URL[network],
