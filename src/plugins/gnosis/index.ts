@@ -16,7 +16,7 @@ const OMEN_SUBGRAPH_URL = {
 const WETH_ADDRESS = {
   '1': '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
   '4': '0xc778417e063141139fce010982780140aa0cd5ab',
-  '100': '0x0Ae055097C6d159879521C384F1D2123D1f195e6'
+  '100': '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1'
 };
 
 const OMEN_GQL_QUERY = {
@@ -44,6 +44,16 @@ const UNISWAP_V2_GQL_QUERY = {
       }
     },
     token0Price: true
+  },
+  pairsTokensInverted: {
+    __aliasFor: 'pairs',
+    __args: {
+      where: {
+        token0: true,
+        token1: true
+      }
+    },
+    token1Price: true
   },
   pairsTokens0: {
     __aliasFor: 'pairs',
@@ -492,7 +502,7 @@ export default class Plugin {
     }
   }
 
-  async getOmenCondition(network: number, conditionId: any) {
+  async getOmenCondition(network: string, conditionId: any) {
     try {
       const query = OMEN_GQL_QUERY;
       query.condition.__args.id = conditionId;
@@ -502,12 +512,16 @@ export default class Plugin {
     }
   }
 
-  async getUniswapPair(network: number, token0: any, token1: any) {
+  async getUniswapPair(network: string, token0: any, token1: any) {
     try {
       const query = UNISWAP_V2_GQL_QUERY;
       query.pairsTokens.__args.where = {
         token0: token0.toLowerCase(),
         token1: token1.toLowerCase()
+      };
+      query.pairsTokensInverted.__args.where = {
+        token0: token1.toLowerCase(),
+        token1: token0.toLowerCase()
       };
       query.pairsTokens0.__args.where = {
         token0: token0.toLowerCase(),
@@ -524,6 +538,10 @@ export default class Plugin {
 
       if (result.pairsTokens.length > 0) {
         return result.pairsTokens[0];
+      } else if (result.pairsTokensInverted.length > 0) {
+        return {
+          token0Price: result.pairsTokensInverted[0].token1Price
+        };
       } else if (
         result.pairsTokens0.length > 0 &&
         result.pairsTokens1.length > 0
