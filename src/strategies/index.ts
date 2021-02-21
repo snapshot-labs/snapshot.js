@@ -14,6 +14,7 @@ import { strategy as ethWalletAge } from './eth-wallet-age';
 import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
 import { strategy as yearnVault } from './yearn-vault';
+import { strategy as fraxFinance } from './frax-finance';
 import { strategy as moloch } from './moloch';
 import { strategy as uniswap } from './uniswap';
 import { strategy as pancake } from './pancake';
@@ -44,6 +45,9 @@ import { strategy as ticket } from './ticket';
 import { strategy as work } from './work';
 import { strategy as ticketValidity } from './ticket-validity';
 import { strategy as opium } from './opium';
+import { strategy as theGraphBalance } from './the-graph-balance';
+import { strategy as theGraphDelegation } from './the-graph-delegation';
+import { strategy as theGraphIndexing } from './the-graph-indexing';
 
 export default {
   balancer,
@@ -64,6 +68,7 @@ export default {
   'eth-wallet-age': ethWalletAge,
   'maker-ds-chief': makerDsChief,
   uni,
+  'frax-finance': fraxFinance,
   'yearn-vault': yearnVault,
   moloch,
   masterchef,
@@ -91,5 +96,8 @@ export default {
   ticket,
   work,
   'ticket-validity': ticketValidity,
-  opium
+  opium,
+  'the-graph-balance': theGraphBalance,
+  'the-graph-delegation': theGraphDelegation,
+  'the-graph-indexing': theGraphIndexing
 };
