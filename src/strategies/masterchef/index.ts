@@ -133,7 +133,7 @@ export async function strategy(
     console.log(pair);
     const token0perUni = pair.reserve0 / pair.totalSupply;
     const token1perUni = pair.reserve1 / pair.totalSupply;
-    stakedBalances.forEach((u) => {
+    stakedBalances.forEach((u: any) => {
       const userScore = u.amount / one_gwei.toNumber() * (pair.token0.id == tokenAddress ? token0perUni : token1perUni);
       const userScoreInEther = userScore / one_gwei.toNumber();
       const userAddress = getAddress(u.address);
