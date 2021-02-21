@@ -1,9 +1,5 @@
 import { getAddress } from '@ethersproject/address';
-<<<<<<< HEAD
 import { BigNumber } from '@ethersproject/bignumber';
-=======
-import { concat } from '@ethersproject/bytes';
->>>>>>> f48416e845622ab4d9280e975bec1e8e8ee36b51
 import { subgraphRequest } from '../../utils';
 
 const MASTERCHEF_SUBGRAPH_URL = {
@@ -26,30 +22,10 @@ export async function strategy(
   snapshot
 ) {
   const tokenAddress = options.address.toLowerCase();
-<<<<<<< HEAD
-=======
-  console.log(tokenAddress);
->>>>>>> f48416e845622ab4d9280e975bec1e8e8ee36b51
   const sushiPools0Params = {
     pairs: {
       __args: {
         where: {
-<<<<<<< HEAD
-          token0: tokenAddress,
-        },
-        first: 100,
-      },
-      id: true,
-      token0: {
-        id: true,
-      },
-      reserve0: true,
-      token1: {
-        id: true,
-      },
-      reserve1: true,
-      totalSupply: true,
-=======
           token0: tokenAddress
         },
         first: 100
@@ -64,29 +40,12 @@ export async function strategy(
       },
       reserve1: true,
       totalSupply: true
->>>>>>> f48416e845622ab4d9280e975bec1e8e8ee36b51
     }
   };
   const sushiPools1Params = {
     pairs: {
       __args: {
         where: {
-<<<<<<< HEAD
-          token1: tokenAddress,
-        },
-        first: 100,
-      },
-      id: true,
-      token0: {
-        id: true,
-      },
-      reserve0: true,
-      token1: {
-        id: true,
-      },
-      reserve1: true,
-      totalSupply: true,
-=======
           token1: tokenAddress
         },
         first: 100
@@ -101,7 +60,6 @@ export async function strategy(
       },
       reserve1: true,
       totalSupply: true
->>>>>>> f48416e845622ab4d9280e975bec1e8e8ee36b51
     }
   };
   if (snapshot !== 'latest') {
