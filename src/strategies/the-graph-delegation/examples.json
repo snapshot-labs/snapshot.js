@@ -2,8 +2,10 @@
   {
     "name": "Graph Tokens",
     "strategy": {
-      "name": "the-graph-grt",
-      "params": {}
+      "name": "the-graph-delegation",
+      "params": {
+        "strategyType": "delegation"
+      }
     },
     "network": "1",
     "snapshot": "latest",
