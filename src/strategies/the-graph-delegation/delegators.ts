@@ -53,7 +53,7 @@ export async function delegatorsStrategy(
   const score: GraphAccountScores = {};
   // console.log('Result: ', JSON.stringify(result, null, 2));
 
-  let normalizationFactor: number;
+  let normalizationFactor: number = 0;
   if (result && result.graphNetworks) {
     const nonStakedTokens = calcNonStakedTokens(
       result.graphNetworks[0].totalSupply,

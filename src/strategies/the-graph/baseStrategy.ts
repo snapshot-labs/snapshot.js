@@ -30,7 +30,7 @@ export async function baseStrategy(
     });
   }
 
-  let scores: GraphAccountScores;
+  let scores: GraphAccountScores = {};
   if (options.strategyType == 'balance') {
     scores = await balanceStrategy(
       _space,
