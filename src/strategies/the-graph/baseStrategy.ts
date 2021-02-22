@@ -1,3 +1,4 @@
+import { getAddress } from '@ethersproject/address';
 import { getTokenLockWallets } from './tokenLockWallets';
 import { balanceStrategy } from '../the-graph-balance/balances';
 import { indexersStrategy } from '../the-graph-indexing/indexers';
@@ -77,5 +78,10 @@ export async function baseStrategy(
     combinedScores[account] = accountScore;
   }
 
-  return combinedScores;
+  return Object.fromEntries(
+    Object.entries(combinedScores).map((score) => [
+      getAddress(score[0]),
+      score[1]
+    ])
+  );
 }
