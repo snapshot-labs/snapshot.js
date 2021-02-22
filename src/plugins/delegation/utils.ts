@@ -8,12 +8,13 @@ export async function getDelegations(
   options,
   snapshot
 ) {
+  const addressesLc = addresses.map((addresses) => addresses.toLowerCase());
   const params = {
     delegations: {
       __args: {
         where: {
-          delegate_in: addresses.map((address) => address.toLowerCase()),
-          delegator_not_in: addresses.map((address) => address.toLowerCase()),
+          // delegate_in: addressesLc,
+          // delegator_not_in: addressesLc,
           space_in: ['', space]
         },
         first: 1000
@@ -28,14 +29,21 @@ export async function getDelegations(
     params.delegations.__args.block = { number: snapshot };
   }
   const result = await subgraphRequest(SNAPSHOT_SUBGRAPH_URL[network], params);
-  if (!result || !result.delegations) return {};
+  if (!result?.delegations) return {};
+
+  const delegations = result.delegations.filter(
+    (delegation) =>
+      addressesLc.includes(delegation.delegate) &&
+      !addressesLc.includes(delegation.delegator)
+  );
+  if (!delegations) return {};
 
   const delegationsReverse = {};
-  result.delegations.forEach(
+  delegations.forEach(
     (delegation) =>
       (delegationsReverse[delegation.delegator] = delegation.delegate)
   );
-  result.delegations
+  delegations
     .filter((delegation) => delegation.space !== '')
     .forEach(
       (delegation) =>
