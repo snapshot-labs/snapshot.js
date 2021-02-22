@@ -37,7 +37,7 @@ export async function getTokenLockWallets(
   };
   if (snapshot !== 'latest') {
     // @ts-ignore
-    tokenLockParams.graphAccounts.__args.block = { number: snapshot };
+    tokenLockParams.tokenLockWallets.__args.block = { number: snapshot };
   }
   const result = await subgraphRequest(
     TOKEN_DISTRIBUTION_SUBGRAPH_URL[network],
