@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Tokenlon",
+        "strategy": {
+            "name": "tokenlon",
+            "params": {
+                "uniswap": "0x7924a818013f39cf800f5589ff1f1f0def54f31f",
+                "sushiswap": "0x55d31f68975e446a40a2d02ffa4b0e1bfb233c2f",
+                "token": "0x0000000000095413afC295d19EDeb1Ad7B71c952",
+                "decimals": 18
+            }
+        },
+        "network": "1",
+        "addresses": [
+            "0x95bbf6bebb8caaa486ffab6faf76cf312a5abfd0",
+            "0x8f1D14f46a4a22DAA848E327FD7a30BfAE2D3d9c"
+        ],
+        "snapshot": 11905315
+    }
+]
