@@ -48,6 +48,7 @@ import { strategy as opium } from './opium';
 import { strategy as theGraphBalance } from './the-graph-balance';
 import { strategy as theGraphDelegation } from './the-graph-delegation';
 import { strategy as theGraphIndexing } from './the-graph-indexing';
+import { strategy as whitelist } from './whitelist';
 
 export default {
   balancer,
@@ -99,5 +100,6 @@ export default {
   opium,
   'the-graph-balance': theGraphBalance,
   'the-graph-delegation': theGraphDelegation,
-  'the-graph-indexing': theGraphIndexing
+  'the-graph-indexing': theGraphIndexing,
+  whitelist
 };

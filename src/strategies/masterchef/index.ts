@@ -114,7 +114,7 @@ export async function strategy(
     masterchefParams
   );
 
-  const one_gwei = BigNumber.from(10).pow(9)
+  const one_gwei = BigNumber.from(10).pow(9);
   let stakedBalances = [];
   if (masterchefResult && masterchefResult.pools.length == 1) {
     stakedBalances = masterchefResult.pools[0].users.map((u) => {
@@ -134,7 +134,9 @@ export async function strategy(
     const token0perUni = pair.reserve0 / pair.totalSupply;
     const token1perUni = pair.reserve1 / pair.totalSupply;
     stakedBalances.forEach((u: any) => {
-      const userScore = u.amount / one_gwei.toNumber() * (pair.token0.id == tokenAddress ? token0perUni : token1perUni);
+      const userScore =
+        (u.amount / one_gwei.toNumber()) *
+        (pair.token0.id == tokenAddress ? token0perUni : token1perUni);
       const userScoreInEther = userScore / one_gwei.toNumber();
       const userAddress = getAddress(u.address);
       if (!score[userAddress]) score[userAddress] = 0;
