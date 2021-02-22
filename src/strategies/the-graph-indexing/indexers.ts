@@ -4,8 +4,8 @@ import {
   GRAPH_NETWORK_SUBGRAPH_URL,
   GraphAccountScores,
   calcNonStakedTokens,
-  WEI
-} from '../the-graph/utils';
+  bnWEI
+} from '../the-graph/graphUtils';
 
 export async function indexersStrategy(
   _space,
@@ -55,7 +55,7 @@ export async function indexersStrategy(
     normalizationFactor =
       nonStakedTokens /
       BigNumber.from(result.graphNetworks[0].totalTokensStaked)
-        .div(BigNumber.from(WEI))
+        .div(bnWEI)
         .toNumber();
   }
   console.log('Normalization Factor for Indexers: ', normalizationFactor);
@@ -70,14 +70,15 @@ export async function indexersStrategy(
               result.graphAccounts[i].indexer.stakedTokens
             );
             indexerScore =
-              indexerTokens.div(BigNumber.from(WEI)).toNumber() *
-              normalizationFactor;
+              indexerTokens.div(bnWEI).toNumber() * normalizationFactor;
           }
           break;
         }
       }
       score[a] = indexerScore;
     });
+  } else {
+    console.error('Subgraph request failed');
   }
   return score || {};
 }

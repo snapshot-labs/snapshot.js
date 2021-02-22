@@ -7,18 +7,14 @@
         "strategyType": "indexing"
       }
     },
-    "network": "1",
-    "snapshot": "latest",
+    "network": "4",
+    "snapshot": 8101550,
     "addresses": [
-      "0x000c575fba88ac7ca1e9c7b320fb20743d4873d8",
       "0x93606b27cB5e4c780883eC4F6b7Bed5f6572d1dd",
-      "0xc60d0c8c74b5d3a33ed51c007ebae682490de261",
-      "0x9238584c74e5fa445a8f72a4d4ef4699dd783852",
-      "0xd3bac61ba87e8bb8032ea2d8024db6f87c8002d4",
-      "0xadca0dd4729c8ba3acf3e99f3a9f471ef37b6825",
-      "0xa3276e7ab0a162f6a3b5aa6b3089accbaa65d12e",
-      "0xb31c4e47df61c89f5a419db24f0e94b34751f14f",
-      "0x9da1017766bfeb2835db4f811516eea68996538b"
+      "0x7F11E5B7Fe8C04c1E4Ce0dD98aC5c922ECcfA4ed",
+      "0x140b9b9756cE3dE8c8fD296FC9D3E7B3AAa1Cb16",
+      "0x14B98b26D82421a27608B21BaF6BdEfc181DE546",
+      "0xc1240aF85fFAc1Dbf826b7250db2644D62c728c8"
     ]
   }
 ]
