@@ -49,6 +49,7 @@ import { strategy as theGraphBalance } from './the-graph-balance';
 import { strategy as theGraphDelegation } from './the-graph-delegation';
 import { strategy as theGraphIndexing } from './the-graph-indexing';
 import { strategy as whitelist } from './whitelist';
+import { strategy as tokenlon } from './tokenlon';
 
 export default {
   balancer,
@@ -101,5 +102,9 @@ export default {
   'the-graph-balance': theGraphBalance,
   'the-graph-delegation': theGraphDelegation,
   'the-graph-indexing': theGraphIndexing,
+<<<<<<< HEAD
   whitelist
+=======
+  tokenlon
+>>>>>>> 00b716b (Add tokenlon strategy)
 };
