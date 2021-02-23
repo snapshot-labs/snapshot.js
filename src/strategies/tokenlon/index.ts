@@ -32,6 +32,17 @@ const abi = [
     ],
     stateMutability: 'view',
     type: 'function'
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: 'account', type: 'address' }
+    ],
+    name: 'earned',
+    outputs: [
+      { internalType: 'uint256', name: '', type: 'uint256' }
+    ],
+    stateMutability: 'view',
+    type: 'function'
   }
 ];
 
@@ -60,8 +71,28 @@ export async function strategy(
         [address]
       ]),
       ...addresses.map((address: any) => [
+        options.stakingRewardUniswap,
+        'balanceOf',
+        [address]
+      ]),
+      ...addresses.map((address: any) => [
+        options.stakingRewardUniswap,
+        'earned',
+        [address]
+      ]),
+      ...addresses.map((address: any) => [
         options.sushiswap,
         'balanceOf',
+        [address]
+      ]),
+      ...addresses.map((address: any) => [
+        options.stakingRewardSushiSwap,
+        'balanceOf',
+        [address]
+      ]),
+      ...addresses.map((address: any) => [
+        options.stakingRewardSushiSwap,
+        'earned',
         [address]
       ]),
       ...addresses.map((address: any) => [
@@ -83,13 +114,29 @@ export async function strategy(
     4,
     addresses.length + 4
   );
-  const lpBalancesSushiSwap = response.slice(
+  const lpBalancesUniswapStaking = response.slice(
     addresses.length * 1 + 4,
     addresses.length * 2 + 4
   );
-  const tokenBalances = response.slice(
+  const lonEarnedBalancesUniswapStaking = response.slice(
     addresses.length * 2 + 4,
     addresses.length * 3 + 4
+  );
+  const lpBalancesSushiSwap = response.slice(
+    addresses.length * 3 + 4,
+    addresses.length * 4 + 4
+  );
+  const lpBalancesSushiSwapStaking = response.slice(
+    addresses.length * 4 + 4,
+    addresses.length * 5 + 4
+  );
+  const lonEarnedBalancesSushiSwapStaking = response.slice(
+    addresses.length * 5 + 4,
+    addresses.length * 6 + 4
+  );
+  const tokenBalances = response.slice(
+    addresses.length * 6 + 4,
+    addresses.length * 7 + 4
   );
 
   return Object.fromEntries(
@@ -97,9 +144,19 @@ export async function strategy(
       .fill('')
       .map((_, i) => {
         const lpBalanceUniswap = lpBalancesUniswap[i][0];
-        const lonLpBalanceUniswap = lpBalanceUniswap.mul(lonPerLPUniswap).div(parseUnits('1', 18));
+        const lpBalanceUniswapStaking = lpBalancesUniswapStaking[i][0];
+        const lonLpBalanceUniswap = lpBalanceUniswap
+          .add(lpBalanceUniswapStaking)
+          .mul(lonPerLPUniswap)
+          .div(parseUnits('1', 18));
+        const lonEarnedBalanceUniswapStaking = lonEarnedBalancesUniswapStaking[i][0];
         const lpBalanceSushiSwap = lpBalancesSushiSwap[i][0];
-        const lonLpBalanceSushiSwap = lpBalanceSushiSwap.mul(lonPerLPSushiSwap).div(parseUnits('1', 18));
+        const lpBalanceSushiSwapStaking = lpBalancesSushiSwapStaking[i][0];
+        const lonLpBalanceSushiSwap = lpBalanceSushiSwap
+          .add(lpBalanceSushiSwapStaking)
+          .mul(lonPerLPSushiSwap)
+          .div(parseUnits('1', 18));
+        const lonEarnedBalanceSushiSwapStaking = lonEarnedBalancesSushiSwapStaking[i][0];
 
         return [
           addresses[i],
@@ -107,7 +164,9 @@ export async function strategy(
             formatUnits(
               tokenBalances[i][0]
                 .add(lonLpBalanceUniswap)
-                .add(lonLpBalanceSushiSwap),
+                .add(lonEarnedBalanceUniswapStaking)
+                .add(lonLpBalanceSushiSwap)
+                .add(lonEarnedBalanceSushiSwapStaking),
               options.decimals
             )
           )

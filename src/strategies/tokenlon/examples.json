@@ -6,6 +6,8 @@
             "params": {
                 "uniswap": "0x7924a818013f39cf800f5589ff1f1f0def54f31f",
                 "sushiswap": "0x55d31f68975e446a40a2d02ffa4b0e1bfb233c2f",
+                "stakingRewardUniswap": "0x929CF614C917944dD278BC2134714EaA4121BC6A",
+                "stakingRewardSushiSwap": "0x11520d501E10E2E02A2715C4A9d3F8aEb1b72A7A",
                 "token": "0x0000000000095413afC295d19EDeb1Ad7B71c952",
                 "decimals": 18
             }

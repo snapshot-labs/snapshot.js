@@ -102,9 +102,6 @@ export default {
   'the-graph-balance': theGraphBalance,
   'the-graph-delegation': theGraphDelegation,
   'the-graph-indexing': theGraphIndexing,
-<<<<<<< HEAD
-  whitelist
-=======
+  whitelist,
   tokenlon
->>>>>>> 00b716b (Add tokenlon strategy)
 };
