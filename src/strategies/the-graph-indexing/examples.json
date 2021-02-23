@@ -4,7 +4,41 @@
     "strategy": {
       "name": "the-graph-indexing",
       "params": {
-        "strategyType": "indexing"
+        "strategyType": "indexing",
+        "expectedResults": {
+          "tokenLockWallets": [
+            {
+              "beneficiary": "0x93606b27cb5e4c780883ec4f6b7bed5f6572d1dd",
+              "id": "0x4236878343d286a2943453e045da46e86d12138d"
+            },
+            {
+              "beneficiary": "0x93606b27cb5e4c780883ec4f6b7bed5f6572d1dd",
+              "id": "0x460c51e3f7609b47c0f9b3a655be804286c04666"
+            },
+            {
+              "beneficiary": "0x93606b27cb5e4c780883ec4f6b7bed5f6572d1dd",
+              "id": "0x4a350a7bc84f8478028bfe662bcc6aa4390aff74"
+            }
+          ],
+          "scores": {
+            "0x93606b27cb5e4c780883ec4f6b7bed5f6572d1dd": 28163018.03253715,
+            "0x7f11e5b7fe8c04c1e4ce0dd98ac5c922eccfa4ed": 28163018.03253715,
+            "0x140b9b9756ce3de8c8fd296fc9d3e7b3aaa1cb16": 28163018.03253715,
+            "0x14b98b26d82421a27608b21baf6bdefc181de546": 0,
+            "0xc1240af85ffac1dbf826b7250db2644d62c728c8": 0,
+            "0x4236878343d286a2943453e045da46e86d12138d": 28163018.03253715,
+            "0x460c51e3f7609b47c0f9b3a655be804286c04666": 0,
+            "0x4a350a7bc84f8478028bfe662bcc6aa4390aff74": 0
+          },
+          "combinedScores": {
+            "0x93606b27cb5e4c780883ec4f6b7bed5f6572d1dd": 56326036.0650743,
+            "0x7f11e5b7fe8c04c1e4ce0dd98ac5c922eccfa4ed": 28163018.03253715,
+            "0x140b9b9756ce3de8c8fd296fc9d3e7b3aaa1cb16": 28163018.03253715,
+            "0x14b98b26d82421a27608b21baf6bdefc181de546": 0,
+            "0xc1240af85ffac1dbf826b7250db2644d62c728c8": 0
+          },
+          "normalizationFactor": 281.6301803253715
+        }
       }
     },
     "network": "4",

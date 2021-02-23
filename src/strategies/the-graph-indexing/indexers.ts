@@ -4,7 +4,8 @@ import {
   GRAPH_NETWORK_SUBGRAPH_URL,
   GraphAccountScores,
   calcNonStakedTokens,
-  bnWEI
+  bnWEI,
+  verifyResults
 } from '../the-graph/graphUtils';
 
 export async function indexersStrategy(
@@ -12,7 +13,7 @@ export async function indexersStrategy(
   network,
   _provider,
   addresses,
-  _options,
+  options,
   snapshot
 ): Promise<GraphAccountScores> {
   const indexersParams = {
@@ -29,6 +30,9 @@ export async function indexersStrategy(
       }
     },
     graphNetworks: {
+      __args: {
+        first: 1000
+      },
       totalSupply: true,
       totalDelegatedTokens: true,
       totalTokensStaked: true
@@ -37,13 +41,14 @@ export async function indexersStrategy(
   if (snapshot !== 'latest') {
     // @ts-ignore
     indexersParams.graphAccounts.__args.block = { number: snapshot };
+    // @ts-ignore
+    indexersParams.graphNetworks.__args.block = { number: snapshot };
   }
   const result = await subgraphRequest(
     GRAPH_NETWORK_SUBGRAPH_URL[network],
     indexersParams
   );
   const score: GraphAccountScores = {};
-  console.log('Result: ', JSON.stringify(result, null, 2));
 
   let normalizationFactor: number = 0;
   if (result && result.graphNetworks) {
@@ -58,8 +63,12 @@ export async function indexersStrategy(
         .div(bnWEI)
         .toNumber();
   }
-  console.log('Normalization Factor for Indexers: ', normalizationFactor);
 
+  verifyResults(
+    normalizationFactor.toString(),
+    options.expectedResults.normalizationFactor.toString(),
+    'Normalization factor'
+  );
   if (result && result.graphAccounts) {
     addresses.forEach((a) => {
       let indexerScore = 0;

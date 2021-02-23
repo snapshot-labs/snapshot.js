@@ -63,9 +63,6 @@ export async function baseStrategy(
     console.error('ERROR: Strategy does not exist');
   }
 
-  console.log(`${options.strategyType} SCORE: `, scores);
-  console.log(options);
-
   verifyResults(
     JSON.stringify(scores),
     JSON.stringify(options.expectedResults.scores),
