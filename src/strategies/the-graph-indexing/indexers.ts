@@ -64,11 +64,14 @@ export async function indexersStrategy(
         .toNumber();
   }
 
-  verifyResults(
-    normalizationFactor.toString(),
-    options.expectedResults.normalizationFactor.toString(),
-    'Normalization factor'
-  );
+  if (options.expectedResults) {
+    verifyResults(
+      normalizationFactor.toString(),
+      options.expectedResults.normalizationFactor.toString(),
+      'Normalization factor'
+    );
+  }
+
   if (result && result.graphAccounts) {
     addresses.forEach((a) => {
       let indexerScore = 0;

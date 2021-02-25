@@ -63,11 +63,13 @@ export async function baseStrategy(
     console.error('ERROR: Strategy does not exist');
   }
 
-  verifyResults(
-    JSON.stringify(scores),
-    JSON.stringify(options.expectedResults.scores),
-    'Scores'
-  );
+  if (options.expectedResults) {
+    verifyResults(
+      JSON.stringify(scores),
+      JSON.stringify(options.expectedResults.scores),
+      'Scores'
+    );
+  }
 
   // Combine the Token lock votes into the beneficiaries votes
   const combinedScores: GraphAccountScores = {};
@@ -82,11 +84,13 @@ export async function baseStrategy(
     combinedScores[account] = accountScore;
   }
 
-  verifyResults(
-    JSON.stringify(combinedScores),
-    JSON.stringify(options.expectedResults.combinedScores),
-    'Combined scores'
-  );
+  if (options.expectedResults) {
+    verifyResults(
+      JSON.stringify(combinedScores),
+      JSON.stringify(options.expectedResults.combinedScores),
+      'Combined scores'
+    );
+  }
 
   return Object.fromEntries(
     Object.entries(combinedScores).map((score) => [

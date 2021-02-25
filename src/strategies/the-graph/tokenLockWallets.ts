@@ -46,11 +46,13 @@ export async function getTokenLockWallets(
 
   const tokenLockWallets: TokenLockWallets = {};
   if (result && result.tokenLockWallets) {
-    verifyResults(
-      JSON.stringify(result.tokenLockWallets),
-      JSON.stringify(options.expectedResults.tokenLockWallets),
-      'Token lock wallets'
-    );
+    if (options.expectedResults) {
+      verifyResults(
+        JSON.stringify(result.tokenLockWallets),
+        JSON.stringify(options.expectedResults.tokenLockWallets),
+        'Token lock wallets'
+      );
+    }
     result.tokenLockWallets.forEach((tw) => {
       if (tokenLockWallets[tw.beneficiary] == undefined)
         tokenLockWallets[tw.beneficiary] = [];

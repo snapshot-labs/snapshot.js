@@ -72,12 +72,13 @@ export async function delegatorsStrategy(
         .toNumber();
   }
 
-  verifyResults(
-    normalizationFactor.toString(),
-    options.expectedResults.normalizationFactor.toString(),
-    'Normalization factor'
-  );
-  // TODO normalize results for delegators
+  if (options.expectedResults) {
+    verifyResults(
+      normalizationFactor.toString(),
+      options.expectedResults.normalizationFactor.toString(),
+      'Normalization factor'
+    );
+  }
 
   if (result && result.graphAccounts) {
     addresses.forEach((a) => {
