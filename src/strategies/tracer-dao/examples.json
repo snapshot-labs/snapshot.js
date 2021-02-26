@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Tracer tokens staked",
+        "strategy": {
+            "name": "tracer-dao",
+            "params": {
+                "address": "0xA84918F3280d488EB3369Cb713Ec53cE386b6cBa",
+                "decimals": 18,
+                "start": "latest"
+            }
+        },
+        "network": "1",
+        "addresses": [
+            "0xAD0808b39237c95108eaeBEBA7D4b6513B9bF4d5",
+            "0x13cCDb2080483d7cf9545f496457d393994B7Da6",
+            "0x4a864709c57e5f8dFB97A26F00339A4ddc03F538"
+        ],
+        "snapshot": 11930363
+    }
+]
