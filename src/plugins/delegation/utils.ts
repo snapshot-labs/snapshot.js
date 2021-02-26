@@ -9,13 +9,15 @@ export async function getDelegations(
   snapshot
 ) {
   const addressesLc = addresses.map((addresses) => addresses.toLowerCase());
+  const spaceIn = ['', space];
+  if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
   const params = {
     delegations: {
       __args: {
         where: {
           // delegate_in: addressesLc,
           // delegator_not_in: addressesLc,
-          space_in: ['', space]
+          space_in: spaceIn
         },
         first: 1000
       },
