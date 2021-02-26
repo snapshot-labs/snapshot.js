@@ -1,3 +1,4 @@
+import { strategy as pepemon } from './pepemon';
 import { strategy as balancer } from './balancer';
 import { strategy as contractCall } from './contract-call';
 import { strategy as ensDomainsOwned } from './ens-domains-owned';
