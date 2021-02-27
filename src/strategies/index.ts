@@ -46,6 +46,7 @@ import { strategy as work } from './work';
 import { strategy as ticketValidity } from './ticket-validity';
 import { strategy as opium } from './opium';
 import { strategy as theGraph } from './the-graph-grt';
+import { strategy as ocean } from './ocean-marketplace';
 
 export default {
   balancer,
@@ -95,5 +96,6 @@ export default {
   work,
   'ticket-validity': ticketValidity,
   opium,
-  'the-graph-grt': theGraph
+  'the-graph-grt': theGraph,
+  'ocean-marketplace': ocean
 };
