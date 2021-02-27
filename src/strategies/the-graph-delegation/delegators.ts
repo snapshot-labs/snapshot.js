@@ -2,18 +2,19 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { subgraphRequest } from '../../utils';
 import {
   GRAPH_NETWORK_SUBGRAPH_URL,
-  WEI,
+  bnWEI,
   bdMulBn,
   GraphAccountScores,
-  calcNonStakedTokens
-} from '../the-graph/utils';
+  calcNonStakedTokens,
+  verifyResults
+} from '../the-graph/graphUtils';
 
 export async function delegatorsStrategy(
   _space,
   network,
   _provider,
   addresses,
-  _options,
+  options,
   snapshot
 ): Promise<GraphAccountScores> {
   const delegatorsParams = {
@@ -36,6 +37,9 @@ export async function delegatorsStrategy(
       }
     },
     graphNetworks: {
+      __args: {
+        first: 1000
+      },
       totalSupply: true,
       totalDelegatedTokens: true,
       totalTokensStaked: true
@@ -44,15 +48,16 @@ export async function delegatorsStrategy(
   if (snapshot !== 'latest') {
     // @ts-ignore
     delegatorsParams.graphAccounts.__args.block = { number: snapshot };
+    // @ts-ignore
+    delegatorsParams.graphNetworks.__args.block = { number: snapshot };
   }
+
   const result = await subgraphRequest(
     GRAPH_NETWORK_SUBGRAPH_URL[network],
     delegatorsParams
   );
 
   const score: GraphAccountScores = {};
-  // console.log('Result: ', JSON.stringify(result, null, 2));
-
   let normalizationFactor: number = 0;
   if (result && result.graphNetworks) {
     const nonStakedTokens = calcNonStakedTokens(
@@ -63,10 +68,17 @@ export async function delegatorsStrategy(
     normalizationFactor =
       nonStakedTokens /
       BigNumber.from(result.graphNetworks[0].totalDelegatedTokens)
-        .div(BigNumber.from(WEI))
+        .div(bnWEI)
         .toNumber();
   }
-  console.log('Normalization Factor for Delegators: ', normalizationFactor);
+
+  if (options.expectedResults) {
+    verifyResults(
+      normalizationFactor.toString(),
+      options.expectedResults.normalizationFactor.toString(),
+      'Normalization factor'
+    );
+  }
 
   if (result && result.graphAccounts) {
     addresses.forEach((a) => {
@@ -80,17 +92,20 @@ export async function delegatorsStrategy(
                 s.shareAmount
               );
               const lockedTokens = BigNumber.from(s.lockedTokens);
-              delegationScore = delegatedTokens
+              let oneDelegationScore = delegatedTokens
                 .add(lockedTokens)
-                .div(BigNumber.from(WEI))
+                .div(bnWEI)
                 .toNumber();
-              delegationScore = delegationScore * normalizationFactor;
+              delegationScore = delegationScore + oneDelegationScore;
             });
+            delegationScore = delegationScore * normalizationFactor;
           }
         }
       }
       score[a] = delegationScore;
     });
+  } else {
+    console.error('Subgraph request failed');
   }
   return score || {};
 }

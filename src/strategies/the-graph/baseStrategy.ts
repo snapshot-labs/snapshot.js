@@ -3,7 +3,7 @@ import { getTokenLockWallets } from './tokenLockWallets';
 import { balanceStrategy } from '../the-graph-balance/balances';
 import { indexersStrategy } from '../the-graph-indexing/indexers';
 import { delegatorsStrategy } from '../the-graph-delegation/delegators';
-import { GraphAccountScores } from './utils';
+import { GraphAccountScores, verifyResults } from './graphUtils';
 
 export async function baseStrategy(
   _space,
@@ -63,7 +63,13 @@ export async function baseStrategy(
     console.error('ERROR: Strategy does not exist');
   }
 
-  console.log(`${options.strategyType} SCORE: `, scores);
+  if (options.expectedResults) {
+    verifyResults(
+      JSON.stringify(scores),
+      JSON.stringify(options.expectedResults.scores),
+      'Scores'
+    );
+  }
 
   // Combine the Token lock votes into the beneficiaries votes
   const combinedScores: GraphAccountScores = {};
@@ -76,6 +82,14 @@ export async function baseStrategy(
       });
     }
     combinedScores[account] = accountScore;
+  }
+
+  if (options.expectedResults) {
+    verifyResults(
+      JSON.stringify(combinedScores),
+      JSON.stringify(options.expectedResults.combinedScores),
+      'Combined scores'
+    );
   }
 
   return Object.fromEntries(
