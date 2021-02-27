@@ -49,11 +49,14 @@ export async function strategy(
       }
     }
   };
+  if (snapshot !== 'latest') {
+    // @ts-ignore
+    params.pools.__args.block = { number: +snapshot };
+  }
 
   const result = await subgraphRequest(OCEAN_SUBGRAPH_URL[network], params);
 
   const score = {};
-  var sum_score = 0;
   if (result && result.pools) {
     result.pools.forEach((pool) => {
       if (pool.holderCount > 0 && pool.active) {
@@ -63,8 +66,6 @@ export async function strategy(
           score[userAddress] =
             score[userAddress] +
             (pool.oceanReserve / pool.totalShares) *
-              share.balance;
-          sum_score = sum_score + (pool.oceanReserve / pool.totalShares) *
               share.balance;
         });
       }
