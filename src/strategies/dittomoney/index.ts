@@ -119,8 +119,9 @@ export async function strategy(
         const tokenBalances = result.scores[addresses[i]].balance;
         const lpBalance = lpBalances.add(stakedLpBalances);
         const dittoLpBalance = lpBalance
+          .add(tokenBalances)
           .mul(dittoPerLP)
-          .div(parseUnits('1', 18));
+          .div(parseUnits('1', 9));
         const dittoFuelBalance = lpBalancesJetFuel
           .mul(pricePerFullShare)
         return [
@@ -128,11 +129,11 @@ export async function strategy(
           parseFloat(
             formatUnits(
               dittoLpBalance
-                .add(tokenBalances)
                 .add(dittoFuelBalance)
                 .add(autofarmBalance)
                 .add(cafeswapBalance),
-              options.decimals)
+              options.decimals
+            )
           )
         ];
       })
