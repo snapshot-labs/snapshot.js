@@ -34,13 +34,9 @@ const abi = [
     type: 'function'
   },
   {
-    inputs: [
-      { internalType: 'address', name: 'account', type: 'address' }
-    ],
+    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
     name: 'earned',
-    outputs: [
-      { internalType: 'uint256', name: '', type: 'uint256' }
-    ],
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function'
   }
@@ -110,10 +106,7 @@ export async function strategy(
   const lonPerLPSushiSwap = parseUnits(response[2][0].toString(), 18).div(
     response[3][0]
   );
-  const lpBalancesUniswap = response.slice(
-    4,
-    addresses.length + 4
-  );
+  const lpBalancesUniswap = response.slice(4, addresses.length + 4);
   const lpBalancesUniswapStaking = response.slice(
     addresses.length * 1 + 4,
     addresses.length * 2 + 4
@@ -149,14 +142,16 @@ export async function strategy(
           .add(lpBalanceUniswapStaking)
           .mul(lonPerLPUniswap)
           .div(parseUnits('1', 18));
-        const lonEarnedBalanceUniswapStaking = lonEarnedBalancesUniswapStaking[i][0];
+        const lonEarnedBalanceUniswapStaking =
+          lonEarnedBalancesUniswapStaking[i][0];
         const lpBalanceSushiSwap = lpBalancesSushiSwap[i][0];
         const lpBalanceSushiSwapStaking = lpBalancesSushiSwapStaking[i][0];
         const lonLpBalanceSushiSwap = lpBalanceSushiSwap
           .add(lpBalanceSushiSwapStaking)
           .mul(lonPerLPSushiSwap)
           .div(parseUnits('1', 18));
-        const lonEarnedBalanceSushiSwapStaking = lonEarnedBalancesSushiSwapStaking[i][0];
+        const lonEarnedBalanceSushiSwapStaking =
+          lonEarnedBalancesSushiSwapStaking[i][0];
 
         return [
           addresses[i],

@@ -44,9 +44,10 @@
   },
   "scripts": {
     "build": "rollup -c",
+    "build:cjs": "rollup -c rollup.cjs.config.js",
     "dev": "rollup -c -w",
     "test": "node test/index.ts",
-    "pretest": "npm run build",
+    "pretest": "npm run build:cjs",
     "lint": "prettier 'src/**/*.ts' -w -c"
   },
   "files": [
