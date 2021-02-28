@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "balance-of-with-min",
+      "params": {
+        "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+        "symbol": "DAI",
+        "decimals": 18,
+        "minBalance": 20
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0xa478c2975ab1ea89e8196811f51a7b7ade33eb11",
+      "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
+      "0x9B8e8dD9151260c21CB6D7cc59067cd8DF306D58",
+      "0x38C0039247A31F3939baE65e953612125cB88268"
+    ],
+    "snapshot": 11437846
+  }
+]

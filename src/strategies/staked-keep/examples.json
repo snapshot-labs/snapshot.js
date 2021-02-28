@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Staked Keep Example Query",
+    "strategy": {
+      "name": "staked-keep"
+    },
+    "network": "1",
+    "addresses": [
+      "0x61912E0A8CB64061B9034B324E5ADbEB8dDDc673",
+      "0x8540F80Fab2AFCAe8d8FD6b1557B1Cf943A0999b",
+      "0xad32A8e6220741182940c5aBF610bDE99E737b2D",
+      "0xB8A3AE209d153560993BFd8178E60F09B1c682E8",
+      "0x3d24D77bEC08549D7Ea86c4e9937204C11E153f1"
+    ],
+    "snapshot": 11668787
+  }
+]

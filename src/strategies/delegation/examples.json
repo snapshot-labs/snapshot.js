@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "delegation",
+      "params": {
+        "symbol": "YFI (delegated)",
+        "strategies": [
+          {
+            "name": "erc20-balance-of",
+            "params": {
+              "address": "0xBa37B002AbaFDd8E89a1995dA52740bbC013D992",
+              "symbol": "YFI",
+              "decimals": 18
+            }
+          },
+          {
+            "name": "yearn-vault",
+            "params": {
+              "address": "0xBA2E7Fed597fd0E3e70f5130BcDbbFE06bB94fe1",
+              "symbol": "YFI (yYFI)",
+              "decimals": 18
+            }
+          }
+        ]
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
+      "0x4C7909d6F029b3a5798143C843F4f8e5341a3473",
+      "0x7A1057E6e9093DA9C1D4C1D049609B6889fC4c67"
+    ],
+    "snapshot": 11739710
+  }
+]
