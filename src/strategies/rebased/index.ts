@@ -97,11 +97,7 @@ export async function strategy(
           .div(parseUnits('1', 18));
         return [
           addresses[i],
-          parseFloat(
-            formatUnits(
-              rebasedLpBalance,
-              options.decimals)
-          )
+          parseFloat(formatUnits(rebasedLpBalance, options.decimals))
         ];
       })
   );

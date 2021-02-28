@@ -5,8 +5,10 @@ export const author = 'w1kke';
 export const version = '0.1.0';
 
 const OCEAN_SUBGRAPH_URL = {
-  '1': 'https://subgraph.mainnet.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph',
-  '42': 'https://subgraph.rinkeby.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph'
+  '1':
+    'https://subgraph.mainnet.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph',
+  '42':
+    'https://subgraph.rinkeby.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph'
 };
 
 export async function strategy(
@@ -65,8 +67,7 @@ export async function strategy(
           if (!score[userAddress]) score[userAddress] = 0;
           score[userAddress] =
             score[userAddress] +
-            (pool.oceanReserve / pool.totalShares) *
-              share.balance;
+            (pool.oceanReserve / pool.totalShares) * share.balance;
         });
       }
     });

@@ -122,8 +122,7 @@ export async function strategy(
           .add(tokenBalances)
           .mul(dittoPerLP)
           .div(parseUnits('1', 9));
-        const dittoFuelBalance = lpBalancesJetFuel
-          .mul(pricePerFullShare)
+        const dittoFuelBalance = lpBalancesJetFuel.mul(pricePerFullShare);
         return [
           addresses[i],
           parseFloat(
