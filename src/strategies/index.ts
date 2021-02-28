@@ -101,7 +101,7 @@ export default {
   work,
   'ticket-validity': ticketValidity,
   opium,
-  'ocean-marketplace': ocean
+  'ocean-marketplace': ocean,
   'the-graph-balance': theGraphBalance,
   'the-graph-delegation': theGraphDelegation,
   'the-graph-indexing': theGraphIndexing,
