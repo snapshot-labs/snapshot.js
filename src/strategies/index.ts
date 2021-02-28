@@ -50,6 +50,7 @@ import { strategy as theGraphDelegation } from './the-graph-delegation';
 import { strategy as theGraphIndexing } from './the-graph-indexing';
 import { strategy as whitelist } from './whitelist';
 import { strategy as tokenlon } from './tokenlon';
+import { strategy as rebased } from './rebased';
 
 export default {
   balancer,
@@ -103,5 +104,6 @@ export default {
   'the-graph-delegation': theGraphDelegation,
   'the-graph-indexing': theGraphIndexing,
   whitelist,
-  tokenlon
+  tokenlon,
+  rebased
 };
