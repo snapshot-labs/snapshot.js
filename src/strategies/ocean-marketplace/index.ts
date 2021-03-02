@@ -1,5 +1,7 @@
 import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
+import { formatUnits, parseUnits } from '@ethersproject/units';
+import { BigNumber } from '@ethersproject/bignumber';
 
 export const author = 'w1kke';
 export const version = '0.1.0';
@@ -8,6 +10,30 @@ const OCEAN_SUBGRAPH_URL = {
   '1': 'https://subgraph.mainnet.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph',
   '42': 'https://subgraph.rinkeby.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph'
 };
+
+export const WEI = '1000000000000000000';
+
+// Returns a BigDecimal as a BigNumber with 10^decimals extra zeros
+// This allows a BN to be multiplied by a BD
+// Then, the BN must be divided by 10^decimals again to get the correct value
+export function bdToBn(bd, decimals) {
+  let bn;
+  const splitDecimal = bd.split('.');
+
+  if (splitDecimal.length > 1) {
+    bn = `${splitDecimal[0]}.${splitDecimal[1].slice(0, decimals - splitDecimal[0].length - 1)}`;    
+  }
+  else {
+    bn = `${splitDecimal[0]}`;
+  }
+
+  const bn2 = parseUnits(bn, decimals);
+  return bn2;
+}
+
+function bn(num: any): BigNumber {
+  return BigNumber.from(num.toString());
+}
 
 export async function strategy(
   space,
@@ -57,19 +83,28 @@ export async function strategy(
   const result = await subgraphRequest(OCEAN_SUBGRAPH_URL[network], params);
 
   const score = {};
+  const userAddresses = [];
+  const return_score = {};
   if (result && result.pools) {
     result.pools.forEach((pool) => {
       if (pool.holderCount > 0 && pool.active) {
         pool.shares.map((share) => {
-          const userAddress = getAddress(share.userAddress.id);
-          if (!score[userAddress]) score[userAddress] = 0;
-          score[userAddress] =
-            score[userAddress] +
-            (pool.oceanReserve / pool.totalShares) *
-              share.balance;
+          const userAddress = getAddress(share.userAddress.id).toLowerCase();
+          if (!userAddresses.includes(userAddress)) userAddresses.push(userAddress);
+          if (!score[userAddress]) score[userAddress] = BigNumber.from(0);
+          let userShare = share.balance * (pool.oceanReserve / pool.totalShares);
+          if (userShare > 0.0001) {
+            score[userAddress] = score[userAddress].add(bdToBn(userShare.toString(), options.decimals));
+          }
         });
       }
     });
+
+    userAddresses.forEach((address) => {
+      let parsedSum = parseFloat(formatUnits(score[address], options.decimals));
+      return_score[address] = parsedSum;
+    });
   }
-  return score || {};
-}
+   
+  return return_score || {};
+  }

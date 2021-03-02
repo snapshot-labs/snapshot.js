@@ -4,9 +4,9 @@
     "strategy": {
       "name": "ocean-marketplace",
       "params": {
+        "address": "0x967da4048cD07aB37855c090aAF366e4ce1b9F48",
         "symbol": "OCEAN",
-        "decimals": 18,
-        "tokenAddress": "0x967da4048cD07aB37855c090aAF366e4ce1b9F48"
+        "decimals": 18
       }
     },
     "network": "1",
