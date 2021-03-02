@@ -11,11 +11,7 @@ const OCEAN_SUBGRAPH_URL = {
   '42': 'https://subgraph.rinkeby.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph'
 };
 
-export const WEI = '1000000000000000000';
-
 // Returns a BigDecimal as a BigNumber with 10^decimals extra zeros
-// This allows a BN to be multiplied by a BD
-// Then, the BN must be divided by 10^decimals again to get the correct value
 export function bdToBn(bd, decimals) {
   let bn;
   const splitDecimal = bd.split('.');
