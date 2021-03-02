@@ -1,5 +1,5 @@
 import { getAddress } from '@ethersproject/address';
-import { concat } from '@ethersproject/bytes';
+import { BigNumber } from '@ethersproject/bignumber';
 import { subgraphRequest } from '../../utils';
 
 const MASTERCHEF_SUBGRAPH_URL = {
@@ -22,7 +22,6 @@ export async function strategy(
   snapshot
 ) {
   const tokenAddress = options.address.toLowerCase();
-  console.log(tokenAddress);
   const sushiPools0Params = {
     pairs: {
       __args: {
@@ -115,6 +114,7 @@ export async function strategy(
     masterchefParams
   );
 
+  const one_gwei = BigNumber.from(10).pow(9);
   let stakedBalances = [];
   if (masterchefResult && masterchefResult.pools.length == 1) {
     stakedBalances = masterchefResult.pools[0].users.map((u) => {
@@ -124,7 +124,6 @@ export async function strategy(
       };
     });
   }
-
   const score = {};
   if (allSushiPools && allSushiPools.length > 0) {
     // We assume there is only one pool in masterchef here, for simplicity.
@@ -136,13 +135,12 @@ export async function strategy(
     const token1perUni = pair.reserve1 / pair.totalSupply;
     stakedBalances.forEach((u: any) => {
       const userScore =
-        pair.token0.id == tokenAddress
-          ? token0perUni * u.amount
-          : token1perUni * u.amount;
-
+        (u.amount / one_gwei.toNumber()) *
+        (pair.token0.id == tokenAddress ? token0perUni : token1perUni);
+      const userScoreInEther = userScore / one_gwei.toNumber();
       const userAddress = getAddress(u.address);
       if (!score[userAddress]) score[userAddress] = 0;
-      score[userAddress] = score[userAddress] + userScore;
+      score[userAddress] = score[userAddress] + userScoreInEther;
     });
   }
   return score || {};
