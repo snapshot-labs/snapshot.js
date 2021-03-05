@@ -246,5 +246,14 @@
     "rpc": ["https://http-mainnet.hecochain.com"],
     "ws": ["wss://ws-mainnet.hecochain.com"],
     "explorer": "https://scan.hecochain.com"
+  },
+  "250": {
+    "key": "250",
+    "name": "Fantom Opera",
+    "shortName": "fantom",
+    "chainId": 250,
+    "network": "Mainnet",
+    "rpc": ["https://rpcapi.fantom.network"],
+    "explorer": "https://ftmscan.com"
   }
 }
