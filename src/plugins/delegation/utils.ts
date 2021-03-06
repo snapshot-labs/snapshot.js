@@ -1,3 +1,4 @@
+import { getAddress } from '@ethersproject/address';
 import { SNAPSHOT_SUBGRAPH_URL, subgraphRequest } from '../../utils';
 
 export async function getDelegations(
@@ -57,7 +58,7 @@ export async function getDelegations(
       address,
       Object.entries(delegationsReverse)
         .filter(([, delegate]) => address.toLowerCase() === delegate)
-        .map(([delegator]) => delegator)
+        .map(([delegator]) => getAddress(delegator))
     ])
   );
 }
