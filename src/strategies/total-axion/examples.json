@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Total Axion (Staked + Liquid)",
+    "strategy": {
+      "name": "total-axion"
+    },
+    "network": "1",
+    "addresses": [
+      "0xe8b283b606a212d82036f74f88177375125440f6"
+    ],
+    "snapshot": 11998825
+  }
+]
