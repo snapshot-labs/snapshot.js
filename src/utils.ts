@@ -1,5 +1,6 @@
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import { abi as multicallAbi } from './abi/Multicall.json';
@@ -126,7 +127,8 @@ export async function getScores(
       strategies.map((strategy) =>
         snapshot !== 'latest' && strategy.params?.start > snapshot
           ? {}
-          : _strategies[strategy.name](
+          : runStrategy(
+              strategy,
               space,
               network,
               provider,
@@ -139,6 +141,35 @@ export async function getScores(
   } catch (e) {
     return Promise.reject(e);
   }
+}
+
+export async function runStrategy(
+  strategy: any,
+  space: string,
+  network: string,
+  provider: JsonRpcProvider,
+  addresses: string[],
+  options: any,
+  snapshot: any
+) {
+  const max = 250;
+  const pages = Math.ceil(addresses.length / max);
+  const promises = [];
+  Array.from(Array(pages)).forEach((x, i) => {
+    const addressesInPage = addresses.slice(max * i, max * (i + 1));
+    promises.push(
+      _strategies[strategy.name](
+        space,
+        network,
+        provider,
+        addressesInPage,
+        strategy.params,
+        snapshot
+      )
+    );
+  });
+  const results = await Promise.all(promises);
+  return results.reduce((obj, result: any) => ({ ...obj, ...result }), {});
 }
 
 export function validateSchema(schema, data) {
