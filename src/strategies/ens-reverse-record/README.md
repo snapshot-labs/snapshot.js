@@ -20,7 +20,7 @@ None
       "0xaCf4C2950107eF9b1C37faA1F9a866C8F0da88b9",
       "0x0239769A1aDF4DeF9f07Da824B80B9C4fCB59593"
     ],
-    "snapshot": 11414195
+    "snapshot": 12011880
   }
 ]
 ```
@@ -31,5 +31,5 @@ const addresses = [
   '0xaCf4C2950107eF9b1C37faA1F9a866C8F0da88b9'
 ];
 
-const snapshot = 11414195;
+const snapshot = 12011880;
 ```
