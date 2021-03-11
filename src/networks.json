@@ -219,6 +219,14 @@
     "network": "docker localhost",
     "rpc": ["http://localhost:8545"]
   },
+  "2109": {
+    "key": "2109",
+    "name": "Avalanche",
+    "chainId": 43114,
+    "network": "mainnet",
+    "rpc": ["https://api.avax.network/ext/bc/C/rpc"],
+    "explorer": "https://cchain.explorer.avax.network"
+  },
   "108": {
     "key": "108",
     "name": "Thundercore Mainnet",
