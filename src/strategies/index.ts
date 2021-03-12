@@ -52,6 +52,7 @@ import { strategy as theGraphIndexing } from './the-graph-indexing';
 import { strategy as whitelist } from './whitelist';
 import { strategy as tokenlon } from './tokenlon';
 import { strategy as rebased } from './rebased';
+import { strategy as pobHashCv } from './pob-hash-cv';
 
 export default {
   balancer,
@@ -107,5 +108,6 @@ export default {
   'the-graph-indexing': theGraphIndexing,
   whitelist,
   tokenlon,
-  rebased
+  rebased,
+  'pob-hash-cv': pobHashCv,
 };
