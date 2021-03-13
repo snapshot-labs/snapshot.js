@@ -8,7 +8,7 @@
         "masterchef": "0xf8873a6080e8dbF41ADa900498DE0951074af577",
         "pool": 2,
         "type": "lp",
-		"govtoken": "0xa283aA7CfBB27EF0cfBcb2493dD9F4330E0fd304"
+        "govtoken": "0xa283aA7CfBB27EF0cfBcb2493dD9F4330E0fd304"
       }
     },
     "network": "1",
