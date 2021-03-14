@@ -205,9 +205,12 @@ export async function strategy(
   snapshot
 ) {
   // Get all sessionID's per address
-  const sessionIDLookupV2 = await getSessionIDs(network, provider, addresses, snapshot, "v2");
+  const [sessionIDLookupV2, sessionIDLookupV1] = await Promise.all([
+    getSessionIDs(network, provider, addresses, snapshot, "v2"),
+    getSessionIDs(network, provider, addresses, snapshot, "v1")
+  ])
+
   const totalAxnByAddressV2 = await getTotalStakedAxnByAddress(network, provider, sessionIDLookupV2, "v2");
-  const sessionIDLookupV1 = await getSessionIDs(network, provider, addresses, snapshot, "v1");
 
   // Remove v2 sessionID's from v1 array
   const fixedV1Sessions = [];
@@ -223,6 +226,12 @@ export async function strategy(
   const toalAxnStaked = {};
   for (const a in combined)
     toalAxnStaked[a] = combined[a].reduce((acc, curr) => acc + curr, 0)
+
+  // Set addresses with no data/shares to 0.
+  addresses.forEach(a => {
+    if (!toalAxnStaked[a])
+      toalAxnStaked[a] = 0
+  });
 
   return toalAxnStaked;
 }
