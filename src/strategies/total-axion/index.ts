@@ -5,6 +5,11 @@ import { BigNumber } from '@ethersproject/bignumber';
 export const author = 'Jordan Travaux';
 export const version = '0.1.0';
 
+const _1e18 = "1000000000000000000";
+const staking_v2 = "0x1920d646574E097c2c487F69F40814F95d45bf8C";
+const staking_v1 = "0xcfd53eff4871b93ed7405f3f428c25f3bf60bbea";
+const axion_address = "0x71f85b2e46976bd21302b64329868fd15eb0d127";
+
 const abi_v2 = [
   {
     inputs: [
@@ -97,10 +102,8 @@ const abi_v1 = [
   }
 ];
 
-const _1e18 = "1000000000000000000";
-
 const getSessionIDs = async (network, provider, addresses, snapshot, version = "v2") => {
-  let stakingContract = version === "v2" ? "0x1920d646574E097c2c487F69F40814F95d45bf8C" : "0xcfd53eff4871b93ed7405f3f428c25f3bf60bbea"
+  let stakingContract = version === "v2" ? staking_v2 : staking_v1
 
   const result = await multicall(
     network,
@@ -134,7 +137,7 @@ const getSessionIDs = async (network, provider, addresses, snapshot, version = "
 }
 
 const getTotalStakedAxnByAddress = async (network, provider, sessionLookups, version = "v2") => {
-  let stakingContract = version === "v2" ? "0x1920d646574E097c2c487F69F40814F95d45bf8C" : "0xcfd53eff4871b93ed7405f3f428c25f3bf60bbea"
+  let stakingContract = version === "v2" ? staking_v2 : staking_v1
   let abi = version === "v2" ? abi_v2 : abi_v1;
 
   const sessionInfo = await multicall(
@@ -204,7 +207,8 @@ export async function strategy(
   snapshot
 ) {
   // Get Liquid Axion
-  const liquidAxionAtBlock = await erc20BalanceOfStrategy(space, network, provider, addresses, options, snapshot);
+  let newOptions = { address: axion_address }
+  const liquidAxionAtBlock = await erc20BalanceOfStrategy(space, network, provider, addresses, newOptions, snapshot);
 
   // Get all sessionID's per address
   const sessionIDLookupV2 = await getSessionIDs(network, provider, addresses, snapshot, "v2");

@@ -2,10 +2,7 @@
   {
     "name": "Total Axion (Staked + Liquid)",
     "strategy": {
-      "name": "total-axion",
-      "params": {
-        "address": "0x71f85b2e46976bd21302b64329868fd15eb0d127"
-      }
+      "name": "total-axion"
     },
     "network": "1",
     "addresses": [
