@@ -1,8 +1,8 @@
 [
   {
-    "name": "Total Axion (Staked + Liquid)",
+    "name": "Total Axion Shares",
     "strategy": {
-      "name": "total-axion"
+      "name": "total-axion-shares"
     },
     "network": "1",
     "addresses": [

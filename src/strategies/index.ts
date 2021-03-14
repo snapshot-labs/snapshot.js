@@ -53,7 +53,7 @@ import { strategy as theGraphIndexing } from './the-graph-indexing';
 import { strategy as whitelist } from './whitelist';
 import { strategy as tokenlon } from './tokenlon';
 import { strategy as rebased } from './rebased';
-import { strategy as totalAxion } from './total-axion';
+import { strategy as totalAxionShares } from './total-axion-shares';
 import { strategy as erc1155BalanceOf } from './erc1155-balance-of';
 import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
 
@@ -115,5 +115,5 @@ export default {
   whitelist,
   tokenlon,
   rebased,
-  'total-axion': totalAxion
+  'total-axion-shares': totalAxionShares
 };

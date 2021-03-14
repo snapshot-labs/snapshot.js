@@ -1,5 +1,4 @@
 import { multicall } from '../../utils';
-import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 import { BigNumber } from '@ethersproject/bignumber';
 
 export const author = 'Jordan Travaux';
@@ -8,7 +7,6 @@ export const version = '0.1.0';
 const _1e18 = "1000000000000000000";
 const staking_v2 = "0x1920d646574E097c2c487F69F40814F95d45bf8C";
 const staking_v1 = "0xcfd53eff4871b93ed7405f3f428c25f3bf60bbea";
-const axion_address = "0x71f85b2e46976bd21302b64329868fd15eb0d127";
 
 const abi_v2 = [
   {
@@ -154,10 +152,10 @@ const getTotalStakedAxnByAddress = async (network, provider, sessionLookups, ver
   const addressAmounts = {};
   sessionInfo.forEach((si, i) => {
     const address = sessionLookups[i].address;
-    let amount = si.withdrawn ? BigNumber.from(0) : si.amount;
+    let amount = si.withdrawn ? BigNumber.from(0) : si.shares;
 
     if (version === "v1")
-      amount = si.shares.isZero() ? BigNumber.from(0) : si.amount;
+      amount = si.shares.isZero() ? BigNumber.from(0) : si.shares;
 
     if (!addressAmounts[address])
       addressAmounts[address] = [amount]
@@ -206,10 +204,6 @@ export async function strategy(
   options,
   snapshot
 ) {
-  // Get Liquid Axion
-  let newOptions = { address: axion_address }
-  const liquidAxionAtBlock = await erc20BalanceOfStrategy(space, network, provider, addresses, newOptions, snapshot);
-
   // Get all sessionID's per address
   const sessionIDLookupV2 = await getSessionIDs(network, provider, addresses, snapshot, "v2");
   const totalAxnByAddressV2 = await getTotalStakedAxnByAddress(network, provider, sessionIDLookupV2, "v2");
@@ -230,17 +224,5 @@ export async function strategy(
   for (const a in combined)
     toalAxnStaked[a] = combined[a].reduce((acc, curr) => acc + curr, 0)
 
-  // Add up liquid + staked
-  const toalAxn = {};
-  for (const key in liquidAxionAtBlock) {
-    const liquid = Math.floor(liquidAxionAtBlock[key])
-    const staked = toalAxnStaked[key];
-
-    if (staked)
-      toalAxn[key] = liquid + staked
-    else
-      toalAxn[key] = liquid
-  }
-
-  return toalAxn;
+  return toalAxnStaked;
 }
