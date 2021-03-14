@@ -1,5 +1,5 @@
 import { formatUnits } from '@ethersproject/units';
-import { multicall } from '../../utils';
+import Multicaller from '../../utils/multicaller';
 
 export const author = '@MushroomsFinan1';
 export const version = '0.1.0';
@@ -100,21 +100,30 @@ export async function strategy(
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   
-  const response = await multicall(network, provider, masterChefAbi, addresses.map((address: any) => [options.masterchef, 'userInfo', [options.pool, address]]), {blockTag});
-  const poolInfo = await multicall(network, provider, masterChefAbi, [[options.masterchef, 'poolInfo', [options.pool]]], {blockTag});
-
-  let lpTotalSupply = 1;
-  let poolMMBalance = 1;
+  const masterChefMulti = new Multicaller(network, provider, masterChefAbi, { blockTag });
+  addresses.forEach((address) => {
+      masterChefMulti.call('${address}.userInfo', options.masterchef, 'userInfo', [options.pool, address]);
+  });  
+ 
   if (options.type === 'lp'){	   
-      lpTotalSupply = await multicall(network, provider, erc20Abi, [[poolInfo.lpToken, 'totalSupply', []]], {blockTag});
-      poolMMBalance = await multicall(network, provider, erc20Abi, [[options.govtoken, 'balanceOf', [poolInfo.lpToken]]], {blockTag});
-  }
+      masterChefMulti.call('poolInfo', options.masterchef, 'poolInfo', [options.pool]);
+      const masterChefResult = await multi.execute();
+	  
+      const erc20Multi = new Multicaller(network, provider, erc20Abi, { blockTag });
+      erc20Multi.call('lpTotalSupply', masterChefResult.poolInfo.lpToken, 'totalSupply');
+      erc20Multi.call('poolMMBalance', options.govtoken, 'balanceOf', [masterChefResult.poolInfo.lpToken]);
+      const erc20Result = await erc20Multi.execute();
+	  
+      return Object.fromEntries(
+         addresses.map((address) => { return [address, parseFloat(formatUnits(((masterChefResult[address].userInfo.amount * erc20Result.poolMMBalance) / erc20Result.lpTotalSupply).toString(), 18))]; })
+      );
+  } else{	  
+      const masterChefResult = await masterChefMulti.execute();
+      return Object.fromEntries(
+         addresses.map((address) => { return [address, parseFloat(formatUnits((masterChefResult[address].userInfo.amount).toString(), 18))]; })
+      );
+  }  
   
-  return Object.fromEntries(
-    Object.entries(response).map((value, index) => [
-      addresses[index],
-      parseFloat(formatUnits(((value.amount * poolMMBalance) / lpTotalSupply).toString(), 18))
-    ])
-  );
+  
   
 }
