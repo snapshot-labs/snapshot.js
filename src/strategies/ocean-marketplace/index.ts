@@ -7,8 +7,10 @@ export const author = 'w1kke';
 export const version = '0.1.0';
 
 const OCEAN_SUBGRAPH_URL = {
-  '1': 'https://subgraph.mainnet.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph',
-  '42': 'https://subgraph.rinkeby.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph'
+  '1':
+    'https://subgraph.mainnet.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph',
+  '42':
+    'https://subgraph.rinkeby.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph'
 };
 
 // Returns a BigDecimal as a BigNumber with 10^decimals extra zeros
@@ -17,9 +19,11 @@ export function bdToBn(bd, decimals) {
   const splitDecimal = bd.split('.');
 
   if (splitDecimal.length > 1) {
-    bn = `${splitDecimal[0]}.${splitDecimal[1].slice(0, decimals - splitDecimal[0].length - 1)}`;    
-  }
-  else {
+    bn = `${splitDecimal[0]}.${splitDecimal[1].slice(
+      0,
+      decimals - splitDecimal[0].length - 1
+    )}`;
+  } else {
     bn = `${splitDecimal[0]}`;
   }
 
@@ -86,11 +90,15 @@ export async function strategy(
       if (pool.holderCount > 0 && pool.active) {
         pool.shares.map((share) => {
           const userAddress = getAddress(share.userAddress.id).toLowerCase();
-          if (!userAddresses.includes(userAddress)) userAddresses.push(userAddress);
+          if (!userAddresses.includes(userAddress))
+            userAddresses.push(userAddress);
           if (!score[userAddress]) score[userAddress] = BigNumber.from(0);
-          let userShare = share.balance * (pool.oceanReserve / pool.totalShares);
+          let userShare =
+            share.balance * (pool.oceanReserve / pool.totalShares);
           if (userShare > 0.0001) {
-            score[userAddress] = score[userAddress].add(bdToBn(userShare.toString(), options.decimals));
+            score[userAddress] = score[userAddress].add(
+              bdToBn(userShare.toString(), options.decimals)
+            );
           }
         });
       }
@@ -101,6 +109,6 @@ export async function strategy(
       return_score[address] = parsedSum;
     });
   }
-   
+
   return return_score || {};
-  }
+}
