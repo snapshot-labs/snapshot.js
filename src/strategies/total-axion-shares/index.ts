@@ -134,7 +134,7 @@ const getSessionIDs = async (network, provider, addresses, snapshot, version = "
   return sessionIDLookup;
 }
 
-const getTotalStakedAxnByAddress = async (network, provider, sessionLookups, version = "v2") => {
+const getTotalSharesByAddress = async (network, provider, sessionLookups, version = "v2") => {
   let stakingContract = version === "v2" ? staking_v2 : staking_v1
   let abi = version === "v2" ? abi_v2 : abi_v1;
 
@@ -210,7 +210,7 @@ export async function strategy(
     getSessionIDs(network, provider, addresses, snapshot, "v1")
   ])
 
-  const totalAxnByAddressV2 = await getTotalStakedAxnByAddress(network, provider, sessionIDLookupV2, "v2");
+  const totalSharesByAddressV2 = await getTotalSharesByAddress(network, provider, sessionIDLookupV2, "v2");
 
   // Remove v2 sessionID's from v1 array
   const fixedV1Sessions = [];
@@ -219,19 +219,19 @@ export async function strategy(
       fixedV1Sessions.push(s)
   })
 
-  const totalAxnByAddressV1 = await getTotalStakedAxnByAddress(network, provider, fixedV1Sessions, "v1")
-  const combined = combineV1V2(totalAxnByAddressV1, totalAxnByAddressV2)
+  const totalSharesByAddressV1 = await getTotalSharesByAddress(network, provider, fixedV1Sessions, "v1")
+  const combined = combineV1V2(totalSharesByAddressV1, totalSharesByAddressV2)
 
   // Add up v1 and v2 stakes
-  const toalAxnStaked = {};
+  const toalShares = {};
   for (const a in combined)
-    toalAxnStaked[a] = combined[a].reduce((acc, curr) => acc + curr, 0)
+    toalShares[a] = combined[a].reduce((acc, curr) => acc + curr, 0)
 
   // Set addresses with no data/shares to 0.
   addresses.forEach(a => {
-    if (!toalAxnStaked[a])
-      toalAxnStaked[a] = 0
+    if (!toalShares[a])
+      toalShares[a] = 0
   });
 
-  return toalAxnStaked;
+  return toalShares;
 }
