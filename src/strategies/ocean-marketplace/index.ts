@@ -83,7 +83,7 @@ export async function strategy(
   const result = await subgraphRequest(OCEAN_SUBGRAPH_URL[network], params);
 
   const score = {};
-  const userAddresses = [];
+  const userAddresses: string[] = [];
   const return_score = {};
   if (result && result.pools) {
     result.pools.forEach((pool) => {
