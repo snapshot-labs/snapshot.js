@@ -55,6 +55,7 @@ import { strategy as tokenlon } from './tokenlon';
 import { strategy as rebased } from './rebased';
 import { strategy as erc1155BalanceOf } from './erc1155-balance-of';
 import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
+import { strategy as compLikeVotes } from './comp-like-votes';
 
 export default {
   balancer,
@@ -113,5 +114,6 @@ export default {
   'the-graph-indexing': theGraphIndexing,
   whitelist,
   tokenlon,
-  rebased
+  rebased,
+  'comp-like-votes': compLikeVotes
 };
