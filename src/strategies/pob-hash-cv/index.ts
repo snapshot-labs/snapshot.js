@@ -1,6 +1,6 @@
 import { subgraphRequest } from '../../utils';
 
-export const author = 'bonustrack';
+export const author = 'dave4506';
 export const version = '0.1.0';
 
 export const SUBGRAPH_URL = {
