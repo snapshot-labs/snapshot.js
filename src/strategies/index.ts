@@ -54,6 +54,8 @@ import { strategy as whitelist } from './whitelist';
 import { strategy as tokenlon } from './tokenlon';
 import { strategy as rebased } from './rebased';
 import { strategy as pobHashCv } from './pob-hash-cv';
+import { strategy as erc1155BalanceOf } from './erc1155-balance-of';
+import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
 
 export default {
   balancer,
@@ -74,6 +76,8 @@ export default {
   'eth-balance': ethBalance,
   'eth-wallet-age': ethWalletAge,
   'maker-ds-chief': makerDsChief,
+  'erc1155-balance-of': erc1155BalanceOf,
+  'erc1155-balance-of-cv': erc1155BalanceOfCv,
   uni,
   'frax-finance': fraxFinance,
   'yearn-vault': yearnVault,
