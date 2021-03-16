@@ -9,7 +9,7 @@ export default class Plugin {
   /**
    * Returns the total voting power at specific snapshot
    */
-  async getTotalVotingPower(web3, spaceOptions, totalScore, snapshot) {
+  async getTotalVotingPower(web3, spaceOptions, snapshot) {
     try {
       const { quorum } = spaceOptions;
       const { strategy } = quorum;
