@@ -1,20 +1,21 @@
 [
   {
-    "name": "GHST and LP tokens staked in diamond",
+    "name": "GHST, USDC-GHST and QUICK-GHST tokens staked in diamond",
     "strategy": {
       "name": "aavegotchi",
       "params": {
-        "tokenAddress": "0x3F382DbD960E3a9bbCeaE22651E88158d2791550",
-        "uniswapAddress" : "0xab659dee3030602c1af8c29d146facd4aed6ec85",
-        "stakingAddress" : "0x93eA6ec350Ace7473f7694D43dEC2726a515E31A",
+        "tokenAddress": "0x385Eeac5cB85A38A9a07A70c73e0a3271CfB54A7",
+        "ghstQuickAddress" : "0x8b1fd78ad67c7da09b682c5392b65ca7caa101b9",
+        "ghstUsdcAddress" : "0x096c5ccb33cfc5732bcd1f3195c13dbefc4c82f4",
+        "stakingAddress" : "0xA02d547512Bb90002807499F05495Fe9C4C3943f",
         "symbol": "GHST",
         "decimals": 18
       }
     },
-    "network": "1",
+    "network": "137",
     "addresses": [
       "0x027Ffd3c119567e85998f4E6B9c3d83D5702660c"
     ],
-    "snapshot": 11502100
+    "snapshot": 12089223
   }
 ]
