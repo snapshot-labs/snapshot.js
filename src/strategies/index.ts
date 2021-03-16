@@ -56,6 +56,7 @@ import { strategy as rebased } from './rebased';
 import { strategy as totalAxionShares } from './total-axion-shares';
 import { strategy as erc1155BalanceOf } from './erc1155-balance-of';
 import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
+import { strategy as compLikeVotes } from './comp-like-votes';
 
 export default {
   balancer,
@@ -116,4 +117,5 @@ export default {
   tokenlon,
   rebased,
   'total-axion-shares': totalAxionShares
+  'comp-like-votes': compLikeVotes
 };
