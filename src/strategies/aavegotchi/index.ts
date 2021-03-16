@@ -57,14 +57,14 @@ const tokenAbi = [
         type: 'uint256'
       },
       {
-        internalType: "uint256",
-        name: "poolTokens_",
-        type: "uint256"
+        internalType: 'uint256',
+        name: 'poolTokens_',
+        type: 'uint256'
       },
       {
-        internalType: "uint256",
-        name: "ghstUsdcPoolToken_",
-        type: "uint256"
+        internalType: 'uint256',
+        name: 'ghstUsdcPoolToken_',
+        type: 'uint256'
       }
     ],
     payable: false,
@@ -104,21 +104,25 @@ export async function strategy(
   const ghstQuickTotalSupply = res[0];
   const ghstQuickTokenBalanceInUni = res[1];
   const ghstQuickTokensPerUni =
-    ghstQuickTokenBalanceInUni / 10 ** options.decimals / (ghstQuickTotalSupply / 1e18);
+    ghstQuickTokenBalanceInUni /
+    10 ** options.decimals /
+    (ghstQuickTotalSupply / 1e18);
 
   const ghstUsdcTotalSupply = res[2];
   const ghstUsdcTokenBalanceInUni = res[3];
   const ghstUsdcTokensPerUni =
-    ghstUsdcTokenBalanceInUni / 10 ** options.decimals / (ghstUsdcTotalSupply / 1e18);
+    ghstUsdcTokenBalanceInUni /
+    10 ** options.decimals /
+    (ghstUsdcTotalSupply / 1e18);
 
   const response = res.slice(4);
 
   return Object.fromEntries(
     response.map((values, i) => [
       addresses[i],
-      values[0] / 1e18 //ghst_
-      + (values[1] / 10 ** options.decimals) * ghstQuickTokensPerUni //poolTokens_
-      + (values[2] / 10 ** options.decimals) * ghstUsdcTokensPerUni //ghstUsdcPoolToken_
+      values[0] / 1e18 + //ghst_
+        (values[1] / 10 ** options.decimals) * ghstQuickTokensPerUni + //poolTokens_
+        (values[2] / 10 ** options.decimals) * ghstUsdcTokensPerUni //ghstUsdcPoolToken_
     ])
   );
 }
