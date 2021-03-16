@@ -116,6 +116,6 @@ export default {
   whitelist,
   tokenlon,
   rebased,
-  'total-axion-shares': totalAxionShares
+  'total-axion-shares': totalAxionShares,
   'comp-like-votes': compLikeVotes
 };
