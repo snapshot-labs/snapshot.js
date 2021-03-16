@@ -9,14 +9,13 @@ export default class Plugin {
   /**
    * Returns the total voting power at specific snapshot
    */
-  async getTotalVotingPower(web3, spaceOptions, snapshot) {
+  async getTotalVotingPower(web3, quorumOptions, snapshot) {
     try {
-      const { quorum } = spaceOptions;
-      const { strategy } = quorum;
+      const { strategy } = quorumOptions;
 
       switch (strategy) {
         case 'balance': {
-          const { address, methodABI, decimals } = quorum;
+          const { address, methodABI, decimals } = quorumOptions;
 
           const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
           const totalVotingPower = await call(
