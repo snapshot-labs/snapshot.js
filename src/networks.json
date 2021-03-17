@@ -99,6 +99,9 @@
     "chainId": 56,
     "network": "mainnet",
     "rpc": [
+      "https://bsc-private-dataseed1.nariox.org",
+      "https://bsc-private-dataseed2.nariox.org",
+      "https://bsc-dataseed1.ninicoin.io",
       "https://bsc-dataseed1.binance.org",
       "https://bsc-dataseed2.binance.org",
       "https://bsc-dataseed3.binance.org"
@@ -160,7 +163,7 @@
     "shortName": "Matic",
     "chainId": 137,
     "network": "mainnet",
-    "rpc": ["https://rpc-mainnet.maticvigil.com"],
+    "rpc": ["https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e"],
     "ws": ["wss://ws-mainnet.matic.network"],
     "explorer": ""
   },
@@ -216,6 +219,14 @@
     "network": "docker localhost",
     "rpc": ["http://localhost:8545"]
   },
+  "2109": {
+    "key": "2109",
+    "name": "Avalanche",
+    "chainId": 43114,
+    "network": "mainnet",
+    "rpc": ["https://api.avax.network/ext/bc/C/rpc"],
+    "explorer": "https://cchain.explorer.avax.network"
+  },
   "108": {
     "key": "108",
     "name": "Thundercore Mainnet",
@@ -243,5 +254,14 @@
     "rpc": ["https://http-mainnet.hecochain.com"],
     "ws": ["wss://ws-mainnet.hecochain.com"],
     "explorer": "https://scan.hecochain.com"
+  },
+  "250": {
+    "key": "250",
+    "name": "Fantom Opera",
+    "shortName": "fantom",
+    "chainId": 250,
+    "network": "Mainnet",
+    "rpc": ["https://rpcapi.fantom.network"],
+    "explorer": "https://ftmscan.com"
   }
 }

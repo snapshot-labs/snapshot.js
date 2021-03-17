@@ -12,6 +12,9 @@
           "minLength": 1,
           "maxLength": 32
         },
+        "private": {
+          "type": "boolean"
+        },
         "network": {
           "type": "string",
           "title": "network",
@@ -37,7 +40,7 @@
         "strategies": {
           "type": "array",
           "minItems": 1,
-          "maxItems": 3,
+          "maxItems": 5,
           "items": {
             "type": "object",
             "properties": {

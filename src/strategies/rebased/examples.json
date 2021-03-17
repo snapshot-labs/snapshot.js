@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Rebased",
+    "strategy": {
+      "name": "rebased",
+      "params": {
+        "uniswap": "0x54f5f952cca8888227276581F26978F99FDBa64E",
+        "sharePool": "0x574D80f005B9f5a26e6D4E0bcbD379EABD7edEb0",
+        "token": "0x87f5f9ebe40786d49d35e1b5997b07ccaa8adbff",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0xde389fb34f54bec6d09bd98152a69be15c43163f",
+      "0xbe80fd79e26ce0a605e5d2803e876f1b009d70cc",
+      "0x55c307cbe54a1c1c105838a9d0fd60b75d7ff951",
+      "0x01BaD7E976d59CE92295Dbacd5da7fc06FE05412",
+      "0x64be824f732312490224a67537d49b8580068abf"
+    ],
+    "snapshot": 11941425
+  }
+]
