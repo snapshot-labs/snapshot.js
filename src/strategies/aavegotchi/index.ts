@@ -58,7 +58,12 @@ const tokenAbi = [
       },
       {
         internalType: 'uint256',
-        name: 'uniV2PoolTokens_',
+        name: 'poolTokens_',
+        type: 'uint256'
+      },
+      {
+        internalType: 'uint256',
+        name: 'ghstUsdcPoolToken_',
         type: 'uint256'
       }
     ],
@@ -82,8 +87,10 @@ export async function strategy(
     provider,
     tokenAbi,
     [
-      [options.uniswapAddress, 'totalSupply', []],
-      [options.tokenAddress, 'balanceOf', [options.uniswapAddress]]
+      [options.ghstQuickAddress, 'totalSupply', []],
+      [options.tokenAddress, 'balanceOf', [options.ghstQuickAddress]],
+      [options.ghstUsdcAddress, 'totalSupply', []],
+      [options.tokenAddress, 'balanceOf', [options.ghstUsdcAddress]]
     ].concat(
       addresses.map((address: any) => [
         options.stakingAddress,
@@ -94,18 +101,28 @@ export async function strategy(
     { blockTag }
   );
 
-  const totalSupply = res[0];
-  const tokenBalanceInUni = res[1];
-  const tokensPerUni =
-    tokenBalanceInUni / 10 ** options.decimals / (totalSupply / 1e18);
+  const ghstQuickTotalSupply = res[0];
+  const ghstQuickTokenBalanceInUni = res[1];
+  const ghstQuickTokensPerUni =
+    ghstQuickTokenBalanceInUni /
+    10 ** options.decimals /
+    (ghstQuickTotalSupply / 1e18);
 
-  const response = res.slice(2);
+  const ghstUsdcTotalSupply = res[2];
+  const ghstUsdcTokenBalanceInUni = res[3];
+  const ghstUsdcTokensPerUni =
+    ghstUsdcTokenBalanceInUni /
+    10 ** options.decimals /
+    (ghstUsdcTotalSupply / 1e18);
+
+  const response = res.slice(4);
 
   return Object.fromEntries(
     response.map((values, i) => [
       addresses[i],
-      //ghst_, uniV2PoolTokens
-      values[0] / 1e18 + (values[1] / 10 ** options.decimals) * tokensPerUni
+      values[0] / 1e18 + //ghst_
+        (values[1] / 10 ** options.decimals) * ghstQuickTokensPerUni + //poolTokens_
+        (values[2] / 10 ** options.decimals) * ghstUsdcTokensPerUni //ghstUsdcPoolToken_
     ])
   );
 }
