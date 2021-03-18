@@ -13,7 +13,7 @@ export async function strategy(
 ) {
   const max = 250;
   const pages = Math.ceil(addresses.length / max);
-  const promises = [];
+  const promises: any = [];
   Array.from(Array(pages)).forEach((x, i) => {
     const addressesInPage = addresses.slice(max * i, max * (i + 1));
     promises.push(
@@ -28,5 +28,6 @@ export async function strategy(
     );
   });
   const results = await Promise.all(promises);
+  // @ts-ignore
   return results.reduce((obj, result: any) => ({ ...obj, ...result }), {});
 }
