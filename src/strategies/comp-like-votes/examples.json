@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Example COMP like votes query",
+    "strategy": {
+      "name": "comp-like-votes",
+      "params": {
+        "address": "0xc00e94cb662c3520282e6f5717214004a7f26888"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x2B384212EDc04Ae8bB41738D05BA20E33277bf33",
+      "0xAC5720d6EE2d7872b88914C9c5Fa9BF38e72FaF6"
+    ],
+    "snapshot": 12050071
+  }
+]

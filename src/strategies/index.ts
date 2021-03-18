@@ -56,6 +56,8 @@ import { strategy as rebased } from './rebased';
 import { strategy as pobHashCv } from './pob-hash-cv';
 import { strategy as erc1155BalanceOf } from './erc1155-balance-of';
 import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
+import { strategy as compLikeVotes } from './comp-like-votes';
+import { strategy as pagination } from './pagination';
 
 export default {
   balancer,
@@ -116,4 +118,6 @@ export default {
   tokenlon,
   rebased,
   'pob-hash-cv': pobHashCv,
+  'comp-like-votes': compLikeVotes,
+  pagination,
 };
