@@ -1,5 +1,6 @@
 import { formatUnits } from '@ethersproject/units';
 import { subgraphRequest } from '../../utils';
+import { getAddress } from '@ethersproject/address';
 
 export const author = 'andytcf';
 export const version = '0.0.1';
@@ -43,7 +44,7 @@ export async function strategy(
 
   if (result && result.snxholders) {
     result.snxholders.forEach((holder) => {
-      score[holder.id] = quadraticWeighting(
+      score[getAddress(holder.id)] = quadraticWeighting(
         parseFloat(formatUnits(holder.initialDebtOwnership.toString(), 27))
       );
     });
