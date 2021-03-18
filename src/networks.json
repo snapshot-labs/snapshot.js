@@ -263,5 +263,15 @@
     "network": "Mainnet",
     "rpc": ["https://rpcapi.fantom.network"],
     "explorer": "https://ftmscan.com"
+  },
+  "499": {
+    "key": "499",
+    "name": "Rupaya",
+    "shortName": "RUPX",
+    "chainId": 499,
+    "network": "mainnet",
+    "rpc": ["https://rpc.rupx.io"],
+    "ws": ["wss://ws.rupx.io"],
+    "explorer": "http://scan.rupx.io/"  
   }
 }
