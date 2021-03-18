@@ -56,6 +56,7 @@ import { strategy as rebased } from './rebased';
 import { strategy as erc1155BalanceOf } from './erc1155-balance-of';
 import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
 import { strategy as compLikeVotes } from './comp-like-votes';
+import { strategy as pagination } from './pagination';
 
 export default {
   balancer,
@@ -115,5 +116,6 @@ export default {
   whitelist,
   tokenlon,
   rebased,
-  'comp-like-votes': compLikeVotes
+  'comp-like-votes': compLikeVotes,
+  pagination
 };
