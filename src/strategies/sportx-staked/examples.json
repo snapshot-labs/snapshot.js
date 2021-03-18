@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Staked SX in Staking contract",
+    "strategy": {
+      "name": "sportx-staked",
+      "params": {
+        "stakingAddress" : "0xcc96F1187682738eFa63E0fd051AbbB2dBF87FAe"
+      }
+    },
+    "network": "137",
+    "addresses": [
+      "0xc204d9831002c949b16AA78E7474cA28C4AD2163",
+      "0x10F546a6F4d20d91e5a8506124384759C9F4bC79"
+    ],
+    "snapshot": 11270000
+  }
+]

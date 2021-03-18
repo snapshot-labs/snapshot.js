@@ -13,6 +13,7 @@ import { strategy as balancerDelegation } from './balancer-delegation';
 import { strategy as ethBalance } from './eth-balance';
 import { strategy as ethWalletAge } from './eth-wallet-age';
 import { strategy as makerDsChief } from './maker-ds-chief';
+import { strategy as sportxStaked } from "./sportx-staked";
 import { strategy as uni } from './uni';
 import { strategy as yearnVault } from './yearn-vault';
 import { strategy as fraxFinance } from './frax-finance';
@@ -79,6 +80,7 @@ export default {
   'maker-ds-chief': makerDsChief,
   'erc1155-balance-of': erc1155BalanceOf,
   'erc1155-balance-of-cv': erc1155BalanceOfCv,
+  'sportx-staked': sportxStaked,
   uni,
   'frax-finance': fraxFinance,
   'yearn-vault': yearnVault,
