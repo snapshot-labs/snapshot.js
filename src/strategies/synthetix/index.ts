@@ -24,12 +24,12 @@ export async function strategy(
     snxholders: {
       __args: {
         where: {
-          id: addresses.map((address: string) => address.toLowerCase())
+          id_in: addresses.map((address: string) => address.toLowerCase())
         },
         first: 1000
       },
       id: true,
-      issuanceData: true
+      initialDebtOwnership: true
     }
   };
 
