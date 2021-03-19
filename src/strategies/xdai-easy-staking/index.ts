@@ -1,15 +1,13 @@
 import { formatUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
 import { subgraphRequest, call } from '../../utils';
-import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 import { calculateEmission } from './utils';
 
 export const author = 'maxaleks';
 export const version = '0.1.0';
 
-const EASY_STAKING_SUBGRAPH_URL = {
-  '1': 'https://api.thegraph.com/subgraphs/name/maxaleks/easy-staking'
-};
+const EASY_STAKING_SUBGRAPH_URL =
+  'https://api.thegraph.com/subgraphs/name/maxaleks/easy-staking';
 
 const ercABI = [
   {
@@ -28,7 +26,7 @@ const ercABI = [
   }
 ];
 
-async function getEasyStakingDeposits(network, addresses, snapshot) {
+async function getEasyStakingDeposits(addresses, snapshot) {
   const params = {
     deposits: {
       __args: {
@@ -52,10 +50,7 @@ async function getEasyStakingDeposits(network, addresses, snapshot) {
   let deposits = [];
   while (true) {
     params.deposits.__args.skip = page * 1000;
-    const data = await subgraphRequest(
-      EASY_STAKING_SUBGRAPH_URL[network],
-      params
-    );
+    const data = await subgraphRequest(EASY_STAKING_SUBGRAPH_URL, params);
     deposits = deposits.concat(data.deposits);
     page++;
     if (data.deposits.length < 1000) break;
@@ -67,7 +62,7 @@ async function getEasyStakingDeposits(network, addresses, snapshot) {
   }));
 }
 
-async function getEasyStakingParams(network, snapshot) {
+async function getEasyStakingParams(snapshot) {
   const params = {
     commonData: {
       __args: {
@@ -85,7 +80,7 @@ async function getEasyStakingParams(network, snapshot) {
     params.commonData.__args.block = { number: snapshot };
   }
   const { commonData } = await subgraphRequest(
-    EASY_STAKING_SUBGRAPH_URL[network],
+    EASY_STAKING_SUBGRAPH_URL,
     params
   );
   return {
@@ -110,28 +105,23 @@ export async function strategy(
   const [
     easyStakingDeposits,
     { sigmoidParameters, totalSupplyFactor, totalStaked },
-    erc20Score,
     block,
     totalSupply
   ] = await Promise.all([
-    getEasyStakingDeposits(network, addresses, snapshot),
-    getEasyStakingParams(network, snapshot),
-    erc20BalanceOfStrategy(
-      space,
-      network,
-      provider,
-      addresses,
-      options,
-      snapshot
-    ),
+    getEasyStakingDeposits(addresses, snapshot),
+    getEasyStakingParams(snapshot),
     provider.getBlock(snapshot),
     call(provider, ercABI, [options.address, 'totalSupply', []])
   ]);
+  const result = {};
+  addresses.forEach((address) => {
+    result[address] = 0;
+  });
   if (!easyStakingDeposits || easyStakingDeposits.length === 0) {
-    return erc20Score;
+    return result;
   }
   return Object.fromEntries(
-    Object.entries(erc20Score).map(([address, balance]: any) => {
+    Object.entries(result).map(([address, balance]: any) => {
       let totalBalance = balance;
       const userDeposits = easyStakingDeposits.filter(
         (deposit) => deposit.user.toLowerCase() === address.toLowerCase()
