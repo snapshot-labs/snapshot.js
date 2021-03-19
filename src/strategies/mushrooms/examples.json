@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "mushrooms",
+      "params": {
+        "_comment_": "This strategy supports LP pool in masterchef style staking. by @MushroomsFinan1",
+        "masterchef": "0xf8873a6080e8dbF41ADa900498DE0951074af577",
+        "pool": 2,
+        "type": "lp",
+        "govtoken": "0xa283aA7CfBB27EF0cfBcb2493dD9F4330E0fd304"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x43229759E12eFbe3e2A0fB0510B15e516d046442"
+    ],
+    "snapshot": 12028975
+  }
+]
