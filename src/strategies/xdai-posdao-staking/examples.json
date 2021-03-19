@@ -1,6 +1,6 @@
 [
   {
-    "name": "STAKE token holders (from EasyStaking)",
+    "name": "STAKE token holders (from POSDAO staking)",
     "strategy": {
       "name": "xdai-posdao-staking",
       "params": {
