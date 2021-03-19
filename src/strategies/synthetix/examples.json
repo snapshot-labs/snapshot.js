@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "synthetix",
+      "params": {
+        "address": "0x023c66b7e13d30a3c46aa433fd2829763d5817c5",
+        "symbol": "WD"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0xc4e9e087a811be812f85e49f2a41603d9a0991a9",
+      "0xc8c2b727d864cc75199f5118f0943d2087fb543b"
+    ],
+    "snapshot": 11963141
+  }
+]

@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "work",
+      "params": {
+        "whitelist": "0x473e11Aa2B90Ee6E3c46D8B860D968A4Bfc7569D",
+        "stake": "0x402456616f2678D823414a973e057b63542aC5a8",
+        "symbol": "WORK",
+        "decimals": 18
+      }
+    },
+    "network": "42",
+    "addresses": [
+      "0x737CA57695354079e50eDc878056f7D9d1B556ee",
+      "0x5ab0Be21C3C777a1899eE1c024560eD5CeE2365D",
+      "0x1E1A51E25f2816335cA436D65e9Af7694BE232ad"
+    ],
+    "snapshot": 23232581
+  },
+  {
+    "name": "Example query xDAI",
+    "strategy": {
+      "name": "work",
+      "params": {
+        "whitelist": "0xc61a0A7db8E34A24d3f4AA1feF6907Ecf9d4e850",
+        "stake": "0x3DCb8295f2c74C4Be77D8Ea329eB6240C47709B3",
+        "symbol": "WORK",
+        "decimals": 18
+      }
+    },
+    "network": "100", 
+    "addresses": [
+      "0x737CA57695354079e50eDc878056f7D9d1B556ee",
+      "0x624123ec4A9f48Be7AA8a307a74381E4ea7530D4"
+    ],
+    "snapshot": 14352264
+  }
+]

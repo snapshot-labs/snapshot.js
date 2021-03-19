@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Graph Tokens",
+    "strategy": {
+      "name": "the-graph-delegation",
+      "params": {
+        "strategyType": "delegation",
+        "expectedResults": {
+          "tokenLockWallets": [
+            {
+              "beneficiary": "0x93606b27cb5e4c780883ec4f6b7bed5f6572d1dd",
+              "id": "0x4236878343d286a2943453e045da46e86d12138d"
+            },
+            {
+              "beneficiary": "0x93606b27cb5e4c780883ec4f6b7bed5f6572d1dd",
+              "id": "0x460c51e3f7609b47c0f9b3a655be804286c04666"
+            },
+            {
+              "beneficiary": "0x93606b27cb5e4c780883ec4f6b7bed5f6572d1dd",
+              "id": "0x4a350a7bc84f8478028bfe662bcc6aa4390aff74"
+            }
+          ],
+          "scores": {
+            "0x93606b27cb5e4c780883ec4f6b7bed5f6572d1dd": 720471750.889876,
+            "0x7f11e5b7fe8c04c1e4ce0dd98ac5c922eccfa4ed": 0,
+            "0x140b9b9756ce3de8c8fd296fc9d3e7b3aaa1cb16": 0,
+            "0x14b98b26d82421a27608b21baf6bdefc181de546": 2233477633.8478913,
+            "0xc1240af85ffac1dbf826b7250db2644d62c728c8": 2161436975.654308,
+            "0x4236878343d286a2943453e045da46e86d12138d": 720478991.8847693,
+            "0x460c51e3f7609b47c0f9b3a655be804286c04666": 720478991.8847693,
+            "0x4a350a7bc84f8478028bfe662bcc6aa4390aff74": 0
+          },
+          "combinedScores": {
+            "0x93606b27cb5e4c780883ec4f6b7bed5f6572d1dd": 2161429734.659415,
+            "0x7f11e5b7fe8c04c1e4ce0dd98ac5c922eccfa4ed": 0,
+            "0x140b9b9756ce3de8c8fd296fc9d3e7b3aaa1cb16": 0,
+            "0x14b98b26d82421a27608b21baf6bdefc181de546": 2233477633.8478913,
+            "0xc1240af85ffac1dbf826b7250db2644d62c728c8": 2161436975.654308
+          },
+          "normalizationFactor": 7240.994893314264
+        }
+      }
+    },
+    "network": "4",
+    "snapshot": 8101550,
+    "addresses": [
+      "0x93606b27cB5e4c780883eC4F6b7Bed5f6572d1dd",
+      "0x7F11E5B7Fe8C04c1E4Ce0dD98aC5c922ECcfA4ed",
+      "0x140b9b9756cE3dE8c8fD296FC9D3E7B3AAa1Cb16",
+      "0x14B98b26D82421a27608B21BaF6BdEfc181DE546",
+      "0xc1240aF85fFAc1Dbf826b7250db2644D62c728c8"
+    ]
+  }
+]
