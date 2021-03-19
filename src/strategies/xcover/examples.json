@@ -1,0 +1,19 @@
+[
+  {
+    "name": "xCOVER token",
+    "strategy": {
+      "name": "xcover",
+      "params": {
+        "_comment_": "Any standard xToken with `balanceOf` and `getShareValue` can use this strategy.",
+        "tokenAddress": "0xa921392015eB37c5977c4Fd77E14DD568c59D5F8",
+        "symbol": "xCOVER",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x406a0c87a6bb25748252cb112a7a837e21aacd98"
+    ],
+    "snapshot": 12067186
+  }
+]
