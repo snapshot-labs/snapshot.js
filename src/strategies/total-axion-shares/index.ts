@@ -125,7 +125,7 @@ const getSessionIDs = async (
     result.map((value, i) => [addresses[i], value.toString().split(',')])
   );
 
-  const sessionIDLookup = [];
+  const sessionIDLookup: any = [];
   Object.keys(sessionsByAddr).map((addr) => {
     const sessions = sessionsByAddr[addr];
     sessions.forEach((s) => {
@@ -222,7 +222,7 @@ export async function strategy(
   );
 
   // Remove v2 sessionID's from v1 array
-  const fixedV1Sessions = [];
+  const fixedV1Sessions: any = [];
   sessionIDLookupV1.forEach((s) => {
     if (!sessionIDLookupV2.find((v) => v.session == s.session))
       fixedV1Sessions.push(s);
