@@ -101,16 +101,16 @@ export async function strategy(
   );
 
   const totalSupply = res[0];
-  const tokenBalanceInUni = res[1];
-  const tokensPerUni =
-    tokenBalanceInUni / 10 ** options.decimals / (totalSupply / 1e18);
+  const tokenBalanceInLP = res[1];
+  const tokensPerLP =
+    tokenBalanceInLP / 10 ** options.decimals / (totalSupply / 1e18);
 
   const response = res.slice(2);
 
   return Object.fromEntries(
     response.map(([userInfo,_], i) => [
       addresses[i],
-      (userInfo.amount / 10 ** options.decimals) * tokensPerUni
+      (userInfo.amount / 10 ** options.decimals) * tokensPerLP
     ])
   );
 }
