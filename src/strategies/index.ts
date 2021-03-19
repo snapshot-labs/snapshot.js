@@ -1,6 +1,7 @@
 import { strategy as balancer } from './balancer';
 import { strategy as contractCall } from './contract-call';
 import { strategy as ensDomainsOwned } from './ens-domains-owned';
+import { strategy as ensReverseRecord } from './ens-reverse-record';
 import { strategy as erc20BalanceOf } from './erc20-balance-of';
 import { strategy as erc20BalanceOfCoeff } from './erc20-balance-of-coeff';
 import { strategy as erc20BalanceOfFixedTotal } from './erc20-balance-of-fixed-total';
@@ -52,6 +53,10 @@ import { strategy as theGraphIndexing } from './the-graph-indexing';
 import { strategy as whitelist } from './whitelist';
 import { strategy as tokenlon } from './tokenlon';
 import { strategy as rebased } from './rebased';
+import { strategy as erc1155BalanceOf } from './erc1155-balance-of';
+import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
+import { strategy as compLikeVotes } from './comp-like-votes';
+import { strategy as pagination } from './pagination';
 
 export default {
   balancer,
@@ -60,6 +65,7 @@ export default {
   'eth-received': ethReceived,
   'eth-philanthropy': ethPhilanthropy,
   'ens-domains-owned': ensDomainsOwned,
+  'ens-reverse-record': ensReverseRecord,
   'erc20-balance-of': erc20BalanceOf,
   'erc20-balance-of-fixed-total': erc20BalanceOfFixedTotal,
   'erc20-balance-of-cv': erc20BalanceOfCv,
@@ -71,6 +77,8 @@ export default {
   'eth-balance': ethBalance,
   'eth-wallet-age': ethWalletAge,
   'maker-ds-chief': makerDsChief,
+  'erc1155-balance-of': erc1155BalanceOf,
+  'erc1155-balance-of-cv': erc1155BalanceOfCv,
   uni,
   'frax-finance': fraxFinance,
   'yearn-vault': yearnVault,
@@ -107,5 +115,7 @@ export default {
   'the-graph-indexing': theGraphIndexing,
   whitelist,
   tokenlon,
-  rebased
+  rebased,
+  'comp-like-votes': compLikeVotes,
+  pagination
 };

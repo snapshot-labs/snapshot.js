@@ -1,62 +1,54 @@
 import { formatUnits } from '@ethersproject/units';
-import { multicall } from '../../utils';
+import { subgraphRequest } from '../../utils';
+import { getAddress } from '@ethersproject/address';
 
 export const author = 'andytcf';
 export const version = '0.0.1';
 
-const synthetixStateAbi = [
-  {
-    constant: true,
-    inputs: [{ name: '', type: 'address' }],
-    name: 'issuanceData',
-    outputs: [
-      { name: 'initialDebtOwnership', type: 'uint256' },
-      { name: 'debtEntryIndex', type: 'uint256' }
-    ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function'
-  }
-];
+const SYNTHETIX_SUBGRAPH_URL = `https://api.thegraph.com/subgraphs/name/synthetixio-team/synthetix`;
 
-const synthetixStateContractAddress =
-  '0x4b9Ca5607f1fF8019c1C6A3c2f0CC8de622D5B82';
+const quadraticWeighting = (value) => {
+  // Scale the value by 100000
+  const scaledValue = value * 1e5;
+  return Math.sqrt(scaledValue);
+};
 
 export async function strategy(
-  space,
-  network,
-  provider,
+  _space,
+  _network,
+  _provider,
   addresses,
   _,
   snapshot
 ) {
-  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
-  const response = await multicall(
-    network,
-    provider,
-    synthetixStateAbi,
-    addresses.map((address: any) => [
-      synthetixStateContractAddress,
-      'issuanceData',
-      [address]
-    ]),
-    { blockTag }
-  );
-
-  const quadraticWeighting = (value) => {
-    // Scale the value by 100000
-    const scaledValue = value * 1e5;
-    return Math.sqrt(scaledValue);
+  const params = {
+    snxholders: {
+      __args: {
+        where: {
+          id_in: addresses.map((address: string) => address.toLowerCase())
+        },
+        first: 1000
+      },
+      id: true,
+      initialDebtOwnership: true
+    }
   };
-  return Object.fromEntries(
-    response.map((value, i) => {
-      return [
-        addresses[i],
-        // initialDebtOwnership returns in 27 decimal places
-        quadraticWeighting(
-          parseFloat(formatUnits(value.initialDebtOwnership.toString(), 27))
-        )
-      ];
-    })
-  );
+
+  if (snapshot !== 'latest') {
+    // @ts-ignore
+    params.snxholders.__args.block = { number: snapshot };
+  }
+
+  const result = await subgraphRequest(SYNTHETIX_SUBGRAPH_URL, params);
+  const score = {};
+
+  if (result && result.snxholders) {
+    result.snxholders.forEach((holder) => {
+      score[getAddress(holder.id)] = quadraticWeighting(
+        parseFloat(formatUnits(holder.initialDebtOwnership.toString(), 27))
+      );
+    });
+  }
+
+  return score || {};
 }
