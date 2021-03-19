@@ -36,23 +36,22 @@ export async function strategy(
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
-  const balanceCallParams = addresses.map(addr => [params.tokenAddress, 'balanceOf', [addr]]);
+  const balanceCallParams = addresses.map((addr) => [
+    params.tokenAddress,
+    'balanceOf',
+    [addr]
+  ]);
   const res = await multicall(
     network,
     provider,
     abi,
-    [
-      [params.tokenAddress, 'getShareValue'],
-      ...balanceCallParams
-    ],
+    [[params.tokenAddress, 'getShareValue'], ...balanceCallParams],
     { blockTag }
   );
   const shareValue = res[0] / 1e18;
   const balances = res.slice(1);
 
   return Object.fromEntries(
-    balances.map((balance, i) => [
-      addresses[i],
-      balance * shareValue / 1e18
-    ]));
+    balances.map((balance, i) => [addresses[i], (balance * shareValue) / 1e18])
+  );
 }
