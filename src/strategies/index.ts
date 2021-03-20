@@ -61,6 +61,7 @@ import { strategy as compLikeVotes } from './comp-like-votes';
 import { strategy as pagination } from './pagination';
 import { strategy as rulerStakedLP } from './ruler-staked-lp';
 import { strategy as xcover } from './xcover';
+import { strategy as niuStaked } from './niu-staked';
 
 export default {
   balancer,
@@ -125,5 +126,6 @@ export default {
   'comp-like-votes': compLikeVotes,
   pagination,
   'ruler-staked-lp': rulerStakedLP,
-  xcover
+  xcover,
+  'niu-staked': niuStaked
 };
