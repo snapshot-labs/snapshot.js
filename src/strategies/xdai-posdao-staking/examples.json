@@ -1,0 +1,22 @@
+[
+  {
+    "name": "STAKE token holders (from POSDAO staking)",
+    "strategy": {
+      "name": "xdai-posdao-staking",
+      "params": {
+        "address": "0x0Ae055097C6d159879521C384F1D2123D1f195e6",
+        "symbol": "STAKE",
+        "decimals": 18,
+        "start": 9877420
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x24d19f100ba142543a863fc2294b188e35ab55b9",
+      "0x29cf39de6d963d092c177a60ce67879eea9910bb",
+      "0x71FBE58b64f14854cF5A3645a67a72d10A09CaE4",
+      "0x7ACEe696E2165e33c578d8956cbCf575e5d631d1"
+    ],
+    "snapshot": 15091246
+  }
+]
