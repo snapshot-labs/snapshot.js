@@ -14,6 +14,10 @@ export default class Plugin {
       const { strategy } = quorumOptions;
 
       switch (strategy) {
+        case 'static': {
+          return quorumOptions.total;
+        }
+
         case 'balance': {
           const { address, methodABI, decimals } = quorumOptions;
 
