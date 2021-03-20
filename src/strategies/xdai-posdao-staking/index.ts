@@ -46,7 +46,7 @@ export async function strategy(
   options,
   snapshot
 ) {
-  const stakers = await getStakers(addresses, snapshot);
+  const stakers: any = await getStakers(addresses, snapshot);
   const result = {};
   addresses.forEach((address) => {
     result[address] = 0;
@@ -57,7 +57,7 @@ export async function strategy(
   return Object.fromEntries(
     Object.entries(result).map(([address]: any) => {
       const staker = stakers.find(
-        (item) => item.address.toLowerCase() === address.toLowerCase()
+        (item: any) => item.address.toLowerCase() === address.toLowerCase()
       );
       let balance = 0;
       if (staker) {
