@@ -41,36 +41,45 @@ const tokenAbi = [
     type: 'function'
   },
   {
-    "inputs": [{
-        "internalType": "address",
-        "name": "_lpToken",
-        "type": "address"
-    }, {
-        "internalType": "address",
-        "name": "_account",
-        "type": "address"
-    }],
-    "name": "getUser",
-    "outputs": [{
-        "components": [{
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-        }, {
-            "internalType": "uint256[]",
-            "name": "rewardsWriteoffs",
-            "type": "uint256[]"
-        }],
-        "internalType": "struct IBonusRewards.User",
-        "name": "",
-        "type": "tuple"
-    }, {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-    }],
-    "stateMutability": "view",
-    "type": "function"
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_lpToken',
+        type: 'address'
+      },
+      {
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
+    ],
+    name: 'getUser',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'amount',
+            type: 'uint256'
+          },
+          {
+            internalType: 'uint256[]',
+            name: 'rewardsWriteoffs',
+            type: 'uint256[]'
+          }
+        ],
+        internalType: 'struct IBonusRewards.User',
+        name: '',
+        type: 'tuple'
+      },
+      {
+        internalType: 'uint256[]',
+        name: '',
+        type: 'uint256[]'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
   }
 ];
 
@@ -108,7 +117,7 @@ export async function strategy(
   const response = res.slice(2);
 
   return Object.fromEntries(
-    response.map(([userInfo,_], i) => [
+    response.map(([userInfo, _], i) => [
       addresses[i],
       (userInfo.amount / 10 ** options.decimals) * tokensPerLP
     ])
