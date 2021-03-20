@@ -58,6 +58,7 @@ import { strategy as erc1155BalanceOf } from './erc1155-balance-of';
 import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
 import { strategy as compLikeVotes } from './comp-like-votes';
 import { strategy as pagination } from './pagination';
+import { strategy as rulerStakedLP } from './ruler-staked-lp';
 import { strategy as xcover } from './xcover';
 
 export default {
@@ -121,5 +122,6 @@ export default {
   'total-axion-shares': totalAxionShares,
   'comp-like-votes': compLikeVotes,
   pagination,
+  'ruler-staked-lp': rulerStakedLP,
   xcover
 };
