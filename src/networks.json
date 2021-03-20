@@ -272,6 +272,6 @@
     "network": "mainnet",
     "rpc": ["https://rpc.rupx.io"],
     "ws": ["wss://ws.rupx.io"],
-    "explorer": "http://scan.rupx.io/"  
+    "explorer": "http://scan.rupx.io"  
   }
 }
