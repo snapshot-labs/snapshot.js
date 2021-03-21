@@ -125,7 +125,7 @@ export async function strategy(
   });
   addresses.forEach((address) => {
     masterChefMulti.call(
-      '${address}.userInfo',
+      `${address}.userInfo`,
       options.masterchef,
       'userInfo',
       [options.pool, address]
@@ -136,7 +136,7 @@ export async function strategy(
     masterChefMulti.call('poolInfo', options.masterchef, 'poolInfo', [
       options.pool
     ]);
-    const masterChefResult = await multi.execute();
+    const masterChefResult = await masterChefMulti.execute();
 
     const erc20Multi = new Multicaller(network, provider, erc20Abi, {
       blockTag
