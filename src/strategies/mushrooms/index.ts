@@ -156,11 +156,13 @@ export async function strategy(
         return [
           address,
           parseFloat(
-              (
-                (masterChefResult[address].userInfo.amount *
-                  erc20Result.poolMMBalance) /
-                (erc20Result.lpTotalSupply * 1e18)
-              ).toString()
+            formatUnits(              
+              masterChefResult[address].userInfo.amount
+              .mul(erc20Result.poolMMBalance)
+              .div(erc20Result.lpTotalSupply)
+              .toString(),
+              18
+            )
           )
         ];
       })
