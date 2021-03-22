@@ -125,7 +125,7 @@ export async function strategy(
   });
   addresses.forEach((address) => {
     masterChefMulti.call(
-      `${address}.userInfo`,
+      `${address}.userInfo.amount`,
       options.masterchef,
       'userInfo',
       [options.pool, address]
@@ -133,7 +133,7 @@ export async function strategy(
   });
 
   if (options.type === 'lp') {
-    masterChefMulti.call('poolInfo', options.masterchef, 'poolInfo', [
+    masterChefMulti.call('poolInfo.lpToken', options.masterchef, 'poolInfo', [
       options.pool
     ]);
     const masterChefResult = await masterChefMulti.execute();
@@ -156,14 +156,11 @@ export async function strategy(
         return [
           address,
           parseFloat(
-            formatUnits(
               (
                 (masterChefResult[address].userInfo.amount *
                   erc20Result.poolMMBalance) /
-                erc20Result.lpTotalSupply
-              ).toString(),
-              18
-            )
+                (erc20Result.lpTotalSupply * 1e18)
+              ).toString()
           )
         ];
       })
