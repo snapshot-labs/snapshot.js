@@ -114,7 +114,7 @@ export async function strategy(
 ) {
   const snapshotBlock =
     typeof snapshot === 'number' ? snapshot : await getBlockNumber(provider);
-  let snapshotBlocks = [];
+  let snapshotBlocks: number[] = [];
 
   for (let i = 0; i < options.weeks; i++) {
     const blocksPerWeek = 40320; // assume 15s per block
@@ -237,7 +237,7 @@ async function getScores(provider, addresses, options, blockTag) {
       .div(ONE_E18)
       .sub(result.crCREAM[address].borrow);
     const pools = Object.values(result.pool[address]).reduce(
-      (accumulator: BigNumber, poolBalance: BigNumber) => {
+      (accumulator: any, poolBalance: any) => {
         return accumulator.add(poolBalance);
       },
       BigNumber.from(0)
