@@ -1,9 +1,12 @@
+import { BigNumber } from '@ethersproject/bignumber';
 import { formatUnits, parseUnits } from '@ethersproject/units';
 import { getBlockNumber } from '../../utils/web3';
-import { multicall } from '../../utils';
+import Multicaller from '../../utils/multicaller';
 
 export const author = 'bun919tw';
 export const version = '0.2.0';
+
+const ONE_E18 = parseUnits('1', 18);
 
 const abi = [
   {
@@ -109,168 +112,144 @@ export async function strategy(
   options,
   snapshot
 ) {
-  const creamAddress = options.token;
-  const blockTag =
+  const snapshotBlock =
     typeof snapshot === 'number' ? snapshot : await getBlockNumber(provider);
-  let calls = [];
+  let snapshotBlocks = [];
+
   for (let i = 0; i < options.weeks; i++) {
-    // if block number < 0, uses blockTag
     const blocksPerWeek = 40320; // assume 15s per block
-    const blockNumber = blockTag > 40320 * i ? blockTag - 40320 * i : blockTag;
-    calls.push(
-      // @ts-ignore
-      creamBalanceOf(network, provider, addresses, options, blockNumber),
-      creamSushiswapLP(network, provider, addresses, options, blockNumber),
-      crCREAM(network, provider, addresses, options, blockNumber)
-    );
+    let blockTag =
+      snapshotBlock > blocksPerWeek * i
+        ? snapshotBlock - blocksPerWeek * i
+        : snapshotBlock;
+    snapshotBlocks.push(blockTag);
   }
 
-  const results = await Promise.all(calls);
-  let score = results.reduce((balance, result) => {
-    for (const [userAddress, userBalance] of Object.entries(result)) {
-      balance[userAddress] = (balance[userAddress] || 0) + userBalance;
-    }
-    return balance;
-  }, {});
+  const scores = await Promise.all([
+    ...snapshotBlocks.map((blockTag) =>
+      getScores(provider, addresses, options, blockTag)
+    )
+  ]);
 
-  // get average balance of options.weeks
-  for (const [userAddress, userBalance] of Object.entries(score)) {
-    // @ts-ignore
-    const balance: any = userBalance < 0 ? 0 : userBalance;
-    score[userAddress] = balance / options.weeks;
-  }
-
-  return score;
-}
-
-async function creamBalanceOf(network, provider, addresses, options, snapshot) {
-  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
-  const numPool = options.pools.length;
-  const numAddress = addresses.length;
-
-  const calls: any = [];
-  for (let i = 0; i < numPool; i++) {
-    calls.push(
-      ...addresses.map((address) => [
-        options.pools[i].address,
-        'balanceOf',
-        [address]
-      ])
-    );
-  }
-
-  const balances = await multicall(network, provider, abi, calls, {
-    blockTag
+  let averageScore = {};
+  addresses.forEach((address) => {
+    const userScore = scores
+      .map((score) => score[address])
+      .reduce(
+        (accumulator, score) => accumulator.add(score),
+        BigNumber.from(0)
+      );
+    averageScore[address] = userScore.div(options.weeks);
   });
 
   return Object.fromEntries(
-    addresses.map((address, i) => {
-      let sum = 0;
-      for (let j = 0; j < numPool; j++) {
-        sum += parseFloat(
-          formatUnits(balances[i + j * numAddress].toString(), 18)
-        );
-      }
-      return [address, sum];
-    })
-  );
-}
-
-async function creamSushiswapLP(
-  network,
-  provider,
-  addresses,
-  options,
-  snapshot
-) {
-  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
-
-  const response = await multicall(
-    network,
-    provider,
-    abi,
-    [
-      [options.token, 'balanceOf', [options.sushiswap]],
-      [options.sushiswap, 'totalSupply'],
-      ...addresses.map((address: any) => [
-        options.sushiswap,
-        'balanceOf',
-        [address]
-      ]),
-      ...addresses.map((address: any) => [
-        options.masterChef,
-        'userInfo',
-        [options.pid, address]
-      ])
-    ],
-    { blockTag }
-  );
-
-  const creamPerLP = parseUnits(response[0][0].toString(), 18).div(
-    response[1][0]
-  );
-  const lpBalances = response.slice(2, addresses.length + 2);
-  const stakedUserInfo = response.slice(
-    addresses.length + 2,
-    addresses.length * 2 + 2
-  );
-
-  return Object.fromEntries(
     Array(addresses.length)
       .fill('')
       .map((_, i) => {
-        const lpBalance = lpBalances[i][0].add(stakedUserInfo[i]['amount']);
-        const creamLpBalance = lpBalance
-          .mul(creamPerLP)
-          .div(parseUnits('1', 18));
-
-        return [addresses[i], parseFloat(formatUnits(creamLpBalance, 18))];
+        const score = formatUnits(averageScore[addresses[i]], 18);
+        // ignore score < minimum voting amount
+        if (score < options.minVote) {
+          return [addresses[i], 0];
+        }
+        return [addresses[i], parseFloat(score)];
       })
   );
 }
 
-async function crCREAM(network, provider, addresses, options, snapshot) {
-  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+async function getScores(provider, addresses, options, blockTag) {
+  let score = {};
+  // Ethereum only
+  const multi = new Multicaller('1', provider, abi, { blockTag });
+  multi.call('sushiswap.cream', options.token, 'balanceOf', [
+    options.sushiswap
+  ]);
+  multi.call('sushiswap.totalSupply', options.sushiswap, 'totalSupply');
+  multi.call('uniswap.cream', options.token, 'balanceOf', [options.uniswap]);
+  multi.call('uniswap.totalSupply', options.uniswap, 'totalSupply');
+  multi.call('balancer.cream', options.token, 'balanceOf', [options.balancer]);
+  multi.call('balancer.totalSupply', options.balancer, 'totalSupply');
+  multi.call('crCREAM.exchangeRate', options.crCREAM, 'exchangeRateStored');
 
-  const response = await multicall(
-    network,
-    provider,
-    abi,
-    [
-      [options.crCREAM, 'exchangeRateStored'],
-      ...addresses.map((address: any) => [
-        options.crCREAM,
-        'balanceOf',
-        [address]
-      ]),
-      ...addresses.map((address: any) => [
-        options.crCREAM,
-        'borrowBalanceStored',
-        [address]
-      ])
-    ],
-    { blockTag }
-  );
+  addresses.forEach((address) => {
+    multi.call(
+      `sushiswap.${address}.balanceOf`,
+      options.sushiswap,
+      'balanceOf',
+      [address]
+    );
+    multi.call(
+      `sushiswap.${address}.userInfo`,
+      options.masterChef,
+      'userInfo',
+      [options.pid, address]
+    );
+    multi.call(`uniswap.${address}.balanceOf`, options.uniswap, 'balanceOf', [
+      address
+    ]);
+    multi.call(`balancer.${address}.balanceOf`, options.balancer, 'balanceOf', [
+      address
+    ]);
+    multi.call(`crCREAM.${address}.balanceOf`, options.crCREAM, 'balanceOf', [
+      address
+    ]);
+    multi.call(
+      `crCREAM.${address}.borrow`,
+      options.crCREAM,
+      'borrowBalanceStored',
+      [address]
+    );
 
-  const exchangeRate = response[0][0];
-  const crCREAMBalances = response.slice(1, addresses.length + 1);
-  const borrowBalances = response.slice(
-    addresses.length + 1,
-    addresses.length * 2 + 1
-  );
+    options.pools.forEach((pool) => {
+      multi.call(`pool.${address}.${pool.name}`, pool.address, 'balanceOf', [
+        address
+      ]);
+    });
+  });
 
-  return Object.fromEntries(
-    Array(addresses.length)
-      .fill('')
-      .map((_, i) => {
-        const supplyBalance = crCREAMBalances[i][0]
-          .mul(exchangeRate)
-          .div(parseUnits('1', 18));
-        const lockedBalance = formatUnits(
-          supplyBalance.sub(borrowBalances[i][0]),
-          18
-        );
-        return [addresses[i], parseFloat(lockedBalance)];
-      })
+  const result = await multi.execute();
+
+  const creamPerSushiswapLP = parseUnits(
+    result.sushiswap.cream.toString(),
+    18
+  ).div(result.sushiswap.totalSupply);
+  const creamPerUniswapLP = parseUnits(result.uniswap.cream.toString(), 18).div(
+    result.uniswap.totalSupply
   );
+  const creamPerBalancerLP = parseUnits(
+    result.balancer.cream.toString(),
+    18
+  ).div(result.balancer.totalSupply);
+
+  addresses.forEach((address) => {
+    const userScore = score[address] || BigNumber.from(0);
+    const sushi = result.sushiswap[address].balanceOf
+      .add(result.sushiswap[address].userInfo)
+      .mul(creamPerSushiswapLP)
+      .div(ONE_E18);
+    const uniswap = result.uniswap[address].balanceOf
+      .mul(creamPerUniswapLP)
+      .div(ONE_E18);
+    const balancer = result.balancer[address].balanceOf
+      .mul(creamPerBalancerLP)
+      .div(ONE_E18);
+    const crCREAM = result.crCREAM[address].balanceOf
+      .mul(result.crCREAM.exchangeRate)
+      .div(ONE_E18)
+      .sub(result.crCREAM[address].borrow);
+    const pools = Object.values(result.pool[address]).reduce(
+      (accumulator: BigNumber, poolBalance: BigNumber) => {
+        return accumulator.add(poolBalance);
+      },
+      BigNumber.from(0)
+    );
+
+    score[address] = userScore
+      .add(sushi)
+      .add(uniswap)
+      .add(balancer)
+      .add(crCREAM)
+      .add(pools);
+  });
+
+  return score;
 }
