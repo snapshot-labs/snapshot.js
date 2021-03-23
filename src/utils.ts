@@ -121,7 +121,7 @@ export async function getScores(
   network: string,
   provider,
   addresses: string[],
-  snapshot = 'latest'
+  snapshot: number | string = 'latest'
 ) {
   try {
     return await Promise.all(
