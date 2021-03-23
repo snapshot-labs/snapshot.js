@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "pob-hash-cv",
+      "params": {
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x0154d25120ed20a516fe43991702e7463c5a6f6e",
+      "0x0B7056e2D9064f2ec8647F1ae556BAcc06da6Db4",
+      "0xcc5Ddc8CCD5B1E90Bc42F998ec864Ead0090A12B",
+      "0x000000000000000000000000000000000000dead"
+    ],
+    "snapshot": 12025413
+  }
+]
