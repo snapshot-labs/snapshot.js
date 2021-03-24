@@ -15,5 +15,13 @@ You can create an index.html file and include Snapshot.js with:
 <script src="https://cdn.jsdelivr.net/npm/@snapshot-labs/snapshot.js"></script>
 ```
 
+#### Tests
+If you want to test the strategy you are changing, try running
+
+`npm run test` // Tests default (erc20-balance-of)
+`npm run test --strategy=erc20-received`
+`npm run test --strategy=eth-balance`
+`npm run test --strategy=all` (to run all strategies)
+
 ### License
 [MIT](LICENSE).
