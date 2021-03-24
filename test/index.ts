@@ -12,13 +12,27 @@ const networks = require('../src/networks.json');
 */
 
 let testStrategies = Object.keys(snapshot.strategies);
+
+// to test files changed inside a PR
+const filesChangedArg =
+  (process.env['npm_config_filesChanged'] ||
+  (process.argv.find((arg) => arg.includes('--filesChanged=')) || '')
+    .split('--filesChanged=')
+    .pop()).replace('"', '');
+
+if(filesChangedArg) {
+  testStrategies = filesChangedArg.split('\\n').map(path => path.substring(0, path.lastIndexOf("/")).replace(/src\/strategies\/?/, '')).filter((value, index, array) => { 
+    return value && array.indexOf(value) == index;
+  })
+}
+
 const strategyArg =
   process.env['npm_config_strategy'] ||
   (process.argv.find((arg) => arg.includes('--strategy=')) || '')
     .split('--strategy=')
     .pop();
 
-if(strategyArg !== 'all'){
+if(!filesChangedArg && strategyArg !== 'all'){
   testStrategies = [testStrategies.find((s) => strategyArg == s) || 'erc20-balance-of'];
 }
 
