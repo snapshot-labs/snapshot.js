@@ -128,18 +128,16 @@ export async function strategy(
   }
 
   // Prepare to fetch erc20 balances
-  let cardBalancePromises = [];
-  Object.keys(curioAddresses).forEach(cardName => {
-    cardBalancePromises.push(returnPromiseWithContext(
-      erc20BalanceOfStrategy(space, network, provider, addresses, { "address": curioAddresses[cardName], "decimals": 0, "start": 3678637 }, snapshot),
-      cardName
-    ));
-  });
+  let cardBalancePromises: Promise<{ rv: any; context: any; }>[] = [];
+  Object.keys(curioAddresses).forEach(cardName => cardBalancePromises.push(returnPromiseWithContext(
+    erc20BalanceOfStrategy(space, network, provider, addresses, { "address": curioAddresses[cardName], "decimals": 0, "start": 3678637 }, snapshot),
+    cardName
+  )));
 
   // Execute erc20 balance fetch in parallel
   return await Promise.all(cardBalancePromises).then(cardBalances => {
     // then transform token balance -> vote weight
-    let cardBalancesWeighted = [];
+    let cardBalancesWeighted: Array<any> = [];
 
     cardBalances.forEach(cb => {
       const cbWeighted = applyWeightForCard(cb.context, cb.rv);
