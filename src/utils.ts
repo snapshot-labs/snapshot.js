@@ -121,12 +121,14 @@ export async function getScores(
   network: string,
   provider,
   addresses: string[],
-  snapshot = 'latest'
+  snapshot: number | string = 'latest'
 ) {
   try {
     return await Promise.all(
       strategies.map((strategy) =>
         (snapshot !== 'latest' && strategy.params?.start > snapshot) ||
+        (strategy.params?.end &&
+          (snapshot === 'latest' || snapshot > strategy.params?.end)) ||
         addresses.length === 0
           ? {}
           : _strategies[strategy.name](
