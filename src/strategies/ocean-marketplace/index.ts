@@ -2,10 +2,12 @@ import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 import { formatUnits, parseUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
+import { verifyResults } from './oceanUtils';
 
 export const author = 'w1kke';
 export const version = '0.1.0';
 
+const OCEAN_ERC20_DECIMALS = 18;
 const OCEAN_SUBGRAPH_URL = {
   '1':
     'https://subgraph.mainnet.oceanprotocol.com/subgraphs/name/oceanprotocol/ocean-subgraph',
@@ -97,7 +99,7 @@ export async function strategy(
             share.balance * (pool.oceanReserve / pool.totalShares);
           if (userShare > 0.0001) {
             score[userAddress] = score[userAddress].add(
-              bdToBn(userShare.toString(), options.decimals)
+              bdToBn(userShare.toString(), OCEAN_ERC20_DECIMALS)
             );
           }
         });
@@ -105,9 +107,25 @@ export async function strategy(
     });
 
     userAddresses.forEach((address) => {
-      let parsedSum = parseFloat(formatUnits(score[address], options.decimals));
+      let parsedSum = parseFloat(formatUnits(score[address], OCEAN_ERC20_DECIMALS));
       return_score[address] = parsedSum;
     });
+  }
+
+  // From graphUtils.ts => verifyResults => Scores need to match expectedResults.
+  // expectedResults should reflect broad token distributions @ blockHeight
+  // npm run test --strategy=ocean-marketplace | grep -E 'SUCCESS|ERROR'
+  if (options.expectedResults) {
+    let results = {}
+    Object.keys(options.expectedResults.scores).forEach(function(key) {
+      results[key] = return_score[key];
+    });
+
+    verifyResults(
+      JSON.stringify(results),
+      JSON.stringify(options.expectedResults.scores),
+      'Scores'
+    );
   }
 
   return return_score || {};
