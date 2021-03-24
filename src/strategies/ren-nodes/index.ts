@@ -39,6 +39,12 @@ const RENVM_SUBGRAPH_QUERY = {
   }
 };
 
+interface SubgraphDarknode {
+  registeredAt: number;
+  deregisteredAt: number;
+  operator: string;
+}
+
 export async function strategy(
   space,
   network,
@@ -56,7 +62,7 @@ export async function strategy(
   let timestamp = (await provider.getBlock(snapshot)).timestamp;
   RENVM_SUBGRAPH_QUERY.darknodes.__args.where.registeredAt_lte = timestamp;
 
-  let nodes = [];
+  let nodes: SubgraphDarknode[] = [];
   // Loop through to fetch all `darknode` entities. At the time of writing, two
   // requests are required.
   while (nodes.length < 10000) {
