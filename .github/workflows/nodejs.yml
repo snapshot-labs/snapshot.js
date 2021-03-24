@@ -12,18 +12,29 @@ jobs:
         node-version: [10.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: npm install, build and lint
-      run: |
-        npm install
-        npm run build --if-present
-        npm run lint --if-present
-        CHANGED_STRATEGIES=$(git diff --name-only origin/${{ github.base_ref }} origin/${{ github.head_ref }} -- src/strategies/)
-        if [ -n "$CHANGED_STRATEGIES" ]; then
-          echo "Running tests for changed strategies"
-          npm run test --filesChanged="$CHANGED_STRATEGIES"
-        fi
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # - run: git ls-remote
+      - name: Checkout head and target branches
+        run: |
+          git fetch --no-tags --depth=1 origin ${{ github.base_ref }}
+          git fetch --no-tags --depth=1 origin ${{ github.head_ref }}
+          # get the actual source for two branches
+          git checkout origin/${{ github.base_ref }}
+          git checkout origin/${{ github.head_ref }}
+          # get back to the merge commit
+          git checkout ${{ github.sha }}
+      - name: All changed files 🗂
+        run: git diff --name-only origin/${{ github.base_ref }} origin/${{ github.head_ref }}
+
+      - name: npm install, build and lint
+        run: |
+          npm install
+          npm run build --if-present
+          npm run lint --if-present
+          CHANGED_STRATEGIES=$(git diff --name-only origin/${{ github.base_ref }} origin/${{ github.head_ref }} -- src/strategies/)
+          if [ -n "$CHANGED_STRATEGIES" ]; then
+            echo "Running tests for changed strategies"
+            npm run test --filesChanged="$CHANGED_STRATEGIES"
+          fi
