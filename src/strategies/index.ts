@@ -63,6 +63,7 @@ import { strategy as pagination } from './pagination';
 import { strategy as rulerStakedLP } from './ruler-staked-lp';
 import { strategy as xcover } from './xcover';
 import { strategy as niuStaked } from './niu-staked';
+import { strategy as curioCardsErc20Weighted } from './curio-cards-erc20-weighted';
 
 export default {
   balancer,
@@ -129,5 +130,6 @@ export default {
   pagination,
   'ruler-staked-lp': rulerStakedLP,
   xcover,
-  'niu-staked': niuStaked
+  'niu-staked': niuStaked,
+  'curio-cards-erc20-weighted': curioCardsErc20Weighted
 };

@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "curio-cards-erc20-weighted",
+      "params": {}
+    },
+    "network": "1",
+    "addresses": [
+      "0x518e5A942Ed7Db4B45e9A491ce318373346dB240",
+      "0xb618aacb9dcdc21ca69d310a6fc04674d293a193"
+    ],
+    "snapshot": 11437846
+  }
+]
