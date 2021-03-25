@@ -139,7 +139,10 @@ export async function strategy(
     p1.map((values, i) => [
       addresses[i],
       //ppblz_, uniV2PoolTokens
-      formatUnits(p1[i][0].add(p2[i][0].add(p3[i][0].mul(tokenBalanceInUni).div(totalSupply)).add(p4[i][0].mul(tokenBalanceInUni).div(totalSupply))),18)
+      parseFloat(formatUnits(p1[i][0].toString(), 18)) + 
+	  parseFloat(formatUnits(p2[i][0].toString(), 18)) + 
+	  parseFloat(formatUnits(p3[i][0].mul(tokenBalanceInUni).div(totalSupply).toString(), 18)) + 
+	  parseFloat(formatUnits(p4[i][0].mul(tokenBalanceInUni).div(totalSupply).toString(),18))
     ])
   );
 }
