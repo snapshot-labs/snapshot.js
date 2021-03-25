@@ -3,8 +3,8 @@ import { formatUnits, parseUnits } from '@ethersproject/units';
 import { getBlockNumber } from '../../utils/web3';
 import Multicaller from '../../utils/multicaller';
 
-export const author = 'bun919tw';
-export const version = '0.2.0';
+export const author = 'jeremyHD';
+export const version = '0.2.1';
 
 const ONE_E18 = parseUnits('1', 18);
 
@@ -116,11 +116,11 @@ export async function strategy(
     typeof snapshot === 'number' ? snapshot : await getBlockNumber(provider);
   let snapshotBlocks: number[] = [];
 
-  for (let i = 0; i < options.weeks; i++) {
-    const blocksPerWeek = 40320; // assume 15s per block
+  for (let i = 0; i < options.periods; i++) {
+    const blocksPerPeriod = 80640; // 2 weeks per period, assume 15s per block
     let blockTag =
-      snapshotBlock > blocksPerWeek * i
-        ? snapshotBlock - blocksPerWeek * i
+      snapshotBlock > blocksPerPeriod * i
+        ? snapshotBlock - blocksPerPeriod * i
         : snapshotBlock;
     snapshotBlocks.push(blockTag);
   }
@@ -139,7 +139,7 @@ export async function strategy(
         (accumulator, score) => accumulator.add(score),
         BigNumber.from(0)
       );
-    averageScore[address] = userScore.div(options.weeks);
+    averageScore[address] = userScore.div(options.periods);
   });
 
   return Object.fromEntries(
@@ -159,54 +159,80 @@ export async function strategy(
 async function getScores(provider, addresses, options, blockTag) {
   let score = {};
   // Ethereum only
-  const multi = new Multicaller('1', provider, abi, { blockTag });
-  multi.call('sushiswap.cream', options.token, 'balanceOf', [
+  const multi1 = new Multicaller('1', provider, abi, { blockTag });
+  multi1.call('sushiswap.cream', options.token, 'balanceOf', [
     options.sushiswap
   ]);
-  multi.call('sushiswap.totalSupply', options.sushiswap, 'totalSupply');
-  multi.call('uniswap.cream', options.token, 'balanceOf', [options.uniswap]);
-  multi.call('uniswap.totalSupply', options.uniswap, 'totalSupply');
-  multi.call('balancer.cream', options.token, 'balanceOf', [options.balancer]);
-  multi.call('balancer.totalSupply', options.balancer, 'totalSupply');
-  multi.call('crCREAM.exchangeRate', options.crCREAM, 'exchangeRateStored');
+  multi1.call('sushiswap.totalSupply', options.sushiswap, 'totalSupply');
 
   addresses.forEach((address) => {
-    multi.call(
+    multi1.call(
       `sushiswap.${address}.balanceOf`,
       options.sushiswap,
       'balanceOf',
       [address]
     );
-    multi.call(
+    multi1.call(
       `sushiswap.${address}.userInfo`,
       options.masterChef,
       'userInfo',
       [options.pid, address]
     );
-    multi.call(`uniswap.${address}.balanceOf`, options.uniswap, 'balanceOf', [
+  });
+
+  const multi2 = new Multicaller('1', provider, abi, { blockTag });
+  multi2.call('uniswap.cream', options.token, 'balanceOf', [options.uniswap]);
+  multi2.call('uniswap.totalSupply', options.uniswap, 'totalSupply');
+  multi2.call('balancer.cream', options.token, 'balanceOf', [options.balancer]);
+  multi2.call('balancer.totalSupply', options.balancer, 'totalSupply');
+  addresses.forEach((address) => {
+    multi2.call(`uniswap.${address}.balanceOf`, options.uniswap, 'balanceOf', [
       address
     ]);
-    multi.call(`balancer.${address}.balanceOf`, options.balancer, 'balanceOf', [
+    multi2.call(
+      `balancer.${address}.balanceOf`,
+      options.balancer,
+      'balanceOf',
+      [address]
+    );
+  });
+
+  const multi3 = new Multicaller('1', provider, abi, { blockTag });
+  multi3.call('crCREAM.exchangeRate', options.crCREAM, 'exchangeRateStored');
+  addresses.forEach((address) => {
+    multi3.call(`crCREAM.${address}.balanceOf`, options.crCREAM, 'balanceOf', [
       address
     ]);
-    multi.call(`crCREAM.${address}.balanceOf`, options.crCREAM, 'balanceOf', [
-      address
-    ]);
-    multi.call(
+    multi3.call(
       `crCREAM.${address}.borrow`,
       options.crCREAM,
       'borrowBalanceStored',
       [address]
     );
+  });
 
+  const multi4 = new Multicaller('1', provider, abi, { blockTag });
+  addresses.forEach((address) => {
     options.pools.forEach((pool) => {
-      multi.call(`pool.${address}.${pool.name}`, pool.address, 'balanceOf', [
+      multi4.call(`pool.${address}.${pool.name}`, pool.address, 'balanceOf', [
         address
       ]);
     });
   });
 
-  const result = await multi.execute();
+  const results = await Promise.all([
+    multi1.execute(),
+    multi2.execute(),
+    multi3.execute(),
+    multi4.execute()
+  ]);
+
+  const result = results.reduce((sumResult, partialResult) => {
+    Object.entries(partialResult).forEach(([key, value]) => {
+      sumResult[key] = value;
+    });
+    return sumResult;
+  }, {});
 
   const creamPerSushiswapLP = parseUnits(
     result.sushiswap.cream.toString(),
