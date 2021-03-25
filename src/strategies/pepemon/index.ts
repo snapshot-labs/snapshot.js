@@ -1,6 +1,6 @@
 import { multicall } from '../../utils';
-
-export const author = 'vfatouros';
+import { formatUnits } from '@ethersproject/units';
+export const author = 'pepemon';
 export const version = '0.1.0';
 
 const tokenAbi = [
@@ -53,7 +53,7 @@ const tokenAbi = [
     outputs: [
       {
         internalType: 'uint256',
-        name: 'ppblz_',
+        name: '',
         type: 'uint256'
       }
     ],
@@ -74,7 +74,7 @@ const tokenAbi = [
     outputs: [
       {
         internalType: 'uint256',
-        name: 'ppblzUni_',
+        name: '',
         type: 'uint256'
       }
     ],
@@ -126,23 +126,20 @@ export async function strategy(
     { blockTag }
   );
 
-  const totalSupply = res[0];
-  const tokenBalanceInUni = res[1];
-  const tokensPerUni =
-    tokenBalanceInUni / 10 ** options.decimals / (totalSupply / 1e18);
+  const totalSupply = res[0][0];
+  const tokenBalanceInUni = res[1][0];
+
   const p1 = res.slice(2, 2+addresses.length);
   const p2 = res.slice(2+addresses.length, 2+addresses.length*2);
   const p3 = res.slice( 2+addresses.length*2, 2+addresses.length*3);
   const p4 = res.slice( 2+addresses.length*3, 2+addresses.length*4);
-//p1 - token balances
-//p2 - total ppblz staked
-//p3 - univ2 balance
-//p4 - total univ2 staked
+
+
   return Object.fromEntries(
     p1.map((values, i) => [
       addresses[i],
       //ppblz_, uniV2PoolTokens
-      p1[i]/ 1e18 + p2[i]/1e18+ p3[i]/1e18 * tokensPerUni + p4[i]/1e18*tokensPerUni
+      formatUnits(p1[i][0].add(p2[i][0].add(p3[i][0].mul(tokenBalanceInUni).div(totalSupply)).add(p4[i][0].mul(tokenBalanceInUni).div(totalSupply))),18)
     ])
   );
 }
