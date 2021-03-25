@@ -17,6 +17,7 @@ jobs:
 
       # - run: git ls-remote
       - name: Checkout head and target branches
+        if: ${{ github.base_ref }}
         run: |
           git fetch --no-tags --depth=1 origin ${{ github.base_ref }}
           git fetch --no-tags --depth=1 origin ${{ github.head_ref }}
@@ -26,6 +27,7 @@ jobs:
           # get back to the merge commit
           git checkout ${{ github.sha }}
       - name: All changed files 🗂
+        if: ${{ github.base_ref }}
         run: git diff --name-only origin/${{ github.base_ref }} origin/${{ github.head_ref }}
 
       - name: npm install, build and lint
@@ -33,6 +35,9 @@ jobs:
           npm install
           npm run build --if-present
           npm run lint --if-present
+      - name: Test Changed Strategies
+        if: ${{ github.base_ref }}
+        run: |
           CHANGED_STRATEGIES=$(git diff --name-only origin/${{ github.base_ref }} origin/${{ github.head_ref }} -- src/strategies/)
           if [ -n "$CHANGED_STRATEGIES" ]; then
             echo "Running tests for changed strategies"
