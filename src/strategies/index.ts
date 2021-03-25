@@ -63,6 +63,7 @@ import { strategy as pagination } from './pagination';
 import { strategy as rulerStakedLP } from './ruler-staked-lp';
 import { strategy as xcover } from './xcover';
 import { strategy as niuStaked } from './niu-staked';
+import { strategy as mushrooms } from './mushrooms';
 import { strategy as curioCardsErc20Weighted } from './curio-cards-erc20-weighted';
 
 export default {
@@ -131,5 +132,6 @@ export default {
   'ruler-staked-lp': rulerStakedLP,
   xcover,
   'niu-staked': niuStaked,
+  'mushrooms': mushrooms,
   'curio-cards-erc20-weighted': curioCardsErc20Weighted
 };
