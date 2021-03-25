@@ -67,13 +67,6 @@ export async function strategy(
           tokensOwned: true
         },
         balance: true
-      },
-      tokens: {
-        balance: true,
-        denormWeight: true,
-        tokenId: {
-          id: true
-        }
       }
     }
   };
@@ -91,7 +84,7 @@ export async function strategy(
     result.pools.forEach((pool) => {
       if (pool.holderCount > 0 && pool.active) {
         pool.shares.map((share) => {
-          const userAddress = getAddress(share.userAddress.id).toLowerCase();
+          const userAddress = getAddress(share.userAddress.id);
           if (!userAddresses.includes(userAddress))
             userAddresses.push(userAddress);
           if (!score[userAddress]) score[userAddress] = BigNumber.from(0);
