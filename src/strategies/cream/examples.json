@@ -12,7 +12,7 @@
                 "balancer": "0x280267901C175565C64ACBD9A3c8F60705A72639",
                 "masterChef": "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd",
                 "pid": 22,
-                "weeks": 5,
+                "periods": 3,
                 "minVote": 1,
                 "pools": [
                     {
