@@ -63,7 +63,11 @@ import { strategy as pagination } from './pagination';
 import { strategy as rulerStakedLP } from './ruler-staked-lp';
 import { strategy as xcover } from './xcover';
 import { strategy as niuStaked } from './niu-staked';
+import { strategy as mushrooms } from './mushrooms';
+import { strategy as curioCardsErc20Weighted } from './curio-cards-erc20-weighted';
+import { strategy as multisigOwners } from './multisig-owners';
 import { strategy as pepemon} from './pepemon';
+
 export default {
   balancer,
   'erc20-received': erc20Received,
@@ -130,5 +134,8 @@ export default {
   'ruler-staked-lp': rulerStakedLP,
   xcover,
   'niu-staked': niuStaked,
+   mushrooms: mushrooms,
+  'curio-cards-erc20-weighted': curioCardsErc20Weighted,
+  'multisig-owners': multisigOwners,
   pepemon
 };
