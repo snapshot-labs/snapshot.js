@@ -87,7 +87,7 @@ export async function strategy(
 
   // Initialize scores to 0 for each address in `addresses`.
   const scores = addresses.reduce(
-    (obj, address) => ({ ...obj, [address]: 0 }),
+    (obj, address) => ({ ...obj, [getAddress(address)]: 0 }),
     {}
   );
   nodes.forEach((darknode) => {
