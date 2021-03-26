@@ -65,6 +65,7 @@ import { strategy as xcover } from './xcover';
 import { strategy as niuStaked } from './niu-staked';
 import { strategy as mushrooms } from './mushrooms';
 import { strategy as curioCardsErc20Weighted } from './curio-cards-erc20-weighted';
+import { strategy as saffronFinance } from './saffron-finance';
 
 export default {
   balancer,
@@ -133,5 +134,6 @@ export default {
   xcover,
   'niu-staked': niuStaked,
   'mushrooms': mushrooms,
-  'curio-cards-erc20-weighted': curioCardsErc20Weighted
+  'curio-cards-erc20-weighted': curioCardsErc20Weighted,
+  'saffron-finance': saffronFinance
 };
