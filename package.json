@@ -45,13 +45,13 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "build": "node ./node_modules/rollup/dist/bin/rollup -c",
-    "build:cjs": "node ./node_modules/rollup/dist/bin/rollup -c rollup.cjs.config.js",
-    "dev": "node ./node_modules/rollup/dist/bin/rollup -c -w",
+    "build": "rollup -c",
+    "build:cjs": "rollup -c rollup.cjs.config.js",
+    "dev": "rollup -c -w",
     "test": "node test/index.ts",
     "pretest": "npm run build:cjs",
     "lint": "prettier 'src/**/*.ts' -w -c",
-    "postinstall": "npm run build"
+    "prepare": "npm run build"
   },
   "files": [
     "dist",
