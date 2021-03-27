@@ -280,7 +280,7 @@
     "shortName": "HarmonyMainnet",
     "chainId": 1666600000,
     "network": "mainnet",
-    "rpc": ["https://api.s0.t.hmny.io"],
+    "rpc": ["https://a.api.s0.t.hmny.io"],
     "ws": ["wss://ws.s0.t.hmny.io"],
     "explorer": "https://explorer.harmony.one"
   },
