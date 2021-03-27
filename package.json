@@ -51,7 +51,8 @@
     "dev": "rollup -c -w",
     "test": "node test/index.ts",
     "pretest": "npm run build:cjs",
-    "lint": "prettier 'src/**/*.ts' -w -c"
+    "lint": "prettier 'src/**/*.ts' -w -c",
+    "prepare": "npm run build"
   },
   "files": [
     "dist",
