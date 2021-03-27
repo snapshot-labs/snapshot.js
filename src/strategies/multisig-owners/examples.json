@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Multisig owners",
+    "strategy": {
+      "name": "multisig-owners",
+      "params": {
+        "address": "0x48301Fe520f72994d32eAd72E2B6A8447873CF50"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x47c6c166F462a2886cb45EFeE7FEAf29941ECEb2",
+      "0x65DCD62932fEf5af25AdA91F0F24658e94e259c5",
+      "0x38FA68D1C06BD272893908a74E6BcC67E28d4Da8",
+      "0xE0FADeFDb233C32C67a1e428951aEfE8dF6ce639",
+      "0xE1FDD398329C6b74C14cf19100316f0826a492d3"
+    ],
+    "snapshot": 12115328
+  }
+]
