@@ -27,7 +27,8 @@ export default class Plugin {
           const { address, methodABI, decimals } = quorumOptions;
 
           const blockTag =
-            snapshot === 'latest' ? snapshot : toNumber(snapshot);
+            // @ts-ignore
+            snapshot === 'latest' ? snapshot : parseInt(snapshot);
 
           const totalVotingPower = await call(
             web3,
