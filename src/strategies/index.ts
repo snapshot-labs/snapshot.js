@@ -66,6 +66,7 @@ import { strategy as niuStaked } from './niu-staked';
 import { strategy as mushrooms } from './mushrooms';
 import { strategy as curioCardsErc20Weighted } from './curio-cards-erc20-weighted';
 import { strategy as multisigOwners } from './multisig-owners';
+import { strategy as trancheStaking } from './tranche-staking';
 
 export default {
   balancer,
@@ -135,5 +136,6 @@ export default {
   'niu-staked': niuStaked,
   mushrooms: mushrooms,
   'curio-cards-erc20-weighted': curioCardsErc20Weighted,
-  'multisig-owners': multisigOwners
+  'multisig-owners': multisigOwners,
+  'tranche-staking': trancheStaking
 };
