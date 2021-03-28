@@ -202,10 +202,8 @@ export default class Plugin {
     };
     return transactions.map((tx) => {
       const txHash = _TypedDataEncoder.hash(domain, EIP712_TYPES, {
-        ...{
-          nonce: '0',
-          data: '0x'
-        },
+        nonce: '0',
+        data: '0x',
         ...tx
       });
       return txHash;
