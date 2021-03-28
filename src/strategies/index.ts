@@ -67,7 +67,7 @@ import { strategy as mushrooms } from './mushrooms';
 import { strategy as curioCardsErc20Weighted } from './curio-cards-erc20-weighted';
 import { strategy as multisigOwners } from './multisig-owners';
 import { strategy as pepemon } from './pepemon';
-import { strategy as erc1155SubgraphBalanceOf } from './erc1155-all-balances-of';
+import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
 
 export default {
   balancer,
@@ -139,5 +139,5 @@ export default {
   'curio-cards-erc20-weighted': curioCardsErc20Weighted,
   'multisig-owners': multisigOwners,
   pepemon,
-  'erc1155-all-balances-of': erc1155SubgraphBalanceOf
+  'erc1155-all-balances-of': erc1155AllBalancesOf
 };
