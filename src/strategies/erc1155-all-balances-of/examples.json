@@ -2,7 +2,7 @@
   {
     "name": "Example query",
     "strategy": {
-      "name": "erc1155-subgraph-balance-of",
+      "name": "erc1155-all-balances-of",
       "params": {
         "address": "0x51e613727fdd2e0b91b51c3e5427e9440a7957e4"
       }
