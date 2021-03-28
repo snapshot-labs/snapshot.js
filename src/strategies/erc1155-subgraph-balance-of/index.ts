@@ -4,7 +4,7 @@ export const author = 'fragosti';
 export const version = '0.1.0';
 
 export const SUBGRAPH_URL = {
-  '1': 'https://api.thegraph.com/subgraphs/name/alexvorobiov/eip1155subgraph',
+  '1': 'https://api.thegraph.com/subgraphs/name/alexvorobiov/eip1155subgraph'
 };
 
 export async function strategy(
@@ -19,29 +19,35 @@ export async function strategy(
     accounts: {
       __args: {
         where: {
-          id_in: addresses.map((a) => a.toLowerCase()),
-        },
+          id_in: addresses.map((a) => a.toLowerCase())
+        }
       },
       id: true,
       balances: {
         value: true,
         token: {
           registry: {
-            id: true,
+            id: true
           }
         }
       }
     }
   };
   try {
-    const result = await subgraphRequest(SUBGRAPH_URL[network], eip1155OwnersParams);
+    const result = await subgraphRequest(
+      SUBGRAPH_URL[network],
+      eip1155OwnersParams
+    );
     return result.accounts.reduce((acc, val) => {
-      const relevantTokenBalances = val.balances.filter(balance => {
-        const isRightAddress = balance.token.registry.id === options.address.toLowerCase();
-        const isPositiveBalance = balance.value !== "0";
-        return isRightAddress && isPositiveBalance;
+      const relevantTokenBalances = val.balances.filter((balance) => {
+        const isRightAddress =
+          balance.token.registry.id === options.address.toLowerCase();
+        return isRightAddress;
       });
-      acc[val.id] = relevantTokenBalances.reduce((acc, val) => acc + parseInt(val.value, 10), 0);
+      acc[val.id] = relevantTokenBalances.reduce(
+        (acc, val) => acc + parseInt(val.value, 10),
+        0
+      );
       return acc;
     }, {} as Record<string, number>);
   } catch (err) {

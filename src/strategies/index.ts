@@ -66,8 +66,8 @@ import { strategy as niuStaked } from './niu-staked';
 import { strategy as mushrooms } from './mushrooms';
 import { strategy as curioCardsErc20Weighted } from './curio-cards-erc20-weighted';
 import { strategy as multisigOwners } from './multisig-owners';
-import { strategy as pepemon} from './pepemon';
-import { strategy as erc1155SubgraphBalanceOf} from "./erc1155-subgraph-balance-of";
+import { strategy as pepemon } from './pepemon';
+import { strategy as erc1155SubgraphBalanceOf } from './erc1155-subgraph-balance-of';
 
 export default {
   balancer,
@@ -135,9 +135,9 @@ export default {
   'ruler-staked-lp': rulerStakedLP,
   xcover,
   'niu-staked': niuStaked,
-   mushrooms: mushrooms,
+  mushrooms: mushrooms,
   'curio-cards-erc20-weighted': curioCardsErc20Weighted,
   'multisig-owners': multisigOwners,
   pepemon,
-  'erc1155-subgraph-balance-of': erc1155SubgraphBalanceOf,
+  'erc1155-subgraph-balance-of': erc1155SubgraphBalanceOf
 };
