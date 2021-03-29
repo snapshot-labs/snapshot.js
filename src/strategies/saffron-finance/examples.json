@@ -4,36 +4,67 @@
     "strategy": {
       "name": "saffron-finance",
       "params": {
-        "UNI_SFIETH_LP": "0xC76225124F3CaAb07f609b1D147a31de43926cd6",
-        "SUSHI_SFIETH_LP": "0x23a9292830Fc80dB7f563eDb28D2fe6fB47f8624",
-        "SFI": "0xb753428af26e81097e7fd17f40c88aaa3e04902c",
-        "TEAM_HODL_TOKEN": "0x4e5ee20900898054e998fd1862742c28c651bf5d",
-        "E2_SFIETH_UNI_LP_PRINCIPAL": "0xF489fF098BFC862F09ec583c01bCFD2D4C43c589",
-        "E2_SFISTAK_LP_PRINCIPAL": "0x1A9aA87F180A502930c22361e2a746137Ba74750",
-        "E3_SFISTAK_LP_PRINCIPAL": "0xEd4eaeB6e20d899143b74a5b4130322418d87765",
-        "E3_SFIETH_UNI_LP_PRINCIPAL": "0x68b03AbC0b41Bc2F113d103CffC39bD9aD850f8f",
-        "E3_SFIETH_SUSHI_LP_PRINCIPAL": "0x531B49EFd42775788f72a470a64E6b54d198f0be",
-        "E4_SFISTAK_LP_PRINCIPAL": "0x11942800A0596D3fe9641a116eeaeD387b638c1A",
-        "E4_SFIETH_UNI_LP_PRINCIPAL": "0x837eA587998f703F989c675921cbcD788246a30E",
-        "E4_SFIETH_SUSHI_LP_PRINCIPAL": "0x898932Fd99355953DC46cb6Aa47F76a183ACb381",
-        "E5_SFISTAK_LP_PRINCIPAL": "0x3b3570c445a7Eb359dedD91F8348dC746223A87D",
-        "E5_SFIETH_UNI_LP_PRINCIPAL": "0x2E44c39a205BD8F807d1f1AE97B921F0DA32f225",
-        "E5_SFIETH_SUSHI_LP_PRINCIPAL": "0x32c93305FF2c79D139e344B913a6202572c67cA4",
-        "E6_SFISTAK_LP_PRINCIPAL": "0xbAD5Cc4fFA06e16e367a6D492ADd8Ca04aEAe4A2",
-        "E6_SFIETH_UNI_LP_PRINCIPAL": "0x9DaB689F26688C6da25869CE414E4BDcCfD0289F",
-        "E6_SFIETH_SUSHI_LP_PRINCIPAL": "0x740b3e7dD42D7ff4769c2dE4Cb3C968E4e0aa6B6",
-        "E7_SFISTAK_LP_PRINCIPAL": "0x03B41d734D3dcd23F1B3f1AFF65270Bf6eB233eA",
-        "E7_SFIETH_UNI_LP_PRINCIPAL": "0x7972790bADE77686852309F60d9C60912b899C39",
-        "E7_SFIETH_SUSHI_LP_PRINCIPAL": "0x7DF684a871fAF58579f210CBcC001CB02b5D1b7F",
-        "E8_SFISTAK_LP_PRINCIPAL": "0xceF561E639b53e04aB9E82653fdfacAe135A0Ad0",
-        "E8_SFIETH_UNI_LP_PRINCIPAL": "0x7470D56ADee5FF92680d77490bDE2e307854DF99",
-        "E8_SFIETH_SUSHI_LP_PRINCIPAL": "0x20A1ad2122B145F1629713b41af3A8C15aDBF499",
-        "E9_SFISTAK_LP_PRINCIPAL": "0x3C3105CDbC01350C9A303352C163216A8fb2180f",
-        "E9_SFIETH_UNI_LP_PRINCIPAL": "0xe4B9FfC784A0cD9e5411B5880e2066E6D6E436c3",
-        "E9_SFIETH_SUSHI_LP_PRINCIPAL": "0x063E86d5A10cadA77d4a7385F93A09a1A5d2178B",
-        "E10_SFISTAK_LP_PRINCIPAL": "0x96B45C15bB1AE5DD175a4Bc721868B28b8AD2291",
-        "E10_SFIETH_UNI_LP_PRINCIPAL": "0xff1c79Ef1b3096314a3Bed7F0bD71f1D9A422eC6",
-        "E10_SFIETH_SUSHI_LP_PRINCIPAL": "0x9D128c1a98a229670A5D4FDa1DCbdB33Ee54cB7d"
+        "dexLpTypes": [
+          {"name": "uniswap", "lpToken": "0xC76225124F3CaAb07f609b1D147a31de43926cd6"},
+          {"name": "sushiswap", "lpToken": "0x23a9292830Fc80dB7f563eDb28D2fe6fB47f8624"}
+        ],
+        "oneToOne": [
+          { "label": "SFI", "tokenAddress": "0xb753428af26e81097e7fd17f40c88aaa3e04902c"},
+          { "label": "TEAM_HODL_TOKEN", "tokenAddress": "0x4e5ee20900898054e998fd1862742c28c651bf5d"}
+        ],
+        "boostMultiply": [
+          {
+            "vote":  1.1,
+            "tokens": [
+              { "label": "E2_SFISTAK_LP_PRINCIPAL", "tokenAddress":  "0x1A9aA87F180A502930c22361e2a746137Ba74750" },
+              { "label": "E3_SFISTAK_LP_PRINCIPAL", "tokenAddress":  "0xEd4eaeB6e20d899143b74a5b4130322418d87765" },
+              { "label": "E4_SFISTAK_LP_PRINCIPAL", "tokenAddress":  "0x11942800A0596D3fe9641a116eeaeD387b638c1A" },
+              { "label": "E5_SFISTAK_LP_PRINCIPAL", "tokenAddress":  "0x3b3570c445a7Eb359dedD91F8348dC746223A87D" },
+              { "label": "E6_SFISTAK_LP_PRINCIPAL", "tokenAddress":  "0xbAD5Cc4fFA06e16e367a6D492ADd8Ca04aEAe4A2" },
+              { "label": "E7_SFISTAK_LP_PRINCIPAL", "tokenAddress":  "0x03B41d734D3dcd23F1B3f1AFF65270Bf6eB233eA" },
+              { "label": "E8_SFISTAK_LP_PRINCIPAL", "tokenAddress":  "0xceF561E639b53e04aB9E82653fdfacAe135A0Ad0" },
+              { "label": "E9_SFISTAK_LP_PRINCIPAL", "tokenAddress":  "0x3C3105CDbC01350C9A303352C163216A8fb2180f" },
+              { "label": "E10_SFISTAK_LP_PRINCIPAL", "tokenAddress":  "0x96B45C15bB1AE5DD175a4Bc721868B28b8AD2291" }
+            ]
+          }
+        ],
+        "dexReserve": [
+          {
+            "vote": 1.1,
+            "dexLpTokens":  [
+              { "label": "E2_SFIETH_UNI_LP_PRINCIPAL", "dexLpType": "uniswap", "tokenAddress": "0xF489fF098BFC862F09ec583c01bCFD2D4C43c589" },
+              { "label": "E3_SFIETH_UNI_LP_PRINCIPAL", "dexLpType": "uniswap", "tokenAddress": "0x68b03AbC0b41Bc2F113d103CffC39bD9aD850f8f" },
+              { "label": "E3_SFIETH_SUSHI_LP_PRINCIPAL", "dexLpType": "sushiswap", "tokenAddress": "0x531B49EFd42775788f72a470a64E6b54d198f0be" },
+              { "label": "E4_SFIETH_UNI_LP_PRINCIPAL", "dexLpType": "uniswap", "tokenAddress": "0x531B49EFd42775788f72a470a64E6b54d198f0be" },
+              { "label": "E4_SFIETH_SUSHI_LP_PRINCIPAL", "dexLpType": "sushiswap", "tokenAddress": "0x898932Fd99355953DC46cb6Aa47F76a183ACb381" },
+              { "label": "E5_SFIETH_UNI_LP_PRINCIPAL", "dexLpType": "uniswap", "tokenAddress": "0x2E44c39a205BD8F807d1f1AE97B921F0DA32f225" },
+              { "label": "E5_SFIETH_SUSHI_LP_PRINCIPAL", "dexLpType": "sushiswap", "tokenAddress": "0x32c93305FF2c79D139e344B913a6202572c67cA4" },
+              { "label": "E6_SFIETH_UNI_LP_PRINCIPAL", "dexLpType": "uniswap", "tokenAddress": "0x9DaB689F26688C6da25869CE414E4BDcCfD0289F" },
+              { "label": "E6_SFIETH_SUSHI_LP_PRINCIPAL", "dexLpType": "sushiswap", "tokenAddress": "0x740b3e7dD42D7ff4769c2dE4Cb3C968E4e0aa6B6" },
+              { "label": "E7_SFIETH_UNI_LP_PRINCIPAL", "dexLpType": "uniswap", "tokenAddress": "0x7972790bADE77686852309F60d9C60912b899C39" },
+              { "label": "E7_SFIETH_SUSHI_LP_PRINCIPAL", "dexLpType": "sushiswap", "tokenAddress": "0x7DF684a871fAF58579f210CBcC001CB02b5D1b7F" },
+              { "label": "E8_SFIETH_UNI_LP_PRINCIPAL", "dexLpType": "uniswap", "tokenAddress": "0x20A1ad2122B145F1629713b41af3A8C15aDBF499" },
+              { "label": "E8_SFIETH_SUSHI_LP_PRINCIPAL", "dexLpType": "sushiswap", "tokenAddress": "0x20A1ad2122B145F1629713b41af3A8C15aDBF499" },
+              { "label": "E9_SFIETH_UNI_LP_PRINCIPAL", "dexLpType": "uniswap", "tokenAddress": "0xe4B9FfC784A0cD9e5411B5880e2066E6D6E436c3" },
+              { "label": "E9_SFIETH_SUSHI_LP_PRINCIPAL", "dexLpType": "sushiswap", "tokenAddress": "0x063E86d5A10cadA77d4a7385F93A09a1A5d2178B" },
+              { "label": "E10_SFIETH_UNI_LP_PRINCIPAL", "dexLpType": "uniswap", "tokenAddress": "0xff1c79Ef1b3096314a3Bed7F0bD71f1D9A422eC6" },
+              { "label": "E10_SFIETH_SUSHI_LP_PRINCIPAL", "dexLpType": "sushiswap", "tokenAddress": "0x9D128c1a98a229670A5D4FDa1DCbdB33Ee54cB7d" }
+            ]
+          }
+        ],
+        "aTrancheRatio": [
+          {
+            "vote": 1.1,
+            "version": 1,
+            "pools": [
+              { "label": "E10_DAI_COMPOUND", "saffronPoolAddress": "0xf419345D943e49BBdb23dEE7c07A00BAC51D7Dde" },
+              { "label": "E10_WBTC_COMPOUND", "saffronPoolAddress": "0x9Ed956bEAAb972d141336B9085BB390C6BEf01F3" },
+              { "label": "E10_DAI_RARI", "saffronPoolAddress": "0x631B471033BeE99b8c9E9854D804a4b22A8e351e" },
+              { "label": "E10_USDT_COMPOUND", "saffronPoolAddress": "0xa3fA177610824036fc7bB5A0E328e363988d99b6" },
+              { "label": "E10_USDC_COMPOUND", "saffronPoolAddress": "0x4BC973F69024b8B8f4b2d9936B3cFf70095cB327"}
+            ]
+          }
+        ]
       }
     },
     "network": "1",
@@ -45,6 +76,6 @@
       "0x86282134ce9fc4ac724b84b93d6d5b41ce59a40d",
       "0x5cfa9d7ed59d6ba0ea17626ac15f949d005a2239"
     ],
-    "snapshot": 12111853
+    "snapshot": 12135288
   }
 ]

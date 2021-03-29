@@ -1,6 +1,6 @@
-import { formatUnits } from '@ethersproject/units';
-import { BigNumber } from '@ethersproject/bignumber';
-import { multicall } from '../../utils';
+import {formatUnits} from '@ethersproject/units';
+import {BigNumber} from '@ethersproject/bignumber';
+import {multicall} from '../../utils';
 
 export const author = 'saffron.finance';
 export const version = '0.1.0';
@@ -10,491 +10,269 @@ const BIG18 = BigNumber.from('1000000000000000000');
 const DECIMALS = 18;
 
 const abi = [
-    {
-        constant: true,
-        inputs: [
-            {
-                internalType: 'address',
-                name: 'account',
-                type: 'address'
-            }
-        ],
-        name: 'balanceOf',
-        outputs: [
-            {
-                internalType: 'uint256',
-                name: '',
-                type: 'uint256'
-            }
-        ],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-    },
-    {
-        inputs: [],
-        name: 'getReserves',
-        outputs: [
-            {
-                internalType: 'uint112',
-                name: '_reserve0',
-                type: 'uint112'
-            },
-            {
-                internalType: 'uint112',
-                name: '_reserve1',
-                type: 'uint112'
-            },
-            {
-                internalType: 'uint32',
-                name: '_blockTimestampLast',
-                type: 'uint32'
-            }
-        ],
-        stateMutability: 'view',
-        type: 'function',
-        constant: true
-    },
-    {
-        constant: true,
-        inputs: [],
-        name: 'totalSupply',
-        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-        payable: false,
-        stateMutability: 'view',
-        type: 'function'
-    },
+  {
+    constant: true,
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
+    ],
+    name: 'balanceOf',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'getReserves',
+    outputs: [
+      {
+        internalType: 'uint112',
+        name: '_reserve0',
+        type: 'uint112'
+      },
+      {
+        internalType: 'uint112',
+        name: '_reserve1',
+        type: 'uint112'
+      },
+      {
+        internalType: 'uint32',
+        name: '_blockTimestampLast',
+        type: 'uint32'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function',
+    constant: true
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{internalType: 'uint256', name: '', type: 'uint256'}],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  },
 ];
 
 const chunk = (arr, size) =>
-    Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
-        arr.slice(i * size, i * size + size)
-    );
+  Array.from({length: Math.ceil(arr.length / size)}, (v, i) =>
+    arr.slice(i * size, i * size + size)
+  );
 
-/*
- TODO: Change this implementation to iterate through lists of configured contract addresses by type of vote scoring algorithm to apply.
- The intent is to remove the hard-coded behavior for each epoch's pool.
+function dexLpToken(lpTypes:any[], lpName:string): string {
+  const found = lpTypes.find(e => e.name === lpName);
+  if (found === undefined) return "";
+  return found.lpToken;
+}
 
- For example, if the configuration property, params, has:
-
- {
-    ...
-    "params": {
-        "oneToOne": [
-            { "tokenAddress": "0xb753428af26e81097e7fd17f40c88aaa3e04902c" },
-            { "tokenAddress": "0x4e5ee20900898054e998fd1862742c28c651bf5d" },
-        ],
-        "dexReserve": [
-            {
-              "dexLpAddress": "0xC76225124F3CaAb07f609b1D147a31de43926cd6",
-              "saffronLpAddress": "0xF489fF098BFC862F09ec583c01bCFD2D4C43c589"
-            },
-            {
-              "dexLpAddress": "0x23a9292830Fc80dB7f563eDb28D2fe6fB47f8624",
-              "saffronLpAddress": "0x531B49EFd42775788f72a470a64E6b54d198f0be"
-            },
-            ...
-        ],
-        "aTrancheRatio": {
-            "V1": [
-                { "saffronPoolAddress": "0xf419345D943e49BBdb23dEE7c07A00BAC51D7Dde" },
-                ...
-            ],
-            "V2: [
-                { "saffronPoolAddress": "..." }
-            ]
-    }
-    ...
- }
-
- */
 export async function strategy(
-    space,
+  space,
+  network,
+  provider,
+  addresses,
+  options,
+  snapshot
+) {
+  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+
+  // ================ Dex LP Token Reserve and Total Supply ==================
+  let dexReserveData = new Array();
+  let dexCalls = new Array();
+  let dexQueryIdx = 0;
+  options.dexLpTypes.forEach(dexToken => {
+    let d = {
+      name: dexToken.name,
+      reservesQuery: [dexToken.lpToken, 'getReserves'],
+      reserveQueryIdx: 0,
+      reserve: 0,
+      supplyQuery: [dexToken.lpToken, 'totalSupply'],
+      supplyQueryIdx: 0,
+      supply: 0,
+      saffLpToSFI_E18: 0
+    }
+    dexCalls.push(d.reservesQuery);
+    d.reserveQueryIdx = dexQueryIdx++;
+    dexCalls.push(d.supplyQuery);
+    d.supplyQueryIdx = dexQueryIdx++;
+    dexReserveData.push(d);
+  });
+
+  const dexResponse = await multicall(
     network,
     provider,
-    addresses,
-    options,
-    snapshot
-) {
-    const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+    abi,
+    [
+      ...dexCalls
+    ],
+    {blockTag}
+  );
 
-    // Uniswap SFI/ETH LP SFI reserve
-    const uniSfiEthReserveQuery = [ options.UNI_SFIETH_LP, 'getReserves' ];
+  dexReserveData.forEach(drd => {
+    drd.reserve = dexResponse[drd.reserveQueryIdx][0];
+    drd.supply = dexResponse[drd.supplyQueryIdx][0];
+    drd.saffLpToSFI_E18 = drd.reserve.mul(BIG18).div(drd.supply);
+  });
 
-    // Uniswap SFI/ETH LP Total Supply
-    const uniSfiEthTotalSupplyQuery = [ options.UNI_SFIETH_LP, 'totalSupply' ];
 
-    // Sushiswap SFI/ETH LP SFI reserve
-    const sushiSfiEthReserveQuery = [ options.SUSHI_SFIETH_LP, 'getReserves' ];
+  // ================== One to One Voting Power ==================
+  let oneToOneData = new Array();
+  for (let i = 0; i < options.oneToOne.length; i++) {
+      let oto = options.oneToOne[i];
+      let otoRecord = {
+        label: oto.label,
+        tokenAddress: oto.tokenAddress,
+        otoQuery: addresses.map((address: any) => [
+          oto.tokenAddress,
+          'balanceOf',
+          [address]
+        ]),
+        otoResponses: new Array(),
+        votingScores: new Array()
+      };
+      otoRecord.otoResponses = await multicall(network, provider, abi, otoRecord.otoQuery,  {blockTag});
+      otoRecord.votingScores = addresses.map((address: any, index: number) => {
+        return { address: address, score: otoRecord.otoResponses[index][0] }
+      });
+      oneToOneData.push(otoRecord);
+  }
 
-    // Sushiswap SFI/ETH LP Total Supply
-    const sushiSfiEthTotalSupplyQuery = [ options.SUSHI_SFIETH_LP, 'totalSupply' ];
+  // =============== Boosted with Multiplier Voting Power ================
+  let boostMultiData = new Array();
+  for (let i = 0; i < options.boostMultiply.length; i++) {
+    let boost = options.boostMultiply[i];
+    let boostRecord = {
+      vote: boost.vote,
+      tokens: new Array()
+    };
+    const voteBoost1000 = BigNumber.from(boostRecord.vote * 1000);
+    const voteBoostDiv = BigNumber.from(1000);
 
-    // SFI Balance
-    const sfiQuery = addresses.map((address: any) => [
-        options.SFI,
-        'balanceOf',
+    for (let j = 0; j < options.boostMultiply[i].tokens.length; j++) {
+      let token = options.boostMultiply[i].tokens[j];
+      let tokenRecord = {
+        label: token.label,
+        queries: new Array(),
+        boostResponses: new Array(),
+        votingScores: new Array()
+      }
+      let queries = addresses.map((address: any) => [
+        token.tokenAddress,
+        "balanceOf",
         [address]
-    ]);
+      ]);
+      tokenRecord.queries.push(queries);
+      let response = await multicall(network, provider, abi, queries, {blockTag});
+      tokenRecord.boostResponses.push(response);
+      tokenRecord.votingScores = addresses.map((address:any, index:number) => {
+        return { address: address, score: response[index][0].mul(voteBoost1000).div(voteBoostDiv)  };
+      });
+      boostRecord.tokens.push(tokenRecord);
+    }
 
-    // Team HODL Balance
-    const teamHodlQuery = addresses.map((address: any) => [
-        options.TEAM_HODL_TOKEN,
-        'balanceOf',
+    boostMultiData.push(boostRecord);
+  }
+
+  // ============= Dex Reserve LP Token Voting Power ==================
+  let dexLpData = new Array();
+  for (let i = 0; i < options.dexReserve.length; i++) {
+    let dexReserve = options.dexReserve[i];
+    let dexReserveRecord = {
+      vote: dexReserve.vote,
+      tokens: new Array()
+    };
+    let voteMult1000 = BigNumber.from(dexReserveRecord.vote * 1000);
+    let voteDiv1000 = BigNumber.from(1000);
+
+    for (let j = 0; j < options.dexReserve[i].dexLpTokens.length; j++) {
+      let token = options.dexReserve[i].dexLpTokens[j];
+      let tokenRecord = {
+        label: token.label,
+        dexLpType: token.dexLpType,
+        queries: new Array(),
+        responses: new Array(),
+        votingScores: new Array()
+      };
+      let queries = addresses.map((address: any) => [
+        token.tokenAddress,
+        "balanceOf",
         [address]
-    ])
+      ]);
+      tokenRecord.queries.push(queries);
+      let response = await multicall(network, provider, abi, queries, {blockTag});
+      tokenRecord.responses.push(response);
+      tokenRecord.votingScores = addresses.map((address: any, index: number) => {
+        let calculatedScore = response[index][0]
+          .mul(dexReserveData.find(e => e.name === tokenRecord.dexLpType).saffLpToSFI_E18)
+          .div(BIG18);
+        return { address: address, score: calculatedScore.mul(voteMult1000).div(voteDiv1000) };
+      });
+      dexReserveRecord.tokens.push(tokenRecord);
+    }
 
-    // Epoch 2 SFI Staking LP Principal
-    const e2SfiStakLPQuery = addresses.map((address: any) => [
-        options.E2_SFISTAK_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
+    dexLpData.push(dexReserveRecord)
+  }
 
-    // Epoch 2 SFI/ETH Uniswap LP Principal
-    const e2SfiEthUniLPQuery = addresses.map((address: any) => [
-        options.E2_SFIETH_UNI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
+  // ============== A Tranche Voting Power ===============
+  // TODO: Implement counting staked SFI in all A Tranches
+  //
+  // =====================================================
 
-    // Epoch 3 SFI Staking LP Principal
-    const e3SfiStakLPQuery = addresses.map((address: any) => [
-        options.E3_SFISTAK_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
+  // ================ Sum up everything =================
+  let addressVotingScore = addresses.map((address: any, index: number) => {
+    let total = BigNumber.from(0);
+    oneToOneData.forEach((otod: any) => {
+      let otoScore = otod.votingScores[index];
+      if (otoScore.address === address) {
+        total = total.add(otoScore.score);
+      } else {
+        console.error(`${otod.label} expected address, ${address}, found ${otoScore.address}`);
+      }
+    });
 
-    // Epoch 3 SFI/ETH Uniswap LP Principal
-    const e3SfiEthUniLPQuery = addresses.map((address: any) => [
-        options.E3_SFIETH_UNI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
+    boostMultiData.forEach((boost: any) => {
+      boost.tokens.forEach((tokenRecord: any) => {
+        let boostScore = tokenRecord.votingScores[index];
+        if (boostScore.address === address) {
+          total = total.add(boostScore.score);
+        } else {
+          console.error(`{$tokenRecord.label} expected address, ${address}, found ${boostScore.address}`);
+        }
+      });
+    });
 
-    // Epoch 3 SFI/ETH Sushiswap LP Principal
-    const e3SfiEthSushiLPQuery = addresses.map((address: any) => [
-        options.E3_SFIETH_SUSHI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
+    dexLpData.forEach((dexLp: any) => {
+      dexLp.tokens.forEach((dexLpToken: any) => {
+        let dexLpScore = dexLpToken.votingScores[index];
+        if (dexLpScore.address === address) {
+          total = total.add(dexLpScore.score);
+        } else {
+          console.error(`{$tokenRecord.label} expected address, ${address}, found ${dexLpScore.address}`);
+        }
+      });
+    });
 
-    // Epoch 4 SFI Staking LP Principal
-    const e4SfiStakLPQuery = addresses.map((address: any) => [
-        options.E4_SFISTAK_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
+    // Return single record { address, score } where score should have exponent of 18
+    return { address: address, score: total }
+  });
 
-    // Epoch 4 SFI/ETH Uniswap LP Principal
-    const e4SfiEthUniLPQuery = addresses.map((address: any) => [
-        options.E4_SFIETH_UNI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 4 SFI/ETH Sushiswap LP Principal
-    const e4SfiEthSushiLPQuery = addresses.map((address: any) => [
-        options.E4_SFIETH_SUSHI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 5 SFI Staking LP Principal
-    const e5SfiStakLPQuery = addresses.map((address: any) => [
-        options.E5_SFISTAK_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 5 SFI/ETH Uniswap LP Principal
-    const e5SfiEthUniLPQuery = addresses.map((address: any) => [
-        options.E5_SFIETH_UNI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 5 SFI/ETH Sushiswap LP Principal
-    const e5SfiEthSushiLPQuery = addresses.map((address: any) => [
-        options.E5_SFIETH_SUSHI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 6 SFI Staking LP Principal
-    const e6SfiStakLPQuery = addresses.map((address: any) => [
-        options.E6_SFISTAK_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 6 SFI/ETH Uniswap LP Principal
-    const e6SfiEthUniLPQuery = addresses.map((address: any) => [
-        options.E6_SFIETH_UNI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 6 SFI/ETH Sushiswap LP Principal
-    const e6SfiEthSushiLPQuery = addresses.map((address: any) => [
-        options.E6_SFIETH_SUSHI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 7 SFI Staking LP Principal
-    const e7SfiStakLPQuery = addresses.map((address: any) => [
-        options.E7_SFISTAK_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 7 SFI/ETH Uniswap LP Principal
-    const e7SfiEthUniLPQuery = addresses.map((address: any) => [
-        options.E7_SFIETH_UNI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 7 SFI/ETH Sushiswap LP Principal
-    const e7SfiEthSushiLPQuery = addresses.map((address: any) => [
-        options.E7_SFIETH_SUSHI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 8 SFI Staking LP Principal
-    const e8SfiStakLPQuery = addresses.map((address: any) => [
-        options.E8_SFISTAK_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 8 SFI/ETH Uniswap LP Principal
-    const e8SfiEthUniLPQuery = addresses.map((address: any) => [
-        options.E8_SFIETH_UNI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 8 SFI/ETH Sushiswap LP Principal
-    const e8SfiEthSushiLPQuery = addresses.map((address: any) => [
-        options.E8_SFIETH_SUSHI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 9 SFI Staking LP Principal
-    const e9SfiStakLPQuery = addresses.map((address: any) => [
-        options.E9_SFISTAK_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 9 SFI/ETH Uniswap LP Principal
-    const e9SfiEthUniLPQuery = addresses.map((address: any) => [
-        options.E9_SFIETH_UNI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 9 SFI/ETH Sushiswap LP Principal
-    const e9SfiEthSushiLPQuery = addresses.map((address: any) => [
-        options.E9_SFIETH_SUSHI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 10 SFI Staking LP Principal
-    const e10SfiStakLPQuery = addresses.map((address: any) => [
-        options.E10_SFISTAK_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 10 SFI/ETH Uniswap LP Principal
-    const e10SfiEthUniLPQuery = addresses.map((address: any) => [
-        options.E10_SFIETH_UNI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    // Epoch 10 SFI/ETH Sushiswap LP Principal
-    const e10SfiEthSushiLPQuery = addresses.map((address: any) => [
-        options.E10_SFIETH_SUSHI_LP_PRINCIPAL,
-        'balanceOf',
-        [address]
-    ])
-
-    console.log("===== multicall ======");
-    const response1 = await multicall(
-        network,
-        provider,
-        abi,
-        [
-            uniSfiEthReserveQuery,         // 0
-            uniSfiEthTotalSupplyQuery,     // 1
-            sushiSfiEthReserveQuery,       // 2
-            sushiSfiEthTotalSupplyQuery,   // 3
-            ...sfiQuery,                      // 4  0
-            ...teamHodlQuery,                 // 5  1
-            ...e2SfiStakLPQuery,              // 6  2
-            ...e2SfiEthUniLPQuery,
-            ...e3SfiStakLPQuery,
-            ...e3SfiEthUniLPQuery,
-            ...e3SfiEthSushiLPQuery,
-            ...e4SfiStakLPQuery,
-            ...e4SfiEthUniLPQuery,
-            ...e4SfiEthSushiLPQuery,
-            ...e5SfiStakLPQuery,
-            ...e5SfiEthUniLPQuery,
-            ...e5SfiEthSushiLPQuery,
-            ...e6SfiStakLPQuery,
-            ...e6SfiEthUniLPQuery,
-            ...e6SfiEthSushiLPQuery,
-            ...e7SfiStakLPQuery,
-            ...e7SfiEthUniLPQuery,
-            ...e7SfiEthSushiLPQuery,
-        ],
-        { blockTag }
-    );
-
-    const response2 = await multicall(
-      network,
-      provider,
-      abi,
-      [
-            ...e8SfiStakLPQuery,
-            ...e8SfiEthUniLPQuery,
-            ...e8SfiEthSushiLPQuery,
-            ...e9SfiStakLPQuery,
-            ...e9SfiEthUniLPQuery,
-            ...e9SfiEthSushiLPQuery,
-            ...e10SfiStakLPQuery,
-            ...e10SfiEthUniLPQuery,
-            ...e10SfiEthSushiLPQuery,
-        ]
-    );
-
-    const response = response1.concat(response2);
-    const uniLpSfiReserve = response[0][0];
-    const uniLpSfiEthTotalSupply = response[1][0];
-    const sushiLpSfiReserve = response[2][0];
-    const sushiLpSfiEthTotalSupply = response[3][0];
-
-    const uniSaffLpToSFI_E18 = uniLpSfiReserve.mul(BIG18).div(uniLpSfiEthTotalSupply);
-    const sushiSaffLpToSFI_E18 =  sushiLpSfiReserve.mul(BIG18).div(sushiLpSfiEthTotalSupply);
-
-    console.log("uniLpSfiReserve", uniLpSfiReserve.toString());
-    console.log("uniLpSfiEthTotalSupply", uniLpSfiEthTotalSupply.toString());
-    console.log("sushiLpSfiReserve", sushiLpSfiReserve.toString());
-    console.log("sushiLpSfiEthTotalSupply", sushiLpSfiEthTotalSupply.toString());
-    console.log("uniSaffLpToSFI_E18", uniSaffLpToSFI_E18.toString());
-    console.log("sushiSaffLpToSFI_E18", sushiSaffLpToSFI_E18.toString());
-
-    const responseBalances = response.slice(4);
-    const chunks = chunk(responseBalances, addresses.length);
-    const sfiBalances = chunks[0];
-    const sfiTeamHodlaBals = chunks[1];
-    const e2SfiStakingBals = chunks[2];
-    const e2SfiEthUniBals = chunks[3];
-    const e3SfiStakingBals = chunks[4];
-    const e3SfiEthUniBals = chunks[5];
-    const e3SfiEthSushiBals = chunks[6];
-    const e4SfiStakingBals = chunks[7];
-    const e4SfiEthUniBals = chunks[8];
-    const e4SfiEthSushiBals = chunks[9];
-    const e5SfiStakingBals = chunks[10];
-    const e5SfiEthUniBals = chunks[11];
-    const e5SfiEthSushiBals = chunks[12];
-    const e6SfiStakingBals = chunks[13];
-    const e6SfiEthUniBals = chunks[14];
-    const e6SfiEthSushiBals = chunks[15];
-    const e7SfiStakingBals = chunks[16];
-    const e7SfiEthUniBals = chunks[17];
-    const e7SfiEthSushiBals = chunks[18];
-    const e8SfiStakingBals = chunks[19];
-    const e8SfiEthUniBals = chunks[20];
-    const e8SfiEthSushiBals = chunks[21];
-    const e9SfiStakingBals = chunks[22];
-    const e9SfiEthUniBals = chunks[23];
-    const e9SfiEthSushiBals = chunks[24];
-    const e10SfiStakingBals = chunks[25];
-    const e10SfiEthUniBals = chunks[26];
-    const e10SfiEthSushiBals = chunks[27];
-
-    console.log("==== Object.fromEntries =====");
-
-    return Object.fromEntries(
-        Array(addresses.length)
-            .fill('sfi')
-            .map((_, i) => {
-              const sfi_bal = sfiBalances[i][0];
-              const team_hodl_bal = sfiTeamHodlaBals[i][0];
-              const e2_sfistak_bal = e2SfiStakingBals[i][0];
-              const e2_sfiuni_bal = e2SfiEthUniBals[i][0];
-              const e3_sfistak_bal = e3SfiStakingBals[i][0];
-              const e3_sfiuni_bal = e3SfiEthUniBals[i][0];
-              const e3_sfisushi_bal = e3SfiEthSushiBals[i][0];
-              const e4_sfistak_bal = e4SfiStakingBals[i][0];
-              const e4_sfiuni_bal = e4SfiEthUniBals[i][0];
-              const e4_sfisushi_bal = e4SfiEthSushiBals[i][0];
-              const e5_sfistak_bal = e5SfiStakingBals[i][0];
-              const e5_sfiuni_bal = e5SfiEthUniBals[i][0];
-              const e5_sfisushi_bal = e5SfiEthSushiBals[i][0];
-              const e6_sfistak_bal = e6SfiStakingBals[i][0];
-              const e6_sfiuni_bal = e6SfiEthUniBals[i][0];
-              const e6_sfisushi_bal = e6SfiEthSushiBals[i][0];
-              const e7_sfistak_bal = e7SfiStakingBals[i][0];
-              const e7_sfiuni_bal = e7SfiEthUniBals[i][0];
-              const e7_sfisushi_bal = e7SfiEthSushiBals[i][0];
-              const e8_sfistak_bal = e8SfiStakingBals[i][0];
-              const e8_sfiuni_bal = e8SfiEthUniBals[i][0];
-              const e8_sfisushi_bal = e8SfiEthSushiBals[i][0];
-              const e9_sfistak_bal = e9SfiStakingBals[i][0];
-              const e9_sfiuni_bal = e9SfiEthUniBals[i][0];
-              const e9_sfisushi_bal = e9SfiEthSushiBals[i][0];
-              const e10_sfistak_bal = e10SfiStakingBals[i][0];
-              const e10_sfiuni_bal = e10SfiEthUniBals[i][0];
-              const e10_sfisushi_bal = e10SfiEthSushiBals[i][0];
-
-              return [
-                  addresses[i],
-                  parseFloat(
-                      formatUnits(
-                          sfi_bal
-                            .add(team_hodl_bal)
-                            .add(e2_sfistak_bal)
-                            .add(e2_sfiuni_bal.mul(uniSaffLpToSFI_E18).div(BIG18))
-                            .add(e3_sfistak_bal)
-                            .add(e3_sfiuni_bal.mul(uniSaffLpToSFI_E18).div(BIG18))
-                            .add(e3_sfisushi_bal.mul(sushiSaffLpToSFI_E18).div(BIG18))
-                            .add(e4_sfistak_bal)
-                            .add(e4_sfiuni_bal.mul(uniSaffLpToSFI_E18).div(BIG18))
-                            .add(e4_sfisushi_bal.mul(sushiSaffLpToSFI_E18).div(BIG18))
-                            .add(e5_sfistak_bal)
-                            .add(e5_sfiuni_bal.mul(uniSaffLpToSFI_E18).div(BIG18))
-                            .add(e5_sfisushi_bal.mul(sushiSaffLpToSFI_E18).div(BIG18))
-                            .add(e6_sfistak_bal)
-                            .add(e6_sfiuni_bal.mul(uniSaffLpToSFI_E18).div(BIG18))
-                            .add(e6_sfisushi_bal.mul(sushiSaffLpToSFI_E18).div(BIG18))
-                            .add(e7_sfistak_bal)
-                            .add(e7_sfiuni_bal.mul(uniSaffLpToSFI_E18).div(BIG18))
-                            .add(e7_sfisushi_bal.mul(sushiSaffLpToSFI_E18).div(BIG18))
-                            .add(e8_sfistak_bal)
-                            .add(e8_sfiuni_bal.mul(uniSaffLpToSFI_E18).div(BIG18))
-                            .add(e8_sfisushi_bal.mul(sushiSaffLpToSFI_E18).div(BIG18))
-                            .add(e9_sfistak_bal)
-                            .add(e9_sfiuni_bal.mul(uniSaffLpToSFI_E18).div(BIG18))
-                            .add(e9_sfisushi_bal.mul(sushiSaffLpToSFI_E18).div(BIG18))
-                            .add(e10_sfistak_bal)
-                            .add(e10_sfiuni_bal.mul(uniSaffLpToSFI_E18).div(BIG18))
-                            .add(e10_sfisushi_bal.mul(sushiSaffLpToSFI_E18).div(BIG18))
-                          ,
-                          DECIMALS
-                      )
-                  )
-              ];
-            })
-    );
+  return Object.fromEntries(
+    addressVotingScore.map((addressVote) => {
+        return [
+          addressVote.address,
+          parseFloat(formatUnits(addressVote.score, DECIMALS))
+        ];
+      })
+  );
 }
