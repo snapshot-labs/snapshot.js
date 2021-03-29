@@ -273,5 +273,25 @@
     "rpc": ["https://rpc.rupx.io"],
     "ws": ["wss://ws.rupx.io"],
     "explorer": "http://scan.rupx.io"  
+  },
+  "1666600000": {
+    "key": "1666600000",
+    "name": "Harmony Mainnet",
+    "shortName": "HarmonyMainnet",
+    "chainId": 1666600000,
+    "network": "mainnet",
+    "rpc": ["https://a.api.s0.t.hmny.io"],
+    "ws": ["wss://ws.s0.t.hmny.io"],
+    "explorer": "https://explorer.harmony.one"
+  },
+  "1666700000": {
+    "key": "1666700000",
+    "name": "Harmony Testnet",
+    "shortName": "HarmonyTestnet",
+    "chainId": 1666700000,
+    "network": "testnet",
+    "rpc": ["https://api.s0.b.hmny.io"],
+    "ws": ["wss://ws.s0.b.hmny.io"],
+    "explorer": "https://explorer.pops.one"
   }
 }
