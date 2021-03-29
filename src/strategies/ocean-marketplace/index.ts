@@ -2,7 +2,7 @@ import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 import { formatUnits, parseUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
-import { verifyResults } from './oceanUtils';
+import { verifyResultsLength, verifyResults } from './oceanUtils';
 
 export const author = 'w1kke';
 export const version = '0.1.0';
@@ -45,6 +45,7 @@ export async function strategy(
   options,
   snapshot
 ) {
+
   const params = {
     pools: {
       __args: {
@@ -70,18 +71,21 @@ export async function strategy(
       }
     }
   };
+
   if (snapshot !== 'latest') {
     // @ts-ignore
     params.pools.__args.block = { number: +snapshot };
   }
 
-  const result = await subgraphRequest(OCEAN_SUBGRAPH_URL[network], params);
+  // Retrieve the top 1000 pools
+  const graphResults = await subgraphRequest(OCEAN_SUBGRAPH_URL[network], params);
 
+  // Get total votes, for ALL addresses, inside top 1000 pools, with a minimum of 0.0001 shares
   const score = {};
   const userAddresses: string[] = [];
   const return_score = {};
-  if (result && result.pools) {
-    result.pools.forEach((pool) => {
+  if (graphResults && graphResults.pools) {
+    graphResults.pools.forEach((pool) => {
       if (pool.holderCount > 0 && pool.active) {
         pool.shares.map((share) => {
           const userAddress = getAddress(share.userAddress.id);
@@ -99,27 +103,40 @@ export async function strategy(
       }
     });
 
+    // We then sum total votes, per user address
     userAddresses.forEach((address) => {
       let parsedSum = parseFloat(formatUnits(score[address], OCEAN_ERC20_DECIMALS));
       return_score[address] = parsedSum;
     });
   }
 
-  // From graphUtils.ts => verifyResults => Scores need to match expectedResults.
-  // expectedResults should reflect broad token distributions @ blockHeight
+  // We then filter only the addresses expected
+  const results = Object.fromEntries(Object.entries(return_score).filter(
+    ([k,v]) => addresses.indexOf(k) >= 0
+  ));
+
+  // Test validation: Update examples.json w/ expectedResults to reflect LPs @ blockHeight
+  // Success criteria: Address scores and length, must match expectedResults. Order not validated.
+  // From GRT's graphUtils.ts => verifyResults => Scores need to match expectedResults.
   // npm run test --strategy=ocean-marketplace | grep -E 'SUCCESS|ERROR'
   if (options.expectedResults) {
-    let results = {}
+    let expectedResults = {}
     Object.keys(options.expectedResults.scores).forEach(function(key) {
-      results[key] = return_score[key];
+      expectedResults[key] = results[key];
     });
 
     verifyResults(
-      JSON.stringify(results),
+      JSON.stringify(expectedResults),
       JSON.stringify(options.expectedResults.scores),
+      'Scores'
+    );
+
+    verifyResultsLength(
+      Object.keys(expectedResults).length,
+      Object.keys(options.expectedResults.scores).length,
       'Scores'
     );
   }
 
-  return return_score || {};
+  return results || {};
 }
