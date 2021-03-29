@@ -1,3 +1,4 @@
+import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 
 export const author = 'fragosti';
@@ -48,7 +49,7 @@ export async function strategy(
           balance.token.registry.id === options.address.toLowerCase();
         return isRightAddress;
       });
-      acc[val.id] = relevantTokenBalances.reduce(
+      acc[getAddress(val.id)] = relevantTokenBalances.reduce(
         (acc, val) => acc + parseInt(val.value, 10),
         0
       );

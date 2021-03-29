@@ -9,8 +9,8 @@
     },
     "network": "1",
     "addresses": [
-      "0x4baf2ad9e92d547f428895e12ab8a6f195c6f058",
-      "0x34a745008a643eebc58920eaa29fb1165b4a288e",
+      "0x4bAF2ad9e92d547F428895e12Ab8A6f195C6f058",
+      "0x34a745008a643EebC58920eaa29Fb1165b4A288E",
       "0xcc5Ddc8CCD5B1E90Bc42F998ec864Ead0090A12B",
       "0x000000000000000000000000000000000000dead"
     ],
