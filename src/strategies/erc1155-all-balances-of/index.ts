@@ -13,7 +13,7 @@ export async function strategy(
   _provider,
   addresses,
   options,
-  _snapshot
+  snapshot
 ) {
   const eip1155OwnersParams = {
     accounts: {
@@ -33,6 +33,10 @@ export async function strategy(
       }
     }
   };
+  if (snapshot !== 'latest') {
+    // @ts-ignore
+    eip1155OwnersParams.accounts.__args.block = { number: snapshot };
+  }
   try {
     const result = await subgraphRequest(
       SUBGRAPH_URL[network],
