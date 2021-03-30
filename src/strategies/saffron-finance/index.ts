@@ -71,7 +71,7 @@ const chunk = (arr, size) =>
     arr.slice(i * size, i * size + size)
   );
 
-function dexLpToken(lpTypes:any[], lpName:string): string {
+function dexLpToken(lpTypes: any[], lpName: string): string {
   const found = lpTypes.find(e => e.name === lpName);
   if (found === undefined) return "";
   return found.lpToken;
@@ -129,23 +129,23 @@ export async function strategy(
   // ================== One to One Voting Power ==================
   let oneToOneData = new Array();
   for (let i = 0; i < options.oneToOne.length; i++) {
-      let oto = options.oneToOne[i];
-      let otoRecord = {
-        label: oto.label,
-        tokenAddress: oto.tokenAddress,
-        otoQuery: addresses.map((address: any) => [
-          oto.tokenAddress,
-          'balanceOf',
-          [address]
-        ]),
-        otoResponses: new Array(),
-        votingScores: new Array()
-      };
-      otoRecord.otoResponses = await multicall(network, provider, abi, otoRecord.otoQuery,  {blockTag});
-      otoRecord.votingScores = addresses.map((address: any, index: number) => {
-        return { address: address, score: otoRecord.otoResponses[index][0] }
-      });
-      oneToOneData.push(otoRecord);
+    let oto = options.oneToOne[i];
+    let otoRecord = {
+      label: oto.label,
+      tokenAddress: oto.tokenAddress,
+      otoQuery: addresses.map((address: any) => [
+        oto.tokenAddress,
+        'balanceOf',
+        [address]
+      ]),
+      otoResponses: new Array(),
+      votingScores: new Array()
+    };
+    otoRecord.otoResponses = await multicall(network, provider, abi, otoRecord.otoQuery, {blockTag});
+    otoRecord.votingScores = addresses.map((address: any, index: number) => {
+      return {address: address, score: otoRecord.otoResponses[index][0]}
+    });
+    oneToOneData.push(otoRecord);
   }
 
   // =============== Boosted with Multiplier Voting Power ================
@@ -175,8 +175,8 @@ export async function strategy(
       tokenRecord.queries.push(queries);
       let response = await multicall(network, provider, abi, queries, {blockTag});
       tokenRecord.boostResponses.push(response);
-      tokenRecord.votingScores = addresses.map((address:any, index:number) => {
-        return { address: address, score: response[index][0].mul(voteBoost1000).div(voteBoostDiv)  };
+      tokenRecord.votingScores = addresses.map((address: any, index: number) => {
+        return {address: address, score: response[index][0].mul(voteBoost1000).div(voteBoostDiv)};
       });
       boostRecord.tokens.push(tokenRecord);
     }
@@ -216,7 +216,7 @@ export async function strategy(
         let calculatedScore = response[index][0]
           .mul(dexReserveData.find(e => e.name === tokenRecord.dexLpType).saffLpToSFI_E18)
           .div(BIG18);
-        return { address: address, score: calculatedScore.mul(voteMult1000).div(voteDiv1000) };
+        return {address: address, score: calculatedScore.mul(voteMult1000).div(voteDiv1000)};
       });
       dexReserveRecord.tokens.push(tokenRecord);
     }
@@ -264,15 +264,15 @@ export async function strategy(
     });
 
     // Return single record { address, score } where score should have exponent of 18
-    return { address: address, score: total }
+    return {address: address, score: total}
   });
 
   return Object.fromEntries(
     addressVotingScore.map((addressVote) => {
-        return [
-          addressVote.address,
-          parseFloat(formatUnits(addressVote.score, DECIMALS))
-        ];
-      })
+      return [
+        addressVote.address,
+        parseFloat(formatUnits(addressVote.score, DECIMALS))
+      ];
+    })
   );
 }
