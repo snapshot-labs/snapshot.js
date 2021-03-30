@@ -71,11 +71,17 @@
     "addresses": [
       "0xc8482e19c3fcd56b499d376ab1aad069442ba0cb",
       "0xa0019248a3e80225c9c552c5796ea890bbbd3ce0",
+      "0x9cbadd5ce7e14742f70414a6dcbd4e7bb8712719",
+      "0xa0019248a3e80225c9c552c5796ea890bbbd3ce0",
       "0xc8c2b727d864cc75199f5118f0943d2087fb543b",
       "0xd51d953b017e6f2fc76446b0e6ba26e271305952",
       "0x86282134ce9fc4ac724b84b93d6d5b41ce59a40d",
-      "0x5cfa9d7ed59d6ba0ea17626ac15f949d005a2239"
+      "0x5cfa9d7ed59d6ba0ea17626ac15f949d005a2239",
+      "0x1c012b03f1c2dea274d2eeeb566b0eeabfe3af1a",
+      "0x49531b794aecf2c823c1426a4c9990c4c45df501",
+      "0x988abfbb8743cc440e7ff7da6d2f4c60e301501f",
+      "0x69e0e2b3d523d3b247d798a49c3fa022a46dd6bd"
     ],
-    "snapshot": 12135288
+    "snapshot": 12143430
   }
 ]
