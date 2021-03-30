@@ -59,13 +59,14 @@ export async function strategy(
       oceanReserve: true,
       shares: {
         __args: {
-          first: 1000,
+          where: {
+            userAddress_in: addresses.map((address) => address.toLowerCase())
+          },
           orderBy: 'balance',
           orderDirection: 'desc'
         },
         userAddress: {
-          id: true,
-          tokensOwned: true
+          id: true
         },
         balance: true
       }
