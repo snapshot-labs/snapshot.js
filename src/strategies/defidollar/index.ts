@@ -97,6 +97,15 @@ const abi = [
     payable: false,
     stateMutability: 'view',
     type: 'function'
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'getPricePerFullShare',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
   }
 ];
 
@@ -112,19 +121,24 @@ export async function strategy(
 
   const queries: any[] = [];
 
-  addresses.forEach((voter) => {
+  addresses.forEach(voter => {
     queries.push([options.farms.curve.farm, 'claimable_reward', [voter]]);
   });
 
-  addresses.forEach((voter) => {
+  addresses.forEach(voter => {
     queries.push([options.farms.curve.farm, 'claimed_rewards_for', [voter]]);
   });
 
-  addresses.forEach((voter) => {
+  addresses.forEach(voter => {
     queries.push([options.farms.sushiEthDusd.farm, 'earned', [voter]]);
   });
 
-  const farms = Object.keys(options.farms).slice(2); // exclude curve and sushiEthDusd
+  addresses.forEach(voter => {
+    queries.push([options.farms.ibDFD.address, 'balanceOf', [voter]]);
+  });
+  queries.push([options.farms.ibDFD.address, 'getPricePerFullShare']);
+
+  const farms = Object.keys(options.farms).slice(3);
   for (let i = 0; i < farms.length; i++) {
     const { farm, lpToken } = options.farms[farms[i]];
     queries.push([options.DFD, 'balanceOf', [lpToken]]);
@@ -142,15 +156,20 @@ export async function strategy(
   const n = addresses.length;
 
   const dfdEarned = response.slice(0, n)
-  const dfdClaimed = response.slice(n, 2 * n)
-  const sushiEthDusdEarned = response.slice(2 * n, 3 * n)
-  response = response.slice(3 * n);
+  const dfdClaimed = response.slice(n, 2*n)
+  const sushiEthDusdEarned = response.slice(2*n, 3*n)
+  const ppfs = response[4*n]
+  const ibDFD = response.slice(3*n, 4*n).map(r => r.mul(ppfs))
+  response = response.slice(4*n + 1);
 
   return Object.fromEntries(
     Array(addresses.length)
       .fill('x')
       .map((_, i) => {
-        let score = dfdEarned[i].sub(dfdClaimed[i]).add(sushiEthDusdEarned[i]);
+        let score = dfdEarned[i]
+          .sub(dfdClaimed[i])
+          .add(sushiEthDusdEarned[i])
+          .add(ibDFD[i]);
         while (response.length) {
           const res = response.slice(0, 2 + 3 * n) // 2 + 3n queries for each farm
           response = response.slice(2 + 3 * n);

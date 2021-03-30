@@ -12,6 +12,9 @@
                     "sushiEthDusd": {
                         "farm": "0x47744b96f799a61874a3cd73b394b7feaa6c3e19"
                     },
+                    "ibDFD": {
+                        "address": "0xde157688a36ac94b6e5f52e99c196f79ac71cea3"
+                    },
                     "balDfdDusd": {
                         "farm": "0xf068236ecad5fabb9883bbb26a6445d6c7c9a924",
                         "lpToken": "0xd8e9690eff99e21a2de25e0b148ffaf47f47c972"
