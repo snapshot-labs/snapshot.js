@@ -65,6 +65,7 @@ import { strategy as xcover } from './xcover';
 import { strategy as niuStaked } from './niu-staked';
 import { strategy as mushrooms } from './mushrooms';
 import { strategy as curioCardsErc20Weighted } from './curio-cards-erc20-weighted';
+import { strategy as renNodes } from './ren-nodes';
 import { strategy as multisigOwners } from './multisig-owners';
 import { strategy as pepemon } from './pepemon';
 import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
@@ -137,6 +138,7 @@ export default {
   'niu-staked': niuStaked,
   mushrooms: mushrooms,
   'curio-cards-erc20-weighted': curioCardsErc20Weighted,
+  'ren-nodes': renNodes,
   'multisig-owners': multisigOwners,
   pepemon,
   'erc1155-all-balances-of': erc1155AllBalancesOf
