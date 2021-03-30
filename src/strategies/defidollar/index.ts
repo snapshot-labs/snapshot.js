@@ -121,19 +121,19 @@ export async function strategy(
 
   const queries: any[] = [];
 
-  addresses.forEach(voter => {
+  addresses.forEach((voter) => {
     queries.push([options.farms.curve.farm, 'claimable_reward', [voter]]);
   });
 
-  addresses.forEach(voter => {
+  addresses.forEach((voter) => {
     queries.push([options.farms.curve.farm, 'claimed_rewards_for', [voter]]);
   });
 
-  addresses.forEach(voter => {
+  addresses.forEach((voter) => {
     queries.push([options.farms.sushiEthDusd.farm, 'earned', [voter]]);
   });
 
-  addresses.forEach(voter => {
+  addresses.forEach((voter) => {
     queries.push([options.farms.ibDFD.address, 'balanceOf', [voter]]);
   });
   queries.push([options.farms.ibDFD.address, 'getPricePerFullShare']);
@@ -151,16 +151,16 @@ export async function strategy(
   }
 
   let response = await multicall(network, provider, abi, queries, { blockTag });
-  response = response.map(r => r[0]);
+  response = response.map((r) => r[0]);
 
   const n = addresses.length;
 
-  const dfdEarned = response.slice(0, n)
-  const dfdClaimed = response.slice(n, 2*n)
-  const sushiEthDusdEarned = response.slice(2*n, 3*n)
-  const ppfs = response[4*n]
-  const ibDFD = response.slice(3*n, 4*n).map(r => r.mul(ppfs))
-  response = response.slice(4*n + 1);
+  const dfdEarned = response.slice(0, n);
+  const dfdClaimed = response.slice(n, 2 * n);
+  const sushiEthDusdEarned = response.slice(2 * n, 3 * n);
+  const ppfs = response[4 * n];
+  const ibDFD = response.slice(3 * n, 4 * n).map((r) => r.mul(ppfs));
+  response = response.slice(4 * n + 1);
 
   return Object.fromEntries(
     Array(addresses.length)
@@ -171,7 +171,7 @@ export async function strategy(
           .add(sushiEthDusdEarned[i])
           .add(ibDFD[i]);
         while (response.length) {
-          const res = response.slice(0, 2 + 3 * n) // 2 + 3n queries for each farm
+          const res = response.slice(0, 2 + 3 * n); // 2 + 3n queries for each farm
           response = response.slice(2 + 3 * n);
           /*
             lpTokenBalance = farm.balanceOf(user) + lpToken.balanceOf(user)
