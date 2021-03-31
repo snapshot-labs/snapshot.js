@@ -73,8 +73,8 @@ export async function strategy(
   }
   return Object.fromEntries(
     Object.entries(result).map(([address]: any) => {
-      const user = users.find(
-        (item) => item.address.toLowerCase() === address.toLowerCase()
+      const user: any = users.find(
+        (item: any) => item.address.toLowerCase() === address.toLowerCase()
       );
       let balance = 0;
       if (user) {
