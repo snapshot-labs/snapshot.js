@@ -1,0 +1,23 @@
+[
+  {
+    "name": "PPBLZ, Uniswap and tokens+LP tokens staked on app ",
+    "strategy": {
+      "name": "pepemon",
+      "params": {
+        "tokenAddress": "0x4D2eE5DAe46C86DA2FF521F7657dad98834f97b8",
+        "uniswapAddress" : "0x9479b62FD1CB36F8FEd1EEBb1Bb373d238d08216",
+        "stakingAddress" : "0xf1F508c7C9f0d1b15a76fbA564eEf2d956220cf7",
+        "symbol": "PPBLZ",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0xE71FbB197BC8fD11090FA657C100d52Dbb407662",
+	  "0x2fe452D036014EEAdb1901C90c5BF227546Da43e",
+	  "0xf653113e4b91aecca73d65e9745cab25bf7b9251",
+	  "0xdaa3d460bfa9a20dc3de7ce4fd967617b25a3a51"
+    ],
+    "snapshot": "latest"
+  }
+]

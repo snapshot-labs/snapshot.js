@@ -1,6 +1,6 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
@@ -23,7 +23,8 @@
     "eth-ens-namehash": "^2.0.8",
     "ethereumjs-util": "^7.0.7",
     "json-to-graphql-query": "^2.0.0",
-    "lodash.set": "^4.3.2"
+    "lodash.set": "^4.3.2",
+    "lodash.tonumber": "^4.0.3"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -50,7 +51,8 @@
     "dev": "rollup -c -w",
     "test": "node test/index.ts",
     "pretest": "npm run build:cjs",
-    "lint": "prettier 'src/**/*.ts' -w -c"
+    "lint": "prettier 'src/**/*.ts' -w -c",
+    "prepare": "npm run build"
   },
   "files": [
     "dist",
