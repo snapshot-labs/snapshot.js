@@ -5,7 +5,9 @@ export function verifyResultsLength(
 ): void {
   result === expectedResults
     ? console.log(`>>> SUCCESS: ${type} match expected results - length`)
-    : console.error(`>>> ERROR: ${type} do not match expected results - length`);
+    : console.error(
+        `>>> ERROR: ${type} do not match expected results - length`
+      );
 }
 
 export function verifyResults(

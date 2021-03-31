@@ -40,9 +40,11 @@ async function getUsers(addresses, snapshot, userType) {
 }
 
 const getXdaiBlockNumber = async (timestamp: number): Promise<number> =>
-    fetch(`https://blockscout.com/xdai/mainnet/api?module=block&action=getblocknobytime&timestamp=${timestamp}&closest=before`)
-      .then((r) => r.json())
-      .then((r) => Number(r.result.blockNumber));
+  fetch(
+    `https://blockscout.com/xdai/mainnet/api?module=block&action=getblocknobytime&timestamp=${timestamp}&closest=before`
+  )
+    .then((r) => r.json())
+    .then((r) => Number(r.result.blockNumber));
 
 export async function strategy(
   space,
@@ -57,7 +59,11 @@ export async function strategy(
     const { timestamp } = await provider.getBlock(snapshot);
     xdaiSnapshot = await getXdaiBlockNumber(timestamp);
   }
-  const users = await getUsers(addresses, Number(xdaiSnapshot), options.userType);
+  const users = await getUsers(
+    addresses,
+    Number(xdaiSnapshot),
+    options.userType
+  );
   const result = {};
   addresses.forEach((address) => {
     result[address] = 0;
