@@ -45,7 +45,6 @@ export async function strategy(
   options,
   snapshot
 ) {
-
   const params = {
     pools: {
       __args: {
@@ -79,7 +78,10 @@ export async function strategy(
   }
 
   // Retrieve the top 1000 pools
-  const graphResults = await subgraphRequest(OCEAN_SUBGRAPH_URL[network], params);
+  const graphResults = await subgraphRequest(
+    OCEAN_SUBGRAPH_URL[network],
+    params
+  );
 
   // Get total votes, for ALL addresses, inside top 1000 pools, with a minimum of 0.0001 shares
   const score = {};
@@ -106,23 +108,25 @@ export async function strategy(
 
     // We then sum total votes, per user address
     userAddresses.forEach((address) => {
-      let parsedSum = parseFloat(formatUnits(score[address], OCEAN_ERC20_DECIMALS));
+      let parsedSum = parseFloat(
+        formatUnits(score[address], OCEAN_ERC20_DECIMALS)
+      );
       return_score[address] = parsedSum;
     });
   }
 
   // We then filter only the addresses expected
-  const results = Object.fromEntries(Object.entries(return_score).filter(
-    ([k,v]) => addresses.indexOf(k) >= 0
-  ));
+  const results = Object.fromEntries(
+    Object.entries(return_score).filter(([k, v]) => addresses.indexOf(k) >= 0)
+  );
 
   // Test validation: Update examples.json w/ expectedResults to reflect LPs @ blockHeight
   // Success criteria: Address scores and length, must match expectedResults. Order not validated.
   // From GRT's graphUtils.ts => verifyResults => Scores need to match expectedResults.
   // npm run test --strategy=ocean-marketplace | grep -E 'SUCCESS|ERROR'
   if (options.expectedResults) {
-    let expectedResults = {}
-    Object.keys(options.expectedResults.scores).forEach(function(key) {
+    let expectedResults = {};
+    Object.keys(options.expectedResults.scores).forEach(function (key) {
       expectedResults[key] = results[key];
     });
 

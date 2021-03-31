@@ -16,7 +16,7 @@ export async function strategy(
     network,
     provider,
     addresses,
-    { ...options, userType: 'stakers' },
+    { ...options, userType: 'holders' },
     snapshot
   );
 }

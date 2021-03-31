@@ -31,6 +31,7 @@ import { strategy as erc20Received } from './erc20-received';
 import { strategy as ethPhilanthropy } from './eth-philanthropy';
 import { strategy as xDaiEasyStaking } from './xdai-easy-staking';
 import { strategy as xDaiPOSDAOStaking } from './xdai-posdao-staking';
+import { strategy as xDaiStakeHolders } from './xdai-stake-holders';
 import { strategy as xDaiStakeDelegation } from './xdai-stake-delegation';
 import { strategy as defidollar } from './defidollar';
 import { strategy as aavegotchi } from './aavegotchi';
@@ -108,6 +109,7 @@ export default {
   piedao,
   'xdai-easy-staking': xDaiEasyStaking,
   'xdai-posdao-staking': xDaiPOSDAOStaking,
+  'xdai-stake-holders': xDaiStakeHolders,
   'xdai-stake-delegation': xDaiStakeDelegation,
   defidollar,
   aavegotchi,
