@@ -1,8 +1,8 @@
 [
   {
-    "name": "Stakers on xDai (from POSDAO staking)",
+    "name": "STAKE token holders on xDai",
     "strategy": {
-      "name": "xdai-posdao-staking"
+      "name": "xdai-stake-holders"
     },
     "network": "1",
     "addresses": [
