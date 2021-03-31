@@ -15,6 +15,21 @@
         "private": {
           "type": "boolean"
         },
+        "about": {
+          "type": "string",
+          "title": "about",
+          "maxLength": 160
+        },
+        "twitter": {
+          "type": "string",
+          "title": "twitter",
+          "maxLength": 39
+        },
+        "github": {
+          "type": "string",
+          "title": "github",
+          "maxLength": 39
+        },
         "network": {
           "type": "string",
           "title": "network",
