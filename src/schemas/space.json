@@ -20,6 +20,16 @@
           "title": "about",
           "maxLength": 160
         },
+        "location": {
+          "type": "string",
+          "title": "location",
+          "maxLength": 24
+        },
+        "website": {
+          "type": "string",
+          "title": "website",
+          "maxLength": 128
+        },
         "twitter": {
           "type": "string",
           "title": "twitter",
@@ -29,6 +39,11 @@
           "type": "string",
           "title": "github",
           "maxLength": 39
+        },
+        "email": {
+          "type": "string",
+          "title": "email",
+          "maxLength": 32
         },
         "network": {
           "type": "string",
