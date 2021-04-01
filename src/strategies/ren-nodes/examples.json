@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Example query for ren-nodes on Mainnet",
+    "strategy": {
+      "name": "ren-nodes",
+      "params": {}
+    },
+    "network": "1",
+    "addresses": [
+      "0x6f911B394745979667C2d2b2d1aB4588d93353a2",
+      "0x89aa6d95FA5345B81F4A2FD627117A6d3694300a",
+      "0xFA79618B49db3d4f7c5184D238d13EED7276219b",
+      "0xCd7e8A1018F9B9f773f2c2faDD44F54Ca0D94cE3",
+      "0x7f1D49272843186A125d7661e8140d612beC1889",
+      "0xa032EC8f225d572d14DCba06b20c748a3A0A0cCc",
+      "0x613FC06a5802a13CdAbC6B5E98dd01C5680c8Cce",
+      "0xdC27DB9B1bAeb85D7f53a98ea106f5C12c2cd286",
+      "0xD91B0C425B80103DfB174b2aB4c76Aa784cB5109",
+      "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+    ],
+    "snapshot": 12094900
+  },
+  {
+    "name": "Example query for ren-nodes on Kovan",
+    "strategy": {
+      "name": "ren-nodes",
+      "params": {}
+    },
+    "network": "42",
+    "addresses": [
+      "0x8eDF844Ae6BDBf6C1DF929D7d9E98743472142ac",
+      "0x797522Fb74d42bB9fbF6b76dEa24D01A538d5D66",
+      "0xD5B5b26521665Cb37623DCA0E49c553b41dbF076",
+      "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+    ],
+    "snapshot": 24028500
+  }
+]

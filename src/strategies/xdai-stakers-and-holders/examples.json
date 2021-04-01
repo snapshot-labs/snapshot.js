@@ -1,0 +1,16 @@
+[
+  {
+    "name": "STAKE token stakers and holders on xDai",
+    "strategy": {
+      "name": "xdai-stakers-and-holders"
+    },
+    "network": "1",
+    "addresses": [
+      "0x24d19f100ba142543a863fc2294b188e35ab55b9",
+      "0x29cf39de6d963d092c177a60ce67879eea9910bb",
+      "0x71FBE58b64f14854cF5A3645a67a72d10A09CaE4",
+      "0x7ACEe696E2165e33c578d8956cbCf575e5d631d1"
+    ],
+    "snapshot": 12140940
+  }
+]
