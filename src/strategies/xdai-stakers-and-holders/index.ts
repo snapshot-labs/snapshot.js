@@ -59,11 +59,7 @@ export async function strategy(
     const { timestamp } = await provider.getBlock(snapshot);
     xdaiSnapshot = await getXdaiBlockNumber(timestamp);
   }
-  const users = await getUsers(
-    addresses,
-    Number(xdaiSnapshot),
-    options.userType
-  );
+  const users = await getUsers(addresses, xdaiSnapshot, options.userType);
   const result = {};
   addresses.forEach((address) => {
     result[address] = 0;
