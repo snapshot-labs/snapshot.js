@@ -15,6 +15,38 @@
         "private": {
           "type": "boolean"
         },
+        "about": {
+          "type": "string",
+          "title": "about",
+          "maxLength": 160
+        },
+        "location": {
+          "type": "string",
+          "title": "location",
+          "maxLength": 24
+        },
+        "website": {
+          "type": "string",
+          "title": "website",
+          "maxLength": 128
+        },
+        "twitter": {
+          "type": "string",
+          "title": "twitter",
+          "pattern": "^[A-Za-z0-9_]*$",
+          "maxLength": 15
+        },
+        "github": {
+          "type": "string",
+          "title": "github",
+          "pattern": "^[A-Za-z0-9_]*$",
+          "maxLength": 39
+        },
+        "email": {
+          "type": "string",
+          "title": "email",
+          "maxLength": 32
+        },
         "network": {
           "type": "string",
           "title": "network",
