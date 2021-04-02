@@ -6,6 +6,7 @@
   "main": "dist/snapshot.cjs.js",
   "module": "dist/snapshot.esm.js",
   "browser": "dist/snapshot.min.js",
+  "types": "dist/index.d.ts",
   "dependencies": {
     "@ensdomains/content-hash": "^2.5.3",
     "@ethersproject/abi": "^5.0.4",
