@@ -9,17 +9,19 @@
                     "curve": {
                         "farm": "0xAEA6c312f4b3E04D752946d329693F7293bC2e6D"
                     },
+                    "sushiEthDusd": {
+                        "farm": "0x47744b96f799a61874a3cd73b394b7feaa6c3e19"
+                    },
+                    "ibDFD": {
+                        "address": "0xde157688a36ac94b6e5f52e99c196f79ac71cea3"
+                    },
                     "balDfdDusd": {
                         "farm": "0xf068236ecad5fabb9883bbb26a6445d6c7c9a924",
                         "lpToken": "0xd8e9690eff99e21a2de25e0b148ffaf47f47c972"
                     },
-                    "uniDfdDusd": {
-                        "farm": "0x73d2307802EeAb30b009ec19141b2E22968B6c84",
-                        "lpToken": "0x28bc65cf4b7ebc38da915b672182c5c0ca04d5d4"
-                    },
-                    "uniDfdEth": {
-                        "farm": "0x303c3276F0F66B55703d475c8cf3509Ecd76a4ad",
-                        "lpToken": "0xac8833b0da01b8f2ca53f549f13b5790066a842d"
+                    "sushiDfdEth": {
+                        "farm": "0x81b53a22d51d6769093bec1158f134fc6b114f4b",
+                        "lpToken": "0xb12aa722a3a4566645f079b6f10c89a3205b6c2c"
                     }
                 }
             }
