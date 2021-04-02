@@ -144,6 +144,6 @@ export default {
   'ren-nodes': renNodes,
   'multisig-owners': multisigOwners,
   pepemon,
-  'erc1155-all-balances-of': erc1155AllBalancesOf
+  'erc1155-all-balances-of': erc1155AllBalancesOf,
   'saffron-finance': saffronFinance
 };
