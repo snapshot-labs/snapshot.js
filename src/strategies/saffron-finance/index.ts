@@ -66,11 +66,6 @@ const abi = [
   },
 ];
 
-const chunk = (arr, size) =>
-  Array.from({length: Math.ceil(arr.length / size)}, (v, i) =>
-    arr.slice(i * size, i * size + size)
-  );
-
 function dexLpToken(lpTypes: any[], lpName: string): string {
   const found = lpTypes.find(e => e.name === lpName);
   if (found === undefined) return "";
@@ -223,11 +218,6 @@ export async function strategy(
 
     dexLpData.push(dexReserveRecord)
   }
-
-  // ============== A Tranche Voting Power ===============
-  // TODO: Implement counting staked SFI in all A Tranches
-  //
-  // =====================================================
 
   // ================ Sum up everything =================
   let addressVotingScore = addresses.map((address: any, index: number) => {
