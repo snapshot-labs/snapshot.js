@@ -1,6 +1,7 @@
 import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 import { strategy as xdaiEasyStakingStrategy } from '../xdai-easy-staking';
 import { strategy as xdaiPOSDAOStakingStrategy } from '../xdai-posdao-staking';
+import { strategy as xdaiStakeHoldersStrategy } from '../xdai-stake-holders';
 import { getDelegations } from '../../plugins/delegation/utils';
 
 export const author = 'maxaleks';
@@ -52,9 +53,18 @@ export async function strategy(
     options,
     snapshot
   );
+  const erc20BalancesOnXdai = await xdaiStakeHoldersStrategy(
+    space,
+    network,
+    provider,
+    delegationsArray,
+    options,
+    snapshot
+  );
   console.debug('Delegators ERC20 balances', erc20Balances);
   console.debug('Delegators EasyStaking balances', easyStakingBalances);
   console.debug('Delegators POSDAO Staking balances', posdaoStakingBalances);
+  console.debug('Delegators ERC20 balances on xDai', erc20BalancesOnXdai);
 
   return Object.fromEntries(
     addresses.map((address) => {
@@ -64,7 +74,8 @@ export async function strategy(
               a +
               erc20Balances[b] +
               easyStakingBalances[b] +
-              posdaoStakingBalances[b],
+              posdaoStakingBalances[b] +
+              erc20BalancesOnXdai[b],
             0
           )
         : 0;
