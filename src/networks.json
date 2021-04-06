@@ -293,5 +293,14 @@
     "rpc": ["https://api.s0.b.hmny.io"],
     "ws": ["wss://ws.s0.b.hmny.io"],
     "explorer": "https://explorer.pops.one"
+  } ,
+  "269": {
+    "key": "269",
+    "name": "High Performance Blockchain",
+    "shortName": "HPB",
+    "chainId": 269,
+    "network": "mainnet",
+    "rpc": ["https://hpb.app"],
+    "explorer": "https://hpbscan.org/"
   }
 }
