@@ -2,7 +2,7 @@ import { multicall } from '../../utils';
 import { BigNumber } from '@ethersproject/bignumber';
 
 export const author = 'Jordan Travaux';
-export const version = '0.1.0';
+export const version = '0.1.2';
 
 const _1e18 = "1000000000000000000";
 const staking_v2 = "0x1920d646574E097c2c487F69F40814F95d45bf8C";
@@ -134,7 +134,7 @@ const getSessionIDs = async (network, provider, addresses, snapshot, version = "
   return sessionIDLookup;
 }
 
-const getTotalSharesByAddress = async (network, provider, sessionLookups, version = "v2") => {
+const getTotalSharesByAddress = async (network, provider, sessionLookups, version, options) => {
   let stakingContract = version === "v2" ? staking_v2 : staking_v1
   let abi = version === "v2" ? abi_v2 : abi_v1;
 
@@ -151,16 +151,20 @@ const getTotalSharesByAddress = async (network, provider, sessionLookups, versio
 
   const addressAmounts = {};
   sessionInfo.forEach((si, i) => {
-    const address = sessionLookups[i].address;
-    let amount = si.withdrawn ? BigNumber.from(0) : si.shares;
+    const length = Math.floor((si.end - si.start) / 86400);
+    const minDays = options.days || 365;
+    if (length >= minDays) {
+      const address = sessionLookups[i].address;
+      let amount = si.withdrawn ? BigNumber.from(0) : si.shares;
 
-    if (version === "v1")
-      amount = si.shares.isZero() ? BigNumber.from(0) : si.shares;
+      if (version === "v1")
+        amount = si.shares.isZero() ? BigNumber.from(0) : si.shares;
 
-    if (!addressAmounts[address])
-      addressAmounts[address] = [amount]
-    else
-      addressAmounts[address].push(amount)
+      if (!addressAmounts[address])
+        addressAmounts[address] = [amount]
+      else
+        addressAmounts[address].push(amount)
+    }
   })
 
   const totalAxnByAddress = Object.fromEntries(
@@ -210,7 +214,7 @@ export async function strategy(
     getSessionIDs(network, provider, addresses, snapshot, "v1")
   ])
 
-  const totalSharesByAddressV2 = await getTotalSharesByAddress(network, provider, sessionIDLookupV2, "v2");
+  const totalSharesByAddressV2 = await getTotalSharesByAddress(network, provider, sessionIDLookupV2, "v2", options);
 
   // Remove v2 sessionID's from v1 array
   const fixedV1Sessions = [];
@@ -219,7 +223,7 @@ export async function strategy(
       fixedV1Sessions.push(s)
   })
 
-  const totalSharesByAddressV1 = await getTotalSharesByAddress(network, provider, fixedV1Sessions, "v1")
+  const totalSharesByAddressV1 = await getTotalSharesByAddress(network, provider, fixedV1Sessions, "v1", options)
   const combined = combineV1V2(totalSharesByAddressV1, totalSharesByAddressV2)
 
   // Add up v1 and v2 stakes
