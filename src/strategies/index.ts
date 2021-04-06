@@ -29,7 +29,9 @@ import { strategy as piedao } from './piedao';
 import { strategy as ethReceived } from './eth-received';
 import { strategy as erc20Received } from './erc20-received';
 import { strategy as ethPhilanthropy } from './eth-philanthropy';
-import { strategy as xDaiStake } from './xdai-stake';
+import { strategy as xDaiEasyStaking } from './xdai-easy-staking';
+import { strategy as xDaiPOSDAOStaking } from './xdai-posdao-staking';
+import { strategy as xDaiStakeHolders } from './xdai-stake-holders';
 import { strategy as xDaiStakeDelegation } from './xdai-stake-delegation';
 import { strategy as defidollar } from './defidollar';
 import { strategy as aavegotchi } from './aavegotchi';
@@ -53,11 +55,22 @@ import { strategy as theGraphIndexing } from './the-graph-indexing';
 import { strategy as whitelist } from './whitelist';
 import { strategy as tokenlon } from './tokenlon';
 import { strategy as rebased } from './rebased';
+import { strategy as pobHashCv } from './pob-hash-cv';
 import { strategy as totalAxionShares } from './total-axion-shares';
 import { strategy as erc1155BalanceOf } from './erc1155-balance-of';
 import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
 import { strategy as compLikeVotes } from './comp-like-votes';
 import { strategy as pagination } from './pagination';
+import { strategy as rulerStakedLP } from './ruler-staked-lp';
+import { strategy as xcover } from './xcover';
+import { strategy as niuStaked } from './niu-staked';
+import { strategy as mushrooms } from './mushrooms';
+import { strategy as curioCardsErc20Weighted } from './curio-cards-erc20-weighted';
+import { strategy as renNodes } from './ren-nodes';
+import { strategy as multisigOwners } from './multisig-owners';
+import { strategy as trancheStaking } from './tranche-staking';
+import { strategy as pepemon } from './pepemon';
+import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
 
 export default {
   balancer,
@@ -95,7 +108,9 @@ export default {
   esd,
   'esd-delegation': esdDelegation,
   piedao,
-  'xdai-stake': xDaiStake,
+  'xdai-easy-staking': xDaiEasyStaking,
+  'xdai-posdao-staking': xDaiPOSDAOStaking,
+  'xdai-stake-holders': xDaiStakeHolders,
   'xdai-stake-delegation': xDaiStakeDelegation,
   defidollar,
   aavegotchi,
@@ -117,7 +132,18 @@ export default {
   whitelist,
   tokenlon,
   rebased,
+  'pob-hash-cv': pobHashCv,
   'total-axion-shares': totalAxionShares,
   'comp-like-votes': compLikeVotes,
-  pagination
+  pagination,
+  'ruler-staked-lp': rulerStakedLP,
+  xcover,
+  'niu-staked': niuStaked,
+  mushrooms: mushrooms,
+  'curio-cards-erc20-weighted': curioCardsErc20Weighted,
+  'ren-nodes': renNodes,
+  'multisig-owners': multisigOwners,
+  'tranche-staking': trancheStaking,
+  pepemon,
+  'erc1155-all-balances-of': erc1155AllBalancesOf
 };

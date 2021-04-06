@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Stakers on xDai (from POSDAO staking)",
+    "strategy": {
+      "name": "xdai-posdao-staking"
+    },
+    "network": "1",
+    "addresses": [
+      "0x24d19f100ba142543a863fc2294b188e35ab55b9",
+      "0x29cf39de6d963d092c177a60ce67879eea9910bb",
+      "0x71FBE58b64f14854cF5A3645a67a72d10A09CaE4",
+      "0x7ACEe696E2165e33c578d8956cbCf575e5d631d1",
+      "0x2DdB8A7541e6cAA50F74e7FACFF9Fe9da00e0A6c",
+      "0x481c034c6d9441db23Ea48De68BCAe812C5d39bA",
+      "0x7D32e95f9894f679833edbf91f67211289e8f713",
+      "0x5d2F076261F4f6c0209452c17f6e966C153ED3a7"
+    ],
+    "snapshot": 12140940
+  }
+]
