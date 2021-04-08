@@ -33,13 +33,13 @@
         "twitter": {
           "type": "string",
           "title": "twitter",
-          "pattern": "^[A-Za-z0-9_]*$",
+          "pattern": "^[A-Za-z0-9_-]*$",
           "maxLength": 15
         },
         "github": {
           "type": "string",
           "title": "github",
-          "pattern": "^[A-Za-z0-9_]*$",
+          "pattern": "^[A-Za-z0-9_-]*$",
           "maxLength": 39
         },
         "email": {
