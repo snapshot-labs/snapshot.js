@@ -274,6 +274,15 @@
     "ws": ["wss://ws.rupx.io"],
     "explorer": "http://scan.rupx.io"  
   },
+  "4689": {
+    "key": "4689",
+    "name": "Iotex Mainnet",
+    "shortName": "iotx",
+    "chainId": 4689,
+    "network": "mainnet",
+    "rpc": ["https://babel-mainnet.iotex.io"],
+    "explorer": "https://explorer.iotex.io"
+  },
   "1666600000": {
     "key": "1666600000",
     "name": "Harmony Mainnet",
