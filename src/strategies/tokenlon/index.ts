@@ -118,11 +118,7 @@ export async function strategy(
       ]),
       [options.token, 'balanceOf', [options.xLON]],
       [options.xLON, 'totalSupply', []],
-      ...addresses.map((address: any) => [
-        options.xLON,
-        'balanceOf',
-        [address]
-      ]),
+      ...addresses.map((address: any) => [options.xLON, 'balanceOf', [address]])
     ],
     { blockTag }
   );
