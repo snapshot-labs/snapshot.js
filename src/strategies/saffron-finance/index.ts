@@ -66,8 +66,85 @@ const abi = [
   },
 ];
 
+interface VotingScheme {
+  doAlgorithm(balance: BigNumber): BigNumber;
+}
+
+class DirectBoostScheme implements VotingScheme {
+  private name: string;
+  private multiplier: number;
+
+  constructor(name: string, multiplier) {
+    this.name = name;
+    this.multiplier = multiplier;
+  }
+
+  public doAlgorithm(balance: BigNumber): BigNumber {
+    const voteBoost1000 = BigNumber.from(this.multiplier * 1000);
+    return balance.mul(voteBoost1000).div(VOTE_BOOST_DIV_1000);
+  }
+}
+
+class LPReservePairScheme implements  VotingScheme {
+  private name: string;
+  private multiplier: number;
+  private saffLpToSfi_E18: BigNumber;
+
+  constructor(name: string, multiplier: number, saffLpToSfi_E18: BigNumber) {
+    this.name = name;
+    this.multiplier = multiplier;
+    this.saffLpToSfi_E18 = saffLpToSfi_E18;
+  }
+
+  doAlgorithm(balance: BigNumber): BigNumber {
+    const voteMult1000 = BigNumber.from(this.multiplier * 1000)
+    const calculatedScore = balance
+      .mul(this.saffLpToSfi_E18)
+      .div(BIG18);
+    return calculatedScore.mul(voteMult1000).div(VOTE_BOOST_DIV_1000);
+  }
+}
+
+class VoteScorer {
+  private votingSchemes: Map<string, VotingScheme> = new Map<string, VotingScheme>();
+  private dexReserveData: Array<DexReserveSupply> = new Array<DexReserveSupply>();
+
+  constructor(dexReserveData: Array<DexReserveSupply>) {
+    this.dexReserveData = dexReserveData;
+    this.votingSchemes.set("default", new DirectBoostScheme("default", 1.0));
+  }
+
+  public createVotingScheme(name: string, type: string, multiplier: number) {
+    let votingScheme: VotingScheme = new DirectBoostScheme("no-vote-scheme", 0.0);
+    if (type === "DirectBoostScheme") {
+      votingScheme = new DirectBoostScheme(name, multiplier);
+
+    } else if (type === "LPReservePairScheme") {
+      const lpReservePairData = this.dexReserveData.find(e => e.name === name);
+      if (lpReservePairData === undefined) {
+        throw Error(`Failed to locate token LP Pair data for ${name}.`);
+      }
+      votingScheme = new LPReservePairScheme(name, multiplier, lpReservePairData.saffLpToSFI_E18);
+
+    } else {
+      throw new Error(`Unsupported voting scheme type, ${type}.`);
+    }
+    this.votingSchemes.set(name, votingScheme);
+  }
+
+  public calculateScore(schemeName: string, balance: BigNumber) {
+    const votingScheme = this.votingSchemes.get(schemeName);
+    if (votingScheme === undefined) {
+      throw new Error(`Failed to locate voting scheme, ${schemeName}. Check initialization of votingSchemes.`);
+    }
+    return votingScheme.doAlgorithm(balance);
+  }
+
+}
+
 type Batch = {
   tag: string;
+  votingScheme: string;
   qIdxStart: number;
   qIdxEnd: number;
 }
@@ -78,40 +155,14 @@ type DexReserveSupply = {
   reserveQueryIdx: number;
   reserve: BigNumber;
   supplyQuery: string[];
-  supplyQueryIdx: number,
-  supply: BigNumber,
-  saffLpToSFI_E18: BigNumber
-}
-
-type BoostRecord = {
-  vote: number;
-  tokens: TokenRecord[];
+  supplyQueryIdx: number;
+  supply: BigNumber;
+  saffLpToSFI_E18: BigNumber;
 }
 
 type VotingScore = {
   address: string;
   score: number;
-}
-
-type TokenRecord = {
-  label: string;
-  votingScores: VotingScore[];
-}
-
-type OneToOneRecord = {
-  label: string;
-  tokenAddress: string;
-  votingScores: VotingScore[];
-}
-
-type DexRsvSupplyRecord = {
-
-}
-
-type DexTokenRecord = {
-  label: string;
-  dexLpType: string;
-  votingScores: VotingScore[];
 }
 
 export async function strategy(
@@ -125,11 +176,13 @@ export async function strategy(
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const callQueries: Array<any[]> = new Array<any[]>();
   let callResponses: Array<any> = new Array<any>();
-  const queryBatches: Array<Batch> = new Array<Batch>();
+  const dexLpPairQueryBatches: Array<Batch> = new Array<Batch>();
+  const holdersQueryBatches: Array<Batch> = new Array<Batch>();
+  const votingScores: Array<VotingScore> = new Array<VotingScore>();
   let callQueryIndex = 0;
-  const callIdxStart = 0;
+  let dexLpCallIdxStart = 0;
 
-  // ================ Dex LP Token Reserve and Total Supply ==================
+  // ================ LP Pair Token Reserve and Total Supply ==================
   const dexReserveData = new Array<DexReserveSupply>();
   options.dexLpTypes.forEach(dexToken => {
     const d:DexReserveSupply = {
@@ -148,182 +201,61 @@ export async function strategy(
     d.supplyQueryIdx = callQueryIndex++;
     dexReserveData.push(d);
 
-    const batch = {tag: `${dexToken.name}`, qIdxStart: callIdxStart, qIdxEnd: callQueryIndex};
-    queryBatches.push(batch);
+    const batch: Batch = {tag: `${dexToken.name}`, votingScheme: "", qIdxStart: dexLpCallIdxStart, qIdxEnd: callQueryIndex};
+    dexLpPairQueryBatches.push(batch);
+    dexLpCallIdxStart = callQueryIndex;
   });
 
-  // ================== One to One Voting Power ==================
-  let oneToOneData = new Array<OneToOneRecord>();
-  for (let i = 0; i < options.oneToOne.length; i++) {
-    const oto = options.oneToOne[i];
-    const otoRecord: OneToOneRecord = {
-      label: oto.label,
-      tokenAddress: oto.tokenAddress,
-      votingScores: new Array<VotingScore>()
-    };
-    const queries = addresses.map((address: any) => [
-      oto.tokenAddress,
-      'balanceOf',
-      [address]
-    ]);
-    let queriesLength = callQueries.push(...queries);
-    const batch = {tag: oto.label, qIdxStart: callQueryIndex, qIdxEnd: queriesLength};
+  // ============= Multicall queries ==============
+  options.contracts.forEach(contract => {
+    const queries = addresses.map((address: any) => {
+      return [ contract.tokenAddress, 'balanceOf', [address] ];
+    });
+    const queriesLength = callQueries.push(...queries);
+    const batch = {tag: contract.label, votingScheme: contract.votingScheme, qIdxStart: callQueryIndex, qIdxEnd: queriesLength};
     callQueryIndex = queriesLength;
-    queryBatches.push(batch);
-    oneToOneData.push(otoRecord);
-  }
-
-  // =============== Boosted with Multiplier Voting Power ================
-  const boostMultiData = new Array<BoostRecord>();
-  for (let i = 0; i < options.boostMultiply.length; i++) {
-    const boost = options.boostMultiply[i];
-    const boostRecord = {
-      vote: boost.vote,
-      tokens: new Array<TokenRecord>()
-    };
-
-    for (let j = 0; j < options.boostMultiply[i].tokens.length; j++) {
-      const token = options.boostMultiply[i].tokens[j];
-      const tokenRecord = {
-        label: token.label,
-        votingScores: new Array<VotingScore>()
-      }
-      const queries = addresses.map((address: any) => [
-        token.tokenAddress,
-        "balanceOf",
-        [address]
-      ]);
-      const queriesLength = callQueries.push(...queries);
-      const batch = {tag: tokenRecord.label, qIdxStart: callQueryIndex, qIdxEnd: queriesLength};
-      callQueryIndex = queriesLength;
-      queryBatches.push(batch);
-      boostRecord.tokens.push(tokenRecord);
-    }
-
-    boostMultiData.push(boostRecord);
-  }
-
-  // ============= Dex Reserve LP Token Voting Power ==================
-  const dexLpData = new Array<DexRsvSupplyRecord>();
-  for (let i = 0; i < options.dexReserve.length; i++) {
-    const dexReserve = options.dexReserve[i];
-    const dexReserveRecord = {
-      vote: dexReserve.vote,
-      tokens: new Array<DexTokenRecord>()
-    };
-
-    for (let j = 0; j < options.dexReserve[i].dexLpTokens.length; j++) {
-      const token = options.dexReserve[i].dexLpTokens[j];
-      const tokenRecord = {
-        label: token.label,
-        dexLpType: token.dexLpType,
-        votingScores: new Array<VotingScore>()
-      };
-      const queries = addresses.map((address: any) => [
-        token.tokenAddress,
-        "balanceOf",
-        [address]
-      ]);
-      const queriesLength = callQueries.push(...queries);
-      const batch = {tag: tokenRecord.label, qIdxStart: callQueryIndex, qIdxEnd: queriesLength};
-      callQueryIndex = queriesLength;
-      queryBatches.push(batch);
-      dexReserveRecord.tokens.push(tokenRecord);
-    }
-
-    dexLpData.push(dexReserveRecord)
-  }
+    holdersQueryBatches.push(batch);
+  });
 
   // Run queries
   callResponses = await multicall(network, provider, abi, callQueries, {blockTag});
 
-  // Extract and processes query responses
+  // ========== Extract and process query responses ==========
   dexReserveData.forEach(drd => {
     drd.reserve = callResponses[drd.reserveQueryIdx][0];
     drd.supply = callResponses[drd.supplyQueryIdx][0];
     drd.saffLpToSFI_E18 = drd.reserve.mul(BIG18).div(drd.supply);
   });
 
-  oneToOneData.forEach(otoRecord => {
-    let batch = queryBatches.find(e => e.tag === otoRecord.label);
+
+  // ========== Build the voting schemes and calculate indiviudal scores ============
+  const voteScorer: VoteScorer = new VoteScorer(dexReserveData);
+  options.votingSchemes.forEach(scheme => {
+    voteScorer.createVotingScheme(scheme.name, scheme.type, scheme.multiplier);
+  });
+
+  options.contracts.forEach(contract => {
+    const batch = holdersQueryBatches.find(e => e.tag === contract.label);
     if (batch === undefined) {
-      throw Error(`oneToOneData batch must have tag of ${otoRecord.label}`);
+      throw new Error(`Failed to locate tag, ${contract.label}, in queryBatches.`);
     }
     let idxStart = batch.qIdxStart;
-    otoRecord.votingScores = addresses.map((address: any, index: number) => {
-      return {address: address, score: callResponses[idxStart+index][0]}
+    const batchScores = addresses.map((address: any, index: number) => {
+      return {address: address, score: voteScorer.calculateScore(contract.votingScheme, callResponses[idxStart+index][0])};
     });
+    votingScores.push(...batchScores);
   });
-
-  boostMultiData.forEach((boost: any) => {
-    const voteBoost1000 = BigNumber.from(boost.vote * 1000);
-
-    boost.tokens.forEach((tokenRecord: any) => {
-      let batch = queryBatches.find(e => e.tag === tokenRecord.label);
-      if (batch === undefined) {
-        throw Error(`boostMultiData batch must have tag of ${tokenRecord.label}`);
-      }
-      let idxStart = batch.qIdxStart;
-      tokenRecord.votingScores = addresses.map((address: any, index: number) => {
-        return {address: address, score: callResponses[idxStart+index][0].mul(voteBoost1000).div(VOTE_BOOST_DIV_1000)};
-      });
-    });
-  });
-
-  dexLpData.forEach((dexReserveRecord: any) => {
-    let voteMult1000 = BigNumber.from(dexReserveRecord.vote * 1000);
-    dexReserveRecord.tokens.forEach((tokenRecord: any) => {
-      let batch = queryBatches.find(e => e.tag === tokenRecord.label);
-      if (batch === undefined) {
-        throw Error(`boostMultiData batch must have tag of ${tokenRecord.label}`);
-      }
-      let idxStart = batch.qIdxStart;
-      tokenRecord.votingScores = addresses.map((address: any, index: number) => {
-        const dexData = dexReserveData.find(e => e.name === tokenRecord.dexLpType);
-        if (dexData === undefined) {
-          throw Error(`Failed to locate token LP data for ${tokenRecord.dexLpType}.`);
-        }
-        const calculatedScore = callResponses[idxStart+index][0]
-          .mul(dexData.saffLpToSFI_E18)
-          .div(BIG18);
-        return {address: address, score: calculatedScore.mul(voteMult1000).div(VOTE_BOOST_DIV_1000)};
-      });
-    });
-  });
-
 
   // ================ Sum up everything =================
   let addressVotingScore = addresses.map((address: any, index: number) => {
     let total = BigNumber.from(0);
-    oneToOneData.forEach((otod: any) => {
-      let otoScore = otod.votingScores[index];
-      if (otoScore.address === address) {
-        total = total.add(otoScore.score);
+    holdersQueryBatches.forEach((batch: Batch, index: number) => {
+      let votingScore = votingScores[batch.qIdxStart+index];
+      if (votingScore.address === address) {
+        total = total.add(votingScore.score);
       } else {
-        console.error(`${otod.label} expected address, ${address}, found ${otoScore.address}`);
+        console.error(`${batch.tag} expected address, ${address}, found ${votingScore.address}`);
       }
-    });
-
-    boostMultiData.forEach((boost: any) => {
-      boost.tokens.forEach((tokenRecord: any) => {
-        let boostScore = tokenRecord.votingScores[index];
-        if (boostScore.address === address) {
-          total = total.add(boostScore.score);
-        } else {
-          console.error(`{$tokenRecord.label} expected address, ${address}, found ${boostScore.address}`);
-        }
-      });
-    });
-
-    dexLpData.forEach((dexLp: any) => {
-      dexLp.tokens.forEach((dexLpToken: any) => {
-        let dexLpScore = dexLpToken.votingScores[index];
-        if (dexLpScore.address === address) {
-          total = total.add(dexLpScore.score);
-        } else {
-          console.error(`{$tokenRecord.label} expected address, ${address}, found ${dexLpScore.address}`);
-        }
-      });
     });
 
     // Return single record { address, score } where score should have exponent of 18
