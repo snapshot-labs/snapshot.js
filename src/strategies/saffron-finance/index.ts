@@ -73,13 +73,14 @@ interface VotingScheme {
   doAlgorithm(balance: BigNumber): BigNumber;
 }
 
-// DirectBoostScheme provides logic to apply a muliplier, or boost, to a raw balance value. This gives
+// DirectBoostScheme provides logic to apply a multiplier, or boost, to a raw balance value. This gives
 // Saffron Finance the ability to adjust the voting power a token holder has depending external configuration.
 //
 // name       ... unique string that identifies the instance of the VotingScheme
 // multiplier ... the raw balance value is multiplied by the multiplier such that: score = (multiplier)(balance).
-//                If this value is 1.0, it is equivlant to score = balance.
-//                If this value is less than 0.0, then the token holder's voting power is reduced.
+//                If this value is 1.0, it is equivalent to score = balance.
+//                If this value is less than 1.0 and greater than 0.0, then the token holder's voting power is reduced.
+//                If this value is 0.0, then the token holder has no voting power.
 class DirectBoostScheme implements VotingScheme {
   private name: string;
   private multiplier: number;
@@ -99,9 +100,10 @@ class DirectBoostScheme implements VotingScheme {
 // pair.
 //
 // name            ... unique string that identifies the instance of the VotingScheme
-// multiplier      ... the raw balance value is multiplied by the multiplier such that: score = (multiplier)(balance).
-//                     If this value is 1.0, it is equivlant to score = balance.
-//                     If this value is less than 0.0, then the token holder's voting power is reduced.
+// multiplier ... the raw balance value is multiplied by the multiplier such that: score = (multiplier)(balance).
+//                If this value is 1.0, it is equivalent to score = balance.
+//                If this value is less than 1.0 and greater than 0.0, then the token holder's voting power is reduced.
+//                If this value is 0.0, then the token holder has no voting power.
 // saffLpToSfi_E18 ... Conversion of the Saffron LP Pair Token holding to SFI value with expected value to be in wei.
 class LPReservePairScheme implements VotingScheme {
   private name: string;
@@ -259,7 +261,7 @@ export async function strategy(
   });
 
 
-  // ========== Build the voting schemes and calculate indiviudal scores ============
+  // ========== Build the voting schemes and calculate individual scores ============
   const voteScorer: VoteScorer = new VoteScorer(dexReserveData);
   options.votingSchemes.forEach(scheme => {
     voteScorer.createVotingScheme(scheme.name, scheme.type, scheme.multiplier);
