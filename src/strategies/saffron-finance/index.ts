@@ -8,6 +8,7 @@ export const version = '0.1.0';
 const BIG18 = BigNumber.from('1000000000000000000');
 const VOTE_BOOST_DIV_1000 = BigNumber.from(1000);
 const DECIMALS = 18;
+const QUERIES_PER_DEX_LP_PAIR = 2;
 
 const abi = [
   {
@@ -66,10 +67,19 @@ const abi = [
   },
 ];
 
+// VotingScheme is an interface that provides one method for invoking a concrete implementation of different
+// ways to calculate a score when given a raw balance from a Saffron LP token.
 interface VotingScheme {
   doAlgorithm(balance: BigNumber): BigNumber;
 }
 
+// DirectBoostScheme provides logic to apply a muliplier, or boost, to a raw balance value. This gives
+// Saffron Finance the ability to adjust the voting power a token holder has depending external configuration.
+//
+// name       ... unique string that identifies the instance of the VotingScheme
+// multiplier ... the raw balance value is multiplied by the multiplier such that: score = (multiplier)(balance).
+//                If this value is 1.0, it is equivlant to score = balance.
+//                If this value is less than 0.0, then the token holder's voting power is reduced.
 class DirectBoostScheme implements VotingScheme {
   private name: string;
   private multiplier: number;
@@ -85,6 +95,14 @@ class DirectBoostScheme implements VotingScheme {
   }
 }
 
+// LPReservePairScheme provides logic to apply a voting score to only the SFI side of a Uniswap or Sushiswap LP token
+// pair.
+//
+// name            ... unique string that identifies the instance of the VotingScheme
+// multiplier      ... the raw balance value is multiplied by the multiplier such that: score = (multiplier)(balance).
+//                     If this value is 1.0, it is equivlant to score = balance.
+//                     If this value is less than 0.0, then the token holder's voting power is reduced.
+// saffLpToSfi_E18 ... Conversion of the Saffron LP Pair Token holding to SFI value with expected value to be in wei.
 class LPReservePairScheme implements VotingScheme {
   private name: string;
   private multiplier: number;
@@ -105,6 +123,11 @@ class LPReservePairScheme implements VotingScheme {
   }
 }
 
+// VoteScorer acts as the context to invoke the relevant VotingScheme by way of its calculateScore method.
+// It assumes all VotingScheme's are created by the createVotingScheme method prior to invocation of calculateScore.
+//
+// votingSchemes    ...  A Map that provides keyed access to a VotingScheme instance.
+// dexReserveData   ...  An Array that holds necessary Uniswap and Sushiswap LP Pair Token data for LPReservePairScheme.
 class VoteScorer {
   private votingSchemes: Map<string, VotingScheme> = new Map<string, VotingScheme>();
   private dexReserveData: Array<DexReserveSupply> = new Array<DexReserveSupply>();
@@ -139,9 +162,10 @@ class VoteScorer {
     }
     return votingScheme.doAlgorithm(balance);
   }
-
 }
 
+// Batch represents a batch record that tracks a grouping of calls made by Multicall. The qIdxStart and qIdxEnd
+// indicate the beginning and ending indices of the callQueries array.
 type Batch = {
   tag: string;
   votingScheme: string;
@@ -149,6 +173,8 @@ type Batch = {
   qIdxEnd: number;
 }
 
+// DexReserveSupply is a single record that holds the queries for the values of a LP Pair token's reserves and
+// supply. It also acts as a record for the calculated value for converting a Saffron LP toke holding to SFI.
 type DexReserveSupply = {
   name: string;
   reservesQuery: string[];
@@ -160,10 +186,13 @@ type DexReserveSupply = {
   saffLpToSFI_E18: BigNumber;
 }
 
+// VotingScore is a single voting score for the address. Each address from addresses will have one VotingScore for
+// each contract in options.contracts.
 type VotingScore = {
   address: string;
   score: number;
 }
+
 
 export async function strategy(
   space,
@@ -176,7 +205,6 @@ export async function strategy(
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const callQueries: Array<any[]> = new Array<any[]>();
   let callResponses: Array<any> = new Array<any>();
-  const dexLpPairQueryBatches: Array<Batch> = new Array<Batch>();
   const holdersQueryBatches: Array<Batch> = new Array<Batch>();
   const votingScores: Array<VotingScore> = new Array<VotingScore>();
   let callQueryIndex = 0;
@@ -201,13 +229,6 @@ export async function strategy(
     d.supplyQueryIdx = callQueryIndex++;
     dexReserveData.push(d);
 
-    const batch: Batch = {
-      tag: `${dexToken.name}`,
-      votingScheme: "",
-      qIdxStart: dexLpCallIdxStart,
-      qIdxEnd: callQueryIndex
-    };
-    dexLpPairQueryBatches.push(batch);
     dexLpCallIdxStart = callQueryIndex;
   });
 
@@ -246,7 +267,7 @@ export async function strategy(
 
   // Push empty Voting Score elements to the votingScores array. This allows Batch.qIdxStart to
   // correspond correctly to votingScores.
-  const emptyVotingScoreCountToAdd = dexReserveData.length * 2;
+  const emptyVotingScoreCountToAdd = dexReserveData.length * QUERIES_PER_DEX_LP_PAIR;
   const emptyVote: VotingScore = {address: "0x00", score: 0.0};
   for (let i = 0; i < emptyVotingScoreCountToAdd; i++) {
     votingScores.push(emptyVote);
