@@ -85,7 +85,7 @@ class DirectBoostScheme implements VotingScheme {
   }
 }
 
-class LPReservePairScheme implements  VotingScheme {
+class LPReservePairScheme implements VotingScheme {
   private name: string;
   private multiplier: number;
   private saffLpToSfi_E18: BigNumber;
@@ -185,7 +185,7 @@ export async function strategy(
   // ================ LP Pair Token Reserve and Total Supply ==================
   const dexReserveData = new Array<DexReserveSupply>();
   options.dexLpTypes.forEach(dexToken => {
-    const d:DexReserveSupply = {
+    const d: DexReserveSupply = {
       name: dexToken.name,
       reservesQuery: [dexToken.lpToken, 'getReserves'],
       reserveQueryIdx: 0,
@@ -201,7 +201,12 @@ export async function strategy(
     d.supplyQueryIdx = callQueryIndex++;
     dexReserveData.push(d);
 
-    const batch: Batch = {tag: `${dexToken.name}`, votingScheme: "", qIdxStart: dexLpCallIdxStart, qIdxEnd: callQueryIndex};
+    const batch: Batch = {
+      tag: `${dexToken.name}`,
+      votingScheme: "",
+      qIdxStart: dexLpCallIdxStart,
+      qIdxEnd: callQueryIndex
+    };
     dexLpPairQueryBatches.push(batch);
     dexLpCallIdxStart = callQueryIndex;
   });
@@ -209,10 +214,15 @@ export async function strategy(
   // ============= Multicall queries ==============
   options.contracts.forEach(contract => {
     const queries = addresses.map((address: any) => {
-      return [ contract.tokenAddress, 'balanceOf', [address] ];
+      return [contract.tokenAddress, 'balanceOf', [address]];
     });
     const queriesLength = callQueries.push(...queries);
-    const batch = {tag: contract.label, votingScheme: contract.votingScheme, qIdxStart: callQueryIndex, qIdxEnd: queriesLength};
+    const batch = {
+      tag: contract.label,
+      votingScheme: contract.votingScheme,
+      qIdxStart: callQueryIndex,
+      qIdxEnd: queriesLength
+    };
     callQueryIndex = queriesLength;
     holdersQueryBatches.push(batch);
   });
@@ -234,6 +244,14 @@ export async function strategy(
     voteScorer.createVotingScheme(scheme.name, scheme.type, scheme.multiplier);
   });
 
+  // Push empty Voting Score elements to the votingScores array. This allows Batch.qIdxStart to
+  // correspond correctly to votingScores.
+  const emptyVotingScoreCountToAdd = dexReserveData.length * 2;
+  const emptyVote: VotingScore = {address: "0x00", score: 0.0};
+  for (let i = 0; i < emptyVotingScoreCountToAdd; i++) {
+    votingScores.push(emptyVote);
+  }
+
   options.contracts.forEach(contract => {
     const batch = holdersQueryBatches.find(e => e.tag === contract.label);
     if (batch === undefined) {
@@ -241,20 +259,26 @@ export async function strategy(
     }
     let idxStart = batch.qIdxStart;
     const batchScores = addresses.map((address: any, index: number) => {
-      return {address: address, score: voteScorer.calculateScore(contract.votingScheme, callResponses[idxStart+index][0])};
+      return {
+        address: address,
+        score: voteScorer.calculateScore(contract.votingScheme, callResponses[idxStart + index][0])
+      };
     });
     votingScores.push(...batchScores);
   });
 
   // ================ Sum up everything =================
-  let addressVotingScore = addresses.map((address: any, index: number) => {
+  let addressVotingScore = addresses.map((address: any, addressIndex: number) => {
     let total = BigNumber.from(0);
-    holdersQueryBatches.forEach((batch: Batch, index: number) => {
-      let votingScore = votingScores[batch.qIdxStart+index];
+    holdersQueryBatches.forEach((batch: Batch) => {
+      let votingScore = votingScores[batch.qIdxStart + addressIndex];
+      if (votingScore === undefined) {
+        throw new Error(`Expected a votingScore at batch.qIdxStart: ${batch.qIdxStart}, addressIndex: ${addressIndex}`);
+      }
       if (votingScore.address === address) {
         total = total.add(votingScore.score);
       } else {
-        console.error(`${batch.tag} expected address, ${address}, found ${votingScore.address}`);
+        throw new Error(`${batch.tag} expected address, ${address}, found ${votingScore.address}`);
       }
     });
 
