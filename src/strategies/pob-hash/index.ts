@@ -16,12 +16,14 @@ export async function strategy(
   snapshot
 ) {
   // ran into issues where returning the score map in lowercase wouldn't match the connected addresses hex string
-  const lowerCasedAddressToOriginalAddressMap = Object.fromEntries(new Map<string, string>(addresses.map(a => [a.toLowerCase(), a])));
+  const lowerCasedAddressToOriginalAddressMap = Object.fromEntries(
+    new Map<string, string>(addresses.map((a) => [a.toLowerCase(), a]))
+  );
   const hashOwnersParams = {
     hashOwners: {
       __args: {
         where: {
-          id_in: Object.keys(lowerCasedAddressToOriginalAddressMap), 
+          id_in: Object.keys(lowerCasedAddressToOriginalAddressMap)
         },
         first: 1000 // IS THIS ENOUGH?
       },
