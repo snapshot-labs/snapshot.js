@@ -1,10 +1,10 @@
 import { subgraphRequest } from '../../utils';
 
 export const author = 'dave4506';
-export const version = '0.1.0';
+export const version = '0.1.1';
 
 export const SUBGRAPH_URL = {
-  '1': 'https://api.thegraph.com/subgraphs/name/proofofbeauty/subgraph'
+  '1': 'https://api.thegraph.com/subgraphs/name/proofofbeauty/hash'
 };
 
 export async function strategy(
@@ -15,11 +15,13 @@ export async function strategy(
   options,
   snapshot
 ) {
+  // ran into issues where returning the score map in lowercase wouldn't match the connected addresses hex string
+  const lowerCasedAddressToOriginalAddressMap = Object.fromEntries(new Map<string, string>(addresses.map(a => [a.toLowerCase(), a])));
   const hashOwnersParams = {
     hashOwners: {
       __args: {
         where: {
-          id_in: addresses.map((a) => a.toLowerCase())
+          id_in: Object.keys(lowerCasedAddressToOriginalAddressMap), 
         },
         first: 1000 // IS THIS ENOUGH?
       },
@@ -38,15 +40,16 @@ export async function strategy(
 
   if (result && result.hashOwners) {
     result.hashOwners.forEach((ow) => {
-      if (scoresMap[ow.id] == undefined) scoresMap[ow.id] = 0;
-      scoresMap[ow.id] = scoresMap[ow.id] + parseInt(ow.totalQuantity);
+      const id = lowerCasedAddressToOriginalAddressMap[ow.id];
+      if (scoresMap[id] == undefined) scoresMap[id] = 0;
+      scoresMap[id] = scoresMap[id] + parseInt(ow.totalQuantity);
     });
   } else {
     console.error('Subgraph request failed');
   }
   const scores: [string, number][] = Object.entries(
     scoresMap
-  ).map(([address, score]) => [address, Math.sqrt(score)]);
+  ).map(([address, score]) => [address, score]);
 
   return Object.fromEntries(scores);
 }
