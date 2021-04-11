@@ -159,7 +159,9 @@ export async function strategy(
   const dfdClaimed = response.slice(n, 2 * n);
   const sushiEthDusdEarned = response.slice(2 * n, 3 * n);
   const ppfs = response[4 * n];
-  const ibDFD = response.slice(3 * n, 4 * n).map((r) => r.mul(ppfs).div(BigNumber.from(10).pow(18)));
+  const ibDFD = response
+    .slice(3 * n, 4 * n)
+    .map((r) => r.mul(ppfs).div(BigNumber.from(10).pow(18)));
   response = response.slice(4 * n + 1);
 
   return Object.fromEntries(
