@@ -4,9 +4,12 @@ import { BigNumber } from '@ethersproject/bignumber';
 export const author = 'Axion Foundation';
 export const version = '0.2.0';
 
-const data_reader_address = "0xeC870C24ff67173f33f9f1d6818987D767122807";
+const data_reader_address = "0x421456eFcEBf814975c8739CD613e5e7a954C474";
 const data_reader_abi = [
   {
+    name: "getDaoShares",
+    stateMutability: "view",
+    type: "function",
     inputs: [
       {
         internalType: "address",
@@ -14,16 +17,13 @@ const data_reader_abi = [
         type: "address"
       }
     ],
-    name: "getDaoShares",
     outputs: [
       {
         internalType: "uint256",
-        name: "",
+        name: "daoShares",
         type: "uint256"
       }
-    ],
-    stateMutability: "view",
-    type: "function"
+    ]
   }
 ];
 
