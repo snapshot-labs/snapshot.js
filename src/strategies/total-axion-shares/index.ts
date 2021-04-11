@@ -123,7 +123,7 @@ const getSessionIDs = async (network, provider, addresses, snapshot, version = "
   );
 
   const sessionIDLookup: any[] = [];
-  Object.keys(sessionsByAddr).map(addr => {
+  Object.keys(sessionsByAddr).map((addr) => {
     const sessions = sessionsByAddr[addr];
     sessions.forEach(s => {
       if (s)
@@ -134,9 +134,15 @@ const getSessionIDs = async (network, provider, addresses, snapshot, version = "
   return sessionIDLookup;
 }
 
-const getTotalSharesByAddress = async (network, provider, sessionLookups, version, options) => {
-  let stakingContract = version === "v2" ? staking_v2 : staking_v1
-  let abi = version === "v2" ? abi_v2 : abi_v1;
+const getTotalSharesByAddress = async (
+  network,
+  provider,
+  sessionLookups,
+  version,
+  options
+) => {
+  let stakingContract = version === 'v2' ? staking_v2 : staking_v1;
+  let abi = version === 'v2' ? abi_v2 : abi_v1;
 
   const sessionInfo = await multicall(
     network,
@@ -157,15 +163,13 @@ const getTotalSharesByAddress = async (network, provider, sessionLookups, versio
       const address = sessionLookups[i].address;
       let amount = si.withdrawn ? BigNumber.from(0) : si.shares;
 
-      if (version === "v1")
+      if (version === 'v1')
         amount = si.shares.isZero() ? BigNumber.from(0) : si.shares;
 
-      if (!addressAmounts[address])
-        addressAmounts[address] = [amount]
-      else
-        addressAmounts[address].push(amount)
+      if (!addressAmounts[address]) addressAmounts[address] = [amount];
+      else addressAmounts[address].push(amount);
     }
-  })
+  });
 
   const totalAxnByAddress = Object.fromEntries(
     Object.keys(addressAmounts).map(addr => [
@@ -214,17 +218,29 @@ export async function strategy(
     getSessionIDs(network, provider, addresses, snapshot, "v1")
   ])
 
-  const totalSharesByAddressV2 = await getTotalSharesByAddress(network, provider, sessionIDLookupV2, "v2", options);
+  const totalSharesByAddressV2 = await getTotalSharesByAddress(
+    network,
+    provider,
+    sessionIDLookupV2,
+    'v2',
+    options
+  );
 
   // Remove v2 sessionID's from v1 array
   const fixedV1Sessions: any[] = [];
-  sessionIDLookupV1.forEach(s => {
-    if (!sessionIDLookupV2.find(v => v.session == s.session))
-      fixedV1Sessions.push(s)
-  })
+  sessionIDLookupV1.forEach((s) => {
+    if (!sessionIDLookupV2.find((v) => v.session == s.session))
+      fixedV1Sessions.push(s);
+  });
 
-  const totalSharesByAddressV1 = await getTotalSharesByAddress(network, provider, fixedV1Sessions, "v1", options)
-  const combined = combineV1V2(totalSharesByAddressV1, totalSharesByAddressV2)
+  const totalSharesByAddressV1 = await getTotalSharesByAddress(
+    network,
+    provider,
+    fixedV1Sessions,
+    'v1',
+    options
+  );
+  const combined = combineV1V2(totalSharesByAddressV1, totalSharesByAddressV2);
 
   // Add up v1 and v2 stakes
   const toalShares = {};

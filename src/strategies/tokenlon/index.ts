@@ -115,7 +115,10 @@ export async function strategy(
         options.token,
         'balanceOf',
         [address]
-      ])
+      ]),
+      [options.token, 'balanceOf', [options.xLON]],
+      [options.xLON, 'totalSupply', []],
+      ...addresses.map((address: any) => [options.xLON, 'balanceOf', [address]])
     ],
     { blockTag }
   );
@@ -180,11 +183,29 @@ export async function strategy(
     addresses.length * 10 + 4,
     addresses.length * 11 + 4
   );
-
+  // LON staked in xLON contract
+  const lonBalanceOfxLON = response.slice(
+    addresses.length * 11 + 4,
+    addresses.length * 11 + 5
+  )[0][0];
+  // xLON total supply
+  const xLONTotalSupply = response.slice(
+    addresses.length * 11 + 5,
+    addresses.length * 11 + 6
+  )[0][0];
+  // user's xLON
+  const xLONBalanceOfUsers = response.slice(
+    addresses.length * 11 + 6,
+    addresses.length * 12 + 6
+  );
   return Object.fromEntries(
     Array(addresses.length)
       .fill('')
       .map((_, i) => {
+        const xLONBalanceOfUser = xLONBalanceOfUsers[i][0];
+        const userLONShares = xLONBalanceOfUser
+          .mul(lonBalanceOfxLON)
+          .div(xLONTotalSupply);
         const lpBalanceUniswap = lpBalancesUniswap[i][0];
         const lpBalanceUniswapStaking2 = lpBalancesUniswapStaking2[i][0];
         const lpBalanceUniswapStaking3 = lpBalancesUniswapStaking3[i][0];
@@ -215,6 +236,7 @@ export async function strategy(
           parseFloat(
             formatUnits(
               tokenBalances[i][0]
+                .add(userLONShares)
                 .add(lonLpBalanceUniswap)
                 .add(lonEarnedBalanceUniswapStaking2)
                 .add(lonEarnedBalanceUniswapStaking3)
