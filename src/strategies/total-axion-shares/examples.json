@@ -2,10 +2,7 @@
   {
     "name": "Total Axion Shares",
     "strategy": {
-      "name": "total-axion-shares",
-      "params": {
-        "days": 365
-      }
+      "name": "total-axion-shares"
     },
     "network": "1",
     "addresses": [
