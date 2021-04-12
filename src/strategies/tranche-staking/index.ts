@@ -46,7 +46,11 @@ export async function strategy(
     network,
     provider,
     abi,
-    addresses.map((address: any) => [options.address, 'balanceOf', [address, options.tokenAddress]]),
+    addresses.map((address: any) => [
+      options.address,
+      'balanceOf',
+      [address, options.tokenAddress]
+    ]),
     { blockTag }
   );
   return Object.fromEntries(
