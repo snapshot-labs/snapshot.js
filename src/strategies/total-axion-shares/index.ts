@@ -47,12 +47,13 @@ export async function strategy(
     { blockTag: snapshot }
   );
 
-  const scores = {};
+  const shares_by_address = {};
   const _1e18 = BigNumber.from("1000000000000000000");
+  
   totalShares.forEach((v, i) => {
     const sharesBN = BigNumber.from(v.toString());
-    scores[addresses[i]] = sharesBN.div(_1e18).toNumber();
+    shares_by_address[addresses[i]] = sharesBN.div(_1e18).toNumber();
   });
 
-  return scores;
+  return shares_by_address;
 }
