@@ -55,7 +55,7 @@ import { strategy as theGraphIndexing } from './the-graph-indexing';
 import { strategy as whitelist } from './whitelist';
 import { strategy as tokenlon } from './tokenlon';
 import { strategy as rebased } from './rebased';
-import { strategy as pobHashCv } from './pob-hash-cv';
+import { strategy as pobHash } from './pob-hash';
 import { strategy as totalAxionShares } from './total-axion-shares';
 import { strategy as erc1155BalanceOf } from './erc1155-balance-of';
 import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
@@ -66,8 +66,10 @@ import { strategy as xcover } from './xcover';
 import { strategy as niuStaked } from './niu-staked';
 import { strategy as mushrooms } from './mushrooms';
 import { strategy as curioCardsErc20Weighted } from './curio-cards-erc20-weighted';
+import { strategy as saffronFinance } from './saffron-finance';
 import { strategy as renNodes } from './ren-nodes';
 import { strategy as multisigOwners } from './multisig-owners';
+import { strategy as trancheStaking } from './tranche-staking';
 import { strategy as pepemon } from './pepemon';
 import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
 
@@ -131,7 +133,7 @@ export default {
   whitelist,
   tokenlon,
   rebased,
-  'pob-hash-cv': pobHashCv,
+  'pob-hash': pobHash,
   'total-axion-shares': totalAxionShares,
   'comp-like-votes': compLikeVotes,
   pagination,
@@ -142,6 +144,8 @@ export default {
   'curio-cards-erc20-weighted': curioCardsErc20Weighted,
   'ren-nodes': renNodes,
   'multisig-owners': multisigOwners,
+  'tranche-staking': trancheStaking,
   pepemon,
-  'erc1155-all-balances-of': erc1155AllBalancesOf
+  'erc1155-all-balances-of': erc1155AllBalancesOf,
+  'saffron-finance': saffronFinance
 };
