@@ -1,6 +1,6 @@
-import {formatUnits} from '@ethersproject/units';
-import {BigNumber} from '@ethersproject/bignumber';
-import {multicall} from '../../utils';
+import { formatUnits } from '@ethersproject/units';
+import { BigNumber } from '@ethersproject/bignumber';
+import { multicall } from '../../utils';
 
 export const author = 'saffron.finance';
 export const version = '0.1.0';
@@ -60,11 +60,11 @@ const abi = [
     constant: true,
     inputs: [],
     name: 'totalSupply',
-    outputs: [{internalType: 'uint256', name: '', type: 'uint256'}],
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     payable: false,
     stateMutability: 'view',
     type: 'function'
-  },
+  }
 ];
 
 // VotingScheme is an interface that provides one method for invoking a concrete implementation of different
@@ -117,10 +117,8 @@ class LPReservePairScheme implements VotingScheme {
   }
 
   doAlgorithm(balance: BigNumber): BigNumber {
-    const voteMult1000 = BigNumber.from(this.multiplier * 1000)
-    const calculatedScore = balance
-      .mul(this.saffLpToSfi_E18)
-      .div(BIG18);
+    const voteMult1000 = BigNumber.from(this.multiplier * 1000);
+    const calculatedScore = balance.mul(this.saffLpToSfi_E18).div(BIG18);
     return calculatedScore.mul(voteMult1000).div(VOTE_BOOST_DIV_1000);
   }
 }
@@ -131,26 +129,36 @@ class LPReservePairScheme implements VotingScheme {
 // votingSchemes    ...  A Map that provides keyed access to a VotingScheme instance.
 // dexReserveData   ...  An Array that holds necessary Uniswap and Sushiswap LP Pair Token data for LPReservePairScheme.
 class VoteScorer {
-  private votingSchemes: Map<string, VotingScheme> = new Map<string, VotingScheme>();
+  private votingSchemes: Map<string, VotingScheme> = new Map<
+    string,
+    VotingScheme
+  >();
   private dexReserveData: Array<DexReserveSupply> = new Array<DexReserveSupply>();
 
   constructor(dexReserveData: Array<DexReserveSupply>) {
     this.dexReserveData = dexReserveData;
-    this.votingSchemes.set("default", new DirectBoostScheme("default", 1.0));
+    this.votingSchemes.set('default', new DirectBoostScheme('default', 1.0));
   }
 
   public createVotingScheme(name: string, type: string, multiplier: number) {
-    let votingScheme: VotingScheme = new DirectBoostScheme("no-vote-scheme", 0.0);
-    if (type === "DirectBoostScheme") {
+    let votingScheme: VotingScheme = new DirectBoostScheme(
+      'no-vote-scheme',
+      0.0
+    );
+    if (type === 'DirectBoostScheme') {
       votingScheme = new DirectBoostScheme(name, multiplier);
-
-    } else if (type === "LPReservePairScheme") {
-      const lpReservePairData = this.dexReserveData.find(e => e.name === name);
+    } else if (type === 'LPReservePairScheme') {
+      const lpReservePairData = this.dexReserveData.find(
+        (e) => e.name === name
+      );
       if (lpReservePairData === undefined) {
         throw Error(`Failed to locate token LP Pair data for ${name}.`);
       }
-      votingScheme = new LPReservePairScheme(name, multiplier, lpReservePairData.saffLpToSFI_E18);
-
+      votingScheme = new LPReservePairScheme(
+        name,
+        multiplier,
+        lpReservePairData.saffLpToSFI_E18
+      );
     } else {
       throw new Error(`Unsupported voting scheme type, ${type}.`);
     }
@@ -160,7 +168,9 @@ class VoteScorer {
   public calculateScore(schemeName: string, balance: BigNumber) {
     const votingScheme = this.votingSchemes.get(schemeName);
     if (votingScheme === undefined) {
-      throw new Error(`Failed to locate voting scheme, ${schemeName}. Check initialization of votingSchemes.`);
+      throw new Error(
+        `Failed to locate voting scheme, ${schemeName}. Check initialization of votingSchemes.`
+      );
     }
     return votingScheme.doAlgorithm(balance);
   }
@@ -173,7 +183,7 @@ type Batch = {
   votingScheme: string;
   qIdxStart: number;
   qIdxEnd: number;
-}
+};
 
 // DexReserveSupply is a single record that holds the queries for the values of a LP Pair token's reserves and
 // supply. It also acts as a record for the calculated value for converting a Saffron LP toke holding to SFI.
@@ -186,15 +196,14 @@ type DexReserveSupply = {
   supplyQueryIdx: number;
   supply: BigNumber;
   saffLpToSFI_E18: BigNumber;
-}
+};
 
 // VotingScore is a single voting score for the address. Each address from addresses will have one VotingScore for
 // each contract in options.contracts.
 type VotingScore = {
   address: string;
   score: number;
-}
-
+};
 
 export async function strategy(
   space,
@@ -214,7 +223,7 @@ export async function strategy(
 
   // ================ LP Pair Token Reserve and Total Supply ==================
   const dexReserveData = new Array<DexReserveSupply>();
-  options.dexLpTypes.forEach(dexToken => {
+  options.dexLpTypes.forEach((dexToken) => {
     const d: DexReserveSupply = {
       name: dexToken.name,
       reservesQuery: [dexToken.lpToken, 'getReserves'],
@@ -224,7 +233,7 @@ export async function strategy(
       supplyQueryIdx: 0,
       supply: BigNumber.from(0),
       saffLpToSFI_E18: BigNumber.from(0)
-    }
+    };
     callQueries.push(d.reservesQuery);
     d.reserveQueryIdx = callQueryIndex++;
     callQueries.push(d.supplyQuery);
@@ -235,7 +244,7 @@ export async function strategy(
   });
 
   // ============= Multicall queries ==============
-  options.contracts.forEach(contract => {
+  options.contracts.forEach((contract) => {
     const queries = addresses.map((address: any) => {
       return [contract.tokenAddress, 'balanceOf', [address]];
     });
@@ -251,63 +260,76 @@ export async function strategy(
   });
 
   // Run queries
-  callResponses = await multicall(network, provider, abi, callQueries, {blockTag});
+  callResponses = await multicall(network, provider, abi, callQueries, {
+    blockTag
+  });
 
   // ========== Extract and process query responses ==========
-  dexReserveData.forEach(drd => {
+  dexReserveData.forEach((drd) => {
     drd.reserve = callResponses[drd.reserveQueryIdx][0];
     drd.supply = callResponses[drd.supplyQueryIdx][0];
     drd.saffLpToSFI_E18 = drd.reserve.mul(BIG18).div(drd.supply);
   });
 
-
   // ========== Build the voting schemes and calculate individual scores ============
   const voteScorer: VoteScorer = new VoteScorer(dexReserveData);
-  options.votingSchemes.forEach(scheme => {
+  options.votingSchemes.forEach((scheme) => {
     voteScorer.createVotingScheme(scheme.name, scheme.type, scheme.multiplier);
   });
 
   // Push empty Voting Score elements to the votingScores array. This allows Batch.qIdxStart to
   // correspond correctly to votingScores.
-  const emptyVotingScoreCountToAdd = dexReserveData.length * QUERIES_PER_DEX_LP_PAIR;
-  const emptyVote: VotingScore = {address: "0x00", score: 0.0};
+  const emptyVotingScoreCountToAdd =
+    dexReserveData.length * QUERIES_PER_DEX_LP_PAIR;
+  const emptyVote: VotingScore = { address: '0x00', score: 0.0 };
   for (let i = 0; i < emptyVotingScoreCountToAdd; i++) {
     votingScores.push(emptyVote);
   }
 
-  options.contracts.forEach(contract => {
-    const batch = holdersQueryBatches.find(e => e.tag === contract.label);
+  options.contracts.forEach((contract) => {
+    const batch = holdersQueryBatches.find((e) => e.tag === contract.label);
     if (batch === undefined) {
-      throw new Error(`Failed to locate tag, ${contract.label}, in queryBatches.`);
+      throw new Error(
+        `Failed to locate tag, ${contract.label}, in queryBatches.`
+      );
     }
     let idxStart = batch.qIdxStart;
     const batchScores = addresses.map((address: any, index: number) => {
       return {
         address: address,
-        score: voteScorer.calculateScore(contract.votingScheme, callResponses[idxStart + index][0])
+        score: voteScorer.calculateScore(
+          contract.votingScheme,
+          callResponses[idxStart + index][0]
+        )
       };
     });
     votingScores.push(...batchScores);
   });
 
   // ================ Sum up everything =================
-  let addressVotingScore = addresses.map((address: any, addressIndex: number) => {
-    let total = BigNumber.from(0);
-    holdersQueryBatches.forEach((batch: Batch) => {
-      let votingScore = votingScores[batch.qIdxStart + addressIndex];
-      if (votingScore === undefined) {
-        throw new Error(`Expected a votingScore at batch.qIdxStart: ${batch.qIdxStart}, addressIndex: ${addressIndex}`);
-      }
-      if (votingScore.address === address) {
-        total = total.add(votingScore.score);
-      } else {
-        throw new Error(`${batch.tag} expected address, ${address}, found ${votingScore.address}`);
-      }
-    });
+  let addressVotingScore = addresses.map(
+    (address: any, addressIndex: number) => {
+      let total = BigNumber.from(0);
+      holdersQueryBatches.forEach((batch: Batch) => {
+        let votingScore = votingScores[batch.qIdxStart + addressIndex];
+        if (votingScore === undefined) {
+          throw new Error(
+            `Expected a votingScore at batch.qIdxStart: ${batch.qIdxStart}, addressIndex: ${addressIndex}`
+          );
+        }
+        if (votingScore.address === address) {
+          total = total.add(votingScore.score);
+        } else {
+          throw new Error(
+            `${batch.tag} expected address, ${address}, found ${votingScore.address}`
+          );
+        }
+      });
 
-    // Return single record { address, score } where score should have exponent of 18
-    return {address: address, score: total}
-  });
+      // Return single record { address, score } where score should have exponent of 18
+      return { address: address, score: total };
+    }
+  );
 
   return Object.fromEntries(
     addressVotingScore.map((addressVote) => {
