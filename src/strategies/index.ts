@@ -66,6 +66,7 @@ import { strategy as xcover } from './xcover';
 import { strategy as niuStaked } from './niu-staked';
 import { strategy as mushrooms } from './mushrooms';
 import { strategy as curioCardsErc20Weighted } from './curio-cards-erc20-weighted';
+import { strategy as saffronFinance } from './saffron-finance';
 import { strategy as renNodes } from './ren-nodes';
 import { strategy as multisigOwners } from './multisig-owners';
 import { strategy as trancheStaking } from './tranche-staking';
@@ -145,5 +146,6 @@ export default {
   'multisig-owners': multisigOwners,
   'tranche-staking': trancheStaking,
   pepemon,
-  'erc1155-all-balances-of': erc1155AllBalancesOf
+  'erc1155-all-balances-of': erc1155AllBalancesOf,
+  'saffron-finance': saffronFinance
 };
