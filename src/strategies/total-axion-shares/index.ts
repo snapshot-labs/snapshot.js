@@ -35,6 +35,7 @@ export async function strategy(
   options,
   snapshot
 ) {
+  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const totalShares = await multicall(
     network,
     provider,
@@ -44,12 +45,12 @@ export async function strategy(
       'getDaoShares', 
       [addr]
     ]),
-    { blockTag: snapshot }
+    { blockTag }
   );
 
   const shares_by_address = {};
   const _1e18 = BigNumber.from("1000000000000000000");
-  
+
   totalShares.forEach((v, i) => {
     const sharesBN = BigNumber.from(v.toString());
     shares_by_address[addresses[i]] = sharesBN.div(_1e18).toNumber();
