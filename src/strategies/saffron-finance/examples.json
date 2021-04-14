@@ -4,6 +4,7 @@
     "strategy": {
       "name": "saffron-finance",
       "params": {
+        "symbol": "SFI",
         "votingSchemes": [
           {
             "name": "oneToOne",
