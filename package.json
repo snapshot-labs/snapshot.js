@@ -1,11 +1,12 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
   "module": "dist/snapshot.esm.js",
   "browser": "dist/snapshot.min.js",
+  "types": "dist/index.d.ts",
   "dependencies": {
     "@ensdomains/content-hash": "^2.5.3",
     "@ethersproject/abi": "^5.0.4",

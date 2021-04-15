@@ -149,7 +149,7 @@ export async function getScores(
 }
 
 export function validateSchema(schema, data) {
-  const ajv = new Ajv();
+  const ajv = new Ajv({ allErrors: true });
   const validate = ajv.compile(schema);
   const valid = validate(data);
   return valid ? valid : validate.errors;
