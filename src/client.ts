@@ -31,15 +31,17 @@ export default class Client {
   }
 
   async send(msg: any) {
-    return this.request('message', msg)
+    return this.request('message', msg);
   }
 
   async getSpaces() {
     return this.request('spaces');
   }
 
-  async getTimeline() {
-    return this.request('timeline');
+  async getTimeline(spaces?: string[]) {
+    let str = '';
+    if (spaces) str = `?spaces=${spaces.join(',')}`;
+    return this.request(`timeline${str}`);
   }
 
   async getProposals(space: string) {
