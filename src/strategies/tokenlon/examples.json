@@ -1,0 +1,28 @@
+[
+    {
+        "name": "Tokenlon",
+        "strategy": {
+            "name": "tokenlon",
+            "params": {
+                "symbol": "LON",
+                "uniswap": "0x7924a818013f39cf800f5589ff1f1f0def54f31f",
+                "sushiswap": "0x55d31f68975e446a40a2d02ffa4b0e1bfb233c2f",
+                "stakingRewardUniswap2": "0xc348314f74B043Ff79396e14116B6f19122D69f4",
+                "stakingRewardSushiSwap2": "0x11520d501E10E2E02A2715C4A9d3F8aEb1b72A7A",
+                "stakingRewardUniswap3": "0x74379CEC6a2c9Fde0537e9D9346222a724A278e4",
+                "stakingRewardSushiSwap3": "0x539a67B6f9c3caD58f434CC12624b2d520BC03F8",
+                "xLON": "0xf88506B0F1d30056B9e5580668D5875b9cd30F23",
+                "token": "0x0000000000095413afC295d19EDeb1Ad7B71c952",
+                "decimals": 18
+            }
+        },
+        "network": "1",
+        "addresses": [
+            "0x39422F5065cF7968242747Bc19e812B6Ae98B50F",
+            "0x3e2764be2a583bab5589223cafabd78c2f9419cf",
+            "0x77a6ece6eb5a8d54d1b643f03beebad7e6c6ff06",
+            "0x50a01818f24435f965b09ea8fa80826e4355bed5"
+        ],
+        "snapshot": "latest"
+    }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "RULER-ETH SLP staked in rewards contract",
+    "strategy": {
+      "name": "ruler-staked-lp",
+      "params": {
+        "tokenAddress": "0x2aECCB42482cc64E087b6D2e5Da39f5A7A7001f8",
+        "sushiPoolAddress" : "0xb1EECFea192907fC4bF9c4CE99aC07186075FC51",
+        "stakingAddress" : "0x3423c8Af3a95D9FEE7Ec06c4e0E905D4fd559F89",
+        "symbol": "RULER",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0xDd79dc5B781B14FF091686961ADc5d47e434f4B0"
+    ],
+    "snapshot": 12065630
+  }
+]

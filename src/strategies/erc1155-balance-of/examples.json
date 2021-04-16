@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "erc1155-balance-of",
+      "params": {
+        "address": "0xE18a32192ED95b0FE9D70D19e5025f103475d7BA",
+        "tokenId": "0x8000000000000000000000000000000200000000000000000000000000000000",
+        "decimals": 0
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x0B7056e2D9064f2ec8647F1ae556BAcc06da6Db4",
+      "0xcc5Ddc8CCD5B1E90Bc42F998ec864Ead0090A12B",
+      "0x0154d25120ed20a516fe43991702e7463c5a6f6e"
+    ],
+    "snapshot": 11992257
+  }
+]

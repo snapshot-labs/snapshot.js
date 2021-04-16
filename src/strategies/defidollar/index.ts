@@ -1,4 +1,5 @@
 import { formatUnits } from '@ethersproject/units';
+import { BigNumber } from '@ethersproject/bignumber';
 import { multicall } from '../../utils';
 
 export const author = 'atvanguard';
@@ -70,8 +71,38 @@ const abi = [
   },
   {
     constant: true,
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
+    ],
+    name: 'claimed_rewards_for',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    constant: true,
     inputs: [],
     name: 'totalSupply',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'getPricePerFullShare',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     payable: false,
     stateMutability: 'view',
@@ -91,12 +122,24 @@ export async function strategy(
 
   const queries: any[] = [];
 
-  // curve farm needs special handling
   addresses.forEach((voter) => {
     queries.push([options.farms.curve.farm, 'claimable_reward', [voter]]);
   });
 
-  const farms = Object.keys(options.farms).slice(1); // exclude curve
+  addresses.forEach((voter) => {
+    queries.push([options.farms.curve.farm, 'claimed_rewards_for', [voter]]);
+  });
+
+  addresses.forEach((voter) => {
+    queries.push([options.farms.sushiEthDusd.farm, 'earned', [voter]]);
+  });
+
+  addresses.forEach((voter) => {
+    queries.push([options.farms.ibDFD.address, 'balanceOf', [voter]]);
+  });
+  queries.push([options.farms.ibDFD.address, 'getPricePerFullShare']);
+
+  const farms = Object.keys(options.farms).slice(3);
   for (let i = 0; i < farms.length; i++) {
     const { farm, lpToken } = options.farms[farms[i]];
     queries.push([options.DFD, 'balanceOf', [lpToken]]);
@@ -109,19 +152,28 @@ export async function strategy(
   }
 
   let response = await multicall(network, provider, abi, queries, { blockTag });
-
+  response = response.map((r) => r[0]);
   const n = addresses.length;
-  const curveEarned = response.slice(0, n).map((r) => r[0]);
-  response = response.slice(n);
+
+  const dfdEarned = response.slice(0, n);
+  const dfdClaimed = response.slice(n, 2 * n);
+  const sushiEthDusdEarned = response.slice(2 * n, 3 * n);
+  const ppfs = response[4 * n];
+  const ibDFD = response
+    .slice(3 * n, 4 * n)
+    .map((r) => r.mul(ppfs).div(BigNumber.from(10).pow(18)));
+  response = response.slice(4 * n + 1);
 
   return Object.fromEntries(
     Array(addresses.length)
       .fill('x')
       .map((_, i) => {
-        let score = curveEarned[i];
-
+        let score = dfdEarned[i]
+          .sub(dfdClaimed[i])
+          .add(sushiEthDusdEarned[i])
+          .add(ibDFD[i]);
         while (response.length) {
-          const res = response.slice(0, 2 + 3 * n).map((r) => r[0]); // 2 + 3n queries for each farm
+          const res = response.slice(0, 2 + 3 * n); // 2 + 3n queries for each farm
           response = response.slice(2 + 3 * n);
           /*
             lpTokenBalance = farm.balanceOf(user) + lpToken.balanceOf(user)

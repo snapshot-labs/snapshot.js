@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "tranche-staking",
+      "params": {
+        "address": "0x5ce49f584257606426498bfd16d770c50bb20254",
+        "tokenAddress": "0x0AeE8703D34DD9aE107386d3eFF22AE75Dd616D1",
+        "symbol": "SLICE",
+        "decimals": 18,
+        "start": 12113995
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0xd2ddb0e1c223a873c77ee80497e9d82c1002e483",
+      "0xbfdc3fe26553ac0c6041c1e6e0081f95b8c824b3"
+    ],
+    "snapshot": 12114000
+  }
+]

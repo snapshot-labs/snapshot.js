@@ -163,7 +163,7 @@
     "shortName": "Matic",
     "chainId": 137,
     "network": "mainnet",
-    "rpc": ["https://rpc-mainnet.maticvigil.com"],
+    "rpc": ["https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e"],
     "ws": ["wss://ws-mainnet.matic.network"],
     "explorer": ""
   },
@@ -219,6 +219,14 @@
     "network": "docker localhost",
     "rpc": ["http://localhost:8545"]
   },
+  "2109": {
+    "key": "2109",
+    "name": "Avalanche",
+    "chainId": 43114,
+    "network": "mainnet",
+    "rpc": ["https://api.avax.network/ext/bc/C/rpc"],
+    "explorer": "https://cchain.explorer.avax.network"
+  },
   "108": {
     "key": "108",
     "name": "Thundercore Mainnet",
@@ -246,5 +254,44 @@
     "rpc": ["https://http-mainnet.hecochain.com"],
     "ws": ["wss://ws-mainnet.hecochain.com"],
     "explorer": "https://scan.hecochain.com"
+  },
+  "250": {
+    "key": "250",
+    "name": "Fantom Opera",
+    "shortName": "fantom",
+    "chainId": 250,
+    "network": "Mainnet",
+    "rpc": ["https://rpcapi.fantom.network"],
+    "explorer": "https://ftmscan.com"
+  },
+  "499": {
+    "key": "499",
+    "name": "Rupaya",
+    "shortName": "RUPX",
+    "chainId": 499,
+    "network": "mainnet",
+    "rpc": ["https://rpc.rupx.io"],
+    "ws": ["wss://ws.rupx.io"],
+    "explorer": "http://scan.rupx.io"  
+  },
+  "1666600000": {
+    "key": "1666600000",
+    "name": "Harmony Mainnet",
+    "shortName": "HarmonyMainnet",
+    "chainId": 1666600000,
+    "network": "mainnet",
+    "rpc": ["https://a.api.s0.t.hmny.io"],
+    "ws": ["wss://ws.s0.t.hmny.io"],
+    "explorer": "https://explorer.harmony.one"
+  },
+  "1666700000": {
+    "key": "1666700000",
+    "name": "Harmony Testnet",
+    "shortName": "HarmonyTestnet",
+    "chainId": 1666700000,
+    "network": "testnet",
+    "rpc": ["https://api.s0.b.hmny.io"],
+    "ws": ["wss://ws.s0.b.hmny.io"],
+    "explorer": "https://explorer.pops.one"
   }
 }

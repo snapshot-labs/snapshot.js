@@ -32,7 +32,12 @@ export const MULTICALL = {
   '137': '0xCBca837161be50EfA5925bB9Cc77406468e76751',
   '256': '0xC33994Eb943c61a8a59a918E2de65e03e4e385E0',
   '1337': '0x566131e85d46cc7BBd0ce5C6587E9912Dc27cDAc',
-  wanchain: '0xba5934ab3056fca1fa458d30fbb3810c3eb5145f'
+  '2109': '0x7E9985aE4C8248fdB07607648406a48C76e9e7eD',
+  wanchain: '0xba5934ab3056fca1fa458d30fbb3810c3eb5145f',
+  '250': '0x7f6A10218264a22B4309F3896745687E712962a0',
+  '499': '0x7955FF653FfDBf13056FeAe227f655CfF5C194D5',
+  '1666600000': '0x9c31392D2e0229dC4Aa250F043d46B9E82074BF8',
+  '1666700000': '0x9923589503Fd205feE3d367DDFF2378f0F7dD2d4'
 };
 
 export const SNAPSHOT_SUBGRAPH_URL = {
@@ -118,12 +123,15 @@ export async function getScores(
   network: string,
   provider,
   addresses: string[],
-  snapshot = 'latest'
+  snapshot: number | string = 'latest'
 ) {
   try {
     return await Promise.all(
       strategies.map((strategy) =>
-        snapshot !== 'latest' && strategy.params?.start > snapshot
+        (snapshot !== 'latest' && strategy.params?.start > snapshot) ||
+        (strategy.params?.end &&
+          (snapshot === 'latest' || snapshot > strategy.params?.end)) ||
+        addresses.length === 0
           ? {}
           : _strategies[strategy.name](
               space,
@@ -141,7 +149,7 @@ export async function getScores(
 }
 
 export function validateSchema(schema, data) {
-  const ajv = new Ajv();
+  const ajv = new Ajv({ allErrors: true });
   const validate = ajv.compile(schema);
   const valid = validate(data);
   return valid ? valid : validate.errors;
