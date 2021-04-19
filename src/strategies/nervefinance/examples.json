@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Nerve Voting Query",
+    "strategy": {
+      "name": "nervefinance",
+      "params": {
+        "address": "0x42f6f551ae042cbe50c739158b4f0cac0edb9096",
+        "symbol": "NRV",
+        "decimals": 18,
+        "masterChefContractAddress": "0x2EBe8CDbCB5fB8564bC45999DAb8DA264E31f24E"
+      }
+    },
+    "network": "56",
+    "addresses": [
+      "0x15b9462d4eb94222a7506bc7a25fb27a2359291e",
+      "0x2ebe8cdbcb5fb8564bc45999dab8da264e31f24e",
+      "0x1F717Ce8ff07597ee7c408b5623dF40AaAf1787C"
+    ],
+    "snapshot": "latest"
+  }
+]
