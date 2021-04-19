@@ -6,7 +6,7 @@ const NO_TOKEN = `${'0x'.padEnd(42, '0')}`;
 
 const ARAGON_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/aragon/aragon-govern-mainnet',
-  '4': 'https://api.thegraph.com/subgraphs/name/novaknole/aragon-govern-rinkeby'
+  '4': 'https://api.thegraph.com/subgraphs/name/aragon/aragon-govern-rinkeby'
 };
 
 const queueAbi = [
