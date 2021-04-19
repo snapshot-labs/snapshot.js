@@ -1,6 +1,7 @@
 // Inspired by https://github.com/snapshot-labs/snapshot.js/blob/master/src/strategies/uniswap/index.ts
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
+import { subgraphRequest } from '../../utils';
 
 export const author = 'ayush-jibrel';
 export const version = '0.1.0';
@@ -51,25 +52,34 @@ export async function strategy(
 
   const lpTokenAddress = options.lpTokenAddress.toLowerCase();
 
-  let queryParam = `query {pairs (where: { id: "${lpTokenAddress}" }) {id totalSupply token0{id} token1{id} reserve0 reserve1 } }`;
-
   const tokenAddress = options.tokenAddress.toLowerCase();
 
   var rate;
-  
-  const result = await fetch(UNISWAP_SUBGRAPH_URL[network], {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ query: queryParam })
-  });
 
-  let { data } = await result.json();
+  const params = {
+    pairs: {
+      __args: {
+        where: {
+          id: lpTokenAddress
+        }
+      },
+      id: true,
+      totalSupply: true,
+      reserve0: true,
+      reserve1: true,
+      token0: {
+        id: true
+      },
+      token1: {
+        id: true
+      }
+    }
+  };
 
-  if (data && data.pairs) {
-      data.pairs.map(async (object) => {
+  const result = await subgraphRequest(UNISWAP_SUBGRAPH_URL[network], params);
+
+  if (result && result.pairs) {
+      result.pairs.map((object) => {
           rate = 
               +object.token0.id == tokenAddress
                 ? (+object.reserve0 / +object.totalSupply)
