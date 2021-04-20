@@ -71,6 +71,7 @@ import { strategy as multisigOwners } from './multisig-owners';
 import { strategy as trancheStaking } from './tranche-staking';
 import { strategy as pepemon } from './pepemon';
 import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
+import { strategy as trancheStakingLP } from './tranche-staking-lp';
 
 export default {
   balancer,
@@ -145,5 +146,6 @@ export default {
   'tranche-staking': trancheStaking,
   pepemon,
   'erc1155-all-balances-of': erc1155AllBalancesOf,
-  'saffron-finance': saffronFinance
+  'saffron-finance': saffronFinance,
+  'tranche-staking-lp': trancheStakingLP
 };
