@@ -72,6 +72,7 @@ import { strategy as trancheStaking } from './tranche-staking';
 import { strategy as pepemon } from './pepemon';
 import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
 import { strategy as trancheStakingLP } from './tranche-staking-lp';
+import { strategy as masterchefPoolBalance } from './masterchef-pool-balance';
 
 export default {
   balancer,
@@ -147,5 +148,6 @@ export default {
   pepemon,
   'erc1155-all-balances-of': erc1155AllBalancesOf,
   'saffron-finance': saffronFinance,
-  'tranche-staking-lp': trancheStakingLP
+  'tranche-staking-lp': trancheStakingLP,
+  'masterchef-pool-balance': masterchefPoolBalance
 };
