@@ -47,7 +47,6 @@ export async function strategy(
   options,
   snapshot
 ) {
-
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
   const lpTokenAddress = options.lpTokenAddress.toLowerCase();
@@ -79,25 +78,29 @@ export async function strategy(
   const result = await subgraphRequest(UNISWAP_SUBGRAPH_URL[network], params);
 
   if (result && result.pairs) {
-      result.pairs.map((object) => {
-          rate = 
-              +object.token0.id == tokenAddress
-                ? (+object.reserve0 / +object.totalSupply)
-                : (+object.reserve1 / +object.totalSupply);
-      }, []);
+    result.pairs.map((object) => {
+      rate =
+        +object.token0.id == tokenAddress
+          ? +object.reserve0 / +object.totalSupply
+          : +object.reserve1 / +object.totalSupply;
+    }, []);
   }
 
   const response = await multicall(
     network,
     provider,
     abi,
-    addresses.map((address: any) => [options.address, 'balanceOf', [address, lpTokenAddress]]),
+    addresses.map((address: any) => [
+      options.address,
+      'balanceOf',
+      [address, lpTokenAddress]
+    ]),
     { blockTag }
   );
   return Object.fromEntries(
     response.map((value, i) => [
       addresses[i],
-      (parseFloat(formatUnits(value.toString(), options.decimals)) * rate)
+      parseFloat(formatUnits(value.toString(), options.decimals)) * rate
     ])
   );
 }
