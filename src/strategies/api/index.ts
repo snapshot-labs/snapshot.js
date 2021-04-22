@@ -24,7 +24,6 @@ export async function strategy(
   });
   const data = await response.json();
   return Object.fromEntries(
-    //    data.score.map((value) => [value.address, parseInt(value.score.toString())])
     data.score.map((value) => [
       value.address,
       parseFloat(formatUnits(value.score.toString(), options.decimals))
