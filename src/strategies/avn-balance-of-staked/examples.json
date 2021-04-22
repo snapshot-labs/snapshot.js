@@ -4,19 +4,18 @@
     "strategy": {
       "name": "avn-balance-of-staked",
       "params": {
-        "vrAddress": "0x371CbAB290b026ED83a1437A27011A4960d266F4",
-        "vr2Address": "0xceA438B0521B0277D1F50635C57d424f456beDc4",
-        "tokenAddress": "0xeb2b01e9afd6d91f8c9bd2b08ac23ce888c84e7f",
+        "vrAddress": "0x8D9D42AF6D048B296cDE8B28693b276dF5e8bfB1",
+        "vr2Address": "0xE30dE0b5d61B297Da4CA00cFF583CaEdEDaa0C42",
+        "tokenAddress": "0x0d88ed6e74bbfd96b831231638b66c05571e824f",
         "symbol": "AVT",
         "decimals": 18,
-        "start": 8222092
+        "start": 11750517
       }
     },
-    "network": "4",
+    "network": "1",
     "addresses": [
-      "0xcEE932D860aBe18D967eD4d134Ef26159F6E22aA",
-      "0x627306090abaB3A6e1400e9345bC60c78a8BEf57"
+      "0xeEfbADa5539f9ae2c87C1151Cdb2057398383342"
     ],
-    "snapshot": 8335602
+    "snapshot": 12273608
   }
 ]
