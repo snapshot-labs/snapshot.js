@@ -9,7 +9,6 @@ import { strategy as erc20BalanceOfCv } from './erc20-balance-of-cv';
 import { strategy as erc20WithBalance } from './erc20-with-balance';
 import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegation';
 import { strategy as balanceOfWithMin } from './balance-of-with-min';
-import { strategy as balancerDelegation } from './balancer-delegation';
 import { strategy as ethBalance } from './eth-balance';
 import { strategy as ethWalletAge } from './eth-wallet-age';
 import { strategy as makerDsChief } from './maker-ds-chief';
@@ -72,6 +71,7 @@ import { strategy as multisigOwners } from './multisig-owners';
 import { strategy as trancheStaking } from './tranche-staking';
 import { strategy as pepemon } from './pepemon';
 import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
+import { strategy as trancheStakingLP } from './tranche-staking-lp';
 import { strategy as avnBalanceOfStaked } from './avn-balance-of-staked';
 
 export default {
@@ -89,7 +89,6 @@ export default {
   'erc20-with-balance': erc20WithBalance,
   'erc20-balance-of-delegation': erc20BalanceOfDelegation,
   'balance-of-with-min': balanceOfWithMin,
-  'balancer-delegation': balancerDelegation,
   'eth-balance': ethBalance,
   'eth-wallet-age': ethWalletAge,
   'maker-ds-chief': makerDsChief,
@@ -149,5 +148,6 @@ export default {
   pepemon,
   'erc1155-all-balances-of': erc1155AllBalancesOf,
   'saffron-finance': saffronFinance,
+  'tranche-staking-lp': trancheStakingLP,
   'avn-balance-of-staked': avnBalanceOfStaked
 };
