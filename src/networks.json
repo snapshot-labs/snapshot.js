@@ -65,6 +65,22 @@
     "ws": ["wss://ws.dome.cloud"],
     "explorer": "https://exp.tch.in.th"
   },
+  "30": {
+    "key": "30",
+    "name": "RSK Mainnet",
+    "chainId": 30,
+    "network": "rsk mainnet",
+    "rpc": ["https://public-node.rsk.co"],
+    "explorer": "https://explorer.rsk.co"
+  },
+  "31": {
+    "key": "31",
+    "name": "RSK Testnet",
+    "chainId": 31,
+    "network": "rsk testnet",
+    "rpc": ["hhttps://public-node.testnet.rsk.co"],
+    "explorer": "https://explorer.testnet.rsk.co"
+  },
   "42": {
     "key": "42",
     "name": "Ethereum Testnet Kovan",
