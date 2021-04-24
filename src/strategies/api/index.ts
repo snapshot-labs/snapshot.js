@@ -12,9 +12,11 @@ export async function strategy(
   options,
   snapshot
 ) {
-  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
-  const api_url =
-    options.api + '/' + options.strategy + '?addresses=' + addresses.join(',');
+  let api_url = options.api + '/' + options.strategy;
+  api_url += '?network=' + network;
+  api_url += '&snapshot=' + snapshot;
+  api_url += '&addresses=' + addresses.join(',');
+
   const response = await fetch(api_url, {
     method: 'GET',
     headers: {
