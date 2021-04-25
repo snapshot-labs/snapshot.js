@@ -78,7 +78,7 @@
     "name": "RSK Testnet",
     "chainId": 31,
     "network": "rsk testnet",
-    "rpc": ["hhttps://public-node.testnet.rsk.co"],
+    "rpc": ["https://public-node.testnet.rsk.co"],
     "explorer": "https://explorer.testnet.rsk.co"
   },
   "42": {
