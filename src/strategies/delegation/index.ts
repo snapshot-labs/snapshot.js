@@ -33,8 +33,6 @@ export async function strategy(
     snapshot
   )).filter(score => Object.keys(score).length !== 0);
 
-  scores.forEach(score => console.log("score: " + JSON.stringify(score)));
-
   return Object.fromEntries(
     addresses.map((address) => {
       const addressScore = delegations[address]
