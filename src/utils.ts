@@ -2,6 +2,7 @@ import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
 import { abi as multicallAbi } from './abi/Multicall.json';
 import _strategies from './strategies';
 import Multicaller from './utils/multicaller';
@@ -23,6 +24,8 @@ export const MULTICALL = {
   '5': '0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e',
   '6': '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
   '17': '0xB9cb900E526e7Ad32A2f26f1fF6Dee63350fcDc5',
+  '30': '0x4eeebb5580769ba6d26bfd07be636300076d1831',
+  '31': '0x4eeebb5580769ba6d26bfd07be636300076d1831',
   '42': '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
   '56': '0x1ee38d535d541c55c9dae27b12edf090c608e6fb',
   '82': '0x579De77CAEd0614e3b158cb738fcD5131B9719Ae',
@@ -150,6 +153,8 @@ export async function getScores(
 
 export function validateSchema(schema, data) {
   const ajv = new Ajv({ allErrors: true });
+  // @ts-ignore
+  addFormats(ajv);
   const validate = ajv.compile(schema);
   const valid = validate(data);
   return valid ? valid : validate.errors;

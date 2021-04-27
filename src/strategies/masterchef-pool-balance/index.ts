@@ -1,6 +1,6 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
-import {BigNumber} from "@ethersproject/bignumber";
+import { BigNumber } from '@ethersproject/bignumber';
 
 export const author = 'my-swarm';
 export const version = '0.1.0';
@@ -19,89 +19,89 @@ export const version = '0.1.0';
 const abi = [
   // to get a user/pool balance from masterchef
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
       },
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        internalType: 'address',
+        name: '',
+        type: 'address'
       }
     ],
-    "name": "userInfo",
-    "outputs": [
+    name: 'userInfo',
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
       },
       {
-        "internalType": "uint256",
-        "name": "rewardDebt",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: 'rewardDebt',
+        type: 'uint256'
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function'
   },
   // to get supply/reserve from uni pair
   {
-    "constant": true,
-    "inputs": [],
-    "name": "totalSupply",
-    "outputs": [
+    constant: true,
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
       }
     ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
   },
   {
-    "constant": true,
-    "inputs": [],
-    "name": "getReserves",
-    "outputs": [
+    constant: true,
+    inputs: [],
+    name: 'getReserves',
+    outputs: [
       {
-        "internalType": "uint112",
-        "name": "_reserve0",
-        "type": "uint112"
+        internalType: 'uint112',
+        name: '_reserve0',
+        type: 'uint112'
       },
       {
-        "internalType": "uint112",
-        "name": "_reserve1",
-        "type": "uint112"
+        internalType: 'uint112',
+        name: '_reserve1',
+        type: 'uint112'
       },
       {
-        "internalType": "uint32",
-        "name": "_blockTimestampLast",
-        "type": "uint32"
+        internalType: 'uint32',
+        name: '_blockTimestampLast',
+        type: 'uint32'
       }
     ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },];
-
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  }
+];
 
 // calls is a 1-dimensional array so we just push 3 calls for every address
 const getCalls = (addresses: any[], options: any) => {
   const result: any[] = [];
   for (let address of addresses) {
-    result.push([options.chefAddress, 'userInfo', [options.pid, address]])
+    result.push([options.chefAddress, 'userInfo', [options.pid, address]]);
     if (options.uniPairAddress != null) {
-      result.push([options.uniPairAddress, 'totalSupply', []])
-      result.push([options.uniPairAddress, 'getReserves', []])
+      result.push([options.uniPairAddress, 'totalSupply', []]);
+      result.push([options.uniPairAddress, 'getReserves', []]);
     }
   }
   return result;
-}
+};
 
 function arrayChunk<T>(arr: T[], chunkSize: number): T[][] {
   const result: T[][] = [];
@@ -118,7 +118,7 @@ function processValues(values: any[], options: any): number {
   const weight: BigNumber = BigNumber.from(options.weight || 1);
   let result: BigNumber;
   if (options.uniPairAddress == null) {
-    result = poolStaked
+    result = poolStaked;
   } else {
     const uniTotalSupply = values[1][0];
     const uniReserve = values[2][0];
@@ -147,9 +147,9 @@ export async function strategy(
   );
   return Object.fromEntries(
     // chunk to response so that we can process values for each address
-    arrayChunk(response, options.uniPairAddress == null ? 1 : 3).map((value, i) => [
-      addresses[i],
-      processValues(value, options)
-    ])
+    arrayChunk(
+      response,
+      options.uniPairAddress == null ? 1 : 3
+    ).map((value, i) => [addresses[i], processValues(value, options)])
   );
 }
