@@ -65,6 +65,22 @@
     "ws": ["wss://ws.dome.cloud"],
     "explorer": "https://exp.tch.in.th"
   },
+  "30": {
+    "key": "30",
+    "name": "RSK Mainnet",
+    "chainId": 30,
+    "network": "rsk mainnet",
+    "rpc": ["https://public-node.rsk.co"],
+    "explorer": "https://explorer.rsk.co"
+  },
+  "31": {
+    "key": "31",
+    "name": "RSK Testnet",
+    "chainId": 31,
+    "network": "rsk testnet",
+    "rpc": ["https://public-node.testnet.rsk.co"],
+    "explorer": "https://explorer.testnet.rsk.co"
+  },
   "42": {
     "key": "42",
     "name": "Ethereum Testnet Kovan",
@@ -243,7 +259,7 @@
     "network": "testnet",
     "rpc": ["https://http-testnet.hecochain.com"],
     "ws": ["wss://ws-testnet.hecochain.com"],
-    "explorer": "https://scan-testnet.hecochain.com"
+    "explorer": "https://testnet.hecoinfo.com"
   },
   "128": {
     "key": "128",
@@ -251,9 +267,9 @@
     "shortName": "heco",
     "chainId": 128,
     "network": "Mainnet",
-    "rpc": ["https://http-mainnet.hecochain.com"],
-    "ws": ["wss://ws-mainnet.hecochain.com"],
-    "explorer": "https://scan.hecochain.com"
+    "rpc": ["https://mainnet.heco.vote"],
+    "ws": ["wss://ws-mainnet-node.huobichain.com"],
+    "explorer": "https://hecoinfo.com"
   },
   "250": {
     "key": "250",
@@ -272,7 +288,7 @@
     "network": "mainnet",
     "rpc": ["https://rpc.rupx.io"],
     "ws": ["wss://ws.rupx.io"],
-    "explorer": "http://scan.rupx.io"  
+    "explorer": "http://scan.rupx.io"
   },
   "1666600000": {
     "key": "1666600000",

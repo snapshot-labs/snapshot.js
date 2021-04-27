@@ -1,4 +1,7 @@
+import { Web3Provider } from '@ethersproject/providers';
+import { signMessage } from './utils/web3';
 import hubs from './hubs.json';
+import { version } from './constants.json';
 
 export default class Client {
   readonly address: string;
@@ -37,18 +40,32 @@ export default class Client {
   async getSpaces() {
     return this.request('spaces');
   }
-
-  async getTimeline(spaces?: string[]) {
-    let str = '';
-    if (spaces) str = `?spaces=${spaces.join(',')}`;
-    return this.request(`timeline${str}`);
-  }
-
   async getProposals(space: string) {
     return this.request(`${space}/proposals`);
   }
 
   async getVotes(space: string, proposalId: string) {
     return this.request(`${space}/proposal/${proposalId}`);
+  }
+
+  async broadcast(
+    web3: Web3Provider,
+    account: string,
+    space: string,
+    type: string,
+    payload: any
+  ) {
+    const msg: any = {
+      address: account,
+      msg: JSON.stringify({
+        version,
+        timestamp: (Date.now() / 1e3).toFixed(),
+        space,
+        type,
+        payload
+      })
+    };
+    msg.sig = await signMessage(web3, msg.msg, account);
+    return await this.send(msg);
   }
 }
