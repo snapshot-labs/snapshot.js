@@ -23,7 +23,8 @@
         "terms": {
           "type": "string",
           "title": "terms",
-          "format": "uri"
+          "format": "uri",
+          "maxLength": 128
         },
         "location": {
           "type": "string",
@@ -33,6 +34,7 @@
         "website": {
           "type": "string",
           "title": "website",
+          "format": "uri",
           "maxLength": 128
         },
         "twitter": {
