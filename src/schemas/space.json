@@ -20,6 +20,11 @@
           "title": "about",
           "maxLength": 160
         },
+        "terms": {
+          "type": "string",
+          "title": "terms",
+          "format": "uri"
+        },
         "location": {
           "type": "string",
           "title": "location",
@@ -86,9 +91,7 @@
                 "title": "params"
               }
             },
-            "required": [
-              "name"
-            ],
+            "required": ["name"],
             "additionalProperties": false
           },
           "title": "strategies"
@@ -129,12 +132,7 @@
           "type": "object"
         }
       },
-      "required": [
-        "name",
-        "network",
-        "symbol",
-        "strategies"
-      ],
+      "required": ["name", "network", "symbol", "strategies"],
       "additionalProperties": false
     }
   }
