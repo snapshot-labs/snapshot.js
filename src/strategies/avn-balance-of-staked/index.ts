@@ -5,7 +5,7 @@ import { multicall } from '../../utils';
 export const author = 'andrew-frank';
 export const version = '0.1.0';
 
-const abi = [
+const AVT_ABI = [
   {
     constant: true,
     inputs: [
@@ -29,7 +29,7 @@ const abi = [
   }
 ];
 
-const vrAbi = [
+const VR_ABI = [
   {
     inputs: [
       { internalType: 'uint8', name: 'node', type: 'uint8' },
@@ -40,69 +40,122 @@ const vrAbi = [
     stateMutability: 'view',
     type: 'function'
   }
-]
-const vr2Abi = vrAbi
+];
 
-const NUM_NODES = 10
-const STAKES_MULTIPLIER = 2
+const NUM_NODES = 10;
+// [0, 1, ... , 9] for convinience
+const NODES_INDICES = Array.from(Array(NUM_NODES).keys());
+const STAKES_MULTIPLIER = 2;
+
+class EthCall {
+  constructor(
+    public readonly contract: string,
+    public readonly method: string,
+    public readonly args: Array<string | number>
+  ) {}
+  get ethCall(): any[] {
+    return [this.contract, this.method, this.args];
+  }
+}
+
+/** creates flat array of eth calls for each user's stake in each VR contract in each node */
+function serializeVrMultiCalls(
+  vr1Address: string,
+  vr2Address: string,
+  userAddresses: string[]
+) {
+  // [ [0, 1, ... , 19],  [0, 1, ... , 19] , ..., [0, 1, ... 19], ... ]
+  const userCalls: EthCall[][] = userAddresses.map((user: string) => {
+    const method = 'getStakerBalance';
+    // map to objects to prevent flatting eth call arrays
+    const vr1Calls = NODES_INDICES.map(
+      (node: number) => new EthCall(vr1Address, method, [node, user])
+    );
+    const vr2Calls = NODES_INDICES.map(
+      (node: number) => new EthCall(vr2Address, method, [node, user])
+    );
+    // * [0-9] calls for each node in VR1
+    // * [10-19] calls for each node in VR2
+    return vr1Calls.concat(vr2Calls);
+  });
+  // flat it and map to a list of the call primitives
+  const objCalls = userCalls.flat();
+  return objCalls.map((obj) => obj.ethCall);
+}
+
+/** splits array into chunks */
+function chunkArray<T>(arr: T[], length: number): T[][] {
+  const chunks: T[][] = [];
+  let i = 0,
+    n = arr.length;
+
+  while (i < n) {
+    chunks.push(arr.slice(i, (i += length)));
+  }
+
+  return chunks;
+}
+
+/** sums big numbers in array */
+function sumNumbers(arr: BigNumber[]): BigNumber {
+  return arr.reduce((previus, current) => {
+    return previus.add(current[0]);
+  }, BigNumber.from(0));
+}
+
+/**
+ * Parses multicall response
+ * @param response multicall response
+ * @returns summed AVT staked for each user in every node in every VR contract
+ */
+function parseVrResponse(response: BigNumber[], users: string[]): BigNumber[] {
+  return chunkArray(response, 2 * NUM_NODES).map(sumNumbers);
+}
 
 export async function strategy(
-  space,
+  _space,
   network,
   provider,
   addresses,
   options,
   snapshot
 ) {
-  const nodesIdxs = Array.from(Array(NUM_NODES).keys())
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
-  async function getAvtStakeSum(_vrAbi: any, _vrAddress: any, _address: string ): Promise<BigNumber> {
-    const stakes: BigNumber[] = await multicall(
-      network,
-      provider,
-      _vrAbi,
-      nodesIdxs.map((node: number) => [_vrAddress, 'getStakerBalance', [node, _address]]),
-      { blockTag }
-    );
-    // sum values staked at all validators
-    const sum = stakes.reduce((previus, current) => {
-      return previus.add(current[0])
-    }, BigNumber.from(0))
-    return sum
-  }
-
-  // users AVTs 
+  // users AVTs
   const avtResponses: Array<[BigNumber]> = await multicall(
     network,
     provider,
-    abi,
-    addresses.map((address: any) => [options.tokenAddress, 'balanceOf', [address]]),
+    AVT_ABI,
+    addresses.map((address: any) => [
+      options.tokenAddress,
+      'balanceOf',
+      [address]
+    ]),
     { blockTag }
   );
-  const avtValues = avtResponses.map(value => value[0])
-  
-  // users AVTs staked in VR contract
-  const vr1SumsPromises: Array<Promise<BigNumber>> = addresses.map((addr: string) => getAvtStakeSum(vrAbi, options.vrAddress, addr))
-  const vr1Sums = await Promise.all(vr1SumsPromises)
-  // multiply values for staked AVTs
-  const vr1Scores = vr1Sums.map(val => val.mul(STAKES_MULTIPLIER))
+  const avtValues = avtResponses.map((value) => value[0]);
 
-  // users AVTs staked in VR2 contract
-  const vr2SumsPromises: Array<Promise<BigNumber>> = addresses.map((addr: string) => getAvtStakeSum(vr2Abi, options.vr2Address, addr))
-  const vr2Sums = await Promise.all(vr2SumsPromises)
-  // multiply values for staked AVTs
-  const vr2Scores = vr2Sums.map(val => val.mul(STAKES_MULTIPLIER))
+  // users AVT staked in VR contracts
+  const vrMultiResponse = await multicall(
+    network,
+    provider,
+    VR_ABI,
+    serializeVrMultiCalls(options.vrAddress, options.vr2Address, addresses),
+    { blockTag }
+  );
+  const stakes = parseVrResponse(vrMultiResponse, addresses);
 
-  // user score: AVTs + 2 * (AVT@VR + AVT@VR2)
+  // calculate the scores
+  const vrVotes = stakes.map((v) => v.mul(STAKES_MULTIPLIER));
   const scores = avtValues.map((value, i) => {
-    return value.add(vr1Scores[i]).add(vr2Scores[i])
-  })
+    return value.add(vrVotes[i]);
+  });
 
   return Object.fromEntries(
     scores.map((value, i) => [
       addresses[i],
       parseFloat(formatUnits(value.toString(), options.decimals))
-    ]
-  ))
+    ])
+  );
 }
