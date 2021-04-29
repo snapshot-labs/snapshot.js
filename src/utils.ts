@@ -2,6 +2,7 @@ import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
 import { abi as multicallAbi } from './abi/Multicall.json';
 import _strategies from './strategies';
 import Multicaller from './utils/multicaller';
@@ -152,6 +153,8 @@ export async function getScores(
 
 export function validateSchema(schema, data) {
   const ajv = new Ajv({ allErrors: true });
+  // @ts-ignore
+  addFormats(ajv);
   const validate = ajv.compile(schema);
   const valid = validate(data);
   return valid ? valid : validate.errors;

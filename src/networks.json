@@ -259,7 +259,7 @@
     "network": "testnet",
     "rpc": ["https://http-testnet.hecochain.com"],
     "ws": ["wss://ws-testnet.hecochain.com"],
-    "explorer": "https://scan-testnet.hecochain.com"
+    "explorer": "https://testnet.hecoinfo.com"
   },
   "128": {
     "key": "128",
@@ -267,9 +267,9 @@
     "shortName": "heco",
     "chainId": 128,
     "network": "Mainnet",
-    "rpc": ["https://http-mainnet.hecochain.com"],
-    "ws": ["wss://ws-mainnet.hecochain.com"],
-    "explorer": "https://scan.hecochain.com"
+    "rpc": ["https://mainnet.heco.vote"],
+    "ws": ["wss://ws-mainnet-node.huobichain.com"],
+    "explorer": "https://hecoinfo.com"
   },
   "250": {
     "key": "250",
@@ -288,7 +288,7 @@
     "network": "mainnet",
     "rpc": ["https://rpc.rupx.io"],
     "ws": ["wss://ws.rupx.io"],
-    "explorer": "http://scan.rupx.io"  
+    "explorer": "http://scan.rupx.io"
   },
   "1666600000": {
     "key": "1666600000",
