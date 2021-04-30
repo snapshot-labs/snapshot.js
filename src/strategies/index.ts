@@ -75,6 +75,7 @@ import { strategy as trancheStakingLP } from './tranche-staking-lp';
 import { strategy as masterchefPoolBalance } from './masterchef-pool-balance';
 import { strategy as avnBalanceOfStaked } from './avn-balance-of-staked';
 import { strategy as api } from './api';
+import { strategy as xseen } from './xseen';
 
 export default {
   balancer,
@@ -153,5 +154,6 @@ export default {
   'tranche-staking-lp': trancheStakingLP,
   'masterchef-pool-balance': masterchefPoolBalance,
   'avn-balance-of-staked': avnBalanceOfStaked,
-  api
+  api,
+  xseen
 };
