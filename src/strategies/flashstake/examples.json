@@ -1,8 +1,8 @@
 [
   {
-    "name": "Flash query",
+    "name": "Flashstake query",
     "strategy": {
-      "name": "flash",
+      "name": "flashstake",
       "params": {
         "address": "0x20398ad62bb2d930646d45a6d4292baa0b860c1f",
         "symbol": "FLASH",
