@@ -22,7 +22,7 @@ export async function strategy(
   );
   if (Object.keys(delegations).length === 0) return {};
 
-  const scores = await getScores(
+  const scores = (await getScores(
     space,
     options.strategies,
     network,
@@ -31,7 +31,7 @@ export async function strategy(
       a.concat(b)
     ),
     snapshot
-  );
+  )).filter(score => Object.keys(score).length !== 0);
 
   return Object.fromEntries(
     addresses.map((address) => {
