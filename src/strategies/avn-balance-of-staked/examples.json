@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "avn-balance-of-staked",
+      "params": {
+        "vrAddress": "0x8D9D42AF6D048B296cDE8B28693b276dF5e8bfB1",
+        "vr2Address": "0xE30dE0b5d61B297Da4CA00cFF583CaEdEDaa0C42",
+        "tokenAddress": "0x0d88ed6e74bbfd96b831231638b66c05571e824f",
+        "symbol": "AVT",
+        "decimals": 18,
+        "start": 11750517
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0xeEfbADa5539f9ae2c87C1151Cdb2057398383342"
+    ],
+    "snapshot": 12273608
+  }
+]
