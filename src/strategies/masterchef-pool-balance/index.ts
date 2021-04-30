@@ -118,7 +118,7 @@ function processValues(values: any[], options: any): number {
   const weight: BigNumber = BigNumber.from(options.weight || 1);
   let result: BigNumber;
   if (options.uniPairAddress == null) {
-    result = poolStaked;
+    result = poolStaked.mul(weight);
   } else {
     const uniTotalSupply = values[1][0];
     const uniReserve = values[2][0];
