@@ -19,7 +19,7 @@ const xseenAbi = [
   {
     inputs: [],
     name: 'totalSupply',
-    outputs: [{internalType: 'uint256', name: '', type: 'uint256'}],
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function'
   }
@@ -28,7 +28,7 @@ const xseenAbi = [
 /**
  * SEEN token ABI
  */
- const seenAbi = [
+const seenAbi = [
   {
     constant: true,
     inputs: [{ internalType: 'address', name: '', type: 'address' }],
@@ -54,7 +54,7 @@ export async function strategy(
     '0xCa3FE04C7Ee111F0bbb02C328c699226aCf9Fd33',
     'balanceOf',
     [params.tokenAddress]
-  ]
+  ];
 
   const seenRes = await multicall(
     network,
@@ -84,6 +84,9 @@ export async function strategy(
   const balances = xseenRes.slice(1);
 
   return Object.fromEntries(
-    balances.map((balance, i) => [addresses[i], (balance * (seenBalanceInStakingContract / totalSupply) / 1e18)])
+    balances.map((balance, i) => [
+      addresses[i],
+      (balance * (seenBalanceInStakingContract / totalSupply)) / 1e18
+    ])
   );
 }
