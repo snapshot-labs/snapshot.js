@@ -102,7 +102,19 @@
           "type": "array",
           "items": {
             "type": "string",
-            "maxLength": 64
+            "pattern": "^[A-Za-z0-9]*$",
+            "minLength": 42,
+            "maxLength": 42
+          },
+          "title": "members"
+        },
+        "admins": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9]*$",
+            "minLength": 42,
+            "maxLength": 42
           },
           "title": "members"
         },
