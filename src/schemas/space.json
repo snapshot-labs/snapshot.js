@@ -116,7 +116,7 @@
             "minLength": 42,
             "maxLength": 42
           },
-          "title": "members"
+          "title": "admins"
         },
         "filters": {
           "type": "object",
