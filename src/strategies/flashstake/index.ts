@@ -7,7 +7,7 @@ const FLASHSTAKE_SUBGRAPH_URL = {
     'https://api.thegraph.com/subgraphs/name/blockzerohello/flash-stake-stats-v2-subgraph'
 };
 
-export const author = 'BlockzeroLabs';
+export const author = 'anassohail99';
 export const version = '0.1.0';
 
 export async function strategy(
@@ -23,7 +23,8 @@ export async function strategy(
       __args: {
         where: {
           id_in: addresses.map((address) => address.toLowerCase())
-        }
+        },
+        first: 1000
       },
       id: true,
       liquidityPositions: {
@@ -51,7 +52,7 @@ export async function strategy(
     stakes: {
       __args: {
         where: {
-          user: addresses[0].toLowerCase()
+          user_in: addresses.map((address) => address.toLowerCase())
         }
       },
       id: true,
@@ -75,6 +76,9 @@ export async function strategy(
     FLASHSTAKE_SUBGRAPH_URL[network],
     params2
   );
+
+  console.log('OUTPUT', result, stakesResult);
+
   let score = {};
   if (stakesResult && stakesResult.stakes) {
     stakesResult.stakes.map((_data) => {
