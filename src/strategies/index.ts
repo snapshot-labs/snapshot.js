@@ -76,6 +76,8 @@ import { strategy as masterchefPoolBalance } from './masterchef-pool-balance';
 import { strategy as avnBalanceOfStaked } from './avn-balance-of-staked';
 import { strategy as api } from './api';
 import { strategy as xseen } from './xseen';
+import { strategy as molochAll } from './moloch-all';
+import { strategy as molochLoot } from './moloch-loot';
 
 export default {
   balancer,
@@ -155,5 +157,7 @@ export default {
   'masterchef-pool-balance': masterchefPoolBalance,
   'avn-balance-of-staked': avnBalanceOfStaked,
   api,
-  xseen
+  xseen,
+  'moloch-all': molochAll,
+  'moloch-loot': molochLoot,
 };
