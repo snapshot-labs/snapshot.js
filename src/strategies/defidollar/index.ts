@@ -139,7 +139,7 @@ export async function strategy(
   });
   queries.push([options.farms.ibDFD.address, 'getPricePerFullShare']);
 
-  const farms = Object.keys(options.farms).slice(3);
+  const farms = ['balDfdDusd', 'sushiDfdEth'];
   for (let i = 0; i < farms.length; i++) {
     const { farm, lpToken } = options.farms[farms[i]];
     queries.push([options.DFD, 'balanceOf', [lpToken]]);

@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "erc721-enumerable",
+      "params": {
+        "address": "0x2216d47494e516d8206b70fca8585820ed3c4946",
+        "symbol": "WT"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x4A7998DF2Cd16815271bb6b7d3aE7EB30f50a73a",
+      "0x08D816526BdC9d077DD685Bd9FA49F58A5Ab8e48"
+    ],
+    "snapshot": 12353494
+  }
+]
