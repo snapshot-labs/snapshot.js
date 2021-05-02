@@ -77,8 +77,6 @@ export async function strategy(
     params2
   );
 
-  console.log('OUTPUT', result, stakesResult);
-
   let score = {};
   if (stakesResult && stakesResult.stakes) {
     stakesResult.stakes.map((_data) => {
