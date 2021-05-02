@@ -2,7 +2,7 @@
   {
     "name": "Example query",
     "strategy": {
-      "name": "erc721-enum",
+      "name": "erc721-enumerable",
       "params": {
         "address": "0x2216d47494e516d8206b70fca8585820ed3c4946",
         "symbol": "WT"

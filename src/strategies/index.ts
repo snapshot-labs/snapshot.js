@@ -76,7 +76,7 @@ import { strategy as masterchefPoolBalance } from './masterchef-pool-balance';
 import { strategy as avnBalanceOfStaked } from './avn-balance-of-staked';
 import { strategy as api } from './api';
 import { strategy as xseen } from './xseen';
-import { strategy as erc721Enum } from './erc721-enum';
+import { strategy as erc721Enumerable } from './erc721-enumerable';
 
 export default {
   balancer,
@@ -96,7 +96,7 @@ export default {
   'eth-balance': ethBalance,
   'eth-wallet-age': ethWalletAge,
   'maker-ds-chief': makerDsChief,
-  'erc721-enum': erc721Enum,
+  'erc721-enumerable': erc721Enumerable,
   'erc1155-balance-of': erc1155BalanceOf,
   'erc1155-balance-of-cv': erc1155BalanceOfCv,
   uni,
