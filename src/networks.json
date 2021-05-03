@@ -267,7 +267,7 @@
     "shortName": "heco",
     "chainId": 128,
     "network": "Mainnet",
-    "rpc": ["https://mainnet.heco.vote"],
+    "rpc": ["https://http-mainnet.hecochain.com"],
     "ws": ["wss://ws-mainnet-node.huobichain.com"],
     "explorer": "https://hecoinfo.com"
   },
