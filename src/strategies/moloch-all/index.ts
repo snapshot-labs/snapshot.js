@@ -120,7 +120,8 @@ export async function strategy(
   return Object.fromEntries(
     response.map((value, i) => [
       addresses[i],
-      parseFloat(formatUnits(value.shares.toString(), options.decimals)) + parseFloat(formatUnits(value.loot.toString(), options.decimals))
+      parseFloat(formatUnits(value.shares.toString(), options.decimals)) +
+        parseFloat(formatUnits(value.loot.toString(), options.decimals))
     ])
   );
 }

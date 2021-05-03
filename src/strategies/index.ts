@@ -161,5 +161,5 @@ export default {
   api,
   xseen,
   'moloch-all': molochAll,
-  'moloch-loot': molochLoot,
+  'moloch-loot': molochLoot
 };
