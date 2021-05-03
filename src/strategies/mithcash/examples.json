@@ -1,22 +1,22 @@
 [
-    {
-        "name": "MITH Cash",
-        "strategy": {
-            "name": "mithcash",
-            "params": {
-                "sushiswap": "0x066F3A3B7C8Fa077c71B9184d862ed0A4D5cF3e0",
-                "boardroom": "0xb35f89160d1Dc47B6EAC1986D7821505c327AE09",
-                "sharePool": "0x14E33e1D6Cc4D83D7476492C0A52b3d4F869d892",
-                "token": "0x4b4D2e899658FB59b1D518b68fe836B100ee8958",
-                "decimals": 18
-            }
-        },
-        "network": "1",
-        "addresses": [
-            "0x0c11d0bde11fc110caf84d9361a1466adedf59b6",
-            "0xbEA07b01E8Fe3936A3D206158521A87addB65cfE",
-            "0xF5ecA360c5dE26A46D54b72E49800c87801c719b"
-        ],
-        "snapshot": 11605878
-    }
+  {
+    "name": "MITH Cash",
+    "strategy": {
+      "name": "mithcash",
+      "params": {
+        "sushiswap": "0x066F3A3B7C8Fa077c71B9184d862ed0A4D5cF3e0",
+        "boardroom": "0xb35f89160d1Dc47B6EAC1986D7821505c327AE09",
+        "sharePool": "0x14E33e1D6Cc4D83D7476492C0A52b3d4F869d892",
+        "token": "0x4b4D2e899658FB59b1D518b68fe836B100ee8958",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x0c11d0bde11fc110caf84d9361a1466adedf59b6",
+      "0xbEA07b01E8Fe3936A3D206158521A87addB65cfE",
+      "0xF5ecA360c5dE26A46D54b72E49800c87801c719b"
+    ],
+    "snapshot": 11605878
+  }
 ]
