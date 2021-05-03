@@ -17,6 +17,7 @@ import { strategy as yearnVault } from './yearn-vault';
 import { strategy as fraxFinance } from './frax-finance';
 import { strategy as moloch } from './moloch';
 import { strategy as uniswap } from './uniswap';
+import { strategy as flashstake } from './flashstake';
 import { strategy as pancake } from './pancake';
 import { strategy as synthetix } from './synthetix';
 import { strategy as ctoken } from './ctoken';
@@ -108,6 +109,7 @@ export default {
   masterchef,
   sushiswap,
   uniswap,
+  flashstake,
   pancake,
   synthetix,
   ctoken,

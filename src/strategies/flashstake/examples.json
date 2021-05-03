@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Flashstake query",
+    "strategy": {
+      "name": "flashstake",
+      "params": {
+        "address": "0x20398ad62bb2d930646d45a6d4292baa0b860c1f",
+        "symbol": "FLASH",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x3A1776aD8Bd41c688019Cb586C6A1261Be49f8Bf"
+    ],
+    "snapshot": "latest"
+  }
+]
