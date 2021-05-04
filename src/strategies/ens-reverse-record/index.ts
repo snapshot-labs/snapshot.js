@@ -54,7 +54,7 @@ export async function strategy(
       const isEligible =
         value !== '' &&
         namehash.normalize(value) === value &&
-        value.split('.').length === 2 // no subdomain
+        value.split('.').length === 2; // no subdomain
 
       const number = isEligible ? 1 : 0;
       return [addresses[i], number];
