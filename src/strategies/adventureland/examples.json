@@ -11,18 +11,5 @@
       "0x1AeE7eBabdAa9afe11B2abD2748a548316E6c065"
     ],
     "snapshot": 7120529
-  },
-  {
-    "name": "Synthetix council",
-    "strategy": {
-      "name": "adventureland"
-    },
-    "network": "4",
-    "addresses": [
-      "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
-      "0x40A0d3EF3950b46A67f553F8566f7E6083CB5fb3",
-      "0x347745743638eba0231b2fd833100ac612d42549"
-    ],
-    "snapshot": "latest"
   }
 ]
