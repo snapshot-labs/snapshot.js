@@ -51,8 +51,12 @@ export async function strategy(
   );
   let r = Object.fromEntries(
     response.map((value, i) => {
-      const number =
-        value !== '' && namehash.normalize(value) === value ? 1 : 0;
+      const isEligible =
+        value !== '' &&
+        namehash.normalize(value) === value &&
+        value.split('.').length === 2; // no subdomain
+
+      const number = isEligible ? 1 : 0;
       return [addresses[i], number];
     })
   );
