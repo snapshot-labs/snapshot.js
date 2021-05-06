@@ -290,6 +290,15 @@
     "ws": ["wss://ws.rupx.io"],
     "explorer": "http://scan.rupx.io"
   },
+  "1287": {
+    "key": "1287",
+    "name": "Moonbase Alpha TestNet",
+    "shortName": "Moonbase",
+    "chainId": 1287,
+    "network": "testnet",
+    "rpc": ["https://rpc.testnet.moonbeam.network"],
+    "explorer": "https://moonbase-blockscout.testnet.moonbeam.network/"
+  },
   "1666600000": {
     "key": "1666600000",
     "name": "Harmony Mainnet",
