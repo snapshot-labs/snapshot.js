@@ -17,7 +17,9 @@
     "network": "1",
     "addresses": [
       "0x2d8e358487feda42629274ce041f98629bf65cf3",
-      "0x52def6c112bffc66fc8c8258539d4d8c30c5000c"
+      "0x52def6c112bffc66fc8c8258539d4d8c30c5000c",
+      "0x000000359d837dbc86ffcb8be6057062bf1fc1ff",
+      "0x0000000000000000000000000000000000000000"
     ],
     "snapshot": "latest"
   }
