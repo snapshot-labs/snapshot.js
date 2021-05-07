@@ -96,7 +96,7 @@ export async function strategy(
   const queries: any[] = [];
 
   const addressCount = addresses.length;
-  
+
   addresses.forEach((address) => {
     queries.push([options.ctrl, 'balanceOf', [address]]);
   });
