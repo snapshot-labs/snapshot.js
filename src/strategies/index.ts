@@ -80,7 +80,6 @@ import { strategy as xseen } from './xseen';
 import { strategy as molochAll } from './moloch-all';
 import { strategy as molochLoot } from './moloch-loot';
 import { strategy as erc721Enumerable } from './erc721-enumerable';
-import { strategy as adventureland } from './adventureland';
 
 export default {
   balancer,
@@ -164,6 +163,5 @@ export default {
   api,
   xseen,
   'moloch-all': molochAll,
-  'moloch-loot': molochLoot,
-  adventureland
+  'moloch-loot': molochLoot
 };
