@@ -1,6 +1,5 @@
 import { getAddress } from '@ethersproject/address';
-import { formatUnits } from '@ethersproject/units';
-import { multicall, subgraphRequest } from '../../utils';
+import { subgraphRequest } from '../../utils';
 
 const FLASHSTAKE_SUBGRAPH_URL = {
   '1':
@@ -89,12 +88,13 @@ export async function strategy(
     result.users.map((_data) => {
       if (_data.liquidityPositions[0]?.pair) {
         _data.liquidityPositions.map((__data) => {
+          const address = getAddress(__data.user.id);
           const token0perFlash =
             Number(__data.pair.reserve0) / Number(__data.pair.totalSupply);
           const userScore =
             token0perFlash * Number(__data.liquidityTokenBalance);
-          if (!score[__data.user.id]) score[__data.user.id] = 0;
-          score[__data.user.id] = Number(score[__data.user.id]) + userScore;
+          if (!score[address]) score[address] = 0;
+          score[address] = Number(score[address]) + userScore;
         });
       }
     });
