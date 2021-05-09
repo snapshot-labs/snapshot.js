@@ -81,6 +81,7 @@ import { strategy as molochAll } from './moloch-all';
 import { strategy as molochLoot } from './moloch-loot';
 import { strategy as erc721Enumerable } from './erc721-enumerable';
 import { strategy as apescape } from './apescape';
+import { strategy as liftkitchen } from './liftkitchen';
 
 export default {
   balancer,
@@ -165,5 +166,6 @@ export default {
   xseen,
   'moloch-all': molochAll,
   'moloch-loot': molochLoot,
-  apescape
+  apescape,
+  liftkitchen
 };
