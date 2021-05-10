@@ -1,7 +1,6 @@
 import { formatUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
-import { getScores, multicall, subgraphRequest } from '../../utils';
-import { getBlockNumber } from '../../utils/web3';
+import { multicall, subgraphRequest } from '../../utils';
 
 export const author = 'hoprnet';
 export const version = '0.1.0';
@@ -155,23 +154,12 @@ export async function strategy(
   const hoprOnXdaiBalance = await xHoprSubgraphQuery(addresses, snapshotXdaiBlock);
   const hoprOnXdaiScore = addresses.map(address => hoprOnXdaiBalance[address] ?? 0)
 
-  // get HOPR token balance
-  const hoprScore = await getScores(space, [{
-      name: "erc20-balance-of",
-      params: {
-        address: options.hoprAddress,
-        symbol: "HOPR",
-        decimals: 18
-      }
-    }], "1", provider, addresses, snapshot);
-
   return Object.fromEntries(
     response.map((value, i) => [
       addresses[i], // LP token amount * pool's HOPR token balnce / total pool supply
       parseFloat(formatUnits(
         value.mul(hoprBalanceOfPool[0]).div(poolTotalSupply[0]
       ), 18))
-      + hoprScore[0][addresses[i]] // HOPR token balance
       + hoprOnXdaiScore[i] // xHOPR + wxHOPR balance
     ])
   );
