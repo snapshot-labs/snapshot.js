@@ -122,24 +122,27 @@ export async function strategy(
   snapshot
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
-  const res = await multicall(
-    network,
-    provider,
-    tokenAndPoolAbi,
-    [
-      [options.hoprAddress, 'balanceOf', [options.uniPoolAddress]],
-      [options.uniPoolAddress, 'totalSupply', []],
-    ].concat(
-      addresses.map(
-        (address: any) => [options.uniPoolAddress, 'balanceOf', [address]]
-      )
-    ).concat(
-      blockTag >= options.farmDeployBlock || blockTag === 'latest' ? addresses.map(
-        (address: any) => [options.farmAddress, 'liquidityProviders', [address]]
-      ) : []
+  const [res, block] = await Promise.all([
+    multicall(
+      network,
+      provider,
+      tokenAndPoolAbi,
+      [
+        [options.hoprAddress, 'balanceOf', [options.uniPoolAddress]],
+        [options.uniPoolAddress, 'totalSupply', []],
+      ].concat(
+        addresses.map(
+          (address: any) => [options.uniPoolAddress, 'balanceOf', [address]]
+        )
+      ).concat(
+        blockTag >= options.farmDeployBlock || blockTag === 'latest' ? addresses.map(
+          (address: any) => [options.farmAddress, 'liquidityProviders', [address]]
+        ) : []
+      ),
+      { blockTag }
     ),
-    { blockTag }
-  );
+    provider.getBlock(blockTag)
+  ]);
 
   const hoprBalanceOfPool = res[0];
   const poolTotalSupply = res[1];
@@ -148,8 +151,7 @@ export async function strategy(
     : res.slice(2).map(r => r[0] as BigNumber);
 
   // get block timestamp to search on xDai subgraph
-  const snapshotTimestamp = (await provider.getBlock(blockTag)).timestamp;
-  const snapshotXdaiBlock = await getXdaiBlockNumber(snapshotTimestamp);
+  const snapshotXdaiBlock = await getXdaiBlockNumber(block.timestamp);
   // get and parse xHOPR and wxHOPR balance
   const hoprOnXdaiBalance = await xHoprSubgraphQuery(addresses, snapshotXdaiBlock);
   const hoprOnXdaiScore = addresses.map(address => hoprOnXdaiBalance[address] ?? 0)
