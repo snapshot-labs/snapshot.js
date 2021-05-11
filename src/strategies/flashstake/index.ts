@@ -52,7 +52,8 @@ export async function strategy(
     stakes: {
       __args: {
         where: {
-          user_in: addresses.map((address) => address.toLowerCase())
+          user_in: addresses.map((address) => address.toLowerCase()),
+          isActive: true
         }
       },
       id: true,
@@ -89,14 +90,13 @@ export async function strategy(
     result.users.map((_data) => {
       if (_data.liquidityPositions[0]?.pair) {
         _data.liquidityPositions.map((__data) => {
-
+          const address = getAddress(__data.user.id);
           const token0perFlash =
             Number(__data.pair.reserve0) / Number(__data.pair.totalSupply);
           const userScore =
             token0perFlash * Number(__data.liquidityTokenBalance);
-          if (!score[__data.user.id]) score[__data.user.id] = 0;
-          score[__data.user.id] = Number(score[__data.user.id]) + userScore;
-
+          if (!score[address]) score[address] = 0;
+          score[address] = Number(score[address]) + userScore;
         });
       }
     });
