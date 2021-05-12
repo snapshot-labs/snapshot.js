@@ -6,8 +6,7 @@
       "params": {
         "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
         "symbol": "DAI",
-        "decimals": 18,
-        "start": 11437840
+        "decimals": 18
       }
     },
     "network": "1",
@@ -32,23 +31,5 @@
       "0x38C0039247A31F3939baE65e953612125cB88268"
     ],
     "snapshot": 11437846
-  },
-  {
-    "name": "Synthetix council",
-    "strategy": {
-      "name": "erc20-balance-of",
-      "params": {
-        "address": "0xb5236979738f1a9305d97b836c72123653fca681",
-        "symbol": "SC",
-        "decimals": 0
-      }
-    },
-    "network": "4",
-    "addresses": [
-      "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
-      "0x40A0d3EF3950b46A67f553F8566f7E6083CB5fb3",
-      "0x347745743638eba0231b2fd833100ac612d42549"
-    ],
-    "snapshot": "latest"
   }
 ]
