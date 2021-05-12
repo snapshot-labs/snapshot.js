@@ -80,6 +80,9 @@ import { strategy as xseen } from './xseen';
 import { strategy as molochAll } from './moloch-all';
 import { strategy as molochLoot } from './moloch-loot';
 import { strategy as erc721Enumerable } from './erc721-enumerable';
+import { strategy as erc721 } from './erc721';
+import { strategy as apescape } from './apescape';
+import { strategy as liftkitchen } from './liftkitchen';
 
 export default {
   balancer,
@@ -99,6 +102,7 @@ export default {
   'eth-balance': ethBalance,
   'eth-wallet-age': ethWalletAge,
   'maker-ds-chief': makerDsChief,
+  erc721,
   'erc721-enumerable': erc721Enumerable,
   'erc1155-balance-of': erc1155BalanceOf,
   'erc1155-balance-of-cv': erc1155BalanceOfCv,
@@ -163,5 +167,7 @@ export default {
   api,
   xseen,
   'moloch-all': molochAll,
-  'moloch-loot': molochLoot
+  'moloch-loot': molochLoot,
+  apescape,
+  liftkitchen
 };

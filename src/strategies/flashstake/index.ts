@@ -1,6 +1,5 @@
 import { getAddress } from '@ethersproject/address';
-import { formatUnits } from '@ethersproject/units';
-import { multicall, subgraphRequest } from '../../utils';
+import { subgraphRequest } from '../../utils';
 
 const FLASHSTAKE_SUBGRAPH_URL = {
   '1':
@@ -81,8 +80,9 @@ export async function strategy(
   let score = {};
   if (stakesResult && stakesResult.stakes) {
     stakesResult.stakes.map((_data) => {
-      if (!score[_data.user]) score[_data.user] = 0;
-      score[_data.user] = Number(score[_data.user]) + Number(_data.amountIn);
+      const address = getAddress(_data.user);
+      if (!score[address]) score[address] = 0;
+      score[address] = Number(score[address]) + Number(_data.amountIn);
     });
   }
 

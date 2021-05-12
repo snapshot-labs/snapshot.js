@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "liftkitchen",
+      "params": {
+        "ctrl": "0xA31fDbaA772745D11843EFEDA9922dcbf5460672",
+        "boardroom": "0x3223689b39Db8a897a9A9F0907C8a75d42268787",
+        "symbol": "CTRL",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x3223689b39Db8a897a9A9F0907C8a75d42268787"
+    ],
+    "snapshot": 12377525
+  }
+]
