@@ -5,27 +5,7 @@ export const author = 'bonustrack';
 export const version = '0.1.0';
 
 const abi = [
-  {
-    constant: true,
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'account',
-        type: 'address'
-      }
-    ],
-    name: 'balanceOf',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function'
-  }
+  'function balanceOf(address account) external view returns (uint256)'
 ];
 
 export async function strategy(
