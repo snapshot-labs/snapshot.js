@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Get nominal HOPR tokens from HOPR LP token, incl. those staked in the HoprFarm",
+    "strategy": {
+      "name": "hopr-uni-lp-farm",
+      "params": {
+        "farmAddress": "0x2fc0e2cfe5d6ea300d555e5907319a5f7e09884f",
+        "uniPoolAddress": "0x92c2fc5f306405eab0ff0958f6d85d7f8892cf4d",
+        "hoprAddress": "0xf5581dfefd8fb0e4aec526be659cfab1f8c781da",
+        "daiAddress": "0x6b175474e89094c44da98b954eedeac495271d0f",
+        "farmDeployBlock": 12094980,
+        "start": 11945961,
+        "xHoprAddress": "0xd057604a14982fe8d88c5fc25aac3267ea142a08",
+        "wxHoprAddress": "0xd4fdec44db9d44b8f2b6d529620f9c0c7066a2c1"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x2d8e358487feda42629274ce041f98629bf65cf3",
+      "0x52def6c112bffc66fc8c8258539d4d8c30c5000c",
+      "0x000000359d837dbc86ffcb8be6057062bf1fc1ff",
+      "0x0000000000000000000000000000000000000000"
+    ],
+    "snapshot": "12401620"
+  }
+]
