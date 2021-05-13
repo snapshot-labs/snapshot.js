@@ -1,6 +1,9 @@
 name: Test Strategy
-
-on: [pull_request]
+on:
+  pull_request:
+    types:
+      - edited
+      - labeled
 
 jobs:
   test-strategy:
