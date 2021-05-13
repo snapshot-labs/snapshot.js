@@ -9,7 +9,6 @@
         "hoprAddress": "0xf5581dfefd8fb0e4aec526be659cfab1f8c781da",
         "daiAddress": "0x6b175474e89094c44da98b954eedeac495271d0f",
         "farmDeployBlock": 12094980,
-        "start": 11945961,
         "xHoprAddress": "0xd057604a14982fe8d88c5fc25aac3267ea142a08",
         "wxHoprAddress": "0xd4fdec44db9d44b8f2b6d529620f9c0c7066a2c1"
       }
@@ -21,6 +20,6 @@
       "0x000000359d837dbc86ffcb8be6057062bf1fc1ff",
       "0x0000000000000000000000000000000000000000"
     ],
-    "snapshot": "12401620"
+    "snapshot": 12401620
   }
 ]

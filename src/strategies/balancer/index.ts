@@ -49,11 +49,14 @@ export async function strategy(
   // iterate through Balancer V1 & V2 Subgraphs
   const score = {};
   for (let version = 1; version <= 2; version++) {
-    let versionString = "";
+    let versionString = '';
     if (version == 2) {
-      versionString = "-v2"
+      versionString = '-v2';
     }
-    const result = await subgraphRequest(BALANCER_SUBGRAPH_URL[network] + versionString, params);
+    const result = await subgraphRequest(
+      BALANCER_SUBGRAPH_URL[network] + versionString,
+      params
+    );
     if (result && result.poolShares) {
       result.poolShares.forEach((poolShare) =>
         poolShare.poolId.tokens.map((poolToken) => {

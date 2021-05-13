@@ -6,8 +6,7 @@
       "params": {
         "address": "0xba100000625a3754423978a60c9317c58a424e3D",
         "symbol": "BAL BPT V1+V2",
-        "decimals": 18,
-        "start": 11437840
+        "decimals": 18
       }
     },
     "network": "1",
@@ -35,6 +34,6 @@
       "0xd109b2a304587569c84308c55465cd9ff0317bfb",
       "0x1d2c4cd9bee9dfe088430b95d274e765151c32db"
     ],
-    "snapshot": "latest"
+    "snapshot": 12424932
   }
 ]
