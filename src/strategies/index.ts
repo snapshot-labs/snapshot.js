@@ -108,7 +108,7 @@ export default {
   'erc721-enumerable': erc721Enumerable,
   'erc1155-balance-of': erc1155BalanceOf,
   'erc1155-balance-of-cv': erc1155BalanceOfCv,
-  'multichain': multichain,
+  multichain,
   uni,
   'frax-finance': fraxFinance,
   'yearn-vault': yearnVault,
