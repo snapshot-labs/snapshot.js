@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "tranche-staking-lp",
+      "params": {
+        "address": "0x05db908E095662745595Ee42C9C90aaDC5D51c98",
+        "tokenAddress": "0x0aee8703d34dd9ae107386d3eff22ae75dd616d1",
+        "lpTokenAddress": "0xa21ECe44Cc5dAc03E3805362bd3f68F22a49Ea1e",
+        "symbol": "SLICE",
+        "decimals": 18,
+        "start": 12240380
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x625c94ab09883bf455141c54be3a145bdc68a277",
+      "0x6FD3D5DC46e49BE296c934b97533123C86229999",
+      "0x6c5c952e85643cc3e229d37a6f2aacd248931d55",
+      "0x8e3a50fd3564b7027cc2a0d79d606d489ebc58bd"
+    ],
+    "snapshot": 12240385
+  }
+]

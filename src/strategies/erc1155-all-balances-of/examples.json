@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "erc1155-all-balances-of",
+      "params": {
+        "address": "0x51e613727fdd2e0b91b51c3e5427e9440a7957e4"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x4bAF2ad9e92d547F428895e12Ab8A6f195C6f058",
+      "0x34a745008a643EebC58920eaa29Fb1165b4A288E",
+      "0xcc5Ddc8CCD5B1E90Bc42F998ec864Ead0090A12B",
+      "0x000000000000000000000000000000000000dead"
+    ],
+    "snapshot": 12121892
+  }
+]

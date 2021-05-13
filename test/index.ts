@@ -26,7 +26,11 @@ const example = require(`../src/strategies/${strategy}/examples.json`)[0];
   console.time('getScores');
   try {
     const scores = await snapshot.utils.getScores(
+<<<<<<< HEAD
       'frax-finance',
+=======
+      'yam.eth',
+>>>>>>> 6ebe51fa883e13a158516d36959478fbcf0c1a82
       [example.strategy],
       example.network,
       new JsonRpcProvider(networks[example.network].rpc[0]),

@@ -65,6 +65,22 @@
     "ws": ["wss://ws.dome.cloud"],
     "explorer": "https://exp.tch.in.th"
   },
+  "30": {
+    "key": "30",
+    "name": "RSK Mainnet",
+    "chainId": 30,
+    "network": "rsk mainnet",
+    "rpc": ["https://public-node.rsk.co"],
+    "explorer": "https://explorer.rsk.co"
+  },
+  "31": {
+    "key": "31",
+    "name": "RSK Testnet",
+    "chainId": 31,
+    "network": "rsk testnet",
+    "rpc": ["https://public-node.testnet.rsk.co"],
+    "explorer": "https://explorer.testnet.rsk.co"
+  },
   "42": {
     "key": "42",
     "name": "Ethereum Testnet Kovan",
@@ -99,6 +115,9 @@
     "chainId": 56,
     "network": "mainnet",
     "rpc": [
+      "https://bsc-private-dataseed1.nariox.org",
+      "https://bsc-private-dataseed2.nariox.org",
+      "https://bsc-dataseed1.ninicoin.io",
       "https://bsc-dataseed1.binance.org",
       "https://bsc-dataseed2.binance.org",
       "https://bsc-dataseed3.binance.org"
@@ -160,15 +179,8 @@
     "shortName": "Matic",
     "chainId": 137,
     "network": "mainnet",
-    "rpc": ["https://rpc-mainnet.maticvigil.com"],
+    "rpc": ["https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e"],
     "ws": ["wss://ws-mainnet.matic.network"],
-    "explorer": ""
-  },
-  "420": {
-    "key": "420",
-    "name": "Optimistic Ethereum",
-    "chainId": 420,
-    "network": "mainnet",
     "explorer": ""
   },
   "32659": {
@@ -200,21 +212,13 @@
     ],
     "explorer": "https://www.wanscan.org"
   },
-  "1337": {
-    "key": "1337",
-    "name": "Localhost 8545",
-    "shortName": "localhost",
-    "chainId": 1337,
-    "network": "localhost",
-    "rpc": ["http://localhost:8545"]
-  },
-  "17": {
-    "key": "17",
-    "name": "Docker localhost 8545",
-    "shortName": "dockerLocalhost",
-    "chainId": 17,
-    "network": "docker localhost",
-    "rpc": ["http://localhost:8545"]
+  "2109": {
+    "key": "2109",
+    "name": "Avalanche",
+    "chainId": 43114,
+    "network": "mainnet",
+    "rpc": ["https://api.avax.network/ext/bc/C/rpc"],
+    "explorer": "https://cchain.explorer.avax.network"
   },
   "108": {
     "key": "108",
@@ -232,7 +236,7 @@
     "network": "testnet",
     "rpc": ["https://http-testnet.hecochain.com"],
     "ws": ["wss://ws-testnet.hecochain.com"],
-    "explorer": "https://scan-testnet.hecochain.com"
+    "explorer": "https://testnet.hecoinfo.com"
   },
   "128": {
     "key": "128",
@@ -241,7 +245,55 @@
     "chainId": 128,
     "network": "Mainnet",
     "rpc": ["https://http-mainnet.hecochain.com"],
-    "ws": ["wss://ws-mainnet.hecochain.com"],
-    "explorer": "https://scan.hecochain.com"
+    "ws": ["wss://ws-mainnet-node.huobichain.com"],
+    "explorer": "https://hecoinfo.com"
+  },
+  "250": {
+    "key": "250",
+    "name": "Fantom Opera",
+    "shortName": "fantom",
+    "chainId": 250,
+    "network": "Mainnet",
+    "rpc": ["https://rpcapi.fantom.network"],
+    "explorer": "https://ftmscan.com"
+  },
+  "499": {
+    "key": "499",
+    "name": "Rupaya",
+    "shortName": "RUPX",
+    "chainId": 499,
+    "network": "mainnet",
+    "rpc": ["https://rpc.rupx.io"],
+    "ws": ["wss://ws.rupx.io"],
+    "explorer": "http://scan.rupx.io"
+  },
+  "1287": {
+    "key": "1287",
+    "name": "Moonbase Alpha TestNet",
+    "shortName": "Moonbase",
+    "chainId": 1287,
+    "network": "testnet",
+    "rpc": ["https://rpc.testnet.moonbeam.network"],
+    "explorer": "https://moonbase-blockscout.testnet.moonbeam.network/"
+  },
+  "1666600000": {
+    "key": "1666600000",
+    "name": "Harmony Mainnet",
+    "shortName": "HarmonyMainnet",
+    "chainId": 1666600000,
+    "network": "mainnet",
+    "rpc": ["https://a.api.s0.t.hmny.io"],
+    "ws": ["wss://ws.s0.t.hmny.io"],
+    "explorer": "https://explorer.harmony.one"
+  },
+  "1666700000": {
+    "key": "1666700000",
+    "name": "Harmony Testnet",
+    "shortName": "HarmonyTestnet",
+    "chainId": 1666700000,
+    "network": "testnet",
+    "rpc": ["https://api.s0.b.hmny.io"],
+    "ws": ["wss://ws.s0.b.hmny.io"],
+    "explorer": "https://explorer.pops.one"
   }
 }

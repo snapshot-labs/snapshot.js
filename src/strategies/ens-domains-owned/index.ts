@@ -1,3 +1,4 @@
+import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 
 const ENS_SUBGRAPH_URL = {
@@ -50,7 +51,7 @@ export async function strategy(
   if (result && result.domains) {
     result.domains.forEach((u) => {
       u.subdomains.forEach((domain) => {
-        const userAddress = domain.owner.id;
+        const userAddress = getAddress(domain.owner.id);
         if (!score[userAddress]) score[userAddress] = 0;
         score[userAddress] = score[userAddress] + 1;
       });

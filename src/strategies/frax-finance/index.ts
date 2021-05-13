@@ -9,7 +9,6 @@ const UNISWAP_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2'
 };
 
-
 export const author = 'FraxFinance';
 export const version = '0.0.1';
 
@@ -168,7 +167,6 @@ export async function strategy(
     [address]
   ]);
 
-
   const response = await multicall(
     network,
     provider,
@@ -195,7 +193,6 @@ export async function strategy(
     ],
     { blockTag }
   );
-
 
   const uniLPFraxFxs_token0 = response[0];
   const uniLPFraxFxs_getReserves = response[1];

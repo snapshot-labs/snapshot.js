@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "apescape",
+      "params": {
+        "symbol": "ROKT"
+      }
+    },
+    "network": "56",
+    "addresses": [
+      "0x9Fa02A6DedD0383cF339aeCB9353bfaE1E319Aa6"
+    ],
+    "snapshot": 7218577
+  }
+]
