@@ -272,7 +272,7 @@ export async function strategy(
 
         console.log(`==================${addresses[i]}==================`);
         console.log("Free FXS: ", free_fxs.div(BIG18).toString());
-        console.log("Free FXS: ", vefxs.div(BIG18).toString());
+        console.log("veFXS: ", vefxs.div(BIG18).toString());
         console.log("Free Uni FRAX/FXS LP: ", free_uni_frax_fxs.div(BIG18).toString());
         console.log("Farmed Uni FRAX/FXS LP [boosted]: ", farm_uni_frax_fxs.div(BIG18).toString());
         console.log("Free Sushi FRAX/FXS LP: ", free_sushi_frax_fxs.div(BIG18).toString());

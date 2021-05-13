@@ -1,2 +1,7 @@
 TO TEST 
+npm install
+OPTIONAL
+ADD ,
+        "snapshot": '11833575' // change block number
+TO examples.json
 npm run test
