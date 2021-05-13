@@ -80,6 +80,7 @@ import { strategy as xseen } from './xseen';
 import { strategy as molochAll } from './moloch-all';
 import { strategy as molochLoot } from './moloch-loot';
 import { strategy as erc721Enumerable } from './erc721-enumerable';
+import { strategy as hoprUniLpFarm } from './hopr-uni-lp-farm';
 import { strategy as erc721 } from './erc721';
 import { strategy as apescape } from './apescape';
 import { strategy as liftkitchen } from './liftkitchen';
@@ -168,6 +169,7 @@ export default {
   xseen,
   'moloch-all': molochAll,
   'moloch-loot': molochLoot,
+  'hopr-uni-lp-farm': hoprUniLpFarm,
   apescape,
   liftkitchen
 };
