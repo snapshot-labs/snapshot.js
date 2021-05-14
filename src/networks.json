@@ -133,6 +133,16 @@
     "rpc": ["https://ethereumclassic.network"],
     "explorer": "https://blockscout.com/etc/mainnet"
   },
+  "70": {
+    "key": "70",
+    "name": "Hoo Smart Chain Mainnet",
+    "shortName": "hsc",
+    "chainId": 70,
+    "network": "Mainnet",
+    "rpc": ["https://http-mainnet.hoosmartchain.com"],
+    "ws": ["wss://ws-mainnet.hoosmartchain.com"],
+    "explorer": "https://hscscan.com"
+  },
   "99": {
     "key": "99",
     "name": "POA Core",
