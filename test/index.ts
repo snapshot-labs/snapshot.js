@@ -17,15 +17,12 @@ const strategyArg =
     .pop();
 const strategy =
   Object.keys(snapshot.strategies).find((s) => strategyArg == s);
-
-if(!strategy) {
-  throw `${strategyArg} - Strategy not found`;
-}
+if (!strategy) throw 'Strategy not found';
 const example = require(`../src/strategies/${strategy}/examples.json`)[0];
 
 (async () => {
   console.log(`Strategy: "${strategy}"`);
-  console.log(example.name);
+  console.log(`Query: "${example.name}"`);
   console.time('getScores');
   try {
     const scores = await snapshot.utils.getScores(
