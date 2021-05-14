@@ -3,7 +3,7 @@ import networks from '../../networks.json';
 import {JsonRpcProvider} from "@ethersproject/providers";
 import strategies from '..';
 
-export const author = 'kesarito';
+export const author = 'kesar';
 export const version = '1.0.0';
 
 async function getChainBlockNumber(timestamp: number, graphURL: string): Promise<number> {
