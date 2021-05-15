@@ -4,32 +4,14 @@
         "strategy": {
             "name": "defidollar",
             "params": {
-                "DFD": "0x20c36f062a31865bED8a5B1e512D9a1A20AA333A",
-                "farms": {
-                    "curve": {
-                        "farm": "0xAEA6c312f4b3E04D752946d329693F7293bC2e6D"
-                    },
-                    "sushiEthDusd": {
-                        "farm": "0x47744b96f799a61874a3cd73b394b7feaa6c3e19"
-                    },
-                    "ibDFD": {
-                        "address": "0xde157688a36ac94b6e5f52e99c196f79ac71cea3"
-                    },
-                    "balDfdDusd": {
-                        "farm": "0xf068236ecad5fabb9883bbb26a6445d6c7c9a924",
-                        "lpToken": "0xd8e9690eff99e21a2de25e0b148ffaf47f47c972"
-                    },
-                    "sushiDfdEth": {
-                        "farm": "0x81b53a22d51d6769093bec1158f134fc6b114f4b",
-                        "lpToken": "0xb12aa722a3a4566645f079b6f10c89a3205b6c2c"
-                    }
-                }
+                "address": "0xde157688a36ac94b6e5f52e99c196f79ac71cea3"
             }
         },
         "network": "1",
         "addresses": [
             "0x562574AF66836b1d30e69815bDf0740A7BD7C437",
-            "0x6d3ee34a020e7565e78540c74300218104c8e4a9"
+            "0x6d3ee34a020e7565e78540c74300218104c8e4a9",
+            "0xa91194363b0a498e9d8602a866c473cb7bc9467d"
         ]
     }
 ]
