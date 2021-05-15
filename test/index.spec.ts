@@ -77,14 +77,17 @@ describe(`Snapshot Strategy Test:\n\nStrategy: "${strategy}"\nQuery: "${example.
     expect(example.snapshot).toBeLessThanOrEqual(blockNumber);
   });
 
+  let scoresMore = null;
+  let getScoresTimeMore = null;
+
   (moreArg ? it : it.skip)(
     'The strategy should work with 500 addresses.\n      (will be skipped if "--more=500" argument is not passed)',
     async () => {
       example.addresses = addresses.slice(0, moreArg);
       const getScoresStart = performance.now();
-      scores = await callGetScores(example);
+      scoresMore = await callGetScores(example);
       const getScoresEnd = performance.now();
-      getScoresTime = getScoresEnd - getScoresStart;
+      getScoresTimeMore = getScoresEnd - getScoresStart;
       console.log('Get Scores for 500 addresses:' + getScoresTime);
       console.log(scores);
       // wait for all logs to be printed (bug: printed after results)
@@ -96,15 +99,15 @@ describe(`Snapshot Strategy Test:\n\nStrategy: "${strategy}"\nQuery: "${example.
   (moreArg ? it : it.skip)(
     'getScores 500 should return an array\n      (will be skipped if "--more=500" argument is not passed)',
     () => {
-      expect(scores).toBeTruthy();
-      expect(Array.isArray(scores)).toBe(true);
+      expect(scoresMore).toBeTruthy();
+      expect(Array.isArray(scoresMore)).toBe(true);
     }
   );
 
   (moreArg ? it : it.skip)(
     'The strategy for 500 addresses should take less than 10 seconds to resolve\n      (will be skipped if "--more=500" argument is not passed)',
     () => {
-      expect(getScoresTime).toBeLessThanOrEqual(10000);
+      expect(getScoresTimeMore).toBeLessThanOrEqual(10000);
     }
   );
 });
