@@ -1,9 +1,5 @@
 name: Test strategy
-on:
-  pull_request:
-    types:
-      - edited
-      - labeled
+on: [push, pull_request]
 
 jobs:
   test-strategy:
@@ -17,5 +13,5 @@ jobs:
         npm install
         STRATEGY=$(echo '${{github.event.pull_request.title}}' | sed -e 's/.*\[\(.*\)\].*/\1/')
         if [ -n "$STRATEGY" ]; then
-          npm run test --strategy=$STRATEGY
+          npm run test --strategy=$STRATEGY --more=500
         fi
