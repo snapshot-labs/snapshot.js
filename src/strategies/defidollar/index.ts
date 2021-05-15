@@ -54,8 +54,10 @@ export async function strategy(
   });
   queries.push([options.address, 'getPricePerFullShare']);
 
-  const response = (await multicall(network, provider, abi, queries, { blockTag })).map(r => r[0]);
-  const pps = response[response.length - 1]
+  const response = (
+    await multicall(network, provider, abi, queries, { blockTag })
+  ).map((r) => r[0]);
+  const pps = response[response.length - 1];
 
   return Object.fromEntries(
     Array(addresses.length)
