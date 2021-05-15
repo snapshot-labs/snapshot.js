@@ -11,7 +11,7 @@ export async function strategy(
   options,
   snapshot
 ) {
-  const max = options.limit || 500;
+  const max = options.limit || 300;
   const pages = Math.ceil(addresses.length / max);
   const promises: any = [];
   Array.from(Array(pages)).forEach((x, i) => {
