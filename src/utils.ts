@@ -97,6 +97,15 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
   return data || {};
 }
 
+export function getUrl(uri) {
+  const uriSub = uri.substring(0, 7);
+  if (uriSub === 'ipfs://')
+    return uri.replace('ipfs://', 'https://gateway.ipfs.io/ipfs/');
+  if (uriSub === 'ipns://')
+    return uri.replace('ipns://', 'https://gateway.ipfs.io/ipfs/');
+  return uri;
+}
+
 export async function ipfsGet(
   gateway: string,
   ipfsHash: string,
