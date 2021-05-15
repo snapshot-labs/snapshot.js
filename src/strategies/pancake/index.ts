@@ -59,7 +59,7 @@ const masterChefAbi = [
   }
 ];
 
-const masterChefContractAddress = '0x73feaa1eE314F8c655E354234017bE2193C9E24E';
+const masterChefContractAddress = '0x68c616DCeA206055B85830E641FBf7A20648548D';
 
 export async function strategy(
   space,
