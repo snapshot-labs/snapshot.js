@@ -1,5 +1,13 @@
 name: Test strategy
-on: [pull_request]
+on:
+  pull_request:
+    types:
+      - edited
+      - labeled
+      - synchronize
+      - ready_for_review
+      - review_requested
+      - reopened
 
 jobs:
   test-strategy:
