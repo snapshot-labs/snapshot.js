@@ -4,9 +4,7 @@
         "strategy": {
             "name": "defidollar",
             "params": {
-                "symbol": "ibDFD",
-                "address": "0xde157688a36ac94b6e5f52e99c196f79ac71cea3",
-                "decimals": 18
+                "address": "0xde157688a36ac94b6e5f52e99c196f79ac71cea3"
             }
         },
         "network": "1",
