@@ -26,7 +26,7 @@
     "chainId": 3,
     "network": "ropsten",
     "rpc": [
-      "https://eth-ropsten.alchemyapi.io/v2/wbsH-Ihl4guFWnM4klEJxh5r64KRp3LV"
+      "https://eth-ropsten.alchemyapi.io/v2/QzGz6gdkpTyDzebi3PjxIaKO7bDTGnSy"
     ],
     "explorer": "https://ropsten.etherscan.io"
   },
@@ -37,7 +37,7 @@
     "chainId": 4,
     "network": "rinkeby",
     "rpc": [
-      "https://eth-rinkeby.alchemyapi.io/v2/twReQE9Px03E-E_N_Fbb3OVF7YgHxoGq",
+      "https://eth-rinkeby.alchemyapi.io/v2/ugiPEBqMebLQbjro42kalZ1h4StpW_fR",
       "https://eth-rinkeby.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
     ],
     "ws": [
@@ -52,7 +52,7 @@
     "chainId": 5,
     "network": "goerli",
     "rpc": [
-      "https://eth-goerli.alchemyapi.io/v2/gzMLSQ6EPmP6ZsTd0BOCQ7tPwAmgWpO9"
+      "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
     ],
     "explorer": "https://goerli.etherscan.io"
   },
@@ -88,7 +88,7 @@
     "chainId": 42,
     "network": "kovan",
     "rpc": [
-      "https://eth-kovan.alchemyapi.io/v2/QCsM2iU0bQ49eGDmZ7-Y--Wpu0lVWXSO",
+      "https://eth-kovan.alchemyapi.io/v2/s96TIUFYg0LuddgpmafA040ZyUaZbrpM",
       "https://poa-kovan.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
     ],
     "ws": [
