@@ -1,9 +1,8 @@
 import { formatUnits } from '@ethersproject/units';
-import { BigNumber } from '@ethersproject/bignumber';
 import { multicall } from '../../utils';
 
 export const author = 'atvanguard';
-export const version = '0.1.0';
+export const version = '1.0.0';
 
 const abi = [
   {
@@ -55,7 +54,7 @@ export async function strategy(
   });
   queries.push([options.address, 'getPricePerFullShare']);
 
-  const response = (await multicall(network, provider, abi, queries, { blockTag })).map((r) => BigNumber.from(r[0]));
+  const response = (await multicall(network, provider, abi, queries, { blockTag })).map(r => r[0]);
   const pps = response[response.length - 1]
 
   return Object.fromEntries(
@@ -64,7 +63,7 @@ export async function strategy(
       .map((_, i) => {
         return [
           addresses[i],
-          parseFloat(formatUnits(response[i].mul(pps).div(BigNumber.from(10).pow(18)).toString(), 18 /* decimals */))
+          parseFloat(formatUnits(response[i].mul(pps), 36 /* decimals */))
         ];
       })
   );
