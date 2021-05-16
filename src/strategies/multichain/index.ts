@@ -6,6 +6,11 @@ import strategies from '..';
 export const author = 'kesar';
 export const version = '1.0.0';
 
+const defaultGraphs = {
+  "56": "https://api.thegraph.com/subgraphs/name/apyvision/block-info",
+  "137": "https://api.thegraph.com/subgraphs/name/sameepsi/maticblocks"
+}
+
 async function getChainBlockNumber(timestamp: number, graphURL: string): Promise<number> {
   const query = {
     blocks: {
@@ -34,10 +39,11 @@ async function getChainBlocks(snapshot, provider, options, network): Promise<any
     if (chainBlocks[strategy.network]) {
       continue;
     }
-    if (strategy.network === network) {
+    if (blockTag === 'latest' || strategy.network === network) {
       chainBlocks[strategy.network] = blockTag;
     } else {
-      chainBlocks[strategy.network] = await getChainBlockNumber(block.timestamp, options.graphs[strategy.network]);
+      const graph = options.graphs?.[strategy.network] || defaultGraphs[strategy.network];
+      chainBlocks[strategy.network] = await getChainBlockNumber(block.timestamp, graph);
     }
   }
 
