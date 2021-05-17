@@ -33,7 +33,8 @@ export async function strategy(
         block: {
           number: blockNumber
         },
-        first: 1000
+        first: 1000,
+        skip: 0
       },
       owner: {
         id: true
@@ -44,18 +45,23 @@ export async function strategy(
 
 
   const score = {};
-  const result = await subgraphRequest(
-    DECENTRALAND_MARKETPLACE_SUBGRAPH_URL[network],
-    params
-  );
+  let hasNext = true;
+  while (hasNext) {
+    const result = await subgraphRequest(
+      DECENTRALAND_MARKETPLACE_SUBGRAPH_URL[network],
+      params
+    );
 
-  if (result && result.nfts) {
+    const nfts = result && result.nfts ? result.nfts : []
     for (const estate of result.nfts) {
       const userAddress = getAddress(estate.owner.id);
       score[userAddress] =
         (score[userAddress] || 0) +
         (estate.searchEstateSize * multipler)
     }
+
+    params.nfts.__args.skip += params.nfts.__args.first
+    hasNext = nfts.length === params.nfts.__args.first
   }
 
   return score;
