@@ -1,12 +1,14 @@
-import { formatUnits } from '@ethersproject/units';
-import { multicall } from '../../utils';
+import { getAddress } from '@ethersproject/address';
+import { subgraphRequest } from '../../utils';
+import { getBlockNumber } from '../../utils/web3';
 
 export const author = '2fd';
 export const version = '0.1.0';
 
-const abi = [
-  'function getLANDsSize(address _owner) public view returns (uint256)'
-];
+const DECENTRALAND_MARKETPLACE_SUBGRAPH_URL = {
+  '1': 'https://api.thegraph.com/subgraphs/name/decentraland/marketplace',
+  '3': 'https://api.thegraph.com/subgraphs/name/decentraland/marketplaceropsten'
+};
 
 export async function strategy(
   space,
@@ -16,19 +18,44 @@ export async function strategy(
   options,
   snapshot
 ) {
+
   const multipler = options.multiplier || 1
-  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
-  const response = await multicall(
-    network,
-    provider,
-    abi,
-    addresses.map((address: any) => [options.address, 'getLANDsSize', [address]]),
-    { blockTag }
+  const blockNumber =
+    typeof snapshot === 'number' ? snapshot : await getBlockNumber(provider);
+  const params = {
+    nfts: {
+      __args: {
+        where: {
+          owner_in: addresses.map((address) => address.toLowerCase()),
+          category: 'estate'
+        },
+        block: {
+          number: blockNumber
+        },
+        first: 1000
+      },
+      owner: {
+        id: true
+      },
+      searchEstateSize: true
+    }
+  };
+
+
+  const score = {};
+  const result = await subgraphRequest(
+    DECENTRALAND_MARKETPLACE_SUBGRAPH_URL[network],
+    params
   );
-  return Object.fromEntries(
-    response.map((value, i) => [
-      addresses[i],
-      parseFloat(formatUnits(value.toString(), 0)) * multipler
-    ])
-  );
+
+  if (result && result.nfts) {
+    for (const estate of result.nfts) {
+      const userAddress = getAddress(estate.owner.id);
+      score[userAddress] =
+        (score[userAddress] || 0) +
+        (estate.searchEstateSize * multipler)
+    }
+  }
+
+  return score;
 }
