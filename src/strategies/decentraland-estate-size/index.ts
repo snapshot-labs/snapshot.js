@@ -27,7 +27,8 @@ export async function strategy(
       __args: {
         where: {
           owner_in: addresses.map((address) => address.toLowerCase()),
-          category: 'estate'
+          category: 'estate',
+          searchEstateSize_gt: 0
         },
         block: {
           number: blockNumber
