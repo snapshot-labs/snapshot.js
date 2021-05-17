@@ -76,38 +76,33 @@ describe(`Snapshot Strategy Test:\n\nStrategy: "${strategy}"\nQuery: "${example.
     const blockNumber = await snapshot.utils.getBlockNumber(provider);
     expect(example.snapshot).toBeLessThanOrEqual(blockNumber);
   });
+});
 
-  let scoresMore = null;
-  let getScoresTimeMore = null;
+(moreArg ? describe : describe.skip)(
+  `\nTest Snapshot Strategy with ${moreArg || 500} addresses:\n\nStrategy: "${strategy}"\nQuery: "${example.name}"\n(will be skipped if "--more=500" argument is not passed)\n\n`,
+  () => {
+    let scoresMore = null;
+    let getScoresTimeMore = null;
 
-  (moreArg ? it : it.skip)(
-    'The strategy should work with 500 addresses.\n      (will be skipped if "--more=500" argument is not passed)',
-    async () => {
+    it(`The strategy should work with ${moreArg || 500} addresses.`, async () => {
       example.addresses = addresses.slice(0, moreArg);
       const getScoresStart = performance.now();
       scoresMore = await callGetScores(example);
       const getScoresEnd = performance.now();
       getScoresTimeMore = getScoresEnd - getScoresStart;
-      console.log('Get Scores for 500 addresses:' + getScoresTime);
-      console.log(scores);
+      console.log(`Get Scores for ${moreArg} addresses:` + getScoresTimeMore);
+      console.log(scoresMore);
       // wait for all logs to be printed (bug: printed after results)
       await new Promise((r) => setTimeout(r, 2000));
-    },
-    20000
-  );
+    }, 20000);
 
-  (moreArg ? it : it.skip)(
-    'getScores 500 should return an array\n      (will be skipped if "--more=500" argument is not passed)',
-    () => {
+    it(`getScores ${moreArg || 500} should return an array`, () => {
       expect(scoresMore).toBeTruthy();
       expect(Array.isArray(scoresMore)).toBe(true);
-    }
-  );
+    });
 
-  (moreArg ? it : it.skip)(
-    'The strategy for 500 addresses should take less than 10 seconds to resolve\n      (will be skipped if "--more=500" argument is not passed)',
-    () => {
+    it(`The strategy for ${moreArg || 500} addresses should take less than 10 seconds to resolve`, () => {
       expect(getScoresTimeMore).toBeLessThanOrEqual(10000);
-    }
-  );
-});
+    });
+  }
+);
