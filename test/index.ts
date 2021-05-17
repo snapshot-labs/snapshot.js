@@ -12,17 +12,17 @@ const networks = require('../src/networks.json');
 
 const strategyArg =
   process.env['npm_config_strategy'] ||
-  (process.argv.find((arg) => arg.includes('--strategy=')) || '')
+  (process.argv.find((arg) => arg.includes('--strategy=')) || '--strategy=erc20-balance-of')
     .split('--strategy=')
     .pop();
 const strategy =
-  Object.keys(snapshot.strategies).find((s) => strategyArg == s) ||
-  'erc20-balance-of';
+  Object.keys(snapshot.strategies).find((s) => strategyArg == s);
+if (!strategy) throw 'Strategy not found';
 const example = require(`../src/strategies/${strategy}/examples.json`)[0];
 
 (async () => {
   console.log(`Strategy: "${strategy}"`);
-  console.log(example.name);
+  console.log(`Query: "${example.name}"`);
   console.time('getScores');
   try {
     const scores = await snapshot.utils.getScores(
@@ -37,6 +37,7 @@ const example = require(`../src/strategies/${strategy}/examples.json`)[0];
   } catch (e) {
     console.log('getScores failed');
     console.error(e);
+    throw e;
   }
   console.timeEnd('getScores');
 })();
