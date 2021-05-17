@@ -16,6 +16,7 @@ import {
   resolveContent
 } from './utils/contentHash';
 import { signMessage, getBlockNumber } from './utils/web3';
+import gateways from './gateways.json';
 
 export const MULTICALL = {
   '1': '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
@@ -95,6 +96,16 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
   });
   const { data } = await res.json();
   return data || {};
+}
+
+export function getUrl(uri) {
+  const uriScheme = uri.split('://')[0];
+  const ipfsGateway = `https://${gateways[0]}`;
+  if (uriScheme === 'ipfs')
+    return uri.replace('ipfs://', `${ipfsGateway}/ipfs/`);
+  if (uriScheme === 'ipns')
+    return uri.replace('ipns://', `${ipfsGateway}/ipns/`);
+  return uri;
 }
 
 export async function ipfsGet(
