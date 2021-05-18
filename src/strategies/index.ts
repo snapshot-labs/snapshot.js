@@ -81,10 +81,12 @@ import { strategy as xseen } from './xseen';
 import { strategy as molochAll } from './moloch-all';
 import { strategy as molochLoot } from './moloch-loot';
 import { strategy as erc721Enumerable } from './erc721-enumerable';
+import { strategy as erc721WithMultiplier } from './erc721-with-multiplier';
 import { strategy as hoprUniLpFarm } from './hopr-uni-lp-farm';
 import { strategy as erc721 } from './erc721';
 import { strategy as apescape } from './apescape';
 import { strategy as liftkitchen } from './liftkitchen';
+import { strategy as decentralandEstateSize } from './decentraland-estate-size';
 
 export default {
   balancer,
@@ -106,6 +108,7 @@ export default {
   'maker-ds-chief': makerDsChief,
   erc721,
   'erc721-enumerable': erc721Enumerable,
+  'erc721-with-multiplier': erc721WithMultiplier,
   'erc1155-balance-of': erc1155BalanceOf,
   'erc1155-balance-of-cv': erc1155BalanceOfCv,
   multichain,
@@ -173,5 +176,6 @@ export default {
   'moloch-loot': molochLoot,
   'hopr-uni-lp-farm': hoprUniLpFarm,
   apescape,
-  liftkitchen
+  liftkitchen,
+  'decentraland-estate-size': decentralandEstateSize
 };
