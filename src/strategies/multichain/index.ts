@@ -1,17 +1,20 @@
-import {subgraphRequest} from '../../utils';
+import { subgraphRequest } from '../../utils';
 import networks from '../../networks.json';
-import {JsonRpcProvider} from "@ethersproject/providers";
+import { JsonRpcProvider } from '@ethersproject/providers';
 import strategies from '..';
 
 export const author = 'kesar';
 export const version = '1.0.0';
 
 const defaultGraphs = {
-  "56": "https://api.thegraph.com/subgraphs/name/apyvision/block-info",
-  "137": "https://api.thegraph.com/subgraphs/name/sameepsi/maticblocks"
-}
+  '56': 'https://api.thegraph.com/subgraphs/name/apyvision/block-info',
+  '137': 'https://api.thegraph.com/subgraphs/name/sameepsi/maticblocks'
+};
 
-async function getChainBlockNumber(timestamp: number, graphURL: string): Promise<number> {
+async function getChainBlockNumber(
+  timestamp: number,
+  graphURL: string
+): Promise<number> {
   const query = {
     blocks: {
       __args: {
@@ -30,8 +33,12 @@ async function getChainBlockNumber(timestamp: number, graphURL: string): Promise
   return Number(data.blocks[0].number);
 }
 
-async function getChainBlocks(snapshot, provider, options, network): Promise<any> {
-
+async function getChainBlocks(
+  snapshot,
+  provider,
+  options,
+  network
+): Promise<any> {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const block = await provider.getBlock(blockTag);
   const chainBlocks = {};
@@ -42,8 +49,12 @@ async function getChainBlocks(snapshot, provider, options, network): Promise<any
     if (blockTag === 'latest' || strategy.network === network) {
       chainBlocks[strategy.network] = blockTag;
     } else {
-      const graph = options.graphs?.[strategy.network] || defaultGraphs[strategy.network];
-      chainBlocks[strategy.network] = await getChainBlockNumber(block.timestamp, graph);
+      const graph =
+        options.graphs?.[strategy.network] || defaultGraphs[strategy.network];
+      chainBlocks[strategy.network] = await getChainBlockNumber(
+        block.timestamp,
+        graph
+      );
     }
   }
 
@@ -59,7 +70,12 @@ export async function strategy(
   snapshot
 ) {
   const promises: any = [];
-  const chainBlocks = await getChainBlocks(snapshot, provider, options, network);
+  const chainBlocks = await getChainBlocks(
+    snapshot,
+    provider,
+    options,
+    network
+  );
 
   for (let strategy of options.strategies) {
     promises.push(
