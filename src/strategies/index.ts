@@ -11,6 +11,7 @@ import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegat
 import { strategy as balanceOfWithMin } from './balance-of-with-min';
 import { strategy as ethBalance } from './eth-balance';
 import { strategy as ethWalletAge } from './eth-wallet-age';
+import { strategy as multichain } from './multichain';
 import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
 import { strategy as yearnVault } from './yearn-vault';
@@ -107,6 +108,7 @@ export default {
   'erc721-enumerable': erc721Enumerable,
   'erc1155-balance-of': erc1155BalanceOf,
   'erc1155-balance-of-cv': erc1155BalanceOfCv,
+  multichain,
   uni,
   'frax-finance': fraxFinance,
   'yearn-vault': yearnVault,
