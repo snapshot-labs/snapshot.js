@@ -10,6 +10,7 @@ import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity';
 import { multicall, sendTransaction } from '../../utils';
 import getProvider from '../../utils/provider';
 import { _TypedDataEncoder } from '@ethersproject/hash';
+import { formatEther } from '@ethersproject/units';
 
 const EIP712_TYPES = {
   Transaction: [
@@ -56,7 +57,12 @@ const ModuleAbi = [
 const OracleAbi = [
   // Read functions
   'function resultFor(bytes32 question_id) view returns (bytes32)',
-  'function getFinalizeTS(bytes32 question_id) view returns (uint32)'
+  'function getFinalizeTS(bytes32 question_id) view returns (uint32)',
+  'function getBond(bytes32 question_id) view returns (uint256)',
+  'function getBestAnswer(bytes32 question_id) view returns (uint32)',
+
+  // Write functions
+  'function submitAnswer(bytes32 question_id, bytes32 answer, uint256 max_previous)'
 ];
 
 export interface ModuleTransaction {
@@ -78,6 +84,9 @@ export interface ProposalDetails {
   nextTxIndex: number | undefined;
   transactions: ModuleTransaction[];
   txHashes: string[];
+  currentBond: string;
+  currentDecision: 'YES' | 'NO';
+  endTimestamp: number;
 }
 
 const buildQuestion = async (proposalId: string, txHashes: string[]) => {
@@ -132,6 +141,32 @@ const getModuleDetails = async (
     dao: moduleDetails[0][0],
     oracle: moduleDetails[1][0],
     cooldown: moduleDetails[2][0]
+  };
+};
+
+const getOracleInformation = async (
+  provider: JsonRpcProvider,
+  network: string,
+  oracleAddress: string,
+  questionId: string
+): Promise<{
+  currentDecision: 'YES' | 'NO';
+  endTimestamp: number;
+  currentBond: string;
+}> => {
+  const result = await multicall(network, provider, OracleAbi, [
+    [oracleAddress, 'getBond', [questionId]],
+    [oracleAddress, 'getBestAnswer', [questionId]],
+    [oracleAddress, 'getFinalizeTS', [questionId]]
+  ]);
+
+  const answer = BigNumber.from(result[1][0]);
+  const currentBond = formatEther(BigNumber.from(result[0][0]));
+
+  return {
+    currentDecision: answer.eq(BigNumber.from(1)) ? 'YES' : 'NO',
+    endTimestamp: BigNumber.from(result[2][0]).toNumber(),
+    currentBond
   };
 };
 
@@ -227,6 +262,11 @@ export default class Plugin {
     const question = await buildQuestion(proposalId, txHashes);
     const questionHash = solidityKeccak256(['string'], [question]);
 
+    const moduleDetails = await getModuleDetails(
+      provider,
+      network,
+      moduleAddress
+    );
     const proposalDetails = await getProposalDetails(
       provider,
       network,
@@ -234,12 +274,13 @@ export default class Plugin {
       questionHash,
       txHashes
     );
-    const moduleDetails = await getModuleDetails(
+    const questionState = await checkPossibleExecution(
       provider,
       network,
-      moduleAddress
+      moduleDetails.oracle,
+      proposalDetails.questionId
     );
-    const questionState = await checkPossibleExecution(
+    const questionDetails = await getOracleInformation(
       provider,
       network,
       moduleDetails.oracle,
@@ -252,7 +293,8 @@ export default class Plugin {
         ...questionState,
         ...proposalDetails,
         transactions,
-        txHashes
+        txHashes,
+        ...questionDetails
       };
     } catch (e) {
       throw new Error(e);
