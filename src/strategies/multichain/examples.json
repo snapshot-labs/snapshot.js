@@ -1,0 +1,55 @@
+[
+  {
+    "name": "Multichain Voting",
+    "strategy": {
+      "name": "multichain",
+      "params": {
+        "strategies": [
+          {
+            "name": "erc20-balance-of",
+            "network": "1",
+            "params": {
+              "address": "0x579cea1889991f68acc35ff5c3dd0621ff29b0c9",
+              "decimals": 18
+            }
+          },
+          {
+            "name": "erc20-balance-of",
+            "network": "137",
+            "params": {
+              "address": "0xB9638272aD6998708de56BBC0A290a1dE534a578",
+              "decimals": 18
+            }
+          },
+          {
+            "name": "erc20-balance-of",
+            "network": "56",
+            "params": {
+              "address": "0x0e37d70b51ffa2b98b4d34a5712c5291115464e3",
+              "decimals": 18
+            }
+          },
+          {
+            "name": "erc20-balance-of",
+            "network": 137,
+            "params": {
+              "address": "0xfC0fA725E8fB4D87c38EcE56e8852258219C64Ee",
+              "decimals": 18
+            }
+          }
+        ],
+        "graphs": {
+          "56": "https://api.thegraph.com/subgraphs/name/apyvision/block-info",
+          "137": "https://api.thegraph.com/subgraphs/name/sameepsi/maticblocks"
+        }
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x52bc44d5378309ee2abf1539bf71de1b7d7be3b5",
+      "0x9feab70f3c4a944b97b7565bac4991df5b7a69ff",
+      "0xaca39b187352d9805deced6e73a3d72abf86e7a0"
+    ],
+    "snapshot": 12419836
+  }
+]
