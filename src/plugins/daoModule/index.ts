@@ -7,10 +7,11 @@ import { isHexString } from '@ethersproject/bytes';
 import { HashZero } from '@ethersproject/constants';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity';
-import { multicall, sendTransaction } from '../../utils';
+import { call, multicall, sendTransaction } from '../../utils';
 import getProvider from '../../utils/provider';
 import { _TypedDataEncoder } from '@ethersproject/hash';
 import { formatEther } from '@ethersproject/units';
+import { formatBytes32String } from '@ethersproject/strings';
 
 const EIP712_TYPES = {
   Transaction: [
@@ -48,6 +49,7 @@ const ModuleAbi = [
   'function buildQuestion(string proposalId, bytes32[] txHashes) view returns (string)',
   'function executedProposalTransactions(bytes32 questionHash, bytes32 txHash) view returns (bool)',
   'function questionIds(bytes32 questionHash) view returns (bytes32)',
+  'function minimumBond() view returns (uint256)',
 
   // Write functions
   'function addProposal(string proposalId, bytes32[] txHashes)',
@@ -62,7 +64,7 @@ const OracleAbi = [
   'function getBestAnswer(bytes32 question_id) view returns (uint32)',
 
   // Write functions
-  'function submitAnswer(bytes32 question_id, bytes32 answer, uint256 max_previous)'
+  'function submitAnswer(bytes32 question_id, bytes32 answer, uint256 max_previous) external payable'
 ];
 
 export interface ModuleTransaction {
@@ -84,9 +86,9 @@ export interface ProposalDetails {
   nextTxIndex: number | undefined;
   transactions: ModuleTransaction[];
   txHashes: string[];
-  currentBond: string;
-  currentDecision: 'YES' | 'NO';
-  endTimestamp: number;
+  currentBond: string | undefined;
+  isApproved: boolean;
+  endTime: number | undefined;
 }
 
 const buildQuestion = async (proposalId: string, txHashes: string[]) => {
@@ -131,42 +133,23 @@ const getModuleDetails = async (
   provider: JsonRpcProvider,
   network: string,
   moduleAddress: string
-): Promise<{ dao: string; oracle: string; cooldown: number }> => {
+): Promise<{
+  dao: string;
+  oracle: string;
+  cooldown: number;
+  minimumBond: number;
+}> => {
   const moduleDetails = await multicall(network, provider, ModuleAbi, [
     [moduleAddress, 'executor'],
     [moduleAddress, 'oracle'],
-    [moduleAddress, 'questionCooldown']
+    [moduleAddress, 'questionCooldown'],
+    [moduleAddress, 'minimumBond']
   ]);
   return {
     dao: moduleDetails[0][0],
     oracle: moduleDetails[1][0],
-    cooldown: moduleDetails[2][0]
-  };
-};
-
-const getOracleInformation = async (
-  provider: JsonRpcProvider,
-  network: string,
-  oracleAddress: string,
-  questionId: string
-): Promise<{
-  currentDecision: 'YES' | 'NO';
-  endTimestamp: number;
-  currentBond: string;
-}> => {
-  const result = await multicall(network, provider, OracleAbi, [
-    [oracleAddress, 'getBond', [questionId]],
-    [oracleAddress, 'getBestAnswer', [questionId]],
-    [oracleAddress, 'getFinalizeTS', [questionId]]
-  ]);
-
-  const answer = BigNumber.from(result[1][0]);
-  const currentBond = formatEther(BigNumber.from(result[0][0]));
-
-  return {
-    currentDecision: answer.eq(BigNumber.from(1)) ? 'YES' : 'NO',
-    endTimestamp: BigNumber.from(result[2][0]).toNumber(),
-    currentBond
+    cooldown: moduleDetails[2][0],
+    minimumBond: moduleDetails[3][0]
   };
 };
 
@@ -175,13 +158,17 @@ const checkPossibleExecution = async (
   network: string,
   oracleAddress: string,
   questionId: string | undefined
-): Promise<{ executionApproved: boolean; finalizedAt: number | undefined }> => {
+): Promise<{
+  executionApproved: boolean;
+  finalizedAt: number | undefined;
+}> => {
   if (questionId) {
     try {
       const result = await multicall(network, provider, OracleAbi, [
         [oracleAddress, 'resultFor', [questionId]],
         [oracleAddress, 'getFinalizeTS', [questionId]]
       ]);
+
       return {
         executionApproved: BigNumber.from(result[0][0]).eq(BigNumber.from(1)),
         finalizedAt: BigNumber.from(result[1][0]).toNumber()
@@ -193,6 +180,39 @@ const checkPossibleExecution = async (
   return {
     executionApproved: false,
     finalizedAt: undefined
+  };
+};
+
+const retrieveInfoFromOracle = async (
+  provider: JsonRpcProvider,
+  network: string,
+  oracleAddress: string,
+  questionId: string | undefined
+): Promise<{
+  currentBond: string | undefined;
+  isApproved: boolean;
+  endTime: number | undefined;
+}> => {
+  if (questionId) {
+    const result = await multicall(network, provider, OracleAbi, [
+      [oracleAddress, 'getFinalizeTS', [questionId]],
+      [oracleAddress, 'getBond', [questionId]],
+      [oracleAddress, 'getBestAnswer', [questionId]]
+    ]);
+
+    const currentBond = formatEther(BigNumber.from(result[1][0]));
+    const answer = BigNumber.from(result[2][0]);
+
+    return {
+      currentBond,
+      isApproved: answer.eq(BigNumber.from(1)),
+      endTime: BigNumber.from(result[0][0]).toNumber()
+    };
+  }
+  return {
+    currentBond: undefined,
+    isApproved: false,
+    endTime: undefined
   };
 };
 
@@ -262,11 +282,6 @@ export default class Plugin {
     const question = await buildQuestion(proposalId, txHashes);
     const questionHash = solidityKeccak256(['string'], [question]);
 
-    const moduleDetails = await getModuleDetails(
-      provider,
-      network,
-      moduleAddress
-    );
     const proposalDetails = await getProposalDetails(
       provider,
       network,
@@ -274,13 +289,18 @@ export default class Plugin {
       questionHash,
       txHashes
     );
+    const moduleDetails = await getModuleDetails(
+      provider,
+      network,
+      moduleAddress
+    );
     const questionState = await checkPossibleExecution(
       provider,
       network,
       moduleDetails.oracle,
       proposalDetails.questionId
     );
-    const questionDetails = await getOracleInformation(
+    const infoFromOracle = await retrieveInfoFromOracle(
       provider,
       network,
       moduleDetails.oracle,
@@ -294,7 +314,7 @@ export default class Plugin {
         ...proposalDetails,
         transactions,
         txHashes,
-        ...questionDetails
+        ...infoFromOracle
       };
     } catch (e) {
       throw new Error(e);
@@ -353,5 +373,39 @@ export default class Plugin {
     );
     const receipt = await tx.wait();
     console.log('[DAO module] executed proposal:', receipt);
+  }
+
+  async voteForQuestion(
+    web3: any,
+    oracleAddress: string,
+    questionId: string,
+    minimumBond: string,
+    answer: '1' | '0'
+  ) {
+    const currentBond = await call(web3, OracleAbi, [
+      oracleAddress,
+      'getBond',
+      [questionId]
+    ]);
+    const bond = currentBond.eq(BigNumber.from(0))
+      ? BigNumber.from(minimumBond)
+      : currentBond.mul(2);
+
+    const tx = await sendTransaction(
+      web3,
+      oracleAddress,
+      OracleAbi,
+      'submitAnswer',
+      [
+        questionId,
+        `0x000000000000000000000000000000000000000000000000000000000000000${answer}`,
+        bond
+      ],
+      {
+        value: bond.toString()
+      }
+    );
+    const receipt = await tx.wait();
+    console.log('[DAO module] executed vote on oracle:', receipt);
   }
 }
