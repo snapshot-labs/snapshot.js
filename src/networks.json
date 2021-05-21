@@ -154,6 +154,16 @@
     "ws": ["wss://exchainws.okex.org:8443"],
     "explorer": "https://www.oklink.com/okexchain"
   },
+  "70": {
+    "key": "70",
+    "name": "Hoo Smart Chain Mainnet",
+    "shortName": "hsc",
+    "chainId": 70,
+    "network": "Mainnet",
+    "rpc": ["https://http-mainnet2.hoosmartchain.com"],
+    "ws": ["wss://ws-mainnet2.hoosmartchain.com"],
+    "explorer": "https://hscscan.com"
+  },
   "99": {
     "key": "99",
     "name": "POA Core",
