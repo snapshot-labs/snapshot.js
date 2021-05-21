@@ -139,8 +139,8 @@
     "shortName": "hsc",
     "chainId": 70,
     "network": "Mainnet",
-    "rpc": ["https://http-mainnet.hoosmartchain.com"],
-    "ws": ["wss://ws-mainnet.hoosmartchain.com"],
+    "rpc": ["https://http-mainnet2.hoosmartchain.com"],
+    "ws": ["wss://ws-mainnet2.hoosmartchain.com"],
     "explorer": "https://hscscan.com"
   },
   "99": {
