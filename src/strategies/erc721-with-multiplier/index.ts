@@ -16,7 +16,7 @@ export async function strategy(
   options,
   snapshot
 ) {
-  const multipler = options.multiplier || 1
+  const multipler = options.multiplier || 1;
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const response = await multicall(
     network,
