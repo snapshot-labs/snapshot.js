@@ -11,7 +11,6 @@ import { call, multicall, sendTransaction } from '../../utils';
 import getProvider from '../../utils/provider';
 import { _TypedDataEncoder } from '@ethersproject/hash';
 import { formatEther } from '@ethersproject/units';
-import { formatBytes32String } from '@ethersproject/strings';
 
 const EIP712_TYPES = {
   Transaction: [
