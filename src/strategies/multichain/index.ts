@@ -1,6 +1,5 @@
 import { subgraphRequest } from '../../utils';
-import networks from '../../networks.json';
-import { JsonRpcProvider } from '@ethersproject/providers';
+import getProvider from '../../utils/provider';
 import strategies from '..';
 
 export const author = 'kesar';
@@ -82,7 +81,7 @@ export async function strategy(
       strategies[strategy.name](
         space,
         strategy.network,
-        new JsonRpcProvider(networks[strategy.network].rpc[0]),
+        getProvider(strategy.network),
         addresses,
         strategy.params,
         chainBlocks[strategy.network]
