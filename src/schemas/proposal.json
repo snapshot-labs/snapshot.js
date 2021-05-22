@@ -49,7 +49,7 @@
         },
         "metadata": {
           "type": "object",
-          "title": "end"
+          "title": "metadata"
         }
       },
       "required": [
