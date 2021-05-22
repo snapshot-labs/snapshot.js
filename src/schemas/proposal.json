@@ -39,14 +39,14 @@
         "start": {
           "type": "number",
           "title": "start",
-          "maxLength": 10,
-          "minLength": 10
+          "minimum": 1000000000,
+          "maximum": 2000000000
         },
         "end": {
           "type": "number",
           "title": "end",
-          "maxLength": 10,
-          "minLength": 10
+          "minimum": 1000000000,
+          "maximum": 2000000000
         },
         "metadata": {
           "type": "object",
