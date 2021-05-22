@@ -32,9 +32,8 @@
           ]
         },
         "snapshot": {
-          "type": "number",
-          "title": "snapshot",
-          "minimum": 0
+          "type": "string",
+          "title": "snapshot"
         },
         "start": {
           "type": "number",
