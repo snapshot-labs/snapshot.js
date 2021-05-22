@@ -32,7 +32,7 @@
           ]
         },
         "snapshot": {
-          "type": "string",
+          "type": "number",
           "title": "snapshot"
         },
         "start": {
