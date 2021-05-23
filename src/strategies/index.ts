@@ -87,6 +87,8 @@ import { strategy as erc721 } from './erc721';
 import { strategy as apescape } from './apescape';
 import { strategy as liftkitchen } from './liftkitchen';
 import { strategy as decentralandEstateSize } from './decentraland-estate-size';
+import { strategy as iotexBalance } from './iotex-balance';
+import { strategy as xrc20BalanceOf } from './xrc20-balance-of';
 
 export default {
   balancer,
@@ -177,5 +179,7 @@ export default {
   'hopr-uni-lp-farm': hoprUniLpFarm,
   apescape,
   liftkitchen,
-  'decentraland-estate-size': decentralandEstateSize
+  'decentraland-estate-size': decentralandEstateSize,
+  'xrc20-balance-of': xrc20BalanceOf,
+  'iotex-balance': iotexBalance
 };
