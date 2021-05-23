@@ -167,7 +167,7 @@ export async function getScores(
 }
 
 export function validateSchema(schema, data) {
-  const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
+  const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
   // @ts-ignore
   addFormats(ajv);
   const validate = ajv.compile(schema);
