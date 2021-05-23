@@ -204,6 +204,15 @@
     "ws": ["wss://rpc.xdaichain.com/wss"],
     "explorer": "https://blockscout.com/poa/xdai"
   },
+  "122": {
+    "key": "122",
+    "name": "Fuse Mainnet",
+    "shortName": "Fuse",
+    "chainId": 122,
+    "network": "mainnet",
+    "rpc": ["https://rpc.fuse.io"],
+    "explorer": "https://explorer.fuse.io"
+  },
   "137": {
     "key": "137",
     "name": "Matic Mainnet",
