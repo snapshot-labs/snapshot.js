@@ -5,7 +5,7 @@ import {
 } from '@ethersproject/bignumber/lib/bignumber';
 import { isHexString } from '@ethersproject/bytes';
 import { HashZero } from '@ethersproject/constants';
-import { JsonRpcProvider } from '@ethersproject/providers';
+import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity';
 import { multicall, sendTransaction } from '../../utils';
 import getProvider from '../../utils/provider';
@@ -86,7 +86,7 @@ const buildQuestion = async (proposalId: string, txHashes: string[]) => {
 };
 
 const getProposalDetails = async (
-  provider: JsonRpcProvider,
+  provider: StaticJsonRpcProvider,
   network: string,
   moduleAddress: string,
   questionHash: string,
@@ -119,7 +119,7 @@ const getProposalDetails = async (
 };
 
 const getModuleDetails = async (
-  provider: JsonRpcProvider,
+  provider: StaticJsonRpcProvider,
   network: string,
   moduleAddress: string
 ): Promise<{ dao: string; oracle: string; cooldown: number }> => {
@@ -136,7 +136,7 @@ const getModuleDetails = async (
 };
 
 const checkPossibleExecution = async (
-  provider: JsonRpcProvider,
+  provider: StaticJsonRpcProvider,
   network: string,
   oracleAddress: string,
   questionId: string | undefined
@@ -183,7 +183,7 @@ export default class Plugin {
     moduleAddress: string,
     transaction: ModuleTransaction
   ) {
-    const provider: JsonRpcProvider = getProvider(network);
+    const provider: StaticJsonRpcProvider = getProvider(network);
     const domain = {
       chainId: provider.network.chainId,
       verifyingContract: moduleAddress
@@ -218,7 +218,7 @@ export default class Plugin {
     proposalId: string,
     transactions: ModuleTransaction[]
   ): Promise<ProposalDetails> {
-    const provider: JsonRpcProvider = getProvider(network);
+    const provider: StaticJsonRpcProvider = getProvider(network);
     const txHashes = await this.calcTransactionHashes(
       provider.network.chainId,
       moduleAddress,

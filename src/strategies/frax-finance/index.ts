@@ -10,7 +10,10 @@ const UNISWAP_SUBGRAPH_URL = {
 };
 
 export const author = 'FraxFinance';
-export const version = '0.0.1';
+export const version = '0.0.2';
+
+// 0.0.1: First iteration. FXS Plus FXS in LPs
+// 0.0.2: Adds veFXS
 
 const DECIMALS = 18;
 
@@ -125,6 +128,13 @@ export async function strategy(
     [address]
   ]);
 
+  // Fetch veFXS Balance
+  const vefxsQuery = addresses.map((address: any) => [
+    options.VEFXS,
+    'balanceOf',
+    [address]
+  ]);
+
   // Fetch FREE_UNI_LP_FRAX_FXS Balance
   const freeUniLPFraxFxsQuery = addresses.map((address: any) => [
     options.UNI_LP_FRAX_FXS,
@@ -184,6 +194,7 @@ export async function strategy(
       [options.SUSHI_LP_FXS_WETH, 'getReserves'],
       [options.SUSHI_LP_FXS_WETH, 'totalSupply'],
       ...fxsQuery,
+      ...vefxsQuery,
       ...freeUniLPFraxFxsQuery,
       ...farmingUniLPFraxFxsQuery,
       ...freeSushiLPFraxFxsQuery,
@@ -246,12 +257,13 @@ export async function strategy(
 
   const chunks = chunk(responseClean, addresses.length);
   const fxsBalances = chunks[0];
-  const freeUniFraxFxsBalances = chunks[1];
-  const farmUniFraxFxsBalances = chunks[2];
-  const freeSushiFraxFxsBalances = chunks[3];
-  const farmSushiFraxFxsBalances = chunks[4];
-  const freeSushiFxsWethBalances = chunks[5];
-  const farmSushiFxsWethBalances = chunks[6];
+  const vefxsBalances = chunks[1];
+  const freeUniFraxFxsBalances = chunks[2];
+  const farmUniFraxFxsBalances = chunks[3];
+  const freeSushiFraxFxsBalances = chunks[4];
+  const farmSushiFraxFxsBalances = chunks[5];
+  const freeSushiFxsWethBalances = chunks[6];
+  const farmSushiFxsWethBalances = chunks[7];
 
   return Object.fromEntries(
     Array(addresses.length)
@@ -259,6 +271,7 @@ export async function strategy(
       .map((_, i) => {
         const balances = [];
         const free_fxs = fxsBalances[i][0];
+        const vefxs = vefxsBalances[i][0];
         const free_uni_frax_fxs = freeUniFraxFxsBalances[i][0];
         const farm_uni_frax_fxs = farmUniFraxFxsBalances[i][0];
         const free_sushi_frax_fxs = freeSushiFraxFxsBalances[i][0];
@@ -268,6 +281,7 @@ export async function strategy(
 
         // console.log(`==================${addresses[i]}==================`);
         // console.log("Free FXS: ", free_fxs.div(BIG18).toString());
+        // console.log("veFXS: ", vefxs.div(BIG18).toString());
         // console.log("Free Uni FRAX/FXS LP: ", free_uni_frax_fxs.div(BIG18).toString());
         // console.log("Farmed Uni FRAX/FXS LP [boosted]: ", farm_uni_frax_fxs.div(BIG18).toString());
         // console.log("Free Sushi FRAX/FXS LP: ", free_sushi_frax_fxs.div(BIG18).toString());
@@ -275,9 +289,14 @@ export async function strategy(
         // console.log("Free Sushi FXS/WETH: ", free_sushi_fxs_weth.div(BIG18).toString());
         // console.log("Farmed Sushi FXS/WETH [boosted]: ", farm_sushi_fxs_weth.div(BIG18).toString());
         // console.log("------");
-        // console.log("FXS per Uni FRAX/FXS LP: ", uniLPFraxFxs_fxs_per_LP_E18.toString());
-        // console.log("FXS per Sushi FRAX/FXS LP: ", sushiLPFraxFxs_fxs_per_LP_E18.toString());
-        // console.log("FXS per Sushi FXS/WETH LP: ", sushiLPFxsWeth_fxs_per_LP_E18.toString());
+        // console.log("E18");
+        // console.log("FXS per Uni FRAX/FXS LP E18: ", uniLPFraxFxs_fxs_per_LP_E18.toString());
+        // console.log("FXS per Sushi FRAX/FXS LP E18: ", sushiLPFraxFxs_fxs_per_LP_E18.toString());
+        // console.log("FXS per Sushi FXS/WETH LP E18: ", sushiLPFxsWeth_fxs_per_LP_E18.toString());
+        // console.log("E0");
+        // console.log("FXS per Uni FRAX/FXS LP E0: ", uniLPFraxFxs_fxs_per_LP_E18.div(BIG18).toString());
+        // console.log("FXS per Sushi FRAX/FXS LP E0: ", sushiLPFraxFxs_fxs_per_LP_E18.div(BIG18).toString());
+        // console.log("FXS per Sushi FXS/WETH LP E0: ", sushiLPFxsWeth_fxs_per_LP_E18.div(BIG18).toString());
         // console.log(``);
 
         return [
@@ -285,6 +304,7 @@ export async function strategy(
           parseFloat(
             formatUnits(
               free_fxs
+                .add(vefxs)
                 .add(
                   free_uni_frax_fxs.mul(uniLPFraxFxs_fxs_per_LP_E18).div(BIG18)
                 ) // FXS share in free Uni FRAX/FXS LP

@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "brightid",
+      "params": {
+        "registry": "0xF99e2173db1f341a947CE9Bd7779aF2245309f91",
+        "symbol": "ID"
+      }
+    },
+    "network": "4",
+    "addresses": [
+      "0xa478c2975ab1ea89e8196811f51a7b7ade33eb11",
+      "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
+      "0x38C0039247A31F3939baE65e953612125cB88268"
+    ],
+    "snapshot": 8642416
+  }
+]
