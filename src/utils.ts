@@ -29,6 +29,9 @@ export const MULTICALL = {
   '31': '0x4eeebb5580769ba6d26bfd07be636300076d1831',
   '42': '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
   '56': '0x1ee38d535d541c55c9dae27b12edf090c608e6fb',
+  '70': '0xd4b794b89baccb70ef851830099bee4d69f19ebc',
+  '65': '0x23Daae12B7f82b1f0A276cD4f49825DE940B6374',
+  '66': '0x5031F781E294bD918CfCf5aB7fe57196DeAA7Efb',
   '82': '0x579De77CAEd0614e3b158cb738fcD5131B9719Ae',
   '97': '0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46',
   '100': '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
@@ -164,7 +167,7 @@ export async function getScores(
 }
 
 export function validateSchema(schema, data) {
-  const ajv = new Ajv({ allErrors: true });
+  const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
   // @ts-ignore
   addFormats(ajv);
   const validate = ajv.compile(schema);
