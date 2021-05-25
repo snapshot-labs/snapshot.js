@@ -30,7 +30,7 @@
           "type": "string",
           "title": "avatar",
           "format": "uri",
-          "maxLength": 128
+          "maxLength": 256
         },
         "location": {
           "type": "string",
