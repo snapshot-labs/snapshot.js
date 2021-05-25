@@ -1,0 +1,45 @@
+{
+  "name": "YIP-63:  Add 20,000 $YAM tokens to the general expense fund. ",
+  "body": "Title: YIP-63:  Add 20,000 $YAM tokens to the general expense fund. \nAuthor: @Feddas\nForum discussions: https://forum.yam.finance/t/yip-add-20-000-yam-tokens-to-the-general-expense-fund/1452\n\n**Basic Summary**\nPreviously Yam has approved a general expense fund of $5000 yUSD + 30,000 $YAM: \n\nhttps://forum.yam.finance/t/yip-add-30-000-yam-tokens-to-the-general-expense-fund-and-convert-it-to-a-2-of-3-multi-sig-wallet/1293\n\nWe have distributed 19,441 $Yam out of the 30,000 $Yam allocated. \n\nhttps://gnosis-safe.io/app/#/safes/0x744D16d200175d20E6D8e5f405AEfB4EB7A962d1/balances\n\nCurrent Assets: \n10559.00 YAM\n4,100.00 $yUSD\n\nThis proposal adds 20,000 $YAM from the contributor vesting pool. It will still be used for small general expenses, bounties, on-boarding new contributors before voting on part or full time compensation, marketing campaign costs, etc.\n\n**Abstract**\n\nHere’s a full reconciliation of all distributions from general expense fund from 1.29.2021 to 4.30.2021\n![Foo](https://aws1.discourse-cdn.com/standard11/uploads/yam1/original/1X/b9cdeb68a8af90725805291c90dd129ea8b52b3d.png)\n\n**Motivation**\n\nThe general expense fund would be responsible for: \nYam infrastructure expenses\nNew Contributor trials / on-boarding\nDevelopment / collaborative tools \nGas costs\nSmall misc expenses directly related to Yam\nIf it is possible to pay in $YAM, then it should be the first option. \nWhen funds are low in the account, a top-up request for additional funds will be made. \n",
+  "choices": [
+    "Add 20,000 $YAM to Gen Exp Fund",
+    "Do not add $YAM"
+  ],
+  "start": 1619884800,
+  "end": 1620316800,
+  "snapshot": 12345167,
+  "metadata": {
+    "network": "1",
+    "strategies": [
+      {
+        "name": "contract-call",
+        "params": {
+          "symbol": "YAM LP",
+          "address": "0xc32f9b0292965c5dd4a0ea1abfcc1f5a36d66986",
+          "decimals": 24,
+          "methodABI": {
+            "name": "getCurrentVotes",
+            "type": "function",
+            "inputs": [
+              {
+                "name": "owner",
+                "type": "address",
+                "internalType": "address"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ],
+            "payable": false,
+            "constant": false,
+            "stateMutability": "nonpayable"
+          }
+        }
+      }
+    ]
+  }
+}

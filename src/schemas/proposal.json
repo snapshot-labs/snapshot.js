@@ -45,7 +45,10 @@
           "type": "number",
           "title": "end",
           "minimum": 1000000000,
-          "maximum": 2000000000
+          "maximum": 2000000000,
+          "exclusiveMinimum": {
+            "$data": "1/start"
+          }
         },
         "metadata": {
           "type": "object",

@@ -89,6 +89,7 @@ import { strategy as liftkitchen } from './liftkitchen';
 import { strategy as decentralandEstateSize } from './decentraland-estate-size';
 import { strategy as iotexBalance } from './iotex-balance';
 import { strategy as xrc20BalanceOf } from './xrc20-balance-of';
+import { strategy as brightid } from './brightid';
 
 export default {
   balancer,
@@ -181,5 +182,6 @@ export default {
   liftkitchen,
   'decentraland-estate-size': decentralandEstateSize,
   'xrc20-balance-of': xrc20BalanceOf,
-  'iotex-balance': iotexBalance
+  'iotex-balance': iotexBalance,
+  brightid
 };
