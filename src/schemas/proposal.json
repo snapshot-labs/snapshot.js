@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/Proposal",
+  "definitions": {
+    "Proposal": {
+      "title": "Proposal",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "name",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "body": {
+          "type": "string",
+          "title": "body",
+          "minLength": 1,
+          "maxLength": 40000
+        },
+        "choices": {
+          "type": "array",
+          "title": "choices",
+          "minItems": 2,
+          "maxItems": 32
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "single-choice",
+            "approval"
+          ]
+        },
+        "snapshot": {
+          "type": "number",
+          "title": "snapshot"
+        },
+        "start": {
+          "type": "number",
+          "title": "start",
+          "minimum": 1000000000,
+          "maximum": 2000000000
+        },
+        "end": {
+          "type": "number",
+          "title": "end",
+          "minimum": 1000000000,
+          "maximum": 2000000000,
+          "exclusiveMinimum": {
+            "$data": "1/start"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "title": "metadata"
+        }
+      },
+      "required": [
+        "name",
+        "body",
+        "choices",
+        "snapshot",
+        "start",
+        "end"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

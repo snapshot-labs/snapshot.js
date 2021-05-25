@@ -51,7 +51,8 @@ export async function strategy(
     stakes: {
       __args: {
         where: {
-          user_in: addresses.map((address) => address.toLowerCase())
+          user_in: addresses.map((address) => address.toLowerCase()),
+          isActive: true
         }
       },
       id: true,

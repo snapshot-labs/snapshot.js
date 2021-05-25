@@ -1,7 +1,7 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 
-export const author = 'bonustrack';
+export const author = '2fd';
 export const version = '0.1.0';
 
 const abi = [
@@ -16,6 +16,7 @@ export async function strategy(
   options,
   snapshot
 ) {
+  const multipler = options.multiplier || 1;
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const response = await multicall(
     network,
@@ -27,7 +28,7 @@ export async function strategy(
   return Object.fromEntries(
     response.map((value, i) => [
       addresses[i],
-      parseFloat(formatUnits(value.toString(), 0))
+      parseFloat(formatUnits(value.toString(), 0)) * multipler
     ])
   );
 }

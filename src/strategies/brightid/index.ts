@@ -1,11 +1,10 @@
-import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 
 export const author = 'bonustrack';
 export const version = '0.1.0';
 
 const abi = [
-  'function balanceOf(address account) external view returns (uint256)'
+  'function isVerifiedUser(address _user) external view returns (bool)'
 ];
 
 export async function strategy(
@@ -21,13 +20,14 @@ export async function strategy(
     network,
     provider,
     abi,
-    addresses.map((address: any) => [options.address, 'balanceOf', [address]]),
+    addresses.map((address: any) => [
+      options.registry,
+      'isVerifiedUser',
+      [address]
+    ]),
     { blockTag }
   );
   return Object.fromEntries(
-    response.map((value, i) => [
-      addresses[i],
-      parseFloat(formatUnits(value.toString(), 0))
-    ])
+    response.map((value, i) => [addresses[i], value[0] ? 1 : 0])
   );
 }
