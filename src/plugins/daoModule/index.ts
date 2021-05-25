@@ -183,7 +183,7 @@ const checkPossibleExecution = async (
 };
 
 const retrieveInfoFromOracle = async (
-  provider: JsonRpcProvider,
+  provider: StaticJsonRpcProvider,
   network: string,
   oracleAddress: string,
   questionId: string | undefined
