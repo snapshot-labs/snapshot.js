@@ -26,6 +26,12 @@
           "format": "uri",
           "maxLength": 128
         },
+        "avatar": {
+          "type": "string",
+          "title": "avatar",
+          "format": "uri",
+          "maxLength": 256
+        },
         "location": {
           "type": "string",
           "title": "location",
