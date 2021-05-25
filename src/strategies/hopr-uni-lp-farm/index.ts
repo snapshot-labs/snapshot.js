@@ -176,7 +176,7 @@ export async function strategy(
     snapshotXdaiBlock
   );
   const hoprOnXdaiScore = addresses.map(
-    (address) => hoprOnXdaiBalance[address] ?? 0
+    (address) => hoprOnXdaiBalance[address.toLowerCase()] ?? 0
   );
 
   return Object.fromEntries(
