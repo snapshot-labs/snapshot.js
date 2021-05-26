@@ -99,6 +99,7 @@ async function xHoprSubgraphQuery(
   const query = {
     accounts: {
       __args: {
+        first: 1000,
         block: {
           number: blockNumber
         },
