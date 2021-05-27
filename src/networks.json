@@ -134,6 +134,36 @@
     "rpc": ["https://ethereumclassic.network"],
     "explorer": "https://blockscout.com/etc/mainnet"
   },
+  "65": {
+    "key": "65",
+    "name": "OKExChain Testnet",
+    "shortName": "OEC Testnet",
+    "chainId": 65,
+    "network": "oec testnet",
+    "rpc": ["https://exchaintestrpc.okex.org"],
+    "ws": ["wss://exchaintestws.okex.org:8443"],
+    "explorer": "https://www.oklink.com/okexchain-test"
+  },
+  "66": {
+    "key": "66",
+    "name": "OKExChain Mainnet",
+    "shortName": "OEC Mainnet",
+    "chainId": 66,
+    "network": "oec mainnet",
+    "rpc": ["https://exchainrpc.okex.org"],
+    "ws": ["wss://exchainws.okex.org:8443"],
+    "explorer": "https://www.oklink.com/okexchain"
+  },
+  "70": {
+    "key": "70",
+    "name": "Hoo Smart Chain Mainnet",
+    "shortName": "hsc",
+    "chainId": 70,
+    "network": "Mainnet",
+    "rpc": ["https://http-mainnet2.hoosmartchain.com"],
+    "ws": ["wss://ws-mainnet2.hoosmartchain.com"],
+    "explorer": "https://hscscan.com"
+  },
   "99": {
     "key": "99",
     "name": "POA Core",

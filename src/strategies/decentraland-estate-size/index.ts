@@ -18,8 +18,7 @@ export async function strategy(
   options,
   snapshot
 ) {
-
-  const multipler = options.multiplier || 1
+  const multipler = options.multiplier || 1;
   const blockNumber =
     typeof snapshot === 'number' ? snapshot : await getBlockNumber(provider);
   const params = {
@@ -43,7 +42,6 @@ export async function strategy(
     }
   };
 
-
   const score = {};
   let hasNext = true;
   while (hasNext) {
@@ -52,16 +50,15 @@ export async function strategy(
       params
     );
 
-    const nfts = result && result.nfts ? result.nfts : []
-    for (const estate of result.nfts) {
+    const nfts = result && result.nfts ? result.nfts : [];
+    for (const estate of nfts) {
       const userAddress = getAddress(estate.owner.id);
       score[userAddress] =
-        (score[userAddress] || 0) +
-        (estate.searchEstateSize * multipler)
+        (score[userAddress] || 0) + estate.searchEstateSize * multipler;
     }
 
-    params.nfts.__args.skip += params.nfts.__args.first
-    hasNext = nfts.length === params.nfts.__args.first
+    params.nfts.__args.skip += params.nfts.__args.first;
+    hasNext = nfts.length === params.nfts.__args.first;
   }
 
   return score;
