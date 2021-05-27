@@ -181,5 +181,5 @@ export default {
   liftkitchen,
   'decentraland-estate-size': decentralandEstateSize,
   brightid,
-  'inverse-xinv': inverseXINV,
+  'inverse-xinv': inverseXINV
 };
