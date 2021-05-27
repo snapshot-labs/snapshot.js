@@ -88,6 +88,7 @@ import { strategy as apescape } from './apescape';
 import { strategy as liftkitchen } from './liftkitchen';
 import { strategy as decentralandEstateSize } from './decentraland-estate-size';
 import { strategy as brightid } from './brightid';
+import { strategy as inverseXINV } from './inverse-xinv';
 
 export default {
   balancer,
@@ -179,5 +180,6 @@ export default {
   apescape,
   liftkitchen,
   'decentraland-estate-size': decentralandEstateSize,
-  brightid
+  brightid,
+  'inverse-xinv': inverseXINV,
 };
