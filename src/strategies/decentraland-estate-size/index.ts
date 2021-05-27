@@ -51,7 +51,7 @@ export async function strategy(
     );
 
     const nfts = result && result.nfts ? result.nfts : [];
-    for (const estate of result.nfts) {
+    for (const estate of nfts) {
       const userAddress = getAddress(estate.owner.id);
       score[userAddress] =
         (score[userAddress] || 0) + estate.searchEstateSize * multipler;
