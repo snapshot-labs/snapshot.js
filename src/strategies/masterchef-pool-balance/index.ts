@@ -117,7 +117,7 @@ function processValues(values: any[], options: any): number {
   const poolStaked = values[0][0];
   const weight: BigNumber = BigNumber.from(options.weight || 1);
   const weightDecimals: BigNumber = BigNumber.from(10).pow(
-    options.weightDecimals || 0
+    BigNumber.from(options.weightDecimals || 0)
   );
   let result: BigNumber;
   if (options.uniPairAddress == null) {
