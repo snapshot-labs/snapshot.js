@@ -279,6 +279,15 @@
     "ws": ["wss://ws-mainnet-node.huobichain.com"],
     "explorer": "https://hecoinfo.com"
   },
+  "246": {
+    "key": "246",
+    "name": "Energy Web Chain",
+    "shortName": "EWC",
+    "chainId": 246,
+    "network": "mainnet",
+    "rpc": ["https://voting-rpc.carbonswap.exchange"],
+    "explorer": "https://explorer.energyweb.org"
+  },
   "250": {
     "key": "250",
     "name": "Fantom Opera",
