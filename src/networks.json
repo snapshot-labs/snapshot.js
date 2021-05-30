@@ -210,7 +210,7 @@
     "shortName": "Fuse",
     "chainId": 122,
     "network": "mainnet",
-    "rpc": ["https://rpc.fuse.io"],
+    "rpc": ["https://oefusefull1.liquify.info/"],
     "explorer": "https://explorer.fuse.io"
   },
   "137": {
