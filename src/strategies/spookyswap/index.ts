@@ -89,12 +89,12 @@ export async function strategy(
     multi.call(`boo.${address}`, BOO_TOKEN_ADDRESS, 'balanceOf', [address]);
     multi.call(`lpInFarm.${address}`, FARM_ADDRESS, 'userInfo', ['0', address]);
     multi.call(`lp.${address}`, LP_TOKEN_ADDRESS, 'balanceOf', [address]);
-    multi.call(`lp.totalSupply`, LP_TOKEN_ADDRESS, 'totalSupply', []);
-    multi.call(`lp.boo`, BOO_TOKEN_ADDRESS, 'balanceOf', [LP_TOKEN_ADDRESS]);
     options.vaultTokens.forEach((token: any) => {
       multi.call(`vaultTokens.${address}.${token.address}`, token.address, 'balanceOf', [address]);
     });
   });
+  multi.call(`lp.totalSupply`, LP_TOKEN_ADDRESS, 'totalSupply', []);
+  multi.call(`lp.boo`, BOO_TOKEN_ADDRESS, 'balanceOf', [LP_TOKEN_ADDRESS]);
 
   const result = await multi.execute();
 
