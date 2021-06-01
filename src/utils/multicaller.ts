@@ -1,10 +1,10 @@
-import { JsonRpcProvider } from '@ethersproject/providers';
+import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import set from 'lodash.set';
 import { multicall } from '../utils';
 
 export default class Multicaller {
   public network: string;
-  public provider: JsonRpcProvider;
+  public provider: StaticJsonRpcProvider;
   public abi: any[];
   public options: any = {};
   public calls: any[] = [];
@@ -12,7 +12,7 @@ export default class Multicaller {
 
   constructor(
     network: string,
-    provider: JsonRpcProvider,
+    provider: StaticJsonRpcProvider,
     abi: any[],
     options?
   ) {

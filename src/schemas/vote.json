@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/Vote",
+  "definitions": {
+    "Vote": {
+      "title": "Vote",
+      "type": "object",
+      "properties": {
+        "proposal": {
+          "type": "string",
+          "title": "proposal"
+        },
+        "choice": {
+          "type": [
+            "number",
+            "array",
+            "object",
+            "boolean"
+          ],
+          "title": "choice"
+        },
+        "metadata": {
+          "type": "object",
+          "title": "metadata"
+        }
+      },
+      "required": [
+        "proposal",
+        "choice"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
