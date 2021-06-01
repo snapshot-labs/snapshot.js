@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "conquer-uranus",
+      "params": {
+        "address": "0xd6C3Cd84B69F5b362B0DeBE507Fb49eE511ce094",
+        "symbol": "ANVS",
+        "decimals": 18
+      }
+    },
+    "network": "56",
+    "addresses": [
+    ],
+    "snapshot": 11437846
+  }
+]

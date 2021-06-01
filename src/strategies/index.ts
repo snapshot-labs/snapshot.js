@@ -89,6 +89,7 @@ import { strategy as liftkitchen } from './liftkitchen';
 import { strategy as decentralandEstateSize } from './decentraland-estate-size';
 import { strategy as brightid } from './brightid';
 import { strategy as inverseXINV } from './inverse-xinv';
+import { strategy as conquerUranus } from './conquer-uranus';
 
 export default {
   balancer,
@@ -181,5 +182,6 @@ export default {
   liftkitchen,
   'decentraland-estate-size': decentralandEstateSize,
   brightid,
-  'inverse-xinv': inverseXINV
+  'inverse-xinv': inverseXINV,
+  'conquer-uranus': conquerUranus
 };
