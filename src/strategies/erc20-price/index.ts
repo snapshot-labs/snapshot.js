@@ -3,6 +3,20 @@ import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 export const author = 'snapshot-labs';
 export const version = '0.0.1';
 
+const networksWithPlatforms = {
+  1: "ethereum",
+  56: "binance-smart-chain",
+  66: "okex-chain",
+  88: "tomochain",
+  100: "xdai",
+  128: "huobi-token",
+  137: "polygon-pos",
+  250: "fantom",
+  42220: "celo",
+  43114: "avalanche",
+  1666600000: "harmony-shard-0"
+}
+
 export async function strategy(
   space,
   network,
@@ -13,7 +27,8 @@ export async function strategy(
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const block = await provider.getBlock(blockTag);
-  const coingeckoApiURL = `https://api.coingecko.com/api/v3/coins/${options.platform ? options.platform : 'ethereum'}/contract/${options.address}/market_chart/range?vs_currency=${options.currency}&from=${block.timestamp - 100000}&to=${block.timestamp}`
+  const platform = options.platform ? options.platform : networksWithPlatforms[network];
+  const coingeckoApiURL = `https://api.coingecko.com/api/v3/coins/${platform ? platform : 'ethereum'}/contract/${options.address}/market_chart/range?vs_currency=${options.currency ? options.currency : 'usd'}&from=${block.timestamp - 100000}&to=${block.timestamp}`
   const coingeckoData = await fetch(coingeckoApiURL, {
     "headers": {
       "accept": "application/json",
