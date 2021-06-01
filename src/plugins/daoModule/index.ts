@@ -11,6 +11,8 @@ import { call, multicall, sendTransaction } from '../../utils';
 import getProvider from '../../utils/provider';
 import { _TypedDataEncoder } from '@ethersproject/hash';
 import { formatEther } from '@ethersproject/units';
+import { Contract } from '@ethersproject/contracts';
+import { Result } from '@ethersproject/abi';
 
 const EIP712_TYPES = {
   Transaction: [
@@ -63,9 +65,32 @@ const OracleAbi = [
   'function getBestAnswer(bytes32 question_id) view returns (uint32)',
 
   // Write functions
-  'function submitAnswer(bytes32 question_id, bytes32 answer, uint256 max_previous) external payable'
+  'function submitAnswer(bytes32 question_id, bytes32 answer, uint256 max_previous) external payable',
+  `function claimMultipleAndWithdrawBalance(
+    bytes32[] question_ids, 
+    uint256[] lengths, 
+    bytes32[] hist_hashes, 
+    address[] addrs, 
+    uint256[] bonds, 
+    bytes32[] answers
+  ) public `,
+
+  // Events
+  `event LogNewAnswer(
+    bytes32 answer,
+    bytes32 indexed question_id,
+    bytes32 history_hash,
+    address indexed user,
+    uint256 bond,
+    uint256 ts,
+    bool is_commitment
+  )`
 ];
 
+const START_BLOCKS = {
+  1: 6531147,
+  4: 3175028
+};
 export interface ModuleTransaction {
   to: string;
   value: string;
@@ -340,6 +365,60 @@ export default class Plugin {
     );
     const receipt = await tx.wait();
     console.log('[DAO module] submitted proposal:', receipt);
+  }
+
+  async loadClaimBondData(
+    web3: any,
+    network: string,
+    questionId: string,
+    oracleAddress: string
+  ) {
+    const contract = new Contract(oracleAddress, OracleAbi, web3);
+    const answersFilter = contract.filters.LogNewAnswer(null, questionId);
+    const events = await contract.queryFilter(
+      answersFilter,
+      START_BLOCKS[network]
+    );
+
+    const users: Result[] = [];
+    const historyHashes: Result[] = [];
+    const bonds: Result[] = [];
+    const answers: Result[] = [];
+
+    events.reverse().forEach(({ args }) => {
+      users.push(args?.user.toLowerCase());
+      historyHashes.push(args?.history_hash);
+      bonds.push(args?.bond);
+      answers.push(args?.answer);
+    });
+
+    historyHashes.shift();
+    const firstHash = '0x0000000000000000000000000000000000000000000000000000000000000000' as unknown;
+    historyHashes.push(firstHash as Result);
+    return {
+      length: [bonds.length.toString()],
+      historyHashes,
+      users,
+      bonds,
+      answers
+    };
+  }
+
+  async claimBond(
+    web3: any,
+    oracleAddress: string,
+    questionId: string,
+    claimParams: [string[], string[], number[], string[]]
+  ) {
+    const tx = await sendTransaction(
+      web3,
+      oracleAddress,
+      OracleAbi,
+      'claimMultipleAndWithdrawBalance',
+      [[questionId], ...claimParams]
+    );
+    const receipt = await tx.wait();
+    console.log('[Realitio] executed claim:', receipt);
   }
 
   async executeProposal(
