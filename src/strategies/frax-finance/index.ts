@@ -1,3 +1,5 @@
+// fix issue with veFXS, rolled back to commit 6ebe51fa883e13a158516d36959478fbcf0c1a82
+
 import { formatUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
 import { multicall } from '../../utils';
