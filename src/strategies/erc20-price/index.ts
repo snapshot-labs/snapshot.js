@@ -1,0 +1,46 @@
+import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
+
+export const author = 'snapshot-labs';
+export const version = '0.0.1';
+
+export async function strategy(
+  space,
+  network,
+  provider,
+  addresses,
+  options,
+  snapshot
+) {
+  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+  const block = await provider.getBlock(blockTag);
+  const coingeckoApiURL = `https://api.coingecko.com/api/v3/coins/${options.platform ? options.platform : 'ethereum'}/contract/${options.address}/market_chart/range?vs_currency=${options.currency}&from=${block.timestamp - 100000}&to=${block.timestamp}`
+  const coingeckoData = await fetch(coingeckoApiURL, {
+    "headers": {
+      "accept": "application/json",
+      "Content-Type": "application/json"
+    },
+    "method": "GET",
+  }).then(async (r) => {
+    const json = await r.json();
+    return json;
+  })
+  .catch((e) => {
+    console.error(e);
+    throw new Error('Strategy er20-price: coingecko api failed');
+  });
+  const latestPriceFromBlock = coingeckoData.prices?.pop()?.pop() || 0;
+  const score = await erc20BalanceOfStrategy(
+    space,
+    network,
+    provider,
+    addresses,
+    options,
+    snapshot
+  );
+  return Object.fromEntries(
+    Object.entries(score).map((address: any) => [
+      address[0],
+      address[1] * latestPriceFromBlock
+    ])
+  );
+}
