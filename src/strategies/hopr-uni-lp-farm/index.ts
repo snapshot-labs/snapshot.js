@@ -72,6 +72,7 @@ const XDAI_BLOCK_SUBGRAPH_URL =
   'https://api.thegraph.com/subgraphs/name/1hive/xdai-blocks';
 const HOPR_XDAI_SUBGRAPH_URL =
   'https://api.thegraph.com/subgraphs/name/hoprnet/hopr-on-xdai';
+const LIMIT = 1000; // 1000 addresses per query in Subgraph
 
 async function getXdaiBlockNumber(timestamp: number): Promise<number> {
   const query = {
@@ -99,7 +100,7 @@ async function xHoprSubgraphQuery(
   const query = {
     accounts: {
       __args: {
-        first: 1000,
+        first: LIMIT,
         block: {
           number: blockNumber
         },
@@ -171,11 +172,18 @@ export async function strategy(
 
   // get block timestamp to search on xDai subgraph
   const snapshotXdaiBlock = await getXdaiBlockNumber(block.timestamp);
-  // get and parse xHOPR and wxHOPR balance
-  const hoprOnXdaiBalance = await xHoprSubgraphQuery(
-    addresses,
-    snapshotXdaiBlock
+  // trim addresses to sub of "LIMIT" addresses.
+  const addressSubsets = Array.apply(
+    null,
+    Array(Math.ceil(addresses.length / LIMIT))
+  ).map((_e, i) => addresses.slice(i * LIMIT, (i + 1) * LIMIT));
+  const returnedFromSubgraph = await Promise.all(
+    addressSubsets.map((subset) =>
+      xHoprSubgraphQuery(subset, snapshotXdaiBlock)
+    )
   );
+  // get and parse xHOPR and wxHOPR balance
+  const hoprOnXdaiBalance = Object.assign({}, ...returnedFromSubgraph);
   const hoprOnXdaiScore = addresses.map(
     (address) => hoprOnXdaiBalance[address.toLowerCase()] ?? 0
   );
