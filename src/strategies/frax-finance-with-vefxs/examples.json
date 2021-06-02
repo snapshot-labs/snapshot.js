@@ -1,8 +1,8 @@
 [
     {
-        "name": "frax-finance",
+        "name": "Example query",
         "strategy": {
-            "name": "frax-finance",
+            "name": "frax-finance-with-vefxs",
             "params": {
                 "symbol": "FXS",
                 "decimals": 18,

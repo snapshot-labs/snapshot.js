@@ -1,6 +1,6 @@
 [
     {
-        "name": "frax-finance",
+        "name": "Example query",
         "strategy": {
             "name": "frax-finance",
             "params": {
