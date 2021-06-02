@@ -40,10 +40,17 @@ export default class Plugin {
     address: string
   ) {
     try {
-      const currentState = {poapImg: 'https://img-test-rlajous.s3.amazonaws.com/Group+1229.png'};
-      return ''
-    } catch (e) {
-      throw new Error(e);
+      const res = await fetch(`https://run.mocky.io/v3/${address}`);
+
+      if (res.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+
+      const user = await res.json();
+
+      console.log(user);
+    } catch (err) {
+      console.error(err);
     }
   }
 
