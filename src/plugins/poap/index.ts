@@ -40,6 +40,7 @@ export default class Plugin {
     address: string
   ) {
     try {
+      /*
       const res = await fetch(`https://run.mocky.io/v3/${address}`);
 
       if (res.status >= 400) {
@@ -47,8 +48,8 @@ export default class Plugin {
       }
 
       const user = await res.json();
-
-      return {poapImg: 'https://img-test-rlajous.s3.amazonaws.com/Group+1229.png', currentState: 'CLAIMED'};
+      */
+      return {data:{poapImg: 'https://img-test-rlajous.s3.amazonaws.com/Group+1229.png', currentState: 'CLAIMED'}};
 
     } catch (err) {
       console.error(err);
