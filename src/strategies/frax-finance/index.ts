@@ -9,7 +9,6 @@ const UNISWAP_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2'
 };
 
-
 export const author = 'FraxFinance';
 export const version = '0.0.1';
 
@@ -38,23 +37,23 @@ const abi = [
     type: 'function'
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
       }
     ],
-    "name": "boostedBalanceOf",
-    "outputs": [
+    name: 'boostedBalanceOf',
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     constant: true,
@@ -66,41 +65,41 @@ const abi = [
     type: 'function'
   },
   {
-    "inputs": [],
-    "name": "getReserves",
-    "outputs": [
+    inputs: [],
+    name: 'getReserves',
+    outputs: [
       {
-        "internalType": "uint112",
-        "name": "_reserve0",
-        "type": "uint112"
+        internalType: 'uint112',
+        name: '_reserve0',
+        type: 'uint112'
       },
       {
-        "internalType": "uint112",
-        "name": "_reserve1",
-        "type": "uint112"
+        internalType: 'uint112',
+        name: '_reserve1',
+        type: 'uint112'
       },
       {
-        "internalType": "uint32",
-        "name": "_blockTimestampLast",
-        "type": "uint32"
+        internalType: 'uint32',
+        name: '_blockTimestampLast',
+        type: 'uint32'
       }
     ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    stateMutability: 'view',
+    type: 'function',
+    constant: true
   },
   {
-    "inputs": [],
-    "name": "token0",
-    "outputs": [
+    inputs: [],
+    name: 'token0',
+    outputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        internalType: 'address',
+        name: '',
+        type: 'address'
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function'
   }
 ];
 
@@ -168,7 +167,6 @@ export async function strategy(
     [address]
   ]);
 
-
   const response = await multicall(
     network,
     provider,
@@ -191,11 +189,10 @@ export async function strategy(
       ...freeSushiLPFraxFxsQuery,
       ...farmingSushiLPFraxFxsQuery,
       ...freeSushiLPFxsWethQuery,
-      ...farmingSushiLPFxsWethQuery,
+      ...farmingSushiLPFxsWethQuery
     ],
     { blockTag }
   );
-
 
   const uniLPFraxFxs_token0 = response[0];
   const uniLPFraxFxs_getReserves = response[1];
@@ -213,29 +210,37 @@ export async function strategy(
   // ----------------------------------------
   let uniLPFraxFxs_fxs_per_LP_E18;
   let uni_FraxFxs_reservesFXS_E0;
-  if (uniLPFraxFxs_token0[0] == options.FXS) uni_FraxFxs_reservesFXS_E0 = uniLPFraxFxs_getReserves[0];
-  else uni_FraxFxs_reservesFXS_E0 = uniLPFraxFxs_getReserves[1]
+  if (uniLPFraxFxs_token0[0] == options.FXS)
+    uni_FraxFxs_reservesFXS_E0 = uniLPFraxFxs_getReserves[0];
+  else uni_FraxFxs_reservesFXS_E0 = uniLPFraxFxs_getReserves[1];
   const uni_FraxFxs_totalSupply_E0 = uniLPFraxFxs_totalSupply[0];
-  uniLPFraxFxs_fxs_per_LP_E18 = uni_FraxFxs_reservesFXS_E0.mul(BIG18).div(uni_FraxFxs_totalSupply_E0);
+  uniLPFraxFxs_fxs_per_LP_E18 = uni_FraxFxs_reservesFXS_E0
+    .mul(BIG18)
+    .div(uni_FraxFxs_totalSupply_E0);
 
   // SushiSwap FRAX/FXS
   // ----------------------------------------
   let sushiLPFraxFxs_fxs_per_LP_E18;
   let sushi_FraxFxs_reservesFXS_E0;
-  if (sushiLPFraxFxs_token0[0] == options.FXS) sushi_FraxFxs_reservesFXS_E0 = sushiLPFraxFxs_getReserves[0];
-  else sushi_FraxFxs_reservesFXS_E0 = sushiLPFraxFxs_getReserves[1]
+  if (sushiLPFraxFxs_token0[0] == options.FXS)
+    sushi_FraxFxs_reservesFXS_E0 = sushiLPFraxFxs_getReserves[0];
+  else sushi_FraxFxs_reservesFXS_E0 = sushiLPFraxFxs_getReserves[1];
   const sushi_FraxFxs_totalSupply_E0 = sushiLPFraxFxs_totalSupply[0];
-  sushiLPFraxFxs_fxs_per_LP_E18 = sushi_FraxFxs_reservesFXS_E0.mul(BIG18).div(sushi_FraxFxs_totalSupply_E0);
+  sushiLPFraxFxs_fxs_per_LP_E18 = sushi_FraxFxs_reservesFXS_E0
+    .mul(BIG18)
+    .div(sushi_FraxFxs_totalSupply_E0);
 
-    // SushiSwap FXS/WETH
+  // SushiSwap FXS/WETH
   // ----------------------------------------
   let sushiLPFxsWeth_fxs_per_LP_E18;
   let sushi_FxsWeth_reservesFXS_E0;
-  if (sushiLPFxsWeth_token0[0] == options.FXS) sushi_FxsWeth_reservesFXS_E0 = sushiLPFxsWeth_getReserves[0];
-  else sushi_FxsWeth_reservesFXS_E0 = sushiLPFxsWeth_getReserves[1]
+  if (sushiLPFxsWeth_token0[0] == options.FXS)
+    sushi_FxsWeth_reservesFXS_E0 = sushiLPFxsWeth_getReserves[0];
+  else sushi_FxsWeth_reservesFXS_E0 = sushiLPFxsWeth_getReserves[1];
   const sushi_FxsWeth_totalSupply_E0 = sushiLPFxsWeth_totalSupply[0];
-  sushiLPFxsWeth_fxs_per_LP_E18 = sushi_FxsWeth_reservesFXS_E0.mul(BIG18).div(sushi_FxsWeth_totalSupply_E0);
- 
+  sushiLPFxsWeth_fxs_per_LP_E18 = sushi_FxsWeth_reservesFXS_E0
+    .mul(BIG18)
+    .div(sushi_FxsWeth_totalSupply_E0);
 
   const responseClean = response.slice(9, response.length);
 
@@ -280,18 +285,38 @@ export async function strategy(
           parseFloat(
             formatUnits(
               free_fxs
-              .add((free_uni_frax_fxs).mul(uniLPFraxFxs_fxs_per_LP_E18).div(BIG18)) // FXS share in free Uni FRAX/FXS LP
-              .add((farm_uni_frax_fxs).mul(uniLPFraxFxs_fxs_per_LP_E18).div(BIG18)) // FXS share in farmed Uni FRAX/FXS LP [boosted]
-              .add((free_sushi_frax_fxs).mul(sushiLPFraxFxs_fxs_per_LP_E18).div(BIG18)) // FXS share in free Sushi FRAX/FXS LP
-              .add((farm_sushi_frax_fxs).mul(sushiLPFraxFxs_fxs_per_LP_E18).div(BIG18)) // FXS share in farmed Sushi FRAX/FXS LP [boosted]
-              .add((free_sushi_fxs_weth).mul(sushiLPFxsWeth_fxs_per_LP_E18).div(BIG18)) // FXS share in free Sushi FXS/WETH LP
-              .add((farm_sushi_fxs_weth).mul(sushiLPFxsWeth_fxs_per_LP_E18).div(BIG18)) // FXS share in farmed Sushi FXS/WETH LP [boosted]
-              
-              .toString(),
+                .add(
+                  free_uni_frax_fxs.mul(uniLPFraxFxs_fxs_per_LP_E18).div(BIG18)
+                ) // FXS share in free Uni FRAX/FXS LP
+                .add(
+                  farm_uni_frax_fxs.mul(uniLPFraxFxs_fxs_per_LP_E18).div(BIG18)
+                ) // FXS share in farmed Uni FRAX/FXS LP [boosted]
+                .add(
+                  free_sushi_frax_fxs
+                    .mul(sushiLPFraxFxs_fxs_per_LP_E18)
+                    .div(BIG18)
+                ) // FXS share in free Sushi FRAX/FXS LP
+                .add(
+                  farm_sushi_frax_fxs
+                    .mul(sushiLPFraxFxs_fxs_per_LP_E18)
+                    .div(BIG18)
+                ) // FXS share in farmed Sushi FRAX/FXS LP [boosted]
+                .add(
+                  free_sushi_fxs_weth
+                    .mul(sushiLPFxsWeth_fxs_per_LP_E18)
+                    .div(BIG18)
+                ) // FXS share in free Sushi FXS/WETH LP
+                .add(
+                  farm_sushi_fxs_weth
+                    .mul(sushiLPFxsWeth_fxs_per_LP_E18)
+                    .div(BIG18)
+                ) // FXS share in farmed Sushi FXS/WETH LP [boosted]
+
+                .toString(),
               DECIMALS
             )
           )
-        ]
+        ];
       })
   );
 }
