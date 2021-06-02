@@ -149,6 +149,7 @@ export async function strategy(
     [address]
   ]);
 
+
   const response = await multicall(
     network,
     provider,
@@ -171,7 +172,6 @@ export async function strategy(
   const uniLPFraxFxs_getReserves = response[1];
   const uniLPFraxFxs_totalSupply = response[2];
 
-
   // Uniswap FRAX/FXS
   // ----------------------------------------
   let uniLPFraxFxs_fxs_per_LP_E18;
@@ -181,8 +181,6 @@ export async function strategy(
   const uni_FraxFxs_totalSupply_E0 = uniLPFraxFxs_totalSupply[0];
   uniLPFraxFxs_fxs_per_LP_E18 = uni_FraxFxs_reservesFXS_E0.mul(BIG18).div(uni_FraxFxs_totalSupply_E0);
 
-
-
   const responseClean = response.slice(9, response.length);
 
   const chunks = chunk(responseClean, addresses.length);
@@ -190,6 +188,7 @@ export async function strategy(
   const vefxsBalances = chunks[1];
   const freeUniFraxFxsBalances = chunks[2];
   const farmUniFraxFxsBalances = chunks[3];
+
 
   return Object.fromEntries(
     Array(addresses.length)
