@@ -275,7 +275,10 @@
     "shortName": "heco",
     "chainId": 128,
     "network": "Mainnet",
-    "rpc": ["https://http-mainnet.hecochain.com"],
+    "rpc": [
+      "https://http-mainnet-node.defibox.com",
+      "https://http-mainnet.hecochain.com"
+    ],
     "ws": ["wss://ws-mainnet-node.huobichain.com"],
     "explorer": "https://hecoinfo.com"
   },
