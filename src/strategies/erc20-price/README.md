@@ -9,10 +9,12 @@ Here is an example of parameters:
 {
   "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
   "symbol": "DAI",
-  "platform": "ethereum",
-  "currency": "usd",
   "decimals": 18
 }
 ```
 
-You can find all platforms from [here](https://api.coingecko.com/api/v3/asset_platforms)
+Other Parameters:
+
+`platform` parameter for coingecko api, which can be found [here](https://api.coingecko.com/api/v3/asset_platforms)
+
+ `currency` parameter (defaulted to `usd`) to change the currency of the price
