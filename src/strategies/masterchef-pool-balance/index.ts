@@ -116,15 +116,22 @@ function arrayChunk<T>(arr: T[], chunkSize: number): T[][] {
 function processValues(values: any[], options: any): number {
   const poolStaked = values[0][0];
   const weight: BigNumber = BigNumber.from(options.weight || 1);
+  const weightDecimals: BigNumber = BigNumber.from(10).pow(
+    BigNumber.from(options.weightDecimals || 0)
+  );
   let result: BigNumber;
   if (options.uniPairAddress == null) {
-    result = poolStaked.mul(weight);
+    result = poolStaked.mul(weight).div(weightDecimals);
   } else {
     const uniTotalSupply = values[1][0];
     const uniReserve = values[2][0];
     const precision = BigNumber.from(10).pow(18);
     const tokensPerLp = uniReserve.mul(precision).div(uniTotalSupply);
-    result = poolStaked.mul(tokensPerLp).mul(weight).div(precision);
+    result = poolStaked
+      .mul(tokensPerLp)
+      .mul(weight)
+      .div(weightDecimals)
+      .div(precision);
   }
   return parseFloat(formatUnits(result.toString(), options.decimals || 18));
 }

@@ -8,9 +8,11 @@ import { strategy as erc20BalanceOfFixedTotal } from './erc20-balance-of-fixed-t
 import { strategy as erc20BalanceOfCv } from './erc20-balance-of-cv';
 import { strategy as erc20WithBalance } from './erc20-with-balance';
 import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegation';
+import { strategy as erc20Price } from './erc20-price';
 import { strategy as balanceOfWithMin } from './balance-of-with-min';
 import { strategy as ethBalance } from './eth-balance';
 import { strategy as ethWalletAge } from './eth-wallet-age';
+import { strategy as multichain } from './multichain';
 import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
 import { strategy as yearnVault } from './yearn-vault';
@@ -80,9 +82,15 @@ import { strategy as xseen } from './xseen';
 import { strategy as molochAll } from './moloch-all';
 import { strategy as molochLoot } from './moloch-loot';
 import { strategy as erc721Enumerable } from './erc721-enumerable';
+import { strategy as erc721WithMultiplier } from './erc721-with-multiplier';
+import { strategy as hoprUniLpFarm } from './hopr-uni-lp-farm';
 import { strategy as erc721 } from './erc721';
 import { strategy as apescape } from './apescape';
 import { strategy as liftkitchen } from './liftkitchen';
+import { strategy as decentralandEstateSize } from './decentraland-estate-size';
+import { strategy as iotexBalance } from './iotex-balance';
+import { strategy as brightid } from './brightid';
+import { strategy as inverseXINV } from './inverse-xinv';
 
 export default {
   balancer,
@@ -98,14 +106,17 @@ export default {
   'erc20-balance-of-coeff': erc20BalanceOfCoeff,
   'erc20-with-balance': erc20WithBalance,
   'erc20-balance-of-delegation': erc20BalanceOfDelegation,
+  'erc20-price': erc20Price,
   'balance-of-with-min': balanceOfWithMin,
   'eth-balance': ethBalance,
   'eth-wallet-age': ethWalletAge,
   'maker-ds-chief': makerDsChief,
   erc721,
   'erc721-enumerable': erc721Enumerable,
+  'erc721-with-multiplier': erc721WithMultiplier,
   'erc1155-balance-of': erc1155BalanceOf,
   'erc1155-balance-of-cv': erc1155BalanceOfCv,
+  multichain,
   uni,
   'frax-finance': fraxFinance,
   'yearn-vault': yearnVault,
@@ -168,6 +179,11 @@ export default {
   xseen,
   'moloch-all': molochAll,
   'moloch-loot': molochLoot,
+  'hopr-uni-lp-farm': hoprUniLpFarm,
   apescape,
-  liftkitchen
+  liftkitchen,
+  'decentraland-estate-size': decentralandEstateSize,
+  brightid,
+  'inverse-xinv': inverseXINV,
+  'iotex-balance': iotexBalance
 };

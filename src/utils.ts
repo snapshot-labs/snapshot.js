@@ -16,6 +16,7 @@ import {
   resolveContent
 } from './utils/contentHash';
 import { signMessage, getBlockNumber } from './utils/web3';
+import gateways from './gateways.json';
 
 export const MULTICALL = {
   '1': '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
@@ -28,11 +29,15 @@ export const MULTICALL = {
   '31': '0x4eeebb5580769ba6d26bfd07be636300076d1831',
   '42': '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
   '56': '0x1ee38d535d541c55c9dae27b12edf090c608e6fb',
+  '70': '0xd4b794b89baccb70ef851830099bee4d69f19ebc',
+  '65': '0x23Daae12B7f82b1f0A276cD4f49825DE940B6374',
+  '66': '0x5031F781E294bD918CfCf5aB7fe57196DeAA7Efb',
   '82': '0x579De77CAEd0614e3b158cb738fcD5131B9719Ae',
   '97': '0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46',
   '100': '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
   '128': '0x37ab26db3df780e7026f3e767f65efb739f48d8e',
   '137': '0xCBca837161be50EfA5925bB9Cc77406468e76751',
+  '246': '0x0767F26d0D568aB61A98b279C0b28a4164A6f05e',
   '256': '0xC33994Eb943c61a8a59a918E2de65e03e4e385E0',
   '1287': '0xD7bA481DE7fB53A7a29641c43232B09e5D9CAe7b',
   '1337': '0x566131e85d46cc7BBd0ce5C6587E9912Dc27cDAc',
@@ -40,6 +45,7 @@ export const MULTICALL = {
   wanchain: '0xba5934ab3056fca1fa458d30fbb3810c3eb5145f',
   '250': '0x7f6A10218264a22B4309F3896745687E712962a0',
   '499': '0x7955FF653FfDBf13056FeAe227f655CfF5C194D5',
+  '4690': '0x30aE8783d26aBE7Fbb9d83549CCb7430AE4A301F',
   '1666600000': '0x9c31392D2e0229dC4Aa250F043d46B9E82074BF8',
   '1666700000': '0x9923589503Fd205feE3d367DDFF2378f0F7dD2d4'
 };
@@ -95,6 +101,16 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
   });
   const { data } = await res.json();
   return data || {};
+}
+
+export function getUrl(uri) {
+  const uriScheme = uri.split('://')[0];
+  const ipfsGateway = `https://${gateways[0]}`;
+  if (uriScheme === 'ipfs')
+    return uri.replace('ipfs://', `${ipfsGateway}/ipfs/`);
+  if (uriScheme === 'ipns')
+    return uri.replace('ipns://', `${ipfsGateway}/ipns/`);
+  return uri;
 }
 
 export async function ipfsGet(
@@ -153,7 +169,7 @@ export async function getScores(
 }
 
 export function validateSchema(schema, data) {
-  const ajv = new Ajv({ allErrors: true });
+  const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
   // @ts-ignore
   addFormats(ajv);
   const validate = ajv.compile(schema);
