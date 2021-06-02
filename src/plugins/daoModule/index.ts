@@ -58,11 +58,25 @@ const ModuleAbi = [
 ];
 
 const OracleAbi = [
+  // Events
+  `event LogNewAnswer(
+    bytes32 answer,
+    bytes32 indexed question_id,
+    bytes32 history_hash,
+    address indexed user,
+    uint256 bond,
+    uint256 ts,
+    bool is_commitment
+  )`,
+
   // Read functions
   'function resultFor(bytes32 question_id) view returns (bytes32)',
   'function getFinalizeTS(bytes32 question_id) view returns (uint32)',
   'function getBond(bytes32 question_id) view returns (uint256)',
   'function getBestAnswer(bytes32 question_id) view returns (uint32)',
+  'function balanceOf(address) view returns (uint256)',
+  'function getHistoryHash(bytes32 question_id) view returns (bytes32)',
+  'function isFinalized(bytes32 question_id) view returns (bool)',
 
   // Write functions
   'function submitAnswer(bytes32 question_id, bytes32 answer, uint256 max_previous) external payable',
@@ -73,18 +87,8 @@ const OracleAbi = [
     address[] addrs, 
     uint256[] bonds, 
     bytes32[] answers
-  ) public `,
-
-  // Events
-  `event LogNewAnswer(
-    bytes32 answer,
-    bytes32 indexed question_id,
-    bytes32 history_hash,
-    address indexed user,
-    uint256 bond,
-    uint256 ts,
-    bool is_commitment
-  )`
+  ) public`,
+  'function withdraw() public'
 ];
 
 const START_BLOCKS = {
@@ -374,6 +378,20 @@ export default class Plugin {
     oracleAddress: string
   ) {
     const contract = new Contract(oracleAddress, OracleAbi, web3);
+    const provider: StaticJsonRpcProvider = getProvider(network);
+
+    const [
+      [userBalance],
+      [bestAnswer],
+      [historyHash],
+      [isFinalized]
+    ] = await multicall(network, provider, OracleAbi, [
+      [oracleAddress, 'balanceOf', [web3.provider.selectedAddress]],
+      [oracleAddress, 'getBestAnswer', [questionId]],
+      [oracleAddress, 'getHistoryHash', [questionId]],
+      [oracleAddress, 'isFinalized', [questionId]]
+    ]);
+
     const answersFilter = contract.filters.LogNewAnswer(null, questionId);
     const events = await contract.queryFilter(
       answersFilter,
@@ -385,6 +403,7 @@ export default class Plugin {
     const bonds: Result[] = [];
     const answers: Result[] = [];
 
+    // We need to send the information from last to first
     events.reverse().forEach(({ args }) => {
       users.push(args?.user.toLowerCase());
       historyHashes.push(args?.history_hash);
@@ -392,15 +411,40 @@ export default class Plugin {
       answers.push(args?.answer);
     });
 
+    const alreadyClaimed = BigNumber.from(historyHash).eq(0);
+    const address = web3.provider.selectedAddress.toLowerCase();
+
+    // Check if current user has submitted an answer
+    const currentUserAnswers = users.map((user, i) => {
+      if (user === address) return answers[i];
+    });
+
+    // If the user has answers, check if one of them is the winner
+    const votedForCorrectQuestion =
+      currentUserAnswers.some((answer) => {
+        if (answer) {
+          return BigNumber.from(answer).eq(bestAnswer);
+        }
+      }) && isFinalized;
+
+    // If user has balance in the contract, he should be able to withdraw
+    const hasBalance = !userBalance.eq(0) && isFinalized;
+
+    // Remove the first history and add an empty one
+    // More info: https://github.com/realitio/realitio-contracts/blob/master/truffle/contracts/Realitio.sol#L502
     historyHashes.shift();
     const firstHash = '0x0000000000000000000000000000000000000000000000000000000000000000' as unknown;
     historyHashes.push(firstHash as Result);
+
     return {
-      length: [bonds.length.toString()],
-      historyHashes,
-      users,
-      bonds,
-      answers
+      canClaim: (!alreadyClaimed && votedForCorrectQuestion) || hasBalance,
+      data: {
+        length: [bonds.length.toString()],
+        historyHashes,
+        users,
+        bonds,
+        answers
+      }
     };
   }
 
@@ -410,6 +454,25 @@ export default class Plugin {
     questionId: string,
     claimParams: [string[], string[], number[], string[]]
   ) {
+    const currentHistoryHash = await call(web3, OracleAbi, [
+      oracleAddress,
+      'getHistoryHash',
+      [questionId]
+    ]);
+
+    if (BigNumber.from(currentHistoryHash).eq(0)) {
+      const tx = await sendTransaction(
+        web3,
+        oracleAddress,
+        OracleAbi,
+        'withdraw',
+        []
+      );
+      const receipt = await tx.wait();
+      console.log('[Realitio] executed withdraw:', receipt);
+      return;
+    }
+
     const tx = await sendTransaction(
       web3,
       oracleAddress,
@@ -418,7 +481,10 @@ export default class Plugin {
       [[questionId], ...claimParams]
     );
     const receipt = await tx.wait();
-    console.log('[Realitio] executed claim:', receipt);
+    console.log(
+      '[Realitio] executed claimMultipleAndWithdrawBalance:',
+      receipt
+    );
   }
 
   async executeProposal(
