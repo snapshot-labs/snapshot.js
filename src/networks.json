@@ -319,6 +319,15 @@
     "rpc": ["https://rpc.testnet.moonbeam.network"],
     "explorer": "https://moonbase-blockscout.testnet.moonbeam.network/"
   },
+  "4690": {
+    "key": "4690",
+    "name": "Iotex Testnet",
+    "shortName": "iotx",
+    "chainId": 4690,
+    "network": "testnet",
+    "rpc": ["https://babel-api.testnet.iotex.io"],
+    "explorer": "https://testnet.iotexscan.io"
+  },
   "1666600000": {
     "key": "1666600000",
     "name": "Harmony Mainnet",
