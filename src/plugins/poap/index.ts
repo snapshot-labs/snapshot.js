@@ -39,21 +39,7 @@ export default class Plugin {
     snapshot: string,
     address: string
   ) {
-    try {
-      /*
-      const res = await fetch(`https://run.mocky.io/v3/${address}`);
-
-      if (res.status >= 400) {
-        throw new Error("Bad response from server");
-      }
-
-      const user = await res.json();
-      */
-      return {data:{poapImg: 'https://img-test-rlajous.s3.amazonaws.com/Group+1229.png', currentState: 'CLAIMED'}};
-
-    } catch (err) {
-      console.error(err);
-    }
+    return {data:{poapImg: 'https://img-test-rlajous.s3.amazonaws.com/Group+1229.png', currentState: 'UNCLAIMED'}};
   }
 
   async claim(
@@ -62,7 +48,7 @@ export default class Plugin {
   ) {
     try {
       const currentState = {poapImg: 'https://img-test-rlajous.s3.amazonaws.com/Group+1229.png'};
-      return ''
+      return 'UNCLAIMED';
     } catch (e) {
       throw new Error(e);
     }
