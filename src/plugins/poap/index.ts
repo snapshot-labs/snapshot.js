@@ -48,7 +48,8 @@ export default class Plugin {
 
       const user = await res.json();
 
-      console.log(user);
+      return {poapImg: 'https://img-test-rlajous.s3.amazonaws.com/Group+1229.png', currentState: 'CLAIMED'};
+
     } catch (err) {
       console.error(err);
     }
