@@ -39,7 +39,7 @@ export default class Plugin {
     snapshot: string,
     address: string
   ) {
-    return {data:{poapImg: 'https://img-test-rlajous.s3.amazonaws.com/Group+1229.png', currentState: 'UNCLAIMED'}};
+    return {data:{poapImg: 'https://img-test-rlajous.s3.amazonaws.com/v5 1.png', currentState: 'UNCLAIMED'}};
   }
 
   async claim(
@@ -47,7 +47,7 @@ export default class Plugin {
     address: string
   ) {
     try {
-      const currentState = {poapImg: 'https://img-test-rlajous.s3.amazonaws.com/Group+1229.png'};
+      const currentState = {poapImg: 'https://img-test-rlajous.s3.amazonaws.com/v5 1.png'};
       return 'UNCLAIMED';
     } catch (e) {
       throw new Error(e);
