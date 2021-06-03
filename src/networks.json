@@ -347,5 +347,16 @@
     "rpc": ["https://api.s0.b.hmny.io"],
     "ws": ["wss://ws.s0.b.hmny.io"],
     "explorer": "https://explorer.pops.one"
+  },
+  "42220": {
+    "key": "42220",
+    "name": "Celo Mainnet",
+    "shortName": "Celo",
+    "chainId": 42220,
+    "network": "mainnet",
+    "rpc": [
+      "https://celo-mainnet--rpc.datahub.figment.io/apikey/e892a66dc36e4d2d98a5d6406d609796/"
+    ],
+    "explorer": "https://explorer.celo.org"
   }
 }
