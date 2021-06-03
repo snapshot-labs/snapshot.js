@@ -71,7 +71,7 @@ const abi = [
     payable: false,
     stateMutability: 'view',
     type: 'function'
-  },
+  }
 ];
 
 export async function strategy(
@@ -90,7 +90,12 @@ export async function strategy(
     multi.call(`lpInFarm.${address}`, FARM_ADDRESS, 'userInfo', ['0', address]);
     multi.call(`lp.${address}`, LP_TOKEN_ADDRESS, 'balanceOf', [address]);
     options.vaultTokens.forEach((token: any) => {
-      multi.call(`vaultTokens.${address}.${token.address}`, token.address, 'balanceOf', [address]);
+      multi.call(
+        `vaultTokens.${address}.${token.address}`,
+        token.address,
+        'balanceOf',
+        [address]
+      );
     });
   });
   multi.call(`lp.totalSupply`, LP_TOKEN_ADDRESS, 'totalSupply', []);
@@ -101,42 +106,47 @@ export async function strategy(
   return Object.fromEntries(
     addresses.map((address) => [
       address,
-      parseFloat(formatUnits(
-        result.boo[address]
-          .mul(options.boo.numerator)
-          .div(options.boo.denominator)
-        ,18
-      ))
-      +
-      parseFloat(formatUnits(
-        result.lpInFarm[address]
-          .mul(result.lp.boo)
-          .div(result.lp.totalSupply)
-          .mul(options.lp.numerator)
-          .div(options.lp.denominator)
-        ,18
-      ))
-      +
-      parseFloat(formatUnits(
-        result.lp[address]
-          .mul(result.lp.boo)
-          .div(result.lp.totalSupply)
-          .mul(options.lp.numerator)
-          .div(options.lp.denominator)
-        ,18
-      ))
-      +
-      options.vaultTokens.reduce(
-        (prev: number, token: any, idx: number) =>
-          prev +
-          parseFloat(formatUnits(
-            result.vaultTokens[address][token.address]
-            .mul(options.vaultTokens[idx].numerator)
-            .div(options.vaultTokens[idx].denominator),
-            options.vaultTokens[idx].decimal
-          ))
-          , 0
-      )
+      parseFloat(
+        formatUnits(
+          result.boo[address]
+            .mul(options.boo.numerator)
+            .div(options.boo.denominator),
+          18
+        )
+      ) +
+        parseFloat(
+          formatUnits(
+            result.lpInFarm[address]
+              .mul(result.lp.boo)
+              .div(result.lp.totalSupply)
+              .mul(options.lp.numerator)
+              .div(options.lp.denominator),
+            18
+          )
+        ) +
+        parseFloat(
+          formatUnits(
+            result.lp[address]
+              .mul(result.lp.boo)
+              .div(result.lp.totalSupply)
+              .mul(options.lp.numerator)
+              .div(options.lp.denominator),
+            18
+          )
+        ) +
+        options.vaultTokens.reduce(
+          (prev: number, token: any, idx: number) =>
+            prev +
+            parseFloat(
+              formatUnits(
+                result.vaultTokens[address][token.address]
+                  .mul(options.vaultTokens[idx].numerator)
+                  .div(options.vaultTokens[idx].denominator),
+                options.vaultTokens[idx].decimal
+              )
+            ),
+          0
+        )
     ])
   );
 }
