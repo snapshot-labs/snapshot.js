@@ -17,7 +17,6 @@ import { strategy as makerDsChief } from './maker-ds-chief';
 import { strategy as uni } from './uni';
 import { strategy as yearnVault } from './yearn-vault';
 import { strategy as fraxFinance } from './frax-finance';
-import { strategy as fraxFinanceWithVeFXS } from './frax-finance-with-vefxs';
 import { strategy as moloch } from './moloch';
 import { strategy as uniswap } from './uniswap';
 import { strategy as flashstake } from './flashstake';
@@ -120,7 +119,6 @@ export default {
   multichain,
   uni,
   'frax-finance': fraxFinance,
-  'frax-finance-with-vefxs': fraxFinanceWithVeFXS,
   'yearn-vault': yearnVault,
   moloch,
   masterchef,
