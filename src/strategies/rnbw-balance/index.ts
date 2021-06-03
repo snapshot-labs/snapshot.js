@@ -1,14 +1,8 @@
 import { formatUnits } from '@ethersproject/units';
 import Multicaller from '../../utils/multicaller';
-import { multicall } from '../../utils';
 
 export const author = 'amaterasu';
 export const version = '0.1.0';
-
-// const abi = [
-//   'function balanceOf(address account) external view returns (uint256)',
-//   'function getCurrentHaloHaloPrice() public view returns (uint256)'
-// ];
 
 const abi = [
   {
@@ -53,7 +47,6 @@ export async function strategy(
 
   const multi = new Multicaller(network, provider, abi, { blockTag });
 
-  // multi.call('dsrtBalance', options.token, 'balanceOf', addresses)
   multi.call('dsrtPrice', options.token, 'getCurrentHaloHaloPrice');
 
   addresses.forEeach((address) => {
@@ -80,20 +73,4 @@ export async function strategy(
       })
   )
 
-
-  
-  // const response = await multicall(
-  //   network,
-  //   provider,
-  //   abi,
-  //   addresses.map((address: any) => [options.address, 'balanceOf', [address]]),
-  //   { blockTag }
-  // );
-
-  // return Object.fromEntries(
-  //   response.map((value, i) => [
-  //     addresses[i],
-  //     parseFloat(formatUnits(value.toString(), options.decimals))
-  //   ])
-  // );
 }
