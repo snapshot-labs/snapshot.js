@@ -92,6 +92,7 @@ import { strategy as iotexBalance } from './iotex-balance';
 import { strategy as xrc20BalanceOf } from './xrc20-balance-of';
 import { strategy as brightid } from './brightid';
 import { strategy as inverseXINV } from './inverse-xinv';
+import { strategy as spookyswap } from './spookyswap';
 
 export default {
   balancer,
@@ -187,5 +188,6 @@ export default {
   brightid,
   'inverse-xinv': inverseXINV,
   'iotex-balance': iotexBalance,
-  'xrc20-balance-of': xrc20BalanceOf
+  'xrc20-balance-of': xrc20BalanceOf,
+  spookyswap
 };
