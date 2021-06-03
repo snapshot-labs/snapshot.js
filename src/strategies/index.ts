@@ -89,6 +89,7 @@ import { strategy as apescape } from './apescape';
 import { strategy as liftkitchen } from './liftkitchen';
 import { strategy as decentralandEstateSize } from './decentraland-estate-size';
 import { strategy as iotexBalance } from './iotex-balance';
+import { strategy as xrc20BalanceOf } from './xrc20-balance-of';
 import { strategy as brightid } from './brightid';
 import { strategy as inverseXINV } from './inverse-xinv';
 
@@ -185,5 +186,6 @@ export default {
   'decentraland-estate-size': decentralandEstateSize,
   brightid,
   'inverse-xinv': inverseXINV,
-  'iotex-balance': iotexBalance
+  'iotex-balance': iotexBalance,
+  'xrc20-balance-of': xrc20BalanceOf
 };
