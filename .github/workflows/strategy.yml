@@ -4,6 +4,10 @@ on:
     types:
       - edited
       - labeled
+      - synchronize
+      - ready_for_review
+      - review_requested
+      - reopened
 
 jobs:
   test-strategy:
@@ -17,5 +21,5 @@ jobs:
         npm install
         STRATEGY=$(echo '${{github.event.pull_request.title}}' | sed -e 's/.*\[\(.*\)\].*/\1/')
         if [ -n "$STRATEGY" ]; then
-          npm run test --strategy=$STRATEGY
+          npm run test --strategy=$STRATEGY --more=500
         fi
