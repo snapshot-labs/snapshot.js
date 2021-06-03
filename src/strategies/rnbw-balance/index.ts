@@ -48,13 +48,13 @@ export async function strategy(
   const multi = new Multicaller(network, provider, abi, { blockTag });
 
   multi.call('dsrtPrice', options.token, 'getCurrentHaloHaloPrice');
-
-  addresses.forEeach((address) => {
-    multi.call(`scores.${address}.dsrtBalance`, options.token, 'balanceOf')
+  
+  addresses.forEach((address) => {
+    multi.call(`scores.${address}.dsrtBalance`, options.token, 'balanceOf', [address])
   });
-
+  
   const result = await multi.execute();
-  const dsrtPrice = result.dsrtBalance;
+  const dsrtPrice = result.dsrtPrice;
 
   return Object.fromEntries(
     Array(addresses.length)
