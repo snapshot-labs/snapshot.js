@@ -320,6 +320,15 @@ export default class Plugin {
     }
   }
 
+  async getModuleDetails(network: string, moduleAddress: string) {
+    const provider: StaticJsonRpcProvider = getProvider(network);
+    return getModuleDetails(
+      provider,
+      network,
+      moduleAddress
+    );
+  }
+
   async submitProposal(
     web3: any,
     moduleAddress: string,
