@@ -8,6 +8,7 @@ import { strategy as erc20BalanceOfFixedTotal } from './erc20-balance-of-fixed-t
 import { strategy as erc20BalanceOfCv } from './erc20-balance-of-cv';
 import { strategy as erc20WithBalance } from './erc20-with-balance';
 import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegation';
+import { strategy as erc20Price } from './erc20-price';
 import { strategy as balanceOfWithMin } from './balance-of-with-min';
 import { strategy as ethBalance } from './eth-balance';
 import { strategy as ethWalletAge } from './eth-wallet-age';
@@ -87,8 +88,13 @@ import { strategy as erc721 } from './erc721';
 import { strategy as apescape } from './apescape';
 import { strategy as liftkitchen } from './liftkitchen';
 import { strategy as decentralandEstateSize } from './decentraland-estate-size';
+import { strategy as iotexBalance } from './iotex-balance';
+import { strategy as xrc20BalanceOf } from './xrc20-balance-of';
 import { strategy as brightid } from './brightid';
 import { strategy as inverseXINV } from './inverse-xinv';
+import { strategy as modefi } from './modefi';
+import { strategy as spookyswap } from './spookyswap';
+import { strategy as celerSgnDelegation } from './celer-sgn-delegation';
 
 export default {
   balancer,
@@ -104,6 +110,7 @@ export default {
   'erc20-balance-of-coeff': erc20BalanceOfCoeff,
   'erc20-with-balance': erc20WithBalance,
   'erc20-balance-of-delegation': erc20BalanceOfDelegation,
+  'erc20-price': erc20Price,
   'balance-of-with-min': balanceOfWithMin,
   'eth-balance': ethBalance,
   'eth-wallet-age': ethWalletAge,
@@ -181,5 +188,10 @@ export default {
   liftkitchen,
   'decentraland-estate-size': decentralandEstateSize,
   brightid,
-  'inverse-xinv': inverseXINV
+  'inverse-xinv': inverseXINV,
+  modefi,
+  'iotex-balance': iotexBalance,
+  'xrc20-balance-of': xrc20BalanceOf,
+  spookyswap,
+  'celer-sgn-delegation': celerSgnDelegation
 };

@@ -1,0 +1,19 @@
+[
+  {
+    "name": "modefi",
+    "strategy": {
+      "name": "modefi",
+      "params": {
+        "address": "0xea1ea0972fa092dd463f2968f9bb51cc4c981d71",
+        "symbol": "MOD",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x6f0b57730f7d51476e93cc46093ec9139010caa2",
+      "0xe5aec22bb09186e205cf3366236f1fc8e9606fa4"
+    ],
+    "snapshot": 12560234
+  }
+]
