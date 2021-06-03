@@ -43,34 +43,38 @@ function callGetScores(example) {
   );
 }
 
-describe(`Test Snapshot strategy with addresses in examples.json:\n\nStrategy: "${strategy}"\nQuery: "${example.name}"\n\n`, () => {
+describe(`\nTest strategy "${strategy}"`, () => {
   let scores = null;
   let getScoresTime = null;
 
-  it('strategy should run without any errors', async () => {
+  it('Strategy should run without any errors', async () => {
     const getScoresStart = performance.now();
     scores = await callGetScores(example);
     const getScoresEnd = performance.now();
+    // @ts-ignore
     getScoresTime = getScoresEnd - getScoresStart;
-    console.log('Get Scores: ' + getScoresTime);
     console.log(scores);
-  }, 20000);
+    // @ts-ignore
+    console.log(`Resolved in ${(getScoresTime / 1e3).toFixed(2)} sec.`);
+  }, 2e4);
 
-  it('getScores function should return an array', () => {
+  it('Should return an array', () => {
     expect(scores).toBeTruthy();
     expect(Array.isArray(scores)).toBe(true);
   });
 
-  it('strategy should take less than 10 seconds to resolve', () => {
+  it('Should take less than 10 sec. to resolve', () => {
     expect(getScoresTime).toBeLessThanOrEqual(10000);
   });
 
-  it('examples.json should include at least 1 address with a positive score.', () => {
+  it('File examples.json should include at least 1 address with a positive score', () => {
+    // @ts-ignore
     expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
+    // @ts-ignore
     expect(Object.values(scores[0]).some((val) => val > 0)).toBe(true);
   });
 
-  it('examples.json must use a snapshot block number in the past.', async () => {
+  it('File examples.json must use a snapshot block number in the past', async () => {
     expect(typeof example.snapshot).toBe('number');
     const provider = snapshot.utils.getProvider(example.network);
     const blockNumber = await snapshot.utils.getBlockNumber(provider);
@@ -79,29 +83,26 @@ describe(`Test Snapshot strategy with addresses in examples.json:\n\nStrategy: "
 });
 
 (moreArg ? describe : describe.skip)(
-  `\nTest Snapshot strategy with ${moreArg || 500} addresses:\n\nStrategy: "${strategy}"\nQuery: "${example.name}"\n(will be skipped if "--more=500" argument is not passed)\n\n`,
+  `\nTest strategy "${strategy}" (with ${moreArg || 500} voters)`,
   () => {
     let scoresMore = null;
     let getScoresTimeMore = null;
 
-    it(`strategy should work with ${moreArg || 500} addresses.`, async () => {
+    it(`Should work with ${moreArg || 500} voters`, async () => {
       example.addresses = addresses.slice(0, moreArg);
       const getScoresStart = performance.now();
       scoresMore = await callGetScores(example);
       const getScoresEnd = performance.now();
+      // @ts-ignore
       getScoresTimeMore = getScoresEnd - getScoresStart;
-      console.log(`Get Scores for ${moreArg} addresses:` + getScoresTimeMore);
+      // @ts-ignore
+      console.log(`Resolved in ${(getScoresTimeMore / 1e3).toFixed(2)} sec.`);
       console.log(scoresMore);
       // wait for all logs to be printed (bug: printed after results)
       await new Promise((r) => setTimeout(r, 2000));
     }, 20000);
 
-    it(`getScores function with ${moreArg || 500} addresses should return an array`, () => {
-      expect(scoresMore).toBeTruthy();
-      expect(Array.isArray(scoresMore)).toBe(true);
-    });
-
-    it(`strategy for ${moreArg || 500} addresses should take less than 15 seconds to resolve`, () => {
+    it(`Should take less than 15 sec. to resolve with ${moreArg || 500} voters`, () => {
       expect(getScoresTimeMore).toBeLessThanOrEqual(15000);
     });
   }
