@@ -91,6 +91,7 @@ import { strategy as decentralandEstateSize } from './decentraland-estate-size';
 import { strategy as iotexBalance } from './iotex-balance';
 import { strategy as brightid } from './brightid';
 import { strategy as inverseXINV } from './inverse-xinv';
+import { strategy as spookyswap } from './spookyswap';
 
 export default {
   balancer,
@@ -185,5 +186,6 @@ export default {
   'decentraland-estate-size': decentralandEstateSize,
   brightid,
   'inverse-xinv': inverseXINV,
-  'iotex-balance': iotexBalance
+  'iotex-balance': iotexBalance,
+  spookyswap
 };
