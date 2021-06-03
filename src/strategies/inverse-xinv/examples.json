@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "inverse-xinv",
+      "params": {
+        "symbol": "xINV",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x08d816526bdc9d077dd685bd9fa49f58a5ab8e48",
+      "0x3ee505ba316879d246a8fd2b3d7ee63b51b44fab"
+    ],
+    "snapshot": 12511580
+  }
+]

@@ -275,9 +275,21 @@
     "shortName": "heco",
     "chainId": 128,
     "network": "Mainnet",
-    "rpc": ["https://http-mainnet.hecochain.com"],
+    "rpc": [
+      "https://http-mainnet-node.defibox.com",
+      "https://http-mainnet.hecochain.com"
+    ],
     "ws": ["wss://ws-mainnet-node.huobichain.com"],
     "explorer": "https://hecoinfo.com"
+  },
+  "246": {
+    "key": "246",
+    "name": "Energy Web Chain",
+    "shortName": "EWC",
+    "chainId": 246,
+    "network": "mainnet",
+    "rpc": ["https://voting-rpc.carbonswap.exchange"],
+    "explorer": "https://explorer.energyweb.org"
   },
   "250": {
     "key": "250",
@@ -306,6 +318,15 @@
     "network": "testnet",
     "rpc": ["https://rpc.testnet.moonbeam.network"],
     "explorer": "https://moonbase-blockscout.testnet.moonbeam.network/"
+  },
+  "4690": {
+    "key": "4690",
+    "name": "Iotex Testnet",
+    "shortName": "iotx",
+    "chainId": 4690,
+    "network": "testnet",
+    "rpc": ["https://babel-api.testnet.iotex.io"],
+    "explorer": "https://testnet.iotexscan.io"
   },
   "1666600000": {
     "key": "1666600000",
