@@ -15,7 +15,9 @@
         "network": "1",
         "addresses": [
             "0x36A87d1E3200225f881488E4AEedF25303FebcAe",
-            "0x234D953a9404Bf9DbC3b526271d440cD2870bCd2"
+            "0x234D953a9404Bf9DbC3b526271d440cD2870bCd2",
+            "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+            "0x22511ffA88433aB56495947b559dfB62B3d47633" 
         ],
         "snapshot": 12557453
     }
