@@ -275,7 +275,10 @@
     "shortName": "heco",
     "chainId": 128,
     "network": "Mainnet",
-    "rpc": ["https://http-mainnet.hecochain.com"],
+    "rpc": [
+      "https://http-mainnet-node.defibox.com",
+      "https://http-mainnet.hecochain.com"
+    ],
     "ws": ["wss://ws-mainnet-node.huobichain.com"],
     "explorer": "https://hecoinfo.com"
   },
@@ -316,6 +319,24 @@
     "rpc": ["https://rpc.testnet.moonbeam.network"],
     "explorer": "https://moonbase-blockscout.testnet.moonbeam.network/"
   },
+  "4689": {
+    "key": "4689",
+    "name": "Iotex Mainnet",
+    "shortName": "iotx",
+    "chainId": 4689,
+    "network": "mainnet",
+    "rpc": ["https://babel-api.mainnet.iotex.io"],
+    "explorer": "https://iotexscan.io"
+  },
+  "4690": {
+    "key": "4690",
+    "name": "Iotex Testnet",
+    "shortName": "iotx",
+    "chainId": 4690,
+    "network": "testnet",
+    "rpc": ["https://babel-api.testnet.iotex.io"],
+    "explorer": "https://testnet.iotexscan.io"
+  },
   "1666600000": {
     "key": "1666600000",
     "name": "Harmony Mainnet",
@@ -335,5 +356,16 @@
     "rpc": ["https://api.s0.b.hmny.io"],
     "ws": ["wss://ws.s0.b.hmny.io"],
     "explorer": "https://explorer.pops.one"
+  },
+  "42220": {
+    "key": "42220",
+    "name": "Celo Mainnet",
+    "shortName": "Celo",
+    "chainId": 42220,
+    "network": "mainnet",
+    "rpc": [
+      "https://celo-mainnet--rpc.datahub.figment.io/apikey/e892a66dc36e4d2d98a5d6406d609796/"
+    ],
+    "explorer": "https://explorer.celo.org"
   }
 }

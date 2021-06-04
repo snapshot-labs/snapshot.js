@@ -1,0 +1,19 @@
+[
+  {
+    "name": "XRC20 query",
+    "strategy": {
+      "name": "xrc20-balance-of",
+      "params": {
+        "address": "0x0043c2cc478d4c01e662ffc75bd3d712420ca5af",
+        "symbol": "USDT",
+        "decimals": 6
+      }
+    },
+    "network": "4690",
+    "addresses": [
+      "0x1904BFcb93EdC9BF961Eead2e5c0de81dCc1D37D",
+      "0x87Eea07540789af85B64947aEA21A3f00400B597"
+    ],
+    "snapshot": 8947000
+  }
+]
