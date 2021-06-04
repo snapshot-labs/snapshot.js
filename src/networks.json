@@ -319,6 +319,15 @@
     "rpc": ["https://rpc.testnet.moonbeam.network"],
     "explorer": "https://moonbase-blockscout.testnet.moonbeam.network/"
   },
+  "4689": {
+    "key": "4689",
+    "name": "Iotex Mainnet",
+    "shortName": "iotx",
+    "chainId": 4689,
+    "network": "mainnet",
+    "rpc": ["https://babel-api.mainnet.iotex.io"],
+    "explorer": "https://iotexscan.io"
+  },
   "4690": {
     "key": "4690",
     "name": "Iotex Testnet",
