@@ -22,6 +22,12 @@ let state = {
       'https://img-test-rlajous.s3.amazonaws.com/Property 1=Claimed.png',
     header: 'Congratulations! You got a new POAP in your account',
     buttonText: 'Show me my badges'
+  },
+  LOADING: {
+    headerImage:
+      'https://img-test-rlajous.s3.amazonaws.com/Property 1=Claimed.png',
+    header: 'Congratulations! We are sending the badge to your account',
+    buttonText: ''
   }
 };
 
@@ -32,7 +38,7 @@ export default class Plugin {
   public website = 'https://poap.xyz';
   public options: any;
 
-  async getCurrentStates() {
+  async getStates() {
     return state;
   }
   async getCurrentState(
