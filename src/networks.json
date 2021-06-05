@@ -115,8 +115,8 @@
     "chainId": 56,
     "network": "mainnet",
     "rpc": [
-      "https://bsc.getblock.io/mainnet/?api_key=91f8195f-bf46-488f-846a-73d6853790e7",
       "https://bsc-private-dataseed1.nariox.org",
+      "https://bsc.getblock.io/mainnet/?api_key=91f8195f-bf46-488f-846a-73d6853790e7",
       "https://bsc-private-dataseed2.nariox.org",
       "https://bsc-dataseed1.ninicoin.io",
       "https://bsc-dataseed1.binance.org",
