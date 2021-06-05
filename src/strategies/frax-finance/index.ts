@@ -196,17 +196,18 @@ export async function strategy(
         const free_uni_frax_fxs = freeUniFraxFxsBalances[i][0];
         const farm_uni_frax_fxs = farmUniFraxFxsBalances[i][0];
 
-        console.log(`==================${addresses[i]}==================`);
-        console.log("Free FXS: ", free_fxs.div(BIG18).toString());
-        console.log("veFXS: ", vefxs.div(BIG18).toString());
-        console.log("Free Uni FRAX/FXS LP: ", free_uni_frax_fxs.div(BIG18).toString());
-        console.log("Farmed Uni FRAX/FXS LP [boosted]: ", farm_uni_frax_fxs.div(BIG18).toString());
-        console.log("------");
-        console.log("E18");
-        console.log("FXS per Uni FRAX/FXS LP E18: ", uniLPFraxFxs_fxs_per_LP_E18.toString());
-        console.log("E0");
-        console.log("FXS per Uni FRAX/FXS LP E0: ", uniLPFraxFxs_fxs_per_LP_E18.div(BIG18).toString());
-        console.log(``);
+        // Print statements
+        // console.log(`==================${addresses[i]}==================`);
+        // console.log("Free FXS: ", free_fxs.div(BIG18).toString());
+        // console.log("veFXS: ", vefxs.div(BIG18).toString());
+        // console.log("Free Uni FRAX/FXS LP: ", free_uni_frax_fxs.div(BIG18).toString());
+        // console.log("Farmed Uni FRAX/FXS LP [boosted]: ", farm_uni_frax_fxs.div(BIG18).toString());
+        // console.log("------");
+        // console.log("E18");
+        // console.log("FXS per Uni FRAX/FXS LP E18: ", uniLPFraxFxs_fxs_per_LP_E18.toString());
+        // console.log("E0");
+        // console.log("FXS per Uni FRAX/FXS LP E0: ", uniLPFraxFxs_fxs_per_LP_E18.div(BIG18).toString());
+        // console.log(``);
 
         return [
           addresses[i],
