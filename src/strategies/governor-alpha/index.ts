@@ -5,27 +5,7 @@ export const author = 'snapshot-labs';
 export const version = '0.0.1';
 
 const abi = [
-  {
-    constant: true,
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'account',
-        type: 'address'
-      }
-    ],
-    name: 'getCurrentVotes',
-    outputs: [
-      {
-        internalType: 'uint96',
-        name: '',
-        type: 'uint96'
-      }
-    ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function'
-  }
+  'function getCurrentVotes(address account) external view returns (uint256)'
 ];
 
 export async function strategy(
