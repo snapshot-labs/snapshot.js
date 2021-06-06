@@ -28,7 +28,8 @@
           "type": "string",
           "enum": [
             "single-choice",
-            "approval"
+            "approval",
+            "quadratic"
           ]
         },
         "snapshot": {
