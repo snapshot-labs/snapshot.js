@@ -62,6 +62,7 @@ import { strategy as totalAxionShares } from './total-axion-shares';
 import { strategy as erc1155BalanceOf } from './erc1155-balance-of';
 import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
 import { strategy as compLikeVotes } from './comp-like-votes';
+import { strategy as governorAlpha } from './governor-alpha';
 import { strategy as pagination } from './pagination';
 import { strategy as rulerStakedLP } from './ruler-staked-lp';
 import { strategy as xcover } from './xcover';
@@ -165,6 +166,7 @@ export default {
   'pob-hash': pobHash,
   'total-axion-shares': totalAxionShares,
   'comp-like-votes': compLikeVotes,
+  'governor-alpha': governorAlpha,
   pagination,
   'ruler-staked-lp': rulerStakedLP,
   xcover,
