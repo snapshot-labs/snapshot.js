@@ -36,23 +36,23 @@ const abi = [
     type: 'function'
   },
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
       }
     ],
-    "name": "boostedBalanceOf",
-    "outputs": [
+    name: 'boostedBalanceOf',
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     constant: true,
@@ -64,41 +64,41 @@ const abi = [
     type: 'function'
   },
   {
-    "inputs": [],
-    "name": "getReserves",
-    "outputs": [
+    inputs: [],
+    name: 'getReserves',
+    outputs: [
       {
-        "internalType": "uint112",
-        "name": "_reserve0",
-        "type": "uint112"
+        internalType: 'uint112',
+        name: '_reserve0',
+        type: 'uint112'
       },
       {
-        "internalType": "uint112",
-        "name": "_reserve1",
-        "type": "uint112"
+        internalType: 'uint112',
+        name: '_reserve1',
+        type: 'uint112'
       },
       {
-        "internalType": "uint32",
-        "name": "_blockTimestampLast",
-        "type": "uint32"
+        internalType: 'uint32',
+        name: '_blockTimestampLast',
+        type: 'uint32'
       }
     ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    stateMutability: 'view',
+    type: 'function',
+    constant: true
   },
   {
-    "inputs": [],
-    "name": "token0",
-    "outputs": [
+    inputs: [],
+    name: 'token0',
+    outputs: [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
+        internalType: 'address',
+        name: '',
+        type: 'address'
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function'
   }
 ];
 
@@ -145,7 +145,6 @@ export async function strategy(
     [address]
   ]);
 
-
   const response = await multicall(
     network,
     provider,
@@ -159,7 +158,7 @@ export async function strategy(
       ...fxsQuery,
       ...vefxsQuery,
       ...freeUniLPFraxFxsQuery,
-      ...farmingUniLPFraxFxsQuery,
+      ...farmingUniLPFraxFxsQuery
     ],
     { blockTag }
   );
@@ -172,10 +171,13 @@ export async function strategy(
   // ----------------------------------------
   let uniLPFraxFxs_fxs_per_LP_E18;
   let uni_FraxFxs_reservesFXS_E0;
-  if (uniLPFraxFxs_token0[0] == options.FXS) uni_FraxFxs_reservesFXS_E0 = uniLPFraxFxs_getReserves[0];
-  else uni_FraxFxs_reservesFXS_E0 = uniLPFraxFxs_getReserves[1]
+  if (uniLPFraxFxs_token0[0] == options.FXS)
+    uni_FraxFxs_reservesFXS_E0 = uniLPFraxFxs_getReserves[0];
+  else uni_FraxFxs_reservesFXS_E0 = uniLPFraxFxs_getReserves[1];
   const uni_FraxFxs_totalSupply_E0 = uniLPFraxFxs_totalSupply[0];
-  uniLPFraxFxs_fxs_per_LP_E18 = uni_FraxFxs_reservesFXS_E0.mul(BIG18).div(uni_FraxFxs_totalSupply_E0);
+  uniLPFraxFxs_fxs_per_LP_E18 = uni_FraxFxs_reservesFXS_E0
+    .mul(BIG18)
+    .div(uni_FraxFxs_totalSupply_E0);
 
   const responseClean = response.slice(3, response.length);
 
@@ -184,7 +186,6 @@ export async function strategy(
   const vefxsBalances = chunks[1];
   const freeUniFraxFxsBalances = chunks[2];
   const farmUniFraxFxsBalances = chunks[3];
-
 
   return Object.fromEntries(
     Array(addresses.length)
@@ -214,14 +215,18 @@ export async function strategy(
           parseFloat(
             formatUnits(
               free_fxs
-              .add(vefxs)
-              .add((free_uni_frax_fxs).mul(uniLPFraxFxs_fxs_per_LP_E18).div(BIG18)) // FXS share in free Uni FRAX/FXS LP
-              .add((farm_uni_frax_fxs).mul(uniLPFraxFxs_fxs_per_LP_E18).div(BIG18)) // FXS share in farmed Uni FRAX/FXS LP [boosted]
-              .toString(),
+                .add(vefxs)
+                .add(
+                  free_uni_frax_fxs.mul(uniLPFraxFxs_fxs_per_LP_E18).div(BIG18)
+                ) // FXS share in free Uni FRAX/FXS LP
+                .add(
+                  farm_uni_frax_fxs.mul(uniLPFraxFxs_fxs_per_LP_E18).div(BIG18)
+                ) // FXS share in farmed Uni FRAX/FXS LP [boosted]
+                .toString(),
               DECIMALS
             )
           )
-        ]
+        ];
       })
   );
 }
