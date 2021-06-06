@@ -1,8 +1,8 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 
-export const author = 'Arr00';
-export const version = '0.1.0';
+export const author = 'snapshot-labs';
+export const version = '0.0.1';
 
 const abi = [
   {
