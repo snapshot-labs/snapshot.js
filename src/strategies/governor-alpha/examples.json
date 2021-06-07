@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Example governor-alpha strategy to get delegated coins",
+    "strategy": {
+      "name": "governor-alpha",
+      "params": {
+        "address": "0xde30da39c46104798bb5aa3fe8b9e0e1f348163f",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x3c7d43de93Eb6598172f20Feb8ecFE8DEc70FE41",
+      "0x839395e20bbB182fa440d08F850E6c7A8f6F0780",
+      "0x44aa9c5a034c1499ec27906e2d427b704b567ffe"
+    ],
+    "snapshot": 12582006 
+  }
+]
