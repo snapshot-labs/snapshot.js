@@ -523,7 +523,7 @@ export default class Plugin {
     web3: any,
     oracleAddress: string,
     questionId: string,
-    minimumBond: string,
+    minimumBondInDaoModule: string,
     answer: '1' | '0'
   ) {
     const currentBond = await call(web3, OracleAbi, [
@@ -531,6 +531,12 @@ export default class Plugin {
       'getBond',
       [questionId]
     ]);
+
+    const minimumBondIsZero = BigNumber.from(minimumBondInDaoModule).eq(0);
+    const minimumBond = minimumBondIsZero
+      ? 1000000000000000
+      : minimumBondInDaoModule;
+
     const bond = currentBond.eq(BigNumber.from(0))
       ? BigNumber.from(minimumBond)
       : currentBond.mul(2);
