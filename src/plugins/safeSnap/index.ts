@@ -247,7 +247,7 @@ const retrieveInfoFromOracle = async (
 export default class Plugin {
   public author = 'Gnosis';
   public version = '1.0.0';
-  public name = 'Dao Module';
+  public name = 'SnapSafe';
   public website = 'https://safe.gnosis.io';
   public options: any;
 
@@ -347,6 +347,15 @@ export default class Plugin {
     } catch (e) {
       throw new Error(e);
     }
+  }
+
+  async getModuleDetails(network: string, moduleAddress: string) {
+    const provider: StaticJsonRpcProvider = getProvider(network);
+    return getModuleDetails(
+      provider,
+      network,
+      moduleAddress
+    );
   }
 
   async submitProposal(
