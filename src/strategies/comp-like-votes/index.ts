@@ -45,8 +45,8 @@ export async function strategy(
       options.address,
       'getCurrentVotes',
       [address.toLowerCase()]
-    ],
-    { blockTag })
+    ]),
+    { blockTag }
   );
   return Object.fromEntries(
     response.map((value, i) => [
