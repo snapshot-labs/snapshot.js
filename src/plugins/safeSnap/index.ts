@@ -247,7 +247,7 @@ const retrieveInfoFromOracle = async (
 export default class Plugin {
   public author = 'Gnosis';
   public version = '1.0.0';
-  public name = 'SnapSafe';
+  public name = 'SafeSnap';
   public website = 'https://safe.gnosis.io';
   public options: any;
 
