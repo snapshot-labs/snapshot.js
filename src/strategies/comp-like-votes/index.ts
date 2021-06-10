@@ -44,9 +44,9 @@ export async function strategy(
     addresses.map((address: any) => [
       options.address,
       'getCurrentVotes',
-      [address.toLowerCase()],
-      { blockTag }
-    ])
+      [address.toLowerCase()]
+    ]),
+    { blockTag }
   );
   return Object.fromEntries(
     response.map((value, i) => [
