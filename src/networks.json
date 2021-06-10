@@ -215,7 +215,7 @@
       "https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e"
     ],
     "ws": ["wss://ws-mainnet.matic.network"],
-    "explorer": ""
+    "explorer": "https://polygonscan.com"
   },
   "32659": {
     "key": "32659",
