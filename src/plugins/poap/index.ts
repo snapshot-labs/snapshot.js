@@ -14,7 +14,7 @@ let state = {
   UNCLAIMED: {
     headerImage:
       'https://img-test-rlajous.s3.amazonaws.com/Property 1=Voted.png',
-    header: 'Thanks for voting Claim your I VOTED POAP',
+    header: 'Claim your I voted POAP',
     buttonText: 'Claim'
   },
   CLAIMED: {
@@ -26,20 +26,19 @@ let state = {
   LOADING: {
     headerImage:
       'https://img-test-rlajous.s3.amazonaws.com/Property 1=Claimed.png',
-    header: 'Congratulations! We are sending the badge to your account',
+    header: 'The POAP is being added to your collection',
     buttonText: ''
   }
 };
 
 // URLS
-const API_BASE_URL = 'https://api.poap.xyz/';
-const APP_BASE_URL = 'https://app.poap.xyz/';
+const API_BASE_URL = 'https://api.poap.xyz';
+const APP_BASE_URL = 'https://app.poap.xyz';
 
 export default class Plugin {
   public author = 'Poap';
   public version = '1.0.0';
   public name = 'Poap Module';
-  public website = 'https://poap.xyz';
   public options: any;
 
   async getStates() {
