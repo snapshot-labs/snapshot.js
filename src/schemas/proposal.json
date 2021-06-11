@@ -29,6 +29,7 @@
           "enum": [
             "single-choice",
             "approval",
+            "ranked-choice",
             "quadratic"
           ]
         },
