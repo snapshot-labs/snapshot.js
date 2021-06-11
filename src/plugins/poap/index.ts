@@ -1,36 +1,3 @@
-let state = {
-  NO_POAP: {
-    header: "A POAP hasn't been setup for this proposal yet :'(",
-    headerImage:
-      'https://img-test-rlajous.s3.amazonaws.com/Property 1=nopoap.png',
-    mainImage: 'https://img-test-rlajous.s3.amazonaws.com/Group+1229.png'
-  },
-  NOT_VOTED: {
-    headerImage:
-      'https://img-test-rlajous.s3.amazonaws.com/Property 1=unavaliable.png',
-    header: 'Vote to get this POAP',
-    buttonText: 'Claim'
-  },
-  UNCLAIMED: {
-    headerImage:
-      'https://img-test-rlajous.s3.amazonaws.com/Property 1=Voted.png',
-    header: 'Claim your I voted POAP',
-    buttonText: 'Claim'
-  },
-  CLAIMED: {
-    headerImage:
-      'https://img-test-rlajous.s3.amazonaws.com/Property 1=Claimed.png',
-    header: 'Congratulations! You got a new POAP in your account',
-    buttonText: 'Show me my badges'
-  },
-  LOADING: {
-    headerImage:
-      'https://img-test-rlajous.s3.amazonaws.com/Property 1=Claimed.png',
-    header: 'The POAP is being added to your collection',
-    buttonText: ''
-  }
-};
-
 // URLS
 const API_BASE_URL = 'https://api.poap.xyz';
 const APP_BASE_URL = 'https://app.poap.xyz';
@@ -41,10 +8,7 @@ export default class Plugin {
   public name = 'Poap Module';
   public options: any;
 
-  async getStates() {
-    return state;
-  }
-  async openScanPage(address) {
+  openScanPage(address) {
     window.open(`${APP_BASE_URL}/scan/` + address, '_blank');
   }
   async getCurrentState(snapshot, address) {
