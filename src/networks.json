@@ -211,8 +211,9 @@
     "chainId": 137,
     "network": "mainnet",
     "rpc": [
-      "https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e",
-      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mainnet/archive"
+      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/polygon/mainnet/archive",
+      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mainnet/archive",
+      "https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e"
     ],
     "ws": ["wss://ws-mainnet.matic.network"],
     "explorer": "https://polygonscan.com"
