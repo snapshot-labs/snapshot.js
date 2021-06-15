@@ -97,6 +97,7 @@ import { strategy as modefi } from './modefi';
 import { strategy as spookyswap } from './spookyswap';
 import { strategy as rnbwBalance } from './rnbw-balance';
 import { strategy as celerSgnDelegation } from './celer-sgn-delegation';
+import { strategy as balancerDelegation } from './balancer-delegation';
 
 export default {
   balancer,
@@ -197,5 +198,6 @@ export default {
   'xrc20-balance-of': xrc20BalanceOf,
   spookyswap,
   'rnbw-balance': rnbwBalance,
-  'celer-sgn-delegation': celerSgnDelegation
+  'celer-sgn-delegation': celerSgnDelegation,
+  'balancer-delegation': balancerDelegation
 };
