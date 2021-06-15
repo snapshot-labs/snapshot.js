@@ -28,7 +28,9 @@
           "type": "string",
           "enum": [
             "single-choice",
-            "approval"
+            "approval",
+            "ranked-choice",
+            "quadratic"
           ]
         },
         "snapshot": {
