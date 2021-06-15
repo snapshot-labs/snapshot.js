@@ -33,7 +33,7 @@ const abi = [
     stateMutability: 'view',
     type: 'function'
   }
-];
+]
 
 export async function strategy(
   space,
@@ -46,15 +46,13 @@ export async function strategy(
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
   const multi = new Multicaller(network, provider, abi, { blockTag });
-
-  multi.call('dsrtPrice', options.token, 'getCurrentHaloHaloPrice');
-
+  
   addresses.forEach((address) => {
-    multi.call(`scores.${address}.dsrtBalance`, options.token, 'balanceOf', [
-      address
-    ]);
+    multi.call(`scores.${address}.dsrtBalance`, options.token, 'balanceOf', [address])
   });
 
+  multi.call('dsrtPrice', options.token, 'getCurrentHaloHaloPrice');
+  
   const result = await multi.execute();
   const dsrtPrice = result.dsrtPrice;
 
@@ -65,8 +63,14 @@ export async function strategy(
         const dsrtBalances = result.scores[addresses[i]].dsrtBalance;
         return [
           addresses[i],
-          parseFloat(formatUnits(dsrtBalances.mul(dsrtPrice), options.decimals))
+          parseFloat(
+            formatUnits(
+              dsrtBalances.mul(dsrtPrice),
+              36
+            )
+          )
         ];
       })
-  );
+  )
+
 }
