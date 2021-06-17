@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "mushrooms",
+      "params": {
+        "symbol": "MM-USDC UNI LP",
+        "_comment_": "This strategy supports LP pool in masterchef style staking. by @MushroomsFinan1",
+        "masterchef": "0xf8873a6080e8dbF41ADa900498DE0951074af577",
+        "pool": 2,
+        "type": "lp",
+        "govtoken": "0xa283aA7CfBB27EF0cfBcb2493dD9F4330E0fd304"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x98E55d2288385bc1B0EBBE0e56eAc6AEB099C496"
+    ],
+    "snapshot": 12087660
+  }
+]

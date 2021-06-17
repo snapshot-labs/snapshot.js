@@ -21,7 +21,7 @@ export async function strategy(
   );
 
   Object.keys(score).forEach((key) => {
-    if (score[key] >= options.minBalance) score[key] = score[key];
+    if (score[key] >= (options.minBalance || 0)) score[key] = score[key];
     else score[key] = 0;
   });
 

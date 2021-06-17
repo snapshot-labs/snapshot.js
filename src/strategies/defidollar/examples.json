@@ -1,33 +1,18 @@
 [
-    {
-        "name": "defidollar",
-        "strategy": {
-            "name": "defidollar",
-            "params": {
-                "DFD": "0x20c36f062a31865bED8a5B1e512D9a1A20AA333A",
-                "farms": {
-                    "curve": {
-                        "farm": "0xAEA6c312f4b3E04D752946d329693F7293bC2e6D"
-                    },
-                    "balDfdDusd": {
-                        "farm": "0xf068236ecad5fabb9883bbb26a6445d6c7c9a924",
-                        "lpToken": "0xd8e9690eff99e21a2de25e0b148ffaf47f47c972"
-                    },
-                    "uniDfdDusd": {
-                        "farm": "0x73d2307802EeAb30b009ec19141b2E22968B6c84",
-                        "lpToken": "0x28bc65cf4b7ebc38da915b672182c5c0ca04d5d4"
-                    },
-                    "uniDfdEth": {
-                        "farm": "0x303c3276F0F66B55703d475c8cf3509Ecd76a4ad",
-                        "lpToken": "0xac8833b0da01b8f2ca53f549f13b5790066a842d"
-                    }
-                }
-            }
-        },
-        "network": "1",
-        "addresses": [
-            "0x562574AF66836b1d30e69815bDf0740A7BD7C437",
-            "0x6d3ee34a020e7565e78540c74300218104c8e4a9"
-        ]
-    }
+  {
+    "name": "defidollar",
+    "strategy": {
+      "name": "defidollar",
+      "params": {
+        "address": "0xde157688a36ac94b6e5f52e99c196f79ac71cea3"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x562574AF66836b1d30e69815bDf0740A7BD7C437",
+      "0x6d3ee34a020e7565e78540c74300218104c8e4a9",
+      "0xa91194363b0a498e9d8602a866c473cb7bc9467d"
+    ],
+    "snapshot": 12050071
+  }
 ]

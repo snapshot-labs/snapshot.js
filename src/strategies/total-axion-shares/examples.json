@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Total Axion Shares",
+    "strategy": {
+      "name": "total-axion-shares"
+    },
+    "network": "1",
+    "addresses": [
+      "0xe8b283b606a212d82036f74f88177375125440f6",
+      "0x01E5fEafA5133bA6cdcc7b9afF7Aa5A3bE3f772F",
+      "0xd50938c168cfa25d0C65e7E5B065439aDB0524D6"
+    ],
+    "snapshot": "latest"
+  }
+]

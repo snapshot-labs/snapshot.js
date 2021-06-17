@@ -8,9 +8,12 @@
                 "symbol": "CREAM",
                 "crCREAM": "0x892B14321a4FCba80669aE30Bd0cd99a7ECF6aC0",
                 "sushiswap": "0xf169CeA51EB51774cF107c88309717ddA20be167",
+                "uniswap": "0xddF9b7a31b32EBAF5c064C80900046C9e5b7C65F",
+                "balancer": "0x280267901C175565C64ACBD9A3c8F60705A72639",
                 "masterChef": "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd",
                 "pid": 22,
-                "weeks": 4,
+                "periods": 3,
+                "minVote": 1,
                 "pools": [
                     {
                         "name": "CREAM",
@@ -37,10 +40,19 @@
         },
         "network": "1",
         "addresses": [
-            "0x36cc7B13029B5DEe4034745FB4F24034f3F2ffc6",
-            "0x42DbF634c256acd17beDDC1330488F1BEa7B8BDf",
-            "0x77dF7dbE2E0Bb2832Fe9a51aC5F60A4B02935Bac"
+            "0x7dd508a1e4Da1243789B799a480f8B45e58b1B5b",
+            "0xB157ba30e3467DdBC844f14F02b4ba741f1d549F",
+            "0x6595732468A241312bc307F327bA0D64F02b3c20",
+            "0xdd4C3B2860f7C747C4F69414022D5FA7354Eef28",
+            "0xC51FA42503942cafa7b1ffc02F0Cd9564189773e",
+            "0x0430605323465E26Dc21fBAaA9A1A4Be6ae9d496",
+            "0xAdC24d7b630759A3AF7f52716d91299c999a2213",
+            "0x5E0b772FC4E58C470CE4551EeF2391A3B5dA5bb4",
+            "0x90aBCf1598ed3077861bCFb3B11EFcd1D7277223",
+            "0xF800d8407b1488BB6Dc3789c2D45147c25C38AF5",
+            "0xB662ACEAF435C5F21568FC138Ab202C6a43FFc13",
+            "0x99eb33756a2eAa32f5964A747722c4b59e6aF351"
         ],
-        "snapshot": 11653664
+        "snapshot": 12315029
     }
 ]

@@ -26,7 +26,7 @@
     "chainId": 3,
     "network": "ropsten",
     "rpc": [
-      "https://eth-ropsten.alchemyapi.io/v2/wbsH-Ihl4guFWnM4klEJxh5r64KRp3LV"
+      "https://eth-ropsten.alchemyapi.io/v2/QzGz6gdkpTyDzebi3PjxIaKO7bDTGnSy"
     ],
     "explorer": "https://ropsten.etherscan.io"
   },
@@ -37,7 +37,7 @@
     "chainId": 4,
     "network": "rinkeby",
     "rpc": [
-      "https://eth-rinkeby.alchemyapi.io/v2/twReQE9Px03E-E_N_Fbb3OVF7YgHxoGq",
+      "https://eth-rinkeby.alchemyapi.io/v2/ugiPEBqMebLQbjro42kalZ1h4StpW_fR",
       "https://eth-rinkeby.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
     ],
     "ws": [
@@ -52,7 +52,7 @@
     "chainId": 5,
     "network": "goerli",
     "rpc": [
-      "https://eth-goerli.alchemyapi.io/v2/gzMLSQ6EPmP6ZsTd0BOCQ7tPwAmgWpO9"
+      "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
     ],
     "explorer": "https://goerli.etherscan.io"
   },
@@ -65,6 +65,22 @@
     "ws": ["wss://ws.dome.cloud"],
     "explorer": "https://exp.tch.in.th"
   },
+  "30": {
+    "key": "30",
+    "name": "RSK Mainnet",
+    "chainId": 30,
+    "network": "rsk mainnet",
+    "rpc": ["https://public-node.rsk.co"],
+    "explorer": "https://explorer.rsk.co"
+  },
+  "31": {
+    "key": "31",
+    "name": "RSK Testnet",
+    "chainId": 31,
+    "network": "rsk testnet",
+    "rpc": ["https://public-node.testnet.rsk.co"],
+    "explorer": "https://explorer.testnet.rsk.co"
+  },
   "42": {
     "key": "42",
     "name": "Ethereum Testnet Kovan",
@@ -72,7 +88,7 @@
     "chainId": 42,
     "network": "kovan",
     "rpc": [
-      "https://eth-kovan.alchemyapi.io/v2/QCsM2iU0bQ49eGDmZ7-Y--Wpu0lVWXSO",
+      "https://eth-kovan.alchemyapi.io/v2/s96TIUFYg0LuddgpmafA040ZyUaZbrpM",
       "https://poa-kovan.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
     ],
     "ws": [
@@ -99,6 +115,7 @@
     "chainId": 56,
     "network": "mainnet",
     "rpc": [
+      "https://bsc.getblock.io/mainnet/?api_key=91f8195f-bf46-488f-846a-73d6853790e7",
       "https://bsc-private-dataseed1.nariox.org",
       "https://bsc-private-dataseed2.nariox.org",
       "https://bsc-dataseed1.ninicoin.io",
@@ -116,6 +133,36 @@
     "network": "mainnet",
     "rpc": ["https://ethereumclassic.network"],
     "explorer": "https://blockscout.com/etc/mainnet"
+  },
+  "65": {
+    "key": "65",
+    "name": "OKExChain Testnet",
+    "shortName": "OEC Testnet",
+    "chainId": 65,
+    "network": "oec testnet",
+    "rpc": ["https://exchaintestrpc.okex.org"],
+    "ws": ["wss://exchaintestws.okex.org:8443"],
+    "explorer": "https://www.oklink.com/okexchain-test"
+  },
+  "66": {
+    "key": "66",
+    "name": "OKExChain Mainnet",
+    "shortName": "OEC Mainnet",
+    "chainId": 66,
+    "network": "oec mainnet",
+    "rpc": ["https://exchainrpc.okex.org"],
+    "ws": ["wss://exchainws.okex.org:8443"],
+    "explorer": "https://www.oklink.com/okexchain"
+  },
+  "70": {
+    "key": "70",
+    "name": "Hoo Smart Chain Mainnet",
+    "shortName": "hsc",
+    "chainId": 70,
+    "network": "Mainnet",
+    "rpc": ["https://http-mainnet2.hoosmartchain.com"],
+    "ws": ["wss://ws-mainnet2.hoosmartchain.com"],
+    "explorer": "https://hscscan.com"
   },
   "99": {
     "key": "99",
@@ -159,20 +206,17 @@
   },
   "137": {
     "key": "137",
-    "name": "Matic Mainnet",
-    "shortName": "Matic",
+    "name": "Polygon Mainnet",
+    "shortName": "Polygon",
     "chainId": 137,
     "network": "mainnet",
-    "rpc": ["https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e"],
+    "rpc": [
+      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mainnet/archive",
+      "https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e",
+      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/polygon/mainnet/archive"
+    ],
     "ws": ["wss://ws-mainnet.matic.network"],
-    "explorer": ""
-  },
-  "420": {
-    "key": "420",
-    "name": "Optimistic Ethereum",
-    "chainId": 420,
-    "network": "mainnet",
-    "explorer": ""
+    "explorer": "https://polygonscan.com"
   },
   "32659": {
     "key": "32659",
@@ -188,7 +232,10 @@
     "name": "Matic Mumbai",
     "chainId": 80001,
     "network": "testnet",
-    "rpc": ["https://rpc-mumbai.matic.today"],
+    "rpc": [
+      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai",
+      "https://rpc-mumbai.matic.today"
+    ],
     "ws": ["wss://ws-mumbai.matic.today"],
     "explorer": ""
   },
@@ -202,22 +249,6 @@
       "wss://api.wanchain.org:8443/ws/v3/ddd16770c68f30350a21114802d5418eafe039b722de52b488e7eee1ee2cd73f"
     ],
     "explorer": "https://www.wanscan.org"
-  },
-  "1337": {
-    "key": "1337",
-    "name": "Localhost 8545",
-    "shortName": "localhost",
-    "chainId": 1337,
-    "network": "localhost",
-    "rpc": ["http://localhost:8545"]
-  },
-  "17": {
-    "key": "17",
-    "name": "Docker localhost 8545",
-    "shortName": "dockerLocalhost",
-    "chainId": 17,
-    "network": "docker localhost",
-    "rpc": ["http://localhost:8545"]
   },
   "2109": {
     "key": "2109",
@@ -243,7 +274,7 @@
     "network": "testnet",
     "rpc": ["https://http-testnet.hecochain.com"],
     "ws": ["wss://ws-testnet.hecochain.com"],
-    "explorer": "https://scan-testnet.hecochain.com"
+    "explorer": "https://testnet.hecoinfo.com"
   },
   "128": {
     "key": "128",
@@ -251,9 +282,21 @@
     "shortName": "heco",
     "chainId": 128,
     "network": "Mainnet",
-    "rpc": ["https://http-mainnet.hecochain.com"],
-    "ws": ["wss://ws-mainnet.hecochain.com"],
-    "explorer": "https://scan.hecochain.com"
+    "rpc": [
+      "https://http-mainnet-node.defibox.com",
+      "https://http-mainnet.hecochain.com"
+    ],
+    "ws": ["wss://ws-mainnet-node.huobichain.com"],
+    "explorer": "https://hecoinfo.com"
+  },
+  "246": {
+    "key": "246",
+    "name": "Energy Web Chain",
+    "shortName": "EWC",
+    "chainId": 246,
+    "network": "mainnet",
+    "rpc": ["https://voting-rpc.carbonswap.exchange"],
+    "explorer": "https://explorer.energyweb.org"
   },
   "250": {
     "key": "250",
@@ -263,5 +306,73 @@
     "network": "Mainnet",
     "rpc": ["https://rpcapi.fantom.network"],
     "explorer": "https://ftmscan.com"
+  },
+  "499": {
+    "key": "499",
+    "name": "Rupaya",
+    "shortName": "RUPX",
+    "chainId": 499,
+    "network": "mainnet",
+    "rpc": ["https://rpc.rupx.io"],
+    "ws": ["wss://ws.rupx.io"],
+    "explorer": "http://scan.rupx.io"
+  },
+  "1287": {
+    "key": "1287",
+    "name": "Moonbase Alpha TestNet",
+    "shortName": "Moonbase",
+    "chainId": 1287,
+    "network": "testnet",
+    "rpc": ["https://rpc.testnet.moonbeam.network"],
+    "explorer": "https://moonbase-blockscout.testnet.moonbeam.network/"
+  },
+  "4689": {
+    "key": "4689",
+    "name": "IoTeX Mainnet",
+    "shortName": "IoTeX",
+    "chainId": 4689,
+    "network": "mainnet",
+    "rpc": ["https://babel-api.mainnet.iotex.io"],
+    "explorer": "https://iotexscan.io"
+  },
+  "4690": {
+    "key": "4690",
+    "name": "IoTeX Testnet",
+    "shortName": "IoTeX",
+    "chainId": 4690,
+    "network": "testnet",
+    "rpc": ["https://babel-api.testnet.iotex.io"],
+    "explorer": "https://testnet.iotexscan.io"
+  },
+  "1666600000": {
+    "key": "1666600000",
+    "name": "Harmony Mainnet",
+    "shortName": "HarmonyMainnet",
+    "chainId": 1666600000,
+    "network": "mainnet",
+    "rpc": ["https://a.api.s0.t.hmny.io"],
+    "ws": ["wss://ws.s0.t.hmny.io"],
+    "explorer": "https://explorer.harmony.one"
+  },
+  "1666700000": {
+    "key": "1666700000",
+    "name": "Harmony Testnet",
+    "shortName": "HarmonyTestnet",
+    "chainId": 1666700000,
+    "network": "testnet",
+    "rpc": ["https://api.s0.b.hmny.io"],
+    "ws": ["wss://ws.s0.b.hmny.io"],
+    "explorer": "https://explorer.pops.one"
+  },
+  "42220": {
+    "key": "42220",
+    "name": "Celo Mainnet",
+    "shortName": "Celo",
+    "chainId": 42220,
+    "network": "mainnet",
+    "rpc": [
+      "https://celo-mainnet--rpc.datahub.figment.io/apikey/e892a66dc36e4d2d98a5d6406d609796/"
+    ],
+    "explorer": "https://explorer.celo.org"
   }
 }

@@ -15,6 +15,51 @@
         "private": {
           "type": "boolean"
         },
+        "about": {
+          "type": "string",
+          "title": "about",
+          "maxLength": 160
+        },
+        "terms": {
+          "type": "string",
+          "title": "terms",
+          "format": "uri",
+          "maxLength": 128
+        },
+        "avatar": {
+          "type": "string",
+          "title": "avatar",
+          "format": "uri",
+          "maxLength": 256
+        },
+        "location": {
+          "type": "string",
+          "title": "location",
+          "maxLength": 24
+        },
+        "website": {
+          "type": "string",
+          "title": "website",
+          "format": "uri",
+          "maxLength": 128
+        },
+        "twitter": {
+          "type": "string",
+          "title": "twitter",
+          "pattern": "^[A-Za-z0-9_]*$",
+          "maxLength": 15
+        },
+        "github": {
+          "type": "string",
+          "title": "github",
+          "pattern": "^[A-Za-z0-9_-]*$",
+          "maxLength": 39
+        },
+        "email": {
+          "type": "string",
+          "title": "email",
+          "maxLength": 32
+        },
         "network": {
           "type": "string",
           "title": "network",
@@ -54,9 +99,7 @@
                 "title": "params"
               }
             },
-            "required": [
-              "name"
-            ],
+            "required": ["name"],
             "additionalProperties": false
           },
           "title": "strategies"
@@ -65,9 +108,21 @@
           "type": "array",
           "items": {
             "type": "string",
-            "maxLength": 64
+            "pattern": "^[A-Za-z0-9]*$",
+            "minLength": 42,
+            "maxLength": 42
           },
           "title": "members"
+        },
+        "admins": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9]*$",
+            "minLength": 42,
+            "maxLength": 42
+          },
+          "title": "admins"
         },
         "filters": {
           "type": "object",
@@ -97,12 +152,7 @@
           "type": "object"
         }
       },
-      "required": [
-        "name",
-        "network",
-        "symbol",
-        "strategies"
-      ],
+      "required": ["name", "network", "symbol", "strategies"],
       "additionalProperties": false
     }
   }

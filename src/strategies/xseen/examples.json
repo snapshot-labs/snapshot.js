@@ -1,0 +1,19 @@
+[
+  {
+    "name": "xSEEN token",
+    "strategy": {
+      "name": "xseen",
+      "params": {
+        "_comment_": "The seen.haus governance token, where xSEEN represents a value of SEEN tokens including rewards.",
+        "tokenAddress": "0x38747baf050d3c22315a761585868dba16abfd89",
+        "symbol": "xSEEN",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x8a83716acd66d9e1fb18c9b79540b72e04f80ac0"
+    ],
+    "snapshot": 12328235
+  }
+]

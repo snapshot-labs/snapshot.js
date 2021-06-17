@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Moloch Loot",
+    "strategy": {
+      "name": "moloch-loot",
+      "params": {
+        "address": "0xb152b115c94275b54a3f0b08c1aa1d21f32a659a",
+        "decimals": 0
+      }
+    },
+    "network": "100",
+    "addresses": [
+      "0xc9283bbd79b016230838e57ce19e6aca12dd2c0d",
+      "0x85ac9e682995ebebde8ff107fbbbfe7c40992e4a",
+      "0x3d1df1a816577a62db61281f673c4f43ae063490",
+      "0xd6e371526cdaee04cd8af225d42e37bc14688d9e",
+      "0x839395e20bbb182fa440d08f850e6c7a8f6f0780"
+    ],
+    "snapshot": 15848545
+  }
+]

@@ -9,5 +9,7 @@ export async function strategy(
   options,
   snapshot
 ) {
-  return Object.fromEntries(addresses.map((address) => [address, 1]));
+  return Object.fromEntries(
+    addresses.map((address) => [address, options.value || 1])
+  );
 }
