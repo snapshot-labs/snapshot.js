@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "InfinityProtocol",
+      "params": {
+        "address": "0xd8a1734945b9ba38eb19a291b475e31f49e59877",
+        "symbol": "SHARD"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x92027DC9210C831786bD1fa4F5aa9B452A5e61fD"
+    ],
+    "snapshot": 8374810
+  }
+]
