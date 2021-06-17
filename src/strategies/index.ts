@@ -98,6 +98,8 @@ import { strategy as spookyswap } from './spookyswap';
 import { strategy as rnbwBalance } from './rnbw-balance';
 import { strategy as celerSgnDelegation } from './celer-sgn-delegation';
 import { strategy as balancerDelegation } from './balancer-delegation';
+import { strategy as infinityProtocolPoolsBsc } from './infinityprotocol-liquidity-pools-bsc';
+
 
 export default {
   balancer,
@@ -199,5 +201,6 @@ export default {
   spookyswap,
   'rnbw-balance': rnbwBalance,
   'celer-sgn-delegation': celerSgnDelegation,
-  'balancer-delegation': balancerDelegation
+  'balancer-delegation': balancerDelegation,
+  'infinityprotocol-liquidity-pools-bsc': infinityProtocolPoolsBsc
 };
