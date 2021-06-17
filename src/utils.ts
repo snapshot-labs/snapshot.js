@@ -58,6 +58,8 @@ export const SNAPSHOT_SUBGRAPH_URL = {
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan'
 };
 
+export const SNAPSHOT_SCORE_API = 'https://score.snapshot.org/graphql';
+
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
   try {
@@ -148,6 +150,35 @@ export async function getScores(
   snapshot: number | string = 'latest'
 ) {
   try {
+    const res = await subgraphRequest(SNAPSHOT_SCORE_API, {
+      scores: {
+        __args: {
+          space,
+          strategies,
+          network,
+          addresses,
+          snapshot
+        },
+        state: true,
+        scores: true
+      }
+    });
+    return res.scores.scores;
+  } catch (e) {
+    return Promise.reject(e);
+  }
+}
+
+export async function getScoresDirect(
+  space: string,
+  strategies: any[],
+  network: string,
+  provider,
+  addresses: string[],
+  snapshot: number | string = 'latest'
+) {
+  console.log('getScoresDirect');
+  try {
     return await Promise.all(
       strategies.map((strategy) =>
         (snapshot !== 'latest' && strategy.params?.start > snapshot) ||
@@ -186,6 +217,7 @@ export default {
   ipfsGet,
   sendTransaction,
   getScores,
+  getScoresDirect,
   validateSchema,
   getProvider,
   decodeContenthash,

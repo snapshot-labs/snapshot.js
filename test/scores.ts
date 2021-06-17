@@ -39,7 +39,7 @@ const addresses = [
 (async () => {
   console.time('getScores');
   try {
-    const scores = await snapshot.utils.getScores(
+    const scores = await snapshot.utils.getScoresDirect(
       space,
       strategies,
       network,
