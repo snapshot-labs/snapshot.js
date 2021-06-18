@@ -13,7 +13,7 @@ function next(addressIndex) {
   const address = addresses[addressIndex];
   const multi = new Multicaller(network, provider, abi, options);
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     multi.call(`${address}[${i}]`, contract, 'pendingStax', [i, address]);
   }
 
