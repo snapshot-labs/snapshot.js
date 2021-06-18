@@ -5,17 +5,24 @@ const { Multicaller, getProvider } = snapshot.utils;
 
 const network = '56';
 const provider = getProvider(network);
-const options = { blockTag: 8400500 };
+const options = { blockTag: 8402249 };
 const pools = [0];
 const contract = '0xc80991f9106e26e43bf1c07c764829a85f294c71';
 
-const multi = new Multicaller(network, provider, abi, options);
-addresses.forEach(address => {
-  pools.forEach(pool => {
-    multi.call(`${address}.${pool}`, contract, 'pendingStax', [pool, address]);
-  });
-});
+function next(addressIndex) {
+  const address = addresses[addressIndex];
+  const multi = new Multicaller(network, provider, abi, options);
 
-multi.execute().then(result => {
-  console.log('Multicaller result', result);
-});
+  for (let i = 0; i < 10; i++) {
+    multi.call(`${address}[${i}]`, contract, 'pendingStax', [i, address]);
+  }
+
+  multi.execute().then(results => {
+    const balances = results[address].map(balance => balance.toString());
+    console.log('Balances for', address, balances);
+    next(addressIndex + 1);
+  });
+}
+
+next(0);
+
