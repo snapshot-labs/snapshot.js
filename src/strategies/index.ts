@@ -99,7 +99,7 @@ import { strategy as rnbwBalance } from './rnbw-balance';
 import { strategy as celerSgnDelegation } from './celer-sgn-delegation';
 import { strategy as balancerDelegation } from './balancer-delegation';
 import { strategy as infinityProtocolPoolsBsc } from './infinityprotocol-liquidity-pools-bsc';
-
+import { strategy as aaveGovernancePower } from './aave-governance-power';
 
 export default {
   balancer,
@@ -202,5 +202,6 @@ export default {
   'rnbw-balance': rnbwBalance,
   'celer-sgn-delegation': celerSgnDelegation,
   'balancer-delegation': balancerDelegation,
-  'infinityprotocol-liquidity-pools-bsc': infinityProtocolPoolsBsc
+  'infinityprotocol-liquidity-pools-bsc': infinityProtocolPoolsBsc,
+  'aave-governance-power': aaveGovernancePower
 };
