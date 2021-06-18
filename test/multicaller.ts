@@ -1,42 +1,21 @@
 const snapshot = require('../');
-const { abi } = require('./ERC20.json');
+const abi = require('./ABI.json');
+const addresses = require('./addresses.json');
 const { Multicaller, getProvider } = snapshot.utils;
 
-const network = '1';
+const network = '56';
 const provider = getProvider(network);
-const tokens = [
-  '0x6B175474E89094C44Da98b954EedeAC495271d0F',
-  '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-  '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'
-];
-const options = { blockTag: 10000000 };
+const options = { blockTag: 8400500 };
+const pools = [0];
+const contract = '0xc80991f9106e26e43bf1c07c764829a85f294c71';
 
 const multi = new Multicaller(network, provider, abi, options);
-tokens.forEach(token => {
-  multi.call(`${token}.name`, token, 'name');
-  multi.call(`${token}.symbol`, token, 'symbol');
-  multi.call(`${token}.decimals`, token, 'decimals');
+addresses.forEach(address => {
+  pools.forEach(pool => {
+    multi.call(`${address}.${pool}`, contract, 'pendingStax', [pool, address]);
+  });
 });
 
 multi.execute().then(result => {
   console.log('Multicaller result', result);
-  /* Multicaller result
-  {
-    '0x6B175474E89094C44Da98b954EedeAC495271d0F': {
-      name: 'Dai Stablecoin',
-      symbol: 'DAI',
-      decimals: 18
-    },
-    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2': {
-      name: 'Wrapped Ether',
-      symbol: 'WETH',
-      decimals: 18
-    },
-    '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599': {
-      name: 'Wrapped BTC',
-      symbol: 'WBTC',
-      decimals: 8
-    }
-  }
-  */
 });
