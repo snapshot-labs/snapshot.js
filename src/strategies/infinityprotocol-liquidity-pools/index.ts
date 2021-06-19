@@ -2,7 +2,7 @@ import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 
 const INFINITYPROTOCOL_SUBGRAPH_URL = {
-  '1': 'https://api.thegraph.com/subgraphs/name/infinitywallet/infinity-protocol'
+  '56': 'https://api.thegraph.com/subgraphs/name/infinitywallet/infinity-protocol'
 };
 
 export const author = 'vfatouros';
