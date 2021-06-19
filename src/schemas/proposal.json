@@ -30,7 +30,8 @@
             "single-choice",
             "approval",
             "ranked-choice",
-            "quadratic"
+            "quadratic",
+            "custom"
           ]
         },
         "snapshot": {
