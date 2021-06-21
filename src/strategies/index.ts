@@ -99,6 +99,7 @@ import { strategy as rnbwBalance } from './rnbw-balance';
 import { strategy as celerSgnDelegation } from './celer-sgn-delegation';
 import { strategy as balancerDelegation } from './balancer-delegation';
 import { strategy as kumainu } from './kumainu';
+import { strategy as aaveGovernancePower } from './aave-governance-power';
 
 export default {
   balancer,
@@ -201,5 +202,6 @@ export default {
   'rnbw-balance': rnbwBalance,
   'celer-sgn-delegation': celerSgnDelegation,
   'balancer-delegation': balancerDelegation,
-  kumainu
+  kumainu,
+  'aave-governance-power': aaveGovernancePower
 };
