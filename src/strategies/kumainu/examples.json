@@ -1,0 +1,20 @@
+[
+  {
+    "name":"Example kuma inu query",
+    "strategy":{
+      "name":"kumainu",
+      "params":{
+        "decimals": 18,
+        "poolId": {
+          "kuma": "12",
+          "lp": "13"
+        }
+      }
+    },
+    "addresses": [
+      "0xdd1dfb33ea386b6380ba6f47b06182130541934c",
+      "0x4f125e835bbc9bbb77607c66de6d0d32339b936c"
+    ],
+    "snapshot": 12660155
+  }
+]
