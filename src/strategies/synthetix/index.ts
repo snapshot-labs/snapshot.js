@@ -2,6 +2,9 @@ import { formatUnits } from '@ethersproject/units';
 import { getAddress } from '@ethersproject/address';
 import { subgraphRequest, ipfsGet } from '../../utils';
 import { BigNumber } from '@ethersproject/bignumber';
+import gateways from '../../gateways.json';
+
+const gateway = gateways[0];
 
 export const author = 'andytcf';
 export const version = '1.0.0';
@@ -75,7 +78,7 @@ export async function strategy(
     });
   }
 
-  const OVMSnapshot = await ipfsGet('gateway.pinata.cloud', ovmSnapshotJSON);
+  const OVMSnapshot = await ipfsGet(gateway, ovmSnapshotJSON);
 
   const array = Object.assign(
     {},
