@@ -1,8 +1,7 @@
 import { formatUnits } from '@ethersproject/units';
 import { getAddress } from '@ethersproject/address';
-import { subgraphRequest } from '../../utils';
+import { subgraphRequest, ipfsGet } from '../../utils';
 import { BigNumber } from '@ethersproject/bignumber';
-import OVMSnapshot from './ovm-snapshot-160621.json';
 
 export const author = 'andytcf';
 export const version = '1.0.0';
@@ -20,7 +19,7 @@ const defaultGraphs = {
     'https://api.thegraph.com/subgraphs/name/synthetixio-team/optimism-general'
 };
 
-const ovmMainnetProviderURL = 'https://mainnet.optimism.io/';
+const ovmSnapshotJSON = 'QmNwvhq4By1Mownjycg7bWSXqbJWMVyAWRZ1K4mjxuvGXg';
 
 function returnGraphParams(blockNumber: number | string, addresses: string[]) {
   return {
@@ -75,6 +74,8 @@ export async function strategy(
       );
     });
   }
+
+  const OVMSnapshot = await ipfsGet('gateway.pinata.cloud', ovmSnapshotJSON);
 
   const array = Object.assign(
     {},
