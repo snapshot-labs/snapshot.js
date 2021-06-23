@@ -188,7 +188,10 @@
     "shortName": "BSC Testnet",
     "chainId": 97,
     "network": "testnet",
-    "rpc": ["https://data-seed-prebsc-1-s1.binance.org:8545"],
+    "rpc": [
+      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/bsc/testnet/archive",
+      "https://data-seed-prebsc-1-s1.binance.org:8545"
+    ],
     "explorer": "https://testnet.bscscan.com"
   },
   "100": {
@@ -233,7 +236,7 @@
     "chainId": 80001,
     "network": "testnet",
     "rpc": [
-      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai",
+      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai/archive",
       "https://rpc-mumbai.matic.today"
     ],
     "ws": ["wss://ws-mumbai.matic.today"],
