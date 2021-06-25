@@ -7,17 +7,21 @@ export default async function validate(
   proposal,
   options
 ): Promise<boolean> {
-  const members = (space.members || []).map((address) => address.toLowerCase());
-  const isMember = members.includes(author.toLowerCase());
+  const strategies = options.strategies || space.strategies;
+  const onlyMembers = options.onlyMembers || space.filters?.onlyMembers;
+  const minScore = options.minScore || space.filters?.minScore;
+  const members = (options.members || space.members || []).map((address) =>
+    address.toLowerCase()
+  );
 
-  if (isMember) return true;
+  if (members.includes(author.toLowerCase())) return true;
 
-  if (space.filters?.onlyMembers) return false;
+  if (onlyMembers) return false;
 
-  if (space.filters?.minScore) {
+  if (minScore) {
     const scores = await getScores(
       space.id || space.key,
-      space.strategies,
+      strategies,
       space.network,
       getProvider(space.network),
       [author]
@@ -25,7 +29,7 @@ export default async function validate(
     const totalScore: any = scores
       .map((score: any) => Object.values(score).reduce((a, b: any) => a + b, 0))
       .reduce((a, b: any) => a + b, 0);
-    if (totalScore < space.filters.minScore) return false;
+    if (totalScore < minScore) return false;
   }
 
   return true;
