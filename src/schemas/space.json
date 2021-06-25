@@ -20,6 +20,11 @@
           "title": "about",
           "maxLength": 160
         },
+        "guidelines": {
+          "type": "string",
+          "title": "guidelines",
+          "maxLength": 1024
+        },
         "terms": {
           "type": "string",
           "title": "terms",
