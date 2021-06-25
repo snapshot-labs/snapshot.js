@@ -1,5 +1,4 @@
 import { getScores } from '../../utils';
-import getProvider from '../../utils/provider';
 
 export default async function validate(
   author: string,
@@ -21,7 +20,7 @@ export default async function validate(
       space.id || space.key,
       strategies,
       space.network,
-      getProvider(space.network),
+      '',
       [author]
     );
     const totalScore: any = scores
