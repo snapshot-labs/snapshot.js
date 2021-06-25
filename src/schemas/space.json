@@ -148,6 +148,22 @@
           },
           "additionalProperties": false
         },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 64,
+              "title": "name"
+            },
+            "params": {
+              "type": "object",
+              "title": "params"
+            }
+          },
+          "required": ["name"],
+          "additionalProperties": false
+        },
         "plugins": {
           "type": "object"
         }
