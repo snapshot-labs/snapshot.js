@@ -2,7 +2,8 @@ import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 
 const INFINITYPROTOCOL_SUBGRAPH_URL = {
-  '56': 'https://api.thegraph.com/subgraphs/name/infinitywallet/infinity-protocol'
+  '56':
+    'https://api.thegraph.com/subgraphs/name/infinitywallet/infinity-protocol'
 };
 
 export const author = 'vfatouros';
@@ -52,7 +53,10 @@ export async function strategy(
     params.users.liquidityPositions.__args.block = { number: snapshot };
   }
   const tokenAddress = options.address.toLowerCase();
-  const result = await subgraphRequest(INFINITYPROTOCOL_SUBGRAPH_URL[network], params);
+  const result = await subgraphRequest(
+    INFINITYPROTOCOL_SUBGRAPH_URL[network],
+    params
+  );
   const score = {};
   if (result && result.users) {
     result.users.forEach((u) => {

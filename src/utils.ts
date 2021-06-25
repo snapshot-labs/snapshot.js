@@ -7,6 +7,7 @@ import { abi as multicallAbi } from './abi/Multicall.json';
 import _strategies from './strategies';
 import Multicaller from './utils/multicaller';
 import getProvider from './utils/provider';
+import validations from './validations';
 import {
   decodeContenthash,
   validateContent,
@@ -44,7 +45,11 @@ export async function multicall(
   calls: any[],
   options?
 ) {
-  const multi = new Contract(networks[network].multicall, multicallAbi, provider);
+  const multi = new Contract(
+    networks[network].multicall,
+    multicallAbi,
+    provider
+  );
   const itf = new Interface(abi);
   try {
     const [, res] = await multi.aggregate(
@@ -195,5 +200,6 @@ export default {
   resolveContent,
   signMessage,
   getBlockNumber,
-  Multicaller
+  Multicaller,
+  validations
 };
