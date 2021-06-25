@@ -10,9 +10,7 @@ export default async function validate(
   const strategies = options.strategies || space.strategies;
   const onlyMembers = options.onlyMembers || space.filters?.onlyMembers;
   const minScore = options.minScore || space.filters?.minScore;
-  const members = (options.members || space.members || []).map((address) =>
-    address.toLowerCase()
-  );
+  const members = (space.members || []).map((address) => address.toLowerCase());
 
   if (members.includes(author.toLowerCase())) return true;
 
