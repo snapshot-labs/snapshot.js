@@ -39,10 +39,40 @@ function returnGraphParams(blockNumber: number | string, addresses: string[]) {
   };
 }
 
-const quadraticWeighting = (value: BigNumber) => {
-  // Scale the value by 100000
-  const scaledValue = parseFloat(formatUnits(value.toString(), 27)) * 1e5;
-  return Math.sqrt(scaledValue);
+const quadraticWeighting = (value: BigNumber, isL2: boolean) => {
+  const totalL1Debt = 252029469; // $252,029,469
+  const totalL2Debt = 4792266; // $4,792,266
+
+  const normalisedL2CRatio = 1000 / 450;
+
+  // $10,649,480
+  const scaledTotalL2Debt = totalL2Debt * normalisedL2CRatio; // L2 debt normalised to L1 c-ratio;
+
+  // $262,678,949
+  const totalDebtInSystem = totalL1Debt + scaledTotalL2Debt;
+
+  let ownershipPercentBN: any;
+  let ownershipPercent: any;
+  let ownershipOfDebtDollarValue: any;
+  let ownershipPercentOfTotalDebt: any;
+
+  if (isL2) {
+    ownershipPercentBN = Number(value) * normalisedL2CRatio;
+  } else {
+    ownershipPercentBN = Number(value);
+  }
+
+  ownershipPercent = ownershipPercentBN / 1e27;
+
+  if (isL2) {
+    ownershipOfDebtDollarValue = ownershipPercent * scaledTotalL2Debt;
+  } else {
+    ownershipOfDebtDollarValue = ownershipPercent * totalL1Debt;
+  }
+  ownershipPercentOfTotalDebt = ownershipOfDebtDollarValue / totalDebtInSystem;
+
+  const scaledWeighting = ownershipPercentOfTotalDebt * 1e5;
+  return Math.sqrt(scaledWeighting);
 };
 
 export async function strategy(
@@ -70,7 +100,8 @@ export async function strategy(
   if (l1Results && l1Results.snxholders) {
     l1Results.snxholders.forEach((holder) => {
       score[getAddress(holder.id)] = quadraticWeighting(
-        holder.initialDebtOwnership
+        holder.initialDebtOwnership,
+        false
       );
     });
   }
@@ -86,8 +117,9 @@ export async function strategy(
 
   _addresses.map((address) => {
     if (array[getAddress(address)]) {
-      score[getAddress(address)] = quadraticWeighting(
-        array[getAddress(address)]
+      score[getAddress(address)] += quadraticWeighting(
+        array[getAddress(address)],
+        true
       );
     }
   });
