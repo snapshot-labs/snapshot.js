@@ -4,6 +4,7 @@
     "name": "Ethereum Mainnet",
     "chainId": 1,
     "network": "homestead",
+    "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
     "rpc": [
       {
         "url": "https://api-geth-archive.ankr.com",
@@ -25,6 +26,7 @@
     "shortName": "Ropsten",
     "chainId": 3,
     "network": "ropsten",
+    "multicall": "0x53c43764255c17bd724f74c4ef150724ac50a3ed",
     "rpc": [
       "https://eth-ropsten.alchemyapi.io/v2/QzGz6gdkpTyDzebi3PjxIaKO7bDTGnSy"
     ],
@@ -36,6 +38,7 @@
     "shortName": "Rinkeby",
     "chainId": 4,
     "network": "rinkeby",
+    "multicall": "0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821",
     "rpc": [
       "https://eth-rinkeby.alchemyapi.io/v2/ugiPEBqMebLQbjro42kalZ1h4StpW_fR",
       "https://eth-rinkeby.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
@@ -51,6 +54,7 @@
     "shortName": "Görli",
     "chainId": 5,
     "network": "goerli",
+    "multicall": "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
     "rpc": [
       "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
     ],
@@ -61,6 +65,7 @@
     "name": "ThaiChain",
     "chainId": 7,
     "network": "mainnet",
+    "multicall": "0xB9cb900E526e7Ad32A2f26f1fF6Dee63350fcDc5",
     "rpc": ["https://rpc.dome.cloud"],
     "ws": ["wss://ws.dome.cloud"],
     "explorer": "https://exp.tch.in.th"
@@ -70,6 +75,7 @@
     "name": "RSK Mainnet",
     "chainId": 30,
     "network": "rsk mainnet",
+    "multicall": "0x4eeebb5580769ba6d26bfd07be636300076d1831",
     "rpc": ["https://public-node.rsk.co"],
     "explorer": "https://explorer.rsk.co"
   },
@@ -78,6 +84,7 @@
     "name": "RSK Testnet",
     "chainId": 31,
     "network": "rsk testnet",
+    "multicall": "0x4eeebb5580769ba6d26bfd07be636300076d1831",
     "rpc": ["https://public-node.testnet.rsk.co"],
     "explorer": "https://explorer.testnet.rsk.co"
   },
@@ -87,6 +94,7 @@
     "shortName": "Kovan",
     "chainId": 42,
     "network": "kovan",
+    "multicall": "0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a",
     "rpc": [
       "https://eth-kovan.alchemyapi.io/v2/s96TIUFYg0LuddgpmafA040ZyUaZbrpM",
       "https://poa-kovan.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
@@ -102,6 +110,7 @@
     "shortName": "XDC",
     "chainId": 50,
     "network": "mainnet",
+    "multicall": "",
     "rpc": [
       "https://rpc.xinfin.network"
     ],
@@ -114,6 +123,7 @@
     "shortName": "BSC",
     "chainId": 56,
     "network": "mainnet",
+    "multicall": "0x1ee38d535d541c55c9dae27b12edf090c608e6fb",
     "rpc": [
       "https://bsc.getblock.io/mainnet/?api_key=91f8195f-bf46-488f-846a-73d6853790e7",
       "https://bsc-private-dataseed1.nariox.org",
@@ -131,6 +141,7 @@
     "shortName": "Ethereum Classic",
     "chainId": 61,
     "network": "mainnet",
+    "multicall": "",
     "rpc": ["https://ethereumclassic.network"],
     "explorer": "https://blockscout.com/etc/mainnet"
   },
@@ -140,6 +151,7 @@
     "shortName": "OEC Testnet",
     "chainId": 65,
     "network": "oec testnet",
+    "multicall": "0x23Daae12B7f82b1f0A276cD4f49825DE940B6374",
     "rpc": ["https://exchaintestrpc.okex.org"],
     "ws": ["wss://exchaintestws.okex.org:8443"],
     "explorer": "https://www.oklink.com/okexchain-test"
@@ -150,6 +162,7 @@
     "shortName": "OEC Mainnet",
     "chainId": 66,
     "network": "oec mainnet",
+    "multicall": "0x23Daae12B7f82b1f0A276cD4f49825DE940B6374",
     "rpc": ["https://exchainrpc.okex.org"],
     "ws": ["wss://exchainws.okex.org:8443"],
     "explorer": "https://www.oklink.com/okexchain"
@@ -160,6 +173,7 @@
     "shortName": "hsc",
     "chainId": 70,
     "network": "Mainnet",
+    "multicall": "0xd4b794b89baccb70ef851830099bee4d69f19ebc",
     "rpc": ["https://http-mainnet2.hoosmartchain.com"],
     "ws": ["wss://ws-mainnet2.hoosmartchain.com"],
     "explorer": "https://hscscan.com"
@@ -170,6 +184,7 @@
     "shortName": "POA",
     "chainId": 99,
     "network": "mainnet",
+    "multicall": "",
     "rpc": ["https://core.poa.network"],
     "explorer": "https://blockscout.com/poa/core/"
   },
@@ -179,6 +194,7 @@
     "shortName": "Meter",
     "chainId": 82,
     "network": "mainnet",
+    "multicall": "0x579De77CAEd0614e3b158cb738fcD5131B9719Ae",
     "rpc": ["https://rpc.meter.io"],
     "explorer": "https://scan.meter.io"
   },
@@ -188,7 +204,11 @@
     "shortName": "BSC Testnet",
     "chainId": 97,
     "network": "testnet",
-    "rpc": ["https://data-seed-prebsc-1-s1.binance.org:8545"],
+    "multicall": "0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46",
+    "rpc": [
+      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/bsc/testnet/archive",
+      "https://data-seed-prebsc-1-s1.binance.org:8545"
+    ],
     "explorer": "https://testnet.bscscan.com"
   },
   "100": {
@@ -197,6 +217,7 @@
     "shortName": "xDAI",
     "chainId": 100,
     "network": "mainnet",
+    "multicall": "0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a",
     "rpc": [
       "https://xdai-archive.blockscout.com",
       "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
@@ -210,6 +231,7 @@
     "shortName": "Polygon",
     "chainId": 137,
     "network": "mainnet",
+    "multicall": "0xCBca837161be50EfA5925bB9Cc77406468e76751",
     "rpc": [
       "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mainnet/archive",
       "https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e",
@@ -223,6 +245,7 @@
     "name": "Fusion Mainnet",
     "chainId": 32659,
     "network": "mainnet",
+    "multicall": "",
     "rpc": ["https://vote.anyswap.exchange/mainnet"],
     "ws": ["wss://mainnetpublicgateway1.fusionnetwork.io:10001"],
     "explorer": "https://fsnex.com"
@@ -232,8 +255,9 @@
     "name": "Matic Mumbai",
     "chainId": 80001,
     "network": "testnet",
+    "multicall": "0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc",
     "rpc": [
-      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai",
+      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai/archive",
       "https://rpc-mumbai.matic.today"
     ],
     "ws": ["wss://ws-mumbai.matic.today"],
@@ -244,6 +268,7 @@
     "name": "Wanchain",
     "chainId": 1,
     "network": "mainnet",
+    "multicall": "0xba5934ab3056fca1fa458d30fbb3810c3eb5145f",
     "rpc": ["https://gwan-ssl.wandevs.org:56891"],
     "ws": [
       "wss://api.wanchain.org:8443/ws/v3/ddd16770c68f30350a21114802d5418eafe039b722de52b488e7eee1ee2cd73f"
@@ -255,6 +280,7 @@
     "name": "Avalanche",
     "chainId": 43114,
     "network": "mainnet",
+    "multicall": "0x7E9985aE4C8248fdB07607648406a48C76e9e7eD",
     "rpc": ["https://api.avax.network/ext/bc/C/rpc"],
     "explorer": "https://cchain.explorer.avax.network"
   },
@@ -263,6 +289,7 @@
     "name": "Thundercore Mainnet",
     "chainId": 108,
     "network": "mainnet",
+    "multicall": "",
     "rpc": ["https://mainnet-rpc.thundercore.com"],
     "explorer": "https://scan.thundercore.com"
   },
@@ -272,6 +299,7 @@
     "shortName": "heco",
     "chainId": 256,
     "network": "testnet",
+    "multicall": "0xC33994Eb943c61a8a59a918E2de65e03e4e385E0",
     "rpc": ["https://http-testnet.hecochain.com"],
     "ws": ["wss://ws-testnet.hecochain.com"],
     "explorer": "https://testnet.hecoinfo.com"
@@ -282,6 +310,7 @@
     "shortName": "heco",
     "chainId": 128,
     "network": "Mainnet",
+    "multicall": "0x37ab26db3df780e7026f3e767f65efb739f48d8e",
     "rpc": [
       "https://http-mainnet-node.defibox.com",
       "https://http-mainnet.hecochain.com"
@@ -295,6 +324,7 @@
     "shortName": "EWC",
     "chainId": 246,
     "network": "mainnet",
+    "multicall": "0x0767F26d0D568aB61A98b279C0b28a4164A6f05e",
     "rpc": ["https://voting-rpc.carbonswap.exchange"],
     "explorer": "https://explorer.energyweb.org"
   },
@@ -304,6 +334,7 @@
     "shortName": "fantom",
     "chainId": 250,
     "network": "Mainnet",
+    "multicall": "0x7f6A10218264a22B4309F3896745687E712962a0",
     "rpc": ["https://rpcapi.fantom.network"],
     "explorer": "https://ftmscan.com"
   },
@@ -313,6 +344,7 @@
     "shortName": "RUPX",
     "chainId": 499,
     "network": "mainnet",
+    "multicall": "0x7955FF653FfDBf13056FeAe227f655CfF5C194D5",
     "rpc": ["https://rpc.rupx.io"],
     "ws": ["wss://ws.rupx.io"],
     "explorer": "http://scan.rupx.io"
@@ -323,6 +355,7 @@
     "shortName": "Moonbase",
     "chainId": 1287,
     "network": "testnet",
+    "multicall": "0xD7bA481DE7fB53A7a29641c43232B09e5D9CAe7b",
     "rpc": ["https://rpc.testnet.moonbeam.network"],
     "explorer": "https://moonbase-blockscout.testnet.moonbeam.network/"
   },
@@ -332,6 +365,7 @@
     "shortName": "IoTeX",
     "chainId": 4689,
     "network": "mainnet",
+    "multicall": "0x9c8B105c94282CDB0F3ecF27e3cfA96A35c07be6",
     "rpc": ["https://babel-api.mainnet.iotex.io"],
     "explorer": "https://iotexscan.io"
   },
@@ -341,6 +375,7 @@
     "shortName": "IoTeX",
     "chainId": 4690,
     "network": "testnet",
+    "multicall": "0x30aE8783d26aBE7Fbb9d83549CCb7430AE4A301F",
     "rpc": ["https://babel-api.testnet.iotex.io"],
     "explorer": "https://testnet.iotexscan.io"
   },
@@ -350,6 +385,7 @@
     "shortName": "HarmonyMainnet",
     "chainId": 1666600000,
     "network": "mainnet",
+    "multicall": "0x9c31392D2e0229dC4Aa250F043d46B9E82074BF8",
     "rpc": ["https://a.api.s0.t.hmny.io"],
     "ws": ["wss://ws.s0.t.hmny.io"],
     "explorer": "https://explorer.harmony.one"
@@ -360,6 +396,7 @@
     "shortName": "HarmonyTestnet",
     "chainId": 1666700000,
     "network": "testnet",
+    "multicall": "0x9923589503Fd205feE3d367DDFF2378f0F7dD2d4",
     "rpc": ["https://api.s0.b.hmny.io"],
     "ws": ["wss://ws.s0.b.hmny.io"],
     "explorer": "https://explorer.pops.one"
@@ -370,6 +407,7 @@
     "shortName": "Celo",
     "chainId": 42220,
     "network": "mainnet",
+    "multicall": "0xb8d0d2C1391eeB350d2Cd39EfABBaaEC297368D9",
     "rpc": [
       "https://celo-mainnet--rpc.datahub.figment.io/apikey/e892a66dc36e4d2d98a5d6406d609796/"
     ],

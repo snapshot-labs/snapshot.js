@@ -45,7 +45,10 @@ export async function strategy(
   options,
   snapshot
 ) {
-  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+  const blockTag =
+    typeof snapshot === 'number'
+      ? snapshot
+      : await provider.getBlockNumber(snapshot);
 
   // Early return 0 voting power if governanceStrategy or powerType is not correctly set
   if (!options.governanceStrategy || !powerTypesToMethod[options.powerType]) {
@@ -59,7 +62,7 @@ export async function strategy(
     addresses.map((address: any) => [
       options.governanceStrategy,
       powerTypesToMethod[options.powerType],
-      [address.toLowerCase(), snapshot]
+      [address.toLowerCase(), blockTag]
     ]),
     { blockTag }
   );
