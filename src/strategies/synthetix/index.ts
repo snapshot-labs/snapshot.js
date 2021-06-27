@@ -186,6 +186,8 @@ export async function strategy(
         scaledTotalL2Debt,
         normalisedL2CRatio
       );
+    } else {
+      continue;
     }
   }
 
