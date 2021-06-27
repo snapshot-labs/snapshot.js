@@ -5,9 +5,6 @@ import { Provider } from '@ethersproject/providers';
 
 import { subgraphRequest, ipfsGet } from '../../utils';
 
-import SynthetixStateABI from './SynthetixState.json';
-import DebtCacheABI from './DebtCache.json';
-
 export const author = 'andytcf';
 export const version = '1.0.0';
 
@@ -18,6 +15,33 @@ type SNXHoldersResult = {
     debtEntryAtIndex: BigNumber;
   }[];
 };
+
+const DebtCacheABI = [
+  {
+    constant: true,
+    inputs: [],
+    name: 'currentDebt',
+    outputs: [
+      { internalType: 'uint256', name: 'debt', type: 'uint256' },
+      { internalType: 'bool', name: 'anyRateIsInvalid', type: 'bool' }
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  }
+];
+
+const SynthetixStateABI = [
+  {
+    constant: true,
+    inputs: [],
+    name: 'lastDebtLedgerEntry',
+    outputs: [{ name: '', type: 'uint256' }],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  }
+];
 
 const SynthetixStateContractAddress =
   '0x4b9Ca5607f1fF8019c1C6A3c2f0CC8de622D5B82';
