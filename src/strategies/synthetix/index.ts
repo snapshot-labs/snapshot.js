@@ -80,7 +80,7 @@ function returnGraphParams(snapshot: number | string, addresses: string[]) {
 
 const loadLastDebtLedgerEntry = async (
   provider: Provider,
-  snapshot: string
+  snapshot: number | string
 ) => {
   const contract = new Contract(
     SynthetixStateContractAddress,
@@ -88,13 +88,16 @@ const loadLastDebtLedgerEntry = async (
     provider
   );
   const lastDebtLedgerEntry = await contract.lastDebtLedgerEntry({
-    blockTag: parseInt(snapshot)
+    blockTag: snapshot
   });
 
   return BigNumber.from(lastDebtLedgerEntry);
 };
 
-const loadL1TotalDebt = async (provider: Provider, snapshot: string) => {
+const loadL1TotalDebt = async (
+  provider: Provider,
+  snapshot: number | string
+) => {
   const contract = new Contract(
     DebtCacheContractAddress,
     DebtCacheABI,
@@ -102,7 +105,7 @@ const loadL1TotalDebt = async (provider: Provider, snapshot: string) => {
   );
 
   const currentDebtObject = await contract.currentDebt({
-    blockTag: parseInt(snapshot)
+    blockTag: snapshot
   });
 
   return Number(currentDebtObject.debt) / MED_PRECISE_UNIT;
