@@ -1,9 +1,10 @@
-import { formatUnits } from '@ethersproject/units';
 import { getAddress } from '@ethersproject/address';
-import { subgraphRequest, ipfsGet } from '../../utils';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Contract } from '@ethersproject/contracts';
 import { Provider } from '@ethersproject/providers';
+
+import { subgraphRequest, ipfsGet } from '../../utils';
+
 import SynthetixStateABI from './SynthetixState.json';
 import DebtCacheABI from './DebtCache.json';
 
