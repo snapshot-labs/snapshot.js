@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "cake",
+      "params": {
+        "symbol": "CAKE"
+      }
+    },
+    "network": "56",
+    "addresses": ["0x8b017905DC96B38f817473dc885F84D4C76bC113"],
+    "snapshot": 8599985
+  }
+]
