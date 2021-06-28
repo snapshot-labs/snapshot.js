@@ -114,8 +114,6 @@ export default class Client {
   }
 
   async settings(web3: Web3Provider, address: string, space: string, settings) {
-    return this.broadcast(web3, address, space, 'settings', {
-      settings
-    });
+    return this.broadcast(web3, address, space, 'settings', settings);
   }
 }
