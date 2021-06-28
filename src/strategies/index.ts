@@ -100,6 +100,7 @@ import { strategy as celerSgnDelegation } from './celer-sgn-delegation';
 import { strategy as balancerDelegation } from './balancer-delegation';
 import { strategy as infinityProtocolPools } from './infinityprotocol-liquidity-pools';
 import { strategy as aaveGovernancePower } from './aave-governance-power';
+import { strategy as cake } from './cake';
 
 export default {
   balancer,
@@ -203,5 +204,6 @@ export default {
   'celer-sgn-delegation': celerSgnDelegation,
   'balancer-delegation': balancerDelegation,
   'infinityprotocol-liquidity-pools': infinityProtocolPools,
-  'aave-governance-power': aaveGovernancePower
+  'aave-governance-power': aaveGovernancePower,
+  cake
 };
