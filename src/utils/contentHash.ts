@@ -8,11 +8,7 @@ import bs58 from 'bs58';
 import { call } from '../utils';
 const supportedCodecs = ['ipns-ns', 'ipfs-ns', 'swarm-ns', 'onion', 'onion3'];
 
-const REGISTRAR_ABI =
-  'function resolver(bytes32 node) external view returns (address)';
-
-const REGISTRAR_ADDRESS = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
-
+const RESOLVER_ADDRESS = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41';
 const RESOLVER_ABI =
   'function contenthash(bytes32 node) external view returns (bytes memory)';
 
@@ -127,15 +123,10 @@ export async function resolveENSContentHash(
   provider: Provider
 ): Promise<string> {
   const hash = namehash(ensName);
-  const resolverAddress = await call(
-    provider,
-    [REGISTRAR_ABI],
-    [REGISTRAR_ADDRESS, 'resolver', [hash]]
-  );
   return await call(
     provider,
     [RESOLVER_ABI],
-    [resolverAddress, 'contenthash', [hash]]
+    [RESOLVER_ADDRESS, 'contenthash', [hash]]
   );
 }
 
