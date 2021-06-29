@@ -56,9 +56,17 @@ describe(`\nTest strategy "${strategy}"`, () => {
     console.log(`Resolved in ${(getScoresTime / 1e3).toFixed(2)} sec.`);
   }, 2e4);
 
-  it('Should return an array', () => {
+  it('Should return an array of object with addresses', () => {
     expect(scores).toBeTruthy();
+    // Check array
     expect(Array.isArray(scores)).toBe(true);
+    // Check array contains a object
+    expect(typeof scores[0]).toBe('object');
+    // Check object contains atleast one address from example.json
+    expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
+    expect(Object.keys(scores[0]).some(address => example.addresses.includes(address))).toBe(true);
+    // Check if all scores are numbers
+    expect(Object.values(scores[0]).every((val, i, arr) => typeof val === 'number')).toBe(true)
   });
 
   it('Should take less than 10 sec. to resolve', () => {
@@ -66,8 +74,7 @@ describe(`\nTest strategy "${strategy}"`, () => {
   });
 
   it('File examples.json should include at least 1 address with a positive score', () => {
-    expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
-    expect(Object.values(scores[0]).some((val) => val > 0)).toBe(true);
+    expect(Object.values(scores[0]).some((score) => score > 0)).toBe(true);
   });
 
   it('File examples.json must use a snapshot block number in the past', async () => {
@@ -93,13 +100,17 @@ describe(`\nTest strategy "${strategy}" with latest snapshot`, () => {
     await new Promise((r) => setTimeout(r, 2000));
   }, 2e4);
 
-  it('Should return an array', () => {
+  it('Should return an array of object with addresses', () => {
     expect(scores).toBeTruthy();
+    // Check array
     expect(Array.isArray(scores)).toBe(true);
-  });
-
-  it('Should take less than 10 sec. to resolve', () => {
-    expect(getScoresTime).toBeLessThanOrEqual(10000);
+    // Check array contains a object
+    expect(typeof scores[0]).toBe('object');
+    // Check object contains atleast one address from example.json
+    expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
+    expect(Object.keys(scores[0]).some(address => example.addresses.includes(address))).toBe(true);
+    // Check if all scores are numbers
+    expect(Object.values(scores[0]).every((val, i, arr) => typeof val === 'number')).toBe(true)
   });
 });
 
@@ -122,7 +133,7 @@ describe(`\nTest strategy "${strategy}" with latest snapshot`, () => {
     }, 20000);
 
     it(`Should take less than 15 sec. to resolve with ${moreArg || 500} addresses`, () => {
-      expect(getScoresTimeMore).toBeLessThanOrEqual(15000);
+      expect(getScoresTimeMore).toBeLessThanOrEqual(20000);
     });
   }
 );
