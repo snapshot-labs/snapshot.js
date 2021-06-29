@@ -1,0 +1,19 @@
+[
+  {
+    "name": "iotex query",
+    "strategy": {
+      "name": "iotex-staked-balance",
+      "params": {
+        "address": "0x1904BFcb93EdC9BF961Eead2e5c0de81dCc1D37D",
+        "symbol": "IOTX",
+        "decimals": 18
+      }
+    },
+    "network": "4689",
+    "addresses": [
+      "0xb04FDF8c53baBBf67dB1cC6bd700fDb73DFF8252",
+      "0x49E4DbfF86a2E5DA27c540c9A9E8D2C3726E278F"
+    ],
+    "snapshot": 5161495
+  }
+]
