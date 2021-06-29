@@ -8,10 +8,6 @@ import bs58 from 'bs58';
 import { call } from '../utils';
 const supportedCodecs = ['ipns-ns', 'ipfs-ns', 'swarm-ns', 'onion', 'onion3'];
 
-const RESOLVER_ADDRESS = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41';
-const RESOLVER_ABI =
-  'function contenthash(bytes32 node) external view returns (bytes memory)';
-
 export function decodeContenthash(encoded) {
   let decoded, protocolType, error;
   if (encoded.error) {
@@ -122,11 +118,14 @@ export async function resolveENSContentHash(
   ensName: string,
   provider: Provider
 ): Promise<string> {
+  const abi =
+    'function contenthash(bytes32 node) external view returns (bytes memory)';
+  const address = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41';
   const hash = namehash(ensName);
   return await call(
     provider,
-    [RESOLVER_ABI],
-    [RESOLVER_ADDRESS, 'contenthash', [hash]]
+    [abi],
+    [address, 'contenthash', [hash]]
   );
 }
 
