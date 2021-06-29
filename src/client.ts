@@ -40,13 +40,6 @@ export default class Client {
   async getSpaces() {
     return this.request('spaces');
   }
-  async getProposals(space: string) {
-    return this.request(`${space}/proposals`);
-  }
-
-  async getVotes(space: string, proposalId: string) {
-    return this.request(`${space}/proposal/${proposalId}`);
-  }
 
   async broadcast(
     web3: Web3Provider,
@@ -67,5 +60,60 @@ export default class Client {
     };
     msg.sig = await signMessage(web3, msg.msg, account);
     return await this.send(msg);
+  }
+
+  async vote(
+    web3: Web3Provider,
+    address: string,
+    space,
+    { proposal, choice, metadata = {} }
+  ) {
+    return this.broadcast(web3, address, space, 'vote', {
+      proposal,
+      choice,
+      metadata
+    });
+  }
+
+  async proposal(
+    web3: Web3Provider,
+    address: string,
+    space: string,
+    {
+      name,
+      body,
+      choices,
+      start,
+      end,
+      snapshot,
+      type = 'single-choice',
+      metadata = {}
+    }
+  ) {
+    return this.broadcast(web3, address, space, 'proposal', {
+      name,
+      body,
+      choices,
+      start,
+      end,
+      snapshot,
+      type,
+      metadata
+    });
+  }
+
+  async deleteProposal(
+    web3: Web3Provider,
+    address: string,
+    space: string,
+    { proposal }
+  ) {
+    return this.broadcast(web3, address, space, 'delete-proposal', {
+      proposal
+    });
+  }
+
+  async settings(web3: Web3Provider, address: string, space: string, settings) {
+    return this.broadcast(web3, address, space, 'settings', settings);
   }
 }

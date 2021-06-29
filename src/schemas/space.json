@@ -20,6 +20,11 @@
           "title": "about",
           "maxLength": 160
         },
+        "guidelines": {
+          "type": "string",
+          "title": "guidelines",
+          "maxLength": 1024
+        },
         "terms": {
           "type": "string",
           "title": "terms",
@@ -146,6 +151,22 @@
               "title": "invalids"
             }
           },
+          "additionalProperties": false
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 64,
+              "title": "name"
+            },
+            "params": {
+              "type": "object",
+              "title": "params"
+            }
+          },
+          "required": ["name"],
           "additionalProperties": false
         },
         "plugins": {
