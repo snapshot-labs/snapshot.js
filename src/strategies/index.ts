@@ -205,7 +205,7 @@ export default {
   'celer-sgn-delegation': celerSgnDelegation,
   'balancer-delegation': balancerDelegation,
   kumainu,
-  'aave-governance-power': aaveGovernancePower
+  'aave-governance-power': aaveGovernancePower,
   'infinityprotocol-liquidity-pools': infinityProtocolPools,
   cake
 };
