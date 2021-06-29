@@ -62,7 +62,7 @@ describe(`\nTest strategy "${strategy}"`, () => {
     expect(Array.isArray(scores)).toBe(true);
     // Check array contains a object
     expect(typeof scores[0]).toBe('object');
-    // Check object contains atleast one address from example.json
+    // Check object contains at least one address from example.json
     expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
     expect(Object.keys(scores[0]).some(address => example.addresses.includes(address))).toBe(true);
     // Check if all scores are numbers
