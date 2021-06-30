@@ -8,6 +8,8 @@ import { strategy as erc20BalanceOfFixedTotal } from './erc20-balance-of-fixed-t
 import { strategy as erc20BalanceOfCv } from './erc20-balance-of-cv';
 import { strategy as erc20WithBalance } from './erc20-with-balance';
 import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegation';
+import { strategy as erc20BalanceOfQuadraticDelegation } from './erc20-balance-of-quadratic-delegation';
+
 import { strategy as erc20Price } from './erc20-price';
 import { strategy as balanceOfWithMin } from './balance-of-with-min';
 import { strategy as ethBalance } from './eth-balance';
