@@ -118,6 +118,7 @@ export default {
   'erc20-balance-of-coeff': erc20BalanceOfCoeff,
   'erc20-with-balance': erc20WithBalance,
   'erc20-balance-of-delegation': erc20BalanceOfDelegation,
+  'erc20-balance-of-quadratic-delegation': erc20BalanceOfQuadraticDelegation,
   'erc20-price': erc20Price,
   'balance-of-with-min': balanceOfWithMin,
   'eth-balance': ethBalance,
