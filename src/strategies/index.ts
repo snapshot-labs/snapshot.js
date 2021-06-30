@@ -37,6 +37,7 @@ import { strategy as xDaiStakeHolders } from './xdai-stake-holders';
 import { strategy as xDaiStakeDelegation } from './xdai-stake-delegation';
 import { strategy as defidollar } from './defidollar';
 import { strategy as aavegotchi } from './aavegotchi';
+import { strategy as aavegotchiAgip } from './aavegotchi-agip';
 import { strategy as mithcash } from './mithcash';
 import { strategy as dittomoney } from './dittomoney';
 import { strategy as balancerUnipool } from './balancer-unipool';
@@ -150,6 +151,7 @@ export default {
   'xdai-stake-delegation': xDaiStakeDelegation,
   defidollar,
   aavegotchi,
+  'aavegotchi-agip': aavegotchiAgip,
   mithcash,
   stablexswap,
   dittomoney,
