@@ -4,10 +4,8 @@ const defaultSpace = require('./examples/space.json');
 
 /*
 ## Usage
-`npm run test` // Tests default (erc20-balance-of)
-`npm run test --strategy=erc20-received`
-`npm run test --strategy=eth-balance`
-`npm run test --strategy=eth-balance --more=200 // to test with more addresses from addresses.json`
+`npm run test:validation` // Tests default (basic)
+`npm run test:validation --validation=aave-space-validation`
 */
 
 const validationArg =
