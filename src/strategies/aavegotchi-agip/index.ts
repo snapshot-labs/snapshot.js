@@ -1,7 +1,7 @@
 import { formatUnits } from '@ethersproject/units';
 import Multicaller from '../../utils/multicaller';
 import { subgraphRequest } from '../../utils';
-export const author = 'Pixelcraft Studios';
+export const author = 'candoizo';
 export const version = '0.1.0';
 
 const AAVEGOTCHI_SUBGRAPH_URL = {
