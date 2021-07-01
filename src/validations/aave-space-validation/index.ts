@@ -1,5 +1,4 @@
 import { call, getScores } from '../../utils';
-import { BigNumber } from '@ethersproject/bignumber';
 
 export const author = 'kartojal';
 export const version = '0.1.0';
