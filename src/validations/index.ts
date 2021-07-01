@@ -1,5 +1,7 @@
 import basic from './basic';
+import aaveSpaceValidation from './aave-space-validation';
 
 export default {
-  basic
+  basic,
+  'aave-space-validation': aaveSpaceValidation
 };
