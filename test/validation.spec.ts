@@ -34,7 +34,7 @@ describe(`\nTest validation "${validation}"`, () => {
         example.userAddress,
         example.space || defaultSpace,
         {},
-        {}
+        example.validation.params || {}
       );
       const performanceEnd = performance.now();
       getValidationTime = performanceEnd - performanceStart;
