@@ -5,7 +5,7 @@ const defaultSpace = require('./examples/space.json');
 /*
 ## Usage
 `npm run test:validation` // Tests default (basic)
-`npm run test:validation --validation=aave-space-validation`
+`npm run test:validation --validation=aave`
 */
 
 const validationArg =

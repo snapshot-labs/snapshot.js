@@ -2,7 +2,7 @@
   {
     "name": "Example of Aave Proposition Power proposal validation",
     "validation": {
-      "name": "aave-space-validation",
+      "name": "aave",
       "params": {}
     },
     "network": "1",
