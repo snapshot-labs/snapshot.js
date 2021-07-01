@@ -1,4 +1,4 @@
-import { call, getScores } from '../../utils';
+import { getScores } from '../../utils';
 
 export const author = 'kartojal';
 export const version = '0.1.0';
