@@ -122,11 +122,7 @@ export async function resolveENSContentHash(
     'function contenthash(bytes32 node) external view returns (bytes memory)';
   const address = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41';
   const hash = namehash(ensName);
-  return await call(
-    provider,
-    [abi],
-    [address, 'contenthash', [hash]]
-  );
+  return await call(provider, [abi], [address, 'contenthash', [hash]]);
 }
 
 export async function resolveContent(provider, name) {
