@@ -60,6 +60,9 @@
     "lint": "prettier 'src/**/*.ts' -w -c",
     "prepare": "npm run build"
   },
+  "engines": {
+    "node": "^14"
+  },
   "files": [
     "dist",
     "src"
