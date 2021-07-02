@@ -55,6 +55,7 @@
     "build:cjs": "rollup -c rollup.cjs.config.js",
     "dev": "rollup -c -w",
     "test": "jest test/index.spec.ts --runInBand",
+    "test:validation": "npm run build:cjs && jest test/validation.spec.ts --runInBand",
     "pretest": "npm run build:cjs",
     "lint": "prettier 'src/**/*.ts' -w -c",
     "prepare": "npm run build"
