@@ -209,5 +209,5 @@ export default {
   'infinityprotocol-liquidity-pools': infinityProtocolPools,
   'aave-governance-power': aaveGovernancePower,
   cake,
-  planetFinance
+  'planet-finance': planetFinance
 };
