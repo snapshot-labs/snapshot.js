@@ -103,6 +103,7 @@ import { strategy as balancerDelegation } from './balancer-delegation';
 import { strategy as infinityProtocolPools } from './infinityprotocol-liquidity-pools';
 import { strategy as aaveGovernancePower } from './aave-governance-power';
 import { strategy as cake } from './cake';
+import { strategy as planetFinance } from './planet-finance'
 
 export default {
   balancer,
@@ -209,5 +210,6 @@ export default {
   'balancer-delegation': balancerDelegation,
   'infinityprotocol-liquidity-pools': infinityProtocolPools,
   'aave-governance-power': aaveGovernancePower,
-  cake
+  cake,
+  'planet-finance': planetFinance
 };
