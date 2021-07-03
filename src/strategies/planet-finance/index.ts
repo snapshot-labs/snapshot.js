@@ -58,6 +58,10 @@ const planetFinanceFarmContractAddress =
 
 const aquaAddress = '0x72B7D61E8fC8cF971960DD9cfA59B8C829D91991'
 
+const aquaBnbLpTokenAddress = '0x03028D2F8B275695A1c6AFB69A4765e3666e36d9'
+
+const aquaCakeLpTokenAddress = '0x8852263275Ab21FfBAEB88a17BCb27611EeA54Ef'
+
 export async function strategy(
   space,
   network,
@@ -106,34 +110,6 @@ export async function strategy(
     { blockTag }
   );
 
-  let aquaBnbPoolInfo = await multicall(
-    network,
-    provider,
-    planetFinanceFarmAbi,
-    addresses.map((address: any) => [
-      planetFinanceFarmContractAddress,
-      'poolInfo',
-      ['13']
-    ]),
-    { blockTag }
-  );
-
-  erc20Multi.call(
-    'lpTotalSupply',
-    aquaBnbPoolInfo[0][0],
-    'totalSupply'
-  );
-
-  erc20Multi.call('poolMMBalance', aquaAddress , 'balanceOf', [
-    aquaBnbPoolInfo[0][0]
-  ]);
-
-  let erc20Result = await erc20Multi.execute();
-
-  let totalSupply = erc20Result.lpTotalSupply.toString();
-
-  let contractAquaBalance = erc20Result.poolMMBalance.toString()
-
   let usersAquaCakeVaultBalances = await multicall(
     network,
     provider,
@@ -146,26 +122,30 @@ export async function strategy(
     { blockTag }
   );
 
-  let aquaCakePoolInfo = await multicall(
-    network,
-    provider,
-    planetFinanceFarmAbi,
-    addresses.map((address: any) => [
-      planetFinanceFarmContractAddress,
-      'poolInfo',
-      ['14']
-    ]),
-    { blockTag }
-  );
-
   erc20Multi.call(
     'lpTotalSupply',
-    aquaCakePoolInfo[0][0],
+    aquaBnbLpTokenAddress,
     'totalSupply'
   );
 
   erc20Multi.call('poolMMBalance', aquaAddress , 'balanceOf', [
-    aquaCakePoolInfo[0][0]
+    aquaBnbLpTokenAddress
+  ]);
+
+  let erc20Result = await erc20Multi.execute();
+
+  let totalSupply = erc20Result.lpTotalSupply.toString();
+
+  let contractAquaBalance = erc20Result.poolMMBalance.toString()
+
+  erc20Multi.call(
+    'lpTotalSupply',
+    aquaCakeLpTokenAddress,
+    'totalSupply'
+  );
+
+  erc20Multi.call('poolMMBalance', aquaAddress , 'balanceOf', [
+    aquaCakeLpTokenAddress
   ]);
 
   erc20Result = await erc20Multi.execute();
