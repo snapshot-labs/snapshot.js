@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "modefiBsc",
+      "params": {
+        "address": "0xd4fbc57b6233f268e7fba3b66e62719d74deecbc",
+        "symbol": "MOD",
+        "decimals": 18
+      }
+    },
+    "network": "56",
+    "addresses": [
+      "0xf2032efbe8d4627574ecefc1b0a6e69ba9d94926",
+      "0x0d4bc82f6f5122387968655b2e003d2932911db1"
+    ],
+    "snapshot": 8824971
+  }
+]
