@@ -1,5 +1,14 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { Proposal, Vote, proposalTypes, voteTypes } from './types';
+import {
+  Space,
+  Proposal,
+  CancelProposal,
+  Vote,
+  spaceTypes,
+  proposalTypes,
+  cancelProposalTypes,
+  voteTypes
+} from './types';
 import hubs from '../hubs.json';
 
 const NAME = 'snapshot';
@@ -16,6 +25,14 @@ export default class Client {
 
   constructor(address: string = hubs[0]) {
     this.address = address;
+  }
+
+  async sign(web3: Web3Provider, address: string, message, types) {
+    const data: any = { domain, types, message };
+    const signer = web3.getSigner();
+    const sig = await signer._signTypedData(domain, data.types, message);
+    console.log('Sign', { address, sig, data });
+    return await this.send({ address, sig, data });
   }
 
   async send(envelop) {
@@ -38,21 +55,23 @@ export default class Client {
     });
   }
 
+  async space(web3: Web3Provider, address: string, message: Space) {
+    return await this.sign(web3, address, message, spaceTypes);
+  }
+
   async proposal(web3: Web3Provider, address: string, message: Proposal) {
-    const data: any = { domain, types: proposalTypes, message };
-    console.log('Sign proposal', JSON.stringify(data));
-    const signer = web3.getSigner();
-    const sig = await signer._signTypedData(domain, data.types, message);
-    console.log('Sig', sig);
-    return await this.send({ address, sig, data });
+    return await this.sign(web3, address, message, proposalTypes);
+  }
+
+  async cancelProposal(
+    web3: Web3Provider,
+    address: string,
+    message: CancelProposal
+  ) {
+    return await this.sign(web3, address, message, cancelProposalTypes);
   }
 
   async vote(web3: Web3Provider, address: string, message: Vote) {
-    const data: any = { domain, types: voteTypes, message };
-    console.log('Sign vote', JSON.stringify(data));
-    const signer = web3.getSigner();
-    const sig = await signer._signTypedData(domain, data.types, message);
-    console.log('Sig', sig);
-    return await this.send({ address, sig, data });
+    return await this.sign(web3, address, message, voteTypes);
   }
 }
