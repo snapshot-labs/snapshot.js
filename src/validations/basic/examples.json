@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Example of a basic proposal validation",
+    "validation": {
+      "name": "basic",
+      "params": {}
+    },
+    "network": "1",
+    "userAddress": "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7"
+  }
+]

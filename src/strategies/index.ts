@@ -38,6 +38,7 @@ import { strategy as xDaiStakeHolders } from './xdai-stake-holders';
 import { strategy as xDaiStakeDelegation } from './xdai-stake-delegation';
 import { strategy as defidollar } from './defidollar';
 import { strategy as aavegotchi } from './aavegotchi';
+import { strategy as aavegotchiAgip } from './aavegotchi-agip';
 import { strategy as mithcash } from './mithcash';
 import { strategy as dittomoney } from './dittomoney';
 import { strategy as balancerUnipool } from './balancer-unipool';
@@ -103,6 +104,7 @@ import { strategy as balancerDelegation } from './balancer-delegation';
 import { strategy as infinityProtocolPools } from './infinityprotocol-liquidity-pools';
 import { strategy as aaveGovernancePower } from './aave-governance-power';
 import { strategy as cake } from './cake';
+import { strategy as planetFinance } from './planet-finance';
 
 export default {
   balancer,
@@ -152,6 +154,7 @@ export default {
   'xdai-stake-delegation': xDaiStakeDelegation,
   defidollar,
   aavegotchi,
+  'aavegotchi-agip': aavegotchiAgip,
   mithcash,
   stablexswap,
   dittomoney,
@@ -209,5 +212,6 @@ export default {
   'balancer-delegation': balancerDelegation,
   'infinityprotocol-liquidity-pools': infinityProtocolPools,
   'aave-governance-power': aaveGovernancePower,
-  cake
+  cake,
+  'planet-finance': planetFinance
 };
