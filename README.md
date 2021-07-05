@@ -25,7 +25,7 @@ npm install
 npm run build
 ```
 
-#### Test Strategy
+#### Test strategy
 ```bash
 # Test default strategy (erc20-balance-of)
 npm run test
