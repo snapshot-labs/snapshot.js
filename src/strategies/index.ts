@@ -96,6 +96,8 @@ import { strategy as xrc20BalanceOf } from './xrc20-balance-of';
 import { strategy as brightid } from './brightid';
 import { strategy as inverseXINV } from './inverse-xinv';
 import { strategy as modefi } from './modefi';
+import { strategy as modefiStaking } from './modefiStaking';
+import { strategy as modefiMultichain } from './modefiMultichain';
 import { strategy as spookyswap } from './spookyswap';
 import { strategy as rnbwBalance } from './rnbw-balance';
 import { strategy as celerSgnDelegation } from './celer-sgn-delegation';
@@ -201,6 +203,8 @@ export default {
   brightid,
   'inverse-xinv': inverseXINV,
   modefi,
+  'modefiStaking': modefiStaking,
+  'modefiMultichain': modefiMultichain,
   'iotex-balance': iotexBalance,
   'iotex-staked-balance': iotexStakedBalance,
   'xrc20-balance-of': xrc20BalanceOf,
