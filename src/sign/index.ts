@@ -7,7 +7,9 @@ import {
   spaceTypes,
   proposalTypes,
   cancelProposalTypes,
-  voteTypes
+  voteTypes,
+  voteArrayTypes,
+  voteStringTypes
 } from './types';
 import hubs from '../hubs.json';
 
@@ -72,6 +74,15 @@ export default class Client {
   }
 
   async vote(web3: Web3Provider, address: string, message: Vote) {
-    return await this.sign(web3, address, message, voteTypes);
+    let type = voteTypes;
+    if (['approval', 'ranked-choice'].includes(message.type))
+      type = voteArrayTypes;
+    if (['quadratic', 'weighted'].includes(message.type)) {
+      type = voteStringTypes;
+      message.choice = JSON.stringify(message.choice);
+    }
+    // @ts-ignore
+    delete message.type;
+    return await this.sign(web3, address, message, type);
   }
 }
