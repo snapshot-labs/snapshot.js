@@ -1,3 +1,9 @@
+export interface Space {
+  space: string;
+  timestamp: number;
+  settings: string;
+}
+
 export interface Proposal {
   space: string;
   timestamp: number;
@@ -14,6 +20,12 @@ export interface Proposal {
   metadata: string;
 }
 
+export interface CancelProposal {
+  space: string;
+  timestamp: number;
+  proposal: string;
+}
+
 export interface Vote {
   space: string;
   timestamp: number;
@@ -21,6 +33,14 @@ export interface Vote {
   choice: number;
   metadata: string;
 }
+
+export const spaceTypes = {
+  Space: [
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' },
+    { name: 'settings', type: 'string' }
+  ]
+};
 
 export const proposalTypes = {
   Proposal: [
@@ -37,6 +57,15 @@ export const proposalTypes = {
     { name: 'strategies', type: 'string' },
     { name: 'plugins', type: 'string' },
     { name: 'metadata', type: 'string' }
+  ]
+};
+
+export const cancelProposalTypes = {
+  CancelProposal: [
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' },
+    // { name: 'proposal', type: 'bytes32' },
+    { name: 'proposal', type: 'string' }
   ]
 };
 
