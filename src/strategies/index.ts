@@ -8,9 +8,11 @@ import { strategy as erc20BalanceOfFixedTotal } from './erc20-balance-of-fixed-t
 import { strategy as erc20BalanceOfCv } from './erc20-balance-of-cv';
 import { strategy as erc20WithBalance } from './erc20-with-balance';
 import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegation';
+import { strategy as erc20BalanceOfQuadraticDelegation } from './erc20-balance-of-quadratic-delegation';
 import { strategy as erc20Price } from './erc20-price';
 import { strategy as balanceOfWithMin } from './balance-of-with-min';
 import { strategy as ethBalance } from './eth-balance';
+import { strategy as ethWithBalance } from './eth-with-balance';
 import { strategy as ethWalletAge } from './eth-wallet-age';
 import { strategy as multichain } from './multichain';
 import { strategy as makerDsChief } from './maker-ds-chief';
@@ -37,6 +39,7 @@ import { strategy as xDaiStakeHolders } from './xdai-stake-holders';
 import { strategy as xDaiStakeDelegation } from './xdai-stake-delegation';
 import { strategy as defidollar } from './defidollar';
 import { strategy as aavegotchi } from './aavegotchi';
+import { strategy as aavegotchiAgip } from './aavegotchi-agip';
 import { strategy as mithcash } from './mithcash';
 import { strategy as dittomoney } from './dittomoney';
 import { strategy as balancerUnipool } from './balancer-unipool';
@@ -103,6 +106,8 @@ import { strategy as balancerDelegation } from './balancer-delegation';
 import { strategy as infinityProtocolPools } from './infinityprotocol-liquidity-pools';
 import { strategy as aaveGovernancePower } from './aave-governance-power';
 import { strategy as cake } from './cake';
+import { strategy as planetFinance } from './planet-finance';
+import { strategy as impossibleFinance } from './impossible-finance';
 
 export default {
   balancer,
@@ -118,9 +123,11 @@ export default {
   'erc20-balance-of-coeff': erc20BalanceOfCoeff,
   'erc20-with-balance': erc20WithBalance,
   'erc20-balance-of-delegation': erc20BalanceOfDelegation,
+  'erc20-balance-of-quadratic-delegation': erc20BalanceOfQuadraticDelegation,
   'erc20-price': erc20Price,
   'balance-of-with-min': balanceOfWithMin,
   'eth-balance': ethBalance,
+  'eth-with-balance': ethWithBalance,
   'eth-wallet-age': ethWalletAge,
   'maker-ds-chief': makerDsChief,
   erc721,
@@ -151,6 +158,7 @@ export default {
   'xdai-stake-delegation': xDaiStakeDelegation,
   defidollar,
   aavegotchi,
+  'aavegotchi-agip': aavegotchiAgip,
   mithcash,
   stablexswap,
   dittomoney,
@@ -209,5 +217,7 @@ export default {
   'balancer-delegation': balancerDelegation,
   'infinityprotocol-liquidity-pools': infinityProtocolPools,
   'aave-governance-power': aaveGovernancePower,
-  cake
+  cake,
+  'planet-finance': planetFinance,
+  'impossible-finance': impossibleFinance
 };

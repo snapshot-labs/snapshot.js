@@ -1,3 +1,4 @@
+import fetch from 'cross-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
@@ -18,6 +19,7 @@ import {
   resolveContent
 } from './utils/contentHash';
 import { signMessage, getBlockNumber } from './utils/web3';
+import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
 import networks from './networks.json';
 
@@ -202,5 +204,7 @@ export default {
   signMessage,
   getBlockNumber,
   Multicaller,
-  validations
+  validations,
+  getHash,
+  verify
 };
