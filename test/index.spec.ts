@@ -64,7 +64,9 @@ describe(`\nTest strategy "${strategy}"`, () => {
     expect(typeof scores[0]).toBe('object');
     // Check object contains at least one address from example.json
     expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
-    expect(Object.keys(scores[0]).some(address => example.addresses.includes(address))).toBe(true);
+    expect(Object.keys(scores[0])
+      .some(address => example.addresses.map(v => v.toLowerCase())
+      .includes(address.toLowerCase()))).toBe(true);
     // Check if all scores are numbers
     expect(Object.values(scores[0]).every((val, i, arr) => typeof val === 'number')).toBe(true)
   });
@@ -108,7 +110,10 @@ describe(`\nTest strategy "${strategy}" with latest snapshot`, () => {
     expect(typeof scores[0]).toBe('object');
     // Check object contains atleast one address from example.json
     expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
-    expect(Object.keys(scores[0]).some(address => example.addresses.includes(address))).toBe(true);
+    expect(Object.keys(scores[0])
+      .some(address => example.addresses.map(v => v.toLowerCase())
+      .includes(address.toLowerCase()))).toBe(true);
+
     // Check if all scores are numbers
     expect(Object.values(scores[0]).every((val, i, arr) => typeof val === 'number')).toBe(true)
   });
