@@ -1,7 +1,6 @@
 import { strategy as ethBalanceOfStrategy } from '../eth-balance';
-import { verifyResults } from '../ocean-marketplace/oceanUtils';
 
-export const author = 'Aron van Ammers';
+export const author = 'AronVanAmmers';
 export const version = '0.1.0';
 
 export async function strategy(
