@@ -1,6 +1,6 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
@@ -55,9 +55,13 @@
     "build:cjs": "rollup -c rollup.cjs.config.js",
     "dev": "rollup -c -w",
     "test": "jest test/index.spec.ts --runInBand",
+    "test:validation": "npm run build:cjs && jest test/validation.spec.ts --runInBand",
     "pretest": "npm run build:cjs",
     "lint": "prettier 'src/**/*.ts' -w -c",
     "prepare": "npm run build"
+  },
+  "engines": {
+    "node": "^14"
   },
   "files": [
     "dist",

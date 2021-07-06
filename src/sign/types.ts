@@ -1,3 +1,9 @@
+export interface Space {
+  space: string;
+  timestamp: number;
+  settings: string;
+}
+
 export interface Proposal {
   space: string;
   timestamp: number;
@@ -14,13 +20,28 @@ export interface Proposal {
   metadata: string;
 }
 
+export interface CancelProposal {
+  space: string;
+  timestamp: number;
+  proposal: string;
+}
+
 export interface Vote {
   space: string;
   timestamp: number;
   proposal: string;
-  choice: number;
+  type: string;
+  choice: number | number[] | string;
   metadata: string;
 }
+
+export const spaceTypes = {
+  Space: [
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' },
+    { name: 'settings', type: 'string' }
+  ]
+};
 
 export const proposalTypes = {
   Proposal: [
@@ -40,6 +61,15 @@ export const proposalTypes = {
   ]
 };
 
+export const cancelProposalTypes = {
+  CancelProposal: [
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' },
+    // { name: 'proposal', type: 'bytes32' },
+    { name: 'proposal', type: 'string' }
+  ]
+};
+
 export const voteTypes = {
   Vote: [
     { name: 'space', type: 'string' },
@@ -47,6 +77,28 @@ export const voteTypes = {
     // { name: 'proposal', type: 'bytes32' },
     { name: 'proposal', type: 'string' },
     { name: 'choice', type: 'uint32' },
+    { name: 'metadata', type: 'string' }
+  ]
+};
+
+export const voteArrayTypes = {
+  Vote: [
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' },
+    // { name: 'proposal', type: 'bytes32' },
+    { name: 'proposal', type: 'string' },
+    { name: 'choice', type: 'uint32[]' },
+    { name: 'metadata', type: 'string' }
+  ]
+};
+
+export const voteStringTypes = {
+  Vote: [
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' },
+    // { name: 'proposal', type: 'bytes32' },
+    { name: 'proposal', type: 'string' },
+    { name: 'choice', type: 'string' },
     { name: 'metadata', type: 'string' }
   ]
 };

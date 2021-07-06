@@ -1,16 +1,7 @@
-global['fetch'] = require('cross-fetch');
 const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
 const addresses = require('./addresses.json');
-
-/*
-## Usage
-`npm run test` // Tests default (erc20-balance-of)
-`npm run test --strategy=erc20-received`
-`npm run test --strategy=eth-balance`
-`npm run test --strategy=eth-balance --more=200 // to test with more addresses from addresses.json`
-*/
 
 const strategyArg =
   process.env['npm_config_strategy'] ||
@@ -64,7 +55,9 @@ describe(`\nTest strategy "${strategy}"`, () => {
     expect(typeof scores[0]).toBe('object');
     // Check object contains at least one address from example.json
     expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
-    expect(Object.keys(scores[0]).some(address => example.addresses.includes(address))).toBe(true);
+    expect(Object.keys(scores[0])
+      .some(address => example.addresses.map(v => v.toLowerCase())
+      .includes(address.toLowerCase()))).toBe(true);
     // Check if all scores are numbers
     expect(Object.values(scores[0]).every((val, i, arr) => typeof val === 'number')).toBe(true)
   });
@@ -108,7 +101,10 @@ describe(`\nTest strategy "${strategy}" with latest snapshot`, () => {
     expect(typeof scores[0]).toBe('object');
     // Check object contains atleast one address from example.json
     expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
-    expect(Object.keys(scores[0]).some(address => example.addresses.includes(address))).toBe(true);
+    expect(Object.keys(scores[0])
+      .some(address => example.addresses.map(v => v.toLowerCase())
+      .includes(address.toLowerCase()))).toBe(true);
+
     // Check if all scores are numbers
     expect(Object.values(scores[0]).every((val, i, arr) => typeof val === 'number')).toBe(true)
   });

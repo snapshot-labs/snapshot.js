@@ -1,0 +1,107 @@
+[
+  {
+    "name": "Example of Aave Proposition Power proposal validation",
+    "validation": {
+      "name": "aave",
+      "params": {}
+    },
+    "network": "1",
+    "userAddress": "0x5BC928BF0DAb1e4A2ddd9e347b0F22e88026D76c",
+    "space": {
+      "name": "Aave",
+      "skin": "aave",
+      "admins": [
+        "0x8d07D225a769b7Af3A923481E1FdF49180e6A265",
+        "0xc8E0345596D7196941E61D3aB607E57Fe61F85E7"
+      ],
+      "avatar": "ipfs://QmRKgfxSiCU3EmkN52ZaxgKvDyPFUR5DdPvnKxwyLRncKS",
+      "domain": "signal.aave.com",
+      "github": "aave",
+      "symbol": "AAVE",
+      "filters": {
+        "minScore": 1,
+        "onlyMembers": false
+      },
+      "members": [],
+      "network": "1",
+      "plugins": {},
+      "twitter": "AaveAave",
+      "strategies": [
+        {
+          "name": "erc20-balance-of",
+          "params": {
+            "symbol": "aAAVE",
+            "address": "0xffc97d72e13e01096502cb8eb52dee56f74dad7b",
+            "decimals": 18
+          }
+        },
+        {
+          "name": "aave-governance-power",
+          "params": {
+            "symbol": "AAVE+stkAAVE",
+            "decimals": 18,
+            "powerType": "vote",
+            "governanceStrategy": "0xb7e383ef9b1e9189fc0f71fb30af8aa14377429e"
+          }
+        },
+        {
+          "name": "multichain",
+          "params": {
+            "graphs": {
+              "137": "https://api.thegraph.com/subgraphs/name/sameepsi/maticblocks"
+            },
+            "symbol": "Matic AAVE+amAAVE",
+            "strategies": [
+              {
+                "name": "erc20-balance-of",
+                "params": {
+                  "symbol": "AAVE",
+                  "address": "0xD6DF932A45C0f255f85145f286eA0b292B21C90B",
+                  "decimals": 18
+                },
+                "network": "137"
+              },
+              {
+                "name": "erc20-balance-of",
+                "params": {
+                  "symbol": "amAAVE",
+                  "address": "0x1d2a0E5EC8E5bBDCA5CB219e649B565d8e5c3360",
+                  "decimals": 18
+                },
+                "network": 137
+              }
+            ]
+          }
+        },
+        {
+          "name": "contract-call",
+          "params": {
+            "args": ["%{address}"],
+            "symbol": "AAVE in stkBPT",
+            "address": "0xC0259c59D9f980E3b5e2574cD78C9A9Bc6A8E3fc",
+            "decimals": 18,
+            "methodABI": {
+              "name": "balanceOf",
+              "type": "function",
+              "inputs": [
+                {
+                  "name": "account",
+                  "type": "address",
+                  "internalType": "address"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "",
+                  "type": "uint256",
+                  "internalType": "uint256"
+                }
+              ],
+              "stateMutability": "view"
+            }
+          }
+        }
+      ]
+    }
+  }
+]
