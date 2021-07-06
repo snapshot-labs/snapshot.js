@@ -1,16 +1,7 @@
-global['fetch'] = require('cross-fetch');
 const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
 const addresses = require('./addresses.json');
-
-/*
-## Usage
-`npm run test` // Tests default (erc20-balance-of)
-`npm run test --strategy=erc20-received`
-`npm run test --strategy=eth-balance`
-`npm run test --strategy=eth-balance --more=200 // to test with more addresses from addresses.json`
-*/
 
 const strategyArg =
   process.env['npm_config_strategy'] ||
