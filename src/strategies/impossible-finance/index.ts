@@ -40,10 +40,6 @@ const abi = [
   }
 ];
 
-// TODO:
-//     constant: true,
-//     payable: false,
-
 export async function strategy(
   space,
   network,
@@ -86,12 +82,7 @@ export async function strategy(
       'balanceOf',
       [pair.address]
     );
-    multi.call(
-      `pairTotalSupply.${idx}`,
-      pair.address,
-      'totalSupply',
-      []
-    )
+    multi.call(`pairTotalSupply.${idx}`, pair.address, 'totalSupply', []);
   });
 
   const result = await multi.execute();
@@ -105,7 +96,10 @@ export async function strategy(
             prev +
             parseFloat(
               formatUnits(
-                result.lpBalance[idx][address[0]].mul(result.pairIFBalance[idx]).div(result.pairTotalSupply[idx]).mul(options.pairs[idx].weight),
+                result.lpBalance[idx][address[0]]
+                  .mul(result.pairIFBalance[idx])
+                  .div(result.pairTotalSupply[idx])
+                  .mul(options.pairs[idx].weight),
                 options.pairs[idx].decimals
               )
             ),
