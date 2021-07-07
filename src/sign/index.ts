@@ -1,3 +1,4 @@
+import fetch from 'cross-fetch';
 import { Web3Provider } from '@ethersproject/providers';
 import {
   Space,
