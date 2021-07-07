@@ -10,7 +10,7 @@ Can be used instead of the erc20-balance-of strategy, the space config will look
 {
   "strategies": [
     ["naga", {
-      "address": "0x009cF7bC57584b7998236eff51b98A168DceA9B0", //SyrupBar
+      "address": "0x009cF7bC57584b7998236eff51b98A168DceA9B0", //NagaBar
       "chefAddresses": [
           {
             "address": "0xFb1088Dae0f03C5123587d2babb3F307831E6367", //SmartChef
