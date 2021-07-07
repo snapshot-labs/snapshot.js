@@ -18,7 +18,7 @@ export const version = '0.1.0';
  *      (based on the pair total supply and base token reserve)
  *    - if the baseTokenAddress is null or undefined, converts staked LP token balance to base token balance
  *      (based on the pair total supply and base token reserve)
- * * - weight: integer multiplier of the result (for combining strategies with different weights, totally optional)
+ * - weight: integer multiplier of the result (for combining strategies with different weights, totally optional)
  */
 
 const abi = [
@@ -130,6 +130,7 @@ const getCalls = (addresses: any[], options: any) => {
   const result: any[] = [];
   for (let address of addresses) {
     result.push([options.chefAddress, 'userInfo', [options.pid, address]]);
+
     if (options.uniPairAddress != null) {
       result.push([options.uniPairAddress, 'totalSupply', []]);
       result.push([options.uniPairAddress, 'getReserves', []]);
@@ -167,12 +168,18 @@ function processValues(values: any[], options: any): number {
 
     let tokenIndex: number = 0;
 
-    console.log(values[3]);
-    console.log(values[4]);
+    console.debug('values[2] = ' + values[2]);
+    console.debug('values[3][0] = ' + values[3][0]);
+    console.debug('values[4][0] = ' + values[4][0]);
+    console.debug('options.baseTokenAddress = ' + options.baseTokenAddress);
 
-    if(options.baseTokenAddress != null){
-      tokenIndex = values[3].toString() == options.baseTokenAddress ? 0 : values[4].toString() == options.baseTokenAddress ? 1 : 0;
+    if(options.baseTokenAddress != null && options.baseTokenAddress != undefined){
+      console.debug('values[4][0].toString() == options.baseTokenAddress.toString() = ' + (values[4][0].toString() == options.baseTokenAddress.toString()).toString());
+
+      tokenIndex = values[3][0].toString() == options.baseTokenAddress ? 0 : values[4][0].toString() == options.baseTokenAddress ? 1 : 0;
     }
+
+    console.debug('tokenIndex = ' + tokenIndex)
 
     const uniReserve = values[2][tokenIndex];
     const precision = BigNumber.from(10).pow(18);
@@ -202,11 +209,12 @@ export async function strategy(
     getCalls(addresses, options),
     { blockTag }
   );
+
   return Object.fromEntries(
     // chunk to response so that we can process values for each address
     arrayChunk(
       response,
-      options.uniPairAddress == null ? 1 : 3
+      options.uniPairAddress != null && options.baseTokenAddress != null ? 5 : options.uniPairAddress != null ? 3 : 1
     ).map((value, i) => [addresses[i], processValues(value, options)])
   );
 }
