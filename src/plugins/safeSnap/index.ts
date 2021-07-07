@@ -114,7 +114,7 @@ export interface ProposalDetails {
   nextTxIndex: number | undefined;
   transactions: ModuleTransaction[];
   txHashes: string[];
-  currentBond: string | undefined;
+  currentBond: BigNumber | undefined;
   isApproved: boolean;
   endTime: number | undefined;
 }
@@ -217,7 +217,7 @@ const retrieveInfoFromOracle = async (
   oracleAddress: string,
   questionId: string | undefined
 ): Promise<{
-  currentBond: string | undefined;
+  currentBond: BigNumber | undefined;
   isApproved: boolean;
   endTime: number | undefined;
 }> => {
@@ -228,7 +228,7 @@ const retrieveInfoFromOracle = async (
       [oracleAddress, 'getBestAnswer', [questionId]]
     ]);
 
-    const currentBond = formatEther(BigNumber.from(result[1][0]));
+    const currentBond = BigNumber.from(result[1][0]);
     const answer = BigNumber.from(result[2][0]);
 
     return {
