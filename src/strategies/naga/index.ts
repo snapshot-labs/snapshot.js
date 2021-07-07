@@ -2,7 +2,7 @@ import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 
-export const author = 'pancake-swap';
+export const author = 'naga-finance';
 export const version = '0.0.1';
 
 const sousChefabi = [
@@ -59,7 +59,7 @@ const masterChefAbi = [
   }
 ];
 
-const masterChefContractAddress = '0x73feaa1eE314F8c655E354234017bE2193C9E24E';
+const masterChefContractAddress = '0x73feaa1eE314F8c655E354234017bE2193C9E24E'; //Masterchef
 
 export async function strategy(
   space,
