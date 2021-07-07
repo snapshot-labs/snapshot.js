@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "decentraland-estate-size",
+      "params": {
+        "address": "0x959e104e1a4db6317fa58f8295f586e1a978c297",
+        "symbol": "ESTATE",
+        "multiplier": 2000
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x4eac6325e1dbf1ac90434d39766e164dca71139e",
+      "0xa65be351527ebcf8c1707d1e444dac38b41a5faf",
+      "0xa89473630bc2d2724279d1002ebdcfb000ad708c"
+    ],
+    "snapshot": 12453375
+  }
+]

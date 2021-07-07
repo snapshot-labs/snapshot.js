@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "infinityprotocol-liquidity-pools",
+      "params": {
+        "address": "0xd8a1734945b9ba38eb19a291b475e31f49e59877",
+        "symbol": "SHARD"
+      }
+    },
+    "network": "56",
+    "addresses": [
+      "0x2130fd01026867a6c8dde24ad5e64f2e2dfce196",
+      "0x1d197fd4e7975efd21add0ce3128c488bbd70b83",
+      "0x81c2a7b359855520d0ca251975218fa82ee83fba",
+      "0xf17067c512d0ca64900e724172761a0f0527466f"
+    ],
+    "snapshot": 8438110
+  }
+]

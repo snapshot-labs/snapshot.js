@@ -1,5 +1,5 @@
 import { getDelegations } from '../../plugins/delegation/utils';
-import { getScores } from '../../utils';
+import { getScoresDirect } from '../../utils';
 
 export const author = 'bonustrack';
 export const version = '0.1.0';
@@ -22,16 +22,18 @@ export async function strategy(
   );
   if (Object.keys(delegations).length === 0) return {};
 
-  const scores = await getScores(
-    space,
-    options.strategies,
-    network,
-    provider,
-    Object.values(delegations).reduce((a: string[], b: string[]) =>
-      a.concat(b)
-    ),
-    snapshot
-  );
+  const scores = (
+    await getScoresDirect(
+      space,
+      options.strategies,
+      network,
+      provider,
+      Object.values(delegations).reduce((a: string[], b: string[]) =>
+        a.concat(b)
+      ),
+      snapshot
+    )
+  ).filter((score) => Object.keys(score).length !== 0);
 
   return Object.fromEntries(
     addresses.map((address) => {

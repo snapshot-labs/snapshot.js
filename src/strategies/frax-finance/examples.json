@@ -1,23 +1,24 @@
 [
     {
-        "name": "frax-finance",
+        "name": "Example query",
         "strategy": {
             "name": "frax-finance",
             "params": {
+                "symbol": "FXS",
+                "decimals": 18,
                 "FXS": "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0",
+                "VEFXS": "0xc8418aF6358FFddA74e09Ca9CC3Fe03Ca6aDC5b0",
                 "UNI_LP_FRAX_FXS": "0xE1573B9D29e2183B1AF0e743Dc2754979A40D237",
-                "FARMING_UNI_LP_FRAX_FXS": "0xda2c338350a0E59Ce71CDCED9679A3A590Dd9BEC",
-                "SUSHI_LP_FRAX_FXS": "0xc218001e3D102e3d1De9bf2c0F7D9626d76C6f30",
-                "FARMING_SUSHI_LP_FRAX_FXS": "0x35302f77E5Bd7A93cbec05d585e414e14B2A84a8",
-                "SUSHI_LP_FXS_WETH": "0x61eB53ee427aB4E007d78A9134AaCb3101A2DC23",
-                "FARMING_SUSHI_LP_FXS_WETH": "0x74C370990C1181303D20e9f0252437a97518B95B"
+                "FARMING_UNI_LP_FRAX_FXS": "0xda2c338350a0E59Ce71CDCED9679A3A590Dd9BEC"
             }
         },
         "network": "1",
         "addresses": [
             "0x36A87d1E3200225f881488E4AEedF25303FebcAe",
-            "0x8a97a178408d7027355a7ef144fdf13277cea776"
+            "0x234D953a9404Bf9DbC3b526271d440cD2870bCd2",
+            "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+            "0x22511ffA88433aB56495947b559dfB62B3d47633" 
         ],
-        "snapshot": 11818851
+        "snapshot": 12557453
     }
 ]

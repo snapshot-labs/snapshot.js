@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Flashstake query",
+    "strategy": {
+      "name": "flashstake",
+      "params": {
+        "address": "0x20398ad62bb2d930646d45a6d4292baa0b860c1f",
+        "symbol": "FLASH",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x4BF4e3a59add035c479CDE89d98103Cb65DCa941",
+      "0xd0f50C0431b76FA58Aeefdd68617acb4E0628051",
+      "0x1e13e5B5ACBB0C3F0fDe50fE7661fdF75df8F932",
+      "0xa54eEc957386246Ee0Da4FdB3D92c0c31528946E",
+      "0x3D0Ec0ADbe7c22EE54F1221F5b023471a1c86E51"
+    ],
+    "snapshot": 12375794
+  }
+]

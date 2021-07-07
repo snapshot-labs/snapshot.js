@@ -1,5 +1,4 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import toNumber from 'lodash.tonumber';
 import { call } from '../../utils';
 
 export default class Plugin {
@@ -13,7 +12,7 @@ export default class Plugin {
   async getTotalVotingPower(
     web3: any,
     quorumOptions: any,
-    snapshot: string | Number
+    snapshot: string | number
   ) {
     try {
       const { strategy } = quorumOptions;

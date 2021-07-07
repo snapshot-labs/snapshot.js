@@ -1,0 +1,25 @@
+name: Test strategy
+on:
+  pull_request:
+    types:
+      - edited
+      - labeled
+      - synchronize
+      - ready_for_review
+      - review_requested
+      - reopened
+
+jobs:
+  test-strategy:
+    if: contains(toJson(github.event.pull_request.labels), 'strategy')
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2.3.4
+    - name: npm install and test strategy
+      run: |
+        npm install
+        STRATEGY=$(echo '${{github.event.pull_request.title}}' | sed -e 's/.*\[\(.*\)\].*/\1/')
+        if [ -n "$STRATEGY" ]; then
+          npm run test --strategy=$STRATEGY --more=500
+        fi

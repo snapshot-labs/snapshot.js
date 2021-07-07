@@ -1,0 +1,18 @@
+[
+  {
+    "name": "halodao.eth",
+    "strategy": {
+      "name": "rnbw-balance",
+      "params": {
+        "token": "0x90ac0B8f17cE29Ed6A1CDb78eE2150927b3c0Cd5",
+        "symbol": "RNBW",
+        "decimals": 18
+      }
+    },
+    "network": "42",
+    "addresses": [
+      "0x30Ca8F1e13978a7A819af012665CFa7E49F1c554"
+    ],
+    "snapshot": 25241929
+  }
+]
