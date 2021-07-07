@@ -1,0 +1,56 @@
+{
+  "name": "Yam Finance",
+  "skin": "yam",
+  "domain": "",
+  "symbol": "YAM",
+  "filters": {
+    "minScore": 100,
+    "defaultTab": "all"
+  },
+  "members": [
+    "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
+    "0x683A78bA1f6b25E29fbBC9Cd1BFA29A51520De84",
+    "0x9Ebc8AD4011C7f559743Eb25705CCF5A9B58D0bc",
+    "0xC3edCBe0F93a6258c3933e86fFaA3bcF12F8D695",
+    "0xbdac5657eDd13F47C3DD924eAa36Cf1Ec49672cc",
+    "0xEC3281124d4c2FCA8A88e3076C1E7749CfEcb7F2"
+  ],
+  "network": "1",
+  "plugins": {
+    "quorum": {
+      "total": 200000,
+      "strategy": "static"
+    }
+  },
+  "strategies": [
+    {
+      "name": "contract-call",
+      "params": {
+        "symbol": "YAM LP",
+        "address": "0xc32f9b0292965c5dd4a0ea1abfcc1f5a36d66986",
+        "decimals": 24,
+        "methodABI": {
+          "name": "getCurrentVotes",
+          "type": "function",
+          "inputs": [
+            {
+              "name": "owner",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "payable": false,
+          "constant": false,
+          "stateMutability": "nonpayable"
+        }
+      }
+    }
+  ]
+}

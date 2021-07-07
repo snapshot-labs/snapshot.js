@@ -20,6 +20,23 @@
           "title": "about",
           "maxLength": 160
         },
+        "guidelines": {
+          "type": "string",
+          "title": "guidelines",
+          "maxLength": 1024
+        },
+        "terms": {
+          "type": "string",
+          "title": "terms",
+          "format": "uri",
+          "maxLength": 128
+        },
+        "avatar": {
+          "type": "string",
+          "title": "avatar",
+          "format": "uri",
+          "maxLength": 256
+        },
         "location": {
           "type": "string",
           "title": "location",
@@ -28,6 +45,7 @@
         "website": {
           "type": "string",
           "title": "website",
+          "format": "uri",
           "maxLength": 128
         },
         "twitter": {
@@ -86,9 +104,7 @@
                 "title": "params"
               }
             },
-            "required": [
-              "name"
-            ],
+            "required": ["name"],
             "additionalProperties": false
           },
           "title": "strategies"
@@ -97,9 +113,21 @@
           "type": "array",
           "items": {
             "type": "string",
-            "maxLength": 64
+            "pattern": "^[A-Za-z0-9]*$",
+            "minLength": 42,
+            "maxLength": 42
           },
           "title": "members"
+        },
+        "admins": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9]*$",
+            "minLength": 42,
+            "maxLength": 42
+          },
+          "title": "admins"
         },
         "filters": {
           "type": "object",
@@ -125,16 +153,27 @@
           },
           "additionalProperties": false
         },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 64,
+              "title": "name"
+            },
+            "params": {
+              "type": "object",
+              "title": "params"
+            }
+          },
+          "required": ["name"],
+          "additionalProperties": false
+        },
         "plugins": {
           "type": "object"
         }
       },
-      "required": [
-        "name",
-        "network",
-        "symbol",
-        "strategies"
-      ],
+      "required": ["name", "network", "symbol", "strategies"],
       "additionalProperties": false
     }
   }

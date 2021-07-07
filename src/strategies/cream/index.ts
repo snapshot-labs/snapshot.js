@@ -1,5 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { formatUnits, parseUnits } from '@ethersproject/units';
+import { strategy as erc20BalanceOf } from '../erc20-balance-of';
 import { getBlockNumber } from '../../utils/web3';
 import Multicaller from '../../utils/multicaller';
 
@@ -104,6 +105,9 @@ const abi = [
   }
 ];
 
+const CREAM_VOTING_POWER = '0xb146BF59f30a54750209EF529a766D952720D0f9';
+const CREAM_VOTING_POWER_DEPLOY_BLOCK = 12315028;
+
 export async function strategy(
   space,
   network,
@@ -127,7 +131,9 @@ export async function strategy(
 
   const scores = await Promise.all([
     ...snapshotBlocks.map((blockTag) =>
-      getScores(provider, addresses, options, blockTag)
+      blockTag > CREAM_VOTING_POWER_DEPLOY_BLOCK
+        ? getScores(provider, addresses, options, blockTag)
+        : getLegacyScores(provider, addresses, options, blockTag)
     )
   ]);
 
@@ -135,28 +141,39 @@ export async function strategy(
   addresses.forEach((address) => {
     const userScore = scores
       .map((score) => score[address])
-      .reduce(
-        (accumulator, score) => accumulator.add(score),
-        BigNumber.from(0)
-      );
-    averageScore[address] = userScore.div(options.periods);
+      .reduce((accumulator, score) => (accumulator += score), 0);
+    averageScore[address] = userScore / options.periods;
   });
 
   return Object.fromEntries(
     Array(addresses.length)
       .fill('')
       .map((_, i) => {
-        const score = formatUnits(averageScore[addresses[i]], 18);
+        const score = averageScore[addresses[i]];
         // ignore score < minimum voting amount
         if (score < options.minVote) {
           return [addresses[i], 0];
         }
-        return [addresses[i], parseFloat(score)];
+        return [addresses[i], score];
       })
   );
 }
 
 async function getScores(provider, addresses, options, blockTag) {
+  return erc20BalanceOf(
+    'cream',
+    '1',
+    provider,
+    addresses,
+    {
+      address: CREAM_VOTING_POWER,
+      decimals: 18
+    },
+    blockTag
+  );
+}
+
+async function getLegacyScores(provider, addresses, options, blockTag) {
   let score = {};
   // Ethereum only
   const multi1 = new Multicaller('1', provider, abi, { blockTag });
@@ -277,5 +294,8 @@ async function getScores(provider, addresses, options, blockTag) {
       .add(pools);
   });
 
+  Object.keys(score).map((address) => {
+    score[address] = parseFloat(formatUnits(score[address], 18));
+  });
   return score;
 }
