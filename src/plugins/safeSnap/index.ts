@@ -97,6 +97,7 @@ const TokenAbi = [
   //Read functions
   'function balanceOf(address account) view returns (uint256)',
   'function decimals() view returns (uint32)',
+  'function symbol() view returns (string)',
   'function allowance(address owner, address spender) external view returns (uint256)',
 
   // Write functions
@@ -409,6 +410,29 @@ export default class Plugin {
       [oracleAddress, 'isFinalized', [questionId]]
     ]);
 
+    let tokenSymbol = 'ETH';
+    let tokenDecimals = 18;
+
+    try {
+      const token = await call(provider, OracleAbi, [
+        oracleAddress,
+        'token',
+        []
+      ]);
+      const [[symbol], [decimals]] = await multicall(
+        network,
+        provider,
+        TokenAbi,
+        [
+          [token, 'symbol', []],
+          [token, 'decimals', []]
+        ]
+      );
+
+      tokenSymbol = symbol;
+      tokenDecimals = decimals;
+    } catch (e) {}
+
     const answersFilter = contract.filters.LogNewAnswer(null, questionId);
     const events = await contract.queryFilter(
       answersFilter,
@@ -454,6 +478,8 @@ export default class Plugin {
     historyHashes.push(firstHash as Result);
 
     return {
+      tokenSymbol,
+      tokenDecimals,
       canClaim: (!alreadyClaimed && votedForCorrectQuestion) || hasBalance,
       data: {
         length: [bonds.length.toString()],
@@ -551,7 +577,7 @@ export default class Plugin {
     ]);
 
     let bond;
-    let methodName = 'submitAnswer';
+    let methodName;
     let txOverrides = {};
     let parameters = [
       questionId,
@@ -560,12 +586,15 @@ export default class Plugin {
 
     const currentBondIsZero = currentBond.eq(BigNumber.from(0));
     if (currentBondIsZero) {
+      // DaoModules can have 0 minimumBond, if it happens, the initial bond will be 1 token
       const daoBondIsZero = BigNumber.from(minimumBondInDaoModule).eq(0);
       bond = daoBondIsZero ? BigNumber.from(10) : minimumBondInDaoModule;
     } else {
       bond = currentBond.mul(2);
     }
 
+    // fetch token attribute from Realitio contract, if it works, it means it is
+    // a RealitioERC20, otherwise the catch will handle the currency as ETH
     try {
       const token = await call(web3, OracleAbi, [oracleAddress, 'token', []]);
       const [[tokenDecimals], [allowance]] = await multicall(
@@ -582,6 +611,8 @@ export default class Plugin {
         bond = bond.mul(10).mul(tokenDecimals);
       }
 
+      // Check if contract has allowance on user tokens,
+      // if not, trigger approve method
       if (allowance.lt(bond)) {
         const approveTx = await sendTransaction(
           web3,
@@ -596,9 +627,11 @@ export default class Plugin {
       parameters = [...parameters, bond, bond];
       methodName = 'submitAnswerERC20';
     } catch (e) {
-      const bondToUse = bond?.mul(18) || 10 * 18;
-      parameters = [...parameters, bondToUse];
-      txOverrides['value'] = bondToUse.toString();
+      if (bond.eq(10)) {
+        bond = bond.mul(10).mul(18);
+      }
+      parameters = [...parameters, bond];
+      txOverrides['value'] = bond.toString();
       methodName = 'submitAnswer';
     }
 
