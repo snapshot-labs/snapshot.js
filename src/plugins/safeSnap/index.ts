@@ -608,7 +608,7 @@ export default class Plugin {
       );
 
       if (bond.eq(10)) {
-        bond = bond.mul(10).mul(tokenDecimals);
+        bond = bond.pow(tokenDecimals);
       }
 
       // Check if contract has allowance on user tokens,
@@ -628,7 +628,7 @@ export default class Plugin {
       methodName = 'submitAnswerERC20';
     } catch (e) {
       if (bond.eq(10)) {
-        bond = bond.mul(10).mul(18);
+        bond = bond.pow(18);
       }
       parameters = [...parameters, bond];
       txOverrides['value'] = bond.toString();
