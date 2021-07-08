@@ -8,7 +8,7 @@ const AAVEGOTCHI_SUBGRAPH_URL = {
   137: 'https://api.thegraph.com/subgraphs/name/aavegotchi/aavegotchi-core-matic'
 };
 
-let tokenAbi = [
+const tokenAbi = [
   {
     inputs: [{ internalType: 'address', name: '_account', type: 'address' }],
     name: 'itemBalances',
@@ -46,9 +46,9 @@ export async function strategy(
   options,
   snapshot
 ) {
-  let blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
-  let multi = new Multicaller(network, provider, tokenAbi, { blockTag });
+  const multi = new Multicaller(network, provider, tokenAbi, { blockTag });
   addresses.map((addr: string) =>
     multi.call(
       `${options.tokenAddress}.${addr.toLowerCase()}`,
@@ -57,9 +57,9 @@ export async function strategy(
       [addr]
     )
   );
-  let multiRes = await multi.execute();
+  const multiRes = await multi.execute();
 
-  let walletQueryParams = {
+  const walletQueryParams = {
     users: {
       __args: {
         where: {
@@ -74,23 +74,23 @@ export async function strategy(
       }
     }
   };
-  let result = await subgraphRequest(AAVEGOTCHI_SUBGRAPH_URL[network], {
+  const result = await subgraphRequest(AAVEGOTCHI_SUBGRAPH_URL[network], {
     ...itemPriceParams,
     ...walletQueryParams
   });
-  let prices = {};
+  const prices = {};
   result.itemTypes.map((itemInfo) => {
-    let itemValue = parseFloat(formatUnits(itemInfo.ghstPrice, 18));
+    const itemValue = parseFloat(formatUnits(itemInfo.ghstPrice, 18));
     if (itemValue > 0) prices[parseInt(itemInfo.svgId)] = itemValue;
   });
 
-  let walletScores = {};
+  const walletScores = {};
   result.users.map((addrInfo) => {
-    let { id, gotchisOwned } = addrInfo;
+    const { id, gotchisOwned } = addrInfo;
     let gotchisBrsEquipValue = 0;
     if (gotchisOwned.length > 0)
       gotchisOwned.map((gotchi) => {
-        let brs = parseInt(gotchi.baseRarityScore);
+        const brs = parseInt(gotchi.baseRarityScore);
         gotchisBrsEquipValue += brs;
         gotchi.equippedWearables
           .filter((itemId: number) => itemId != 0)
@@ -102,18 +102,18 @@ export async function strategy(
       });
 
     let ownerItemValue = 0;
-    let ownerItemInfo = multiRes[options.tokenAddress][id];
+    const ownerItemInfo = multiRes[options.tokenAddress][id];
     if (ownerItemInfo.length > 0)
       ownerItemInfo.map((itemInfo) => {
-        let amountOwned = parseInt(itemInfo.balance.toString());
-        let itemId = parseInt(itemInfo.itemId.toString());
-        let pricetag = parseFloat(prices[itemId]);
+        const amountOwned = parseInt(itemInfo.balance.toString());
+        const itemId = parseInt(itemInfo.itemId.toString());
+        const pricetag = parseFloat(prices[itemId]);
         let cost = pricetag * amountOwned;
         if (isNaN(cost)) cost = 0;
         ownerItemValue += cost;
       });
 
-    let addr = addresses.find(
+    const addr = addresses.find(
       (addrOption: string) => addrOption.toLowerCase() === id
     );
     walletScores[addr] = ownerItemValue + gotchisBrsEquipValue;

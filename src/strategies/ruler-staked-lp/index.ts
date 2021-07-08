@@ -117,7 +117,7 @@ export async function strategy(
   const response = res.slice(2);
 
   return Object.fromEntries(
-    response.map(([userInfo, _], i) => [
+    response.map(([userInfo], i) => [
       addresses[i],
       (userInfo.amount / 10 ** options.decimals) * tokensPerLP
     ])

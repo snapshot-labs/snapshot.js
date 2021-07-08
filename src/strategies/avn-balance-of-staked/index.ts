@@ -86,8 +86,8 @@ function serializeVrMultiCalls(
 /** splits array into chunks */
 function chunkArray<T>(arr: T[], length: number): T[][] {
   const chunks: T[][] = [];
-  let i = 0,
-    n = arr.length;
+  let i = 0;
+  const n = arr.length;
 
   while (i < n) {
     chunks.push(arr.slice(i, (i += length)));
@@ -108,6 +108,7 @@ function sumNumbers(arr: BigNumber[]): BigNumber {
  * @param response multicall response
  * @returns summed AVT staked for each user in every node in every VR contract
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function parseVrResponse(response: BigNumber[], users: string[]): BigNumber[] {
   return chunkArray(response, 2 * NUM_NODES).map(sumNumbers);
 }
