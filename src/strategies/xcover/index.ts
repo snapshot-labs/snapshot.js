@@ -1,4 +1,3 @@
-import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 
 export const author = 'crypto_pumpkin';

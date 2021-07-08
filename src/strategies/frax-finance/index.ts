@@ -2,7 +2,6 @@ import { formatUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
 import { multicall } from '../../utils';
 
-const BIG6 = BigNumber.from('1000000');
 const BIG18 = BigNumber.from('1000000000000000000');
 
 export const author = 'FraxFinance';
@@ -169,13 +168,12 @@ export async function strategy(
 
   // Uniswap FRAX/FXS
   // ----------------------------------------
-  let uniLPFraxFxs_fxs_per_LP_E18;
   let uni_FraxFxs_reservesFXS_E0;
   if (uniLPFraxFxs_token0[0] == options.FXS)
     uni_FraxFxs_reservesFXS_E0 = uniLPFraxFxs_getReserves[0];
   else uni_FraxFxs_reservesFXS_E0 = uniLPFraxFxs_getReserves[1];
   const uni_FraxFxs_totalSupply_E0 = uniLPFraxFxs_totalSupply[0];
-  uniLPFraxFxs_fxs_per_LP_E18 = uni_FraxFxs_reservesFXS_E0
+  const uniLPFraxFxs_fxs_per_LP_E18 = uni_FraxFxs_reservesFXS_E0
     .mul(BIG18)
     .div(uni_FraxFxs_totalSupply_E0);
 
@@ -191,7 +189,6 @@ export async function strategy(
     Array(addresses.length)
       .fill('x')
       .map((_, i) => {
-        const balances = [];
         const free_fxs = fxsBalances[i][0];
         const vefxs = vefxsBalances[i][0];
         const free_uni_frax_fxs = freeUniFraxFxsBalances[i][0];

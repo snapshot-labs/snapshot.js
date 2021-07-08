@@ -14,7 +14,7 @@ export async function strategy(
     number
   ]
 ) {
-  const [space, network, provider, addresses, options, snapshot] = args;
+  const [, , , addresses, options] = args;
   const { coeff = 1, receivingAddresses } = options;
   // queries AnyBlock ElasticSearch https://www.anyblockanalytics.com/
   // Account: yidirel126@95ta.com Pass: xU5KKfys76wb633FvGS6

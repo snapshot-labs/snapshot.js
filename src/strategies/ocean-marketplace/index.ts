@@ -33,10 +33,6 @@ export function bdToBn(bd, decimals) {
   return bn2;
 }
 
-function bn(num: any): BigNumber {
-  return BigNumber.from(num.toString());
-}
-
 export async function strategy(
   space,
   network,
@@ -95,7 +91,7 @@ export async function strategy(
           if (!userAddresses.includes(userAddress))
             userAddresses.push(userAddress);
           if (!score[userAddress]) score[userAddress] = BigNumber.from(0);
-          let userShare =
+          const userShare =
             share.balance * (pool.oceanReserve / pool.totalShares);
           if (userShare > 0.0001) {
             score[userAddress] = score[userAddress].add(
@@ -108,7 +104,7 @@ export async function strategy(
 
     // We then sum total votes, per user address
     userAddresses.forEach((address) => {
-      let parsedSum = parseFloat(
+      const parsedSum = parseFloat(
         formatUnits(score[address], OCEAN_ERC20_DECIMALS)
       );
       return_score[address] = parsedSum;
@@ -117,7 +113,7 @@ export async function strategy(
 
   // We then filter only the addresses expected
   const results = Object.fromEntries(
-    Object.entries(return_score).filter(([k, v]) => addresses.indexOf(k) >= 0)
+    Object.entries(return_score).filter(([k]) => addresses.indexOf(k) >= 0)
   );
 
   // Test validation: Update examples.json w/ expectedResults to reflect LPs @ blockHeight
@@ -125,7 +121,7 @@ export async function strategy(
   // From GRT's graphUtils.ts => verifyResults => Scores need to match expectedResults.
   // npm run test --strategy=ocean-marketplace | grep -E 'SUCCESS|ERROR'
   if (options.expectedResults) {
-    let expectedResults = {};
+    const expectedResults = {};
     Object.keys(options.expectedResults.scores).forEach(function (key) {
       expectedResults[key] = results[key];
     });
