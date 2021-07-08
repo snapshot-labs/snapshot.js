@@ -1,4 +1,3 @@
-import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
 
 export const author = 'Badgeth';
@@ -18,8 +17,8 @@ export async function strategy(
     voters: {
       __args: {
         where: {
-          userAddress_in: addresses.map((address) => address.toLowerCase()),
-          balance_gt: 0
+          id_in: addresses,
+          votingPower_gt: 0
         },
         first: 1000,
         orderBy: 'votingPower',
@@ -35,10 +34,12 @@ export async function strategy(
   }
 
   const score = {};
+  console.log("sending subgraph request");
   const result = await subgraphRequest(BADGETH_SUBGRAPH_URL, params);
+  console.log("result: ", result);
   if (result && result.voters) {
     result.voters.forEach((voter) => {
-      score[voter.id] = voter.votingPower;
+      score[(voter.id)] = parseInt(voter.votingPower);
     });
   }
 
