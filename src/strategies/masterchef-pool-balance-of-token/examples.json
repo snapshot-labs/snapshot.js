@@ -1,0 +1,145 @@
+[
+  {
+    "name": "Example query - uniPair with of token0 and token1 count",
+    "strategy": {
+      "name": "masterchef-pool-balance-of-token",
+      "params": {
+        "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
+        "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
+        "token0Address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+        "token1Address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+        "pid": "0",
+        "token0weight": 1,
+        "token0weightDecimals": 0,
+        "token1weight": 1,
+        "token1weightDecimals": 0
+      }
+    },
+    "network": "137",
+    "addresses": [
+      "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
+    ],
+    "snapshot": 16564723
+  },
+  {
+    "name": "Example query - uni token count",
+    "strategy": {
+      "name": "masterchef-pool-balance-of-token",
+      "params": {
+        "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
+        "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
+        "pid": "0",
+        "token0weight": 1,
+        "token0weightDecimals": 0,
+        "token1weight": 1,
+        "token1weightDecimals": 0
+      }
+    },
+    "network": "137",
+    "addresses": [
+      "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
+    ],
+    "snapshot": 16564723
+  },
+  {
+    "name": "Example query - uni price",
+    "strategy": {
+      "name": "masterchef-pool-balance-of-token",
+      "params": {
+        "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
+        "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
+        "token0Address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+        "token1Address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+        "pid": "0",
+        "token0weight": 1,
+        "token0weightDecimals": 0,
+        "token1weight": 1,
+        "token1weightDecimals": 0,
+        "usePrice": true
+      }
+    },
+    "network": "137",
+    "addresses": [
+      "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
+    ],
+    "snapshot": 16564723
+  },
+  {
+    "name": "Example query - uniPair token 0 count",
+    "strategy": {
+      "name": "masterchef-pool-balance-of-token",
+      "params": {
+        "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
+        "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
+        "token0Address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+        "pid": "0",
+        "token0weight": 1,
+        "token0weightDecimals": 0
+      }
+    },
+    "network": "137",
+    "addresses": [
+      "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
+    ],
+    "snapshot": 16564723
+  },
+  {
+    "name": "Example query - uniPair token 0 price",
+    "strategy": {
+      "name": "masterchef-pool-balance-of-token",
+      "params": {
+        "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
+        "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
+        "token0Address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+        "pid": "0",
+        "token0weight": 1,
+        "token0weightDecimals": 0,
+        "usePrice": true
+      }
+    },
+    "network": "137",
+    "addresses": [
+      "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
+    ],
+    "snapshot": 16564723
+  },
+  {
+    "name": "Example query - uniPair token 1 count",
+    "strategy": {
+      "name": "masterchef-pool-balance-of-token",
+      "params": {
+        "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
+        "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
+        "token1Address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+        "pid": "0",
+        "token1weight": 1,
+        "token1weightDecimals": 0
+      }
+    },
+    "network": "137",
+    "addresses": [
+      "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
+    ],
+    "snapshot": 16564723
+  },
+  {
+    "name": "Example query - uniPair token 1 price",
+    "strategy": {
+      "name": "masterchef-pool-balance-of-token",
+      "params": {
+        "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
+        "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
+        "token1Address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+        "pid": "0",
+        "token1weight": 1,
+        "token1weightDecimals": 0,
+        "usePrice": true
+      }
+    },
+    "network": "137",
+    "addresses": [
+      "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
+    ],
+    "snapshot": 16564723
+  }
+]
