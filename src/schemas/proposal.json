@@ -22,13 +22,17 @@
           "type": "array",
           "title": "choices",
           "minItems": 2,
-          "maxItems": 32
+          "maxItems": 64
         },
         "type": {
           "type": "string",
           "enum": [
             "single-choice",
-            "approval"
+            "approval",
+            "ranked-choice",
+            "quadratic",
+            "weighted",
+            "custom"
           ]
         },
         "snapshot": {

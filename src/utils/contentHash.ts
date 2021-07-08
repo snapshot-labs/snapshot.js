@@ -8,54 +8,6 @@ import bs58 from 'bs58';
 import { call } from '../utils';
 const supportedCodecs = ['ipns-ns', 'ipfs-ns', 'swarm-ns', 'onion', 'onion3'];
 
-const REGISTRAR_ABI = [
-  {
-    constant: true,
-    inputs: [
-      {
-        name: 'node',
-        type: 'bytes32'
-      }
-    ],
-    name: 'resolver',
-    outputs: [
-      {
-        name: 'resolverAddress',
-        type: 'address'
-      }
-    ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function'
-  }
-];
-
-const REGISTRAR_ADDRESS = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
-
-const RESOLVER_ABI = [
-  {
-    constant: true,
-    inputs: [
-      {
-        internalType: 'bytes32',
-        name: 'node',
-        type: 'bytes32'
-      }
-    ],
-    name: 'contenthash',
-    outputs: [
-      {
-        internalType: 'bytes',
-        name: '',
-        type: 'bytes'
-      }
-    ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function'
-  }
-];
-
 export function decodeContenthash(encoded) {
   let decoded, protocolType, error;
   if (encoded.error) {
@@ -166,17 +118,11 @@ export async function resolveENSContentHash(
   ensName: string,
   provider: Provider
 ): Promise<string> {
+  const abi =
+    'function contenthash(bytes32 node) external view returns (bytes memory)';
+  const address = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41';
   const hash = namehash(ensName);
-  const resolverAddress = await call(provider, REGISTRAR_ABI, [
-    REGISTRAR_ADDRESS,
-    'resolver',
-    [hash]
-  ]);
-  return await call(provider, RESOLVER_ABI, [
-    resolverAddress,
-    'contenthash',
-    [hash]
-  ]);
+  return await call(provider, [abi], [address, 'contenthash', [hash]]);
 }
 
 export async function resolveContent(provider, name) {

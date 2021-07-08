@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Example of Aave Governance Power strategy",
+    "strategy": {
+      "name": "aave-governance-power",
+      "params": {
+        "governanceStrategy": "0xb7e383ef9b1e9189fc0f71fb30af8aa14377429e",
+        "powerType": "vote",
+        "symbol": "Voting Power",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": ["0x5BC928BF0DAb1e4A2ddd9e347b0F22e88026D76c"],
+    "snapshot": 12657715
+  }
+]

@@ -1,4 +1,3 @@
-global['fetch'] = require('cross-fetch');
 const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
@@ -39,7 +38,7 @@ const addresses = [
 (async () => {
   console.time('getScores');
   try {
-    const scores = await snapshot.utils.getScores(
+    const scores = await snapshot.utils.getScoresDirect(
       space,
       strategies,
       network,
