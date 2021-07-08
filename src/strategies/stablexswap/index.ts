@@ -117,7 +117,7 @@ export async function strategy(
         parseRes(result.stakingChef[address], options.stakingchef.decimals) *
           options.stakingchef.weightage +
         +options.pools.reduce(
-          (prev: number, pool: any, idx: number) =>
+          (prev: number, pool: any) =>
             prev +
             parseRes(
               result.masterChef[address][`pool_${pool.poolId}`],

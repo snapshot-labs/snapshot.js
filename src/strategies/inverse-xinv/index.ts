@@ -1,5 +1,4 @@
 import { formatUnits, parseUnits } from '@ethersproject/units';
-import { BigNumber } from '@ethersproject/bignumber';
 import { multicall } from '../../utils';
 
 export const author = '0xKiwi';

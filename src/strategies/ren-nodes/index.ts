@@ -59,7 +59,7 @@ export async function strategy(
   }
 
   // Filter out nodes that are still pending registration.
-  let timestamp = (await provider.getBlock(snapshot)).timestamp;
+  const timestamp = (await provider.getBlock(snapshot)).timestamp;
   RENVM_SUBGRAPH_QUERY.darknodes.__args.where.registeredAt_lte = timestamp;
 
   let nodes: SubgraphDarknode[] = [];

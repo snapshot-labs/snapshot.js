@@ -1,4 +1,3 @@
-global['fetch'] = require('cross-fetch');
 const snapshot = require('../');
 const defaultSpace = require('./examples/space.json');
 

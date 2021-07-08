@@ -109,7 +109,9 @@ export async function strategy(
     queries.push([options.boardroom, 'earned', [address]]);
   });
 
-  let response = await multicall(network, provider, abi, queries, { blockTag });
+  const response = await multicall(network, provider, abi, queries, {
+    blockTag
+  });
 
   const ctrlOwned = response.slice(0, addressCount);
   const ctrlStaked = response.slice(addressCount, addressCount * 2);
@@ -119,7 +121,7 @@ export async function strategy(
     Array(addresses.length)
       .fill('x')
       .map((_, i) => {
-        let score = ctrlOwned[i][0]
+        const score = ctrlOwned[i][0]
           .add(ctrlStaked[i][0])
           .add(ctrlEarned[i][0])
           .add(ctrlEarned[i][1]);

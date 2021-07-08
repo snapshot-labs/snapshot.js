@@ -1,0 +1,21 @@
+[
+  {
+    "name": "modefiStaking",
+    "strategy": {
+      "network": "250",
+      "name": "modefi-staking",
+      "params": {
+        "address": "0xe64b9fd040d1f9d4715c645e0d567ef69958d3d9",
+        "stakingContract": "0xaeA240AF3C46D65dfF0EbFcb5fb923365E0aB623",
+        "symbol": "MOD",
+        "decimals": 18
+      }
+    },
+    "network": "250",
+    "addresses": [
+      "0x66566af6359cacfab858c0c50c5d22895ab877d6",
+      "0x237e61fa6baaf3248d4a61d98d6ab00a43448969"
+    ],
+    "snapshot": 10928059
+  }
+]
