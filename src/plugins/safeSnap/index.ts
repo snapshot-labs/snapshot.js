@@ -77,9 +77,11 @@ const OracleAbi = [
   'function balanceOf(address) view returns (uint256)',
   'function getHistoryHash(bytes32 question_id) view returns (bytes32)',
   'function isFinalized(bytes32 question_id) view returns (bool)',
+  'function token() view returns (address)',
 
   // Write functions
   'function submitAnswer(bytes32 question_id, bytes32 answer, uint256 max_previous) external payable',
+  'function submitAnswerERC20(bytes32 question_id, bytes32 answer, uint256 max_previous, uint256 tokens) external',
   `function claimMultipleAndWithdrawBalance(
     bytes32[] question_ids, 
     uint256[] lengths, 
@@ -89,6 +91,16 @@ const OracleAbi = [
     bytes32[] answers
   ) public`,
   'function withdraw() public'
+];
+
+const TokenAbi = [
+  //Read functions
+  'function balanceOf(address account) view returns (uint256)',
+  'function decimals() view returns (uint32)',
+  'function allowance(address owner, address spender) external view returns (uint256)',
+
+  // Write functions
+  'function approve(address spender, uint256 value) external returns (bool)'
 ];
 
 const START_BLOCKS = {
@@ -525,6 +537,7 @@ export default class Plugin {
   }
 
   async voteForQuestion(
+    network: string,
     web3: any,
     oracleAddress: string,
     questionId: string,
@@ -537,28 +550,65 @@ export default class Plugin {
       [questionId]
     ]);
 
-    const minimumBondIsZero = BigNumber.from(minimumBondInDaoModule).eq(0);
-    const minimumBond = minimumBondIsZero
-      ? 1000000000000000
-      : minimumBondInDaoModule;
+    let bond;
+    let methodName = 'submitAnswer';
+    let txOverrides = {};
+    let parameters = [
+      questionId,
+      `0x000000000000000000000000000000000000000000000000000000000000000${answer}`
+    ];
 
-    const bond = currentBond.eq(BigNumber.from(0))
-      ? BigNumber.from(minimumBond)
-      : currentBond.mul(2);
+    const currentBondIsZero = currentBond.eq(BigNumber.from(0));
+    if (currentBondIsZero) {
+      const daoBondIsZero = BigNumber.from(minimumBondInDaoModule).eq(0);
+      bond = daoBondIsZero ? BigNumber.from(10) : minimumBondInDaoModule;
+    } else {
+      bond = currentBond.mul(2);
+    }
+
+    try {
+      const token = await call(web3, OracleAbi, [oracleAddress, 'token', []]);
+      const [[tokenDecimals], [allowance]] = await multicall(
+        network,
+        web3,
+        TokenAbi,
+        [
+          [token, 'decimals', []],
+          [token, 'allowance', [web3.provider.selectedAddress, oracleAddress]]
+        ]
+      );
+
+      if (bond.eq(10)) {
+        bond = bond.mul(10).mul(tokenDecimals);
+      }
+
+      if (allowance.lt(bond)) {
+        const approveTx = await sendTransaction(
+          web3,
+          token,
+          TokenAbi,
+          'approve',
+          [oracleAddress, bond],
+          {}
+        );
+        await approveTx.wait();
+      }
+      parameters = [...parameters, bond, bond];
+      methodName = 'submitAnswerERC20';
+    } catch (e) {
+      const bondToUse = bond?.mul(18) || 10 * 18;
+      parameters = [...parameters, bondToUse];
+      txOverrides['value'] = bondToUse.toString();
+      methodName = 'submitAnswer';
+    }
 
     const tx = await sendTransaction(
       web3,
       oracleAddress,
       OracleAbi,
-      'submitAnswer',
-      [
-        questionId,
-        `0x000000000000000000000000000000000000000000000000000000000000000${answer}`,
-        bond
-      ],
-      {
-        value: bond.toString()
-      }
+      methodName,
+      parameters,
+      txOverrides
     );
     const receipt = await tx.wait();
     console.log('[DAO module] executed vote on oracle:', receipt);

@@ -113,7 +113,11 @@ export async function sendTransaction(
   const contract = new Contract(contractAddress, abi, web3);
   const contractWithSigner = contract.connect(signer);
   // overrides.gasLimit = 12e6;
-  return await contractWithSigner[action](...params, overrides);
+  try {
+    return await contractWithSigner[action](...params, overrides);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export async function getScores(
