@@ -49,7 +49,7 @@ export async function strategy(
     [contractAdress, 'getNames', [addresses]],
     { blockTag }
   );
-  let r = Object.fromEntries(
+  const r = Object.fromEntries(
     response.map((value, i) => {
       const isEligible =
         value !== '' &&

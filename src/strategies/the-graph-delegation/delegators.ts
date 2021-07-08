@@ -58,7 +58,7 @@ export async function delegatorsStrategy(
   );
 
   const score: GraphAccountScores = {};
-  let normalizationFactor: number = 0;
+  let normalizationFactor = 0;
   if (result && result.graphNetworks) {
     const nonStakedTokens = calcNonStakedTokens(
       result.graphNetworks[0].totalSupply,
@@ -92,7 +92,7 @@ export async function delegatorsStrategy(
                 s.shareAmount
               );
               const lockedTokens = BigNumber.from(s.lockedTokens);
-              let oneDelegationScore = delegatedTokens
+              const oneDelegationScore = delegatedTokens
                 .add(lockedTokens)
                 .div(bnWEI)
                 .toNumber();
