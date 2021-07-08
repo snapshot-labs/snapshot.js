@@ -5,28 +5,6 @@ import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 export const author = 'naga-finance';
 export const version = '0.0.1';
 
-const sousChefabi = [
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address'
-      }
-    ],
-    name: 'userInfo',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  }
-];
-
 const masterChefAbi = [
   {
     inputs: [
