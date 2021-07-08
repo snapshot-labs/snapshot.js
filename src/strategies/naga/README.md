@@ -17,7 +17,7 @@ Can be used instead of the erc20-balance-of strategy, the space config will look
             "decimals": 18
           },
           {
-            "address": "0x4086D46A650517fa756F620507dB704D3900Da07", //PancakeVoterProxy
+            "address": "0x4086D46A650517fa756F620507dB704D3900Da07", //NagaVoterProxy
             "decimals": 6
           }
       ]
