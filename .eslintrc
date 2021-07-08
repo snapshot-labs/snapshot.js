@@ -1,6 +1,6 @@
 {
-  // "extends": "airbnb-base",
-  // "rules": {
-  //   "comma-dangle": "off"
-  // }
+  "extends": "airbnb-base",
+  "rules": {
+    "comma-dangle": "off"
+  }
 }
