@@ -77,7 +77,7 @@ export async function strategy(
     params2
   );
 
-  let score = {};
+  const score = {};
   if (stakesResult && stakesResult.stakes) {
     stakesResult.stakes.map((_data) => {
       const address = getAddress(_data.user);

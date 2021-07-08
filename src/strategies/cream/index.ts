@@ -118,11 +118,11 @@ export async function strategy(
 ) {
   const snapshotBlock =
     typeof snapshot === 'number' ? snapshot : await getBlockNumber(provider);
-  let snapshotBlocks: number[] = [];
+  const snapshotBlocks: number[] = [];
 
   for (let i = 0; i < options.periods; i++) {
     const blocksPerPeriod = 80640; // 2 weeks per period, assume 15s per block
-    let blockTag =
+    const blockTag =
       snapshotBlock > blocksPerPeriod * i
         ? snapshotBlock - blocksPerPeriod * i
         : snapshotBlock;
@@ -137,7 +137,7 @@ export async function strategy(
     )
   ]);
 
-  let averageScore = {};
+  const averageScore = {};
   addresses.forEach((address) => {
     const userScore = scores
       .map((score) => score[address])
@@ -174,7 +174,7 @@ async function getScores(provider, addresses, options, blockTag) {
 }
 
 async function getLegacyScores(provider, addresses, options, blockTag) {
-  let score = {};
+  const score = {};
   // Ethereum only
   const multi1 = new Multicaller('1', provider, abi, { blockTag });
   multi1.call('sushiswap.cream', options.token, 'balanceOf', [

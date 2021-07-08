@@ -98,8 +98,9 @@ export async function strategy(
               formatUnits(
                 result.lpBalance[idx][address[0]]
                   .mul(result.pairIFBalance[idx])
+                  .mul(options.pairs[idx].weightNumerator)
                   .div(result.pairTotalSupply[idx])
-                  .mul(options.pairs[idx].weight),
+                  .div(options.pairs[idx].weightDenominator),
                 options.pairs[idx].decimals
               )
             ),
