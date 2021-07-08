@@ -168,18 +168,9 @@ function processValues(values: any[], options: any): number {
 
     let tokenIndex: number = 0;
 
-    console.debug('values[2] = ' + values[2]);
-    console.debug('values[3][0] = ' + values[3][0]);
-    console.debug('values[4][0] = ' + values[4][0]);
-    console.debug('options.baseTokenAddress = ' + options.baseTokenAddress);
-
     if(options.baseTokenAddress != null && options.baseTokenAddress != undefined){
-      console.debug('values[4][0].toString() == options.baseTokenAddress.toString() = ' + (values[4][0].toString() == options.baseTokenAddress.toString()).toString());
-
-      tokenIndex = values[3][0].toString() == options.baseTokenAddress ? 0 : values[4][0].toString() == options.baseTokenAddress ? 1 : 0;
+      tokenIndex = values[3][0].toString().toLowerCase() == options.baseTokenAddress.toLowerCase() ? 0 : values[4][0].toString().toLowerCase() == options.baseTokenAddress.toLowerCase() ? 1 : 0;
     }
-
-    console.debug('tokenIndex = ' + tokenIndex)
 
     const uniReserve = values[2][tokenIndex];
     const precision = BigNumber.from(10).pow(18);
@@ -218,3 +209,7 @@ export async function strategy(
     ).map((value, i) => [addresses[i], processValues(value, options)])
   );
 }
+
+
+
+console.debug
