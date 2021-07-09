@@ -22,7 +22,7 @@ export default async function validate(
   const onlyMembers = options.onlyMembers || space.filters?.onlyMembers;
   const minScore = options.minScore || space.filters?.minScore;
   const members = (space.members || []).map((address) => address.toLowerCase());
-  let strategies = [...space.strategies];
+  const strategies = [...space.strategies];
 
   const aaveGovernanceStrategyIndex = strategies.findIndex(
     ({ name }) => name === 'aave-governance-power'

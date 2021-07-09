@@ -97,7 +97,7 @@ export async function strategy(
     { blockTag }
   );
 
-  let usersAquaBnbVaultBalances = await multicall(
+  const usersAquaBnbVaultBalances = await multicall(
     network,
     provider,
     planetFinanceFarmAbi,
@@ -109,7 +109,7 @@ export async function strategy(
     { blockTag }
   );
 
-  let usersAquaCakeVaultBalances = await multicall(
+  const usersAquaCakeVaultBalances = await multicall(
     network,
     provider,
     planetFinanceFarmAbi,
@@ -129,9 +129,9 @@ export async function strategy(
 
   let erc20Result = await erc20Multi.execute();
 
-  let totalSupply = erc20Result.lpTotalSupply.toString();
+  const totalSupply = erc20Result.lpTotalSupply.toString();
 
-  let contractAquaBalance = erc20Result.poolMMBalance.toString();
+  const contractAquaBalance = erc20Result.poolMMBalance.toString();
 
   erc20Multi.call('lpTotalSupply', aquaCakeLpTokenAddress, 'totalSupply');
 
@@ -141,9 +141,9 @@ export async function strategy(
 
   erc20Result = await erc20Multi.execute();
 
-  let totalSupplyAquaCake = erc20Result.lpTotalSupply.toString();
+  const totalSupplyAquaCake = erc20Result.lpTotalSupply.toString();
 
-  let aquaCakeContractAquaBalance = erc20Result.poolMMBalance.toString();
+  const aquaCakeContractAquaBalance = erc20Result.poolMMBalance.toString();
 
   return Object.fromEntries(
     Object.entries(score).map((address, index) => [

@@ -1,4 +1,3 @@
-import { strategy as EthBalanceStrategy } from '../eth-balance';
 import fetch from 'cross-fetch';
 
 interface ApiReturn {
