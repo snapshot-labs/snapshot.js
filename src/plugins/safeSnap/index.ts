@@ -578,7 +578,7 @@ export default class Plugin {
 
     let bond;
     let methodName;
-    let txOverrides = {};
+    const txOverrides = {};
     let parameters = [
       questionId,
       `0x000000000000000000000000000000000000000000000000000000000000000${answer}`
