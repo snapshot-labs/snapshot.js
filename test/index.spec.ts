@@ -1,16 +1,7 @@
-global['fetch'] = require('cross-fetch');
 const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
 const addresses = require('./addresses.json');
-
-/*
-## Usage
-`npm run test` // Tests default (erc20-balance-of)
-`npm run test --strategy=erc20-received`
-`npm run test --strategy=eth-balance`
-`npm run test --strategy=eth-balance --more=200 // to test with more addresses from addresses.json`
-*/
 
 const strategyArg =
   process.env['npm_config_strategy'] ||
@@ -33,7 +24,7 @@ if (!strategy) throw 'Strategy not found';
 const example = require(`../src/strategies/${strategy}/examples.json`)[0];
 
 function callGetScores(example) {
-  return snapshot.utils.getScores(
+  return snapshot.utils.getScoresDirect(
     'yam.eth',
     [example.strategy],
     example.network,
@@ -51,16 +42,30 @@ describe(`\nTest strategy "${strategy}"`, () => {
     const getScoresStart = performance.now();
     scores = await callGetScores(example);
     const getScoresEnd = performance.now();
-    // @ts-ignore
     getScoresTime = getScoresEnd - getScoresStart;
     console.log(scores);
-    // @ts-ignore
     console.log(`Resolved in ${(getScoresTime / 1e3).toFixed(2)} sec.`);
   }, 2e4);
 
-  it('Should return an array', () => {
+  it('Should return an array of object with addresses', () => {
     expect(scores).toBeTruthy();
+    // Check array
     expect(Array.isArray(scores)).toBe(true);
+    // Check array contains a object
+    expect(typeof scores[0]).toBe('object');
+    // Check object contains at least one address from example.json
+    expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
+    expect(
+      Object.keys(scores[0]).some((address) =>
+        example.addresses
+          .map((v) => v.toLowerCase())
+          .includes(address.toLowerCase())
+      )
+    ).toBe(true);
+    // Check if all scores are numbers
+    expect(
+      Object.values(scores[0]).every((val) => typeof val === 'number')
+    ).toBe(true);
   });
 
   it('Should take less than 10 sec. to resolve', () => {
@@ -68,10 +73,7 @@ describe(`\nTest strategy "${strategy}"`, () => {
   });
 
   it('File examples.json should include at least 1 address with a positive score', () => {
-    // @ts-ignore
-    expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
-    // @ts-ignore
-    expect(Object.values(scores[0]).some((val) => val > 0)).toBe(true);
+    expect(Object.values(scores[0]).some((score) => score > 0)).toBe(true);
   });
 
   it('File examples.json must use a snapshot block number in the past', async () => {
@@ -82,28 +84,66 @@ describe(`\nTest strategy "${strategy}"`, () => {
   });
 });
 
+describe(`\nTest strategy "${strategy}" with latest snapshot`, () => {
+  let scores = null;
+  let getScoresTime = null;
+
+  it('Strategy should run without any errors', async () => {
+    const getScoresStart = performance.now();
+    scores = await callGetScores({ ...example, snapshot: 'latest' });
+    const getScoresEnd = performance.now();
+    getScoresTime = getScoresEnd - getScoresStart;
+    console.log('Scores with latest snapshot', scores);
+    console.log(`Resolved in ${(getScoresTime / 1e3).toFixed(2)} sec.`);
+    // wait for all logs to be printed (bug: printed after results)
+    await new Promise((r) => setTimeout(r, 100));
+  }, 2e4);
+
+  it('Should return an array of object with addresses', () => {
+    expect(scores).toBeTruthy();
+    // Check array
+    expect(Array.isArray(scores)).toBe(true);
+    // Check array contains a object
+    expect(typeof scores[0]).toBe('object');
+    // Check object contains atleast one address from example.json
+    expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
+    expect(
+      Object.keys(scores[0]).some((address) =>
+        example.addresses
+          .map((v) => v.toLowerCase())
+          .includes(address.toLowerCase())
+      )
+    ).toBe(true);
+
+    // Check if all scores are numbers
+    expect(
+      Object.values(scores[0]).every((val) => typeof val === 'number')
+    ).toBe(true);
+  });
+});
+
 (moreArg ? describe : describe.skip)(
-  `\nTest strategy "${strategy}" (with ${moreArg || 500} voters)`,
+  `\nTest strategy "${strategy}" (with ${moreArg || 500} addresses)`,
   () => {
     let scoresMore = null;
     let getScoresTimeMore = null;
 
-    it(`Should work with ${moreArg || 500} voters`, async () => {
+    it(`Should work with ${moreArg || 500} addresses`, async () => {
       example.addresses = addresses.slice(0, moreArg);
       const getScoresStart = performance.now();
       scoresMore = await callGetScores(example);
       const getScoresEnd = performance.now();
-      // @ts-ignore
       getScoresTimeMore = getScoresEnd - getScoresStart;
-      // @ts-ignore
+      console.log(`Scores with ${moreArg || 500} addresses`, scoresMore);
       console.log(`Resolved in ${(getScoresTimeMore / 1e3).toFixed(2)} sec.`);
-      console.log(scoresMore);
       // wait for all logs to be printed (bug: printed after results)
-      await new Promise((r) => setTimeout(r, 2000));
+      await new Promise((r) => setTimeout(r, 100));
     }, 20000);
 
-    it(`Should take less than 15 sec. to resolve with ${moreArg || 500} voters`, () => {
-      expect(getScoresTimeMore).toBeLessThanOrEqual(15000);
+    it(`Should take less than 15 sec. to resolve with ${
+      moreArg || 500
+    } addresses`, () => {
+      expect(getScoresTimeMore).toBeLessThanOrEqual(20000);
     });
   }
 );

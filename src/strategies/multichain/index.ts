@@ -41,7 +41,7 @@ async function getChainBlocks(
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const block = await provider.getBlock(blockTag);
   const chainBlocks = {};
-  for (let strategy of options.strategies) {
+  for (const strategy of options.strategies) {
     if (chainBlocks[strategy.network]) {
       continue;
     }
@@ -76,7 +76,7 @@ export async function strategy(
     network
   );
 
-  for (let strategy of options.strategies) {
+  for (const strategy of options.strategies) {
     promises.push(
       strategies[strategy.name](
         space,

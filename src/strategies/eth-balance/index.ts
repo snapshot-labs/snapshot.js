@@ -1,5 +1,6 @@
 import { formatUnits } from '@ethersproject/units';
-import { multicall, MULTICALL } from '../../utils';
+import { multicall } from '../../utils';
+import networks from '../../networks.json';
 import { abi } from '../../abi/Multicall.json';
 
 export const author = 'bonustrack';
@@ -19,7 +20,7 @@ export async function strategy(
     provider,
     abi,
     addresses.map((address: any) => [
-      MULTICALL[network],
+      networks[network].multicall,
       'getEthBalance',
       [address]
     ]),
