@@ -141,6 +141,7 @@ export default {
   'frax-finance': fraxFinance,
   'yearn-vault': yearnVault,
   moloch,
+  naga,
   masterchef,
   sushiswap,
   uniswap,
