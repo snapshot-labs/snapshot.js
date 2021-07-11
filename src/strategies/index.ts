@@ -67,6 +67,7 @@ import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
 import { strategy as compLikeVotes } from './comp-like-votes';
 import { strategy as governorAlpha } from './governor-alpha';
 import { strategy as pagination } from './pagination';
+import { strategy as rulerStakedToken } from './ruler-staked-token';
 import { strategy as rulerStakedLP } from './ruler-staked-lp';
 import { strategy as xcover } from './xcover';
 import { strategy as niuStaked } from './niu-staked';
@@ -184,6 +185,7 @@ export default {
   'comp-like-votes': compLikeVotes,
   'governor-alpha': governorAlpha,
   pagination,
+  'ruler-staked-token': rulerStakedToken,
   'ruler-staked-lp': rulerStakedLP,
   xcover,
   'niu-staked': niuStaked,
