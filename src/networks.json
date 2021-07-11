@@ -227,6 +227,16 @@
     "ws": ["wss://rpc.xdaichain.com/wss"],
     "explorer": "https://blockscout.com/poa/xdai"
   },
+  "122": {
+    "key": "122",
+    "name": "Fuse Mainnet",
+    "shortName": "Fuse",
+    "chainId": 122,
+    "network": "mainnet",
+    "multicall": "0x7a59441fb06666F6d2D766393d876945D06a169c",
+    "rpc": ["https://oefusefull1.liquify.info/"],
+    "explorer": "https://explorer.fuse.io"
+  },
   "137": {
     "key": "137",
     "name": "Polygon Mainnet",
