@@ -15,7 +15,7 @@
         "body": {
           "type": "string",
           "title": "body",
-          "minLength": 1,
+          "minLength": 0,
           "maxLength": 40000
         },
         "choices": {
