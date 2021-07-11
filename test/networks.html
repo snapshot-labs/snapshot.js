@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Snapshot Networks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </script>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="icon" href="https://snapshot.org/favicon.png">
+  <script src="https://unpkg.com/@uiw/copy-to-clipboard@1.0.10/dist/copy-to-clipboard.umd.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/3.0.0-rc.5/web3.min.js"
+    integrity="sha512-jRzb6jM5wynT5UHyMW2+SD+yLsYPEU5uftImpzOcVTdu1J7VsynVmiuFTsitsoL5PJVQi+OtWbrpWq/I+kkF4Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- <script type="text/javascript"
+        integrity="sha384-xA6XksA+S81KMKVo5shbejvuHxb0UMBTEG1c2ifc8SsBJKISpURzwy2Y8dDo0fli"
+        crossorigin="anonymous"
+        src="https://cdn-cors.ethers.io/lib/ethers-5.4.1.umd.min.js">
+  </script> -->
+  <script type="module">
+    import {
+      createApp
+    } from 'https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js'
+
+    function NetworkSelect(props) {
+      return {
+        $template: '#network-select-template',
+        networksMenu: Object.values(props.networks).map(({
+          name,
+          key
+        }) => ({
+          name,
+          key
+        }))
+      };
+    }
+
+    window.addEventListener('load', async function () {
+      let networks = {};
+      const providers = {};
+
+      try {
+        const res = await fetch('../src/networks.json')
+        networks = await res.json();
+      } catch (error) {
+        console.log(error)
+      }
+
+      // function getProvider(network) {
+      //   const url = networks[network].rpc[0];
+      //   if (!providers[network]) providers[network] = new ethers.providers.StaticJsonRpcProvider(url);
+      //   return providers[network];
+      // }
+
+      // let web3 = new Web3(getProvider("1"));
+
+      createApp({
+        NetworkSelect,
+        selectedNetwork: null,
+        networks,
+        // methods
+        selectNetwork(networkKey) {
+          this.selectedNetwork = networks[networkKey];
+          this.selectedNetwork.rpcStatus = this.selectedNetwork.rpc.map(rpc => ({
+            url: rpc,
+            status: {
+              networkSyncCheck: 'loading'
+            }
+          }))
+
+          this.selectedNetwork.rpcStatus.forEach(async (rpc, index) => {
+            let web3 = null;
+            try {
+              var options = {
+                headers: typeof rpc.url === 'object' ? [{
+                  name: 'Authorization',
+                  value: `Basic ${rpc.url.user}:${rpc.url.password}`
+                }] : [],
+              };
+
+              web3 = new Web3(new Web3.providers.HttpProvider(typeof rpc.url === 'object' ? rpc.url
+                .url : rpc.url, options));
+              const isSyncing = await web3.eth.isSyncing();
+              let latestBlockNumber = '-';
+              if (!isSyncing) {
+                latestBlockNumber = await web3.eth.getBlockNumber();
+              }
+
+              this.selectedNetwork.rpcStatus[index] = {
+                ...rpc,
+                status: {
+                  networkSyncCheck: 'finish',
+                  syncStatus: (isSyncing === false ? "Not syncing" : (isSyncing && isSyncing
+                    .currentBlock)),
+                  highestBlockNumber: isSyncing ? isSyncing.highestBlock : latestBlockNumber,
+                  fullArchiveNode: '...',
+                  earliestBlock: '...'
+                }
+              }
+            } catch (error) {
+              this.selectedNetwork.rpcStatus[index] = {
+                ...rpc,
+                status: {
+                  networkSyncCheck: 'error',
+                  data: error.message
+                }
+              }
+            }
+
+            if (this.selectedNetwork.rpcStatus[index].status.networkSyncCheck === "finish") {
+              try {
+                const fullArchiveNode = await web3.eth.getBalance(this.selectedNetwork.multicall,
+                  "earliest")
+                this.selectedNetwork.rpcStatus[index].status.fullArchiveNode = fullArchiveNode >= 0 ?
+                  'Yes' : 'No';
+              } catch (error) {
+                this.selectedNetwork.rpcStatus[index].status.fullArchiveNode = 'ERROR!';
+                console.log('fullArchiveNode', error);
+              }
+
+              try {
+                const earliestBlock = await web3.eth.getBlock("earliest");
+                this.selectedNetwork.rpcStatus[index].status.earliestBlock = earliestBlock ?
+                  earliestBlock.number : '-';
+              } catch (error) {
+                this.selectedNetwork.rpcStatus[index].status.earliestBlock = 'ERROR!';
+                console.log(error);
+              }
+            }
+          })
+        },
+        copy(text) {
+          if (typeof text === 'object') text = JSON.stringify(text);
+          window.copyTextToClipboard(text)
+        }
+      }).mount()
+    })
+
+  </script>
+
+</head>
+
+<body class="m-2">
+  <h2 class="text-2xl tracking-tight font-extrabold text-gray-900">
+    <span><img class="inline w-6 pr-1"
+        src="https://raw.githubusercontent.com/snapshot-labs/brand/master/icon/icon.svg" /> </span>
+    <span>Network</span>
+    <span class="text-indigo-600">Tester</span>
+  </h2>
+  <div v-scope>
+    <div class="flex flex-wrap mt-4 mb-10">
+      <div class="flex-initial" v-scope="NetworkSelect({ networks })"></div>
+      <div class="flex-auto p-4">
+        <h3 class="text-xl font-blod">
+          {{selectedNetwork ? selectedNetwork.name : 'Select a network from menu' }}
+          <span v-if="selectedNetwork"
+            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+            {{ selectedNetwork.key }}
+          </span>
+          <div v-if="selectedNetwork" class="mt-4">
+            <div class="flex flex-col">
+              <div>
+                <div>
+                  <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                        <tr>
+                          <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            RPC
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                        <tr v-for="(rpc, index) in selectedNetwork.rpcStatus" :key="index">
+                          <td class="p-2 border-b-1 border-gray-600">
+                            <div>
+                              <div class="ml-4">
+                                <div>
+                                  <img class="w-4 cursor-pointer" @click="copy(rpc.url)"
+                                    src="https://img.icons8.com/material-outlined/24/000000/copy.png" />
+                                  <h3 class="text-sm leading-6 font-medium text-gray-900" style="width: 500px;
+                                  overflow: hidden;
+                                  text-overflow: ellipsis;">
+                                    {{rpc.url}}
+                                  </h3>
+                                </div>
+                                <div v-if="rpc.status.networkSyncCheck === 'loading'" class="mt-4 p-4 max-w-sm w-full ">
+                                  <div class="animate-pulse flex space-x-4">
+                                    <div class="flex-1 space-y-4 py-1">
+                                      <div class="space-y-2">
+                                        <div class="h-4 bg-blue-400 rounded"></div>
+                                        <div class="h-4 bg-blue-400 rounded w-5/6"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <section class="text-gray-600 body-font"
+                                  v-if="rpc.status.networkSyncCheck === 'finish'">
+                                  <div class="container px-2 mx-auto flex flex-wrap">
+                                    <div class="flex flex-wrap -mx-4 mt-auto mb-auto content-start sm:pr-10">
+                                      <div class="p-4">
+                                        <h2 class="title-font font-medium text-2xl text-gray-900">
+                                          {{rpc.status.highestBlockNumber}}
+                                        </h2>
+                                        <p class="leading-relaxed">Highest Block</p>
+                                      </div>
+                                      <div class="p-4">
+                                        <h2 class="title-font font-medium text-2xl text-gray-900">
+                                          {{rpc.status.syncStatus}}
+                                        </h2>
+                                        <p class="leading-relaxed">Sync status</p>
+                                      </div>
+                                      <div class="p-4">
+                                        <h2 class="title-font font-medium text-2xl text-gray-900">
+                                          {{rpc.status.earliestBlock}}
+                                        </h2>
+                                        <p class="leading-relaxed">Earliest Block</p>
+                                      </div>
+                                      <div class="p-4">
+                                        <h2 class="title-font font-medium text-2xl text-gray-900">
+                                          {{rpc.status.fullArchiveNode}}
+                                        </h2>
+                                        <p class="leading-relaxed">Full archive node</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </section>
+                                <div v-if="rpc.status.networkSyncCheck === 'error'"
+                                  class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 m-4">
+                                  <div class="flex items-center justify-center w-12 bg-red-500">
+                                    <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40"
+                                      xmlns="http://www.w3.org/2000/svg">
+                                      <path
+                                        d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z" />
+                                    </svg>
+                                  </div>
+
+                                  <div class="px-4 py-2 -mx-3">
+                                    <div class="mx-3">
+                                      <span class="font-semibold text-red-500 dark:text-red-400">Error !!</span>
+                                      <p class="text-sm text-gray-600 dark:text-gray-200">{{ rpc.status.data }}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </h3>
+      </div>
+    </div>
+  </div>
+  <template id="network-select-template">
+    <div class="relative inline-block text-left">
+      <div
+        class="mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none"
+        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+        <a href="#"
+          class="flex hover:bg-purple-700 focus-within:bg-purple-700 hover:text-white focus-within:text-white p-1 text-gray-700"
+          role="none" v-for="(item, index) in networksMenu" :key="index" @click="selectNetwork(item.key)">
+          <div>
+            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+              {{ item.key }}
+            </span>
+          </div>
+          <div class=" px-2 py-1 text-sm " role="menuitem" tabindex="-1" id="menu-item-0">{{item.name}}
+          </div>
+        </a>
+      </div>
+    </div>
+  </template>
+</body>
+
+</html>
