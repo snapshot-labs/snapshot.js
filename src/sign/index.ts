@@ -31,6 +31,8 @@ export default class Client {
   }
 
   async sign(web3: Web3Provider, address: string, message, types) {
+    if (!message.from) message.from = address;
+    if (!message.timestamp) message.timestamp = ~~(Date.now() / 1e3);
     const data: any = { domain, types, message };
     const signer = web3.getSigner();
     const sig = await signer._signTypedData(domain, data.types, message);
