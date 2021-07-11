@@ -6,8 +6,36 @@ export const author = 'naga-finance';
 export const version = '0.0.1';
 
 const masterChefAbi = [
-  'function userInfo(uint256, address) view returns (uint256 amount, uint256 rewardDebt)'
-]
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      },
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address'
+      }
+    ],
+    name: 'userInfo',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      },
+      {
+        internalType: 'uint256',
+        name: 'rewardDebt',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  }
+];
 
 const masterChefContractAddress = '0x428C736EA96f71D5770C22f36De5c806D35c2F26'; //Masterchef
 
