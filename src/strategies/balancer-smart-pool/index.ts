@@ -5,7 +5,6 @@ const BALANCER_SUBGRAPH_URL = {
   1: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer'
 };
 
-
 export const author = 'kibagateaux';
 export const version = '0.1.0';
 
@@ -29,24 +28,24 @@ export async function strategy(
     pools: {
       __args: {
         where: {
-          id: options.address
+          id: options.poolAddress
         }
       }
     },
     tokens: {
       __args: {
         where: {
-          id: options.tokenAddress
+          id: options.address
         }
       },
-      balance: true,
+      balance: true
     }
-  }
+  };
   const result = await subgraphRequest(BALANCER_SUBGRAPH_URL[network], {
-    ...poolQueryParams,
+    ...poolQueryParams
   });
   const totalScore = Object.values(score).reduce((a, b) => a + b, 0);
-  const poolTokenBalance = result.pools.tokens[0].balance
+  const poolTokenBalance = result.pools.tokens[0].balance;
   return Object.fromEntries(
     Object.entries(score).map((address, balance) => [
       address,
