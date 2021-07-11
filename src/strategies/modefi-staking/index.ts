@@ -5,48 +5,48 @@ export const author = 'Modefi';
 export const version = '0.0.1';
 
 const stakingPoolAbi = [
-	{
-		inputs: [
-			{
-				internalType: 'address',
-				name: "",
-				type: 'address'
-			}
-		],
-		name: '_stakers',
-		outputs: [
-			{
-				internalType: 'uint256',
-				name: 'amount',
-				type: 'uint256'
-			},
-			{
-				internalType: 'uint256',
-				name: 'rewardDebt',
-				type: 'uint256'
-			},
-			{
-				internalType: 'uint256',
-				name: 'distributed',
-				type: 'uint256'
-			}
-		],
-		stateMutability: 'view',
-		type: 'function'
-	},
-	{
-		inputs: [],
-		name: 'staked',
-		outputs: [
-			{
-				internalType: 'uint256',
-				name: '',
-				type: 'uint256'
-			}
-		],
-		stateMutability: 'view',
-		type: 'function'
-	}
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address'
+      }
+    ],
+    name: '_stakers',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      },
+      {
+        internalType: 'uint256',
+        name: 'rewardDebt',
+        type: 'uint256'
+      },
+      {
+        internalType: 'uint256',
+        name: 'distributed',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'staked',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  }
 ];
 export async function strategy(
   space,
@@ -62,7 +62,11 @@ export async function strategy(
     network,
     provider,
     stakingPoolAbi,
-    addresses.map((address: any) => [options.stakingContract, '_stakers', [address]]),
+    addresses.map((address: any) => [
+      options.stakingContract,
+      '_stakers',
+      [address]
+    ]),
     { blockTag }
   );
 
