@@ -125,7 +125,7 @@ export async function strategy(
 
   // 2. Get the delegation of all addresses to all validators
   const callInfos = validatorAddresses.reduce<any[]>(
-    (infos, validatorAddress, _) =>
+    (infos, validatorAddress) =>
       infos.concat(
         addresses.map((address: string) => [
           address,
@@ -138,7 +138,7 @@ export async function strategy(
   const batchSize = 2000;
   const batches = new Array(Math.ceil(callInfos.length / batchSize))
     .fill(0)
-    .map((_) => callInfosCopy.splice(0, batchSize));
+    .map(() => callInfosCopy.splice(0, batchSize));
   let delegatorInfoResponse: any[] = [];
   for (let i = 0; i < batches.length; i++) {
     delegatorInfoResponse = delegatorInfoResponse.concat(
@@ -157,22 +157,19 @@ export async function strategy(
     callInfos[i][0],
     info.delegatedStake
   ]);
-  const aggregatedDelegations = delegations.reduce(
-    (aggregates, delegation, _) => {
-      const delegatorAddress = delegation[0];
-      if (aggregates[delegatorAddress]) {
-        aggregates[delegatorAddress] = aggregates[delegatorAddress].add(
-          delegation[1]
-        );
-      } else {
-        aggregates[delegatorAddress] = delegation[1];
-      }
-      return aggregates;
-    },
-    {}
-  );
+  const aggregatedDelegations = delegations.reduce((aggregates, delegation) => {
+    const delegatorAddress = delegation[0];
+    if (aggregates[delegatorAddress]) {
+      aggregates[delegatorAddress] = aggregates[delegatorAddress].add(
+        delegation[1]
+      );
+    } else {
+      aggregates[delegatorAddress] = delegation[1];
+    }
+    return aggregates;
+  }, {});
   return Object.entries<BigNumber>(aggregatedDelegations).reduce(
-    (transformed, [delegatorAddress, delegatedStake], _) => {
+    (transformed, [delegatorAddress, delegatedStake]) => {
       transformed[delegatorAddress] = parseFloat(
         formatUnits(delegatedStake.toString(), 18)
       );

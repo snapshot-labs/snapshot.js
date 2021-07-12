@@ -1,0 +1,49 @@
+[
+  {
+    "name": "Example IF governance snapshot",
+    "strategy": {
+      "name": "impossible-finance",
+      "params": {
+        "address": "0xb0e1fc65c1a741b4662b813eb787d369b8614af1",
+        "symbol": "IF",
+        "decimals": 18,
+        "pairs": [
+          {
+            "address": "0xf1f52f33aBab0629EC8657C330ad556824B844E1",
+            "name": "IF/WBNB pool",
+            "decimals": 18,
+            "weightNumerator": 6,
+            "weightDenominator": 5
+          },
+          {
+            "address": "0x68a37e14D080436B57119e379a04d32F4CA7f92d",
+            "name": "IF/BUSD pool",
+            "decimals": 18,
+            "weightNumerator": 6,
+            "weightDenominator": 5
+          },
+          {
+            "address": "0xB5ceFC854801Bc6976B76dc34e2A986556F3cd11",
+            "name": "IF/USDT pool",
+            "decimals": 18,
+            "weightNumerator": 6,
+            "weightDenominator": 5
+          },
+          {
+            "address": "0x1bfE758d6061c6A221437b2C673F27876B1E3416",
+            "name": "IF/DAI pool",
+            "decimals": 18,
+            "weightNumerator": 6,
+            "weightDenominator": 5
+          }
+        ]
+      }
+    },
+    "network": "56",
+    "addresses": [
+      "0x85511EB52e17c014A8665ED98B9ea79d4F2E30e2",
+      "0x3C9584426432eb851e5689230d5cFc50659103D5"
+    ],
+    "snapshot": 8925299
+  }
+]

@@ -1,3 +1,4 @@
+import fetch from 'cross-fetch';
 import { subgraphRequest } from '../../utils';
 
 export const author = 'pancake-swap';

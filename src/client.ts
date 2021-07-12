@@ -1,3 +1,4 @@
+import fetch from 'cross-fetch';
 import { Web3Provider } from '@ethersproject/providers';
 import { signMessage } from './utils/web3';
 import hubs from './hubs.json';
