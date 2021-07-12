@@ -19,4 +19,4 @@ const jsonAbi = [
 ];
 
 const abi = new Interface(JSON.stringify(jsonAbi));
-console.log(abi.format(FormatTypes.full))
+console.log(abi.format(FormatTypes.full));
