@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Badgeth",
+    "strategy": {
+      "name": "badgeth"
+    },
+    "network": "4",
+    "snapshot": 8876318,
+    "addresses": [
+      "0xBcE0b2edcA1fBE32891Ac6096b8ea7408dd099c2",
+      "0x8cABEC8fe71A3604E21e6E2BB55463EC6e26fBf8",
+      "0x85924aA0B2cb5a0BbeC583Dd090bF7CEdBa5D2Ea",
+      "0x9149B2b87159c4CC9e2f10C2711357720Da4DA08",
+      "0xa0710d3b4BA0f848f7edf9CC827aF70A183EAd26",
+      "0xAE1220f6bFEb414Ed0A95fbb5A6Ecc303b10aa46",
+      "0xebe986802F7858E1919451C6Ff893e294F31CE54",
+      "0x2d7cAA8462023af022A5004dA7b781b8ccF81Da7",
+      "0xE26217836Dd71f49c58a68aD70DabFA1E6d0B75b",
+      "0x7C572bE1751DdCFeE930286836bF21E6d87c10e6",
+      "0x6fDcfFDBa2699543a926f0C092F769f3302D3519",
+      "0x0f6feb3ba20c56e94cfbcd98339e99bce629d912"
+    ]
+  }
+]
