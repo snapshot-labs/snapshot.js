@@ -1,0 +1,17 @@
+[
+    {
+      "name": "Example query",
+      "strategy": {
+        "name": "nagafinance",
+        "params": {
+          "address": "0x0FE0E4D99CcA12124dC6FEa9F813aAD7FC3a65d0",
+          "symbol": "NAGA POWER"
+        }
+      },
+      "network": "97",
+      "addresses": [
+        "0xF9B7957F56FAB4287ef9c6634A867da99D400FD5"
+      ],
+      "snapshot": 10520910
+    }
+  ]

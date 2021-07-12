@@ -73,18 +73,9 @@ export async function strategy(
     Object.entries(score).map((address, index) => [
       address[0],
       address[1] +
-        parseFloat(formatUnits(masterBalances[index].amount.toString(), 18)) +
-        sousBalances.reduce(
-          (prev: number, cur: any, idx: number) =>
-            prev +
-            parseFloat(
-              formatUnits(
-                cur[index].amount.toString(),
-                options.chefAddresses[idx].decimals
-              )
-            ),
-          0
-        )
+        parseFloat(formatUnits(masterBalances[index].amount.toString(), 18))
+            ,
+          0   
     ])
   );
 }
