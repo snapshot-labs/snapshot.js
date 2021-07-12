@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Balancer Smart Pool",
+    "strategy": {
+      "name": "balancer-smart-pool",
+      "params": {
+        "address": "0x06745bee20ad9cc7dfb6f40b66504397235f547c",
+        "decimals": 18,
+        "pool": "0x3c035c3f8e271e12df1bed648024e60249f507c3",
+        "governanceToken": "0xfb5453340c03db5ade474b27e68b6a9c6b2823eb"
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x52d81d4a8b18D6BA0b2c01dd2f9927eAf755dd0a",
+      "0x2150Cb38ee362bceAC3d4A2704A82eeeD02E93EC",
+      "0xdf2ff5946df21f818d5f67e62d22486ca470798e"
+    ],
+    "snapshot": 12815130
+  }
+]
+
