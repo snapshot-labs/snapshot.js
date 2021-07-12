@@ -69,23 +69,6 @@ export async function strategy(
     { blockTag }
   );
 
-  const sousBalances = await Promise.all(
-    options.chefAddresses.map((item) =>
-      multicall(
-        network,
-        provider,
-        sousChefabi,
-        addresses.map((address: any) => [
-          item.address,
-          'userInfo',
-          [address],
-          { blockTag }
-        ]),
-        { blockTag }
-      )
-    )
-  );
-
   return Object.fromEntries(
     Object.entries(score).map((address, index) => [
       address[0],
