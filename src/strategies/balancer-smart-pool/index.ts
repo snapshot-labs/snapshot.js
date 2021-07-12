@@ -2,7 +2,7 @@ import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 import { subgraphRequest } from '../../utils';
 
 const BALANCER_SUBGRAPH_URL = {
-  1: 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer'
+  '1': 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer',
 };
 
 export const author = 'kibagateaux';
@@ -16,6 +16,7 @@ export async function strategy(
   options,
   snapshot
 ) {
+
   const score = await erc20BalanceOfStrategy(
     space,
     network,
@@ -24,32 +25,37 @@ export async function strategy(
     options,
     snapshot
   );
+
   const poolQueryParams = {
     pools: {
       __args: {
         where: {
-          id: options.poolAddress
-        }
-      }
-    },
-    tokens: {
-      __args: {
-        where: {
-          id: options.address
+          id: options.poolAddress,
         }
       },
-      balance: true
+      tokens: {
+        __args: {
+          where: {
+            id: options.address
+          }
+        },
+        balance: true
+      }
     }
   };
-  const result = await subgraphRequest(BALANCER_SUBGRAPH_URL[network], {
-    ...poolQueryParams
-  });
+  if (snapshot !== 'latest') {
+    // @ts-ignore
+    poolQueryParams.pools.__args.block = { number: snapshot };
+  }
+
   const totalScore = Object.values(score).reduce((a, b) => a + b, 0);
+  const result = await subgraphRequest(BALANCER_SUBGRAPH_URL[network], poolQueryParams);
   const poolTokenBalance = result.pools.tokens[0].balance;
+
   return Object.fromEntries(
     Object.entries(score).map((address, balance) => [
       address,
-      (balance / totalScore) * poolTokenBalance
+      (balance / totalScore) * poolTokenBalance // address' % of pool's token holdings
     ])
   );
 }
