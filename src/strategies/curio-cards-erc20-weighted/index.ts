@@ -90,7 +90,7 @@ export async function strategy(
   // for each card, vote weight = 1/(total supply) * constant
   const curioWeights = {};
   Object.keys(curioSupply).map((k) => {
-    curioWeights[k] = (1_000 * 1) / curioSupply[k];
+    curioWeights[k] = 1000 / curioSupply[k];
   });
 
   // Given a card and address-tokencount mapping,
@@ -100,7 +100,7 @@ export async function strategy(
   //       return {'0x123': 3, '0x456': 6}
   function applyWeightForCard(cardName, addressHoldings) {
     const weight = curioWeights[cardName];
-    let result = {};
+    const result = {};
 
     Object.keys(addressHoldings).map((k) => {
       result[k] = addressHoldings[k] * weight;
@@ -114,7 +114,7 @@ export async function strategy(
   //       return {'0x123': 11, '0x456': 22}
   function sumAddressWeights(arrayOfWeights) {
     return arrayOfWeights.reduce((sum, current) => {
-      for (let k in current) {
+      for (const k in current) {
         sum[k] = (sum[k] || 0) + current[k];
       }
       return sum;
@@ -128,7 +128,7 @@ export async function strategy(
   }
 
   // Prepare to fetch erc20 balances
-  let cardBalancePromises: Promise<{ rv: any; context: any }>[] = [];
+  const cardBalancePromises: Promise<{ rv: any; context: any }>[] = [];
   Object.keys(curioAddresses).forEach((cardName) =>
     cardBalancePromises.push(
       returnPromiseWithContext(
@@ -149,7 +149,7 @@ export async function strategy(
   return await Promise.all(cardBalancePromises)
     .then((cardBalances) => {
       // then transform token balance -> vote weight
-      let cardBalancesWeighted: Array<any> = [];
+      const cardBalancesWeighted: Array<any> = [];
 
       cardBalances.forEach((cb) => {
         const cbWeighted = applyWeightForCard(cb.context, cb.rv);

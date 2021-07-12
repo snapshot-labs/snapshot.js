@@ -67,6 +67,7 @@ import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
 import { strategy as compLikeVotes } from './comp-like-votes';
 import { strategy as governorAlpha } from './governor-alpha';
 import { strategy as pagination } from './pagination';
+import { strategy as rulerStakedToken } from './ruler-staked-token';
 import { strategy as rulerStakedLP } from './ruler-staked-lp';
 import { strategy as xcover } from './xcover';
 import { strategy as niuStaked } from './niu-staked';
@@ -99,6 +100,7 @@ import { strategy as xrc20BalanceOf } from './xrc20-balance-of';
 import { strategy as brightid } from './brightid';
 import { strategy as inverseXINV } from './inverse-xinv';
 import { strategy as modefi } from './modefi';
+import { strategy as modefiStaking } from './modefi-staking';
 import { strategy as spookyswap } from './spookyswap';
 import { strategy as rnbwBalance } from './rnbw-balance';
 import { strategy as celerSgnDelegation } from './celer-sgn-delegation';
@@ -182,6 +184,7 @@ export default {
   'comp-like-votes': compLikeVotes,
   'governor-alpha': governorAlpha,
   pagination,
+  'ruler-staked-token': rulerStakedToken,
   'ruler-staked-lp': rulerStakedLP,
   xcover,
   'niu-staked': niuStaked,
@@ -208,6 +211,7 @@ export default {
   brightid,
   'inverse-xinv': inverseXINV,
   modefi,
+  'modefi-staking': modefiStaking,
   'iotex-balance': iotexBalance,
   'iotex-staked-balance': iotexStakedBalance,
   'xrc20-balance-of': xrc20BalanceOf,
