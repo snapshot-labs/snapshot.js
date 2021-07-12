@@ -1,0 +1,17 @@
+[
+  {
+    "name": "CTF Balance Query",
+    "strategy": {
+      "name": "balance-of-with-min",
+      "params": {
+        "address": "0x410319197d3394652b7dddc669e58fbe30b56090",
+        "symbol": "CTF",
+        "decimals": 18,
+        "minBalance": 8.64
+      }
+    },
+    "network": "56",
+    "addresses": [
+    ]
+  }
+]
