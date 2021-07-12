@@ -1,6 +1,6 @@
 # Contract call strategy
 
-Allows the tokens staked in chef contracts to be used to calculate voter scores.
+Allows the tokens staked in chef conttracts to be used to calculate voter scores.
 
 ## Examples
 
@@ -9,11 +9,15 @@ Can be used instead of the erc20-balance-of strategy, the space config will look
 ```JSON
 {
   "strategies": [
-    ["naga", {
-      "address": "0x0FE0E4D99CcA12124dC6FEa9F813aAD7FC3a65d0",
+    ["pancake", {
+      "address": "0x009cF7bC57584b7998236eff51b98A168DceA9B0",
       "chefAddresses": [
           {
-            "address": "0x957f415d68b3E50aD6Ad9D30ACF0044E748e1471",
+            "address": "0xFb1088Dae0f03C5123587d2babb3F307831E6367",
+            "decimals": 18
+          },
+          {
+            "address": "0x4086D46A650517fa756F620507dB704D3900Da07",
             "decimals": 6
           }
       ]

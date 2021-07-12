@@ -1,17 +1,18 @@
 [
-    {
-      "name": "Example query",
-      "strategy": {
-        "name": "nagafinance",
-        "params": {
-          "address": "0x0FE0E4D99CcA12124dC6FEa9F813aAD7FC3a65d0",
-          "symbol": "NAGA POWER"
-        }
-      },
-      "network": "97",
-      "addresses": [
-        "0xF9B7957F56FAB4287ef9c6634A867da99D400FD5"
-      ],
-      "snapshot": 10520910
-    }
-  ]
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "naga-power",
+      "params": {
+        "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+        "symbol": "NAPO",
+        "decimals": 18
+      }
+    },
+    "network": "97",
+    "addresses": [
+      "0x013eb385ba56Cf0187C7d6732013a1672218d5e1",
+    ],
+    "snapshot": 11437846
+  }
+]

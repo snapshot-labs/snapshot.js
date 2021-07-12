@@ -5,6 +5,28 @@ import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 export const author = 'naga-finance';
 export const version = '0.0.1';
 
+const sousChefabi = [
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address'
+      }
+    ],
+    name: 'userInfo',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  }
+];
+
 const masterChefAbi = [
   {
     inputs: [
@@ -37,7 +59,7 @@ const masterChefAbi = [
   }
 ];
 
-const masterChefContractAddress = '0x428C736EA96f71D5770C22f36De5c806D35c2F26'; //Masterchef
+const masterChefContractAddress = '0x73feaa1eE314F8c655E354234017bE2193C9E24E';
 
 export async function strategy(
   space,
@@ -69,13 +91,39 @@ export async function strategy(
     { blockTag }
   );
 
+  const sousBalances = await Promise.all(
+    options.chefAddresses.map((item) =>
+      multicall(
+        network,
+        provider,
+        sousChefabi,
+        addresses.map((address: any) => [
+          item.address,
+          'userInfo',
+          [address],
+          { blockTag }
+        ]),
+        { blockTag }
+      )
+    )
+  );
+
   return Object.fromEntries(
     Object.entries(score).map((address, index) => [
       address[0],
       address[1] +
-        parseFloat(formatUnits(masterBalances[index].amount.toString(), 18))
-            ,
-          0   
+        parseFloat(formatUnits(masterBalances[index].amount.toString(), 18)) +
+        sousBalances.reduce(
+          (prev: number, cur: any, idx: number) =>
+            prev +
+            parseFloat(
+              formatUnits(
+                cur[index].amount.toString(),
+                options.chefAddresses[idx].decimals
+              )
+            ),
+          0
+        )
     ])
   );
 }
