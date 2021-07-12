@@ -79,6 +79,7 @@ import { strategy as multisigOwners } from './multisig-owners';
 import { strategy as trancheStaking } from './tranche-staking';
 import { strategy as pepemon } from './pepemon';
 import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
+import { strategy as nervefinance } from './nervefinance';
 import { strategy as trancheStakingLP } from './tranche-staking-lp';
 import { strategy as masterchefPoolBalance } from './masterchef-pool-balance';
 import { strategy as avnBalanceOfStaked } from './avn-balance-of-staked';
@@ -195,6 +196,7 @@ export default {
   pepemon,
   'erc1155-all-balances-of': erc1155AllBalancesOf,
   'saffron-finance': saffronFinance,
+  nervefinance: nervefinance,
   'tranche-staking-lp': trancheStakingLP,
   'masterchef-pool-balance': masterchefPoolBalance,
   'avn-balance-of-staked': avnBalanceOfStaked,
