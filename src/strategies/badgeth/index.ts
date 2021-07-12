@@ -1,4 +1,5 @@
 import { subgraphRequest } from '../../utils';
+import { getAddress } from '@ethersproject/address';
 
 export const author = 'Badgeth';
 export const version = '0.1.0';
@@ -39,7 +40,7 @@ export async function strategy(
   console.log("result: ", result);
   if (result && result.voters) {
     result.voters.forEach((voter) => {
-      score[(voter.id)] = parseInt(voter.votingPower);
+      score[getAddress(voter.id)] = parseInt(voter.votingPower);
     });
   }
 
