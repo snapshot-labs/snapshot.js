@@ -219,7 +219,6 @@ export async function strategy(
   const holdersQueryBatches: Array<Batch> = new Array<Batch>();
   const votingScores: Array<VotingScore> = new Array<VotingScore>();
   let callQueryIndex = 0;
-  let dexLpCallIdxStart = 0;
 
   // ================ LP Pair Token Reserve and Total Supply ==================
   const dexReserveData = new Array<DexReserveSupply>();
@@ -239,8 +238,6 @@ export async function strategy(
     callQueries.push(d.supplyQuery);
     d.supplyQueryIdx = callQueryIndex++;
     dexReserveData.push(d);
-
-    dexLpCallIdxStart = callQueryIndex;
   });
 
   // ============= Multicall queries ==============
@@ -293,7 +290,7 @@ export async function strategy(
         `Failed to locate tag, ${contract.label}, in queryBatches.`
       );
     }
-    let idxStart = batch.qIdxStart;
+    const idxStart = batch.qIdxStart;
     const batchScores = addresses.map((address: any, index: number) => {
       return {
         address: address,
@@ -307,11 +304,11 @@ export async function strategy(
   });
 
   // ================ Sum up everything =================
-  let addressVotingScore = addresses.map(
+  const addressVotingScore = addresses.map(
     (address: any, addressIndex: number) => {
       let total = BigNumber.from(0);
       holdersQueryBatches.forEach((batch: Batch) => {
-        let votingScore = votingScores[batch.qIdxStart + addressIndex];
+        const votingScore = votingScores[batch.qIdxStart + addressIndex];
         if (votingScore === undefined) {
           throw new Error(
             `Expected a votingScore at batch.qIdxStart: ${batch.qIdxStart}, addressIndex: ${addressIndex}`

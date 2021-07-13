@@ -93,7 +93,7 @@ const abi = [
 // calls is a 1-dimensional array so we just push 3 calls for every address
 const getCalls = (addresses: any[], options: any) => {
   const result: any[] = [];
-  for (let address of addresses) {
+  for (const address of addresses) {
     result.push([options.chefAddress, 'userInfo', [options.pid, address]]);
     if (options.uniPairAddress != null) {
       result.push([options.uniPairAddress, 'totalSupply', []]);

@@ -52,7 +52,7 @@ export async function strategy(
 
   // Early return 0 voting power if governanceStrategy or powerType is not correctly set
   if (!options.governanceStrategy || !powerTypesToMethod[options.powerType]) {
-    return Object.fromEntries(addresses.map((address, i) => [address, '0']));
+    return Object.fromEntries(addresses.map((address) => [address, '0']));
   }
 
   const response: BigNumber[] = await multicall(

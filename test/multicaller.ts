@@ -12,13 +12,13 @@ const tokens = [
 const options = { blockTag: 10000000 };
 
 const multi = new Multicaller(network, provider, abi, options);
-tokens.forEach(token => {
+tokens.forEach((token) => {
   multi.call(`${token}.name`, token, 'name');
   multi.call(`${token}.symbol`, token, 'symbol');
   multi.call(`${token}.decimals`, token, 'decimals');
 });
 
-multi.execute().then(result => {
+multi.execute().then((result) => {
   console.log('Multicaller result', result);
   /* Multicaller result
   {
