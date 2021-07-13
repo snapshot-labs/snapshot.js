@@ -24,7 +24,7 @@ export async function strategy(
     options,
     snapshot
   );
-  if(Object.keys(score).length === 0) return {}
+  if (Object.keys(score).length === 0) return {};
 
   const poolQueryParams = {
     pools: {
@@ -52,8 +52,8 @@ export async function strategy(
     BALANCER_SUBGRAPH_URL[network],
     poolQueryParams
   );
-  if(!result || !result.pools) return {}
-  
+  if (!result || !result.pools) return {};
+
   const totalScore = Object.values(score).reduce((a, b) => a + b, 0);
   const poolTokenBalance = result.pools[0].tokens[0].balance;
 

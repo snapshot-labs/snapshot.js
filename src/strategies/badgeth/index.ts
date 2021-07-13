@@ -4,7 +4,8 @@ import { getAddress } from '@ethersproject/address';
 export const author = 'Badgeth';
 export const version = '0.1.0';
 
-const BADGETH_SUBGRAPH_URL = 'https://api.thegraph.com/subgraphs/name/hardforksoverknives/badgeth-dev';
+const BADGETH_SUBGRAPH_URL =
+  'https://api.thegraph.com/subgraphs/name/hardforksoverknives/badgeth-dev';
 
 export async function strategy(
   space,
@@ -35,9 +36,7 @@ export async function strategy(
   }
 
   const score = {};
-  console.log("sending subgraph request");
   const result = await subgraphRequest(BADGETH_SUBGRAPH_URL, params);
-  console.log("result: ", result);
   if (result && result.voters) {
     result.voters.forEach((voter) => {
       score[getAddress(voter.id)] = parseInt(voter.votingPower);

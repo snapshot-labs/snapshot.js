@@ -224,6 +224,6 @@ export default {
   'aave-governance-power': aaveGovernancePower,
   cake,
   'planet-finance': planetFinance,
-  'badgeth': badgeth,
+  badgeth,
   'impossible-finance': impossibleFinance
 };
