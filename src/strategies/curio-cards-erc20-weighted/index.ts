@@ -90,7 +90,7 @@ export async function strategy(
   // for each card, vote weight = 1/(total supply) * constant
   const curioWeights = {};
   Object.keys(curioSupply).map((k) => {
-    curioWeights[k] = (1_000 * 1) / curioSupply[k];
+    curioWeights[k] = 1000 / curioSupply[k];
   });
 
   // Given a card and address-tokencount mapping,
