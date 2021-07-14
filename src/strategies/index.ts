@@ -1,4 +1,5 @@
 import { strategy as balancer } from './balancer';
+import { strategy as balancerSmartPool } from './balancer-smart-pool';
 import { strategy as contractCall } from './contract-call';
 import { strategy as ensDomainsOwned } from './ens-domains-owned';
 import { strategy as ensReverseRecord } from './ens-reverse-record';
@@ -82,6 +83,7 @@ import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
 import { strategy as trancheStakingLP } from './tranche-staking-lp';
 import { strategy as masterchefPoolBalance } from './masterchef-pool-balance';
 import { strategy as avnBalanceOfStaked } from './avn-balance-of-staked';
+import { strategy as badgeth } from './badgeth';
 import { strategy as api } from './api';
 import { strategy as xseen } from './xseen';
 import { strategy as molochAll } from './moloch-all';
@@ -112,6 +114,7 @@ import { strategy as impossibleFinance } from './impossible-finance';
 
 export default {
   balancer,
+  'balancer-smart-pool': balancerSmartPool,
   'erc20-received': erc20Received,
   'contract-call': contractCall,
   'eth-received': ethReceived,
@@ -221,5 +224,6 @@ export default {
   'aave-governance-power': aaveGovernancePower,
   cake,
   'planet-finance': planetFinance,
+  badgeth,
   'impossible-finance': impossibleFinance
 };
