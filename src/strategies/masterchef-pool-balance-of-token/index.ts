@@ -219,7 +219,7 @@ async function processValues(
 
   log.push(values.toString());
 
-  const poolStaked = values[0][0];
+  const poolStaked = values[0][0] as BigNumber;
   const weight = BigNumber.from(options.weight || 1);
   const weightDecimals = BigNumber.from(10).pow(BigNumber.from(options.tokenWeightDecimals || 0));
 
@@ -239,6 +239,8 @@ async function processValues(
       log.push('weightDecimals = ' + weightDecimals);
       log.push('price = ' + price);
 
+      printLog(options);
+
       const raw = poolStaked
             .div(tokenDecimals)
             .mul(weight)
@@ -249,6 +251,8 @@ async function processValues(
       log.push('poolStaked = ' + poolStaked);
       log.push('weight = ' + weight);
       log.push('weightDecimals = ' + weightDecimals);
+
+      printLog(options);
 
       const raw = poolStaked
           .mul(weight)
@@ -292,7 +296,7 @@ async function processValues(
       log.push('weightDecimals0 = ' + weightDecimals0);
       log.push('price0 = ' + price0);
 
-      console.log(log);
+      printLog(options);
 
       const raw = poolStaked
             .mul(tokensPerLp0)
@@ -334,7 +338,7 @@ async function processValues(
       log.push('weightDecimals1 = ' + weightDecimals1);
       log.push('price1 = ' + price1);
 
-      console.debug(log);
+      printLog(options);
 
       const raw = poolStaked
           .mul(tokensPerLp1)
@@ -351,6 +355,8 @@ async function processValues(
       log.push('weight = ' + weight);
       log.push('weightDecimals = ' + weightDecimals);
 
+      printLog(options);
+
       const raw = poolStaked
           .div(uniPairDecimals)
           .mul(weight)
@@ -362,10 +368,16 @@ async function processValues(
 
   log.push('result = ' + result);
 
-  console.debug(log);
-  log = []
-
+  printLog(options);
   return result;
+}
+
+function printLog(options){
+  if(options.log || false)
+  {
+    console.debug(log);
+    log = []
+  }
 }
 
 async function getTokenPrice(options: any, tokenAddress: any, network: any, provider: any, blockTag: string | number) {

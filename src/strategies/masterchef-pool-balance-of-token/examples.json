@@ -1,6 +1,6 @@
 [
   {
-    "name": "Example query - uniPair with of token0 and token1 count",
+    "name": "Example query - Sum of uniPair token0 and token1 count",
     "strategy": {
       "name": "masterchef-pool-balance-of-token",
       "params": {
@@ -19,30 +19,28 @@
     "addresses": [
       "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
     ],
-    "snapshot": 16564723
+    "snapshot": 16828978
   },
   {
-    "name": "Example query - uni token count",
+    "name": "Example query - uniPair token count",
     "strategy": {
       "name": "masterchef-pool-balance-of-token",
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
         "pid": "0",
-        "token0weight": 1,
-        "token0weightDecimals": 0,
-        "token1weight": 1,
-        "token1weightDecimals": 0
+        "weight": 1,
+        "weightDecimals": 0
       }
     },
     "network": "137",
     "addresses": [
       "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
     ],
-    "snapshot": 16564723
+    "snapshot": 16828978
   },
   {
-    "name": "Example query - uni price",
+    "name": "Example query - uniPair token price",
     "strategy": {
       "name": "masterchef-pool-balance-of-token",
       "params": {
@@ -62,10 +60,10 @@
     "addresses": [
       "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
     ],
-    "snapshot": 16564723
+    "snapshot": 16828978
   },
   {
-    "name": "Example query - uniPair token 0 count",
+    "name": "Example query - uniPair token0 count",
     "strategy": {
       "name": "masterchef-pool-balance-of-token",
       "params": {
@@ -81,10 +79,10 @@
     "addresses": [
       "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
     ],
-    "snapshot": 16564723
+    "snapshot": 16828978
   },
   {
-    "name": "Example query - uniPair token 0 price",
+    "name": "Example query - uniPair token0 price",
     "strategy": {
       "name": "masterchef-pool-balance-of-token",
       "params": {
@@ -101,10 +99,10 @@
     "addresses": [
       "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
     ],
-    "snapshot": 16564723
+    "snapshot": 16828978
   },
   {
-    "name": "Example query - uniPair token 1 count",
+    "name": "Example query - uniPair token1 count",
     "strategy": {
       "name": "masterchef-pool-balance-of-token",
       "params": {
@@ -120,10 +118,10 @@
     "addresses": [
       "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
     ],
-    "snapshot": 16564723
+    "snapshot": 16828978
   },
   {
-    "name": "Example query - uniPair token 1 price",
+    "name": "Example query - uniPair token1 price",
     "strategy": {
       "name": "masterchef-pool-balance-of-token",
       "params": {
@@ -140,6 +138,6 @@
     "addresses": [
       "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
     ],
-    "snapshot": 16564723
+    "snapshot": 16828978
   }
 ]
