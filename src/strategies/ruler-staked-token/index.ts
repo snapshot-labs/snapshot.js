@@ -53,7 +53,7 @@ export async function strategy(
     { blockTag }
   );
   return Object.fromEntries(
-    response.map(([userInfo, _], i) => [
+    response.map(([userInfo], i) => [
       addresses[i],
       parseFloat(formatUnits(userInfo.amount, options.decimals))
     ])
