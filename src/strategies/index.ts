@@ -109,7 +109,7 @@ import { strategy as aaveGovernancePower } from './aave-governance-power';
 import { strategy as cake } from './cake';
 import { strategy as planetFinance } from './planet-finance';
 import { strategy as impossibleFinance } from './impossible-finance';
-import { strategy as naga } from './naga';
+import { strategy as nagaPower } from './naga-power';
 
 export default {
   balancer,
@@ -142,7 +142,7 @@ export default {
   'frax-finance': fraxFinance,
   'yearn-vault': yearnVault,
   moloch,
-  naga,
+  'naga-power' :nagaPower,
   masterchef,
   sushiswap,
   uniswap,

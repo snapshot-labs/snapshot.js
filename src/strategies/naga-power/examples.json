@@ -4,15 +4,15 @@
     "strategy": {
       "name": "naga-power",
       "params": {
-        "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+        "address": "0x6eCB5197F04A87604558Bc62Bf921c02f323f6BA",
         "symbol": "NAPO",
         "decimals": 18
       }
     },
-    "network": "3",
+    "network": "4",
     "addresses": [
-      "0x013eb385ba56Cf0187C7d6732013a1672218d5e1",
+      "0xF9B7957F56FAB4287ef9c6634A867da99D400FD5"
     ],
-    "snapshot": 11437846
+    "snapshot": 8933106
   }
 ]
