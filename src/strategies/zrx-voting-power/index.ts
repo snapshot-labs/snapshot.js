@@ -15,30 +15,7 @@ const ZRX_STAKING_POOLS = {
 };
 
 const abi = [
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'account',
-        type: 'address'
-      },
-      {
-        internalType: 'bytes32[]',
-        name: 'operatedPoolIds',
-        type: 'bytes32[]'
-      }
-    ],
-    name: 'getVotingPower',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'votingPower',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  }
+  'function getVotingPower(address account, bytes32[] operatedPoolIds) view returns (uint256 votingPower)'
 ];
 
 const encodePoolId = (poolId: number) =>
