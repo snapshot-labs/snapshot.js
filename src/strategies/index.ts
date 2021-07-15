@@ -228,7 +228,6 @@ export default {
   'planet-finance': planetFinance,
   'impossible-finance': impossibleFinance,
   badgeth,
-  'impossible-finance': impossibleFinance,
   'tranche-staking-slice': trancheStakingSLICE,
   'unipool-same-token': unipoolSameToken
 };
