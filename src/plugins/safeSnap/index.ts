@@ -10,7 +10,6 @@ import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity';
 import { call, multicall, sendTransaction } from '../../utils';
 import getProvider from '../../utils/provider';
 import { _TypedDataEncoder } from '@ethersproject/hash';
-import { formatEther } from '@ethersproject/units';
 import { Contract } from '@ethersproject/contracts';
 import { Result } from '@ethersproject/abi';
 
@@ -77,18 +76,31 @@ const OracleAbi = [
   'function balanceOf(address) view returns (uint256)',
   'function getHistoryHash(bytes32 question_id) view returns (bytes32)',
   'function isFinalized(bytes32 question_id) view returns (bool)',
+  'function token() view returns (address)',
 
   // Write functions
   'function submitAnswer(bytes32 question_id, bytes32 answer, uint256 max_previous) external payable',
+  'function submitAnswerERC20(bytes32 question_id, bytes32 answer, uint256 max_previous, uint256 tokens) external',
   `function claimMultipleAndWithdrawBalance(
-    bytes32[] question_ids, 
-    uint256[] lengths, 
-    bytes32[] hist_hashes, 
-    address[] addrs, 
-    uint256[] bonds, 
+    bytes32[] question_ids,
+    uint256[] lengths,
+    bytes32[] hist_hashes,
+    address[] addrs,
+    uint256[] bonds,
     bytes32[] answers
   ) public`,
   'function withdraw() public'
+];
+
+const TokenAbi = [
+  //Read functions
+  'function balanceOf(address account) view returns (uint256)',
+  'function decimals() view returns (uint32)',
+  'function symbol() view returns (string)',
+  'function allowance(address owner, address spender) external view returns (uint256)',
+
+  // Write functions
+  'function approve(address spender, uint256 value) external returns (bool)'
 ];
 
 const START_BLOCKS = {
@@ -114,7 +126,7 @@ export interface ProposalDetails {
   nextTxIndex: number | undefined;
   transactions: ModuleTransaction[];
   txHashes: string[];
-  currentBond: string | undefined;
+  currentBond: BigNumber | undefined;
   isApproved: boolean;
   endTime: number | undefined;
 }
@@ -217,7 +229,7 @@ const retrieveInfoFromOracle = async (
   oracleAddress: string,
   questionId: string | undefined
 ): Promise<{
-  currentBond: string | undefined;
+  currentBond: BigNumber | undefined;
   isApproved: boolean;
   endTime: number | undefined;
 }> => {
@@ -228,7 +240,7 @@ const retrieveInfoFromOracle = async (
       [oracleAddress, 'getBestAnswer', [questionId]]
     ]);
 
-    const currentBond = formatEther(BigNumber.from(result[1][0]));
+    const currentBond = BigNumber.from(result[1][0]);
     const answer = BigNumber.from(result[2][0]);
 
     return {
@@ -397,6 +409,29 @@ export default class Plugin {
       [oracleAddress, 'isFinalized', [questionId]]
     ]);
 
+    let tokenSymbol = 'ETH';
+    let tokenDecimals = 18;
+
+    try {
+      const token = await call(provider, OracleAbi, [
+        oracleAddress,
+        'token',
+        []
+      ]);
+      const [[symbol], [decimals]] = await multicall(
+        network,
+        provider,
+        TokenAbi,
+        [
+          [token, 'symbol', []],
+          [token, 'decimals', []]
+        ]
+      );
+
+      tokenSymbol = symbol;
+      tokenDecimals = decimals;
+    } catch (e) {}
+
     const answersFilter = contract.filters.LogNewAnswer(null, questionId);
     const events = await contract.queryFilter(
       answersFilter,
@@ -442,6 +477,8 @@ export default class Plugin {
     historyHashes.push(firstHash as Result);
 
     return {
+      tokenSymbol,
+      tokenDecimals,
       canClaim: (!alreadyClaimed && votedForCorrectQuestion) || hasBalance,
       data: {
         length: [bonds.length.toString()],
@@ -525,6 +562,7 @@ export default class Plugin {
   }
 
   async voteForQuestion(
+    network: string,
     web3: any,
     oracleAddress: string,
     questionId: string,
@@ -537,28 +575,72 @@ export default class Plugin {
       [questionId]
     ]);
 
-    const minimumBondIsZero = BigNumber.from(minimumBondInDaoModule).eq(0);
-    const minimumBond = minimumBondIsZero
-      ? 1000000000000000
-      : minimumBondInDaoModule;
+    let bond;
+    let methodName;
+    const txOverrides = {};
+    let parameters = [
+      questionId,
+      `0x000000000000000000000000000000000000000000000000000000000000000${answer}`
+    ];
 
-    const bond = currentBond.eq(BigNumber.from(0))
-      ? BigNumber.from(minimumBond)
-      : currentBond.mul(2);
+    const currentBondIsZero = currentBond.eq(BigNumber.from(0));
+    if (currentBondIsZero) {
+      // DaoModules can have 0 minimumBond, if it happens, the initial bond will be 1 token
+      const daoBondIsZero = BigNumber.from(minimumBondInDaoModule).eq(0);
+      bond = daoBondIsZero ? BigNumber.from(10) : minimumBondInDaoModule;
+    } else {
+      bond = currentBond.mul(2);
+    }
+
+    // fetch token attribute from Realitio contract, if it works, it means it is
+    // a RealitioERC20, otherwise the catch will handle the currency as ETH
+    try {
+      const token = await call(web3, OracleAbi, [oracleAddress, 'token', []]);
+      const [[tokenDecimals], [allowance]] = await multicall(
+        network,
+        web3,
+        TokenAbi,
+        [
+          [token, 'decimals', []],
+          [token, 'allowance', [web3.provider.selectedAddress, oracleAddress]]
+        ]
+      );
+
+      if (bond.eq(10)) {
+        bond = bond.pow(tokenDecimals);
+      }
+
+      // Check if contract has allowance on user tokens,
+      // if not, trigger approve method
+      if (allowance.lt(bond)) {
+        const approveTx = await sendTransaction(
+          web3,
+          token,
+          TokenAbi,
+          'approve',
+          [oracleAddress, bond],
+          {}
+        );
+        await approveTx.wait();
+      }
+      parameters = [...parameters, bond, bond];
+      methodName = 'submitAnswerERC20';
+    } catch (e) {
+      if (bond.eq(10)) {
+        bond = bond.pow(18);
+      }
+      parameters = [...parameters, bond];
+      txOverrides['value'] = bond.toString();
+      methodName = 'submitAnswer';
+    }
 
     const tx = await sendTransaction(
       web3,
       oracleAddress,
       OracleAbi,
-      'submitAnswer',
-      [
-        questionId,
-        `0x000000000000000000000000000000000000000000000000000000000000000${answer}`,
-        bond
-      ],
-      {
-        value: bond.toString()
-      }
+      methodName,
+      parameters,
+      txOverrides
     );
     const receipt = await tx.wait();
     console.log('[DAO module] executed vote on oracle:', receipt);

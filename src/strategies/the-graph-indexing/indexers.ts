@@ -50,7 +50,7 @@ export async function indexersStrategy(
   );
   const score: GraphAccountScores = {};
 
-  let normalizationFactor: number = 0;
+  let normalizationFactor = 0;
   if (result && result.graphNetworks) {
     const nonStakedTokens = calcNonStakedTokens(
       result.graphNetworks[0].totalSupply,

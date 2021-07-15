@@ -18,15 +18,7 @@ const getJWT = async (dfuseApiKey) => {
   return content.token;
 };
 
-export async function strategy(
-  space,
-  network,
-  provider,
-  addresses,
-  options,
-  snapshot
-) {
-  const apiLimit = 300;
+export async function strategy(space, network, provider, addresses, options) {
   let data: any = [];
   const query = Object.fromEntries(
     addresses.map((address) => [
