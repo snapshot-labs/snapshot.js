@@ -1,4 +1,5 @@
 import { strategy as balancer } from './balancer';
+import { strategy as balancerSmartPool } from './balancer-smart-pool';
 import { strategy as contractCall } from './contract-call';
 import { strategy as ensDomainsOwned } from './ens-domains-owned';
 import { strategy as ensReverseRecord } from './ens-reverse-record';
@@ -67,6 +68,7 @@ import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
 import { strategy as compLikeVotes } from './comp-like-votes';
 import { strategy as governorAlpha } from './governor-alpha';
 import { strategy as pagination } from './pagination';
+import { strategy as rulerStakedToken } from './ruler-staked-token';
 import { strategy as rulerStakedLP } from './ruler-staked-lp';
 import { strategy as xcover } from './xcover';
 import { strategy as niuStaked } from './niu-staked';
@@ -81,6 +83,7 @@ import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
 import { strategy as trancheStakingLP } from './tranche-staking-lp';
 import { strategy as masterchefPoolBalance } from './masterchef-pool-balance';
 import { strategy as avnBalanceOfStaked } from './avn-balance-of-staked';
+import { strategy as badgeth } from './badgeth';
 import { strategy as api } from './api';
 import { strategy as xseen } from './xseen';
 import { strategy as molochAll } from './moloch-all';
@@ -98,6 +101,7 @@ import { strategy as xrc20BalanceOf } from './xrc20-balance-of';
 import { strategy as brightid } from './brightid';
 import { strategy as inverseXINV } from './inverse-xinv';
 import { strategy as modefi } from './modefi';
+import { strategy as modefiStaking } from './modefi-staking';
 import { strategy as spookyswap } from './spookyswap';
 import { strategy as rnbwBalance } from './rnbw-balance';
 import { strategy as celerSgnDelegation } from './celer-sgn-delegation';
@@ -111,6 +115,7 @@ import { strategy as trancheStakingSLICE } from './tranche-staking-slice';
 
 export default {
   balancer,
+  'balancer-smart-pool': balancerSmartPool,
   'erc20-received': erc20Received,
   'contract-call': contractCall,
   'eth-received': ethReceived,
@@ -182,6 +187,7 @@ export default {
   'comp-like-votes': compLikeVotes,
   'governor-alpha': governorAlpha,
   pagination,
+  'ruler-staked-token': rulerStakedToken,
   'ruler-staked-lp': rulerStakedLP,
   xcover,
   'niu-staked': niuStaked,
@@ -207,6 +213,7 @@ export default {
   brightid,
   'inverse-xinv': inverseXINV,
   modefi,
+  'modefi-staking': modefiStaking,
   'iotex-balance': iotexBalance,
   'iotex-staked-balance': iotexStakedBalance,
   'xrc20-balance-of': xrc20BalanceOf,
@@ -219,5 +226,6 @@ export default {
   cake,
   'planet-finance': planetFinance,
   'impossible-finance': impossibleFinance,
+  badgeth,
   'tranche-staking-slice': trancheStakingSLICE
 };

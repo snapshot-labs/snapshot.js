@@ -22,7 +22,7 @@ export async function strategy(
     number
   ]
 ) {
-  const [space, network, provider, addresses, options, snapshot] = args;
+  const [, , provider, addresses, options] = args;
   const {
     coeff = 1,
     dfuseApiKey = 'server_806bdc9bb370dad11ec5807e82e57fa0',

@@ -40,7 +40,7 @@ export async function strategy(
     network,
     provider,
     data_reader_abi,
-    addresses.map((addr: String) => [
+    addresses.map((addr: string) => [
       data_reader_address,
       'getDaoShares',
       [addr]

@@ -1,6 +1,5 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { strategy as ethReceivedStrategy } from '../eth-received';
-import fetch from 'cross-fetch';
 export const author = 'mccallofthewild';
 export const version = '0.1.0';
 
@@ -30,7 +29,7 @@ export async function strategy(
     provider,
     addresses,
     {
-      receivingAddresses: ethCharities.map(([name, address]) => address),
+      receivingAddresses: ethCharities.map(([, address]) => address),
       coeff
     },
     snapshot

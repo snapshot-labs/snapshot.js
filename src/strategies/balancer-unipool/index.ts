@@ -103,7 +103,7 @@ export async function strategy(
 
   return Object.fromEntries(
     sumList.map((sum, i) => {
-      let parsedSum = parseFloat(formatUnits(sum, options.decimal));
+      const parsedSum = parseFloat(formatUnits(sum, options.decimal));
       return [addresses[i], parsedSum];
     })
   );
