@@ -111,7 +111,11 @@ import { strategy as aaveGovernancePower } from './aave-governance-power';
 import { strategy as cake } from './cake';
 import { strategy as planetFinance } from './planet-finance';
 import { strategy as impossibleFinance } from './impossible-finance';
+<<<<<<< HEAD
 import { strategy as zrxVotingPower } from './zrx-voting-power';
+=======
+import { strategy as trancheStakingSLICE } from './tranche-staking-slice';
+>>>>>>> upstream/master
 
 export default {
   balancer,
@@ -225,7 +229,8 @@ export default {
   'aave-governance-power': aaveGovernancePower,
   cake,
   'planet-finance': planetFinance,
-  badgeth,
   'impossible-finance': impossibleFinance,
-  'zrx-voting-power': zrxVotingPower
+  badgeth,
+  'zrx-voting-power': zrxVotingPower,
+  'tranche-staking-slice': trancheStakingSLICE
 };

@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Staked SLICE Query",
+    "strategy": {
+      "name": "tranche-staking-slice",
+      "params": {
+        "address": "0xAB4235a9ACf00A45557E90F7dB127f3b293cA45A",
+        "symbol": "SLICE",
+        "decimals": 18,
+        "start": 12779442
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0xb6f1072B42dB824F8Bcc5d28eF9536Ff9a0C1Ed1",
+      "0x8de003a17ec9b684f1f8daefa277c3a78a27f242",
+      "0x099745e5657f3cd139d6d9c234593b805f625c0b"
+    ],
+    "snapshot": 12779447
+  }
+]
