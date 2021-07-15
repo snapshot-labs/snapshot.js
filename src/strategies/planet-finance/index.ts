@@ -62,6 +62,8 @@ const aquaBnbLpTokenAddress = '0x03028D2F8B275695A1c6AFB69A4765e3666e36d9'
 
 const aquaCakeLpTokenAddress = '0x8852263275Ab21FfBAEB88a17BCb27611EeA54Ef'
 
+const aquaBusdLpTokenAddress = '0x0DcFde6c6761286AE0FF26abE65c30c8918889Ca'
+
 export async function strategy(
   space,
   network,
@@ -76,8 +78,8 @@ export async function strategy(
   const erc20Multi = new Multicaller(network, provider, bep20Abi, {
     blockTag
   });
-
-  const score = await erc20BalanceOfStrategy(
+  let promiseArr:any = [];
+  let score:any = erc20BalanceOfStrategy(
     space,
     network,
     provider,
@@ -86,7 +88,7 @@ export async function strategy(
     snapshot
   );
 
-  const usersAquaVaultBalances = await multicall(
+  let usersAquaVaultBalances:any =  multicall(
     network,
     provider,
     planetFinanceFarmAbi,
@@ -98,7 +100,7 @@ export async function strategy(
     { blockTag }
   );
   
-  let usersAquaBnbVaultBalances = await multicall(
+  let usersAquaBnbVaultBalances:any =  multicall(
     network,
     provider,
     planetFinanceFarmAbi,
@@ -110,7 +112,7 @@ export async function strategy(
     { blockTag }
   );
 
-  let usersAquaCakeVaultBalances = await multicall(
+  let usersAquaCakeVaultBalances:any =  multicall(
     network,
     provider,
     planetFinanceFarmAbi,
@@ -121,6 +123,30 @@ export async function strategy(
     ]),
     { blockTag }
   );
+
+  let usersAquaBusdVaultBalances:any = await multicall(
+    network,
+    provider,
+    planetFinanceFarmAbi,
+    addresses.map((address: any) => [
+      planetFinanceFarmContractAddress,
+      'stakedWantTokens',
+      ['36', address]
+    ]),
+    { blockTag }
+  );
+
+  let result = await Promise.all([score,
+    usersAquaVaultBalances,
+    usersAquaBnbVaultBalances,
+    usersAquaCakeVaultBalances,
+    usersAquaBusdVaultBalances])
+
+    score = result[0];
+    usersAquaVaultBalances = result[1];
+    usersAquaBnbVaultBalances = result[2];
+    usersAquaCakeVaultBalances = result[3];
+    usersAquaBusdVaultBalances = result[4];
 
   erc20Multi.call(
     'lpTotalSupply',
@@ -153,17 +179,37 @@ export async function strategy(
   let totalSupplyAquaCake = erc20Result.lpTotalSupply.toString();
 
   let aquaCakeContractAquaBalance = erc20Result.poolMMBalance.toString()
+
+
+
+  erc20Multi.call(
+    'lpTotalSupply',
+    aquaBusdLpTokenAddress,
+    'totalSupply'
+  );
+
+  erc20Multi.call('poolMMBalance', aquaAddress , 'balanceOf', [
+    aquaBusdLpTokenAddress
+  ]);
+
+  erc20Result = await erc20Multi.execute();
+
+  let totalSupplyAquaBusd = erc20Result.lpTotalSupply.toString();
+
+  let aquaBusdContractAquaBalance = erc20Result.poolMMBalance.toString()
   
 
   return Object.fromEntries(
-    Object.entries(score).map((address, index) => [
+    Object.entries(score).map((address:any, index) => [
       address[0],
       address[1] +
       parseFloat(formatUnits(usersAquaVaultBalances[index].toString(),18))+
       ((parseFloat(formatUnits(usersAquaBnbVaultBalances[index].toString(), 18)) / parseFloat(formatUnits(totalSupply,18)))
       *(parseFloat(formatUnits(contractAquaBalance,18))))+
       ((parseFloat(formatUnits(usersAquaCakeVaultBalances[index].toString(), 18)) / parseFloat(formatUnits(totalSupplyAquaCake,18)))
-      *(parseFloat(formatUnits(aquaCakeContractAquaBalance,18))))
+      *(parseFloat(formatUnits(aquaCakeContractAquaBalance,18))))+
+      ((parseFloat(formatUnits(usersAquaBusdVaultBalances[index].toString(), 18)) / parseFloat(formatUnits(totalSupplyAquaBusd,18)))
+      *(parseFloat(formatUnits(aquaBusdContractAquaBalance,18))))
     ])
   );
 }
