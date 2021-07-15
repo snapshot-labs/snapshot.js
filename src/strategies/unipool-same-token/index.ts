@@ -8,24 +8,8 @@ export const version = '0.1.0';
 // Merged ABIs from below contracts:
 // * Unipool contract from @k06a: https://github.com/k06a/Unipool/blob/master/contracts/Unipool.sol
 const contractAbi = [
-  {
-    constant: true,
-    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    constant: true,
-    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
-    name: 'earned',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function'
-  }
+  'function balanceOf(address account) view returns (uint256)',
+  'function earned(address account) view returns (uint256)'
 ];
 
 function bn(num: any): BigNumber {

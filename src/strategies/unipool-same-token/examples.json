@@ -6,15 +6,11 @@
       "params": {
         "symbol": "TOKN",
         "decimals": 18,
-        "unipoolAddress": "0xb9840A4A8a671f79DE3Df3b812fEEb38047CE552"
+        "unipoolAddress": "0xe9Bb6B29B4530C5A76EBd6239925c8f99011d358"
       }
     },
-    "network": "1",
-    "addresses": [
-      "0x09212c58107c8da21b0f67a63e2144bb68bee4eb",
-      "0x8506d946CC63d1F1F3a303d68B0Da64597Cd64F3",
-      "0xc5df4d5ed23f645687a867d8f83a41836fcf8811"
-    ],
-    "snapshot": "11635000"
+    "network": "5",
+    "addresses": ["0xcA5720267Fcb7ccA13007AfA096ae01B0864f765"],
+    "snapshot": 5145880
   }
 ]
