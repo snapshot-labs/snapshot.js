@@ -111,6 +111,7 @@ import { strategy as aaveGovernancePower } from './aave-governance-power';
 import { strategy as cake } from './cake';
 import { strategy as planetFinance } from './planet-finance';
 import { strategy as impossibleFinance } from './impossible-finance';
+import { strategy as trancheStakingSLICE } from './tranche-staking-slice';
 import { strategy as unipoolSameToken } from './unipool-same-token';
 
 export default {
@@ -225,7 +226,9 @@ export default {
   'aave-governance-power': aaveGovernancePower,
   cake,
   'planet-finance': planetFinance,
+  'impossible-finance': impossibleFinance,
   badgeth,
   'impossible-finance': impossibleFinance,
+  'tranche-staking-slice': trancheStakingSLICE,
   'unipool-same-token': unipoolSameToken
 };
