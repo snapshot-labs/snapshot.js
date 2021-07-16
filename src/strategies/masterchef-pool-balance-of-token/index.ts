@@ -1,6 +1,6 @@
 import { formatUnits } from '@ethersproject/units';
-import { call, multicall } from '../../utils';
-import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
+import { multicall } from '../../utils';
+import { BigNumber} from '@ethersproject/bignumber';
 import fetch from 'cross-fetch';
 
 export const author = 'joaomajesus';
@@ -15,6 +15,15 @@ export const version = '0.1.0';
  *      (based on the pair total supply and base token reserve)
  *    - if uniPairAddress is null or undefined, returns staked token balance as is
  * - weight: integer multiplier of the result (for combining strategies with different weights, totally optional)
+ * - weightDecimals
+ * - tokenAddress
+ * - token0Address
+ * - token0Weight
+ * - token0WeightDecimals
+ * - token1Address
+ * - token1weight
+ * - token1WeightDecimal
+ * - usePrice
  */
 
 const abi = [
@@ -48,7 +57,7 @@ const abi = [
     stateMutability: 'view',
     type: 'function'
   },
-  // to get supply/reserve from uni pair
+  // to get info from uni pair
   {
     constant: true,
     inputs: [],
@@ -156,6 +165,7 @@ let log: String[] = [];
 
 const getUserInfoCalls = (addresses: any[], options: any) => {
   const result: any[] = [];
+
   for (let address of addresses) {
     result.push([options.chefAddress, 'userInfo', [options.pid, address]]);
   }
@@ -172,18 +182,18 @@ const getTokenCalls = (options: any) => {
     result.push([options.uniPairAddress, 'token0', []]);
     result.push([options.uniPairAddress, 'token1', []]);
     result.push([options.uniPairAddress, 'decimals', []]);
-  }
 
-  if(options.tokenAddress != null){
-    result.push([options.tokenAddress, 'decimals', []]);
-  }
+    if(options.tokenAddress != null){
+      result.push([options.tokenAddress, 'decimals', []]);
+    }
 
-  if(options.token0Address != null){
-    result.push([options.token0Address, 'decimals', []]);
-  }
+    if(options.token0Address != null){
+      result.push([options.token0Address, 'decimals', []]);
+    }
 
-  if(options.token1Address != null){
-    result.push([options.token1Address, 'decimals', []]);
+    if(options.token1Address != null){
+      result.push([options.token1Address, 'decimals', []]);
+    }
   }
 
   return result;
@@ -199,8 +209,6 @@ function arrayChunk<T>(arr: T[], chunkSize: number): T[][] {
   return result;
 }
 
-// values is an array of (chunked) call results for every input address
-// for setups with uniPairAddress each chunk has 3 items, for setups without, only 1 item
 async function processValues(
   values: any[],
   tokenValues: any[],
@@ -209,12 +217,14 @@ async function processValues(
   provider: any,
   blockTag: string | number) {
 
-  log.push(values.toString());
-  log.push(tokenValues.toString());
+  log.push("values = " + values.toString());
+  log.push("tokenValues = " + tokenValues.toString());
+
+  printLog(options);
 
   const poolStaked = values[0][0] as BigNumber;
   const weight = BigNumber.from(options.weight || 1);
-  const weightDecimals = BigNumber.from(10).pow(BigNumber.from(options.tokenWeightDecimals || 0));
+  const weightDecimals = BigNumber.from(10).pow(BigNumber.from(options.weightDecimals || 0));
 
   let result: number = 0;
 
@@ -222,7 +232,7 @@ async function processValues(
     const tokenAddress = options.tokenAddress;
 
     if(tokenAddress != null){
-      const tokenDecimalsIndex: any = options.tokenAddress != null ? 5 : null;
+      const tokenDecimalsIndex: any = tokenAddress != null ? 5 : null;
       const tokenDecimals = tokenDecimalsIndex != null ? tokenValues[tokenDecimalsIndex][0] : 1;
       const price = await getTokenPrice(options, tokenAddress, network, provider, blockTag);
 
@@ -234,12 +244,12 @@ async function processValues(
 
       printLog(options);
 
-      const raw = poolStaked
+      const tokenCount = poolStaked
             .div(tokenDecimals)
             .mul(weight)
             .div(weightDecimals);
 
-      result = parseFloat(formatUnits(raw.toString(), options.decimals || 18)) * price;
+      result = toFloat(tokenCount, options.decimals) * price;
     }else{
       log.push('poolStaked = ' + poolStaked);
       log.push('weight = ' + weight);
@@ -247,11 +257,11 @@ async function processValues(
 
       printLog(options);
 
-      const raw = poolStaked
+      const tokenCount = poolStaked
           .mul(weight)
           .div(weightDecimals);
 
-      result = parseFloat(formatUnits(raw.toString(), options.decimals || 18));
+      result = toFloat(tokenCount, options.decimals);
     }
   } else {
     const uniTotalSupply = tokenValues[0][0];
@@ -266,38 +276,26 @@ async function processValues(
     log.push("useToken0 = " + useToken0);
 
     if(useToken0){
-      const weight0 = BigNumber.from(options.Token0weight || 1);
-      const weightDecimals0 = BigNumber.from(10).pow(BigNumber.from(options.token0WeightDecimals || 0));
-      const tokensPerLp0 = uniReserve0.mul(uniPairDecimals).div(uniTotalSupply);
-
-      const token0DecimalsIndex: any  = options.token0Address == null
+      const token0DecimalsIndex = options.token0Address == null
         ? null
         : options.tokenAddress != null
           ? 6
           : 5;
 
-      const token0Decimals = token0DecimalsIndex != null ? BigNumber.from(10).pow(BigNumber.from(tokenValues[token0DecimalsIndex][0] || 0)) : BigNumber.from(1);
-      const price0 = await getTokenPrice(options, token0Address, network, provider, blockTag);
-
-      log.push('token0Decimals = ' + token0Decimals);
-      log.push('poolStaked = ' + poolStaked);
-      log.push('uniReserve0 = ' + uniReserve0);
-      log.push('uniPairDecimals = ' + uniPairDecimals);
-      log.push('uniTotalSupply = ' + uniTotalSupply);
-      log.push('tokensPerLp0 = ' + tokensPerLp0);
-      log.push('weight0 = ' + weight0);
-      log.push('weightDecimals0 = ' + weightDecimals0);
-      log.push('price0 = ' + price0);
-
-      printLog(options);
-
-      const raw = poolStaked
-            .mul(tokensPerLp0)
-            .div(token0Decimals)
-            .mul(weight0)
-            .div(weightDecimals0);
-
-      result += parseFloat(formatUnits(raw.toString(), options.decimals || 18)) * price0;
+      result += await GetTokenValue(
+        options,
+        uniReserve0,
+        uniPairDecimals,
+        uniTotalSupply,
+        tokenValues,
+        token0Address,
+        network,
+        provider,
+        blockTag,
+        poolStaked,
+        token0DecimalsIndex,
+        options.Token0weight,
+        options.token0WeightDecimals);
     }
 
     const token1Address = tokenValues[3][0];
@@ -306,11 +304,7 @@ async function processValues(
     log.push("useToken1 = " + useToken1);
 
     if(useToken1){
-      const weightDecimals1 = BigNumber.from(10).pow(BigNumber.from(options.token1WeightDecimals || 0));
-      const weight1 = BigNumber.from(options.Token1weight || 1);
-      const tokensPerLp1 = uniReserve1.mul(uniPairDecimals).div(uniTotalSupply);
-
-      const token1DecimalsIndex : any = options.token1Address == null
+      const token1DecimalsIndex = options.token1Address == null
         ? null
         : options.tokenAddress != null && options.token0Address != null
           ? 7
@@ -318,28 +312,20 @@ async function processValues(
             ? 6
             : 5;
 
-      const token1Decimals = token1DecimalsIndex != null ? BigNumber.from(10).pow(BigNumber.from(tokenValues[token1DecimalsIndex][0] || 0)) : BigNumber.from(1);
-      const price1 = await getTokenPrice(options, token1Address, network, provider, blockTag);
-
-      log.push('token1Decimals = ' + token1Decimals);
-      log.push('poolStaked = ' + poolStaked);
-      log.push('uniReserve1 = ' + uniReserve1);
-      log.push('uniPairDecimals = ' + uniPairDecimals);
-      log.push('uniTotalSupply = ' + uniTotalSupply);
-      log.push('tokensPerLp1 = ' + tokensPerLp1);
-      log.push('weight1 = ' + weight1);
-      log.push('weightDecimals1 = ' + weightDecimals1);
-      log.push('price1 = ' + price1);
-
-      printLog(options);
-
-      const raw = poolStaked
-          .mul(tokensPerLp1)
-          .div(token1Decimals)
-          .mul(weight1)
-          .div(weightDecimals1);
-
-        result += parseFloat(formatUnits(raw.toString(), options.decimals || 18)) * price1;
+      result += await GetTokenValue(
+        options,
+        uniReserve1,
+        uniPairDecimals,
+        uniTotalSupply,
+        tokenValues,
+        token1Address,
+        network,
+        provider,
+        blockTag,
+        poolStaked,
+        token1DecimalsIndex,
+        options.Token1weight,
+        options.token1WeightDecimals);
     }
 
     if(!useToken0 && !useToken1){
@@ -350,12 +336,12 @@ async function processValues(
 
       printLog(options);
 
-      const raw = poolStaked
+      const tokenCount = poolStaked
           .div(uniPairDecimals)
           .mul(weight)
           .div(weightDecimals);
 
-      result = parseFloat(formatUnits(raw.toString(), options.decimals || 18));
+      result = toFloat(tokenCount, options.decimals);
     }
   }
 
@@ -364,6 +350,53 @@ async function processValues(
   printLog(options);
 
   return result;
+}
+
+function toFloat(tokenCount: BigNumber, decimals: any): number {
+  return parseFloat(formatUnits(tokenCount.toString(), decimals || 18));
+}
+
+async function GetTokenValue(
+  options: any,
+  uniReserve: any,
+  uniPairDecimals: BigNumber,
+  uniTotalSupply: any,
+  tokenValues: any[],
+  tokenAddress: any,
+  network: any,
+  provider: any,
+  blockTag: string | number,
+  poolStaked: BigNumber,
+  tokenDecimalsIndex: any,
+  tokenWeight: any,
+  tokenWeightDecimals: any) {
+    const weightDecimals = BigNumber.from(10).pow(BigNumber.from(tokenWeightDecimals || 0));
+    const weight = BigNumber.from(tokenWeight || 1);
+    const tokensPerLp = uniReserve.mul(uniPairDecimals).div(uniTotalSupply);
+
+    const tokenDecimals = tokenDecimalsIndex != null ? BigNumber.from(10).pow(BigNumber.from(tokenValues[tokenDecimalsIndex][0] || 0)) : BigNumber.from(1);
+    const price = await getTokenPrice(options, tokenAddress, network, provider, blockTag);
+
+    log.push('tokenAddress = ' + tokenAddress);
+    log.push('tokenDecimals = ' + tokenDecimals);
+    log.push('poolStaked = ' + poolStaked);
+    log.push('uniReserve = ' + uniReserve);
+    log.push('uniPairDecimals = ' + uniPairDecimals);
+    log.push('uniTotalSupply = ' + uniTotalSupply);
+    log.push('tokensPerLp = ' + tokensPerLp);
+    log.push('weight = ' + weight);
+    log.push('weightDecimals = ' + weightDecimals);
+    log.push('price = ' + price);
+
+    printLog(options);
+
+    const tokenCount = poolStaked
+      .mul(tokensPerLp)
+      .div(tokenDecimals)
+      .mul(weight)
+      .div(weightDecimals);
+
+    return toFloat(tokenCount, options.decimals) * price;
 }
 
 function printLog(options){
@@ -377,8 +410,8 @@ function printLog(options){
 async function getTokenPrice(options: any, tokenAddress: any, network: any, provider: any, blockTag: string | number) {
   let price: number = 1;
 
-  if (options.usePrice === true && !priceCache.has(tokenAddress)) {
-    console.debug("calling getPrice");
+  if (options.usePrice === true && !priceCache.has(tokenAddress + blockTag)) {
+    log.push("calling getPrice");
 
     priceCache.set(tokenAddress, await getPrice(network, provider, tokenAddress, blockTag) || 1);
   }
@@ -433,8 +466,9 @@ export async function strategy(
   snapshot
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
-
   const userInfoCalls = getUserInfoCalls(addresses, options);
+  const tokenCalls = getTokenCalls(options);
+  const entries = new Map<PropertyKey,any>();
 
   const userInfoResponse = await multicall(
     network,
@@ -449,8 +483,6 @@ export async function strategy(
     1
   );
 
-  const tokenCalls = getTokenCalls(options);
-
   const tokenResponse = await multicall(
     network,
     provider,
@@ -458,10 +490,6 @@ export async function strategy(
     tokenCalls,
     { blockTag }
   );
-
-  console.log("tokenResponse = " + tokenResponse);
-
-  const entries = new Map<PropertyKey,any>();
 
   for (let i = 0; i < userInfoChunks.length; i++) {
     const value = userInfoChunks[i];
