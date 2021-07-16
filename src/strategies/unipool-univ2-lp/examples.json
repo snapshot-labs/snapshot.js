@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Unipool rewards contract - staked token = Univ2 LP for token",
+    "strategy": {
+      "name": "unipool-univ2-lp",
+      "params": {
+        "symbol": "TOKN",
+        "decimals": 18,
+        "tokenAddress": "0x39A2fad92db0ba608869115eB2E6d26eF16CABC5",
+        "unipoolAddress": "0x2c46430D4dA467Cf247E49A33ECd27DE1e16F451",
+        "lpTokenAddress": "0x415bd1074305ac16d3da4f6f1fcac7dd9d9b61a6"
+      }
+    },
+    "network": "4",
+    "addresses": ["0xcA5720267Fcb7ccA13007AfA096ae01B0864f765"],
+    "snapshot": "8947700"
+  }
+]
