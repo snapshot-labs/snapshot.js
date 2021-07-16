@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Unipool rewards contract - staked token = earned token",
+    "strategy": {
+      "name": "unipool-same-token",
+      "params": {
+        "symbol": "TOKN",
+        "decimals": 18,
+        "unipoolAddress": "0xe9Bb6B29B4530C5A76EBd6239925c8f99011d358"
+      }
+    },
+    "network": "5",
+    "addresses": ["0xcA5720267Fcb7ccA13007AfA096ae01B0864f765"],
+    "snapshot": 5145880
+  }
+]
