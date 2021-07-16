@@ -1,12 +1,10 @@
+import { formatUnits } from '@ethersproject/units';
 import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
-import { subgraphRequest } from '../../utils';
-
-const BALANCER_SUBGRAPH_URL = {
-  '1': 'https://api.thegraph.com/subgraphs/name/balancer-labs/balancer'
-};
+import { multicall } from '../../utils';
 
 export const author = 'kibagateaux';
 export const version = '0.1.0';
+const abi = ['function totalSupply() public returns (uint256)'];
 
 export async function strategy(
   space,
@@ -16,7 +14,7 @@ export async function strategy(
   options,
   snapshot
 ) {
-  const score = await erc20BalanceOfStrategy(
+  const poolShares = await erc20BalanceOfStrategy(
     space,
     network,
     provider,
@@ -24,43 +22,36 @@ export async function strategy(
     options,
     snapshot
   );
-  if (Object.keys(score).length === 0) return {};
+  const poolGovTokens = (
+    await erc20BalanceOfStrategy(
+      space,
+      network,
+      provider,
+      [options.pool],
+      { ...options, address: options.governanceToken },
+      snapshot
+    )
+  )[options.pool];
 
-  const poolQueryParams = {
-    pools: {
-      __args: {
-        where: {
-          id: options.pool
-        }
-      },
-      tokens: {
-        __args: {
-          where: {
-            address: options.governanceToken
-          }
-        },
-        balance: true
-      }
-    }
-  };
-  if (snapshot !== 'latest') {
-    // @ts-ignore
-    poolQueryParams.pools.__args.block = { number: snapshot };
-  }
-
-  const result = await subgraphRequest(
-    BALANCER_SUBGRAPH_URL[network],
-    poolQueryParams
+  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+  const totalPoolShares = await multicall(
+    network,
+    provider,
+    abi,
+    [[options.address, 'totalSupply']],
+    { blockTag }
   );
-  if (!result || !result.pools) return {};
 
-  const totalScore = Object.values(score).reduce((a, b) => a + b, 0);
-  const poolTokenBalance = result.pools[0].tokens[0].balance;
+  if (!totalPoolShares || !poolGovTokens || !Object.keys(poolShares).length)
+    return {};
+  const totalShares = parseFloat(
+    formatUnits(totalPoolShares.toString(), options.decimals)
+  );
 
   return Object.fromEntries(
-    Object.entries(score).map((account) => [
+    Object.entries(poolShares).map((account) => [
       account[0],
-      (account[1] / totalScore) * poolTokenBalance
+      (account[1] / totalShares) * poolGovTokens
     ])
   );
 }
