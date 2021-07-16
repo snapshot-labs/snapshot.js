@@ -112,9 +112,11 @@ export async function strategy(
     return callsArr;
   };
 
-  const response = await multicall(network, provider, abi, calls(), { blockTag });
+  const response = await multicall(network, provider, abi, calls(), {
+    blockTag
+  });
 
-  let result = response.reduce((acc, cur, i) => {
+  const result = response.reduce((acc, cur, i) => {
     if (acc[userAddresses[i]]) {
       acc[userAddresses[i]] += parseFloat(
         formatUnits(cur.amount.toString(), options.decimals)
