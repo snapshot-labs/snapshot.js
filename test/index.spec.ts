@@ -1,16 +1,8 @@
-global['fetch'] = require('cross-fetch');
 const { JsonRpcProvider } = require('@ethersproject/providers');
+const { getAddress } = require('@ethersproject/address');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
 const addresses = require('./addresses.json');
-
-/*
-## Usage
-`npm run test` // Tests default (erc20-balance-of)
-`npm run test --strategy=erc20-received`
-`npm run test --strategy=eth-balance`
-`npm run test --strategy=eth-balance --more=200 // to test with more addresses from addresses.json`
-*/
 
 const strategyArg =
   process.env['npm_config_strategy'] ||
@@ -64,9 +56,17 @@ describe(`\nTest strategy "${strategy}"`, () => {
     expect(typeof scores[0]).toBe('object');
     // Check object contains at least one address from example.json
     expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
-    expect(Object.keys(scores[0]).some(address => example.addresses.includes(address))).toBe(true);
+    expect(
+      Object.keys(scores[0]).some((address) =>
+        example.addresses
+          .map((v) => v.toLowerCase())
+          .includes(address.toLowerCase())
+      )
+    ).toBe(true);
     // Check if all scores are numbers
-    expect(Object.values(scores[0]).every((val, i, arr) => typeof val === 'number')).toBe(true)
+    expect(
+      Object.values(scores[0]).every((val) => typeof val === 'number')
+    ).toBe(true);
   });
 
   it('Should take less than 10 sec. to resolve', () => {
@@ -83,6 +83,15 @@ describe(`\nTest strategy "${strategy}"`, () => {
     const blockNumber = await snapshot.utils.getBlockNumber(provider);
     expect(example.snapshot).toBeLessThanOrEqual(blockNumber);
   });
+
+  it('Returned addresses should be either same case as input addresses or checksum addresses', () => {
+    expect(
+      Object.keys(scores[0]).every(
+        (address) =>
+          example.addresses.includes(address) || getAddress(address) === address
+      )
+    ).toBe(true);
+  });
 });
 
 describe(`\nTest strategy "${strategy}" with latest snapshot`, () => {
@@ -91,7 +100,7 @@ describe(`\nTest strategy "${strategy}" with latest snapshot`, () => {
 
   it('Strategy should run without any errors', async () => {
     const getScoresStart = performance.now();
-    scores = await callGetScores({...example, snapshot: 'latest'});
+    scores = await callGetScores({ ...example, snapshot: 'latest' });
     const getScoresEnd = performance.now();
     getScoresTime = getScoresEnd - getScoresStart;
     console.log('Scores with latest snapshot', scores);
@@ -108,9 +117,18 @@ describe(`\nTest strategy "${strategy}" with latest snapshot`, () => {
     expect(typeof scores[0]).toBe('object');
     // Check object contains atleast one address from example.json
     expect(Object.keys(scores[0]).length).toBeGreaterThanOrEqual(1);
-    expect(Object.keys(scores[0]).some(address => example.addresses.includes(address))).toBe(true);
+    expect(
+      Object.keys(scores[0]).some((address) =>
+        example.addresses
+          .map((v) => v.toLowerCase())
+          .includes(address.toLowerCase())
+      )
+    ).toBe(true);
+
     // Check if all scores are numbers
-    expect(Object.values(scores[0]).every((val, i, arr) => typeof val === 'number')).toBe(true)
+    expect(
+      Object.values(scores[0]).every((val) => typeof val === 'number')
+    ).toBe(true);
   });
 });
 
@@ -132,7 +150,9 @@ describe(`\nTest strategy "${strategy}" with latest snapshot`, () => {
       await new Promise((r) => setTimeout(r, 100));
     }, 20000);
 
-    it(`Should take less than 15 sec. to resolve with ${moreArg || 500} addresses`, () => {
+    it(`Should take less than 15 sec. to resolve with ${
+      moreArg || 500
+    } addresses`, () => {
       expect(getScoresTimeMore).toBeLessThanOrEqual(20000);
     });
   }

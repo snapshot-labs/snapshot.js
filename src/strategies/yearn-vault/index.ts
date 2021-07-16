@@ -32,6 +32,7 @@ export async function strategy(
   snapshot
 ) {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+  // eslint-disable-next-line prefer-const
   let [score, [pricePerFullShare]] = await Promise.all([
     erc20BalanceOfStrategy(
       space,

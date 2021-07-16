@@ -131,7 +131,7 @@ const quadraticWeightedVoteL1 = async (
 
   const totalDebtInSystem = totalL1Debt + scaledTotalL2Debt;
 
-  let ownershipPercentOfTotalDebt = currentDebtBalance / totalDebtInSystem;
+  const ownershipPercentOfTotalDebt = currentDebtBalance / totalDebtInSystem;
 
   const scaledWeighting = ownershipPercentOfTotalDebt * SCALING_FACTOR;
 
@@ -146,10 +146,10 @@ const quadraticWeightedVoteL2 = async (
 ) => {
   const totalDebtInSystem = totalL1Debt + scaledTotalL2Debt;
 
-  let ownershipPercentBN = Number(initialDebtOwnership) * normalisedL2CRatio;
-  let ownershipPercent = ownershipPercentBN / HIGH_PRECISE_UNIT;
-  let ownershipOfDebtDollarValue = ownershipPercent * scaledTotalL2Debt;
-  let ownershipPercentOfTotalDebt =
+  const ownershipPercentBN = Number(initialDebtOwnership) * normalisedL2CRatio;
+  const ownershipPercent = ownershipPercentBN / HIGH_PRECISE_UNIT;
+  const ownershipOfDebtDollarValue = ownershipPercent * scaledTotalL2Debt;
+  const ownershipPercentOfTotalDebt =
     ownershipOfDebtDollarValue / totalDebtInSystem;
 
   const scaledWeighting = ownershipPercentOfTotalDebt * SCALING_FACTOR;

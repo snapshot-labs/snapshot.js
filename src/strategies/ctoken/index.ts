@@ -63,17 +63,17 @@ export async function strategy(
       ? snapshot - options.offsetCheck
       : (await provider.getBlockNumber()) - options.offsetCheck;
 
-  let balanceOfCalls = addresses.map((address: any) => [
+  const balanceOfCalls = addresses.map((address: any) => [
     options.address,
     'balanceOf',
     [address]
   ]);
-  let borrowBalanceCalls = addresses.map((address: any) => [
+  const borrowBalanceCalls = addresses.map((address: any) => [
     options.address,
     'borrowBalanceStored',
     [address]
   ]);
-  let calls = balanceOfCalls.concat(borrowBalanceCalls);
+  const calls = balanceOfCalls.concat(borrowBalanceCalls);
 
   const [response, balancesOldResponse] = await Promise.all([
     multicall(network, provider, abi, calls, { blockTag }),
@@ -93,7 +93,7 @@ export async function strategy(
   const balancesNowResponse = response.slice(0, addresses.length);
   const borrowsNowResponse = response.slice(addresses.length);
 
-  let resultData = {};
+  const resultData = {};
   for (let i = 0; i < balancesNowResponse.length; i++) {
     let noBorrow = 1;
     if (options.borrowingRestricted) {

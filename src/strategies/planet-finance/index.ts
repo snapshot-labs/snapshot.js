@@ -72,7 +72,6 @@ export async function strategy(
   options,
   snapshot
 ) {
-
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
   const erc20Multi = new Multicaller(network, provider, bep20Abi, {

@@ -1,3 +1,4 @@
+import fetch from 'cross-fetch';
 import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 
 export const author = 'snapshot-labs';

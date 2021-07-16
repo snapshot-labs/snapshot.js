@@ -53,7 +53,7 @@ export async function strategy(
 
   const tokenAddress = options.tokenAddress.toLowerCase();
 
-  var rate;
+  let rate;
 
   const params = {
     pairs: {

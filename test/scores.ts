@@ -1,4 +1,3 @@
-global['fetch'] = require('cross-fetch');
 const { JsonRpcProvider } = require('@ethersproject/providers');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
