@@ -154,7 +154,6 @@ export async function getScoresDirect(
   addresses: string[],
   snapshot: number | string = 'latest'
 ) {
-  console.log('getScoresDirect');
   try {
     return await Promise.all(
       strategies.map((strategy) =>
