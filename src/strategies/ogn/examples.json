@@ -1,0 +1,35 @@
+[
+  {
+    "name": "OGN Snapshot strategy",
+    "strategy": {
+      "name": "ogn",
+      "params": {
+        "ognAddress": "0x8207c1ffc5b6804f6024322ccf34f29c3541ae26",
+        "stakingAddress": "0x501804B374EF06fa9C427476147ac09F1551B9A0",
+        "uniswapV2EthOgnAddress": "0xce2cc0513634cef3a7c9c257e294ef5e3092f185",
+        "sushiswapEthOgnAddress": "0x72ea6ca0d47b337f1ea44314d9d90e2a897edaf5",
+        "balancerEthOgnAddress": "0xae1019cfc59dc21a2395c8b38a6f6d0df61d2c22",
+        "creamAddress": "0x59089279987dd76fc65bf94cb40e186b96e03cb3",
+        "symbol": "OGN",
+        "decimals": 18,
+        "blocksPerPeriod": 40320,
+        "numPeriods": 4
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0xD85A569F3C26f81070544451131c742283360400",
+      "0xCe7BE31f48205C48A91A84E777a66252Bba87F0b",
+      "0x788550D00579F66c06ce209D14056C8F2c0A8188",
+      "0x18F93FA526e598769fd909F1D2C82315219d49Ed",
+      "0xA321025df54C18CEeFdE118c0671735390aCB318",
+      "0x8a4C36a99b0418BF95A155160C31A267EBCA8754",
+      "0x5e22b34F2708EA7e25918B8FCF816F9CfF27a331",
+      "0x12BD31628075C20919BA838b89F414241b8c4869",
+      "0xf88bD9c3F81f7148E4076bBB8b2e2B0951A8cE38",
+      "0xAAB9EaBa1AA2653c1Dda9846334700b9F5e14E44",
+      "0xB9b14C4d0cbc18FC5f54701D578e85968cf19FD5"
+    ],
+    "snapshot": 12842590
+  }
+]

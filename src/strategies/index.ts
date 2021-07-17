@@ -109,6 +109,7 @@ import { strategy as aaveGovernancePower } from './aave-governance-power';
 import { strategy as cake } from './cake';
 import { strategy as planetFinance } from './planet-finance';
 import { strategy as impossibleFinance } from './impossible-finance';
+import { strategy as ogn } from './ogn';
 
 export default {
   balancer,
@@ -221,5 +222,6 @@ export default {
   'aave-governance-power': aaveGovernancePower,
   cake,
   'planet-finance': planetFinance,
+  ogn,
   'impossible-finance': impossibleFinance
 };
