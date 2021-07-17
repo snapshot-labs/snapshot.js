@@ -1,4 +1,5 @@
 import { strategy as balancer } from './balancer';
+import { strategy as balancerSmartPool } from './balancer-smart-pool';
 import { strategy as contractCall } from './contract-call';
 import { strategy as ensDomainsOwned } from './ens-domains-owned';
 import { strategy as ensReverseRecord } from './ens-reverse-record';
@@ -67,6 +68,7 @@ import { strategy as erc1155BalanceOfCv } from './erc1155-balance-of-cv';
 import { strategy as compLikeVotes } from './comp-like-votes';
 import { strategy as governorAlpha } from './governor-alpha';
 import { strategy as pagination } from './pagination';
+import { strategy as rulerStakedToken } from './ruler-staked-token';
 import { strategy as rulerStakedLP } from './ruler-staked-lp';
 import { strategy as xcover } from './xcover';
 import { strategy as niuStaked } from './niu-staked';
@@ -81,6 +83,7 @@ import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
 import { strategy as trancheStakingLP } from './tranche-staking-lp';
 import { strategy as masterchefPoolBalance } from './masterchef-pool-balance';
 import { strategy as avnBalanceOfStaked } from './avn-balance-of-staked';
+import { strategy as badgeth } from './badgeth';
 import { strategy as api } from './api';
 import { strategy as xseen } from './xseen';
 import { strategy as molochAll } from './moloch-all';
@@ -108,9 +111,12 @@ import { strategy as aaveGovernancePower } from './aave-governance-power';
 import { strategy as cake } from './cake';
 import { strategy as planetFinance } from './planet-finance';
 import { strategy as impossibleFinance } from './impossible-finance';
+import { strategy as trancheStakingSLICE } from './tranche-staking-slice';
+import { strategy as unipoolSameToken } from './unipool-same-token';
 
 export default {
   balancer,
+  'balancer-smart-pool': balancerSmartPool,
   'erc20-received': erc20Received,
   'contract-call': contractCall,
   'eth-received': ethReceived,
@@ -182,6 +188,7 @@ export default {
   'comp-like-votes': compLikeVotes,
   'governor-alpha': governorAlpha,
   pagination,
+  'ruler-staked-token': rulerStakedToken,
   'ruler-staked-lp': rulerStakedLP,
   xcover,
   'niu-staked': niuStaked,
@@ -219,5 +226,8 @@ export default {
   'aave-governance-power': aaveGovernancePower,
   cake,
   'planet-finance': planetFinance,
-  'impossible-finance': impossibleFinance
+  'impossible-finance': impossibleFinance,
+  badgeth,
+  'tranche-staking-slice': trancheStakingSLICE,
+  'unipool-same-token': unipoolSameToken
 };
