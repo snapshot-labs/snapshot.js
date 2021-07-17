@@ -14,18 +14,28 @@ export const version = '0.1.0';
  * - uniPairAddress: address of a uniswap pair (or a sushi pair or any other with the same interface)
  *    - if the uniPairAddress option is provided, converts staked LP token balance to base token balance
  *      (based on the pair total supply and base token reserve)
- *    - if uniPairAddress is null or undefined, returns staked token balance as is
+ *    - if uniPairAddress is null or undefined, returns staked token balance of the pool
  * - weight: integer multiplier of the result (for combining strategies with different weights, totally optional)
- * - weightDecimals
- * - tokenAddress
- * - token0Address
- * - token0Weight
- * - token0WeightDecimals
- * - token1Address
- * - token1weight
- * - token1WeightDecimal
- * - usePrice
- * - log
+ * - weightDecimals: integer value of number of decimal places to apply to the final result
+ * - tokenAddress: address of a token in a single token poll. To be used instead of the uniPairAddress.
+ *                 will only be used if uniPairAddress is not present.
+ *                 can be used in conjunction with usePrice to get the price value of the staked tokens.
+ * - token0Address: address of the uniPair token 0. If defined, the strategy will return the result for the token0.
+ *                  can be used in conjunction with token1Address to get the sum of tokens or the UniPair token price
+ *                  when used with usePrice and token1Address.
+ *                  can be used with usePrice to get the price value of the staked amount of token0
+ * - token0Weight: integer multiplier of the result for token0
+ * - token0WeightDecimals: integer value of number of decimal places to apply to the result of token0
+ * - token1Address: address of the uniPair token 1. If defined, the strategy will return the result for the token1.
+ *                  can be used in conjunction with token0Address to get the sum of tokens or the UniPair token price
+ *                  when used with usePrice and token0Address.
+ *                  can be used with usePrice to get the price value of the staked amount of token1
+ * - token1weight: integer multiplier of the result for token1
+ * - token1WeightDecimal: integer value of number of decimal places to apply to the result of token1
+ * - usePrice: boolean flag return the result in usd instead of token count
+ * - log: boolean flag to enable or disable logging to the console (used for debugging purposes during development)
+ *
+ * Check the examples.json file for how to use the options.
  */
 
 const abi = [
@@ -185,10 +195,6 @@ const getTokenCalls = (options: any) => {
     result.push([options.uniPairAddress, 'token1', []]);
     result.push([options.uniPairAddress, 'decimals', []]);
 
-    if(options.tokenAddress != null){
-      result.push([options.tokenAddress, 'decimals', []]);
-    }
-
     if(options.token0Address != null){
       result.push([options.token0Address, 'decimals', []]);
     }
@@ -196,6 +202,10 @@ const getTokenCalls = (options: any) => {
     if(options.token1Address != null){
       result.push([options.token1Address, 'decimals', []]);
     }
+  }
+
+  if(options.tokenAddress != null){
+    result.push([options.tokenAddress, 'decimals', []]);
   }
 
   return result;
