@@ -2,6 +2,7 @@ import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 import { BigNumber} from '@ethersproject/bignumber';
 import fetch from 'cross-fetch';
+import { stringify } from 'ajv';
 
 export const author = 'joaomajesus';
 export const version = '0.1.0';
@@ -24,6 +25,7 @@ export const version = '0.1.0';
  * - token1weight
  * - token1WeightDecimal
  * - usePrice
+ * - log
  */
 
 const abi = [
@@ -219,7 +221,6 @@ async function processValues(
 
   log.push("values = " + values.toString());
   log.push("tokenValues = " + tokenValues.toString());
-
   printLog(options);
 
   const poolStaked = values[0][0] as BigNumber;
@@ -238,37 +239,25 @@ async function processValues(
 
       log.push('poolStaked = ' + poolStaked);
       log.push('tokenDecimals = ' + tokenDecimals);
-      log.push('weight = ' + weight);
-      log.push('weightDecimals = ' + weightDecimals);
       log.push('price = ' + price);
-
       printLog(options);
 
-      const tokenCount = poolStaked
-            .div(tokenDecimals)
-            .mul(weight)
-            .div(weightDecimals);
+      const tokenCount = poolStaked.div(tokenDecimals);
 
       result = toFloat(tokenCount, options.decimals) * price;
     }else{
       log.push('poolStaked = ' + poolStaked);
-      log.push('weight = ' + weight);
-      log.push('weightDecimals = ' + weightDecimals);
-
       printLog(options);
 
-      const tokenCount = poolStaked
-          .mul(weight)
-          .div(weightDecimals);
-
-      result = toFloat(tokenCount, options.decimals);
+      result = toFloat(poolStaked, options.decimals);
     }
   } else {
     const uniTotalSupply = tokenValues[0][0];
     const uniReserve0 = tokenValues[1][0];
     const uniReserve1 = tokenValues[1][1];
     const uniPairDecimalsIndex: any = options.uniPairAddress != null ? 4 : null;
-    const uniPairDecimals = uniPairDecimalsIndex != null ? BigNumber.from(10).pow(BigNumber.from(tokenValues[uniPairDecimalsIndex][0] || 0)) : BigNumber.from(1);
+    const uniPairDecimalsCount = tokenValues[uniPairDecimalsIndex][0];
+    const uniPairDecimals = uniPairDecimalsIndex != null ? BigNumber.from(10).pow(BigNumber.from(uniPairDecimalsCount || 0)) : BigNumber.from(1);
 
     const token0Address = tokenValues[2][0];
     const useToken0 = options.token0Address != null && options.token0Address.toString().toLowerCase() == token0Address?.toString().toLowerCase();
@@ -283,16 +272,16 @@ async function processValues(
           : 5;
 
       result += await GetTokenValue(
-        options,
-        uniReserve0,
-        uniPairDecimals,
-        uniTotalSupply,
-        tokenValues,
-        token0Address,
         network,
         provider,
         blockTag,
+        options,
+        uniTotalSupply,
+        uniReserve0,
+        uniPairDecimals,
         poolStaked,
+        tokenValues,
+        token0Address,
         token0DecimalsIndex,
         options.Token0weight,
         options.token0WeightDecimals);
@@ -312,41 +301,43 @@ async function processValues(
             ? 6
             : 5;
 
-      result += await GetTokenValue(
-        options,
-        uniReserve1,
-        uniPairDecimals,
-        uniTotalSupply,
-        tokenValues,
-        token1Address,
+      result += (await GetTokenValue(
         network,
         provider,
         blockTag,
+        options,
+        uniTotalSupply,
+        uniReserve1,
+        uniPairDecimals,
         poolStaked,
+        tokenValues,
+        token1Address,
         token1DecimalsIndex,
         options.Token1weight,
-        options.token1WeightDecimals);
+        options.token1WeightDecimals));
     }
 
     if(!useToken0 && !useToken1){
       log.push('poolStaked = ' + poolStaked);
       log.push('uniPairDecimals = ' + uniPairDecimals);
-      log.push('weight = ' + weight);
-      log.push('weightDecimals = ' + weightDecimals);
-
       printLog(options);
 
-      const tokenCount = poolStaked
-          .div(uniPairDecimals)
-          .mul(weight)
-          .div(weightDecimals);
+      const tokenCount = poolStaked.toNumber() / (10**uniPairDecimalsCount);
 
-      result = toFloat(tokenCount, options.decimals);
+      log.push('tokenCount = ' + tokenCount);
+
+      result = tokenCount / (10**(options.decimals || 0));
     }
   }
 
   log.push('result = ' + result);
+  printLog(options);
 
+  result *= weight.toNumber()  / weightDecimals.toNumber();
+
+  log.push('weight = ' + weight);
+  log.push('weightDecimals = ' + weightDecimals);
+  log.push('result = ' + result);
   printLog(options);
 
   return result;
@@ -357,16 +348,16 @@ function toFloat(tokenCount: BigNumber, decimals: any): number {
 }
 
 async function GetTokenValue(
-  options: any,
-  uniReserve: any,
-  uniPairDecimals: BigNumber,
-  uniTotalSupply: any,
-  tokenValues: any[],
-  tokenAddress: any,
   network: any,
   provider: any,
   blockTag: string | number,
+  options: any,
+  uniTotalSupply: any,
+  uniReserve: any,
+  uniPairDecimals: BigNumber,
   poolStaked: BigNumber,
+  tokenValues: any[],
+  tokenAddress: any,
   tokenDecimalsIndex: any,
   tokenWeight: any,
   tokenWeightDecimals: any) {
@@ -384,8 +375,8 @@ async function GetTokenValue(
     log.push('uniPairDecimals = ' + uniPairDecimals);
     log.push('uniTotalSupply = ' + uniTotalSupply);
     log.push('tokensPerLp = ' + tokensPerLp);
-    log.push('weight = ' + weight);
-    log.push('weightDecimals = ' + weightDecimals);
+    log.push('tokenWeight = ' + weight);
+    log.push('tokenWeightDecimals = ' + weightDecimals);
     log.push('price = ' + price);
 
     printLog(options);
@@ -395,6 +386,8 @@ async function GetTokenValue(
       .div(tokenDecimals)
       .mul(weight)
       .div(weightDecimals);
+
+    log.push('tokenCount = ' + tokenCount);
 
     return toFloat(tokenCount, options.decimals) * price;
 }
@@ -409,11 +402,12 @@ function printLog(options){
 
 async function getTokenPrice(options: any, tokenAddress: any, network: any, provider: any, blockTag: string | number) {
   let price: number = 1;
+  const cacheKey = tokenAddress + blockTag;
 
-  if (options.usePrice === true && !priceCache.has(tokenAddress + blockTag)) {
-    log.push("calling getPrice");
+  if (options.usePrice === true && !priceCache.has(cacheKey)) {
+    log.push("calling getPrice for token address: "  + tokenAddress  + " and blockTag: " + blockTag);
 
-    priceCache.set(tokenAddress, await getPrice(network, provider, tokenAddress, blockTag) || 1);
+     priceCache.set(cacheKey, await getPrice(network, provider, tokenAddress, blockTag) || 1);
   }
 
   price = priceCache.get(tokenAddress) || 1;
@@ -441,11 +435,9 @@ async function getPrice(
 
   const coingeckoData = await fetch(coingeckoApiURL)
     .then(async (r) => {
-      log.push("coingecko response = " + r);
-
       const json = await r.json();
 
-      log.push("coingecko json = " + json);
+      log.push("coingecko json = " + stringify(json));
 
       return json;
     })

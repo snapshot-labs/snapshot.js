@@ -12,7 +12,9 @@
         "token0weight": 1,
         "token0weightDecimals": 0,
         "token1weight": 1,
-        "token1weightDecimals": 0
+        "token1weightDecimals": 0,
+        "weight": 1,
+        "weightDecimals": 0
       }
     },
     "network": "137",
@@ -53,6 +55,8 @@
         "token0weightDecimals": 0,
         "token1weight": 1,
         "token1weightDecimals": 0,
+        "weight": 1,
+        "weightDecimals": 0,
         "usePrice": true
       }
     },
@@ -72,7 +76,9 @@
         "token0Address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
         "pid": "0",
         "token0weight": 1,
-        "token0weightDecimals": 0
+        "token0weightDecimals": 0,
+        "weight": 1,
+        "weightDecimals": 0
       }
     },
     "network": "137",
@@ -92,6 +98,8 @@
         "pid": "0",
         "token0weight": 1,
         "token0weightDecimals": 0,
+        "weight": 1,
+        "weightDecimals": 0,
         "usePrice": true
       }
     },
@@ -111,7 +119,9 @@
         "token1Address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
         "pid": "0",
         "token1weight": 1,
-        "token1weightDecimals": 0
+        "token1weightDecimals": 0,
+        "weight": 1,
+        "weightDecimals": 0
       }
     },
     "network": "137",
@@ -131,6 +141,8 @@
         "pid": "0",
         "token1weight": 1,
         "token1weightDecimals": 0,
+        "weight": 1,
+        "weightDecimals": 0,
         "usePrice": true
       }
     },
@@ -138,6 +150,6 @@
     "addresses": [
       "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
     ],
-    "snapshot": 16682880
+    "snapshot": 16828978
   }
 ]
