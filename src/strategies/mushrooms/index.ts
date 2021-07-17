@@ -143,11 +143,11 @@ export async function strategy(
     });
     erc20Multi.call(
       'lpTotalSupply',
-      masterChefResult.poolInfo.lpToken,
+      masterChefResult.poolInfo.lpToken[0],
       'totalSupply'
     );
     erc20Multi.call('poolMMBalance', options.govtoken, 'balanceOf', [
-      masterChefResult.poolInfo.lpToken
+      masterChefResult.poolInfo.lpToken[0]
     ]);
     const erc20Result = await erc20Multi.execute();
 
@@ -157,7 +157,7 @@ export async function strategy(
           address,
           parseFloat(
             formatUnits(
-              masterChefResult[address].userInfo.amount
+              masterChefResult[address].userInfo.amount[0]
                 .mul(erc20Result.poolMMBalance)
                 .div(erc20Result.lpTotalSupply)
                 .toString(),
