@@ -9,36 +9,36 @@ export const version = '0.1.0';
 
 /*
  * Generic masterchef pool balance or price strategy. Accepted options:
- * - chefAddress: masterchef contract address
- * - pid: mastechef pool id (starting with zero)
+ * - chefAddress: Masterchef contract address
+ * - pid: Mastechef pool id (starting with zero)
  *
- * - uniPairAddress: address of a uniswap pair (or a sushi pair or any other with the same interface)
- *    - if the uniPairAddress option is provided, converts staked LP token balance to base token balance
+ * - uniPairAddress: Address of a uniswap pair (or a sushi pair or any other with the same interface)
+ *    - If the uniPairAddress option is provided, converts staked LP token balance to base token balance
  *      (based on the pair total supply and base token reserve)
- *    - if uniPairAddress is null or undefined, returns staked token balance of the pool
+ *    - If uniPairAddress is null or undefined, returns staked token balance of the pool
  *
- * - weight: integer multiplier of the result (for combining strategies with different weights, totally optional)
- * - weightDecimals: integer value of number of decimal places to apply to the final result
+ * - weight: Integer multiplier of the result (for combining strategies with different weights, totally optional)
+ * - weightDecimals: Integer value of number of decimal places to apply to the final result
  *
- * - token0.address: address of the uniPair token 0. If defined, the strategy will return the result for the token0.
- *                  can be used in conjunction with token1Address to get the sum of tokens or the UniPair token price
- *                  when used with usePrice and token1Address.
- *                  can be used with usePrice to get the price value of the staked amount of token0
- * - token0.weight: integer multiplier of the result for token0
- * - token0.weightDecimals: integer value of number of decimal places to apply to the result of token0
+ * - token0.address: Address of the uniPair token 0. If defined, the strategy will return the result for the token0.
+ *                   can be used in conjunction with token1Address to get the sum of tokens or the UniPair token price
+ *                   when used with usePrice and token1Address.
+ *                   Can be used with usePrice to get the price value of the staked amount of token0
+ * - token0.weight: Integer multiplier of the result for token0
+ * - token0.weightDecimals: Integer value of number of decimal places to apply to the result of token0
  *
- * - token1.address: address of the uniPair token 1. If defined, the strategy will return the result for the token1.
- *                  can be used in conjunction with token0Address to get the sum of tokens or the UniPair token price
- *                  when used with usePrice and token0Address.
- *                  can be used with usePrice to get the price value of the staked amount of token1
- * - token1,weight: integer multiplier of the result for token1
- * - token1.weightDecimal: integer value of number of decimal places to apply to the result of token1
+ * - token1.address: Address of the uniPair token 1. If defined, the strategy will return the result for the token1.
+ *                   can be used in conjunction with token0Address to get the sum of tokens or the UniPair token price
+ *                   when used with usePrice and token0Address.
+ *                   can be used with usePrice to get the price value of the staked amount of token1
+ * - token1,weight: Integer multiplier of the result for token1
+ * - token1.weightDecimal: Integer value of number of decimal places to apply to the result of token1
  *
- * - usePrice: boolean flag return the result in usd instead of token count
+ * - usePrice: Boolean flag return the result in usd instead of token count
  *
- * - log: boolean flag to enable or disable logging to the console (used for debugging purposes during development)
+ * - log: Boolean flag to enable or disable logging to the console (used for debugging purposes during development)
  *
- * - antiWhale.enable: boolean flag to apply an anti-whale measure reducing the effect on the voting power as the token amount increases.
+ * - antiWhale.enable: Boolean flag to apply an anti-whale measure reducing the effect on the voting power as the token amount increases.
  *    - if enabled will apply the the following to the result:
  *
  *      If result > antiWhale.threshold
@@ -48,18 +48,20 @@ export const version = '0.1.0';
  *        thresholdMultiplier = ( antiWhale.inflectionPoint * ( antiWhale.threshold / antiWhale.inflectionPoint )^antiWhale.exponent ) / antiWhale.threshold
  *        result = result * thresholdMultiplier
  *
- *      - thresholdMultiplier = The multiplier at which all results below threshold are multiplied. This is ratio of antiWhale/result at the threshold point.
- * - antiWhale.inflectionPoint = Point at which output matches result. Results less than this increase output. Results greater than this decrease output.
+ *      - thresholdMultiplier: The multiplier at which all results below threshold are multiplied. This is ratio of antiWhale/result at the threshold point.
+ * - antiWhale.threshold: Point at which antiWhale effect no longer applies. Results less than this will be treated with a static multiplier.
+ *                        This is to reduce infinite incentive for multiple wallet exploits.
+ *    - default: 1625.
+ *    - lower cap: > 0 - set to default if <= 0.
+ * - antiWhale.inflectionPoint: Point at which output matches result. Results less than this increase output. Results greater than this decrease output.
  *    - default: 6500.
- *    - lower cap: 0.
- *    - must be >= antiWhale.threshold. otherwise will be same as antiWhale.threshold.
- * - antiWhale.exponent = The exponent is responsible for the antiWhale effect. Must be less than one, greater than zero, or else it will make a pro-whale effect.
+ *    - lower cap: > 0 - set to default if <= 0.
+ *    - must be >= antiWhale.threshold. Otherwise will be same as antiWhale.threshold.
+ * - antiWhale.exponent: The exponent is responsible for the antiWhale effect. Must be less than one, or else it will have a pro-whale effect.
+ *                       Must be greater than zero, or else it will cause total voting power to trend to zero.
  *    - default: 0.5.
  *    - upper cap: 1.
- * - antiWhale.threshold = Point at which antiWhale effect no longer applies. Results less than this will be treated with a static multiplier.
- *                         This is to reduce infinite incentive for multiple wallet exploits.
- *    - default: 1625.
- *    - lower cap: 0.
+ *    - lower cap: > 0 - set to default if <= 0.
  *
  * Check the examples.json file for how to use the options.
  */
@@ -362,23 +364,21 @@ function applyAntiWhaleMeasures(result){
     return result;
   }
 
-  const inflectionPoint = _options.antiWhale.inflectionPoint == null
-    ? 6500
-    : _options.antiWhale.inflectionPoint < _options.antiWhale.threshold
-      ? _options.antiWhale.threshold
-      : _options.antiWhale.inflectionPoint;
+  const threshold = _options.antiWhale.threshold == null || _options.antiWhale.threshold <= 0
+    ? 1625
+    : _options.antiWhale.threshold;
 
-  const exponent = _options.antiWhale.exponent == null
+  let inflectionPoint = _options.antiWhale.inflectionPoint == null || _options.antiWhale.inflectionPoint <= 0
+    ? 6500
+    : _options.antiWhale.inflectionPoint;
+
+  inflectionPoint = inflectionPoint < threshold ? threshold : inflectionPoint;
+
+  const exponent = _options.antiWhale.exponent == null || _options.antiWhale.exponent <= 0
     ? 0.5
     : _options.antiWhale.exponent > 1
       ? 1
       : _options.antiWhale.exponent;
-
-  const threshold = _options.antiWhale.threshold == null
-    ? 1625
-    : _options.antiWhale.threshold < 0
-      ? 0
-      : _options.antiWhale.threshold;
 
   log.push(`inflectionPoint = ${inflectionPoint}`);
   log.push(`exponent = ${exponent}`);
