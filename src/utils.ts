@@ -5,7 +5,6 @@ import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
-import { abi as multicallAbi } from './abi/Multicall.json';
 import _strategies from './strategies';
 import Multicaller from './utils/multicaller';
 import getProvider from './utils/provider';
@@ -48,6 +47,9 @@ export async function multicall(
   calls: any[],
   options?
 ) {
+  const multicallAbi = [
+    'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)'
+  ];
   const multi = new Contract(
     networks[network].multicall,
     multicallAbi,
@@ -152,7 +154,6 @@ export async function getScoresDirect(
   addresses: string[],
   snapshot: number | string = 'latest'
 ) {
-  console.log('getScoresDirect');
   try {
     return await Promise.all(
       strategies.map((strategy) =>
