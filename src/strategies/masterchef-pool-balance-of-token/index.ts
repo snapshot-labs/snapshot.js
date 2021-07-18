@@ -2,7 +2,7 @@ import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 import { BigNumber} from '@ethersproject/bignumber';
 import fetch from 'cross-fetch';
-import { stringify } from 'ajv';
+import { inspect } from 'util';
 
 export const author = 'joaomajesus';
 export const version = '0.1.0';
@@ -35,17 +35,23 @@ export const version = '0.1.0';
  * - usePrice: boolean flag return the result in usd instead of token count
  * - log: boolean flag to enable or disable logging to the console (used for debugging purposes during development)
  * - antiWhale.enable: boolean flag to apply an anti-whale measure reducing the effect on the voting power as the token amount increases.
- *    - if enabled will apply the the following formula to the result: inflectionPoint*(result/inflectionPoint)^exponent.
- *      example:
- *         1 pwr converts to 1000*(1/1000)^0.5 = 31.6
- *         10 pwr converts to 1000*(10/1000)^0.5 = 100
- *         100 pwr converts to 1000*(100/1000)^0.5 = 316
- *         250 pwr converts to 1000*(250/1000)^0.5 = 500
- *         1000 pwr converts to 1000*(1000/1000)^0.5 = 1000
- *         10,000 pwr converts to 1000*(10000/1000)^0.5 = 3162
- * - antiWhale.inflectionPoint: default is 1.
- * - antiWhale.exponent: default is 0.5.
- * - antiWhale.minimumAmount: the minium amount to be able to have any voting power. If the result is bellow this value then it will substituted by 0.
+ *    - if enabled will apply the the following to the result:
+ *
+ *      If result > antiWhale.threshold
+ *        antiWhale = antiWhale.inflectionPoint * ( result / antiWhale.inflectionPoint )^antiWhale.exponent
+ *
+ *      If result <= antiWhale.threshold
+ *        antiWhale = result * thresholdMultiplier
+ *
+ *      Where...
+ *      thresholdMultiplier = ( antiWhale.inflectionPoint * ( antiWhale.threshold / antiWhale.inflectionPoint )^antiWhale.exponent ) / antiWhale.threshold
+ *
+ *      - thresholdMultiplier = The multiplier at which all results below threshold are multiplied. This is ratio of antiWhale/result at the threshold point.
+ * - antiWhale.inflectionPoint = Point at which output matches result. Results less than this increase output. Results greater than this decrease output. default: 1.
+ * - antiWhale.exponent = The exponent is responsible for the antiWhale effect. Must be less than one, greater than zero, or else it will make a pro-whale effect. default: 0.5.
+ * - antiWhale.threshold = Point at which antiWhale effect no longer applies. Results less than this will be treated with a static multiplier.
+ *                         This is to reduce infinite incentive for multiple wallet exploits. default: .
+ * - antiWhale.minimumAmount: the minium amount to be able to have any voting power. If the result is bellow this value then it will substituted by 0. default: 250.
  *
  * Check the examples.json file for how to use the options.
  */
@@ -185,7 +191,7 @@ const networksWithPlatforms = {
 
 const priceCache = new Map<any, number>();
 const blockCache = new Map<any, any>();
-let log: String[] = [];
+let log: string[] = [];
 
 const getUserInfoCalls = (addresses: any[], options: any) => {
   const result: any[] = [];
@@ -241,8 +247,8 @@ async function processValues(
   provider: any,
   blockTag: string | number) {
 
-  log.push("values = " + values.toString());
-  log.push("tokenValues = " + tokenValues.toString());
+  log.push(`values = ${inspect(values)}`);
+  log.push(`tokenValues = ${inspect(tokenValues)}`);
   printLog(options);
 
   const poolStaked = values[0][0] as BigNumber;
@@ -259,16 +265,16 @@ async function processValues(
       const tokenDecimals = tokenDecimalsIndex != null ? tokenValues[tokenDecimalsIndex][0] : 1;
       const price = await getTokenPrice(options, tokenAddress, network, provider, blockTag);
 
-      log.push('poolStaked = ' + poolStaked);
-      log.push('tokenDecimals = ' + tokenDecimals);
-      log.push('price = ' + price);
+      log.push(`poolStaked = ${poolStaked}`);
+      log.push(`tokenDecimals = ${tokenDecimals}`);
+      log.push(`price = ${price}`);
       printLog(options);
 
       const tokenCount = poolStaked.div(tokenDecimals);
 
       result = toFloat(tokenCount, options.decimals) * price;
     }else{
-      log.push('poolStaked = ' + poolStaked);
+      log.push(`poolStaked = ${poolStaked}`);
       printLog(options);
 
       result = toFloat(poolStaked, options.decimals);
@@ -284,12 +290,17 @@ async function processValues(
     const token0Address = tokenValues[2][0];
     const useToken0 = options.token0?.address != null && options.token0.address.toString().toLowerCase() == token0Address?.toString().toLowerCase();
 
-    log.push("useToken0 = " + useToken0);
+    log.push(`useToken0 = ${useToken0}`);
 
     if(useToken0){
       const token0DecimalsIndex = options.tokenAddress != null
           ? 6
           : 5;
+
+      log.push(`token0DecimalsIndex = ${token0DecimalsIndex}`);
+      log.push(`tokenValues = ${inspect(tokenValues)}`);
+      printLog(options);
+
 
       result += await GetTokenValue(
         network,
@@ -303,21 +314,25 @@ async function processValues(
         tokenValues,
         token0Address,
         token0DecimalsIndex,
-        options.token0.weight,
-        options.token0.weightDecimals);
+        options.token0?.weight,
+        options.token0?.weightDecimals);
     }
 
     const token1Address = tokenValues[3][0];
     const useToken1 = options.token1?.address != null && options.token1.address.toString().toLowerCase() == token1Address?.toString().toLowerCase();
 
-    log.push("useToken1 = " + useToken1);
+    log.push(`useToken1 = ${useToken1}`);
 
     if(useToken1){
       const token1DecimalsIndex = options.tokenAddress != null && options.token0?.address != null
-          ? 7
-          : options.tokenAddress == null && options.token0?.address != null
-            ? 6
-            : 5;
+          ? 5
+          : (options.tokenAddress == null && options.token0?.address != null) || (options.tokenAddress != null && options.token0?.address == null)
+            ? 4
+            : 3;
+
+      log.push(`token1DecimalsIndex = ${token1DecimalsIndex}`);
+      log.push(`tokenValues = ${inspect(tokenValues)}`);
+      printLog(options);
 
       result += (await GetTokenValue(
         network,
@@ -336,40 +351,40 @@ async function processValues(
     }
 
     if(!useToken0 && !useToken1){
-      log.push('poolStaked = ' + poolStaked);
-      log.push('uniPairDecimals = ' + uniPairDecimals);
+      log.push(`poolStaked = ${poolStaked}`);
+      log.push(`uniPairDecimals = ${uniPairDecimals}`);
       printLog(options);
 
       const tokenCount = poolStaked.toNumber() / (10**uniPairDecimalsCount);
 
-      log.push('tokenCount = ' + tokenCount);
+      log.push(`tokenCount = ${tokenCount}`);
 
       result = tokenCount / (10**(options.decimals || 0));
     }
   }
 
-  log.push('result = ' + result);
+  log.push(`result = ${result}`);
   printLog(options);
 
   result *= weight.toNumber()  / weightDecimals.toNumber();
 
-  log.push('weight = ' + weight);
-  log.push('weightDecimals = ' + weightDecimals);
-  log.push('result = ' + result);
+  log.push(`weight = ${weight}`);
+  log.push(`weightDecimals = ${weightDecimals}`);
+  log.push(`result = ${result}`);
   printLog(options);
 
   return applyAntiWhaleMeasures(result, options);
 }
 
 function applyAntiWhaleMeasures(result, options){
-  log.push("antiWhale = " + options.antiWhale?.enable);
+  log.push(`antiWhale = ${options.antiWhale?.enable}`);
 
-  if(!options.antiWhale.enable){
+  if(options.antiWhale?.enable != true){
     printLog(options);
     return result;
   }
 
-  log.push("antiWhaleMinimumAmount = " + options.antiWhale.minimumAmount);
+  log.push(`antiWhaleMinimumAmount = ${options.antiWhale.minimumAmount}`);
 
   if(options.antiWhale.minimumAmount != null && options.antiWhale.minimumAmount > 0 && result < options.antiWhale.minimumAmount){
     printLog(options);
@@ -379,11 +394,16 @@ function applyAntiWhaleMeasures(result, options){
   const inflectionPoint = options.antiWhale.inflectionPoint || 1;
   const exponent = options.antiWhale.exponent || 0.5;
 
-  log.push("inflectionPoint = " + inflectionPoint);
-  log.push("exponent = " + exponent);
+  log.push(`inflectionPoint = ${inflectionPoint}`);
+  log.push(`exponent = ${exponent}`);
   printLog(options);
 
-  result = inflectionPoint * (result/inflectionPoint) ** (exponent);
+  result = inflectionPoint * (result / inflectionPoint) ** (exponent);
+
+  log.push(`result = ${result}`);
+  printLog(options);
+
+  return result;
 }
 
 function toFloat(tokenCount: BigNumber, decimals: any): number {
@@ -411,16 +431,16 @@ async function GetTokenValue(
     const tokenDecimals = tokenDecimalsIndex != null ? BigNumber.from(10).pow(BigNumber.from(tokenValues[tokenDecimalsIndex][0] || 0)) : BigNumber.from(1);
     const price = await getTokenPrice(options, tokenAddress, network, provider, blockTag);
 
-    log.push('tokenAddress = ' + tokenAddress);
-    log.push('tokenDecimals = ' + tokenDecimals);
-    log.push('poolStaked = ' + poolStaked);
-    log.push('uniReserve = ' + uniReserve);
-    log.push('uniPairDecimals = ' + uniPairDecimals);
-    log.push('uniTotalSupply = ' + uniTotalSupply);
-    log.push('tokensPerLp = ' + tokensPerLp);
-    log.push('tokenWeight = ' + weight);
-    log.push('tokenWeightDecimals = ' + weightDecimals);
-    log.push('price = ' + price);
+    log.push(`tokenAddress = ${tokenAddress}`);
+    log.push(`tokenDecimals = ${tokenDecimals}`);
+    log.push(`poolStaked = ${poolStaked}`);
+    log.push(`uniReserve = ${uniReserve}`);
+    log.push(`uniPairDecimals = ${uniPairDecimals}`);
+    log.push(`uniTotalSupply = ${uniTotalSupply}`);
+    log.push(`tokensPerLp = ${tokensPerLp}`);
+    log.push(`tokenWeight = ${weight}`);
+    log.push(`tokenWeightDecimals = ${weightDecimals}`);
+    log.push(`price = ${price}`);
 
     printLog(options);
 
@@ -430,7 +450,7 @@ async function GetTokenValue(
       .mul(weight)
       .div(weightDecimals);
 
-    log.push('tokenCount = ' + tokenCount);
+    log.push(`tokenCount = ${tokenCount}`);
 
     return toFloat(tokenCount, options.decimals) * price;
 }
@@ -448,7 +468,7 @@ async function getTokenPrice(options: any, tokenAddress: any, network: any, prov
   const cacheKey = tokenAddress + blockTag;
 
   if (options.usePrice === true && !priceCache.has(cacheKey)) {
-    log.push("calling getPrice for token address: "  + tokenAddress  + " and blockTag: " + blockTag);
+     log.push(`calling getPrice for token address: ${tokenAddress} and blockTag: ${blockTag}`);
 
      priceCache.set(cacheKey, await getPrice(network, provider, tokenAddress, blockTag) || 1);
   }
@@ -480,7 +500,7 @@ async function getPrice(
     .then(async (r) => {
       const json = await r.json();
 
-      log.push("coingecko json = " + stringify(json));
+      log.push(`coingecko json = ${inspect(json)}`);
 
       return json;
     })
