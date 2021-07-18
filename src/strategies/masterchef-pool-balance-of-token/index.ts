@@ -17,9 +17,6 @@ export const version = '0.1.0';
  *    - if uniPairAddress is null or undefined, returns staked token balance of the pool
  * - weight: integer multiplier of the result (for combining strategies with different weights, totally optional)
  * - weightDecimals: integer value of number of decimal places to apply to the final result
- * - tokenAddress: address of a token in a single token poll. To be used instead of the uniPairAddress.
- *                 will only be used if uniPairAddress is not present.
- *                 can be used in conjunction with usePrice to get the price value of the staked tokens.
  * - token0.address: address of the uniPair token 0. If defined, the strategy will return the result for the token0.
  *                  can be used in conjunction with token1Address to get the sum of tokens or the UniPair token price
  *                  when used with usePrice and token1Address.
@@ -190,38 +187,35 @@ const networksWithPlatforms = {
 const priceCache = new Map<any, number>();
 const blockCache = new Map<any, any>();
 let log: string[] = [];
+let _options;
 
-const getUserInfoCalls = (addresses: any[], options: any) => {
+const getUserInfoCalls = (addresses: any[]) => {
   const result: any[] = [];
 
   for (let address of addresses) {
-    result.push([options.chefAddress, 'userInfo', [options.pid, address]]);
+    result.push([_options.chefAddress, 'userInfo', [_options.pid, address]]);
   }
 
   return result;
 };
 
-const getTokenCalls = (options: any) => {
+const getTokenCalls = () => {
   const result: any[] = [];
 
-  if (options.uniPairAddress != null) {
-    result.push([options.uniPairAddress, 'totalSupply', []]);
-    result.push([options.uniPairAddress, 'getReserves', []]);
-    result.push([options.uniPairAddress, 'token0', []]);
-    result.push([options.uniPairAddress, 'token1', []]);
-    result.push([options.uniPairAddress, 'decimals', []]);
+  if (_options.uniPairAddress != null) {
+    result.push([_options.uniPairAddress, 'totalSupply', []]);
+    result.push([_options.uniPairAddress, 'getReserves', []]);
+    result.push([_options.uniPairAddress, 'token0', []]);
+    result.push([_options.uniPairAddress, 'token1', []]);
+    result.push([_options.uniPairAddress, 'decimals', []]);
 
-    if(options.token0?.address != null){
-      result.push([options.token0?.address, 'decimals', []]);
+    if(_options.token0?.address != null){
+      result.push([_options.token0.address, 'decimals', []]);
     }
 
-    if(options.token1?.Address != null){
-      result.push([options.token1?.address, 'decimals', []]);
+    if(_options.token1?.address != null){
+      result.push([_options.token1.address, 'decimals', []]);
     }
-  }
-
-  if(options.tokenAddress != null){
-    result.push([options.tokenAddress, 'decimals', []]);
   }
 
   return result;
@@ -240,70 +234,49 @@ function arrayChunk<T>(arr: T[], chunkSize: number): T[][] {
 async function processValues(
   values: any[],
   tokenValues: any[],
-  options: any,
   network: any,
   provider: any,
   blockTag: string | number) {
 
   log.push(`values = ${inspect(values)}`);
   log.push(`tokenValues = ${inspect(tokenValues)}`);
-  printLog(options);
+  printLog();
 
   const poolStaked = values[0][0] as BigNumber;
-  const weight = BigNumber.from(options.weight || 1);
-  const weightDecimals = BigNumber.from(10).pow(BigNumber.from(options.weightDecimals || 0));
+  const weight = BigNumber.from(_options.weight || 1);
+  const weightDecimals = BigNumber.from(10).pow(BigNumber.from(_options.weightDecimals || 0));
 
   let result: number = 0;
 
-  if (options.uniPairAddress == null) {
-    const tokenAddress = options.tokenAddress;
-
-    if(tokenAddress != null){
-      const tokenDecimalsIndex: any = tokenAddress != null ? 5 : null;
-      const tokenDecimals = tokenDecimalsIndex != null ? tokenValues[tokenDecimalsIndex][0] : 1;
-      const price = await getTokenPrice(options, tokenAddress, network, provider, blockTag);
-
+  if (_options.uniPairAddress == null) {
       log.push(`poolStaked = ${poolStaked}`);
-      log.push(`tokenDecimals = ${tokenDecimals}`);
-      log.push(`price = ${price}`);
-      printLog(options);
+      printLog();
 
-      const tokenCount = poolStaked.div(tokenDecimals);
-
-      result = toFloat(tokenCount, options.decimals) * price;
-    }else{
-      log.push(`poolStaked = ${poolStaked}`);
-      printLog(options);
-
-      result = toFloat(poolStaked, options.decimals);
-    }
+      result = toFloat(poolStaked, _options.decimals);
   } else {
     const uniTotalSupply = tokenValues[0][0];
     const uniReserve0 = tokenValues[1][0];
     const uniReserve1 = tokenValues[1][1];
-    const uniPairDecimalsIndex: any = options.uniPairAddress != null ? 4 : null;
+    const uniPairDecimalsIndex: any = _options.uniPairAddress != null ? 4 : null;
     const uniPairDecimalsCount = tokenValues[uniPairDecimalsIndex][0];
     const uniPairDecimals = uniPairDecimalsIndex != null ? BigNumber.from(10).pow(BigNumber.from(uniPairDecimalsCount || 0)) : BigNumber.from(1);
 
     const token0Address = tokenValues[2][0];
-    const useToken0 = options.token0?.address != null && options.token0.address.toString().toLowerCase() == token0Address?.toString().toLowerCase();
+    const useToken0 = _options.token0?.address != null && _options.token0.address.toString().toLowerCase() == token0Address?.toString().toLowerCase();
 
     log.push(`useToken0 = ${useToken0}`);
 
     if(useToken0){
-      const token0DecimalsIndex = options.tokenAddress != null
-          ? 6
-          : 5;
+      const token0DecimalsIndex = 5;
 
       log.push(`token0DecimalsIndex = ${token0DecimalsIndex}`);
       log.push(`tokenValues = ${inspect(tokenValues)}`);
-      printLog(options);
+      printLog();
 
       result += await GetTokenValue(
         network,
         provider,
         blockTag,
-        options,
         uniTotalSupply,
         uniReserve0,
         uniPairDecimals,
@@ -311,31 +284,26 @@ async function processValues(
         tokenValues,
         token0Address,
         token0DecimalsIndex,
-        options.token0?.weight,
-        options.token0?.weightDecimals);
+        _options.token0?.weight,
+        _options.token0?.weightDecimals);
     }
 
     const token1Address = tokenValues[3][0];
-    const useToken1 = options.token1?.address != null && options.token1.address.toString().toLowerCase() == token1Address?.toString().toLowerCase();
+    const useToken1 = _options.token1?.address != null && _options.token1.address.toString().toLowerCase() == token1Address?.toString().toLowerCase();
 
     log.push(`useToken1 = ${useToken1}`);
 
     if(useToken1){
-      const token1DecimalsIndex = options.tokenAddress != null && options.token0?.address != null
-          ? 5
-          : (options.tokenAddress == null && options.token0?.address != null) || (options.tokenAddress != null && options.token0?.address == null)
-            ? 4
-            : 3;
+      const token1DecimalsIndex = _options.token0?.address != null ? 6 : 5;
 
       log.push(`token1DecimalsIndex = ${token1DecimalsIndex}`);
       log.push(`tokenValues = ${inspect(tokenValues)}`);
-      printLog(options);
+      printLog();
 
       result += (await GetTokenValue(
         network,
         provider,
         blockTag,
-        options,
         uniTotalSupply,
         uniReserve1,
         uniPairDecimals,
@@ -343,59 +311,59 @@ async function processValues(
         tokenValues,
         token1Address,
         token1DecimalsIndex,
-        options.token1?.weight,
-        options.token1?.WeightDecimals));
+        _options.token1?.weight,
+        _options.token1?.WeightDecimals));
     }
 
     if(!useToken0 && !useToken1){
       log.push(`poolStaked = ${poolStaked}`);
       log.push(`uniPairDecimals = ${uniPairDecimals}`);
-      printLog(options);
+      printLog();
 
       const tokenCount = poolStaked.toNumber() / (10**uniPairDecimalsCount);
 
       log.push(`tokenCount = ${tokenCount}`);
 
-      result = tokenCount / (10**(options.decimals || 0));
+      result = tokenCount / (10**(_options.decimals || 0));
     }
   }
 
   log.push(`result = ${result}`);
-  printLog(options);
+  printLog();
 
   result *= weight.toNumber()  / weightDecimals.toNumber();
 
   log.push(`weight = ${weight}`);
   log.push(`weightDecimals = ${weightDecimals}`);
   log.push(`result = ${result}`);
-  printLog(options);
+  printLog();
 
-  return applyAntiWhaleMeasures(result, options);
+  return applyAntiWhaleMeasures(result);
 }
 
-function applyAntiWhaleMeasures(result, options){
-  log.push(`antiWhale = ${options.antiWhale?.enable}`);
+function applyAntiWhaleMeasures(result){
+  log.push(`antiWhale = ${_options.antiWhale?.enable}`);
 
-  if(options.antiWhale?.enable != true){
-    printLog(options);
+  if(_options.antiWhale?.enable != true){
+    printLog();
     return result;
   }
 
-  log.push(`minimumAmount = ${options.antiWhale.minimumAmount}`);
+  log.push(`minimumAmount = ${_options.antiWhale.minimumAmount}`);
 
-  if(options.antiWhale.minimumAmount != null && options.antiWhale.minimumAmount > 0 && result < options.antiWhale.minimumAmount){
-    printLog(options);
+  if(_options.antiWhale.minimumAmount != null && _options.antiWhale.minimumAmount > 0 && result < _options.antiWhale.minimumAmount){
+    printLog();
     return 0;
   }
 
-  const inflectionPoint = options.antiWhale.inflectionPoint || 6500;
-  const exponent = options.antiWhale.exponent || 0.5;
-  const threshold = options.antiWhale.threshold || 1625;
+  const inflectionPoint = _options.antiWhale.inflectionPoint || 6500;
+  const exponent = _options.antiWhale.exponent || 0.5;
+  const threshold = _options.antiWhale.threshold || 1625;
 
   log.push(`inflectionPoint = ${inflectionPoint}`);
   log.push(`exponent = ${exponent}`);
   log.push(`threshold = ${threshold}`);
-  printLog(options);
+  printLog();
 
   if (result > threshold){
     result = inflectionPoint * ( result / inflectionPoint ) ^ exponent;
@@ -408,7 +376,7 @@ function applyAntiWhaleMeasures(result, options){
   }
 
   log.push(`result = ${result}`);
-  printLog(options);
+  printLog();
 
   return result;
 }
@@ -421,7 +389,6 @@ async function GetTokenValue(
   network: any,
   provider: any,
   blockTag: string | number,
-  options: any,
   uniTotalSupply: any,
   uniReserve: any,
   uniPairDecimals: BigNumber,
@@ -436,7 +403,7 @@ async function GetTokenValue(
     const tokensPerLp = uniReserve.mul(uniPairDecimals).div(uniTotalSupply);
 
     const tokenDecimals = tokenDecimalsIndex != null ? BigNumber.from(10).pow(BigNumber.from(tokenValues[tokenDecimalsIndex][0] || 0)) : BigNumber.from(1);
-    const price = await getTokenPrice(options, tokenAddress, network, provider, blockTag);
+    const price = await getTokenPrice(tokenAddress, network, provider, blockTag);
 
     log.push(`tokenAddress = ${tokenAddress}`);
     log.push(`tokenDecimals = ${tokenDecimals}`);
@@ -449,7 +416,7 @@ async function GetTokenValue(
     log.push(`tokenWeightDecimals = ${weightDecimals}`);
     log.push(`price = ${price}`);
 
-    printLog(options);
+    printLog();
 
     const tokenCount = poolStaked
       .mul(tokensPerLp)
@@ -459,22 +426,22 @@ async function GetTokenValue(
 
     log.push(`tokenCount = ${tokenCount}`);
 
-    return toFloat(tokenCount, options.decimals) * price;
+    return toFloat(tokenCount, _options.decimals) * price;
 }
 
-function printLog(options){
-  if(options.log || false)
+function printLog(){
+  if(_options.log || false)
   {
     console.debug(log);
     log = []
   }
 }
 
-async function getTokenPrice(options: any, tokenAddress: any, network: any, provider: any, blockTag: string | number) {
+async function getTokenPrice(tokenAddress: any, network: any, provider: any, blockTag: string | number) {
   let price: number = 1;
   const cacheKey = tokenAddress + blockTag;
 
-  if (options.usePrice === true && !priceCache.has(cacheKey)) {
+  if (_options.usePrice === true && !priceCache.has(cacheKey)) {
      log.push(`calling getPrice for token address: ${tokenAddress} and blockTag: ${blockTag}`);
 
      priceCache.set(cacheKey, await getPrice(network, provider, tokenAddress, blockTag) || 1);
@@ -490,7 +457,6 @@ async function getPrice(
   provider,
   address,
   blockTag) {
-
   if(!blockCache.has(blockTag)){
     blockCache.set(blockTag, await provider.getBlock(blockTag));
   }
@@ -533,10 +499,12 @@ export async function strategy(
   options,
   snapshot
 ) {
+  _options = options;
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
-  const userInfoCalls = getUserInfoCalls(addresses, options);
-  const tokenCalls = getTokenCalls(options);
+  const userInfoCalls = getUserInfoCalls(addresses);
+  const tokenCalls = getTokenCalls();
   const entries = new Map<PropertyKey,any>();
+
 
   const userInfoResponse = await multicall(
     network,
@@ -561,7 +529,7 @@ export async function strategy(
 
   for (let i = 0; i < userInfoChunks.length; i++) {
     const value = userInfoChunks[i];
-    const score = await processValues(value, tokenResponse, options, network, provider, blockTag)
+    const score = await processValues(value, tokenResponse, network, provider, blockTag)
 
     entries.set(addresses[i], score);
   }
