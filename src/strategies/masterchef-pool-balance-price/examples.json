@@ -2,7 +2,7 @@
   {
     "name": "Example query - Sum of uniPair token0 and token1 count",
     "strategy": {
-      "name": "masterchef-pool-balance-of-token",
+      "name": "masterchef-pool-balance-price",
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
@@ -30,7 +30,7 @@
   {
     "name": "Example query - uniPair token count",
     "strategy": {
-      "name": "masterchef-pool-balance-of-token",
+      "name": "masterchef-pool-balance-price",
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
@@ -48,7 +48,7 @@
   {
     "name": "Example query - uniPair token price",
     "strategy": {
-      "name": "masterchef-pool-balance-of-token",
+      "name": "masterchef-pool-balance-price",
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
@@ -77,7 +77,7 @@
   {
     "name": "Example query - uniPair token0 count",
     "strategy": {
-      "name": "masterchef-pool-balance-of-token",
+      "name": "masterchef-pool-balance-price",
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
@@ -100,7 +100,7 @@
   {
     "name": "Example query - uniPair token0 price",
     "strategy": {
-      "name": "masterchef-pool-balance-of-token",
+      "name": "masterchef-pool-balance-price",
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
@@ -124,7 +124,7 @@
   {
     "name": "Example query - uniPair token1 count",
     "strategy": {
-      "name": "masterchef-pool-balance-of-token",
+      "name": "masterchef-pool-balance-price",
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
@@ -147,7 +147,7 @@
   {
     "name": "Example query - uniPair token1 price",
     "strategy": {
-      "name": "masterchef-pool-balance-of-token",
+      "name": "masterchef-pool-balance-price",
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
@@ -171,7 +171,7 @@
   {
     "name": "Example query - uniPair token price with anti-whale measure",
     "strategy": {
-      "name": "masterchef-pool-balance-of-token",
+      "name": "masterchef-pool-balance-price",
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0xd4689694e9928564647ad483c075f271419b2a5f",

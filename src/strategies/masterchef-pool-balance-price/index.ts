@@ -8,7 +8,7 @@ export const author = 'joaomajesus';
 export const version = '0.1.0';
 
 /*
- * Generic masterchef pool price strategy. Accepted options:
+ * Generic masterchef pool balance or price strategy. Accepted options:
  * - chefAddress: masterchef contract address
  * - pid: mastechef pool id (starting with zero)
  *
