@@ -11,26 +11,33 @@ export const version = '0.1.0';
  * Generic masterchef pool price strategy. Accepted options:
  * - chefAddress: masterchef contract address
  * - pid: mastechef pool id (starting with zero)
+ *
  * - uniPairAddress: address of a uniswap pair (or a sushi pair or any other with the same interface)
  *    - if the uniPairAddress option is provided, converts staked LP token balance to base token balance
  *      (based on the pair total supply and base token reserve)
  *    - if uniPairAddress is null or undefined, returns staked token balance of the pool
+ *
  * - weight: integer multiplier of the result (for combining strategies with different weights, totally optional)
  * - weightDecimals: integer value of number of decimal places to apply to the final result
+ *
  * - token0.address: address of the uniPair token 0. If defined, the strategy will return the result for the token0.
  *                  can be used in conjunction with token1Address to get the sum of tokens or the UniPair token price
  *                  when used with usePrice and token1Address.
  *                  can be used with usePrice to get the price value of the staked amount of token0
  * - token0.weight: integer multiplier of the result for token0
  * - token0.weightDecimals: integer value of number of decimal places to apply to the result of token0
+ *
  * - token1.address: address of the uniPair token 1. If defined, the strategy will return the result for the token1.
  *                  can be used in conjunction with token0Address to get the sum of tokens or the UniPair token price
  *                  when used with usePrice and token0Address.
  *                  can be used with usePrice to get the price value of the staked amount of token1
  * - token1,weight: integer multiplier of the result for token1
  * - token1.weightDecimal: integer value of number of decimal places to apply to the result of token1
+ *
  * - usePrice: boolean flag return the result in usd instead of token count
+ *
  * - log: boolean flag to enable or disable logging to the console (used for debugging purposes during development)
+ *
  * - antiWhale.enable: boolean flag to apply an anti-whale measure reducing the effect on the voting power as the token amount increases.
  *    - if enabled will apply the the following to the result:
  *
