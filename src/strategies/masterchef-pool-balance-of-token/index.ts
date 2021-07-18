@@ -20,20 +20,30 @@ export const version = '0.1.0';
  * - tokenAddress: address of a token in a single token poll. To be used instead of the uniPairAddress.
  *                 will only be used if uniPairAddress is not present.
  *                 can be used in conjunction with usePrice to get the price value of the staked tokens.
- * - token0Address: address of the uniPair token 0. If defined, the strategy will return the result for the token0.
+ * - token0.address: address of the uniPair token 0. If defined, the strategy will return the result for the token0.
  *                  can be used in conjunction with token1Address to get the sum of tokens or the UniPair token price
  *                  when used with usePrice and token1Address.
  *                  can be used with usePrice to get the price value of the staked amount of token0
- * - token0Weight: integer multiplier of the result for token0
- * - token0WeightDecimals: integer value of number of decimal places to apply to the result of token0
- * - token1Address: address of the uniPair token 1. If defined, the strategy will return the result for the token1.
+ * - token0.weight: integer multiplier of the result for token0
+ * - token0.weightDecimals: integer value of number of decimal places to apply to the result of token0
+ * - token1.address: address of the uniPair token 1. If defined, the strategy will return the result for the token1.
  *                  can be used in conjunction with token0Address to get the sum of tokens or the UniPair token price
  *                  when used with usePrice and token0Address.
  *                  can be used with usePrice to get the price value of the staked amount of token1
- * - token1weight: integer multiplier of the result for token1
- * - token1WeightDecimal: integer value of number of decimal places to apply to the result of token1
+ * - token1,weight: integer multiplier of the result for token1
+ * - token1.weightDecimal: integer value of number of decimal places to apply to the result of token1
  * - usePrice: boolean flag return the result in usd instead of token count
  * - log: boolean flag to enable or disable logging to the console (used for debugging purposes during development)
+ * - antiWhale.enable: boolean flag to apply an anti-whale measure reducing the effect on the voting power as the token amount increases.
+ * - antiWhale.inflectionPoint:
+ *                              1 pwr converts to 1000*(1/1000)^0.5 = 31.6
+ *                              10 pwr converts to 1000*(10/1000)^0.5 = 100
+ *                              100 pwr converts to 1000*(100/1000)^0.5 = 316
+ *                              250 pwr converts to 1000*(250/1000)^0.5 = 500
+ *                              1000 pwr converts to 1000*(1000/1000)^0.5 = 1000
+ *                              10,000 pwr converts to 1000*(10000/1000)^0.5 = 3162
+ * - antiWhale.exponent:
+ * - antiWhale.minimumAmount:
  *
  * Check the examples.json file for how to use the options.
  */
@@ -195,12 +205,12 @@ const getTokenCalls = (options: any) => {
     result.push([options.uniPairAddress, 'token1', []]);
     result.push([options.uniPairAddress, 'decimals', []]);
 
-    if(options.token0Address != null){
-      result.push([options.token0Address, 'decimals', []]);
+    if(options.token0?.address != null){
+      result.push([options.token0?.address, 'decimals', []]);
     }
 
-    if(options.token1Address != null){
-      result.push([options.token1Address, 'decimals', []]);
+    if(options.token1?.Address != null){
+      result.push([options.token1?.address, 'decimals', []]);
     }
   }
 
@@ -270,14 +280,12 @@ async function processValues(
     const uniPairDecimals = uniPairDecimalsIndex != null ? BigNumber.from(10).pow(BigNumber.from(uniPairDecimalsCount || 0)) : BigNumber.from(1);
 
     const token0Address = tokenValues[2][0];
-    const useToken0 = options.token0Address != null && options.token0Address.toString().toLowerCase() == token0Address?.toString().toLowerCase();
+    const useToken0 = options.token0?.address != null && options.token0.address.toString().toLowerCase() == token0Address?.toString().toLowerCase();
 
     log.push("useToken0 = " + useToken0);
 
     if(useToken0){
-      const token0DecimalsIndex = options.token0Address == null
-        ? null
-        : options.tokenAddress != null
+      const token0DecimalsIndex = options.tokenAddress != null
           ? 6
           : 5;
 
@@ -293,21 +301,19 @@ async function processValues(
         tokenValues,
         token0Address,
         token0DecimalsIndex,
-        options.Token0weight,
-        options.token0WeightDecimals);
+        options.token0.weight,
+        options.token0.weightDecimals);
     }
 
     const token1Address = tokenValues[3][0];
-    const useToken1 = options.token1Address != null && options.token1Address.toString().toLowerCase() == token1Address?.toString().toLowerCase();
+    const useToken1 = options.token1?.address != null && options.token1.address.toString().toLowerCase() == token1Address?.toString().toLowerCase();
 
     log.push("useToken1 = " + useToken1);
 
     if(useToken1){
-      const token1DecimalsIndex = options.token1Address == null
-        ? null
-        : options.tokenAddress != null && options.token0Address != null
+      const token1DecimalsIndex = options.tokenAddress != null && options.token0?.address != null
           ? 7
-          : options.tokenAddress == null && options.token0Address != null
+          : options.tokenAddress == null && options.token0?.address != null
             ? 6
             : 5;
 
@@ -323,8 +329,8 @@ async function processValues(
         tokenValues,
         token1Address,
         token1DecimalsIndex,
-        options.Token1weight,
-        options.token1WeightDecimals));
+        options.token1?.weight,
+        options.token1?.WeightDecimals));
     }
 
     if(!useToken0 && !useToken1){
@@ -350,7 +356,32 @@ async function processValues(
   log.push('result = ' + result);
   printLog(options);
 
-  return result;
+  return applyAntiWhaleMeasures(result, options);
+}
+
+function applyAntiWhaleMeasures(result, options){
+  log.push("antiWhale = " + options.antiWhale?.enable);
+
+  if(!options.antiWhale.enable){
+    printLog(options);
+    return result;
+  }
+
+  log.push("antiWhaleMinimumAmount = " + options.antiWhale.minimumAmount);
+
+  if(options.antiWhale.minimumAmount != null && result < options.antiWhale.minimumAmount){
+    printLog(options);
+    return 0;
+  }
+
+  const inflectionPoint = options.antiWhale.inflectionPoint || 1;
+  const exponent = options.antiWhale.exponent || 0.5;
+
+  log.push("inflectionPoint = " + inflectionPoint);
+  log.push("exponent = " + exponent);
+  printLog(options);
+
+  result = inflectionPoint * (result/inflectionPoint) ** (exponent);
 }
 
 function toFloat(tokenCount: BigNumber, decimals: any): number {
@@ -420,7 +451,7 @@ async function getTokenPrice(options: any, tokenAddress: any, network: any, prov
      priceCache.set(cacheKey, await getPrice(network, provider, tokenAddress, blockTag) || 1);
   }
 
-  price = priceCache.get(tokenAddress) || 1;
+  price = priceCache.get(cacheKey) || 1;
 
   return price;
 }

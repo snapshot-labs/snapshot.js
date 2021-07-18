@@ -6,15 +6,25 @@
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
-        "token0Address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-        "token1Address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+        "token0": {
+          "address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+          "weight": 1,
+          "weightDecimals": 0
+        },
+        "token1": {
+          "address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+          "weight": 1,
+          "weightDecimals": 0
+        },
         "pid": "0",
-        "token0weight": 1,
-        "token0weightDecimals": 0,
-        "token1weight": 1,
-        "token1weightDecimals": 0,
         "weight": 1,
-        "weightDecimals": 0
+        "weightDecimals": 0,
+        "antiWhale": {
+          "enable":  true,
+          "inflectionPoint": 1000,
+          "exponent": 0.5,
+          "minimumAmount": 250
+        }
       }
     },
     "network": "137",
@@ -48,16 +58,23 @@
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
-        "token0Address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-        "token1Address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+        "token0": {
+          "address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+          "weight": 1,
+          "weightDecimals": 0
+        },
+        "token1": {
+          "address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+          "weight": 1,
+          "weightDecimals": 0
+        },
         "pid": "0",
-        "token0weight": 1,
-        "token0weightDecimals": 0,
-        "token1weight": 1,
-        "token1weightDecimals": 0,
         "weight": 1,
         "weightDecimals": 0,
-        "usePrice": true
+        "usePrice": true,
+        "antiWhale": {
+          "enable":  true
+        }
       }
     },
     "network": "137",
@@ -73,12 +90,17 @@
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
-        "token0Address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+        "token0":{
+          "address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+          "weight": 1,
+          "weightDecimals": 0
+        },
         "pid": "0",
-        "token0weight": 1,
-        "token0weightDecimals": 0,
         "weight": 1,
-        "weightDecimals": 0
+        "weightDecimals": 0,
+        "antiWhale": {
+          "enable":  true
+        }
       }
     },
     "network": "137",
@@ -94,13 +116,18 @@
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
-        "token0Address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+        "token0":{
+          "address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+          "weight": 1,
+          "weightDecimals": 0
+        },
         "pid": "0",
-        "token0weight": 1,
-        "token0weightDecimals": 0,
         "weight": 1,
         "weightDecimals": 0,
-        "usePrice": true
+        "usePrice": true,
+        "antiWhale": {
+          "enable":  true
+        }
       }
     },
     "network": "137",
@@ -116,12 +143,17 @@
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
-        "token1Address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+        "token1": {
+          "address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+          "weight": 1,
+          "weightDecimals": 0
+        },
         "pid": "0",
-        "token1weight": 1,
-        "token1weightDecimals": 0,
         "weight": 1,
-        "weightDecimals": 0
+        "weightDecimals": 0,
+        "antiWhale": {
+          "enable":  true
+        }
       }
     },
     "network": "137",
@@ -137,13 +169,18 @@
       "params": {
         "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
         "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
-        "token1Address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+        "token1": {
+          "address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+          "weight": 1,
+          "weightDecimals": 0
+        },
         "pid": "0",
-        "token1weight": 1,
-        "token1weightDecimals": 0,
         "weight": 1,
         "weightDecimals": 0,
-        "usePrice": true
+        "usePrice": true,
+        "antiWhale": {
+          "enable":  true
+        }
       }
     },
     "network": "137",
