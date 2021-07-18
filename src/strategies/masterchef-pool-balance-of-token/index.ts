@@ -38,13 +38,11 @@ export const version = '0.1.0';
  *    - if enabled will apply the the following to the result:
  *
  *      If result > antiWhale.threshold
- *        antiWhale = antiWhale.inflectionPoint * ( result / antiWhale.inflectionPoint )^antiWhale.exponent
+ *        result = antiWhale.inflectionPoint * ( result / antiWhale.inflectionPoint ) ^ antiWhale.exponent
  *
  *      If result <= antiWhale.threshold
- *        antiWhale = result * thresholdMultiplier
- *
- *      Where...
- *      thresholdMultiplier = ( antiWhale.inflectionPoint * ( antiWhale.threshold / antiWhale.inflectionPoint )^antiWhale.exponent ) / antiWhale.threshold
+ *        thresholdMultiplier = ( antiWhale.inflectionPoint * ( antiWhale.threshold / antiWhale.inflectionPoint )^antiWhale.exponent ) / antiWhale.threshold
+ *        result = result * thresholdMultiplier
  *
  *      - thresholdMultiplier = The multiplier at which all results below threshold are multiplied. This is ratio of antiWhale/result at the threshold point.
  * - antiWhale.inflectionPoint = Point at which output matches result. Results less than this increase output. Results greater than this decrease output. default: 1.
@@ -301,7 +299,6 @@ async function processValues(
       log.push(`tokenValues = ${inspect(tokenValues)}`);
       printLog(options);
 
-
       result += await GetTokenValue(
         network,
         provider,
@@ -384,21 +381,31 @@ function applyAntiWhaleMeasures(result, options){
     return result;
   }
 
-  log.push(`antiWhaleMinimumAmount = ${options.antiWhale.minimumAmount}`);
+  log.push(`minimumAmount = ${options.antiWhale.minimumAmount}`);
 
   if(options.antiWhale.minimumAmount != null && options.antiWhale.minimumAmount > 0 && result < options.antiWhale.minimumAmount){
     printLog(options);
     return 0;
   }
 
-  const inflectionPoint = options.antiWhale.inflectionPoint || 1;
+  const inflectionPoint = options.antiWhale.inflectionPoint || 6500;
   const exponent = options.antiWhale.exponent || 0.5;
+  const threshold = options.antiWhale.threshold || 1625;
 
   log.push(`inflectionPoint = ${inflectionPoint}`);
   log.push(`exponent = ${exponent}`);
+  log.push(`threshold = ${threshold}`);
   printLog(options);
 
-  result = inflectionPoint * (result / inflectionPoint) ** (exponent);
+  if (result > threshold){
+    result = inflectionPoint * ( result / inflectionPoint ) ^ exponent;
+  } else {
+    const thresholdMultiplier = ( inflectionPoint * ( threshold / inflectionPoint ) ^ exponent ) / threshold;
+
+    log.push(`thresholdMultiplier = ${thresholdMultiplier}`);
+
+    result = result * thresholdMultiplier
+  }
 
   log.push(`result = ${result}`);
   printLog(options);
@@ -491,10 +498,16 @@ async function getPrice(
   const block = blockCache.get(blockTag);
   const platform = networksWithPlatforms[network];
   const currency = 'usd'
-
+  const from = block.timestamp - 100000;
+  const to = block.timestamp;
   const coingeckoApiURL = `https://api.coingecko.com/api/v3/coins/${platform}/contract/${address}/market_chart/range?vs_currency=${currency}&from=${
-    block.timestamp - 100000
-  }&to=${block.timestamp}`;
+    from
+  }&to=${to}`;
+
+
+  log.push(`platform = ${platform}`);
+  log.push(`to = ${from}`);
+  log.push(`coingeckoApiURL = ${coingeckoApiURL}`);
 
   const coingeckoData = await fetch(coingeckoApiURL)
     .then(async (r) => {
