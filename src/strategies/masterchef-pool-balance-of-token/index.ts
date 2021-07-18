@@ -35,15 +35,17 @@ export const version = '0.1.0';
  * - usePrice: boolean flag return the result in usd instead of token count
  * - log: boolean flag to enable or disable logging to the console (used for debugging purposes during development)
  * - antiWhale.enable: boolean flag to apply an anti-whale measure reducing the effect on the voting power as the token amount increases.
- * - antiWhale.inflectionPoint:
- *                              1 pwr converts to 1000*(1/1000)^0.5 = 31.6
- *                              10 pwr converts to 1000*(10/1000)^0.5 = 100
- *                              100 pwr converts to 1000*(100/1000)^0.5 = 316
- *                              250 pwr converts to 1000*(250/1000)^0.5 = 500
- *                              1000 pwr converts to 1000*(1000/1000)^0.5 = 1000
- *                              10,000 pwr converts to 1000*(10000/1000)^0.5 = 3162
- * - antiWhale.exponent:
- * - antiWhale.minimumAmount:
+ *    - if enabled will apply the the following formula to the result: inflectionPoint*(result/inflectionPoint)^exponent
+ *      example:
+ *         1 pwr converts to 1000*(1/1000)^0.5 = 31.6
+ *         10 pwr converts to 1000*(10/1000)^0.5 = 100
+ *         100 pwr converts to 1000*(100/1000)^0.5 = 316
+ *         250 pwr converts to 1000*(250/1000)^0.5 = 500
+ *         1000 pwr converts to 1000*(1000/1000)^0.5 = 1000
+ *         10,000 pwr converts to 1000*(10000/1000)^0.5 = 3162
+ * - antiWhale.inflectionPoint: default is 1
+ * - antiWhale.exponent: default is 0.5
+ * - antiWhale.minimumAmount: the minium amount to be able to have any voting power. If the result is bellow this value then it will substituted by 0
  *
  * Check the examples.json file for how to use the options.
  */
@@ -369,7 +371,7 @@ function applyAntiWhaleMeasures(result, options){
 
   log.push("antiWhaleMinimumAmount = " + options.antiWhale.minimumAmount);
 
-  if(options.antiWhale.minimumAmount != null && result < options.antiWhale.minimumAmount){
+  if(options.antiWhale.minimumAmount != null && options.antiWhale.minimumAmount > 0 && result < options.antiWhale.minimumAmount){
     printLog(options);
     return 0;
   }
