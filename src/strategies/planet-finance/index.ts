@@ -77,7 +77,7 @@ export async function strategy(
   const erc20Multi = new Multicaller(network, provider, bep20Abi, {
     blockTag
   });
-  let promiseArr:any = [];
+  // returns user's aqua balance ofr their address
   let score:any = erc20BalanceOfStrategy(
     space,
     network,
@@ -87,6 +87,7 @@ export async function strategy(
     snapshot
   );
 
+   // returns user's aqua balance in aqua only vault
   let usersAquaVaultBalances:any =  multicall(
     network,
     provider,
@@ -99,6 +100,7 @@ export async function strategy(
     { blockTag }
   );
   
+   // returns user's aqua balance in aqua-bnb vault
   let usersAquaBnbVaultBalances:any =  multicall(
     network,
     provider,
@@ -111,6 +113,7 @@ export async function strategy(
     { blockTag }
   );
 
+   // returns user's aqua balance in aqua-cake vault
   let usersAquaCakeVaultBalances:any =  multicall(
     network,
     provider,
@@ -123,7 +126,8 @@ export async function strategy(
     { blockTag }
   );
 
-  let usersAquaBusdVaultBalances:any = await multicall(
+   // returns user's aqua balance in aqua-busd vault
+  let usersAquaBusdVaultBalances:any = multicall(
     network,
     provider,
     planetFinanceFarmAbi,
@@ -147,21 +151,24 @@ export async function strategy(
     usersAquaCakeVaultBalances = result[3];
     usersAquaBusdVaultBalances = result[4];
 
+  
+
+  //AQUA-BNB
   erc20Multi.call(
-    'lpTotalSupply',
+    'aquaBnbTotalSupply',
     aquaBnbLpTokenAddress,
     'totalSupply'
   );
 
-  erc20Multi.call('poolMMBalance', aquaAddress , 'balanceOf', [
+  erc20Multi.call('lpAquaBal', aquaAddress , 'balanceOf', [
     aquaBnbLpTokenAddress
   ]);
 
   let erc20Result = await erc20Multi.execute();
 
-  let totalSupply = erc20Result.lpTotalSupply.toString();
+  let totalSupply = erc20Result.aquaBnbTotalSupply.toString();
 
-  let contractAquaBalance = erc20Result.poolMMBalance.toString()
+  let contractAquaBalance = erc20Result.lpAquaBal.toString()
 
   erc20Multi.call(
     'lpTotalSupply',
@@ -196,6 +203,7 @@ export async function strategy(
   let totalSupplyAquaBusd = erc20Result.lpTotalSupply.toString();
 
   let aquaBusdContractAquaBalance = erc20Result.poolMMBalance.toString()
+
   
 
   return Object.fromEntries(
