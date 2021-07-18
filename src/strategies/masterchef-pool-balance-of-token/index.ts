@@ -500,17 +500,17 @@ async function getPrice(
   const currency = 'usd'
   const from = block.timestamp - 100000;
   const to = block.timestamp;
-  const coingeckoApiURL = `https://api.coingecko.com/api/v3/coins/${platform}/contract/${address}/market_chart/range?vs_currency=${currency}&from=${
-    from
-  }&to=${to}`;
-
+  const coingeckoApiURL = `https://api.coingecko.com/api/v3/coins/${platform}/contract/${new String(address).toLowerCase()}/market_chart/range?vs_currency=${currency}&from=${from}&to=${to}`;
 
   log.push(`platform = ${platform}`);
+  log.push(`from = ${from}`);
   log.push(`to = ${from}`);
   log.push(`coingeckoApiURL = ${coingeckoApiURL}`);
 
   const coingeckoData = await fetch(coingeckoApiURL)
     .then(async (r) => {
+      log.push(`coingeco response = ${inspect(r)}`);
+
       const json = await r.json();
 
       log.push(`coingecko json = ${inspect(json)}`);
