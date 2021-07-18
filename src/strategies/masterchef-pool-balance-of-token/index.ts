@@ -42,11 +42,17 @@ export const version = '0.1.0';
  *        result = result * thresholdMultiplier
  *
  *      - thresholdMultiplier = The multiplier at which all results below threshold are multiplied. This is ratio of antiWhale/result at the threshold point.
- * - antiWhale.inflectionPoint = Point at which output matches result. Results less than this increase output. Results greater than this decrease output. default: 1.
- * - antiWhale.exponent = The exponent is responsible for the antiWhale effect. Must be less than one, greater than zero, or else it will make a pro-whale effect. default: 0.5.
+ * - antiWhale.inflectionPoint = Point at which output matches result. Results less than this increase output. Results greater than this decrease output.
+ *    - default: 6500.
+ *    - lower cap: 0.
+ *    - must be >= antiWhale.threshold. otherwise will be same as antiWhale.threshold.
+ * - antiWhale.exponent = The exponent is responsible for the antiWhale effect. Must be less than one, greater than zero, or else it will make a pro-whale effect.
+ *    - default: 0.5.
+ *    - upper cap: 1.
  * - antiWhale.threshold = Point at which antiWhale effect no longer applies. Results less than this will be treated with a static multiplier.
- *                         This is to reduce infinite incentive for multiple wallet exploits. default: .
- * - antiWhale.minimumAmount: the minium amount to be able to have any voting power. If the result is bellow this value then it will substituted by 0. default: 250.
+ *                         This is to reduce infinite incentive for multiple wallet exploits.
+ *    - default: 1625.
+ *    - lower cap: 0.
  *
  * Check the examples.json file for how to use the options.
  */
@@ -349,16 +355,23 @@ function applyAntiWhaleMeasures(result){
     return result;
   }
 
-  log.push(`minimumAmount = ${_options.antiWhale.minimumAmount}`);
+  const inflectionPoint = _options.antiWhale.inflectionPoint == null
+    ? 6500
+    : _options.antiWhale.inflectionPoint < _options.antiWhale.threshold
+      ? _options.antiWhale.threshold
+      : _options.antiWhale.inflectionPoint;
 
-  if(_options.antiWhale.minimumAmount != null && _options.antiWhale.minimumAmount > 0 && result < _options.antiWhale.minimumAmount){
-    printLog();
-    return 0;
-  }
+  const exponent = _options.antiWhale.exponent == null
+    ? 0.5
+    : _options.antiWhale.exponent > 1
+      ? 1
+      : _options.antiWhale.exponent;
 
-  const inflectionPoint = _options.antiWhale.inflectionPoint || 6500;
-  const exponent = _options.antiWhale.exponent || 0.5;
-  const threshold = _options.antiWhale.threshold || 1625;
+  const threshold = _options.antiWhale.threshold == null
+    ? 1625
+    : _options.antiWhale.threshold < 0
+      ? 0
+      : _options.antiWhale.threshold;
 
   log.push(`inflectionPoint = ${inflectionPoint}`);
   log.push(`exponent = ${exponent}`);
@@ -366,13 +379,13 @@ function applyAntiWhaleMeasures(result){
   printLog();
 
   if (result > threshold){
-    result = inflectionPoint * ( result / inflectionPoint ) ^ exponent;
+    result = inflectionPoint * ( result / inflectionPoint ) ** exponent;
   } else {
-    const thresholdMultiplier = ( inflectionPoint * ( threshold / inflectionPoint ) ^ exponent ) / threshold;
+    const thresholdMultiplier = ( inflectionPoint * ( threshold / inflectionPoint ) ** exponent ) / threshold;
 
     log.push(`thresholdMultiplier = ${thresholdMultiplier}`);
 
-    result = result * thresholdMultiplier
+    result = result * thresholdMultiplier;
   }
 
   log.push(`result = ${result}`);
