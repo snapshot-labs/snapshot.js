@@ -347,7 +347,7 @@
     "chainId": 250,
     "network": "Mainnet",
     "multicall": "0x7f6A10218264a22B4309F3896745687E712962a0",
-    "rpc": ["https://rpcapi.fantom.network"],
+    "rpc": ["https://rpc.ftm.tools", "https://rpcapi.fantom.network"],
     "explorer": "https://ftmscan.com"
   },
   "499": {
