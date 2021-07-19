@@ -113,7 +113,6 @@ export async function strategy(
 
   multi = new Multicaller(network, provider, abi, { blockTag });
 
-  multi.call(`tshare.totalSupply`, TSHARE_TOKEN_ADDRESS, 'totalSupply');
   multi.call(`lp.tshareBalance`, TSHARE_TOKEN_ADDRESS, 'balanceOf', [
     TSHARE_LP_TOKEN_ADDRESS
   ]);
