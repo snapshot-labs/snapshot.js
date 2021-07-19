@@ -47,6 +47,8 @@ The price is sourced from CoinGecko.
 
 - **usePrice:** Boolean flag return the result in usd instead of token count
 
+- **currency:** currency for the price. (defaulted to `usd`).
+
 - **log:** Boolean flag to enable or disable logging to the console (used for debugging purposes during development)
 
 - **antiWhale.enable:** Boolean flag to apply an anti-whale measure reducing the effect on the voting power as the token amount increases.
@@ -278,6 +280,7 @@ The price is sourced from CoinGecko.
         "weight": 1,
         "weightDecimals": 0,
         "usePrice": true,
+        "currency":"eur",
         "antiWhale": {
           "enable": true,
           "inflectionPoint": 1000,

@@ -36,6 +36,8 @@ export const version = '0.1.0';
  *
  * - usePrice: Boolean flag return the result in usd instead of token count
  *
+ * - currency: currency for the price. (defaulted to 'usd').
+ *
  * - log: Boolean flag to enable or disable logging to the console (used for debugging purposes during development)
  *
  * - antiWhale.enable: Boolean flag to apply an anti-whale measure reducing the effect on the voting power as the token amount increases.
@@ -483,7 +485,7 @@ async function getPrice(
 
   const block = blockCache.get(blockTag);
   const platform = networksWithPlatforms[network];
-  const currency = 'usd'
+  const currency = _options.currency || 'usd'
   const from = block.timestamp - 100000;
   const to = block.timestamp;
   const coingeckoApiURL = `https://api.coingecko.com/api/v3/coins/${platform}/contract/${new String(address).toLowerCase()}/market_chart/range?vs_currency=${currency}&from=${from}&to=${to}`;

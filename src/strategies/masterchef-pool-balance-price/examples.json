@@ -189,6 +189,7 @@
         "weight": 1,
         "weightDecimals": 0,
         "usePrice": true,
+        "currency":"eur",
         "antiWhale": {
           "enable": true,
           "inflectionPoint": 1000,
