@@ -1,6 +1,6 @@
 [
   {
-    "name": "GHST, USDC-GHST and QUICK-GHST tokens staked in diamond",
+    "name": "GHST, USDC-GHST, QUICK-GHST, and WETH-GHST tokens staked in diamond",
     "strategy": {
       "name": "aavegotchi",
       "params": {
