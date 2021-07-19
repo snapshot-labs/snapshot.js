@@ -1,4 +1,5 @@
 const { JsonRpcProvider } = require('@ethersproject/providers');
+const { getAddress } = require('@ethersproject/address');
 const snapshot = require('../');
 const networks = require('../src/networks.json');
 const addresses = require('./addresses.json');
@@ -81,6 +82,15 @@ describe(`\nTest strategy "${strategy}"`, () => {
     const provider = snapshot.utils.getProvider(example.network);
     const blockNumber = await snapshot.utils.getBlockNumber(provider);
     expect(example.snapshot).toBeLessThanOrEqual(blockNumber);
+  });
+
+  it('Returned addresses should be either same case as input addresses or checksum addresses', () => {
+    expect(
+      Object.keys(scores[0]).every(
+        (address) =>
+          example.addresses.includes(address) || getAddress(address) === address
+      )
+    ).toBe(true);
   });
 });
 

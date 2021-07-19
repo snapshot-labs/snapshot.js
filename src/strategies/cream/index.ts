@@ -266,7 +266,7 @@ async function getLegacyScores(provider, addresses, options, blockTag) {
   addresses.forEach((address) => {
     const userScore = score[address] || BigNumber.from(0);
     const sushi = result.sushiswap[address].balanceOf
-      .add(result.sushiswap[address].userInfo)
+      .add(result.sushiswap[address].userInfo.amount)
       .mul(creamPerSushiswapLP)
       .div(ONE_E18);
     const uniswap = result.uniswap[address].balanceOf
