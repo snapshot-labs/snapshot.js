@@ -116,7 +116,7 @@ export async function strategy(
       ) +
         parseFloat(
           formatUnits(
-            result.lpInFarm[address]
+            result.lpInFarm[address][0]
               .mul(result.lp.boo)
               .div(result.lp.totalSupply)
               .mul(options.lp.numerator)
