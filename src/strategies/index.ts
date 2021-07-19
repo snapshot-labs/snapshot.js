@@ -228,14 +228,10 @@ export default {
   'aave-governance-power': aaveGovernancePower,
   cake,
   'planet-finance': planetFinance,
-<<<<<<< HEAD
   ogn,
-  'impossible-finance': impossibleFinance
-=======
   'impossible-finance': impossibleFinance,
   badgeth,
   'zrx-voting-power': zrxVotingPower,
   'tranche-staking-slice': trancheStakingSLICE,
   'unipool-same-token': unipoolSameToken
->>>>>>> upstream/master
 };
