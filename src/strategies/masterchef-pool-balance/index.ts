@@ -14,6 +14,9 @@ export const version = '0.1.0';
  *      (based on the pair total supply and base token reserve)
  *    - if uniPairAddress is null or undefined, returns staked token balance as is
  * - weight: integer multiplier of the result (for combining strategies with different weights, totally optional)
+ * - uniPairToken0: boolean of token0 reserve uniswap pair
+ *    - if uniPairToken0 = true, used LP reserve token0 balance to calculate base token balance
+ *    - if uniPairToken0 = false, used LP reserve token1 balance to calculate base token balance
  */
 
 const abi = [
@@ -124,7 +127,7 @@ function processValues(values: any[], options: any): number {
     result = poolStaked.mul(weight).div(weightDecimals);
   } else {
     const uniTotalSupply = values[1][0];
-    const uniReserve = values[2][0];
+    const uniReserve = options.uniPairToken0 ? values[2][0] : values[2][1];
     const precision = BigNumber.from(10).pow(18);
     const tokensPerLp = uniReserve.mul(precision).div(uniTotalSupply);
     result = poolStaked
