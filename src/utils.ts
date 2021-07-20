@@ -87,13 +87,16 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
 export function getUrl(uri) {
   const ipfsGateway = `https://${gateways[0]}`;
   if (!uri) return null;
-  if (!uri.includes('ipfs') && !uri.includes('ipns'))
+
+  if (!uri.includes('ipfs') && !uri.includes('ipns') && !uri.includes('http')) {
     return `${ipfsGateway}/ipfs/${uri}`;
+  }
   const uriScheme = uri.split('://')[0];
   if (uriScheme === 'ipfs')
     return uri.replace('ipfs://', `${ipfsGateway}/ipfs/`);
   if (uriScheme === 'ipns')
     return uri.replace('ipns://', `${ipfsGateway}/ipns/`);
+  return uri;
 }
 
 export async function ipfsGet(
