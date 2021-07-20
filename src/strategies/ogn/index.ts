@@ -2,7 +2,7 @@ import { formatUnits } from '@ethersproject/units';
 import { getBlockNumber } from '../../utils/web3';
 import { multicall } from '../../utils';
 
-export const author = 'Origin Protocol';
+export const author = 'franckc';
 export const version = '0.1.0';
 
 const abi = [
