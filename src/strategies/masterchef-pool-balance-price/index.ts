@@ -2,7 +2,6 @@ import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 import { BigNumber} from '@ethersproject/bignumber';
 import fetch from 'cross-fetch';
-import { inspect } from 'util';
 
 export const author = 'joaomajesus';
 export const version = '0.1.0';
@@ -145,8 +144,8 @@ async function processValues(
   provider: any,
   blockTag: string | number) {
 
-  log.push(`values = ${inspect(values)}`);
-  log.push(`tokenValues = ${inspect(tokenValues)}`);
+  log.push(`values = ${JSON.stringify(values, undefined, 2)}`);
+  log.push(`tokenValues = ${JSON.stringify(tokenValues, undefined, 2)}`);
   printLog();
 
   const poolStaked = values[0][0] as BigNumber;
@@ -177,7 +176,7 @@ async function processValues(
       const token0DecimalsIndex = 5;
 
       log.push(`token0DecimalsIndex = ${token0DecimalsIndex}`);
-      log.push(`tokenValues = ${inspect(tokenValues)}`);
+      log.push(`tokenValues = ${JSON.stringify(tokenValues, undefined, 2)}`);
       printLog();
 
       result += await GetTokenValue(
@@ -204,7 +203,7 @@ async function processValues(
       const token1DecimalsIndex = _options.token0?.address != null ? 6 : 5;
 
       log.push(`token1DecimalsIndex = ${token1DecimalsIndex}`);
-      log.push(`tokenValues = ${inspect(tokenValues)}`);
+      log.push(`tokenValues = ${JSON.stringify(tokenValues, undefined, 2)}`);
       printLog();
 
       result += (await GetTokenValue(
@@ -387,11 +386,11 @@ async function getPrice(
 
   const coingeckoData = await fetch(coingeckoApiURL)
     .then(async (r) => {
-      log.push(`coingeco response = ${inspect(r)}`);
+      log.push(`coingeco response = ${JSON.stringify(r, undefined, 2)}`);
 
       const json = await r.json();
 
-      log.push(`coingecko json = ${inspect(json)}`);
+      log.push(`coingecko json = ${JSON.stringify(json, undefined, 2)}`);
 
       return json;
     })
