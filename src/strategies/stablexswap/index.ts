@@ -113,14 +113,14 @@ export async function strategy(
   return Object.fromEntries(
     addresses.map((address) => [
       address,
-      parseRes(result.stax[address], options.stax.decimals) * 1 +
+      parseRes(result.stax[address], options.stax.decimals) +
         parseRes(result.stakingChef[address], options.stakingchef.decimals) *
           options.stakingchef.weightage +
         +options.pools.reduce(
           (prev: number, pool: any) =>
             prev +
             parseRes(
-              result.masterChef[address][`pool_${pool.poolId}`],
+              result.masterChef[address][`pool_${pool.poolId}`][0],
               options.masterchef.decimals
             ) *
               pool.weightage,

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Example tomb-finance query",
+    "strategy": {
+      "name": "tomb-finance",
+      "params": {
+        "vaultTokens": [
+          {
+            "symbol": "TSHARE in MLNL",
+            "address": "0x88DBF6b60c939999084e752dA7fa62fE84621193",
+            "decimals": 18
+          }
+        ]
+      }
+    },
+    "network": "250",
+    "addresses": [
+      "0x0fA5a3B6f8e26a7C2C67bd205fFcfA9f89B0e8d1",
+      "0x32439F5A7Dc35590e83AAc0a80762dE27Ab76046"
+    ],
+    "snapshot": 12368542
+  }
+]
