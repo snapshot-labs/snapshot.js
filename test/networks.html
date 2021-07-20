@@ -18,6 +18,7 @@
     [v-cloak] {
       display: none;
     }
+
   </style>
   <script>
     window.addEventListener('load', async function () {
@@ -165,7 +166,7 @@
   </script>
 </head>
 
-<body class="m-2" >
+<body class="m-2">
   <h2 class="text-2xl tracking-tight font-extrabold text-gray-900">
     <span><img class="inline w-6 pr-1"
         src="https://raw.githubusercontent.com/snapshot-labs/brand/master/icon/icon.svg" /> </span>
@@ -173,7 +174,7 @@
     <span class="text-indigo-600">Tester</span>
   </h2>
   <div id="app">
-    <div class="flex flex-wrap mt-4 mb-10" v-cloak>
+    <div class="flex mt-4 mb-10" v-cloak>
       <div class="relative inline-block text-left">
         <div
           class="mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none"
@@ -240,95 +241,92 @@
           </div>
           <div v-if="error">ERROR: {{ error }}</div>
           <div class="flex flex-col mt-2">
-            <div>
-              <div>
-                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                  <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                      <tr>
-                        <th scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          RPC
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                      <tr v-for="(rpc, index) in selectedNetwork.rpcStatus" :key="rpc.index">
-                        <td class="p-2 border-b-1 border-gray-600">
+            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      RPC
+                    </th>
+                    <th scope="col"
+                      class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Latest Block
+                    </th>
+                    <th scope="col"
+                      class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Full archive node
+                    </th>
+                    <th scope="col"
+                      class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Multicall Time
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr v-for="(rpc, index) in selectedNetwork.rpcStatus" :key="rpc.index">
+                    <td class="p-2 border-b-1 border-gray-600">
+                      <div>
+                        <div class="ml-4">
                           <div>
-                            <div class="ml-4">
-                              <div>
-                                <img class="w-4 cursor-pointer" @click="copy(rpc.url)"
-                                  src="https://img.icons8.com/material-outlined/24/000000/copy.png" />
-                                <h3 class="text-sm leading-6 font-medium text-gray-900" style="width: 500px;
+                            <img class="w-4 cursor-pointer" @click="copy(rpc.url)"
+                              src="https://img.icons8.com/material-outlined/24/000000/copy.png" />
+                            <h3 class="text-sm leading-6 font-medium text-gray-900" style="width: 500px;
                                   overflow: hidden;
                                   text-overflow: ellipsis;">
-                                  {{rpc.url}}
-                                </h3>
-                              </div>
-                              <div v-if="rpc.status.loading" class="mt-4 p-4 max-w-sm w-full ">
-                                <div class="animate-pulse flex space-x-4">
-                                  <div class="flex-1 space-y-4 py-1">
-                                    <div class="space-y-2">
-                                      <div class="h-4 bg-blue-400 rounded"></div>
-                                      <div class="h-4 bg-blue-400 rounded w-5/6"></div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <section class="text-gray-600 body-font" v-if="!rpc.status.loading">
-                                <div class="container px-2 mx-auto flex flex-wrap">
-                                  <div class="flex flex-wrap -mx-4 mt-auto mb-auto content-start sm:pr-10">
-                                    <div class="p-4">
-                                      <a target="blank"
-                                        :href="`${selectedNetwork.explorer}/block/${rpc.status.latestBlockNumber}`">
-                                        <h2 class="title-font font-medium text-2xl text-gray-900">
-                                          {{rpc.status.latestBlockNumber}}
-                                        </h2>
-                                      </a>
-                                      <p class="leading-relaxed">Latest Block</p>
-                                    </div>
-                                    <div class="p-4">
-                                      <h2 class="title-font font-medium text-2xl text-gray-900">
-                                        {{rpc.status.fullArchiveNode}}
-                                      </h2>
-                                      <p class="leading-relaxed">Full archive node</p>
-                                    </div>
-                                    <div class="p-4">
-                                      <h2 class="title-font font-medium text-2xl text-gray-900">
-                                        {{rpc.status.multicall}}
-                                      </h2>
-                                      <p class="leading-relaxed">Multicall Time</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </section>
-                              <div v-if="rpc.status.errors && rpc.status.errors.length > 0"
-                                class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 m-4">
-                                <div class="flex items-center justify-center w-12 bg-red-500">
-                                  <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                      d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z" />
-                                  </svg>
-                                </div>
-
-                                <div class="px-4 py-2 -mx-3">
-                                  <div class="mx-3">
-                                    <span class="font-semibold text-red-500 dark:text-red-400">Errors:</span>
-                                    <p class="text-sm text-gray-600 dark:text-gray-200 py-2"
-                                      v-for="(error, index) in rpc.status.errors" :key="index">
-                                      {{ error }}
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                              {{rpc.url}}
+                            </h3>
                           </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+
+                        </div>
+                      </div>
+                    </td>
+                    <td v-if="rpc.status.loading" colspan="3">
+                      <div class="animate-pulse flex">
+                        <div class="h-4 bg-blue-400 rounded w-5/6"></div>
+                      </div>
+                    </td>
+                    <td class="p-2 border-b-1 border-gray-600 text-center">
+                      <a target="blank" :href="`${selectedNetwork.explorer}/block/${rpc.status.latestBlockNumber}`">
+                        <h2 class="title-font font-medium text-2xl text-gray-900">
+                          {{rpc.status.latestBlockNumber}}
+                        </h2>
+                      </a>
+                    </td>
+                    <td class="p-2 border-b-1 border-gray-600 text-center">
+                      <h2 class="title-font font-medium text-2xl text-gray-900">
+                        {{rpc.status.fullArchiveNode}}
+                      </h2>
+                    </td>
+                    <td class="p-2 border-b-1 border-gray-600 text-center">
+                      <h2 class="title-font font-medium text-2xl text-gray-900">
+                        {{rpc.status.multicall}}
+                      </h2>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mt-6">
+              <div v-for="(rpc, index) in selectedNetwork.rpcStatus" :key="rpc.index">
+                <div class="flex max-w-20 overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 m-4"
+                  v-if="rpc.status.errors && rpc.status.errors.length > 0">
+                  <div class="flex items-center justify-center bg-red-500">
+                    <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z" />
+                    </svg>
+                  </div>
+
+                  <div class="px-4 py-2 -mx-3">
+                    <div class="mx-3">
+                      <span class="font-semibold text-red-500 dark:text-red-400">Errors for: {{rpc.url}}</span>
+                      <p class="text-sm text-gray-600 dark:text-gray-200 py-2"
+                        v-for="(error, index) in rpc.status.errors" :key="index">
+                        {{ error }}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -336,6 +334,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </body>
 
