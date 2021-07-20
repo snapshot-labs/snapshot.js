@@ -56,7 +56,7 @@ export async function strategy(
     abi,
     addresses.map((address: any) => {
       const addressOperatedPools = stakingPools.filter(
-        (p) => p.operatorAddress === address
+        (p) => p.operatorAddress.toLowerCase() === address.toLowerCase()
       );
 
       const pools = addressOperatedPools
