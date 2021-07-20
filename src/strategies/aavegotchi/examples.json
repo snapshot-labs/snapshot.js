@@ -1,12 +1,13 @@
 [
   {
-    "name": "GHST, USDC-GHST and QUICK-GHST tokens staked in diamond",
+    "name": "GHST, USDC-GHST, QUICK-GHST, and WETH-GHST tokens staked in diamond",
     "strategy": {
       "name": "aavegotchi",
       "params": {
         "tokenAddress": "0x385Eeac5cB85A38A9a07A70c73e0a3271CfB54A7",
         "ghstQuickAddress" : "0x8b1fd78ad67c7da09b682c5392b65ca7caa101b9",
         "ghstUsdcAddress" : "0x096c5ccb33cfc5732bcd1f3195c13dbefc4c82f4",
+        "ghstWethAddress" : "0xccb9d2100037f1253e6c1682adf7dc9944498aff",
         "stakingAddress" : "0xA02d547512Bb90002807499F05495Fe9C4C3943f",
         "symbol": "GHST",
         "decimals": 18
