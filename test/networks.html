@@ -14,6 +14,11 @@
     crossorigin="anonymous" src="https://cdn-cors.ethers.io/lib/ethers-5.4.1.umd.min.js">
   </script>
   <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
   <script>
     window.addEventListener('load', async function () {
       let networks = {};
@@ -121,7 +126,7 @@
                     ]
                     const addresses = [this.selectedNetwork.multicall];
                     const multicallStart = performance.now();
-                    
+
                     const response = await snapshot.utils.multicall(
                       this.selectedNetwork.key,
                       provider,
@@ -160,7 +165,7 @@
   </script>
 </head>
 
-<body class="m-2">
+<body class="m-2" >
   <h2 class="text-2xl tracking-tight font-extrabold text-gray-900">
     <span><img class="inline w-6 pr-1"
         src="https://raw.githubusercontent.com/snapshot-labs/brand/master/icon/icon.svg" /> </span>
@@ -168,7 +173,7 @@
     <span class="text-indigo-600">Tester</span>
   </h2>
   <div id="app">
-    <div class="flex flex-wrap mt-4 mb-10">
+    <div class="flex flex-wrap mt-4 mb-10" v-cloak>
       <div class="relative inline-block text-left">
         <div
           class="mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none"
