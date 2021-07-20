@@ -1,7 +1,7 @@
 import { multicall } from '../../utils';
 
-export const author = 'candoizo';
-export const version = '0.1.1';
+export const author = 'vfatouros';
+export const version = '0.1.0';
 
 const tokenAbi = [
   {
@@ -92,9 +92,7 @@ export async function strategy(
       [options.ghstQuickAddress, 'totalSupply', []],
       [options.tokenAddress, 'balanceOf', [options.ghstQuickAddress]],
       [options.ghstUsdcAddress, 'totalSupply', []],
-      [options.tokenAddress, 'balanceOf', [options.ghstUsdcAddress]],
-      [options.ghstWethAddress, 'totalSupply', []],
-      [options.tokenAddress, 'balanceOf', [options.ghstWethAddress]]
+      [options.tokenAddress, 'balanceOf', [options.ghstUsdcAddress]]
     ].concat(
       addresses.map((address: any) => [
         options.stakingAddress,
@@ -119,22 +117,14 @@ export async function strategy(
     10 ** options.decimals /
     (ghstUsdcTotalSupply / 1e18);
 
-  const ghstWethTotalSupply = res[4];
-  const ghstWethTokenBalanceInUni = res[5];
-  const ghstWethTokensPerUni =
-    ghstWethTokenBalanceInUni /
-    10 ** options.decimals /
-    (ghstWethTotalSupply / 1e18);
-
-  const response = res.slice(6);
+  const response = res.slice(4);
 
   return Object.fromEntries(
     response.map((values, i) => [
       addresses[i],
       values[0] / 1e18 + //ghst_
         (values[1] / 10 ** options.decimals) * ghstQuickTokensPerUni + //poolTokens_
-        (values[2] / 10 ** options.decimals) * ghstUsdcTokensPerUni + //ghstUsdcPoolToken_
-        (values[3] / 10 ** options.decimals) * ghstWethTokensPerUni //ghstWethPoolToken_
+        (values[2] / 10 ** options.decimals) * ghstUsdcTokensPerUni //ghstUsdcPoolToken_
     ])
   );
 }
