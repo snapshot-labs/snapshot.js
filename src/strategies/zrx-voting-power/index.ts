@@ -1,9 +1,7 @@
+import fetch from 'cross-fetch';
 import { BigNumber } from '@ethersproject/bignumber';
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
-
-import fetch from 'cross-fetch';
-
 import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 
 export const author = 'benlyaunzon';
@@ -29,10 +27,7 @@ export async function strategy(
   options,
   snapshot
 ) {
-  const blockTag =
-    typeof snapshot === 'number'
-      ? snapshot
-      : await provider.getBlockNumber(snapshot);
+  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
   // Early return 0 voting power if governanceContract not correctly set
   if (!options.governerContract) {
