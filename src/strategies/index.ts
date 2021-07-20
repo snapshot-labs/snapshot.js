@@ -114,6 +114,7 @@ import { strategy as planetFinance } from './planet-finance';
 import { strategy as impossibleFinance } from './impossible-finance';
 import { strategy as ogn } from './ogn';
 import { strategy as zrxVotingPower } from './zrx-voting-power';
+import { strategy as tombFinance } from './tomb-finance';
 import { strategy as trancheStakingSLICE } from './tranche-staking-slice';
 import { strategy as unipoolSameToken } from './unipool-same-token';
 
@@ -234,6 +235,7 @@ export default {
   'impossible-finance': impossibleFinance,
   badgeth,
   'zrx-voting-power': zrxVotingPower,
+  'tomb-finance': tombFinance,
   'tranche-staking-slice': trancheStakingSLICE,
   'unipool-same-token': unipoolSameToken
 };
