@@ -117,6 +117,7 @@ import { strategy as zrxVotingPower } from './zrx-voting-power';
 import { strategy as tombFinance } from './tomb-finance';
 import { strategy as trancheStakingSLICE } from './tranche-staking-slice';
 import { strategy as unipoolSameToken } from './unipool-same-token';
+import { strategy as unipoolUniv2Lp } from './unipool-univ2-lp';
 
 export default {
   balancer,
@@ -237,5 +238,6 @@ export default {
   'zrx-voting-power': zrxVotingPower,
   'tomb-finance': tombFinance,
   'tranche-staking-slice': trancheStakingSLICE,
-  'unipool-same-token': unipoolSameToken
+  'unipool-same-token': unipoolSameToken,
+  'unipool-univ2-lp': unipoolUniv2Lp
 };
