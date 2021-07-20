@@ -29,7 +29,7 @@
         "pid": "1",
         "weight": 5,
         "weightDecimals": 1,
-        "uniPairToken0": true,
+        "uniPairToken0": true
       }
     },
     "network": "1",
