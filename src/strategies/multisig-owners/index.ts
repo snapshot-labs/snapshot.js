@@ -43,7 +43,6 @@ export async function strategy(
     addresses.map((address: any) => [options.address, 'isOwner', [address]]),
     { blockTag }
   );
-  console.log('RES: ', response);
   return Object.fromEntries(
     response.map((value, i) => [addresses[i], value[0] ? 1 : 0])
   );
