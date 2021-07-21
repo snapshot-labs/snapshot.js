@@ -10,8 +10,6 @@ const TSHARE_TOKEN_ADDRESS = '0x4cdF39285D7Ca8eB3f090fDA0C069ba5F4145B37';
 const TSHARE_LP_TOKEN_ADDRESS = '0x4733bc45eF91cF7CcEcaeeDb794727075fB209F2';
 const CEMETERY_ADDRESS = '0xcc0a87F7e7c693042a9Cc703661F5060c80ACb43';
 
-const PRECISION = BigNumber.from(10).pow(18);
-
 const abi = [
   'function balanceOf(address) view returns (uint256 amount)',
   'function userInfo(uint256, address) view returns (uint256 amount, uint256 rewardDebt)',
@@ -93,7 +91,6 @@ export async function strategy(
       const tshareInLpInWallet = parseFloat(
         formatUnits(
           result.lp[address]
-            .mul(PRECISION)
             .mul(result.lp.tshareBalance)
             .div(result.lp.totalSupply),
           18
@@ -107,7 +104,6 @@ export async function strategy(
       const tshareInCemetery = parseFloat(
         formatUnits(
           result.lpInCemetery[address].amount
-            .mul(PRECISION)
             .mul(result.lp.tshareBalance)
             .div(result.lp.totalSupply),
           18
