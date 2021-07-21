@@ -1,6 +1,5 @@
 import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
-import { getBlockNumber } from '../../utils/web3';
 
 export const author = '2fd';
 export const version = '0.1.0';
@@ -19,8 +18,6 @@ export async function strategy(
   snapshot
 ) {
   const multipler = options.multiplier || 1;
-  const blockNumber =
-    typeof snapshot === 'number' ? snapshot : await getBlockNumber(provider);
   const params = {
     nfts: {
       __args: {
@@ -28,9 +25,6 @@ export async function strategy(
           owner_in: addresses.map((address) => address.toLowerCase()),
           category: 'estate',
           searchEstateSize_gt: 0
-        },
-        block: {
-          number: blockNumber
         },
         first: 1000,
         skip: 0
@@ -41,6 +35,11 @@ export async function strategy(
       searchEstateSize: true
     }
   };
+
+  if (snapshot !== 'latest') {
+    // @ts-ignore
+    params.delegations.__args.block = { number: snapshot };
+  }
 
   const score = {};
   let hasNext = true;
