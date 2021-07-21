@@ -1,5 +1,4 @@
 import { formatUnits } from '@ethersproject/units';
-import { BigNumber } from '@ethersproject/bignumber';
 import Multicaller from '../../utils/multicaller';
 
 export const author = 'thecryptoundertaker';
