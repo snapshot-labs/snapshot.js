@@ -82,6 +82,7 @@
               let errors = [];
 
               try {
+                // provider = snapshot.utils.getProvider(selectedNetwork.key)
                 provider = new ethers.providers.StaticJsonRpcProvider(rpc)
               } catch (error) {
                 errors.push('Provider Error: ' + error.message)
@@ -272,13 +273,14 @@
                           <div>
                             <img class="w-4 cursor-pointer inline mr-2" @click="copy(rpc.url)"
                               src="https://img.icons8.com/material-outlined/24/000000/copy.png" />
-                            <img class="w-4 cursor-pointer inline mr-2" @click="networks[selectedNetwork.key].rpc = networks[selectedNetwork.key].rpc.filter(a => a !== rpc.url);selectNetwork(selectedNetwork.key)"
+                            <img class="w-4 cursor-pointer inline mr-2"
+                              @click="networks[selectedNetwork.key].rpc = networks[selectedNetwork.key].rpc.filter(a => a !== rpc.url);selectNetwork(selectedNetwork.key)"
                               src="
                               data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAZUlEQVRIiWNgGCmggYGB4T8a7iBGIyMWsf8UOgbFTCYKDSMbwIKBYvU09wGxFqC7kGgfDhofjFowasGoBRQAFiLVoRfr2Ip5rGDAgugplEavxXBhZD1EAT8GBoYnJFjwBKpnGAIAUcAmPA1WYN0AAAAASUVORK5CYII=" />
                             <h3 class=" text-sm leading-6 font-medium text-gray-900" style="width: 500px;
                                   overflow: hidden;
                                   text-overflow: ellipsis;">
-                            {{rpc.url}}
+                              {{rpc.url}}
                             </h3>
                           </div>
 
