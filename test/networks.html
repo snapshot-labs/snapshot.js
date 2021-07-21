@@ -59,12 +59,13 @@
             }
           },
           async selectNetwork(networkKey) {
+            this.selectedNetwork = null;
             this.error = false;
             this.editNetwork = false;
             this.newNetworkObject = '';
-            this.selectedNetwork = null;
             this.selectedNetwork = JSON.parse(JSON.stringify(networks[networkKey]));
-            this.selectedNetwork.rpcStatus = JSON.parse(JSON.stringify(this.selectedNetwork.rpc)).map((rpc,
+            const selectedNetwork = this.selectedNetwork;
+            selectedNetwork.rpcStatus = JSON.parse(JSON.stringify(this.selectedNetwork.rpc)).map((rpc,
               index) => ({
               url: rpc,
               index,
@@ -75,7 +76,7 @@
 
             // Make sure all the RPCs are loaded at the same time and then check multicall response time
             let rpcCompletedCount = 0;
-            this.selectedNetwork.rpcStatus.forEach(async (rpc) => {
+            selectedNetwork.rpcStatus.forEach(async (rpc) => {
               let provider = null;
               let latestBlockNumber, fullArchiveNode = '...';
               let errors = [];
@@ -106,7 +107,7 @@
                 console.log('fullArchiveNode', error);
               }
 
-              this.selectedNetwork.rpcStatus[rpc.index] = {
+              selectedNetwork.rpcStatus[rpc.index] = {
                 ...rpc,
                 status: {
                   latestBlockNumber,
@@ -118,22 +119,22 @@
               }
               rpcCompletedCount++;
               // If all calls are done, call the multicall
-              if (rpcCompletedCount === this.selectedNetwork.rpcStatus.length) {
-                for (const rpc of this.selectedNetwork.rpcStatus) {
+              if (rpcCompletedCount === selectedNetwork.rpcStatus.length) {
+                for (const rpc of selectedNetwork.rpcStatus) {
                   try {
                     const abi = [
                       'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)',
                       'function getEthBalance(address addr) view returns (uint256 balance)'
                     ]
-                    const addresses = [this.selectedNetwork.multicall];
+                    const addresses = [selectedNetwork.multicall];
                     const multicallStart = performance.now();
 
                     const response = await snapshot.utils.multicall(
-                      this.selectedNetwork.key,
+                      selectedNetwork.key,
                       provider,
                       abi,
                       addresses.map((address) => [
-                        this.selectedNetwork.multicall,
+                        selectedNetwork.multicall,
                         'getEthBalance',
                         [address]
                       ]), {
@@ -264,44 +265,65 @@
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                  <tr v-for="(rpc, index) in selectedNetwork.rpcStatus" :key="rpc.index">
+                  <tr v-for="(rpc, index) in selectedNetwork.rpcStatus">
                     <td class="p-2 border-b-1 border-gray-600">
                       <div>
                         <div class="ml-4">
                           <div>
-                            <img class="w-4 cursor-pointer" @click="copy(rpc.url)"
+                            <img class="w-4 cursor-pointer inline mr-2" @click="copy(rpc.url)"
                               src="https://img.icons8.com/material-outlined/24/000000/copy.png" />
-                            <h3 class="text-sm leading-6 font-medium text-gray-900" style="width: 500px;
+                            <img class="w-4 cursor-pointer inline mr-2" @click="networks[selectedNetwork.key].rpc = networks[selectedNetwork.key].rpc.filter(a => a !== rpc.url);selectNetwork(selectedNetwork.key)"
+                              src="
+                              data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAZUlEQVRIiWNgGCmggYGB4T8a7iBGIyMWsf8UOgbFTCYKDSMbwIKBYvU09wGxFqC7kGgfDhofjFowasGoBRQAFiLVoRfr2Ip5rGDAgugplEavxXBhZD1EAT8GBoYnJFjwBKpnGAIAUcAmPA1WYN0AAAAASUVORK5CYII=" />
+                            <h3 class=" text-sm leading-6 font-medium text-gray-900" style="width: 500px;
                                   overflow: hidden;
                                   text-overflow: ellipsis;">
-                              {{rpc.url}}
+                            {{rpc.url}}
                             </h3>
                           </div>
 
                         </div>
                       </div>
                     </td>
-                    <td v-if="rpc.status.loading" colspan="3">
+                    <td v-if="rpc.status.loading" colspan="3" class="p-2 border-b-1 border-gray-600 text-center">
                       <div class="animate-pulse flex">
                         <div class="h-4 bg-blue-400 rounded w-5/6"></div>
                       </div>
                     </td>
-                    <td class="p-2 border-b-1 border-gray-600 text-center">
+                    <td class="p-2 border-b-1 border-gray-600 text-center" v-if="!rpc.status.loading">
                       <a target="blank" :href="`${selectedNetwork.explorer}/block/${rpc.status.latestBlockNumber}`">
                         <h2 class="title-font font-medium text-2xl text-gray-900">
                           {{rpc.status.latestBlockNumber}}
                         </h2>
                       </a>
                     </td>
-                    <td class="p-2 border-b-1 border-gray-600 text-center">
+                    <td class="p-2 border-b-1 border-gray-600 text-center" v-if="!rpc.status.loading">
                       <h2 class="title-font font-medium text-2xl text-gray-900">
                         {{rpc.status.fullArchiveNode}}
                       </h2>
                     </td>
-                    <td class="p-2 border-b-1 border-gray-600 text-center">
+                    <td class="p-2 border-b-1 border-gray-600 text-center" v-if="!rpc.status.loading">
                       <h2 class="title-font font-medium text-2xl text-gray-900">
                         {{rpc.status.multicall}}
                       </h2>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4" class="p-4 border-b-1 border-gray-600 cursor-pointer"
+                      v-if="!selectedNetwork.addRPCInput" @click="selectedNetwork.addRPCInput = true">
+                      <img class="inline pr-2"
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAABbUlEQVRIid2UTU7DMBCFP1I1G8oVOEDhDpQFLFGpUK9QUSF+LoEqzgArfg6D2FAQlAJbOEBY0AUNixkTq9hx3GWfNHLimXnPmcwYFh0p0AVugBHwpTYCrtWXzkveAd6BPGBvwG4McQKcWQT3wCHQBJbV1oAjYGjFDTQ3CEP+DfQCSQmwr7FGpBQdi3yjymkULUuk7QtKKWre88SYcrjQV98rUHcFdClq7itLmUANeFD/ntm0iUwnnANTD0kZfoALfXaW6UXVmyUkZV8A0l05Mif/kKmz4SAMmcGKvmdmo1LfRmBJ178S2wIfuq7OJNgW2je5ny6BO123Ik9tY1vXW5fTtOmQ+dv0kZk2tZEiF1eOjH+swIH6xngGDWQWzFXR8gU5sAlMkJ+7EwoeWCJ95NN9qCEnn2jOaZXTJJZIjoz/MTJEDbV14ISi5lMlj2r7NnJxhYZsTIWy+FBHOuIKeEYmNAOegEv1eX/oYuAXIGV8V8ESsxoAAAAASUVORK5CYII=" />
+                      Add RPC
+                    </td>
+                    <td colspan="4" class="p-4 border-b-1 border-gray-600" v-if="selectedNetwork.addRPCInput">
+                      <input type="text"
+                        class="form-control p-3 my-3 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        v-model="selectedNetwork.newRPC" placeholder="Enter RPC URL" />
+                      <button
+                        @click="networks[selectedNetwork.key].rpc.push(selectedNetwork.newRPC);selectNetwork(selectedNetwork.key)"
+                        class="items-center px-4 py-2 mx-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add</button>
+                      <button @click="selectedNetwork.addRPCInput = false"
+                        class="items-center px-4 py-2 mx-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cancel</button>
                     </td>
                   </tr>
                 </tbody>
