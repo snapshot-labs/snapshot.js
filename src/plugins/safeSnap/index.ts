@@ -278,9 +278,9 @@ export default class Plugin {
     moduleAddress: string,
     transaction: ModuleTransaction
   ) {
-    const provider: StaticJsonRpcProvider = getProvider(network);
+    const chainId = parseInt(network);
     const domain = {
-      chainId: provider.network.chainId,
+      chainId,
       verifyingContract: moduleAddress
     };
     return _TypedDataEncoder.hash(domain, EIP712_TYPES, transaction);
@@ -314,8 +314,9 @@ export default class Plugin {
     transactions: ModuleTransaction[]
   ): Promise<ProposalDetails> {
     const provider: StaticJsonRpcProvider = getProvider(network);
+    const chainId = parseInt(network);
     const txHashes = await this.calcTransactionHashes(
-      provider.network.chainId,
+      chainId,
       moduleAddress,
       transactions
     );
