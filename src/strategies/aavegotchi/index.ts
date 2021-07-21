@@ -81,6 +81,8 @@ export async function strategy(
   options,
   snapshot
 ) {
+  options.ghstWethAddress =
+    options.ghstWethAddress || '0xccb9d2100037f1253e6c1682adf7dc9944498aff';
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const res = await multicall(
     network,

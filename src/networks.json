@@ -190,6 +190,15 @@
     "rpc": ["https://core.poa.network"],
     "explorer": "https://blockscout.com/poa/core/"
   },
+  "80": {
+    "key": "80",
+    "name": "GeneChain",
+    "chainId": 80,
+    "network": "Mainnet",
+    "multicall": "0x9e6ed491171A0D9089892aA5F14800f9f32038eb",
+    "rpc": ["https://rpc.genechain.io"],
+    "explorer": "https://scan.genechain.io"
+  },
   "82": {
     "key": "82",
     "name": "Meter Mainnet",
