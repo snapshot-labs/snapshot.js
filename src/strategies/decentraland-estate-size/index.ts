@@ -38,7 +38,7 @@ export async function strategy(
 
   if (snapshot !== 'latest') {
     // @ts-ignore
-    params.delegations.__args.block = { number: snapshot };
+    params.nfts.__args.block = { number: snapshot };
   }
 
   const score = {};
