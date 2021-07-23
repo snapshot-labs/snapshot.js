@@ -39,6 +39,18 @@ export interface Vote {
   metadata: string;
 }
 
+export interface Follow {
+  from?: string;
+  space: string;
+  timestamp?: number;
+}
+
+export interface Unfollow {
+  from?: string;
+  space: string;
+  timestamp?: number;
+}
+
 export const spaceTypes = {
   Space: [
     { name: 'from', type: 'address' },
@@ -110,5 +122,19 @@ export const voteStringTypes = {
     { name: 'proposal', type: 'string' },
     { name: 'choice', type: 'string' },
     { name: 'metadata', type: 'string' }
+  ]
+};
+
+export const followTypes = {
+  Follow: [
+    { name: 'from', type: 'address' },
+    { name: 'space', type: 'string' }
+  ]
+};
+
+export const unfollowTypes = {
+  Unfollow: [
+    { name: 'from', type: 'address' },
+    { name: 'space', type: 'string' }
   ]
 };
