@@ -361,7 +361,7 @@
   },
   "321": {
     "key": "321",
-    "name": "KuCoin Community Chain Mainnet",
+    "name": "KCC Mainnet",
     "shortName": "KCC",
     "chainId": 321,
     "network": "mainnet",
