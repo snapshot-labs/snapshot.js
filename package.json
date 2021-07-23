@@ -16,12 +16,12 @@
   ],
   "scripts": {
     "build": "tsc -p .",
-    "dev": "tsc -p . -w --incremental",
+    "lint": "eslint . --ext .ts --fix",
     "test": "jest test/index.spec.ts --runInBand",
     "test:validation": "npm run build && jest test/validation.spec.ts --runInBand",
     "pretest": "npm run build",
-    "lint": "eslint . --ext .ts --fix",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "prepack": "npm run build"
   },
   "dependencies": {
     "@ensdomains/content-hash": "^2.5.3",
