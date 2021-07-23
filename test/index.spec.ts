@@ -1,10 +1,13 @@
 const { JsonRpcProvider } = require('@ethersproject/providers');
 const { getAddress } = require('@ethersproject/address');
-const snapshot = require('../');
-const networks = require('../src/networks.json');
+const { strategies } = require('../dist/index');
+const networks = require('../dist/networks.json');
 const addresses = require('./addresses.json');
+const { getScoresDirect } = require('../dist/utils');
+const { getBlockNumber } = require('../dist/utils/web3');
+const getProvider = require('../dist/utils/provider');
 
-const strategyArg =
+const strategy =
   process.env['npm_config_strategy'] ||
   (
     process.argv.find((arg) => arg.includes('--strategy=')) ||
@@ -20,12 +23,11 @@ const moreArg =
     ?.split('--more=')
     ?.pop();
 
-const strategy = Object.keys(snapshot.strategies).find((s) => strategyArg == s);
-if (!strategy) throw 'Strategy not found';
+if (!strategies.default[strategy]) throw 'Strategy not found';
 const example = require(`../src/strategies/${strategy}/examples.json`)[0];
 
 function callGetScores(example) {
-  return snapshot.utils.getScoresDirect(
+  return getScoresDirect(
     'yam.eth',
     [example.strategy],
     example.network,
@@ -79,8 +81,8 @@ describe(`\nTest strategy "${strategy}"`, () => {
 
   it('File examples.json must use a snapshot block number in the past', async () => {
     expect(typeof example.snapshot).toBe('number');
-    const provider = snapshot.utils.getProvider(example.network);
-    const blockNumber = await snapshot.utils.getBlockNumber(provider);
+    const provider = getProvider.default(example.network);
+    const blockNumber = await getBlockNumber(provider);
     expect(example.snapshot).toBeLessThanOrEqual(blockNumber);
   });
 

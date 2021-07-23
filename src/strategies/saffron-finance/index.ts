@@ -82,11 +82,9 @@ interface VotingScheme {
 //                If this value is less than 1.0 and greater than 0.0, then the token holder's voting power is reduced.
 //                If this value is 0.0, then the token holder has no voting power.
 class DirectBoostScheme implements VotingScheme {
-  private name: string;
   private multiplier: number;
 
   constructor(name: string, multiplier) {
-    this.name = name;
     this.multiplier = multiplier;
   }
 
@@ -106,12 +104,10 @@ class DirectBoostScheme implements VotingScheme {
 //                If this value is 0.0, then the token holder has no voting power.
 // saffLpToSfi_E18 ... Conversion of the Saffron LP Pair Token holding to SFI value with expected value to be in wei.
 class LPReservePairScheme implements VotingScheme {
-  private name: string;
   private multiplier: number;
   private saffLpToSfi_E18: BigNumber;
 
   constructor(name: string, multiplier: number, saffLpToSfi_E18: BigNumber) {
-    this.name = name;
     this.multiplier = multiplier;
     this.saffLpToSfi_E18 = saffLpToSfi_E18;
   }
