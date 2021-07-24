@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "balance-of-with-thresholds",
+      "params": {
+        "address": "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
+        "symbol": "BAYC",
+        "decimals": 0,
+        "thresholds": [
+          { "threshold": 1, "votes": 1 },
+          { "threshold": 4, "votes": 2 },
+          { "threshold": 11, "votes": 3 },
+          { "threshold": 25, "votes": 4 }
+        ]
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0xed47015bb8080b9399f9d0ddfc427b9cee2caab1",
+      "0xf56345338cb4cddaf915ebef3bfde63e70fe3053",
+      "0x7b15e6c439b27a553b65a9904ce571da6691a0fb",
+      "0x8d2f3a76a76f055d62a931678ab16b042e7badeb"
+    ],
+    "snapshot": 12453212
+  }
+]
