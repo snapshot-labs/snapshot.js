@@ -9,7 +9,7 @@ export const version = '1.0.0';
 
 export const name = 'immutable-x';
 
-const snapshotPath = '/snapshots/balances';
+const snapshotPath = '/v1/snapshots/balances';
 
 const networkMapping = {
     1: 'https://api.x.immutable.com',
@@ -79,10 +79,24 @@ function buildURL(
     cursor?: string
 ): string {
     let apiUrl = networkMapping[network] + snapshotPath;
-    apiUrl += '/' + options.address.toLowerCase() + '?addresses=' + addresses.join(',');
-    apiUrl += `?page_size=${options.pageSize != '' ? options.pageSize : defaultPageSize}`;
-    apiUrl += cursor || cursor != '' ? `?cursor=${cursor}` : '';
+    apiUrl += '/' + options.address.toLowerCase();
+    apiUrl += buildArr('addresses', addresses);
+    apiUrl += `&page_size=${options.pageSize != '' ? options.pageSize : defaultPageSize}`;
+    apiUrl += cursor || cursor != '' ? `&cursor=${cursor}` : '';
     return apiUrl;
+}
+
+function buildArr(name: string, arr: string[]): string {
+    let url = '';
+    for (let i = 0; i < arr.length; i++) {
+        if (i == 0) {
+            url += `?`;
+        } else {
+            url += `&`;
+        }
+        url += `${name}=${arr[i]}`;
+    }
+    return url;
 }
 
 function mapL1Response(
@@ -132,7 +146,6 @@ export async function strategy(
             await getL2Balances(network, options, addresses)
         ]);
     } catch (e) {
-        console.error(e);
         throw new Error(`Strategy ${name} failed`);
     }
 }
