@@ -1,8 +1,9 @@
-import { BigNumber } from '@ethersproject/bignumber';
+import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
+import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { formatUnits } from '@ethersproject/units';
 import 'cross-fetch';
 
-import { multicall } from '../../utils';
+import Multicaller from '../../utils/multicaller';
 
 export const author = 'immutable';
 export const version = '1.0.0';
@@ -20,37 +21,53 @@ const defaultPageSize = 100;
 
 const abi = ['function balanceOf(address account) external view returns (uint256)'];
 
-type Response = {
+interface Response {
     records: Score[];
     cursor: string;
-};
+}
 
-type Score = {
+interface Score {
     address: string;
     balance: string;
-};
+}
+
+interface Options {
+    address: string;
+    decimals: number;
+    pageSize?: number;
+}
+
+export async function strategy(
+    _space: unknown,
+    network: string,
+    provider: StaticJsonRpcProvider,
+    addresses: string[],
+    options: Options,
+    _snapshot: unknown
+): Promise<Record<string, number>> {
+    try {
+        return combineBalanceScores([
+            await getL1Balances(network, provider, options, addresses),
+            await getL2Balances(network, options, addresses)
+        ]);
+    } catch (e) {
+        throw new Error(`Strategy ${name} failed`);
+    }
+}
 
 async function getL1Balances(
     network: string,
-    provider: any,
-    options: { address: string; decimals: string },
+    provider: StaticJsonRpcProvider,
+    options: Options,
     addresses: string[]
 ): Promise<Record<string, number>> {
-    const response = await multicall(
-        network,
-        provider,
-        abi,
-        addresses.map((address: string) => [options.address, 'balanceOf', [address]]),
-        { blockTag: 'latest' }
-    );
-    return mapL1Response(response, addresses, options);
+    const multi = new Multicaller(network, provider, abi, { blockTag: 'latest' });
+    addresses.forEach((address: string) => multi.call(address, options.address, 'balanceOf', [address]));
+    const result: Record<string, BigNumberish> = await multi.execute();
+    return mapL1Response(result, options);
 }
 
-async function getL2Balances(
-    network: string,
-    options: { address: string; decimals: string; pageSize: string },
-    addresses: string[]
-): Promise<Record<string, number>> {
+async function getL2Balances(network: string, options: Options, addresses: string[]): Promise<Record<string, number>> {
     const records: Record<string, number> = {};
 
     let cursor = '',
@@ -72,16 +89,11 @@ async function getL2Balances(
     return records;
 }
 
-function buildURL(
-    network: string,
-    options: { address: string; pageSize: string },
-    addresses: string[],
-    cursor?: string
-): string {
+function buildURL(network: string, options: Options, addresses: string[], cursor?: string): string {
     let apiUrl = networkMapping[network] + snapshotPath;
     apiUrl += '/' + options.address.toLowerCase();
     apiUrl += buildArr('addresses', addresses);
-    apiUrl += `&page_size=${options.pageSize != '' ? options.pageSize : defaultPageSize}`;
+    apiUrl += `&page_size=${'pageSize' in options ? options.pageSize : defaultPageSize}`;
     apiUrl += cursor || cursor != '' ? `&cursor=${cursor}` : '';
     return apiUrl;
 }
@@ -99,23 +111,19 @@ function buildArr(name: string, arr: string[]): string {
     return url;
 }
 
-function mapL1Response(
-    data: BigNumber[][], // itf.decodeFunctionResult('balanceOf', '0x...')
-    addresses: string[],
-    options: { decimals: string }
-): Record<string, number> {
+function mapL1Response(data: Record<string, BigNumberish>, options: Options): Record<string, number> {
     return Object.fromEntries(
-        data.map((value: BigNumber[], i: number) => [addresses[i], formatBalance(value[0], options.decimals)])
+        Object.entries(data).map(([address, balance]) => [address, parseFloat(formatUnits(balance, options.decimals))])
     );
 }
 
-function mapL2Response(data: Response, options: { decimals: string }): Record<string, number> {
+function mapL2Response(data: Response, options: Options): Record<string, number> {
     return Object.fromEntries(
         data.records.map((value: Score) => [value.address, formatBalance(value.balance, options.decimals)])
     );
 }
 
-function formatBalance(balance: BigNumber | string, decimals: string): number {
+function formatBalance(balance: BigNumber | string, decimals: BigNumberish): number {
     return parseFloat(formatUnits(balance, decimals));
 }
 
@@ -130,22 +138,4 @@ function combineBalanceScores(records: Record<string, number>[]): Record<string,
         }
         return aggScore;
     }, {});
-}
-
-export async function strategy(
-    _space,
-    network,
-    provider,
-    addresses,
-    options,
-    _snapshot
-): Promise<Record<string, number>> {
-    try {
-        return combineBalanceScores([
-            await getL1Balances(network, provider, options, addresses),
-            await getL2Balances(network, options, addresses)
-        ]);
-    } catch (e) {
-        throw new Error(`Strategy ${name} failed`);
-    }
 }
