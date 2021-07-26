@@ -1,10 +1,13 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 import networks from '../../networks.json';
-import { abi } from '../../abi/Multicall.json';
 
 export const author = 'bonustrack';
 export const version = '0.1.0';
+
+const abi = [
+  'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)'
+];
 
 export async function strategy(
   space,

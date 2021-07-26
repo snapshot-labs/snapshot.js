@@ -10,7 +10,6 @@ import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity';
 import { call, multicall, sendTransaction } from '../../utils';
 import getProvider from '../../utils/provider';
 import { _TypedDataEncoder } from '@ethersproject/hash';
-import { formatEther } from '@ethersproject/units';
 import { Contract } from '@ethersproject/contracts';
 import { Result } from '@ethersproject/abi';
 
@@ -83,11 +82,11 @@ const OracleAbi = [
   'function submitAnswer(bytes32 question_id, bytes32 answer, uint256 max_previous) external payable',
   'function submitAnswerERC20(bytes32 question_id, bytes32 answer, uint256 max_previous, uint256 tokens) external',
   `function claimMultipleAndWithdrawBalance(
-    bytes32[] question_ids, 
-    uint256[] lengths, 
-    bytes32[] hist_hashes, 
-    address[] addrs, 
-    uint256[] bonds, 
+    bytes32[] question_ids,
+    uint256[] lengths,
+    bytes32[] hist_hashes,
+    address[] addrs,
+    uint256[] bonds,
     bytes32[] answers
   ) public`,
   'function withdraw() public'
@@ -279,9 +278,9 @@ export default class Plugin {
     moduleAddress: string,
     transaction: ModuleTransaction
   ) {
-    const provider: StaticJsonRpcProvider = getProvider(network);
+    const chainId = parseInt(network);
     const domain = {
-      chainId: provider.network.chainId,
+      chainId,
       verifyingContract: moduleAddress
     };
     return _TypedDataEncoder.hash(domain, EIP712_TYPES, transaction);
@@ -315,8 +314,9 @@ export default class Plugin {
     transactions: ModuleTransaction[]
   ): Promise<ProposalDetails> {
     const provider: StaticJsonRpcProvider = getProvider(network);
+    const chainId = parseInt(network);
     const txHashes = await this.calcTransactionHashes(
-      provider.network.chainId,
+      chainId,
       moduleAddress,
       transactions
     );
@@ -578,7 +578,7 @@ export default class Plugin {
 
     let bond;
     let methodName;
-    let txOverrides = {};
+    const txOverrides = {};
     let parameters = [
       questionId,
       `0x000000000000000000000000000000000000000000000000000000000000000${answer}`

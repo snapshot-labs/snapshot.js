@@ -37,7 +37,7 @@ export default class Multicaller {
       this.calls,
       this.options
     );
-    this.paths.forEach((path, i) => set(obj, path, result[i][0]));
+    result.forEach((r, i) => set(obj, this.paths[i], r.length > 1 ? r : r[0]));
     this.calls = [];
     this.paths = [];
     return obj;

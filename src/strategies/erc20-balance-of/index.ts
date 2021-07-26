@@ -1,8 +1,9 @@
+import { BigNumberish } from '@ethersproject/bignumber';
 import { formatUnits } from '@ethersproject/units';
-import { multicall } from '../../utils';
+import Multicaller from '../../utils/multicaller';
 
 export const author = 'bonustrack';
-export const version = '0.1.0';
+export const version = '0.1.1';
 
 const abi = [
   'function balanceOf(address account) external view returns (uint256)'
@@ -15,19 +16,19 @@ export async function strategy(
   addresses,
   options,
   snapshot
-) {
+): Promise<Record<string, number>> {
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
-  const response = await multicall(
-    network,
-    provider,
-    abi,
-    addresses.map((address: any) => [options.address, 'balanceOf', [address]]),
-    { blockTag }
+
+  const multi = new Multicaller(network, provider, abi, { blockTag });
+  addresses.forEach((address) =>
+    multi.call(address, options.address, 'balanceOf', [address])
   );
+  const result: Record<string, BigNumberish> = await multi.execute();
+
   return Object.fromEntries(
-    response.map((value, i) => [
-      addresses[i],
-      parseFloat(formatUnits(value.toString(), options.decimals))
+    Object.entries(result).map(([address, balance]) => [
+      address,
+      parseFloat(formatUnits(balance, options.decimals))
     ])
   );
 }

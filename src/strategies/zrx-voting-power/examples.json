@@ -1,0 +1,21 @@
+[
+  {
+    "name": "ZRX Voting Power strategy",
+    "strategy": {
+      "name": "zrx-voting-power",
+      "params": {
+        "address": "0xe41d2489571d322189246dafa5ebde1f4699f498",
+        "governerContract": "0x0bB1810061C2f5b2088054eE184E6C79e1591101",
+        "decimals": 18
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x6bf18019d3b286c7f9fd675de7ef1d89fd985104",
+      "0xba4f44e774158408e2dc6c5cb65bc995f0a89180",
+      "0x4990cE223209FCEc4ec4c1ff6E0E81eebD8Cca08",
+      "0x5265bde27f57e738be6c1f6ab3544e82cdc92a8f"
+    ],
+    "snapshot": 12855152
+  }
+]
