@@ -6,21 +6,15 @@ import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import _strategies from './strategies';
-import Multicaller from './utils/multicaller';
-import getProvider from './utils/provider';
-import validations from './validations';
-import {
-  decodeContenthash,
-  validateContent,
-  isValidContenthash,
-  encodeContenthash,
-  resolveENSContentHash,
-  resolveContent
-} from './utils/contentHash';
-import { signMessage, getBlockNumber } from './utils/web3';
-import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
 import networks from './networks.json';
+
+export * from './utils/multicaller';
+export * from './utils/provider';
+export * from './validations';
+export * from './utils/contentHash';
+export * from './utils/web3';
+export * from './sign/utils';
 
 export const SNAPSHOT_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot',
@@ -189,27 +183,3 @@ export function validateSchema(schema, data) {
   const valid = validate(data);
   return valid ? valid : validate.errors;
 }
-
-export default {
-  call,
-  multicall,
-  subgraphRequest,
-  ipfsGet,
-  sendTransaction,
-  getScores,
-  getScoresDirect,
-  validateSchema,
-  getProvider,
-  decodeContenthash,
-  validateContent,
-  isValidContenthash,
-  encodeContenthash,
-  resolveENSContentHash,
-  resolveContent,
-  signMessage,
-  getBlockNumber,
-  Multicaller,
-  validations,
-  getHash,
-  verify
-};

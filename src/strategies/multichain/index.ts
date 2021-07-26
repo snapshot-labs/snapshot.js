@@ -1,5 +1,5 @@
 import { subgraphRequest } from '../../utils';
-import getProvider from '../../utils/provider';
+import { getProvider } from '../../utils/provider';
 import strategies from '..';
 
 export const author = 'kesar';

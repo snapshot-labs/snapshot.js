@@ -8,7 +8,7 @@ import { HashZero } from '@ethersproject/constants';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity';
 import { call, multicall, sendTransaction } from '../../utils';
-import getProvider from '../../utils/provider';
+import { getProvider } from '../../utils/provider';
 import { _TypedDataEncoder } from '@ethersproject/hash';
 import { Contract } from '@ethersproject/contracts';
 import { Result } from '@ethersproject/abi';
