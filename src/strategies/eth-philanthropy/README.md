@@ -17,9 +17,8 @@ Implementation of [eth-received](./../eth-received)
 - [CoolEarth.org](CoolEarth.org): 0x3c8cB169281196737c493AfFA8F49a9d823bB9c5
 - [Run2Rescue.org](Run2Rescue.org): 0xd17bcbFa6De9E3741aa43Ed32e64696F6a9FA996
 - [Archive.org](Archive.org): 0xFA8E3920daF271daB92Be9B87d9998DDd94FEF08
-- [Alt.eco](Alt.eco): 0x5E7ecc1fC819f937fbEe043b40388C0809361ae9
-
-
+- [Alt.eco](http://alt.eco): 0x5E7ecc1fC819f937fbEe043b40388C0809361ae9
+- 
 ## Params
 
 - `coeff` - (**Optional**, `number`, Default: `100`) Amount to multiply the sum of a voter's ether sent to charity. When used in conjunction with other strategies, this enables the increase or decrease of leverage given to voters who donate.
@@ -52,7 +51,8 @@ The space config will look like this:
           "0x7cF2eBb5Ca55A8bd671A020F8BDbAF07f60F26C1",
           "0x3c8cB169281196737c493AfFA8F49a9d823bB9c5",
           "0xd17bcbFa6De9E3741aa43Ed32e64696F6a9FA996",
-          "0xFA8E3920daF271daB92Be9B87d9998DDd94FEF08"
+          "0xFA8E3920daF271daB92Be9B87d9998DDd94FEF08",
+          "0x5E7ecc1fC819f937fbEe043b40388C0809361ae9"
         ]
       }
     },
