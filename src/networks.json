@@ -190,6 +190,15 @@
     "rpc": ["https://core.poa.network"],
     "explorer": "https://blockscout.com/poa/core/"
   },
+  "80": {
+    "key": "80",
+    "name": "GeneChain",
+    "chainId": 80,
+    "network": "Mainnet",
+    "multicall": "0x9e6ed491171A0D9089892aA5F14800f9f32038eb",
+    "rpc": ["https://rpc.genechain.io"],
+    "explorer": "https://scan.genechain.io"
+  },
   "82": {
     "key": "82",
     "name": "Meter Mainnet",
@@ -349,6 +358,19 @@
     "multicall": "0x7f6A10218264a22B4309F3896745687E712962a0",
     "rpc": ["https://rpc.ftm.tools", "https://rpcapi.fantom.network"],
     "explorer": "https://ftmscan.com"
+  },
+  "321": {
+    "key": "321",
+    "name": "KCC Mainnet",
+    "shortName": "KCC",
+    "chainId": 321,
+    "network": "mainnet",
+    "multicall": "0xa64D6AFb48225BDA3259246cfb418c0b91de6D7a",
+    "rpc": [
+      "https://rpc-mainnet.kcc.network"
+    ],
+    "ws": ["wss://rpc-ws-mainnet.kcc.network"],
+    "explorer": "https://explorer.kcc.io"
   },
   "499": {
     "key": "499",
