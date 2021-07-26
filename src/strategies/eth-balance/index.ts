@@ -6,7 +6,7 @@ export const author = 'bonustrack';
 export const version = '0.1.0';
 
 const abi = [
-  'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)'
+  'function getEthBalance(address addr) public view returns (uint256 balance)'
 ];
 
 export async function strategy(
