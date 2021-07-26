@@ -15,7 +15,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc",
     "lint": "eslint . --ext .ts --fix",
     "test": "jest test/index.spec.ts --runInBand",
     "test:validation": "npm run build && jest test/validation.spec.ts --runInBand",
