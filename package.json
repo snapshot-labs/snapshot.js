@@ -21,8 +21,7 @@
     "test:validation": "npm run build && jest test/validation.spec.ts --runInBand",
     "pretest": "npm run build",
     "prepare": "npm run build",
-    "prepack": "npm run build",
-    "postinstall": "npm run build"
+    "prepack": "npm run build"
   },
   "dependencies": {
     "@ensdomains/content-hash": "^2.5.3",
