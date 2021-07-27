@@ -7,6 +7,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import filesize from 'rollup-plugin-filesize';
 import json from 'rollup-plugin-json';
 import pkg from './package.json';
+import { string } from 'rollup-plugin-string';
 
 const name = 'snapshot';
 const input = 'src/index.ts';
@@ -16,9 +17,7 @@ export default [
   {
     input,
     context: 'window',
-    output: [
-      { name, file: pkg.browser, format: 'umd' }
-    ],
+    output: [{ name, file: pkg.browser, format: 'umd' }],
     plugins: [
       json(),
       builtins(),
@@ -27,7 +26,10 @@ export default [
       commonjs(),
       globals(),
       terser(),
-      filesize()
+      filesize(),
+      string({
+        include: '**/*.md'
+      })
     ]
   },
   {
@@ -39,7 +41,10 @@ export default [
     ],
     plugins: [
       json(),
-      typescript({ clean: true })
+      typescript({ clean: true }),
+      string({
+        include: '**/*.md'
+      })
     ]
   }
 ];
