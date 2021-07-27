@@ -84,9 +84,7 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
   return data || {};
 }
 
-const defaultGateway = process.env.VUE_APP_IPFS_GATEWAY || gateways[0];
-
-export function getUrl(uri, gateway = defaultGateway) {
+export function getUrl(uri, gateway = gateways[0]) {
   const ipfsGateway = `https://${gateway}`;
   if (!uri) return null;
   if (!uri.includes('ipfs') && !uri.includes('ipns') && !uri.includes('http'))
