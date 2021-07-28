@@ -23,7 +23,7 @@ export async function strategy(
     options.tokenIds.map( (id: any) => [ options.address, 'ownerOf', [id] ]),
     { blockTag }
   );
-  // return response[0].owner;
+
   return Object.fromEntries(
     addresses.map( (address: any) => [
       address,
