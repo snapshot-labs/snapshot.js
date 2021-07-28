@@ -80,7 +80,7 @@ export async function strategy(
 
   for (const strategy of options.strategies) {
     promises.push(
-      strategies[strategy.name](
+      strategies[strategy.name].strategy(
         space,
         strategy.network,
         getProvider(strategy.network),

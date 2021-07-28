@@ -6,8 +6,8 @@ import builtins from 'rollup-plugin-node-builtins';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import filesize from 'rollup-plugin-filesize';
 import json from 'rollup-plugin-json';
-import pkg from './package.json';
 import { string } from 'rollup-plugin-string';
+import pkg from './package.json';
 
 const name = 'snapshot';
 const input = 'src/index.ts';
