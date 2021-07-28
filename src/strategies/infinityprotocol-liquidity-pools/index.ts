@@ -1,5 +1,6 @@
 import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
+import examplesFile from './examples.json';
 
 const INFINITYPROTOCOL_SUBGRAPH_URL = {
   '56':
@@ -8,6 +9,7 @@ const INFINITYPROTOCOL_SUBGRAPH_URL = {
 
 export const author = 'vfatouros';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 export async function strategy(
   _space,

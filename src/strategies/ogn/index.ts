@@ -1,9 +1,13 @@
 import { formatUnits } from '@ethersproject/units';
 import { getBlockNumber } from '../../utils/web3';
 import { multicall } from '../../utils';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
 
 export const author = 'franckc';
 export const version = '0.1.0';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 const abi = [
   'function balanceOf(address account) external view returns (uint256)',

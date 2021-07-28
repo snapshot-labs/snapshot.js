@@ -3,9 +3,13 @@ import { subgraphRequest } from '../../utils';
 import { formatUnits, parseUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
 import { verifyResultsLength, verifyResults } from './oceanUtils';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
 
 export const author = 'w1kke';
 export const version = '0.1.0';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 const OCEAN_ERC20_DECIMALS = 18;
 const OCEAN_SUBGRAPH_URL = {

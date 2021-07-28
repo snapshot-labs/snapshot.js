@@ -1,8 +1,11 @@
 import { formatUnits } from '@ethersproject/units';
 import Multicaller from '../../utils/multicaller';
 import { subgraphRequest } from '../../utils';
+import examplesFile from './examples.json';
+
 export const author = 'candoizo';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const AAVEGOTCHI_SUBGRAPH_URL = {
   137: 'https://api.thegraph.com/subgraphs/name/aavegotchi/aavegotchi-core-matic'

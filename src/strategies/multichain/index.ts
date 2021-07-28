@@ -1,9 +1,11 @@
 import { subgraphRequest } from '../../utils';
 import getProvider from '../../utils/provider';
 import strategies from '..';
+import examplesFile from './examples.json';
 
 export const author = 'kesar';
 export const version = '1.0.0';
+export const examples = examplesFile;
 
 const defaultGraphs = {
   '56': 'https://api.thegraph.com/subgraphs/name/apyvision/block-info',

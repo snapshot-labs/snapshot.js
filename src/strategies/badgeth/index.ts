@@ -1,8 +1,10 @@
 import { subgraphRequest } from '../../utils';
 import { getAddress } from '@ethersproject/address';
+import examplesFile from './examples.json';
 
 export const author = 'Badgeth';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const BADGETH_SUBGRAPH_URL =
   'https://api.thegraph.com/subgraphs/name/hardforksoverknives/badgeth-dev';

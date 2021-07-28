@@ -1,11 +1,13 @@
 import { formatUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
 import { multicall } from '../../utils';
+import examplesFile from './examples.json';
 
 const BIG18 = BigNumber.from('1000000000000000000');
 
 export const author = 'FraxFinance';
 export const version = '0.0.2';
+export const examples = examplesFile;
 
 // 0.0.1: FXS Plus FXS in LPs
 // 0.0.2: Adds veFXS and removes outdated SushiSwap LPs

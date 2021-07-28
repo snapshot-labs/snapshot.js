@@ -1,8 +1,10 @@
 import fetch from 'cross-fetch';
 import { formatUnits } from '@ethersproject/units';
+import examplesFile from './examples.json';
 
 export const author = 'ganzai-san';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 export async function strategy(
   space,

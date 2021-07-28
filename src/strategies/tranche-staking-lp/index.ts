@@ -2,9 +2,11 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 import { subgraphRequest } from '../../utils';
+import examplesFile from './examples.json';
 
 export const author = 'ayush-jibrel';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const UNISWAP_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2'

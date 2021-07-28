@@ -2,11 +2,14 @@ import { getAddress } from '@ethersproject/address';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Contract } from '@ethersproject/contracts';
 import { Provider } from '@ethersproject/providers';
-
 import { subgraphRequest, ipfsGet } from '../../utils';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
 
 export const author = 'andytcf';
 export const version = '1.0.0';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 type SNXHoldersResult = {
   snxholders: {
