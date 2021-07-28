@@ -8,6 +8,6 @@ Here is an example of parameters:
 {
   "address": "0x22C1f6050E56d2876009903609a2cC3fEf83B415",
   "symbol": "POAP",
-  "ids": ["613607", "613237"]
+  "tokenIds": ["613607", "613237"]
 }
 ```

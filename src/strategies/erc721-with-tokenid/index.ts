@@ -20,7 +20,7 @@ export async function strategy(
     network,
     provider,
     abi,
-    options.ids.map( (id: any) => [ options.address, 'ownerOf', [id] ]),
+    options.tokenIds.map( (id: any) => [ options.address, 'ownerOf', [id] ]),
     { blockTag }
   );
   // return response[0].owner;
