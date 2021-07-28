@@ -119,6 +119,7 @@ import { strategy as tombFinance } from './tomb-finance';
 import { strategy as trancheStakingSLICE } from './tranche-staking-slice';
 import { strategy as unipoolSameToken } from './unipool-same-token';
 import { strategy as unipoolUniv2Lp } from './unipool-univ2-lp';
+import poap from './poap';
 
 export default {
   balancer,
@@ -165,6 +166,7 @@ export default {
   esd,
   'esd-delegation': esdDelegation,
   piedao,
+  'poap-balance-of': poap,
   'xdai-easy-staking': xDaiEasyStaking,
   'xdai-posdao-staking': xDaiPOSDAOStaking,
   'xdai-stake-holders': xDaiStakeHolders,
