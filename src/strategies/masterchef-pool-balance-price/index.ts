@@ -4,7 +4,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import fetch from 'cross-fetch';
 
 export const author = 'joaomajesus';
-export const version = '0.1.0';
+export const version = '0.2.0';
 
 /*
  * Generic masterchef pool balance or price strategy. Accepted options:
