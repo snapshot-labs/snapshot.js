@@ -1,31 +1,37 @@
-// URLS
-const API_BASE_URL = 'https://api.poap.xyz';
-const APP_BASE_URL = 'https://app.poap.xyz';
+import { multicall } from '../../utils';
 
-export default class strategy {
-  public author = 'G2 & Torch';
-  public version = '1.0.0';
-  public name = 'Poap Strategy';
-  public options: any;
+export const author = 'G2 & Torch';
+export const version = '1.0.0';
 
-  openScanPage(address) {
-    window.open(`${APP_BASE_URL}/actions/scan/` + address, '_blank');
-    return { supply: 0 };
-  }
+const abi = [
+  'function ownerOf(uint256 tokenId) public view returns (address owner)'
+];
 
-  async getCurrentState(tokenId) {
-    // Fetch the event
-    const eventResponse = await fetch(`${API_BASE_URL}/token/${tokenId}`);
-    // If the fetch fails: the user doesn't have the POAP
-    if (!eventResponse.ok) {
-      return { image_url: '', currentState: 'NO_POAP' };
-    }
-    // Get the image from the event
-    const { image_url } = await eventResponse.json();
-
-    // Check that the tokenId is not empty
-    if (!tokenId) {
-      return { image_url, currentState: 'NO_POAP' };
-    }
-  }
+export async function strategy(
+  space,
+  network,
+  provider,
+  addresses,
+  options,
+  snapshot
+) {
+  const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
+  const response = await multicall(
+    network,
+    provider,
+    abi,
+    options.ids.map( (id: any) => [ options.address, 'ownerOf', [id] ]),
+    { blockTag }
+  );
+  const poapWeights = {};
+  Object.keys(options.id).map((k) => {
+    poapWeights[k] = 1000 / options.id[k];
+  });
+  // return response[0].owner;
+  return Object.fromEntries(
+    addresses.map( (address: any) => [
+      address,
+      response.findIndex((res: any) => res.owner.toLowerCase() === address.toLowerCase()) > -1 ? 1 : 0,
+    ])
+  );
 }
