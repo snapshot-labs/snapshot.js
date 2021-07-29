@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Example query",
+    "strategy": {
+      "name": "erc721-with-tokenid",
+      "params": {
+        "address": "0x22C1f6050E56d2876009903609a2cC3fEf83B415",
+        "symbol": "POAP",
+        "tokenIds": ["613607", "613237"]
+      }
+    },
+    "network": "1",
+    "addresses": [
+      "0x2b85075702b5bc4737d8e1560b7efe8535105b47",
+      "0x3e17fac953de2cd729b0ace7f6d4353387717e9e",
+      "0xE76Be9C1e10910d6Bc6b63D8031729747910c2f6",
+      "0xC5e1569772b2d425Ac9469d39F17341C01e1CF4c"
+    ],
+    "snapshot": 12913585
+
+  }
+]
