@@ -61,7 +61,7 @@
     "test:validation": "npm run build:cjs && jest test/validation.spec.ts --runInBand",
     "pretest": "npm run build:cjs",
     "lint": "eslint . --ext .ts --fix",
-    "prepare": "npm run build"
+    "postinstall": "npm run build"
   },
   "engines": {
     "node": ">=14"
