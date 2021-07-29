@@ -5,12 +5,16 @@ import {
   Proposal,
   CancelProposal,
   Vote,
+  Follow,
+  Unfollow,
   spaceTypes,
   proposalTypes,
   cancelProposalTypes,
   voteTypes,
   voteArrayTypes,
-  voteStringTypes
+  voteStringTypes,
+  followTypes,
+  unfollowTypes
 } from './types';
 import hubs from '../hubs.json';
 
@@ -87,5 +91,13 @@ export default class Client {
     // @ts-ignore
     delete message.type;
     return await this.sign(web3, address, message, type);
+  }
+
+  async follow(web3: Web3Provider, address: string, message: Follow) {
+    return await this.sign(web3, address, message, followTypes);
+  }
+
+  async unfollow(web3: Web3Provider, address: string, message: Unfollow) {
+    return await this.sign(web3, address, message, unfollowTypes);
   }
 }

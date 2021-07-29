@@ -6,18 +6,18 @@ Implementation of [eth-received](./../eth-received)
 
 ### Currently Included Charities:
 - [GiveDirectly](https://www.givedirectly.org/): 0xc7464dbcA260A8faF033460622B23467Df5AEA42
-- [Unsung.org](Unsung.org): 0x02a13ED1805624738Cc129370Fee358ea487B0C6
-- [Heifer.org](Heifer.org): 0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1
-- [GraceAid.org.uk](GraceAid.org.uk): 0x236dAA98f115caa9991A3894ae387CDc13eaaD1B
-- [SENS.org](SENS.org): 0x542EFf118023cfF2821b24156a507a513Fe93539
-- [350.org](350.org): 0x50990F09d4f0cb864b8e046e7edC749dE410916b
-- [EFF.org](EFF.org): 0xb189f76323678E094D4996d182A792E52369c005
-- [WikiLeaks](WikiLeaks.org): 0xE96E2181F6166A37EA4C04F6E6E2bD672D72Acc1
-- [GiveWell.org](GiveWell.org): 0x7cF2eBb5Ca55A8bd671A020F8BDbAF07f60F26C1
-- [CoolEarth.org](CoolEarth.org): 0x3c8cB169281196737c493AfFA8F49a9d823bB9c5
-- [Run2Rescue.org](Run2Rescue.org): 0xd17bcbFa6De9E3741aa43Ed32e64696F6a9FA996
-- [Archive.org](Archive.org): 0xFA8E3920daF271daB92Be9B87d9998DDd94FEF08"
-
+- [Unsung.org](http://Unsung.org): 0x02a13ED1805624738Cc129370Fee358ea487B0C6
+- [Heifer.org](http://Heifer.org): 0xD3F81260a44A1df7A7269CF66Abd9c7e4f8CdcD1
+- [GraceAid.org.uk](http://GraceAid.org.uk): 0x236dAA98f115caa9991A3894ae387CDc13eaaD1B
+- [SENS.org](http://SENS.org): 0x542EFf118023cfF2821b24156a507a513Fe93539
+- [350.org](http://350.org): 0x50990F09d4f0cb864b8e046e7edC749dE410916b
+- [EFF.org](http://EFF.org): 0xb189f76323678E094D4996d182A792E52369c005
+- [WikiLeaks](http://WikiLeaks.org): 0xE96E2181F6166A37EA4C04F6E6E2bD672D72Acc1
+- [GiveWell.org](http://GiveWell.org): 0x7cF2eBb5Ca55A8bd671A020F8BDbAF07f60F26C1
+- [CoolEarth.org](http://CoolEarth.org): 0x3c8cB169281196737c493AfFA8F49a9d823bB9c5
+- [Run2Rescue.org](http://Run2Rescue.org): 0xd17bcbFa6De9E3741aa43Ed32e64696F6a9FA996
+- [Archive.org](http://Archive.org): 0xFA8E3920daF271daB92Be9B87d9998DDd94FEF08
+- [Alt.eco](http://alt.eco): 0x5E7ecc1fC819f937fbEe043b40388C0809361ae9
 
 ## Params
 
@@ -51,7 +51,8 @@ The space config will look like this:
           "0x7cF2eBb5Ca55A8bd671A020F8BDbAF07f60F26C1",
           "0x3c8cB169281196737c493AfFA8F49a9d823bB9c5",
           "0xd17bcbFa6De9E3741aa43Ed32e64696F6a9FA996",
-          "0xFA8E3920daF271daB92Be9B87d9998DDd94FEF08"
+          "0xFA8E3920daF271daB92Be9B87d9998DDd94FEF08",
+          "0x5E7ecc1fC819f937fbEe043b40388C0809361ae9"
         ]
       }
     },
