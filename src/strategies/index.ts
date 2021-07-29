@@ -12,6 +12,7 @@ import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegat
 import { strategy as erc20BalanceOfQuadraticDelegation } from './erc20-balance-of-quadratic-delegation';
 import { strategy as erc20Price } from './erc20-price';
 import { strategy as balanceOfWithMin } from './balance-of-with-min';
+import { strategy as balanceOfWithThresholds } from './balance-of-with-thresholds';
 import { strategy as ethBalance } from './eth-balance';
 import { strategy as ethWithBalance } from './eth-with-balance';
 import { strategy as ethWalletAge } from './eth-wallet-age';
@@ -82,6 +83,7 @@ import { strategy as pepemon } from './pepemon';
 import { strategy as erc1155AllBalancesOf } from './erc1155-all-balances-of';
 import { strategy as trancheStakingLP } from './tranche-staking-lp';
 import { strategy as masterchefPoolBalance } from './masterchef-pool-balance';
+import { strategy as masterchefPoolBalancePrice } from './masterchef-pool-balance-price';
 import { strategy as avnBalanceOfStaked } from './avn-balance-of-staked';
 import { strategy as badgeth } from './badgeth';
 import { strategy as api } from './api';
@@ -111,8 +113,12 @@ import { strategy as aaveGovernancePower } from './aave-governance-power';
 import { strategy as cake } from './cake';
 import { strategy as planetFinance } from './planet-finance';
 import { strategy as impossibleFinance } from './impossible-finance';
+import { strategy as ogn } from './ogn';
+import { strategy as zrxVotingPower } from './zrx-voting-power';
+import { strategy as tombFinance } from './tomb-finance';
 import { strategy as trancheStakingSLICE } from './tranche-staking-slice';
 import { strategy as unipoolSameToken } from './unipool-same-token';
+import { strategy as unipoolUniv2Lp } from './unipool-univ2-lp';
 
 export default {
   balancer,
@@ -132,6 +138,7 @@ export default {
   'erc20-balance-of-quadratic-delegation': erc20BalanceOfQuadraticDelegation,
   'erc20-price': erc20Price,
   'balance-of-with-min': balanceOfWithMin,
+  'balance-of-with-thresholds': balanceOfWithThresholds,
   'eth-balance': ethBalance,
   'eth-with-balance': ethWithBalance,
   'eth-wallet-age': ethWalletAge,
@@ -202,6 +209,7 @@ export default {
   'saffron-finance': saffronFinance,
   'tranche-staking-lp': trancheStakingLP,
   'masterchef-pool-balance': masterchefPoolBalance,
+  'masterchef-pool-balance-price': masterchefPoolBalancePrice,
   'avn-balance-of-staked': avnBalanceOfStaked,
   api,
   xseen,
@@ -226,8 +234,12 @@ export default {
   'aave-governance-power': aaveGovernancePower,
   cake,
   'planet-finance': planetFinance,
+  ogn,
   'impossible-finance': impossibleFinance,
   badgeth,
+  'zrx-voting-power': zrxVotingPower,
+  'tomb-finance': tombFinance,
   'tranche-staking-slice': trancheStakingSLICE,
-  'unipool-same-token': unipoolSameToken
+  'unipool-same-token': unipoolSameToken,
+  'unipool-univ2-lp': unipoolUniv2Lp
 };

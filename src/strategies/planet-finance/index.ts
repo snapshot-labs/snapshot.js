@@ -53,8 +53,73 @@ export const bep20Abi: any = [
     },
   ]
 
+export const aquaAutoCompAbi = [
+  {
+		"inputs": [],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+  {
+		"inputs": [],
+		"name": "totalShares",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+  {
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "userInfo",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "shares",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastDepositedTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "cakeAtLastUserAction",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastUserActionTime",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+]
+
 const planetFinanceFarmContractAddress =
   '0x0ac58Fd25f334975b1B61732CF79564b6200A933';
+
+const aquaAutoCompPoolAddress = '0x8A53dAdF2564d030b41dB1c04fB3c4998dC1326e'
 
 const aquaAddress = '0x72B7D61E8fC8cF971960DD9cfA59B8C829D91991'
 
@@ -75,6 +140,10 @@ export async function strategy(
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
 
   const erc20Multi = new Multicaller(network, provider, bep20Abi, {
+    blockTag
+  });
+
+  const autoCompMulti = new Multicaller(network, provider, aquaAutoCompAbi, {
     blockTag
   });
   // returns user's aqua balance ofr their address
@@ -99,7 +168,19 @@ export async function strategy(
     ]),
     { blockTag }
   );
-  
+
+  //returns user's shares  in aqua auto comp vault
+  let usersAquaAutoCompVaultBalances:any =  multicall(
+    network,
+    provider,
+    aquaAutoCompAbi,
+    addresses.map((address: any) => [
+      aquaAutoCompPoolAddress,
+      'userInfo',
+      [address]
+    ]),
+    { blockTag }
+  );
    // returns user's aqua balance in aqua-bnb vault
   let usersAquaBnbVaultBalances:any =  multicall(
     network,
@@ -141,17 +222,17 @@ export async function strategy(
 
   let result = await Promise.all([score,
     usersAquaVaultBalances,
+    usersAquaAutoCompVaultBalances,
     usersAquaBnbVaultBalances,
     usersAquaCakeVaultBalances,
     usersAquaBusdVaultBalances])
 
     score = result[0];
     usersAquaVaultBalances = result[1];
-    usersAquaBnbVaultBalances = result[2];
-    usersAquaCakeVaultBalances = result[3];
-    usersAquaBusdVaultBalances = result[4];
-
-  
+    usersAquaAutoCompVaultBalances = result[2];
+    usersAquaBnbVaultBalances = result[3];
+    usersAquaCakeVaultBalances = result[4];
+    usersAquaBusdVaultBalances = result[5];
 
   //AQUA-BNB
   erc20Multi.call(
@@ -204,7 +285,18 @@ export async function strategy(
 
   let aquaBusdContractAquaBalance = erc20Result.poolMMBalance.toString()
 
-  
+
+  //AQUA AUTO COMPOUNDING
+  autoCompMulti.call('aquaBalance',aquaAutoCompPoolAddress,'balanceOf');
+  autoCompMulti.call('totalShares',aquaAutoCompPoolAddress,'totalShares');
+
+  let autoCompResult = await autoCompMulti.execute();
+
+  let aquaBalance = autoCompResult.aquaBalance.toString();
+  aquaBalance = parseFloat(formatUnits(aquaBalance,18))
+
+  let totalShares = autoCompResult.totalShares.toString();
+  totalShares = parseFloat(formatUnits(totalShares,18))
 
   return Object.fromEntries(
     Object.entries(score).map((address:any, index) => [
@@ -216,7 +308,10 @@ export async function strategy(
       ((parseFloat(formatUnits(usersAquaCakeVaultBalances[index].toString(), 18)) / parseFloat(formatUnits(totalSupplyAquaCake,18)))
       *(parseFloat(formatUnits(aquaCakeContractAquaBalance,18))))+
       ((parseFloat(formatUnits(usersAquaBusdVaultBalances[index].toString(), 18)) / parseFloat(formatUnits(totalSupplyAquaBusd,18)))
-      *(parseFloat(formatUnits(aquaBusdContractAquaBalance,18))))
+      *(parseFloat(formatUnits(aquaBusdContractAquaBalance,18))))+
+      ((parseFloat(formatUnits(usersAquaAutoCompVaultBalances[index]['shares'].toString(), 18)) / totalShares)
+      *aquaBalance)
     ])
   );
 }
+
