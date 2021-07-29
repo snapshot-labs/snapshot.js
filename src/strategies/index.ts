@@ -92,6 +92,7 @@ import * as molochAll from './moloch-all';
 import * as molochLoot from './moloch-loot';
 import * as erc721Enumerable from './erc721-enumerable';
 import * as erc721WithMultiplier from './erc721-with-multiplier';
+import * as erc721WithTokenId from './erc721-with-tokenid';
 import * as hoprUniLpFarm from './hopr-uni-lp-farm';
 import * as erc721 from './erc721';
 import * as apescape from './apescape';
@@ -146,6 +147,7 @@ export default {
   erc721,
   'erc721-enumerable': erc721Enumerable,
   'erc721-with-multiplier': erc721WithMultiplier,
+  'erc721-with-tokenid': erc721WithTokenId,
   'erc1155-balance-of': erc1155BalanceOf,
   'erc1155-balance-of-cv': erc1155BalanceOfCv,
   multichain,
