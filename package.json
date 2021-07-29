@@ -8,7 +8,7 @@
   "browser": "dist/snapshot.min.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@ensdomains/content-hash": "^2.5.3",
+    "@ensdomains/content-hash": "2.5.3",
     "@ethersproject/abi": "^5.0.4",
     "@ethersproject/address": "^5.0.4",
     "@ethersproject/bignumber": "^5.0.12",
