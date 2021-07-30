@@ -1,4 +1,4 @@
-import { jsonToGraphQLQuery } from 'json-to-graphql-query';
+import { gql, useQuery } from '@apollo/client';
 import { multicall } from '../../utils';
 
 export const author = 'G2 & Torch';
@@ -28,6 +28,7 @@ export async function strategy(
   options,
   snapshot
 ) {
+  const { loading, error, supplyData } = useQuery(getTokenSupply);
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const response = await multicall(
     network,
