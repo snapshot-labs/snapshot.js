@@ -1,24 +1,42 @@
 import { gql, useQuery } from '@apollo/client';
-import { multicall } from '../../utils';
+import { VariableType } from 'json-to-graphql-query';
+import { multicall , subgraphRequest } from '../../utils';
 
 export const author = 'G2 & Torch';
 export const version = '1.0.0';
-const POAP_API_ENDPOINT =
+const POAP_API_ENDPOINT_URL =
   'https://api.thegraph.com/subgraphs/name/poap-xyz/poap/graphql';
 
 const abi = [
   'function ownerOf(uint256 tokenId) public view returns (address owner)'
 ];
 
-const getTokenSupply = gql`
-  query($tokenId: Number!) {
-    token(id: $tokenId) {
-      event {
-        tokenCount
+
+// const getTokenSupply = gql`
+//   query($tokenId: Number!) {
+//     token(id: $tokenId) {
+//       event {
+//         tokenCount
+//       }
+//     }
+//   }
+// `;
+
+const getTokenSupply = {
+  query: {
+    __variables: {
+      tokenId: 'String!'
+    },
+    token: {
+      __args: {
+        id: new VariableType('tokenId')
+      },
+      event: {
+        tokenCount: true
       }
     }
   }
-`;
+};
 
 export async function strategy(
   space,
@@ -28,7 +46,11 @@ export async function strategy(
   options,
   snapshot
 ) {
-  const { loading, error, supplyData } = useQuery(getTokenSupply);
+  const supplyResponse = await subgraphRequest(
+    POAP_API_ENDPOINT_URL,
+    getTokenSupply
+  );
+
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const response = await multicall(
     network,
