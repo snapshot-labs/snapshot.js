@@ -1,6 +1,5 @@
-import { gql, useQuery } from '@apollo/client';
 import { VariableType } from 'json-to-graphql-query';
-import { multicall , subgraphRequest } from '../../utils';
+import { multicall, subgraphRequest } from '../../utils';
 
 export const author = 'G2 & Torch';
 export const version = '1.0.0';
@@ -11,29 +10,21 @@ const abi = [
   'function ownerOf(uint256 tokenId) public view returns (address owner)'
 ];
 
-
 // const getTokenSupply = gql`
 //   query($tokenId: Number!) {
 //     token(id: $tokenId) {
-//       event {
-//         tokenCount
-//       }
+//       totalSupply
 //     }
 //   }
 // `;
 
 const getTokenSupply = {
   query: {
-    __variables: {
-      tokenId: 'String!'
-    },
     token: {
       __args: {
-        id: new VariableType('tokenId')
+        id: undefined
       },
-      event: {
-        tokenCount: true
-      }
+      totalSupply: true
     }
   }
 };
@@ -46,11 +37,7 @@ export async function strategy(
   options,
   snapshot
 ) {
-  const supplyResponse = await subgraphRequest(
-    POAP_API_ENDPOINT_URL,
-    getTokenSupply
-  );
-
+  
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const response = await multicall(
     network,
@@ -63,6 +50,15 @@ export async function strategy(
   Object.keys(options.id).map((k) => {
     poapWeights[k] = 1000 / options.id[k];
   });
+
+  //Get supply for each tokenID
+  const supply = {};
+  Object.keys(options.ids).map((id:any) => {
+    getTokenSupply.query.token.__args.id = id;
+    const supplyResponse = await subgraphRequest( POAP_API_ENDPOINT_URL, getTokenSupply );
+    supply[id] = supplyResponse
+  } )
+
   // return response[0].owner;
   return Object.fromEntries(
     addresses.map((address: any) => [
