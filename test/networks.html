@@ -73,17 +73,14 @@
                 loading: true
               }
             }))
-
-            // Make sure all the RPCs are loaded at the same time and then check multicall response time
-            let rpcCompletedCount = 0;
-            selectedNetwork.rpcStatus.forEach(async (rpc) => {
+            for (const rpc of selectedNetwork.rpcStatus) {
               let provider = null;
               let latestBlockNumber, fullArchiveNode = '...';
               let errors = [];
 
               try {
-                provider = snapshot.utils.getProvider(selectedNetwork.key)
-                // provider = new ethers.providers.StaticJsonRpcProvider(rpc)
+                // provider = snapshot.utils.getProvider(selectedNetwork.key, rpc.index)
+                provider = new ethers.providers.StaticJsonRpcProvider(rpc.url)
               } catch (error) {
                 errors.push('Provider Error: ' + error.message)
                 console.log('Provider Error', error)
@@ -108,52 +105,48 @@
                 console.log('fullArchiveNode', error);
               }
 
-              selectedNetwork.rpcStatus[rpc.index] = {
-                ...rpc,
-                status: {
-                  latestBlockNumber,
-                  fullArchiveNode,
-                  errors,
-                  multicall: '...',
-                  loading: false
-                }
+              rpc.status = {
+                latestBlockNumber,
+                fullArchiveNode,
+                errors,
+                multicall: '...',
+                loading: false
               }
-              rpcCompletedCount++;
-              // If all calls are done, call the multicall
-              if (rpcCompletedCount === selectedNetwork.rpcStatus.length) {
-                for (const rpc of selectedNetwork.rpcStatus) {
-                  try {
-                    const abi = [
-                      'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)',
-                      'function getEthBalance(address addr) view returns (uint256 balance)'
-                    ]
-                    const addresses = [selectedNetwork.multicall];
-                    const multicallStart = performance.now();
 
-                    const response = await snapshot.utils.multicall(
-                      selectedNetwork.key,
-                      provider,
-                      abi,
-                      addresses.map((address) => [
-                        selectedNetwork.multicall,
-                        'getEthBalance',
-                        [address]
-                      ]), {
-                        blockTag: 'latest'
-                      }
-                    );
-                    const multicallEnd = performance.now();
-                    multicallTime = multicallEnd - multicallStart;
-
-                    rpc.status.multicall = multicallTime.toFixed(2) + " ms"
-                  } catch (error) {
-                    rpc.status.multicall = 'ERROR!'
-                    rpc.status.errors.push('multicall Error: ' + error.message)
-                    console.log('multicall', error);
-                  }
+              try {
+                const abi = [
+                  'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)',
+                  'function getEthBalance(address addr) view returns (uint256 balance)'
+                ]
+                const addresses = [selectedNetwork.multicall];
+                let multicallAvgTime = 0;
+                
+                // Calculate avg. time for three multicalls
+                for (let i = 1; i <= 3; i++) {
+                  const multicallStart = performance.now();
+                  const response = await snapshot.utils.multicall(
+                    selectedNetwork.key,
+                    provider,
+                    abi,
+                    addresses.map((address) => [
+                      selectedNetwork.multicall,
+                      'getEthBalance',
+                      [address]
+                    ]), {
+                      blockTag: 'latest'
+                    }
+                  );
+                  const multicallEnd = performance.now();
+                  multicallAvgTime = multicallEnd - multicallStart;
                 }
+
+                rpc.status.multicall = (multicallAvgTime / 3).toFixed(2) + " ms"
+              } catch (error) {
+                rpc.status.multicall = 'ERROR!'
+                rpc.status.errors.push('multicall Error: ' + error.message)
+                console.log('multicall', error);
               }
-            })
+            }
           },
           copy(text) {
             if (typeof text === 'object') text = JSON.stringify(text);
@@ -261,7 +254,7 @@
                     </th>
                     <th scope="col"
                       class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Multicall Time
+                      Multicall Avg. Time
                     </th>
                   </tr>
                 </thead>
