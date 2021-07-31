@@ -7,113 +7,19 @@ export const author = 'planet-finance';
 export const version = '0.0.1';
 
 const planetFinanceFarmAbi = [
-  {
-    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    name: 'poolInfo',
-    outputs: [
-      { internalType: 'contract IERC20', name: 'want', type: 'address' },
-      { internalType: 'uint256', name: 'allocPoint', type: 'uint256' },
-      { internalType: 'uint256', name: 'lastRewardBlock', type: 'uint256' },
-      { internalType: 'uint256', name: 'accAQUAPerShare', type: 'uint256' },
-      { internalType: 'address', name: 'strat', type: 'address' }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: '_pid', type: 'uint256' },
-      { internalType: 'address', name: '_user', type: 'address' }
-    ],
-    name: 'stakedWantTokens',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function'
-  },
+  'function poolInfo(uint256) returns (address want,uint256 allocPoint,uint256 lastRewardBlock,uint256 accAQUAPerShare,address strat)',
+  'function stakedWantTokens(uint256 _pid, address _user) returns (uint256)'
 ];
 
-export const bep20Abi: any = [
-    {
-      constant: true,
-      inputs: [],
-      name: 'totalSupply',
-      outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      constant: true,
-      inputs: [{ internalType: 'address', name: '', type: 'address' }],
-      name: 'balanceOf',
-      outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function',
-    },
+const bep20Abi: any = [
+    'function totalSupply() view returns (uint256)',
+    'function balanceOf(address) view returns (uint256)'
   ]
 
-export const aquaAutoCompAbi = [
-  {
-		"inputs": [],
-		"name": "balanceOf",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-  {
-		"inputs": [],
-		"name": "totalShares",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-  {
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "userInfo",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "shares",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "lastDepositedTime",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "cakeAtLastUserAction",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "lastUserActionTime",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
+const aquaAutoCompAbi = [
+  'function balanceOf() view returns (uint256)',
+  'function totalShares() view returns (uint256)',
+  'function userInfo(address) view returns (uint256 shares, uint256 lastDepositedTime , uint256 cakeAtLastUserAction , uint256 lastUserActionTime)'
 ]
 
 const planetFinanceFarmContractAddress =
