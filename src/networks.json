@@ -333,10 +333,9 @@
     "network": "Mainnet",
     "multicall": "0x37ab26db3df780e7026f3e767f65efb739f48d8e",
     "rpc": [
-      "https://http-mainnet-node.defibox.com",
-      "https://http-mainnet.hecochain.com"
+      "https://pub001.hg.network/rpc"
     ],
-    "ws": ["wss://ws-mainnet-node.huobichain.com"],
+    "ws": ["wss://pub001.hg.network/ws"],
     "explorer": "https://hecoinfo.com"
   },
   "246": {
@@ -358,6 +357,19 @@
     "multicall": "0x7f6A10218264a22B4309F3896745687E712962a0",
     "rpc": ["https://rpc.ftm.tools", "https://rpcapi.fantom.network"],
     "explorer": "https://ftmscan.com"
+  },
+  "321": {
+    "key": "321",
+    "name": "KCC Mainnet",
+    "shortName": "KCC",
+    "chainId": 321,
+    "network": "mainnet",
+    "multicall": "0xa64D6AFb48225BDA3259246cfb418c0b91de6D7a",
+    "rpc": [
+      "https://rpc-mainnet.kcc.network"
+    ],
+    "ws": ["wss://rpc-ws-mainnet.kcc.network"],
+    "explorer": "https://explorer.kcc.io"
   },
   "499": {
     "key": "499",

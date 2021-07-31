@@ -12,6 +12,7 @@ import { strategy as erc20BalanceOfDelegation } from './erc20-balance-of-delegat
 import { strategy as erc20BalanceOfQuadraticDelegation } from './erc20-balance-of-quadratic-delegation';
 import { strategy as erc20Price } from './erc20-price';
 import { strategy as balanceOfWithMin } from './balance-of-with-min';
+import { strategy as balanceOfWithThresholds } from './balance-of-with-thresholds';
 import { strategy as ethBalance } from './eth-balance';
 import { strategy as ethWithBalance } from './eth-with-balance';
 import { strategy as ethWalletAge } from './eth-wallet-age';
@@ -91,6 +92,7 @@ import { strategy as molochAll } from './moloch-all';
 import { strategy as molochLoot } from './moloch-loot';
 import { strategy as erc721Enumerable } from './erc721-enumerable';
 import { strategy as erc721WithMultiplier } from './erc721-with-multiplier';
+import { strategy as erc721WithTokenId } from './erc721-with-tokenid';
 import { strategy as hoprUniLpFarm } from './hopr-uni-lp-farm';
 import { strategy as erc721 } from './erc721';
 import { strategy as apescape } from './apescape';
@@ -137,6 +139,7 @@ export default {
   'erc20-balance-of-quadratic-delegation': erc20BalanceOfQuadraticDelegation,
   'erc20-price': erc20Price,
   'balance-of-with-min': balanceOfWithMin,
+  'balance-of-with-thresholds': balanceOfWithThresholds,
   'eth-balance': ethBalance,
   'eth-with-balance': ethWithBalance,
   'eth-wallet-age': ethWalletAge,
@@ -144,6 +147,7 @@ export default {
   erc721,
   'erc721-enumerable': erc721Enumerable,
   'erc721-with-multiplier': erc721WithMultiplier,
+  'erc721-with-tokenid': erc721WithTokenId,
   'erc1155-balance-of': erc1155BalanceOf,
   'erc1155-balance-of-cv': erc1155BalanceOfCv,
   multichain,
