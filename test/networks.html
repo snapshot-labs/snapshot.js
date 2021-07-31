@@ -82,8 +82,8 @@
               let errors = [];
 
               try {
-                // provider = snapshot.utils.getProvider(selectedNetwork.key)
-                provider = new ethers.providers.StaticJsonRpcProvider(rpc)
+                provider = snapshot.utils.getProvider(selectedNetwork.key)
+                // provider = new ethers.providers.StaticJsonRpcProvider(rpc)
               } catch (error) {
                 errors.push('Provider Error: ' + error.message)
                 console.log('Provider Error', error)
