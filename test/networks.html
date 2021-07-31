@@ -120,9 +120,9 @@
                 ]
                 const addresses = [selectedNetwork.multicall];
                 let multicallAvgTime = 0;
-                
+
                 // Calculate avg. time for three multicalls
-                for (let i = 1; i <= 3; i++) {
+                for (const a of [1, 2, 3]) {
                   const multicallStart = performance.now();
                   const response = await snapshot.utils.multicall(
                     selectedNetwork.key,
