@@ -55,7 +55,7 @@
     "build": "rollup -c",
     "build:cjs": "rollup -c rollup.cjs.config.js",
     "dev": "rollup -c -w",
-    "test": "jest test/index.spec.ts --runInBand",
+    "test": "jest test/index.spec.ts --runInBand --testTimeout=50000",
     "test:validation": "npm run build:cjs && jest test/validation.spec.ts --runInBand",
     "pretest": "npm run build:cjs",
     "lint": "eslint . --ext .ts --fix",
