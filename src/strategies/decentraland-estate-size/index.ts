@@ -1,8 +1,10 @@
 import { getAddress } from '@ethersproject/address';
 import { subgraphRequest } from '../../utils';
+import examplesFile from './examples.json';
 
 export const author = '2fd';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const DECENTRALAND_MARKETPLACE_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/decentraland/marketplace',

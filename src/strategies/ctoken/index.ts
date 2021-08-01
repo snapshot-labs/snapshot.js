@@ -1,8 +1,10 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
+import aboutFile from './README.md';
 
 export const author = 'arr00';
 export const version = '0.1.0';
+export const about = aboutFile;
 
 const abi = [
   {

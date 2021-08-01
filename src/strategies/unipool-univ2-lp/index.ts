@@ -1,9 +1,11 @@
 import { multicall } from '../../utils';
 import { formatUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
+import examplesFile from './examples.json';
 
 export const author = 'dapplion';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const contractAbi = [
   'function balanceOf(address account) view returns (uint256)',

@@ -1,7 +1,12 @@
 import { Web3Provider } from '@ethersproject/providers';
 import { strategy as ethReceivedStrategy } from '../eth-received';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
+
 export const author = 'mccallofthewild';
 export const version = '0.1.0';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 const ethCharities = [
   ['GiveDirectly', '0xc7464dbcA260A8faF033460622B23467Df5AEA42'],

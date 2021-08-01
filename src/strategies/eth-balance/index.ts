@@ -1,9 +1,11 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 import networks from '../../networks.json';
+import examplesFile from './examples.json';
 
 export const author = 'bonustrack';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const abi = [
   'function getEthBalance(address addr) public view returns (uint256 balance)'

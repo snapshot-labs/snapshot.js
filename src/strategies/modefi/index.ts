@@ -1,8 +1,11 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
+import examplesFile from './examples.json';
 
 export const author = 'OxAL7';
 export const version = '0.0.1';
+export const examples = examplesFile;
+
 const MOD_POOL_ADDRESS = '0x3093896c81c8d8b9bf658fbf1aede09207850ca2';
 
 const abi = [

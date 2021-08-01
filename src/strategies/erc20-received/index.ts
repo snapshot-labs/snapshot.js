@@ -2,9 +2,13 @@ import fetch from 'cross-fetch';
 import { Web3Provider } from '@ethersproject/providers';
 import { formatUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
 
 export const author = 'mccallofthewild';
 export const version = '0.1.0';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 export async function strategy(
   ...args: [

@@ -1,8 +1,12 @@
 import fetch from 'cross-fetch';
 import { subgraphRequest } from '../../utils';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
 
 export const author = 'pancake-swap';
 export const version = '0.0.1';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 type VotingResponse = {
   verificationHash: string;

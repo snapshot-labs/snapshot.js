@@ -1,9 +1,13 @@
 import { EnumType } from 'json-to-graphql-query';
 import fetch from 'cross-fetch';
 import { subgraphRequest } from '../../utils';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
 
 export const author = 'ChaituVR';
 export const version = '0.1.0';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 const getJWT = async (dfuseApiKey) => {
   const rawResponse = await fetch('https://auth.dfuse.io/v1/auth/issue', {

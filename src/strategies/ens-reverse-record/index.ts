@@ -1,8 +1,12 @@
 import { call } from '../../utils';
 import namehash from 'eth-ens-namehash';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
 
 export const author = 'makoto';
 export const version = '0.1.0';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 const abi = [
   {
