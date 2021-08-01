@@ -1,8 +1,10 @@
 import { formatUnits, parseUnits } from '@ethersproject/units';
 import Multicaller from '../../utils/multicaller';
+import examplesFile from './examples.json';
 
 export const author = 'PencilDad';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const abi = [
   {

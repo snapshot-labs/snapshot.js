@@ -1,8 +1,12 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
 
 export const author = 'l3wi';
 export const version = '0.1.0';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 const abi = [
   {

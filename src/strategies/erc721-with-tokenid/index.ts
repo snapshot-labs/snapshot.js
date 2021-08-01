@@ -1,7 +1,11 @@
 import { multicall } from '../../utils';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
 
 export const author = 'dimsome';
 export const version = '0.1.0';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 const abi = [
   'function ownerOf(uint256 tokenId) public view returns (address owner)'

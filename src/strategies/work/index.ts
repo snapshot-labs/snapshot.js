@@ -1,8 +1,10 @@
 import { formatUnits } from '@ethersproject/units';
 import Multicaller from '../../utils/multicaller';
+import examplesFile from './examples.json';
 
 export const author = 'bonustrack';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const abi = [
   {

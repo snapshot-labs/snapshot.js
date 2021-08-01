@@ -1,7 +1,9 @@
 import { multicall } from '../../utils';
+import examplesFile from './examples.json';
 
 export const author = 'vfatouros';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const tokenAbi = [
   {

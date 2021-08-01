@@ -1,9 +1,11 @@
 import { formatUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
 import { multicall, subgraphRequest } from '../../utils';
+import examplesFile from './examples.json';
 
 export const author = 'hoprnet';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const tokenAndPoolAbi = [
   {

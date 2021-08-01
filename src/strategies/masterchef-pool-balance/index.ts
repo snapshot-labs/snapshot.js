@@ -1,9 +1,11 @@
 import { formatUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
 import { BigNumber } from '@ethersproject/bignumber';
+import examplesFile from './examples.json';
 
 export const author = 'my-swarm';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 /*
  * Generic masterchef pool balance strategy. Accepted options:

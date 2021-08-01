@@ -1,9 +1,11 @@
 import fetch from 'cross-fetch';
 import { formatUnits } from '@ethersproject/units';
 import { subgraphRequest } from '../../utils';
+import examplesFile from './examples.json';
 
 export const author = 'maxaleks';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const SUBGRAPH_URL =
   'https://api.thegraph.com/subgraphs/name/maxaleks/xdai-stakers';

@@ -1,8 +1,10 @@
 import { formatUnits, parseUnits } from '@ethersproject/units';
 import { multicall } from '../../utils';
+import examplesFile from './examples.json';
 
 export const author = 'BenjaminLu';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const abi = [
   {

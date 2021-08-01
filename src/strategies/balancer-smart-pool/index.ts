@@ -1,9 +1,12 @@
 import { formatUnits } from '@ethersproject/units';
 import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
 import { multicall } from '../../utils';
+import examplesFile from './examples.json';
 
 export const author = 'kibagateaux';
 export const version = '0.1.0';
+export const examples = examplesFile;
+
 const abi = ['function totalSupply() public returns (uint256)'];
 
 export async function strategy(

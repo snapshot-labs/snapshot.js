@@ -1,8 +1,12 @@
 import { formatUnits } from '@ethersproject/units';
 import Multicaller from '../../utils/multicaller';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
 
 export const author = 'stablexswap';
 export const version = '0.0.1';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 const abi = [
   {
