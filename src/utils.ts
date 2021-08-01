@@ -9,14 +9,6 @@ import _strategies from './strategies';
 import Multicaller from './utils/multicaller';
 import getProvider from './utils/provider';
 import validations from './validations';
-import {
-  decodeContenthash,
-  validateContent,
-  isValidContenthash,
-  encodeContenthash,
-  resolveENSContentHash,
-  resolveContent
-} from './utils/contentHash';
 import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
@@ -200,12 +192,6 @@ export default {
   getScoresDirect,
   validateSchema,
   getProvider,
-  decodeContenthash,
-  validateContent,
-  isValidContenthash,
-  encodeContenthash,
-  resolveENSContentHash,
-  resolveContent,
   signMessage,
   getBlockNumber,
   Multicaller,
