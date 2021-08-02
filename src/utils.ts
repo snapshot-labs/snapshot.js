@@ -158,7 +158,7 @@ export async function getScoresDirect(
           (snapshot === 'latest' || snapshot > strategy.params?.end)) ||
         addresses.length === 0
           ? {}
-          : _strategies[strategy.name](
+          : _strategies[strategy.name].strategy(
               space,
               network,
               provider,

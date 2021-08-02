@@ -1,7 +1,9 @@
 import { strategy as erc20BalanceOfStrategy } from '../erc20-balance-of';
+import aboutFile from './README.md';
 
 export const author = 'andytcf';
 export const version = '0.1.0';
+export const about = aboutFile;
 
 export async function strategy(
   space,

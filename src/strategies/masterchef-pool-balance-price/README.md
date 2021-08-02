@@ -21,6 +21,9 @@ The price is sourced from CoinGecko.
 
   - If uniPairAddress is null or undefined, returns staked token balance of the pool
 
+- **tokenAddress**: Address of a token for single token Pools.
+  - If the uniPairAddress is provided the tokenAddress is ignored.
+
 - **weight:** Integer multiplier of the result (for combining strategies with different weights, totally optional)
 
 - **weightDecimals:** Integer value of number of decimal places to apply to the final result
@@ -90,6 +93,73 @@ The price is sourced from CoinGecko.
 
 ```json
 [
+  {
+    "name": "Example query - Count of tokens in single token Pool",
+    "strategy": {
+      "name": "masterchef-pool-balance-price",
+      "params": {
+        "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
+        "tokenAddress": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+        "pid": "3",
+        "weight": 1,
+        "weightDecimals": 0,
+        "decimals": 0
+      }
+    },
+    "network": "137",
+    "addresses": [
+      "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
+    ],
+    "snapshot": 17368223
+  },
+  {
+    "name": "Example query - Price of tokens in single token Pool",
+    "strategy": {
+      "name": "masterchef-pool-balance-price",
+      "params": {
+        "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
+        "tokenAddress": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+        "pid": "3",
+        "weight": 1,
+        "weightDecimals": 0,
+        "decimals": 0, 
+        "usePrice": true
+      }
+    },
+    "network": "137",
+    "addresses": [
+      "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
+    ],
+    "snapshot": 17368223
+  },
+  {
+    "name": "Example query - Sum of uniPair token0 and token1 count",
+    "strategy": {
+      "name": "masterchef-pool-balance-price",
+      "params": {
+        "chefAddress": "0x8bE82Ab9B6179bE6EB88431E3E4E0fd93b9E607C",
+        "uniPairAddress": "0x668269d6E5D2c2dE31D132Ac218044211643622B",
+        "token0": {
+          "address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+          "weight": 1,
+          "weightDecimals": 0
+        },
+        "token1": {
+          "address": "0x72572ccf5208b59f4bcc14e6653d8c31cd1fc5a0",
+          "weight": 1,
+          "weightDecimals": 0
+        },
+        "pid": "0",
+        "weight": 1,
+        "weightDecimals": 0
+      }
+    },
+    "network": "137",
+    "addresses": [
+      "0x4f9c817035Ac15A3c4C17FD3b60fabE9a4A8EEEF"
+    ],
+    "snapshot": 16828978
+  },
   {
     "name": "Example query - Sum of uniPair token0 and token1 count",
     "strategy": {
@@ -280,7 +350,7 @@ The price is sourced from CoinGecko.
         "weight": 1,
         "weightDecimals": 0,
         "usePrice": true,
-        "currency":"eur",
+        "currency": "eur",
         "antiWhale": {
           "enable": true,
           "inflectionPoint": 1000,
@@ -295,5 +365,5 @@ The price is sourced from CoinGecko.
     ],
     "snapshot": 16828978
   }
-] 
+]
 ```

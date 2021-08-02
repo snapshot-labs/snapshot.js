@@ -2,9 +2,11 @@ import { formatUnits } from '@ethersproject/units';
 import { BigNumber } from '@ethersproject/bignumber';
 import { subgraphRequest, call } from '../../utils';
 import { calculateEmission } from './utils';
+import examplesFile from './examples.json';
 
 export const author = 'maxaleks';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 const EASY_STAKING_SUBGRAPH_URL =
   'https://api.thegraph.com/subgraphs/name/maxaleks/easy-staking';

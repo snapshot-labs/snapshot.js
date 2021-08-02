@@ -3,9 +3,11 @@ import { formatUnits, parseUnits } from '@ethersproject/units';
 import { strategy as erc20BalanceOf } from '../erc20-balance-of';
 import { getBlockNumber } from '../../utils/web3';
 import Multicaller from '../../utils/multicaller';
+import examplesFile from './examples.json';
 
 export const author = 'jeremyHD';
 export const version = '0.2.1';
+export const examples = examplesFile;
 
 const ONE_E18 = parseUnits('1', 18);
 

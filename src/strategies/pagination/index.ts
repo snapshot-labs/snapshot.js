@@ -1,7 +1,9 @@
 import strategies from '..';
+import examplesFile from './examples.json';
 
 export const author = 'bonustrack';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 export async function strategy(
   space,
@@ -17,7 +19,7 @@ export async function strategy(
   Array.from(Array(pages)).forEach((x, i) => {
     const addressesInPage = addresses.slice(max * i, max * (i + 1));
     promises.push(
-      strategies[options.strategy.name](
+      strategies[options.strategy.name].strategy(
         space,
         network,
         provider,

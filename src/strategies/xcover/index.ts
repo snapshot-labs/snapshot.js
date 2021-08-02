@@ -1,7 +1,9 @@
 import { multicall } from '../../utils';
+import examplesFile from './examples.json';
 
 export const author = 'crypto_pumpkin';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 /**
  * Any standard xToken with `balanceOf` and `getShareValue` can use this strategy.

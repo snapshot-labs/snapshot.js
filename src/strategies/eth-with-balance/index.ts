@@ -1,7 +1,11 @@
 import { strategy as ethBalanceOfStrategy } from '../eth-balance';
+import examplesFile from './examples.json';
+import aboutFile from './README.md';
 
 export const author = 'AronVanAmmers';
 export const version = '0.1.0';
+export const examples = examplesFile;
+export const about = aboutFile;
 
 export async function strategy(
   space,

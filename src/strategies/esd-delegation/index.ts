@@ -1,8 +1,10 @@
 import { strategy as esd } from '../esd';
 import { getDelegations } from '../../plugins/delegation/utils';
+import examplesFile from './examples.json';
 
 export const author = 'l3wi';
 export const version = '0.1.0';
+export const examples = examplesFile;
 
 export async function strategy(
   space,
