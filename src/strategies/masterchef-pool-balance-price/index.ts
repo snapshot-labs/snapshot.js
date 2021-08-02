@@ -6,7 +6,7 @@ import examplesFile from './examples.json';
 import aboutFile from './README.md';
 
 export const author = 'joaomajesus';
-export const version = '0.1.0';
+export const version = '0.2.0';
 export const examples = examplesFile;
 export const about = aboutFile;
 
@@ -19,6 +19,9 @@ export const about = aboutFile;
  *    - If the uniPairAddress option is provided, converts staked LP token balance to base token balance
  *      (based on the pair total supply and base token reserve)
  *    - If uniPairAddress is null or undefined, returns staked token balance of the pool
+ *
+ * - tokenAddress: Address of a token for single token Pools.
+ *    - if the uniPairAddress is provided the tokenAddress is ignored.
  *
  * - weight: Integer multiplier of the result (for combining strategies with different weights, totally optional)
  * - weightDecimals: Integer value of number of decimal places to apply to the final result
@@ -126,6 +129,8 @@ const getTokenCalls = () => {
     if (_options.token1?.address != null) {
       result.push([_options.token1.address, 'decimals', []]);
     }
+  } else if (_options.tokenAddress != null) {
+    result.push([_options.tokenAddress, 'decimals', []]);
   }
 
   return result;
@@ -162,9 +167,32 @@ async function processValues(
 
   if (_options.uniPairAddress == null) {
     log.push(`poolStaked = ${poolStaked}`);
-    printLog();
 
-    result = toFloat(poolStaked, _options.decimals);
+    if (_options.tokenAddress != null) {
+      const tokenDecimals = BigNumber.from(10).pow(
+        BigNumber.from(tokenValues[0][0])
+      );
+
+      log.push(`tokenDecimals = ${tokenDecimals}`);
+      log.push(`decimals = ${_options.decimals}`);
+      printLog();
+
+      result = toFloat(poolStaked.div(tokenDecimals), _options.decimals);
+
+      if (_options.usePrice == true) {
+        const price = await getTokenPrice(
+          _options.tokenAddress,
+          network,
+          provider,
+          blockTag
+        );
+
+        result *= price;
+      }
+    } else {
+      printLog();
+      result = toFloat(poolStaked, _options.decimals);
+    }
   } else {
     const uniTotalSupply = tokenValues[0][0];
     const uniReserve0 = tokenValues[1][0];
@@ -315,8 +343,15 @@ function applyAntiWhaleMeasures(result) {
   return result;
 }
 
-function toFloat(tokenCount: BigNumber, decimals: any): number {
-  return parseFloat(formatUnits(tokenCount.toString(), decimals || 18));
+function toFloat(value: BigNumber, decimals: any): number {
+  const decimalsResult = decimals === 0 ? 0 : decimals || 18;
+
+  log.push(`toFloat value = ${value}`);
+  log.push(`toFloat decimals = ${decimals}`);
+  log.push(`toFloat decimalsResult = ${decimalsResult}`);
+  printLog();
+
+  return parseFloat(formatUnits(value.toString(), decimalsResult));
 }
 
 async function GetTokenValue(
