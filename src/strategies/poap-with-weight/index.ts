@@ -11,20 +11,6 @@ const abi = [
   'function ownerOf(uint256 tokenId) public view returns (address owner)'
 ];
 
-// const getTokenSupply = gql`
-//   query($tokenId: Number!) {
-//     token(id: $tokenId) {
-//       event: {
-//         tokenCount
-//       }
-//       id,
-//       owner: {
-//         id
-//       }
-//     }
-//   }
-// `;
-
 const getTokenSupply = {
   query: {
     token: {
@@ -38,7 +24,6 @@ const getTokenSupply = {
       owner: {
         id: true
       }
-
     }
   }
 };
@@ -62,33 +47,48 @@ export async function strategy(
   // Set TokenIds as arguments for GQL query
   getTokenSupply.query.token.__args.id = options.tokenIds;
   const poapWeights = {};
-  const supplyResponse = await subgraphRequest(POAP_API_ENDPOINT_URL, getTokenSupply);
+  const supplyResponse = await subgraphRequest(
+    POAP_API_ENDPOINT_URL,
+    getTokenSupply
+  );
+  // Given a POAP and address-tokencount mapping,
+  // calculate the weight for this POAP.
+  // i.e., assuming POAP #4218 had weight 1.5,
+  //       given  {'0x123': 2, '0x456': 4}
+  //       return {'0x123': 3, '0x456': 6}
   if (supplyResponse && supplyResponse.token) {
     poapWeights[supplyResponse.token.owner.id] =
       1000 * parseInt(supplyResponse.token.event.tokenCount);
   }
- 
+  return Object.keys(poapWeights[supplyResponse.token.owner.id]).forEach(
+    (key) => {
+      const value = poapWeights[supplyResponse.token.owner.id][key];
+      // Sums multiple address-voteweight mappings into a single object.
+      // i.e., given [{'0x123': 1, '0x456': 2}, {'0x123': 10, '0x456': 20}]
+      //       return {'0x123': 11, '0x456': 22}
+      function sumAddressWeights(arrayOfWeights) {
+        return arrayOfWeights.reduce((sum, current) => {
+          for (const k in current) {
+            sum[k] = (sum[k] || 0) + current[k];
+          }
+          return sum;
+        }, {});
+      }
 
-  // //Get supply for each tokenID
-  // const supply = {};
-  // Object.keys(options.ids).map((id: any) => {
-  //   getTokenSupply.query.token.__args.id = id;
-  //   const supplyResponse = subgraphRequest(
-  //     POAP_API_ENDPOINT_URL,
-  //     getTokenSupply
-  //   );
-  //   supply[id] = supplyResponse;
-  // });
-
-  // return response[0].owner;
-  return Object.fromEntries(
-    addresses.map((address: any) => [
-      address,
-      response.findIndex(
-        (res: any) => res.owner.toLowerCase() === address.toLowerCase()
-      ) > -1
-        ? 1
-        : 0
-    ])
+      // return response[0].owner;
+      return Object.fromEntries(
+        addresses.map(
+          (address: any) => [
+            address,
+            response.findIndex(
+              (res: any) => res.owner.toLowerCase() === address.toLowerCase()
+            ) > -1
+              ? 1
+              : 0
+          ],
+          sumAddressWeights(value)
+        )
+      );
+    }
   );
 }
