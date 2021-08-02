@@ -1,8 +1,9 @@
-import { VariableType } from 'json-to-graphql-query';
+import { id } from '@ethersproject/hash';
 import { multicall, subgraphRequest } from '../../utils';
 
 export const author = 'G2 & Torch';
 export const version = '1.0.0';
+
 const POAP_API_ENDPOINT_URL =
   'https://api.thegraph.com/subgraphs/name/poap-xyz/poap/graphql';
 
@@ -13,7 +14,13 @@ const abi = [
 // const getTokenSupply = gql`
 //   query($tokenId: Number!) {
 //     token(id: $tokenId) {
-//       totalSupply
+//       event: {
+//         tokenCount
+//       }
+//       id,
+//       owner: {
+//         id
+//       }
 //     }
 //   }
 // `;
@@ -24,7 +31,14 @@ const getTokenSupply = {
       __args: {
         id: undefined
       },
-      totalSupply: true
+      event: {
+        tokenCount: true
+      },
+      id: true,
+      owner: {
+        id: true
+      }
+
     }
   }
 };
@@ -37,27 +51,34 @@ export async function strategy(
   options,
   snapshot
 ) {
-  
   const blockTag = typeof snapshot === 'number' ? snapshot : 'latest';
   const response = await multicall(
     network,
     provider,
     abi,
-    options.ids.map((id: any) => [options.address, 'ownerOf', [id]]),
+    options.tokenIds.map((id: any) => [options.address, 'ownerOf', [id]]),
     { blockTag }
   );
+  // Set TokenIds as arguments for GQL query
+  getTokenSupply.query.token.__args.id = options.tokenIds;
   const poapWeights = {};
-  Object.keys(options.id).map((k) => {
-    poapWeights[k] = 1000 / options.id[k];
-  });
+  const supplyResponse = await subgraphRequest(POAP_API_ENDPOINT_URL, getTokenSupply);
+  if (supplyResponse && supplyResponse.token) {
+    poapWeights[supplyResponse.token.owner.id] =
+      1000 * parseInt(supplyResponse.token.event.tokenCount);
+  }
+ 
 
-  //Get supply for each tokenID
-  const supply = {};
-  Object.keys(options.ids).map((id:any) => {
-    getTokenSupply.query.token.__args.id = id;
-    const supplyResponse = await subgraphRequest( POAP_API_ENDPOINT_URL, getTokenSupply );
-    supply[id] = supplyResponse
-  } )
+  // //Get supply for each tokenID
+  // const supply = {};
+  // Object.keys(options.ids).map((id: any) => {
+  //   getTokenSupply.query.token.__args.id = id;
+  //   const supplyResponse = subgraphRequest(
+  //     POAP_API_ENDPOINT_URL,
+  //     getTokenSupply
+  //   );
+  //   supply[id] = supplyResponse;
+  // });
 
   // return response[0].owner;
   return Object.fromEntries(
