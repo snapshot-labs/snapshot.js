@@ -1,6 +1,6 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.1.11",
+  "version": "0.2.0",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
@@ -17,15 +17,12 @@
     "@ethersproject/providers": "^5.3.1",
     "@ethersproject/solidity": "^5.0.10",
     "@ethersproject/strings": "^5.0.5",
-    "@ethersproject/units": "^5.0.3",
     "@ethersproject/wallet": "^5.4.0",
     "ajv": "^8.6.0",
     "ajv-formats": "^2.1.0",
     "cross-fetch": "^3.0.6",
-    "eth-ens-namehash": "^2.0.8",
     "json-to-graphql-query": "^2.0.0",
-    "lodash.set": "^4.3.2",
-    "lodash.tonumber": "^4.0.3"
+    "lodash.set": "^4.3.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
@@ -34,7 +31,6 @@
     "@types/node": "^13.9.5",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
-    "bluebird": "^3.7.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
