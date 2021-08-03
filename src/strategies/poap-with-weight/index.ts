@@ -13,9 +13,11 @@ const abi = [
 
 const getTokenSupply = {
   query: {
-    token: {
+    tokens: {
       __args: {
-        id: undefined
+        where: {
+          id_in: undefined
+        }
       },
       event: {
         tokenCount: true
@@ -45,7 +47,7 @@ export async function strategy(
     { blockTag }
   );
   // Set TokenIds as arguments for GQL query
-  getTokenSupply.query.token.__args.id = options.tokenIds;
+  getTokenSupply.query.tokens.__args.where.id_in = options.tokenIds;
   const poapWeights = {};
   const supplyResponse = await subgraphRequest(
     POAP_API_ENDPOINT_URL,
