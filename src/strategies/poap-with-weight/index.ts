@@ -1,7 +1,7 @@
 import { id } from '@ethersproject/hash';
 import { multicall, subgraphRequest } from '../../utils';
 
-export const author = 'G2 & Torch';
+export const author = 'G2 & Rashmi-278';
 export const version = '1.0.0';
 
 const POAP_API_ENDPOINT_URL =
