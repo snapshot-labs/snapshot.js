@@ -10,8 +10,8 @@
   <link rel="icon" href="https://snapshot.org/favicon.png">
   <script src="https://unpkg.com/@uiw/copy-to-clipboard@1.0.10/dist/copy-to-clipboard.umd.js"></script>
   <script src="../dist/snapshot.min.js"></script>
-  <script type="text/javascript" integrity="sha384-xA6XksA+S81KMKVo5shbejvuHxb0UMBTEG1c2ifc8SsBJKISpURzwy2Y8dDo0fli"
-    crossorigin="anonymous" src="https://cdn-cors.ethers.io/lib/ethers-5.4.1.umd.min.js">
+  <script type="text/javascript"
+    crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/ethers@5.4.1/dist/ethers.umd.min.js">
   </script>
   <script src="https://unpkg.com/vue@next"></script>
   <style>
@@ -137,7 +137,7 @@
                     }
                   );
                   const multicallEnd = performance.now();
-                  multicallAvgTime = multicallEnd - multicallStart;
+                  multicallAvgTime += (multicallEnd - multicallStart);
                 }
 
                 rpc.status.multicall = (multicallAvgTime / 3).toFixed(2) + " ms"
