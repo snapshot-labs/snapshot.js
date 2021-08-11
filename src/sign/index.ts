@@ -7,14 +7,20 @@ import {
   Vote,
   Follow,
   Unfollow,
+  Alias,
   spaceTypes,
   proposalTypes,
   cancelProposalTypes,
+  cancelProposal2Types,
   voteTypes,
   voteArrayTypes,
   voteStringTypes,
+  vote2Types,
+  voteArray2Types,
+  voteString2Types,
   followTypes,
-  unfollowTypes
+  unfollowTypes,
+  aliasTypes
 } from './types';
 import hubs from '../hubs.json';
 
@@ -77,15 +83,22 @@ export default class Client {
     address: string,
     message: CancelProposal
   ) {
-    return await this.sign(web3, address, message, cancelProposalTypes);
+    const type2 = message.proposal.startsWith('0x');
+    return await this.sign(
+      web3,
+      address,
+      message,
+      type2 ? cancelProposal2Types : cancelProposalTypes
+    );
   }
 
   async vote(web3: Web3Provider, address: string, message: Vote) {
-    let type = voteTypes;
+    const type2 = message.proposal.startsWith('0x');
+    let type = type2 ? vote2Types : voteTypes;
     if (['approval', 'ranked-choice'].includes(message.type))
-      type = voteArrayTypes;
+      type = type2 ? voteArray2Types : voteArrayTypes;
     if (['quadratic', 'weighted'].includes(message.type)) {
-      type = voteStringTypes;
+      type = type2 ? voteString2Types : voteStringTypes;
       message.choice = JSON.stringify(message.choice);
     }
     // @ts-ignore
@@ -99,5 +112,9 @@ export default class Client {
 
   async unfollow(web3: Web3Provider, address: string, message: Unfollow) {
     return await this.sign(web3, address, message, unfollowTypes);
+  }
+
+  async alias(web3: Web3Provider, address: string, message: Alias) {
+    return await this.sign(web3, address, message, aliasTypes);
   }
 }
