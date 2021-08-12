@@ -17,134 +17,139 @@ const queueAbi = [
           {
             components: [
               {
-                internalType: 'uint256',
-                name: 'nonce',
-                type: 'uint256'
+                internalType: "uint256",
+                name: "nonce",
+                type: "uint256"
               },
               {
-                internalType: 'uint256',
-                name: 'executionTime',
-                type: 'uint256'
+                internalType: "uint256",
+                name: "executionTime",
+                type: "uint256"
               },
               {
-                internalType: 'address',
-                name: 'submitter',
-                type: 'address'
+                internalType: "address",
+                name: "submitter",
+                type: "address"
               },
               {
-                internalType: 'contract IERC3000Executor',
-                name: 'executor',
-                type: 'address'
+                internalType: "contract IERC3000Executor",
+                name: "executor",
+                type: "address"
               },
               {
                 components: [
                   {
-                    internalType: 'address',
-                    name: 'to',
-                    type: 'address'
+                    internalType: "address",
+                    name: "to",
+                    type: "address"
                   },
                   {
-                    internalType: 'uint256',
-                    name: 'value',
-                    type: 'uint256'
+                    internalType: "uint256",
+                    name: "value",
+                    type: "uint256"
                   },
                   {
-                    internalType: 'bytes',
-                    name: 'data',
-                    type: 'bytes'
+                    internalType: "bytes",
+                    name: "data",
+                    type: "bytes"
                   }
                 ],
-                internalType: 'struct ERC3000Data.Action[]',
-                name: 'actions',
-                type: 'tuple[]'
+                internalType: "struct ERC3000Data.Action[]",
+                name: "actions",
+                type: "tuple[]"
               },
               {
-                internalType: 'bytes32',
-                name: 'allowFailuresMap',
-                type: 'bytes32'
+                internalType: "bytes32",
+                name: "allowFailuresMap",
+                type: "bytes32"
               },
               {
-                internalType: 'bytes',
-                name: 'proof',
-                type: 'bytes'
+                internalType: "bytes",
+                name: "proof",
+                type: "bytes"
               }
             ],
-            internalType: 'struct ERC3000Data.Payload',
-            name: 'payload',
-            type: 'tuple'
+            internalType: "struct ERC3000Data.Payload",
+            name: "payload",
+            type: "tuple"
           },
           {
             components: [
               {
-                internalType: 'uint256',
-                name: 'executionDelay',
-                type: 'uint256'
+                internalType: "uint256",
+                name: "executionDelay",
+                type: "uint256"
               },
               {
                 components: [
                   {
-                    internalType: 'address',
-                    name: 'token',
-                    type: 'address'
+                    internalType: "address",
+                    name: "token",
+                    type: "address"
                   },
                   {
-                    internalType: 'uint256',
-                    name: 'amount',
-                    type: 'uint256'
+                    internalType: "uint256",
+                    name: "amount",
+                    type: "uint256"
                   }
                 ],
-                internalType: 'struct ERC3000Data.Collateral',
-                name: 'scheduleDeposit',
-                type: 'tuple'
+                internalType: "struct ERC3000Data.Collateral",
+                name: "scheduleDeposit",
+                type: "tuple"
               },
               {
                 components: [
                   {
-                    internalType: 'address',
-                    name: 'token',
-                    type: 'address'
+                    internalType: "address",
+                    name: "token",
+                    type: "address"
                   },
                   {
-                    internalType: 'uint256',
-                    name: 'amount',
-                    type: 'uint256'
+                    internalType: "uint256",
+                    name: "amount",
+                    type: "uint256"
                   }
                 ],
-                internalType: 'struct ERC3000Data.Collateral',
-                name: 'challengeDeposit',
-                type: 'tuple'
+                internalType: "struct ERC3000Data.Collateral",
+                name: "challengeDeposit",
+                type: "tuple"
               },
               {
-                internalType: 'address',
-                name: 'resolver',
-                type: 'address'
+                internalType: "address",
+                name: "resolver",
+                type: "address"
               },
               {
-                internalType: 'bytes',
-                name: 'rules',
-                type: 'bytes'
+                internalType: "bytes",
+                name: "rules",
+                type: "bytes"
+              },
+              {
+                internalType: "uint256",
+                name: "maxCalldataSize",
+                type: "uint256"
               }
             ],
-            internalType: 'struct ERC3000Data.Config',
-            name: 'config',
-            type: 'tuple'
+            internalType: "struct ERC3000Data.Config",
+            name: "config",
+            type: "tuple"
           }
         ],
-        internalType: 'struct ERC3000Data.Container',
-        name: '_container',
-        type: 'tuple'
-      }
+        internalType: "struct ERC3000Data.Container",
+        name: "_container",
+        type: "tuple"
+      },
     ],
-    name: 'schedule',
+    name: "schedule",
     outputs: [
       {
-        internalType: 'bytes32',
-        name: 'containerHash',
-        type: 'bytes32'
+        internalType: "bytes32",
+        name: "containerHash",
+        type: "bytes32"
       }
     ],
-    stateMutability: 'nonpayable',
-    type: 'function'
+    stateMutability: "nonpayable",
+    type: "function"
   },
   {
     inputs: [],
@@ -231,7 +236,8 @@ const GQL_QUERY = {
           amount: true
         },
         resolver: true,
-        rules: true
+        rules: true,
+        maxCalldataSize: true
       }
     }
   }
@@ -335,7 +341,8 @@ async function scheduleAction(
             amount: config.challengeDeposit.amount
           },
           resolver: config.resolver,
-          rules: config.rules
+          rules: config.rules,
+          maxCalldataSize: config.maxCalldataSize
         }
       }
     ],
