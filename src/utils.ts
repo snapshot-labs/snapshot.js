@@ -1,45 +1,25 @@
+import fetch from 'cross-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
+import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
-import { abi as multicallAbi } from './abi/Multicall.json';
-import _strategies from './strategies';
+import addFormats from 'ajv-formats';
 import Multicaller from './utils/multicaller';
 import getProvider from './utils/provider';
-import {
-  decodeContenthash,
-  validateContent,
-  isValidContenthash,
-  encodeContenthash,
-  resolveENSContentHash,
-  resolveContent
-} from './utils/contentHash';
+import validations from './validations';
 import { signMessage, getBlockNumber } from './utils/web3';
-
-export const MULTICALL = {
-  '1': '0xeefba1e63905ef1d7acba5a8513c70307c1ce441',
-  '3': '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
-  '4': '0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821',
-  '5': '0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e',
-  '6': '0x53c43764255c17bd724f74c4ef150724ac50a3ed',
-  '17': '0xB9cb900E526e7Ad32A2f26f1fF6Dee63350fcDc5',
-  '42': '0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a',
-  '56': '0x1ee38d535d541c55c9dae27b12edf090c608e6fb',
-  '82': '0x579De77CAEd0614e3b158cb738fcD5131B9719Ae',
-  '97': '0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46',
-  '100': '0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a',
-  '128': '0x37ab26db3df780e7026f3e767f65efb739f48d8e',
-  '137': '0xCBca837161be50EfA5925bB9Cc77406468e76751',
-  '256': '0xC33994Eb943c61a8a59a918E2de65e03e4e385E0',
-  '1337': '0x566131e85d46cc7BBd0ce5C6587E9912Dc27cDAc',
-  wanchain: '0xba5934ab3056fca1fa458d30fbb3810c3eb5145f'
-};
+import { getHash, verify } from './sign/utils';
+import gateways from './gateways.json';
+import networks from './networks.json';
 
 export const SNAPSHOT_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot',
   '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan'
 };
+
+export const SNAPSHOT_SCORE_API = 'https://score.snapshot.org/api/scores';
 
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
@@ -58,7 +38,14 @@ export async function multicall(
   calls: any[],
   options?
 ) {
-  const multi = new Contract(MULTICALL[network], multicallAbi, provider);
+  const multicallAbi = [
+    'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)'
+  ];
+  const multi = new Contract(
+    networks[network].multicall,
+    multicallAbi,
+    provider
+  );
   const itf = new Interface(abi);
   try {
     const [, res] = await multi.aggregate(
@@ -88,10 +75,24 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
   return data || {};
 }
 
+export function getUrl(uri, gateway = gateways[0]) {
+  const ipfsGateway = `https://${gateway}`;
+  if (!uri) return null;
+  if (!uri.includes('ipfs') && !uri.includes('ipns') && !uri.includes('http'))
+    return `${ipfsGateway}/ipfs/${uri}`;
+  const uriScheme = uri.split('://')[0];
+  if (uriScheme === 'ipfs')
+    return uri.replace('ipfs://', `${ipfsGateway}/ipfs/`);
+  if (uriScheme === 'ipns')
+    return uri.replace('ipns://', `${ipfsGateway}/ipns/`);
+
+  return uri;
+}
+
 export async function ipfsGet(
   gateway: string,
   ipfsHash: string,
-  protocolType: string = 'ipfs'
+  protocolType = 'ipfs'
 ) {
   const url = `https://${gateway}/${protocolType}/${ipfsHash}`;
   return fetch(url).then((res) => res.json());
@@ -116,32 +117,34 @@ export async function getScores(
   space: string,
   strategies: any[],
   network: string,
-  provider,
+  provider: StaticJsonRpcProvider | string,
   addresses: string[],
-  snapshot = 'latest'
+  snapshot: number | string = 'latest'
 ) {
   try {
-    return await Promise.all(
-      strategies.map((strategy) =>
-        snapshot !== 'latest' && strategy.params?.start > snapshot
-          ? {}
-          : _strategies[strategy.name](
-              space,
-              network,
-              provider,
-              addresses,
-              strategy.params,
-              snapshot
-            )
-      )
-    );
+    const params = {
+      space,
+      network,
+      snapshot,
+      strategies,
+      addresses
+    };
+    const res = await fetch(SNAPSHOT_SCORE_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ params })
+    });
+    const obj = await res.json();
+    return obj.result.scores;
   } catch (e) {
     return Promise.reject(e);
   }
 }
 
 export function validateSchema(schema, data) {
-  const ajv = new Ajv();
+  const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
+  // @ts-ignore
+  addFormats(ajv);
   const validate = ajv.compile(schema);
   const valid = validate(data);
   return valid ? valid : validate.errors;
@@ -156,13 +159,10 @@ export default {
   getScores,
   validateSchema,
   getProvider,
-  decodeContenthash,
-  validateContent,
-  isValidContenthash,
-  encodeContenthash,
-  resolveENSContentHash,
-  resolveContent,
   signMessage,
   getBlockNumber,
-  Multicaller
+  Multicaller,
+  validations,
+  getHash,
+  verify
 };
