@@ -138,7 +138,7 @@ const queueAbi = [
         internalType: 'struct ERC3000Data.Container',
         name: '_container',
         type: 'tuple'
-      },
+      }
     ],
     name: 'schedule',
     outputs: [
