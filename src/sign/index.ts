@@ -1,5 +1,6 @@
 import fetch from 'cross-fetch';
 import { Web3Provider } from '@ethersproject/providers';
+import { Wallet } from '@ethersproject/wallet';
 import {
   Space,
   Proposal,
@@ -40,11 +41,13 @@ export default class Client {
     this.address = address;
   }
 
-  async sign(web3: Web3Provider, address: string, message, types) {
+  async sign(web3: Web3Provider | Wallet, address: string, message, types) {
     if (!message.from) message.from = address;
     if (!message.timestamp) message.timestamp = ~~(Date.now() / 1e3);
     const data: any = { domain, types, message };
-    const signer = web3.getSigner();
+    let signer;
+    if (web3 instanceof Wallet) signer = web3;
+    if (web3 instanceof Web3Provider) signer = web3.getSigner();
     const sig = await signer._signTypedData(domain, data.types, message);
     console.log('Sign', { address, sig, data });
     return await this.send({ address, sig, data });
@@ -106,11 +109,11 @@ export default class Client {
     return await this.sign(web3, address, message, type);
   }
 
-  async follow(web3: Web3Provider, address: string, message: Follow) {
+  async follow(web3: Wallet, address: string, message: Follow) {
     return await this.sign(web3, address, message, followTypes);
   }
 
-  async unfollow(web3: Web3Provider, address: string, message: Unfollow) {
+  async unfollow(web3: Wallet, address: string, message: Unfollow) {
     return await this.sign(web3, address, message, unfollowTypes);
   }
 
