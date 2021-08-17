@@ -85,7 +85,6 @@ export function getUrl(uri, gateway = gateways[0]) {
     return uri.replace('ipfs://', `${ipfsGateway}/ipfs/`);
   if (uriScheme === 'ipns')
     return uri.replace('ipns://', `${ipfsGateway}/ipns/`);
-
   return uri;
 }
 
@@ -155,6 +154,7 @@ export default {
   multicall,
   subgraphRequest,
   ipfsGet,
+  getUrl,
   sendTransaction,
   getScores,
   validateSchema,
