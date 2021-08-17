@@ -445,5 +445,15 @@
       "https://celo-mainnet--rpc.datahub.figment.io/apikey/e892a66dc36e4d2d98a5d6406d609796/"
     ],
     "explorer": "https://explorer.celo.org"
+  },
+  "11297108109": {
+    "key": "11297108109",
+    "name": "Palm Mainnet",
+    "shortName": "Palm",
+    "chainId": 11297108109,
+    "network": "mainnet",
+    "multicall": "0xfFE2FF36c5b8D948f788a34f867784828aa7415D",
+    "rpc": ["https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b"],
+    "explorer": "https://explorer.palm.io"
   }
 }
