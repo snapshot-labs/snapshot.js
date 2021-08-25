@@ -153,7 +153,7 @@
     "shortName": "OEC Testnet",
     "chainId": 65,
     "network": "oec testnet",
-    "multicall": "0x23Daae12B7f82b1f0A276cD4f49825DE940B6374",
+    "multicall": "0x04c68A7fB750ca0Ba232105B3b094926a0f77645",
     "rpc": ["https://exchaintestrpc.okex.org"],
     "ws": ["wss://exchaintestws.okex.org:8443"],
     "explorer": "https://www.oklink.com/okexchain-test"
@@ -164,7 +164,7 @@
     "shortName": "OEC Mainnet",
     "chainId": 66,
     "network": "oec mainnet",
-    "multicall": "0x23Daae12B7f82b1f0A276cD4f49825DE940B6374",
+    "multicall": "0x6EB187d8197Ac265c945b69f3c3064A6f3831866",
     "rpc": ["https://exchainrpc.okex.org"],
     "ws": ["wss://exchainws.okex.org:8443"],
     "explorer": "https://www.oklink.com/okexchain"
