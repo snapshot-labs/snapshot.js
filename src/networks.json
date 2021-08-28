@@ -6,6 +6,7 @@
     "network": "homestead",
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
     "rpc": [
+      "https://apis.ankr.com/e62bc219f9c9462b8749defe472d2dc5/6106d4a3ec1d1bcc87ec72158f8fd089/eth/archive/main",
       {
         "url": "https://api-geth-archive.ankr.com",
         "user": "balancer_user",
