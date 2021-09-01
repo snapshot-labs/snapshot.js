@@ -1,6 +1,6 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
@@ -52,7 +52,6 @@
     "build": "rollup -c",
     "build:cjs": "rollup -c rollup.cjs.config.js",
     "dev": "rollup -c -w",
-    "test": "jest test/index.spec.ts --runInBand --testTimeout=50000",
     "test:validation": "npm run build:cjs && jest test/validation.spec.ts --runInBand",
     "pretest": "npm run build:cjs",
     "lint": "eslint . --ext .ts --fix",
