@@ -457,5 +457,25 @@
     "multicall": "0xfFE2FF36c5b8D948f788a34f867784828aa7415D",
     "rpc": ["https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b"],
     "explorer": "https://explorer.palm.io"
+  },
+   "333888": {
+    "key": "333888",
+    "name": "Polis Sparta",
+    "shortName": "Sparta",
+    "chainId": 333888,
+    "network": "testnet",
+    "multicall": "0xA4c03972023d5f684d35eF1C541752490975383e",
+    "rpc": ["https://sparta-rpc.polis.tech"],
+    "explorer": "https://sparta-explorer.polis.tech"
+  },
+   "333999": {
+    "key": "333999",
+    "name": "Polis Olympus",
+    "shortName": "Olympus",
+    "chainId": 333999,
+    "network": "mainnet",
+    "multicall": "0x34b99C2a4a4620F10ac779c36b8c61F90FD61732",
+    "rpc": ["https://rpc.polis.tech"],
+    "explorer": "https://explorer.polis.tech"
   }
 }
