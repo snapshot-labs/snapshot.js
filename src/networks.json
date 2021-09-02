@@ -477,5 +477,15 @@
     "multicall": "0x34b99C2a4a4620F10ac779c36b8c61F90FD61732",
     "rpc": ["https://rpc.polis.tech"],
     "explorer": "https://explorer.polis.tech"
-  }
+  },
+    "1285": {
+    "key": "1285",
+    "name": "Moonriver (Kusama)",
+    "shortName": "Moonriver",
+    "chainId": 1285,
+    "network": "mainnet",
+    "multicall": "0x537004440ffFE1D4AE9F009031Fc2b0385FCA9F1",
+    "rpc": ["https://rpc.moonriver.moonbeam.network"],
+    "explorer": "https://blockscout.moonriver.moonbeam.network/"
+  },
 }
