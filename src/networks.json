@@ -72,7 +72,7 @@
     "ws": ["wss://ws.dome.cloud"],
     "explorer": "https://exp.tch.in.th"
   },
-  {
+  "10": {
     "key": "10",
     "name": "Optimistic Ethereum",
     "chainId": 10,
@@ -82,7 +82,7 @@
       "https://opt-mainnet.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
     ],
     "explorer": "https://optimistic.etherscan.io"
-  }
+  },
   "30": {
     "key": "30",
     "name": "RSK Mainnet",
