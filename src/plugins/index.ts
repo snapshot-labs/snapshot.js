@@ -3,7 +3,7 @@ import gnosis from './gnosis';
 import safeSnap from './safeSnap';
 import quorum from './quorum';
 import poap from './poap';
-import share from './share';
+import subscribe from './subscribe';
 
 export default {
   aragon,
@@ -11,5 +11,5 @@ export default {
   safeSnap,
   poap,
   quorum,
-  share
+  subscribe
 };
