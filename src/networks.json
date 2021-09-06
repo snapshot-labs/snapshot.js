@@ -298,8 +298,8 @@
     ],
     "explorer": "https://www.wanscan.org"
   },
-  "2109": {
-    "key": "2109",
+  "43114": {
+    "key": "43114",
     "name": "Avalanche",
     "chainId": 43114,
     "network": "mainnet",
