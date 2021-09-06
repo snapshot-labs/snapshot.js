@@ -1,4 +1,5 @@
-const API_BASE_URL = 'localhost:6666';
+// This url is just a demo api which should be updated in future.
+const API_BASE_URL = 'https://snapshot-subscribe.herokuapp.com';
 
 export default class Plugin {
   public author = 'Kapp';
@@ -6,9 +7,19 @@ export default class Plugin {
   public name = 'Subscribe';
   public options: any;
 
-  async subscribe(){
+  async subscribe(proposalId: string, email: string){
     const response = await fetch(
-      `${API_BASE_URL}/snapshot/subscribe`
+      `${API_BASE_URL}/snapshot/subscribe`,
+      {
+        method: 'POST',
+    　　headers: {
+      　  'Content-Type': 'application/json'
+      　},　　
+        body:JSON.stringify({
+          proposalId: proposalId,
+        　email: email
+        })
+      }
     );
     return response
   }
