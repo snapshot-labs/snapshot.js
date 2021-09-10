@@ -306,7 +306,7 @@
     "multicall": "0x7E9985aE4C8248fdB07607648406a48C76e9e7eD",
     "rpc": ["https://api.avax.network/ext/bc/C/rpc"],
     "explorer": "https://cchain.explorer.avax.network"
-  }
+  },
   "43114": {
     "key": "43114",
     "name": "Avalanche",
