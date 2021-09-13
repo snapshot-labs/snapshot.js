@@ -264,7 +264,8 @@ export default class Plugin {
   public options: any;
 
   validateTransaction(transaction: ModuleTransaction) {
-    const addressEmptyOrValidate = transaction.to === '' || isAddress(transaction.to)
+    const addressEmptyOrValidate =
+      transaction.to === '' || isAddress(transaction.to);
     return (
       isBigNumberish(transaction.value) &&
       addressEmptyOrValidate &&
@@ -432,7 +433,7 @@ export default class Plugin {
 
       tokenSymbol = symbol;
       tokenDecimals = decimals;
-    } catch (e) { }
+    } catch (e) {}
 
     const answersFilter = contract.filters.LogNewAnswer(null, questionId);
     const events = await contract.queryFilter(
