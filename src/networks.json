@@ -178,7 +178,7 @@
     "chainId": 70,
     "network": "Mainnet",
     "multicall": "0xd4b794b89baccb70ef851830099bee4d69f19ebc",
-    "rpc": ["https://http-mainnet2.hoosmartchain.com"],
+    "rpc": ["https://http-mainnet.hoosmartchain.com"],
     "ws": ["wss://ws-mainnet2.hoosmartchain.com"],
     "explorer": "https://hscscan.com"
   },
