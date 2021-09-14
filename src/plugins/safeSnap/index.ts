@@ -43,7 +43,7 @@ const ModuleAbi = [
   'event ProposalQuestionCreated(bytes32 indexed questionId, string indexed proposalId)',
 
   // Read functions
-  'function executor() view returns (address)',
+  'function owner() view returns (address)',
   'function oracle() view returns (address)',
   'function questionCooldown() view returns (uint32)',
   'function buildQuestion(string proposalId, bytes32[] txHashes) view returns (string)',
@@ -180,7 +180,7 @@ const getModuleDetails = async (
   minimumBond: number;
 }> => {
   const moduleDetails = await multicall(network, provider, ModuleAbi, [
-    [moduleAddress, 'executor'],
+    [moduleAddress, 'owner'],
     [moduleAddress, 'oracle'],
     [moduleAddress, 'questionCooldown'],
     [moduleAddress, 'minimumBond']
