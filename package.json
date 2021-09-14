@@ -1,6 +1,6 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.2.0",
+  "version": "0.2.4",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
@@ -54,7 +54,7 @@
     "test:validation": "npm run build:cjs && jest test/validation.spec.ts --runInBand",
     "pretest": "npm run build:cjs",
     "lint": "eslint . --ext .ts --fix",
-    "prepare": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "engines": {
     "node": ">=14"
