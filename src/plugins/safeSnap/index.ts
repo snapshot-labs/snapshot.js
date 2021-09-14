@@ -43,7 +43,8 @@ const ModuleAbi = [
   'event ProposalQuestionCreated(bytes32 indexed questionId, string indexed proposalId)',
 
   // Read functions
-  'function executor() view returns (address)',
+  'function avatar() view returns (address)', // Reality Module
+  'function executor() view returns (address)', // Dao Module
   'function oracle() view returns (address)',
   'function questionCooldown() view returns (uint32)',
   'function buildQuestion(string proposalId, bytes32[] txHashes) view returns (string)',
@@ -179,12 +180,26 @@ const getModuleDetails = async (
   cooldown: number;
   minimumBond: number;
 }> => {
-  const moduleDetails = await multicall(network, provider, ModuleAbi, [
-    [moduleAddress, 'executor'],
-    [moduleAddress, 'oracle'],
-    [moduleAddress, 'questionCooldown'],
-    [moduleAddress, 'minimumBond']
-  ]);
+  let moduleDetails;
+  try {
+    // Assume module is Reality Module
+    moduleDetails = await multicall(network, provider, ModuleAbi, [
+      [moduleAddress, 'avatar'],
+      [moduleAddress, 'oracle'],
+      [moduleAddress, 'questionCooldown'],
+      [moduleAddress, 'minimumBond']
+    ]);
+  } catch (err) {
+    // The Reality Module doesn't have an avatar field, causing tx to fails.
+    // Assume module is Dao Module (old version)
+    moduleDetails = await multicall(network, provider, ModuleAbi, [
+      [moduleAddress, 'executor'],
+      [moduleAddress, 'oracle'],
+      [moduleAddress, 'questionCooldown'],
+      [moduleAddress, 'minimumBond']
+    ]);
+  }
+
   return {
     dao: moduleDetails[0][0],
     oracle: moduleDetails[1][0],
