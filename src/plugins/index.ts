@@ -4,6 +4,7 @@ import gnosis from './gnosis';
 import safeSnap from './safeSnap';
 import quorum from './quorum';
 import poap from './poap';
+import commentBox from './commentBox';
 
 export default {
   aragon,
@@ -11,5 +12,6 @@ export default {
   gnosis,
   safeSnap,
   poap,
-  quorum
+  quorum,
+  commentBox
 };
