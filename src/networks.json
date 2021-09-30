@@ -498,5 +498,15 @@
     "multicall": "0x537004440ffFE1D4AE9F009031Fc2b0385FCA9F1",
     "rpc": ["https://rpc.moonriver.moonbeam.network"],
     "explorer": "https://blockscout.moonriver.moonbeam.network/"
+  },
+  "8217": {
+    "key": "8217",
+    "name": "Klaytn",
+    "shortName": "KLAY",
+    "chainId": 1285,
+    "network": "mainnet",
+    "multicall": "0x47Bcd1BF4186E853BDB4f0226b261a9415605eE5",
+    "rpc": ["https://kaikas.cypress.klaytn.net:8651"],
+    "explorer": "https://scope.klaytn.com/"
   }
 }
