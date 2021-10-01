@@ -63,6 +63,26 @@ export default class Client {
     return await this.send(msg);
   }
 
+  async sign(
+    web3: Web3Provider,
+    account: string,
+    space: string,
+    type: string,
+    payload: any
+  ) {
+    const msg: any = {
+      address: account,
+      msg: JSON.stringify({
+        version,
+        timestamp: (Date.now() / 1e3).toFixed(),
+        space,
+        type,
+        payload
+      })
+    };
+    return await signMessage(web3, msg.msg, account);
+  }
+
   async vote(
     web3: Web3Provider,
     address: string,
