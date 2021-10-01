@@ -401,7 +401,7 @@
     "shortName": "Moonbase",
     "chainId": 1287,
     "network": "testnet",
-    "multicall": "0xD7bA481DE7fB53A7a29641c43232B09e5D9CAe7b",
+    "multicall": "0xf09FD6B6FF3f41614b9d6be2166A0D07045A3A97",
     "rpc": ["https://rpc.testnet.moonbeam.network"],
     "explorer": "https://moonbase-blockscout.testnet.moonbeam.network/"
   },
