@@ -503,7 +503,7 @@
     "key": "8217",
     "name": "Klaytn",
     "shortName": "KLAY",
-    "chainId": 1285,
+    "chainId": 8217,
     "network": "mainnet",
     "multicall": "0x47Bcd1BF4186E853BDB4f0226b261a9415605eE5",
     "rpc": ["https://kaikas.cypress.klaytn.net:8651"],
