@@ -498,5 +498,15 @@
     "multicall": "0x537004440ffFE1D4AE9F009031Fc2b0385FCA9F1",
     "rpc": ["https://rpc.moonriver.moonbeam.network"],
     "explorer": "https://blockscout.moonriver.moonbeam.network/"
+  },
+    "336": {
+    "key": "336",
+    "name": "Shiden (Kusama)",
+    "shortName": "Shiden",
+    "chainId": 336,
+    "network": "mainnet",
+    "multicall": "0x8AfCFB1757489B89c73fd2E0bd8fF0a5D985a8d9",
+    "rpc": ["https://rpc.shiden.astar.network:8545"],
+    "explorer": "https://shiden.subscan.io"
   }
 }
