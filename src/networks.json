@@ -396,6 +396,7 @@
   },
   "42161": {
     "key": "42161",
+    "disable": true,
     "name": "Arbitrum One",
     "chainId": 42161,
     "network": "Arbitrum mainnet",
