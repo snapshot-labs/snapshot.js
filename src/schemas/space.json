@@ -171,6 +171,14 @@
         },
         "plugins": {
           "type": "object"
+        },
+        "votingDelay": {
+          "type": "number",
+          "minimum": 0
+        },
+        "votingPeriod": {
+          "type": "number",
+          "minimum": 0
         }
       },
       "required": ["name", "network", "symbol", "strategies"],
