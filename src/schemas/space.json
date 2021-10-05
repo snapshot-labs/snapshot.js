@@ -173,14 +173,18 @@
           "type": "object"
         },
         "voting": {
-          "delay": {
-            "type": "number",
-            "minimum": 0
+          "type": "object",
+          "properties": {
+            "delay": {
+              "type": "number",
+              "minimum": 0
+            },
+            "period": {
+              "type": "number",
+              "minimum": 0
+            }
           },
-          "period": {
-            "type": "number",
-            "minimum": 0
-          }
+          "additionalProperties": false
         }
       },
       "required": ["name", "network", "symbol", "strategies"],
