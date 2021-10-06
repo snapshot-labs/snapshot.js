@@ -182,6 +182,10 @@
             "period": {
               "type": "number",
               "minimum": 0
+            },
+            "quorum": {
+              "type": "number",
+              "minimum": 0
             }
           },
           "additionalProperties": false
