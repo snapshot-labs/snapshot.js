@@ -182,6 +182,10 @@
             "period": {
               "type": "number",
               "minimum": 0
+            },
+            "type": {
+              "type": "string",
+              "title": "type"
             }
           },
           "additionalProperties": false
