@@ -51,6 +51,18 @@ export interface Unfollow {
   timestamp?: number;
 }
 
+export interface Subscribe {
+  from?: string;
+  space: string;
+  timestamp?: number;
+}
+
+export interface Unsubscribe {
+  from?: string;
+  space: string;
+  timestamp?: number;
+}
+
 export interface Alias {
   from?: string;
   alias: string;
@@ -178,6 +190,20 @@ export const followTypes = {
 
 export const unfollowTypes = {
   Unfollow: [
+    { name: 'from', type: 'address' },
+    { name: 'space', type: 'string' }
+  ]
+};
+
+export const subscribeTypes = {
+  Subscribe: [
+    { name: 'from', type: 'address' },
+    { name: 'space', type: 'string' }
+  ]
+};
+
+export const unsubscribeTypes = {
+  Unsubscribe: [
     { name: 'from', type: 'address' },
     { name: 'space', type: 'string' }
   ]
