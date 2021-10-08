@@ -1,5 +1,7 @@
 # Snapshot.js
 
+[![npm](https://img.shields.io/npm/v/@snapshot-labs/snapshot.js?label=npm)](https://www.npmjs.com/package/@snapshot-labs/snapshot.js)
+
 ### Install
 Snapshot.js was designed to work both in the browser and in Node.js.
 
