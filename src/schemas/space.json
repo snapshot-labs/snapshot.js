@@ -186,6 +186,10 @@
             "type": {
               "type": "string",
               "title": "type"
+            },
+            "quorum": {
+              "type": "number",
+              "minimum": 0
             }
           },
           "additionalProperties": false
