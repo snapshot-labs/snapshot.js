@@ -256,7 +256,7 @@
     "key": "111",
     "name": "Velas EVM Testnet",
     "shortName": "Velas Testnet",
-    "chainId": 106,
+    "chainId": 111,
     "network": "testnet",
     "multicall": "0x55a827538FbF41b7334Dd49001220597898Ad954",
     "rpc": [
