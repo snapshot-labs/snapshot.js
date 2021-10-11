@@ -238,6 +238,34 @@
     "ws": ["wss://rpc.xdaichain.com/wss"],
     "explorer": "https://blockscout.com/poa/xdai"
   },
+  "106": {
+    "key": "106",
+    "name": "Velas EVM Mainnet",
+    "shortName": "Velas",
+    "chainId": 106,
+    "network": "mainnet",
+    "multicall": "0x597Cc7c49a8e0041d3A43ec8D7dc651b47879108",
+    "rpc": [
+      "https://evmexplorer.velas.com/rpc",
+      "https://explorer.velas.com/rpc"
+    ],
+    "ws": ["wss://api.velas.com"],
+    "explorer": "https://evmexplorer.velas.com"
+  },
+  "111": {
+    "key": "111",
+    "name": "Velas EVM Testnet",
+    "shortName": "Velas Testnet",
+    "chainId": 106,
+    "network": "testnet",
+    "multicall": "0x55a827538FbF41b7334Dd49001220597898Ad954",
+    "rpc": [
+      "https://evmexplorer.testnet.velas.com/rpc",
+      "https://explorer.testnet.velas.com/rpc"
+    ],
+    "ws": ["wss://api.testnet.velas.com"],
+    "explorer": "https://evmexplorer.testnet.velas.com"
+  },
   "122": {
     "key": "122",
     "name": "Fuse Mainnet",
