@@ -286,10 +286,10 @@
     "ws": ["wss://ws-mumbai.matic.today"],
     "explorer": ""
   },
-  "wanchain": {
-    "key": "wanchain",
+  "888": {
+    "key": "888",
     "name": "Wanchain",
-    "chainId": 1,
+    "chainId": 888,
     "network": "mainnet",
     "multicall": "0xba5934ab3056fca1fa458d30fbb3810c3eb5145f",
     "rpc": ["https://gwan-ssl.wandevs.org:56891"],
