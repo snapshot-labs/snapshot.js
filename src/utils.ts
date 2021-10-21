@@ -19,8 +19,6 @@ export const SNAPSHOT_SUBGRAPH_URL = {
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan'
 };
 
-export const SNAPSHOT_SCORE_API = 'https://score.snapshot.org/api/scores';
-
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
   try {
@@ -116,9 +114,9 @@ export async function getScores(
   space: string,
   strategies: any[],
   network: string,
-  provider: StaticJsonRpcProvider | string,
   addresses: string[],
-  snapshot: number | string = 'latest'
+  snapshot: number | string = 'latest',
+  scoreApiUrl: string = 'https://score.snapshot.org'
 ) {
   try {
     const params = {
@@ -128,7 +126,7 @@ export async function getScores(
       strategies,
       addresses
     };
-    const res = await fetch(SNAPSHOT_SCORE_API, {
+    const res = await fetch(`${scoreApiUrl}/api/scores`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ params })
