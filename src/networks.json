@@ -28,6 +28,7 @@
     "shortName": "Ropsten",
     "chainId": 3,
     "network": "ropsten",
+    "testnet": true,
     "multicall": "0x53c43764255c17bd724f74c4ef150724ac50a3ed",
     "rpc": [
       "https://eth-ropsten.alchemyapi.io/v2/QzGz6gdkpTyDzebi3PjxIaKO7bDTGnSy"
@@ -40,6 +41,7 @@
     "shortName": "Rinkeby",
     "chainId": 4,
     "network": "rinkeby",
+    "testnet": true,
     "multicall": "0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821",
     "rpc": [
       "https://eth-rinkeby.alchemyapi.io/v2/ugiPEBqMebLQbjro42kalZ1h4StpW_fR",
@@ -56,6 +58,7 @@
     "shortName": "Görli",
     "chainId": 5,
     "network": "goerli",
+    "testnet": true,
     "multicall": "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
     "rpc": [
       "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
@@ -86,6 +89,7 @@
     "name": "RSK Testnet",
     "chainId": 31,
     "network": "rsk testnet",
+    "testnet": true,
     "multicall": "0x4eeebb5580769ba6d26bfd07be636300076d1831",
     "rpc": ["https://public-node.testnet.rsk.co"],
     "explorer": "https://explorer.testnet.rsk.co"
@@ -96,6 +100,7 @@
     "shortName": "Kovan",
     "chainId": 42,
     "network": "kovan",
+    "testnet": true,
     "multicall": "0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a",
     "rpc": [
       "https://eth-kovan.alchemyapi.io/v2/s96TIUFYg0LuddgpmafA040ZyUaZbrpM",
@@ -155,6 +160,7 @@
     "shortName": "OEC Testnet",
     "chainId": 65,
     "network": "oec testnet",
+    "testnet": true,
     "multicall": "0x04c68A7fB750ca0Ba232105B3b094926a0f77645",
     "rpc": ["https://exchaintestrpc.okex.org"],
     "ws": ["wss://exchaintestws.okex.org:8443"],
@@ -217,6 +223,7 @@
     "shortName": "BSC Testnet",
     "chainId": 97,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46",
     "rpc": [
       "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/bsc/testnet/archive",
@@ -258,6 +265,7 @@
     "shortName": "Velas Testnet",
     "chainId": 111,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0x55a827538FbF41b7334Dd49001220597898Ad954",
     "rpc": [
       "https://evmexplorer.testnet.velas.com/rpc",
@@ -306,6 +314,7 @@
     "name": "Matic Mumbai",
     "chainId": 80001,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc",
     "rpc": [
       "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai/archive",
@@ -350,6 +359,7 @@
     "shortName": "heco",
     "chainId": 256,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0xC33994Eb943c61a8a59a918E2de65e03e4e385E0",
     "rpc": ["https://http-testnet.hecochain.com"],
     "ws": ["wss://ws-testnet.hecochain.com"],
@@ -418,6 +428,7 @@
     "shortName": "Moonbase",
     "chainId": 1287,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0xf09FD6B6FF3f41614b9d6be2166A0D07045A3A97",
     "rpc": ["https://rpc.testnet.moonbeam.network"],
     "explorer": "https://moonbase-blockscout.testnet.moonbeam.network/"
@@ -450,6 +461,7 @@
     "shortName": "IoTeX",
     "chainId": 4690,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0x30aE8783d26aBE7Fbb9d83549CCb7430AE4A301F",
     "rpc": ["https://babel-api.testnet.iotex.io"],
     "explorer": "https://testnet.iotexscan.io"
@@ -471,6 +483,7 @@
     "shortName": "HarmonyTestnet",
     "chainId": 1666700000,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0x9923589503Fd205feE3d367DDFF2378f0F7dD2d4",
     "rpc": ["https://api.s0.b.hmny.io"],
     "ws": ["wss://ws.s0.b.hmny.io"],
@@ -504,6 +517,7 @@
     "shortName": "Sparta",
     "chainId": 333888,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0xA4c03972023d5f684d35eF1C541752490975383e",
     "rpc": ["https://sparta-rpc.polis.tech"],
     "explorer": "https://sparta-explorer.polis.tech"
