@@ -115,7 +115,7 @@ export async function getScores(
   network: string,
   addresses: string[],
   snapshot: number | string = 'latest',
-  scoreApiUrl: string = 'https://score.snapshot.org'
+  scoreApiUrl: 'https://score.snapshot.org/api/scores'
 ) {
   try {
     const params = {
@@ -125,7 +125,7 @@ export async function getScores(
       strategies,
       addresses
     };
-    const res = await fetch(`${scoreApiUrl}/api/scores`, {
+    const res = await fetch(scoreApiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ params })
