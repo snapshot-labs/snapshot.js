@@ -32,7 +32,8 @@
             "ranked-choice",
             "quadratic",
             "weighted",
-            "custom"
+            "custom",
+            "basic"
           ]
         },
         "snapshot": {
