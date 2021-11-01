@@ -103,6 +103,8 @@
     "testnet": true,
     "multicall": "0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a",
     "rpc": [
+      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/eth/kovan/archive",
+      "https://eth-kovan.alchemyapi.io/v2/sR9qngOH3w78GAaTtlTe8GwEnij0SnEa",
       "https://eth-kovan.alchemyapi.io/v2/s96TIUFYg0LuddgpmafA040ZyUaZbrpM",
       "https://poa-kovan.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
     ],
