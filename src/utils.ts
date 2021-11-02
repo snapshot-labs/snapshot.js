@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
+import { namehash } from '@ethersproject/hash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
@@ -146,6 +147,36 @@ export function validateSchema(schema, data) {
   return valid ? valid : validate.errors;
 }
 
+export async function getSpaceUri(id) {
+  const abi =
+    'function text(bytes32 node, string calldata key) external view returns (string memory)';
+  const address = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41';
+
+  let uri: any = false;
+  try {
+    const hash = namehash(id);
+    const provider = getProvider('1');
+    uri = await call(
+      provider,
+      [abi],
+      [address, 'text', [hash, 'snapshot']]
+    );
+  } catch (e) {
+    console.log('getSpaceUriFromTextRecord failed', id, e);
+  }
+  return uri;
+}
+
+export function clone(item) {
+  return JSON.parse(JSON.stringify(item));
+}
+
+export async function sleep(time) {
+  return new Promise(resolve => {
+    setTimeout(resolve, time);
+  });
+}
+
 export default {
   call,
   multicall,
@@ -155,6 +186,9 @@ export default {
   sendTransaction,
   getScores,
   validateSchema,
+  getSpaceUri,
+  clone,
+  sleep,
   getProvider,
   signMessage,
   getBlockNumber,
