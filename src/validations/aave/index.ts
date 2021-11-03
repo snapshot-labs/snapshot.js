@@ -42,7 +42,6 @@ export default async function validate(
       space.id || space.key,
       strategies,
       space.network,
-      '',
       [author]
     );
     const totalScore: any = scores
