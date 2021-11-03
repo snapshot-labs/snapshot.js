@@ -12,6 +12,7 @@ import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
 import networks from './networks.json';
+import voting from './voting';
 
 export const SNAPSHOT_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot',
@@ -165,6 +166,7 @@ export default {
   getScores,
   validateSchema,
   getNumberWithOrdinal,
+  voting,
   getProvider,
   signMessage,
   getBlockNumber,
