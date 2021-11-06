@@ -7,6 +7,9 @@
     "minScore": 100,
     "defaultTab": "all"
   },
+  "categories": [
+    "social"
+  ],
   "members": [
     "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
     "0x683A78bA1f6b25E29fbBC9Cd1BFA29A51520De84",
