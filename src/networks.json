@@ -437,13 +437,12 @@
   },
   "42161": {
     "key": "42161",
-    "disabled": true,
     "name": "Arbitrum One",
     "chainId": 42161,
     "network": "Arbitrum mainnet",
     "multicall": "0x7A7443F8c577d537f1d8cD4a629d40a3148Dd7ee",
     "rpc": [
-      "https://arb-mainnet.g.alchemy.com/v2/m_ihy38lo1YvShY4RP8JMJncWLudTCQY"
+      "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL"
     ],
     "explorer": "https://arbiscan.io"
   },
