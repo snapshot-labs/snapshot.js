@@ -194,6 +194,9 @@
             "quorum": {
               "type": "number",
               "minimum": 0
+            },
+            "blind": {
+              "type": "boolean"
             }
           },
           "additionalProperties": false
