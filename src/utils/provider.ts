@@ -1,4 +1,7 @@
-import { JsonRpcBatchProvider, StaticJsonRpcProvider } from '@ethersproject/providers';
+import {
+  JsonRpcBatchProvider,
+  StaticJsonRpcProvider
+} from '@ethersproject/providers';
 import networks from '../networks.json';
 
 const providers = {};
@@ -14,4 +17,3 @@ export function getBatchedProvider(network: string) {
   if (!providers[network]) providers[network] = new JsonRpcBatchProvider(url);
   return providers[network];
 }
-
