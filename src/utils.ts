@@ -12,6 +12,7 @@ import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
 import networks from './networks.json';
+import voting from './voting';
 
 export const SNAPSHOT_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot',
@@ -177,6 +178,12 @@ export async function sleep(time) {
   });
 }
 
+export function getNumberWithOrdinal(n) {
+  const s = ['th', 'st', 'nd', 'rd'],
+    v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
 export default {
   call,
   multicall,
@@ -189,6 +196,8 @@ export default {
   getSpaceUri,
   clone,
   sleep,
+  getNumberWithOrdinal,
+  voting,
   getProvider,
   signMessage,
   getBlockNumber,
