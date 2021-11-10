@@ -47,14 +47,26 @@ export async function multicall(
   );
   const itf = new Interface(abi);
   try {
-    const [, res] = await multi.aggregate(
-      calls.map((call) => [
-        call[0].toLowerCase(),
-        itf.encodeFunctionData(call[1], call[2])
-      ]),
-      options || {}
+    const max = options.limit || 1000;
+    const pages = Math.ceil(calls.length / max);
+    const promises: any = [];
+    Array.from(Array(pages)).forEach((x, i) => {
+      const callsInPage = calls.slice(max * i, max * (i + 1));
+      promises.push(
+        multi.aggregate(
+          callsInPage.map((call) => [
+            call[0].toLowerCase(),
+            itf.encodeFunctionData(call[1], call[2])
+          ]),
+          options || {}
+        )
+      );
+    });
+    let results: any = await Promise.all(promises);
+    results = results.reduce((prev: any, [, res]: any) => prev.concat(res), []);
+    return results.map((call, i) =>
+      itf.decodeFunctionResult(calls[i][1], call)
     );
-    return res.map((call, i) => itf.decodeFunctionResult(calls[i][1], call));
   } catch (e) {
     return Promise.reject(e);
   }
