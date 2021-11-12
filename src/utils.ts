@@ -160,15 +160,15 @@ export function validateSchema(schema, data) {
   return valid ? valid : validate.errors;
 }
 
-export async function getSpaceUri(id) {
+export async function getSpaceUri(id, network = '1') {
   const abi =
     'function text(bytes32 node, string calldata key) external view returns (string memory)';
-  const address = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41';
+  const address = networks[network].ensResolver || networks['1'].ensResolver;
 
   let uri: any = false;
   try {
     const hash = namehash(id);
-    const provider = getProvider('1');
+    const provider = getProvider(network);
     uri = await call(
       provider,
       [abi],

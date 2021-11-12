@@ -5,6 +5,7 @@
     "chainId": 1,
     "network": "homestead",
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
+    "ensResolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
     "rpc": [
       {
         "url": "https://api-geth-archive.ankr.com",
@@ -43,6 +44,7 @@
     "network": "rinkeby",
     "testnet": true,
     "multicall": "0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821",
+    "ensResolver": "0xf6305c19e814d2a75429fd637d01f7ee0e77d615",
     "rpc": [
       "https://eth-rinkeby.alchemyapi.io/v2/ugiPEBqMebLQbjro42kalZ1h4StpW_fR",
       "https://eth-rinkeby.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
