@@ -27,8 +27,14 @@
       "plugins": {},
       "twitter": "NounishNounlet",
       "strategies": [
-        
-      
+        {
+          "name": "erc20-balance-of",
+          "params": {
+            "symbol": "LINK",
+            "address": "0x01BE23585060835E02B77ef475b0Cc51aA1e0709",
+            "decimals": 18
+          }
+        },
         {
           "name": "nouns-rfp-power",
           "params": {
@@ -37,10 +43,8 @@
             "powerType": "vote",
             "governanceStrategy": "0x50Acc1831E954fB5bB407d7A3CFe1e7769A41ab0"
           }
-        }
-       
-        
-      ]
+        }]
     }
   }
 ]
+
