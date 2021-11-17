@@ -544,5 +544,15 @@
     "multicall": "0x537004440ffFE1D4AE9F009031Fc2b0385FCA9F1",
     "rpc": ["https://rpc.moonriver.moonbeam.network"],
     "explorer": "https://blockscout.moonriver.moonbeam.network/"
+  },
+    "25": {
+    "key": "25",
+    "name": "Cronos Mainnet",
+    "shortName": "Cronos",
+    "chainId": 25,
+    "network": "mainnet",
+    "multicall": "0x6F522a3982e8F9A50A2EDc9E46ed1A3aE2B3FD3a",
+    "rpc": ["https://evm-cronos.crypto.org"],
+    "explorer": "https://cronos.crypto.org/explorer"
   }
 }
