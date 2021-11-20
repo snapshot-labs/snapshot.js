@@ -27,14 +27,14 @@ export default class ApprovalVoting {
     const results = this.proposal.choices
       .map((choice, i) =>
         this.votes
-          .map(vote => quadraticMath(i, vote.choice, vote.balance))
+          .map((vote) => quadraticMath(i, vote.choice, vote.balance))
           .reduce((a, b: any) => a + b, 0)
       )
-      .map(sqrt => sqrt * sqrt);
+      .map((sqrt) => sqrt * sqrt);
 
     return results
       .map((res, i) => percentageOfTotal(i, results, results))
-      .map(p => (this.sumOfResultsBalance() / 100) * p);
+      .map((p) => (this.sumOfResultsBalance() / 100) * p);
   }
 
   resultsByStrategyScore() {
@@ -42,18 +42,18 @@ export default class ApprovalVoting {
       .map((choice, i) =>
         this.strategies.map((strategy, sI) =>
           this.votes
-            .map(vote => quadraticMath(i, vote.choice, vote.scores[sI]))
+            .map((vote) => quadraticMath(i, vote.choice, vote.scores[sI]))
             .reduce((a, b: any) => a + b, 0)
         )
       )
-      .map(arr => arr.map(sqrt => [sqrt * sqrt]));
+      .map((arr) => arr.map((sqrt) => [sqrt * sqrt]));
 
     return results.map((res, i) =>
       this.strategies
         .map((strategy, sI) => [
           percentageOfTotal(0, results[i][sI], results.flat(2))
         ])
-        .map(p => [(this.sumOfResultsBalance() / 100) * p])
+        .map((p) => [(this.sumOfResultsBalance() / 100) * p])
     );
   }
 
@@ -76,7 +76,7 @@ export default class ApprovalVoting {
           }% for ${choice}`;
         }
       })
-      .filter(el => el != null)
+      .filter((el) => el != null)
       .join(', ');
   }
 }

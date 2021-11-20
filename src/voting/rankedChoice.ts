@@ -1,7 +1,7 @@
 import { getNumberWithOrdinal } from '../utils';
 
 function irv(ballots, rounds) {
-  const candidates: any[] = [...new Set(ballots.map(vote => vote[0]).flat())];
+  const candidates: any[] = [...new Set(ballots.map((vote) => vote[0]).flat())];
   const votes = Object.entries(
     ballots.reduce((votes, [v], i, src) => {
       votes[v[0]][0] += src[i][1];
@@ -11,7 +11,7 @@ function irv(ballots, rounds) {
           ))
         : (votes[v[0]][1] = src[i][2]);
       return votes;
-    }, Object.assign({}, ...candidates.map(c => ({ [c]: [0, []] }))))
+    }, Object.assign({}, ...candidates.map((c) => ({ [c]: [0, []] }))))
   );
 
   const votesWithoutScore = votes.map((vote: any) => [vote[0], vote[1][0]]);
@@ -30,7 +30,7 @@ function irv(ballots, rounds) {
   const sortedByHighest = votes.sort((a: any, b: any) => b[1][0] - a[1][0]);
 
   const totalPowerOfVotes = ballots
-    .map(bal => bal[1])
+    .map((bal) => bal[1])
     .reduce((a, b: any) => a + b, 0);
 
   rounds.push({
@@ -42,12 +42,12 @@ function irv(ballots, rounds) {
     ? rounds
     : irv(
         ballots
-          .map(ballot => [
-            ballot[0].filter(c => c != bottomCand),
+          .map((ballot) => [
+            ballot[0].filter((c) => c != bottomCand),
             ballot[1],
             ballot[2]
           ])
-          .filter(b => b[0].length > 0),
+          .filter((b) => b[0].length > 0),
         rounds
       );
 }
@@ -97,7 +97,7 @@ export default class ApprovalVoting {
 
   getChoiceString() {
     return this.selected
-      .map(choice => {
+      .map((choice) => {
         if (this.proposal.choices[choice - 1])
           return this.proposal.choices[choice - 1];
       })

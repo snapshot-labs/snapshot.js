@@ -169,11 +169,7 @@ export async function getSpaceUri(id, network = '1') {
   try {
     const hash = namehash(id);
     const provider = getProvider(network);
-    uri = await call(
-      provider,
-      [abi],
-      [address, 'text', [hash, 'snapshot']]
-    );
+    uri = await call(provider, [abi], [address, 'text', [hash, 'snapshot']]);
   } catch (e) {
     console.log('getSpaceUriFromTextRecord failed', id, e);
   }
@@ -185,7 +181,7 @@ export function clone(item) {
 }
 
 export async function sleep(time) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, time);
   });
 }
