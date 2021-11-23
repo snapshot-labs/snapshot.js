@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Example of Share Of Total Supply proposal validation",
+    "validation": {
+      "name": "share",
+      "params": {}
+    },
+    "network": "97",
+    "userAddress": "0x96b6d32E9EF3ECdD7245F5F94C72099441e9D8c1",
+    "space": {
+      "name": "BaksDAO",
+      "skin": "baksdao",
+      "admins": [
+        "0x21309DA9AD64eA82431758B27cbD63E5d53A556c",
+        "0x96b6d32E9EF3ECdD7245F5F94C72099441e9D8c1"
+      ],
+      "avatar": "ipfs://Qme5ysVRtNpVZLW7qVDqtg9iHyN6YS536EPYL2gCBSMdkD",
+      "domain": "signal.baksdao.com",
+      "github": "baksdao",
+      "symbol": "BDV",
+      "filters": {
+        "minScore": 1,
+        "onlyMembers": false
+      },
+      "members": [],
+      "network": "97",
+      "plugins": {},
+      "strategies": [
+        {
+          "name": "vote-power-and-share",
+          "params": {
+            "address": "0x300225DBb0a83c4706edDC5f6A34538964B86412",
+            "powerType": "votingPower",
+            "symbol": "BDV",
+            "decimals": 18
+          }
+        }
+      ]
+    }
+  }
+]
