@@ -550,7 +550,7 @@
     "shortName": "Shiden",
     "chainId": 336,
     "network": "mainnet",
-    "multicall": "0x8AfCFB1757489B89c73fd2E0bd8fF0a5D985a8d9",
+    "multicall": "0xeb8B87169549d524cA4C60165E550f520A3A48e0",
     "rpc": ["https://rpc.shiden.astar.network:8545"],
     "explorer": "https://shiden.subscan.io"
   }
