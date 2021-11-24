@@ -562,7 +562,7 @@
     "chainId": 44,
     "network": "mainnet",
     "multicall": "0x4617D470F847Ce166019d19a7944049ebB017400",
-    "rpc": ["http://crab-rpc.darwinia.network"],
+    "rpc": ["https://crab-rpc.darwinia.network"],
     "explorer": "https://crab.subscan.io/"
   }
 }
