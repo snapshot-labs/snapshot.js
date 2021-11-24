@@ -12,6 +12,7 @@ import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
 import networks from './networks.json';
+import voting from './voting';
 
 export const SNAPSHOT_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot',
@@ -46,14 +47,26 @@ export async function multicall(
   );
   const itf = new Interface(abi);
   try {
-    const [, res] = await multi.aggregate(
-      calls.map((call) => [
-        call[0].toLowerCase(),
-        itf.encodeFunctionData(call[1], call[2])
-      ]),
-      options || {}
+    const max = options?.limit || 500;
+    const pages = Math.ceil(calls.length / max);
+    const promises: any = [];
+    Array.from(Array(pages)).forEach((x, i) => {
+      const callsInPage = calls.slice(max * i, max * (i + 1));
+      promises.push(
+        multi.aggregate(
+          callsInPage.map((call) => [
+            call[0].toLowerCase(),
+            itf.encodeFunctionData(call[1], call[2])
+          ]),
+          options || {}
+        )
+      );
+    });
+    let results: any = await Promise.all(promises);
+    results = results.reduce((prev: any, [, res]: any) => prev.concat(res), []);
+    return results.map((call, i) =>
+      itf.decodeFunctionResult(calls[i][1], call)
     );
-    return res.map((call, i) => itf.decodeFunctionResult(calls[i][1], call));
   } catch (e) {
     return Promise.reject(e);
   }
@@ -147,20 +160,16 @@ export function validateSchema(schema, data) {
   return valid ? valid : validate.errors;
 }
 
-export async function getSpaceUri(id) {
+export async function getSpaceUri(id, network = '1') {
   const abi =
     'function text(bytes32 node, string calldata key) external view returns (string memory)';
-  const address = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41';
+  const address = networks[network].ensResolver || networks['1'].ensResolver;
 
   let uri: any = false;
   try {
     const hash = namehash(id);
-    const provider = getProvider('1');
-    uri = await call(
-      provider,
-      [abi],
-      [address, 'text', [hash, 'snapshot']]
-    );
+    const provider = getProvider(network);
+    uri = await call(provider, [abi], [address, 'text', [hash, 'snapshot']]);
   } catch (e) {
     console.log('getSpaceUriFromTextRecord failed', id, e);
   }
@@ -172,9 +181,15 @@ export function clone(item) {
 }
 
 export async function sleep(time) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, time);
   });
+}
+
+export function getNumberWithOrdinal(n) {
+  const s = ['th', 'st', 'nd', 'rd'],
+    v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
 export default {
@@ -189,6 +204,8 @@ export default {
   getSpaceUri,
   clone,
   sleep,
+  getNumberWithOrdinal,
+  voting,
   getProvider,
   signMessage,
   getBlockNumber,

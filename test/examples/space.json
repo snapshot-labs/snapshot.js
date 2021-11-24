@@ -1,56 +1,32 @@
 {
-  "name": "Yam Finance",
-  "skin": "yam",
-  "domain": "",
-  "symbol": "YAM",
-  "filters": {
-    "minScore": 100,
-    "defaultTab": "all"
-  },
-  "members": [
-    "0xeF8305E140ac520225DAf050e2f71d5fBcC543e7",
-    "0x683A78bA1f6b25E29fbBC9Cd1BFA29A51520De84",
-    "0x9Ebc8AD4011C7f559743Eb25705CCF5A9B58D0bc",
-    "0xC3edCBe0F93a6258c3933e86fFaA3bcF12F8D695",
-    "0xbdac5657eDd13F47C3DD924eAa36Cf1Ec49672cc",
-    "0xEC3281124d4c2FCA8A88e3076C1E7749CfEcb7F2"
+  "name": "Loot Owners",
+  "skin": "indexed",
+  "about": "",
+  "admins": [
+    "0xF296178d553C8Ec21A2fBD2c5dDa8CA9ac905A00"
   ],
-  "network": "1",
-  "plugins": {
-    "quorum": {
-      "total": 200000,
-      "strategy": "static"
-    }
+  "avatar": "https://pbs.twimg.com/profile_images/1431587138202701826/lpgblc4h_400x400.jpg",
+  "github": "lootproject",
+  "symbol": "LOOT",
+  "filters": {
+    "minScore": 1,
+    "onlyMembers": false
   },
+  "members": [],
+  "network": "1",
+  "plugins": {},
+  "twitter": "lootproject",
   "strategies": [
     {
-      "name": "contract-call",
+      "name": "erc721",
       "params": {
-        "symbol": "YAM LP",
-        "address": "0xc32f9b0292965c5dd4a0ea1abfcc1f5a36d66986",
-        "decimals": 24,
-        "methodABI": {
-          "name": "getCurrentVotes",
-          "type": "function",
-          "inputs": [
-            {
-              "name": "owner",
-              "type": "address",
-              "internalType": "address"
-            }
-          ],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "payable": false,
-          "constant": false,
-          "stateMutability": "nonpayable"
-        }
+        "symbol": "LOOT",
+        "address": "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7"
       }
     }
-  ]
+  ],
+  "validation": {
+    "name": "basic",
+    "params": {}
+  }
 }
