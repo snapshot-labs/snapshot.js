@@ -303,6 +303,16 @@
     "ws": ["wss://ws-mainnet.matic.network"],
     "explorer": "https://polygonscan.com"
   },
+  "336": {
+    "key": "336",
+    "name": "Shiden Network",
+    "shortName": "Shiden",
+    "chainId": 336,
+    "network": "mainnet",
+    "multicall": "0xeb8B87169549d524cA4C60165E550f520A3A48e0",
+    "rpc": ["https://rpc.shiden.astar.network:8545"],
+    "explorer": "https://blockscout.com/shiden"
+  },
   "32659": {
     "key": "32659",
     "name": "Fusion Mainnet",
@@ -554,15 +564,5 @@
     "multicall": "0x6F522a3982e8F9A50A2EDc9E46ed1A3aE2B3FD3a",
     "rpc": ["https://evm-cronos.crypto.org"],
     "explorer": "https://cronos.crypto.org/explorer"
-  },
-    "44": {
-    "key": "44",
-    "name": "Crab Network",
-    "shortName": "Crab",
-    "chainId": 44,
-    "network": "mainnet",
-    "multicall": "0x4617D470F847Ce166019d19a7944049ebB017400",
-    "rpc": ["https://crab-rpc.darwinia.network"],
-    "explorer": "https://crab.subscan.io/"
   }
 }
