@@ -77,6 +77,16 @@
     "ws": ["wss://ws.dome.cloud"],
     "explorer": "https://exp.tch.in.th"
   },
+  "20": {
+    "key": "20",
+    "name": "Elastos Smart Chain",
+    "shortName": "ESC",
+    "chainId": 20,
+    "network": "mainnet",
+    "multicall": "0x20205D3b6008bea1411bd4CaEA2D923FE231B6E5",
+    "rpc": ["https://rpc.glidefinance.io", "https://escrpc.elaphant.app"],
+    "explorer": "https://esc.elastos.io"
+  },
   "30": {
     "key": "30",
     "name": "RSK Mainnet",
