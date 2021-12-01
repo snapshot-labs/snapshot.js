@@ -5,11 +5,14 @@ function irv(ballots, rounds) {
   const votes = Object.entries(
     ballots.reduce((votes, [v], i, src) => {
       votes[v[0]][0] += src[i][1];
-      votes[v[0]][1].length > 1
-        ? (votes[v[0]][1] = votes[v[0]][1].map(
-            (score, sI) => score + src[i][2][sI]
-          ))
-        : (votes[v[0]][1] = src[i][2]);
+      if (votes[v[0]][1].length > 1)
+        votes[v[0]][1] = votes[v[0]][1].map(
+          (score, sI) => score + src[i][2][sI]
+        );
+      else
+        votes[v[0]][1] = [
+          votes[v[0]][1].concat(src[i][2]).reduce((a, b) => a + b, 0)
+        ];
       return votes;
     }, Object.assign({}, ...candidates.map((c) => ({ [c]: [0, []] }))))
   );
