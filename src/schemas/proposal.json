@@ -21,7 +21,7 @@
         "choices": {
           "type": "array",
           "title": "choices",
-          "minItems": 2,
+          "minItems": 1,
           "maxItems": 96
         },
         "type": {
