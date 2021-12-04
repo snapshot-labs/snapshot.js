@@ -555,6 +555,16 @@
     "rpc": ["https://rpc.moonriver.moonbeam.network"],
     "explorer": "https://blockscout.moonriver.moonbeam.network/"
   },
+   "44": {
+    "key": "44",
+    "name": "Crab Network",
+    "shortName": "Crab",
+    "chainId": 44,
+    "network": "mainnet",
+    "multicall": "0x4617D470F847Ce166019d19a7944049ebB017400",
+    "rpc": ["https://crab-rpc.darwinia.network"],
+    "explorer": "https://crab.subscan.io/"
+  },
     "25": {
     "key": "25",
     "name": "Cronos Mainnet",
