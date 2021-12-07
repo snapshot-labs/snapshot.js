@@ -197,6 +197,9 @@
             },
             "blind": {
               "type": "boolean"
+            },
+            "hideAbstain": {
+              "type": "boolean"
             }
           },
           "additionalProperties": false
