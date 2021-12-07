@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Example of Nouns Proposition Power proposal validation",
+    "validation": {
+      "name": "nouns",
+      "params": {}
+    },
+    "network": "4",
+    "userAddress": "0x03CD30Ab7b6eFaDfdc5D49Ec2B83DDD6a898e054",
+    "space": {
+      "name": "Nouns",
+      "skin": "nouns",
+      "admins": [
+        "0xe6bcaacdca149114446612255cc4721bf7261b5b",
+        "0xC4D2f3231879A26A2cAB5F1783D8a65f6B7191bE"
+      ],
+      "avatar": "ipfs://QmRKdsssCU3EmkN52ZaxgKvDyPFUR5DdPvnKxwyLRncKS",
+      "domain": "signal.nouns.com",
+      "github": "nouns",
+      "symbol": "NOUNS",
+      "filters": {
+        "minScore": 1,
+        "onlyMembers": false
+      },
+      "members": [],
+      "network": "4",
+      "plugins": {},
+      "twitter": "NounishNounlet",
+      "strategies": [
+        {
+          "name": "erc20-balance-of",
+          "params": {
+            "symbol": "LINK",
+            "address": "0x01BE23585060835E02B77ef475b0Cc51aA1e0709",
+            "decimals": 18
+          }
+        },
+        {
+          "name": "nouns-rfp-power",
+          "params": {
+            "symbol": "NOUNS",
+            "decimals": 1,
+            "powerType": "vote",
+            "governanceStrategy": "0x50Acc1831E954fB5bB407d7A3CFe1e7769A41ab0"
+          }
+        }]
+    }
+  }
+]
+

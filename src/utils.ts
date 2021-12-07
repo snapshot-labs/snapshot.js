@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
-import { StaticJsonRpcProvider } from '@ethersproject/providers';
+import { namehash } from '@ethersproject/hash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
@@ -12,14 +12,13 @@ import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
 import networks from './networks.json';
+import voting from './voting';
 
 export const SNAPSHOT_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot',
   '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan'
 };
-
-export const SNAPSHOT_SCORE_API = 'https://score.snapshot.org/api/scores';
 
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
@@ -48,14 +47,26 @@ export async function multicall(
   );
   const itf = new Interface(abi);
   try {
-    const [, res] = await multi.aggregate(
-      calls.map((call) => [
-        call[0].toLowerCase(),
-        itf.encodeFunctionData(call[1], call[2])
-      ]),
-      options || {}
+    const max = options?.limit || 500;
+    const pages = Math.ceil(calls.length / max);
+    const promises: any = [];
+    Array.from(Array(pages)).forEach((x, i) => {
+      const callsInPage = calls.slice(max * i, max * (i + 1));
+      promises.push(
+        multi.aggregate(
+          callsInPage.map((call) => [
+            call[0].toLowerCase(),
+            itf.encodeFunctionData(call[1], call[2])
+          ]),
+          options || {}
+        )
+      );
+    });
+    let results: any = await Promise.all(promises);
+    results = results.reduce((prev: any, [, res]: any) => prev.concat(res), []);
+    return results.map((call, i) =>
+      itf.decodeFunctionResult(calls[i][1], call)
     );
-    return res.map((call, i) => itf.decodeFunctionResult(calls[i][1], call));
   } catch (e) {
     return Promise.reject(e);
   }
@@ -116,9 +127,9 @@ export async function getScores(
   space: string,
   strategies: any[],
   network: string,
-  provider: StaticJsonRpcProvider | string,
   addresses: string[],
-  snapshot: number | string = 'latest'
+  snapshot: number | string = 'latest',
+  scoreApiUrl = 'https://score.snapshot.org/api/scores'
 ) {
   try {
     const params = {
@@ -128,7 +139,7 @@ export async function getScores(
       strategies,
       addresses
     };
-    const res = await fetch(SNAPSHOT_SCORE_API, {
+    const res = await fetch(scoreApiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ params })
@@ -149,6 +160,38 @@ export function validateSchema(schema, data) {
   return valid ? valid : validate.errors;
 }
 
+export async function getSpaceUri(id, network = '1') {
+  const abi =
+    'function text(bytes32 node, string calldata key) external view returns (string memory)';
+  const address = networks[network].ensResolver || networks['1'].ensResolver;
+
+  let uri: any = false;
+  try {
+    const hash = namehash(id);
+    const provider = getProvider(network);
+    uri = await call(provider, [abi], [address, 'text', [hash, 'snapshot']]);
+  } catch (e) {
+    console.log('getSpaceUriFromTextRecord failed', id, e);
+  }
+  return uri;
+}
+
+export function clone(item) {
+  return JSON.parse(JSON.stringify(item));
+}
+
+export async function sleep(time) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
+}
+
+export function getNumberWithOrdinal(n) {
+  const s = ['th', 'st', 'nd', 'rd'],
+    v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
 export default {
   call,
   multicall,
@@ -158,6 +201,11 @@ export default {
   sendTransaction,
   getScores,
   validateSchema,
+  getSpaceUri,
+  clone,
+  sleep,
+  getNumberWithOrdinal,
+  voting,
   getProvider,
   signMessage,
   getBlockNumber,

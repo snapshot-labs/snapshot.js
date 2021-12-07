@@ -104,7 +104,9 @@
                 "title": "params"
               }
             },
-            "required": ["name"],
+            "required": [
+              "name"
+            ],
             "additionalProperties": false
           },
           "title": "strategies"
@@ -166,14 +168,66 @@
               "title": "params"
             }
           },
-          "required": ["name"],
+          "required": [
+            "name"
+          ],
           "additionalProperties": false
         },
         "plugins": {
           "type": "object"
+        },
+        "voting": {
+          "type": "object",
+          "properties": {
+            "delay": {
+              "type": "number",
+              "minimum": 0
+            },
+            "period": {
+              "type": "number",
+              "minimum": 0
+            },
+            "type": {
+              "type": "string",
+              "title": "type"
+            },
+            "quorum": {
+              "type": "number",
+              "minimum": 0
+            },
+            "blind": {
+              "type": "boolean"
+            },
+            "hideAbstain": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "categories": {
+          "type": "array",
+          "maxItems": 2,
+          "items": {
+            "type": "string",
+            "enum": [
+              "protocol",
+              "social",
+              "investment",
+              "grant",
+              "service",
+              "media",
+              "creator",
+              "collector"
+            ]
+          }
         }
       },
-      "required": ["name", "network", "symbol", "strategies"],
+      "required": [
+        "name",
+        "network",
+        "symbol",
+        "strategies"
+      ],
       "additionalProperties": false
     }
   }
