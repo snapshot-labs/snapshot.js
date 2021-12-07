@@ -81,8 +81,8 @@
     "key": "10",
     "name": "Optimistic Ethereum",
     "chainId": 10,
-    "network": "Optimism Ethereum",
-    "multicall": "0x90f872b3d8f33f305e0250db6A2761B354f7710A",
+    "network": "Optimistic Ethereum",
+    "multicall": "0x35A6Cdb2C9AD4a45112df4a04147EB07dFA01aB7",
     "rpc": [
       "https://opt-mainnet.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
     ],
