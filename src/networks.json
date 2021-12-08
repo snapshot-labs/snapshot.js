@@ -77,6 +77,16 @@
     "ws": ["wss://ws.dome.cloud"],
     "explorer": "https://exp.tch.in.th"
   },
+  "8": {
+    "key": "8",
+    "name": "Ubiq Mainnet",
+    "chainId": 8,
+    "network": "Ubiq mainnet",
+    "multicall": "TBD",
+    "rpc": ["https://rpc.octano.dev"],
+    "ws": ["wss://ws.octano.dev"],
+    "explorer": "https://ubiqscan.io"
+  },
   "30": {
     "key": "30",
     "name": "RSK Mainnet",
