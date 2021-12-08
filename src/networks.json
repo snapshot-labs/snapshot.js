@@ -82,7 +82,7 @@
     "name": "Ubiq Mainnet",
     "chainId": 8,
     "network": "Ubiq mainnet",
-    "multicall": "TBD",
+    "multicall": "0x6668750957e4083725926B71C41bDF1434C73262",
     "rpc": ["https://rpc.octano.dev"],
     "ws": ["wss://ws.octano.dev"],
     "explorer": "https://ubiqscan.io"
