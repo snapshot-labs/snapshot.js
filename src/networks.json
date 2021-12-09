@@ -564,5 +564,16 @@
     "multicall": "0x4617D470F847Ce166019d19a7944049ebB017400",
     "rpc": ["https://crab-rpc.darwinia.network"],
     "explorer": "https://crab.subscan.io/"
+  },
+    "5553": {
+    "key": "5553",
+    "name": "Nahmii Testnet",
+    "shortName": "Nahmii",
+    "chainId": 5553,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x0e157d2E45af27564edFAaCcD68f2f0458F3D96c",
+    "rpc": ["https://l2.testnet.nahmii.io"],
+    "explorer": "https://explorer.testnet.nahmii.io/"
   }
 }
