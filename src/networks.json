@@ -595,5 +595,15 @@
     "multicall": "0x4617D470F847Ce166019d19a7944049ebB017400",
     "rpc": ["https://crab-rpc.darwinia.network"],
     "explorer": "https://crab.subscan.io/"
+  },
+    "288": {
+    "key": "288",
+    "name": "Boba Mainnet",
+    "shortName": "Boba",
+    "chainId": 288,
+    "network": "mainnet",
+    "multicall": "0xfb91c019D9F12A0f9c23B4762fa64A34F8daDb4A",
+    "rpc": ["https://mainnet.boba.network/"],
+    "explorer": "https://blockexplorer.boba.network/"
   }
 }
