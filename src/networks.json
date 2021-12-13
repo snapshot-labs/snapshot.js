@@ -605,7 +605,7 @@
     "multicall": "0xfb91c019D9F12A0f9c23B4762fa64A34F8daDb4A",
     "rpc": ["https://mainnet.boba.network/"],
     "explorer": "https://blockexplorer.boba.network/"
-  }
+  },
   "5553": {
     "key": "5553",
     "name": "Nahmii Testnet",
