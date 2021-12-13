@@ -87,6 +87,17 @@
     "ws": ["wss://ws.octano.dev"],
     "explorer": "https://ubiqscan.io"
   },
+  "10": {
+    "key": "10",
+    "name": "Optimistic Ethereum",
+    "chainId": 10,
+    "network": "Optimistic Ethereum",
+    "multicall": "0x35A6Cdb2C9AD4a45112df4a04147EB07dFA01aB7",
+    "rpc": [
+      "https://opt-mainnet.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
+    ],
+    "explorer": "https://optimistic.etherscan.io"
+  },
   "20": {
     "key": "20",
     "name": "Elastos Smart Chain",
@@ -584,5 +595,16 @@
     "multicall": "0x4617D470F847Ce166019d19a7944049ebB017400",
     "rpc": ["https://crab-rpc.darwinia.network"],
     "explorer": "https://crab.subscan.io/"
+  },
+    "5553": {
+    "key": "5553",
+    "name": "Nahmii Testnet",
+    "shortName": "Nahmii",
+    "chainId": 5553,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x0e157d2E45af27564edFAaCcD68f2f0458F3D96c",
+    "rpc": ["https://l2.testnet.nahmii.io"],
+    "explorer": "https://explorer.testnet.nahmii.io/"
   }
 }
