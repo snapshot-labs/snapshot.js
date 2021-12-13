@@ -596,7 +596,7 @@
     "rpc": ["https://crab-rpc.darwinia.network"],
     "explorer": "https://crab.subscan.io/"
   },
-    "288": {
+  "288": {
     "key": "288",
     "name": "Boba Mainnet",
     "shortName": "Boba",
@@ -605,5 +605,16 @@
     "multicall": "0xfb91c019D9F12A0f9c23B4762fa64A34F8daDb4A",
     "rpc": ["https://mainnet.boba.network/"],
     "explorer": "https://blockexplorer.boba.network/"
+  }
+  "5553": {
+    "key": "5553",
+    "name": "Nahmii Testnet",
+    "shortName": "Nahmii",
+    "chainId": 5553,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x0e157d2E45af27564edFAaCcD68f2f0458F3D96c",
+    "rpc": ["https://l2.testnet.nahmii.io"],
+    "explorer": "https://explorer.testnet.nahmii.io/"
   }
 }
