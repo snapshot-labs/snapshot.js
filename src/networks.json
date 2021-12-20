@@ -595,5 +595,15 @@
     "multicall": "0x0e157d2E45af27564edFAaCcD68f2f0458F3D96c",
     "rpc": ["https://l2.testnet.nahmii.io"],
     "explorer": "https://explorer.testnet.nahmii.io/"
+  },
+    "5551": {
+    "key": "5551",
+    "name": "Nahmii Mainnet",
+    "shortName": "Nahmii",
+    "chainId": 5551,
+    "network": "mainnet",
+    "multicall": "0x05911151467b9F42eD14f10ddE0c057347Fff714",
+    "rpc": ["https://l2.nahmii.io"],
+    "explorer": "https://explorer.nahmii.io/"
   }
 }
