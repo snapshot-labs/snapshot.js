@@ -626,5 +626,15 @@
     "multicall": "0x05911151467b9F42eD14f10ddE0c057347Fff714",
     "rpc": ["https://l2.nahmii.io"],
     "explorer": "https://explorer.nahmii.io/"
+  },
+    "1088": {
+    "key": "1008",
+    "name": "Metis Andromeda Mainnet",
+    "shortName": "andromeda-mainnet",
+    "chainId": 1088,
+    "network": "mainnet",
+    "multicall": "0xc39aBB6c4451089dE48Cffb013c39d3110530e5C",
+    "rpc": ["https://andromeda.metis.io/?owner=1088"],
+    "explorer": "https://andromeda-explorer.metis.io/"   
   }
 }
