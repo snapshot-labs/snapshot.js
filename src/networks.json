@@ -628,7 +628,7 @@
     "explorer": "https://explorer.nahmii.io/"
   },
     "1088": {
-    "key": "1008",
+    "key": "1088",
     "name": "Metis Andromeda Mainnet",
     "shortName": "andromeda-mainnet",
     "chainId": 1088,
