@@ -46,9 +46,8 @@ export default class Client {
   }
 
   async sign(web3: Web3Provider | Wallet, address: string, message, types) {
-    let signer;
-    if (web3 instanceof Wallet) signer = web3;
-    if (web3 instanceof Web3Provider) signer = web3.getSigner();
+    // @ts-ignore
+    const signer = web3?.getSigner ? web3.getSigner() : web3;
     if (!message.from) message.from = address;
     if (!message.timestamp)
       message.timestamp = parseInt((Date.now() / 1e3).toFixed());
