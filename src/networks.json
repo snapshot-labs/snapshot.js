@@ -7,12 +7,12 @@
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
     "ensResolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
     "rpc": [
-      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/eth/mainnet/archive",
       {
         "url": "https://api-geth-archive.ankr.com",
         "user": "balancer_user",
         "password": "balancerAnkr20201015"
       },
+      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/eth/mainnet/archive",
       "https://apis.ankr.com/e62bc219f9c9462b8749defe472d2dc5/6106d4a3ec1d1bcc87ec72158f8fd089/eth/archive/main",
       "https://eth-archival.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
       "https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv",
@@ -77,6 +77,37 @@
     "ws": ["wss://ws.dome.cloud"],
     "explorer": "https://exp.tch.in.th"
   },
+  "8": {
+    "key": "8",
+    "name": "Ubiq Mainnet",
+    "chainId": 8,
+    "network": "Ubiq mainnet",
+    "multicall": "0x6668750957e4083725926B71C41bDF1434C73262",
+    "rpc": ["https://rpc.octano.dev"],
+    "ws": ["wss://ws.octano.dev"],
+    "explorer": "https://ubiqscan.io"
+  },
+  "10": {
+    "key": "10",
+    "name": "Optimistic Ethereum",
+    "chainId": 10,
+    "network": "Optimistic Ethereum",
+    "multicall": "0x35A6Cdb2C9AD4a45112df4a04147EB07dFA01aB7",
+    "rpc": [
+      "https://opt-mainnet.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
+    ],
+    "explorer": "https://optimistic.etherscan.io"
+  },
+  "20": {
+    "key": "20",
+    "name": "Elastos Smart Chain",
+    "shortName": "ESC",
+    "chainId": 20,
+    "network": "mainnet",
+    "multicall": "0x20205D3b6008bea1411bd4CaEA2D923FE231B6E5",
+    "rpc": ["https://rpc.glidefinance.io", "https://escrpc.elaphant.app"],
+    "explorer": "https://esc.elastos.io"
+  },
   "30": {
     "key": "30",
     "name": "RSK Mainnet",
@@ -105,8 +136,8 @@
     "testnet": true,
     "multicall": "0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a",
     "rpc": [
-      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/eth/kovan/archive",
       "https://eth-kovan.alchemyapi.io/v2/sR9qngOH3w78GAaTtlTe8GwEnij0SnEa",
+      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/eth/kovan/archive",
       "https://eth-kovan.alchemyapi.io/v2/s96TIUFYg0LuddgpmafA040ZyUaZbrpM",
       "https://poa-kovan.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
     ],
@@ -136,8 +167,8 @@
     "network": "mainnet",
     "multicall": "0x1ee38d535d541c55c9dae27b12edf090c608e6fb",
     "rpc": [
-      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/bsc/mainnet/archive",
       "https://apis.ankr.com/c0d871dd3c6d4529b01c9362a9b79e89/6106d4a3ec1d1bcc87ec72158f8fd089/binance/archive/main",
+      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/bsc/mainnet/archive",
       "https://bsc.getblock.io/mainnet/?api_key=91f8195f-bf46-488f-846a-73d6853790e7",
       "https://bsc-private-dataseed1.nariox.org",
       "https://bsc-private-dataseed2.nariox.org",
@@ -302,16 +333,6 @@
     ],
     "ws": ["wss://ws-mainnet.matic.network"],
     "explorer": "https://polygonscan.com"
-  },
-  "336": {
-    "key": "336",
-    "name": "Shiden Network",
-    "shortName": "Shiden",
-    "chainId": 336,
-    "network": "mainnet",
-    "multicall": "0xeb8B87169549d524cA4C60165E550f520A3A48e0",
-    "rpc": ["https://rpc.shiden.astar.network:8545"],
-    "explorer": "https://blockscout.com/shiden"
   },
   "32659": {
     "key": "32659",
@@ -564,5 +585,56 @@
     "multicall": "0x6F522a3982e8F9A50A2EDc9E46ed1A3aE2B3FD3a",
     "rpc": ["https://evm-cronos.crypto.org"],
     "explorer": "https://cronos.crypto.org/explorer"
+  },
+    "44": {
+    "key": "44",
+    "name": "Crab Network",
+    "shortName": "Crab",
+    "chainId": 44,
+    "network": "mainnet",
+    "multicall": "0x4617D470F847Ce166019d19a7944049ebB017400",
+    "rpc": ["https://crab-rpc.darwinia.network"],
+    "explorer": "https://crab.subscan.io/"
+  },
+  "288": {
+    "key": "288",
+    "name": "Boba Mainnet",
+    "shortName": "Boba",
+    "chainId": 288,
+    "network": "mainnet",
+    "multicall": "0xfb91c019D9F12A0f9c23B4762fa64A34F8daDb4A",
+    "rpc": ["https://mainnet.boba.network/"],
+    "explorer": "https://blockexplorer.boba.network/"
+  },
+  "5553": {
+    "key": "5553",
+    "name": "Nahmii Testnet",
+    "shortName": "Nahmii",
+    "chainId": 5553,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x0e157d2E45af27564edFAaCcD68f2f0458F3D96c",
+    "rpc": ["https://l2.testnet.nahmii.io"],
+    "explorer": "https://explorer.testnet.nahmii.io/"
+  },
+    "5551": {
+    "key": "5551",
+    "name": "Nahmii Mainnet",
+    "shortName": "Nahmii",
+    "chainId": 5551,
+    "network": "mainnet",
+    "multicall": "0x05911151467b9F42eD14f10ddE0c057347Fff714",
+    "rpc": ["https://l2.nahmii.io"],
+    "explorer": "https://explorer.nahmii.io/"
+  },
+    "1088": {
+    "key": "1088",
+    "name": "Metis Andromeda Mainnet",
+    "shortName": "andromeda-mainnet",
+    "chainId": 1088,
+    "network": "mainnet",
+    "multicall": "0xc39aBB6c4451089dE48Cffb013c39d3110530e5C",
+    "rpc": ["https://andromeda.metis.io/?owner=1088"],
+    "explorer": "https://andromeda-explorer.metis.io/"   
   }
 }
