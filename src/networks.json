@@ -636,5 +636,15 @@
     "multicall": "0xc39aBB6c4451089dE48Cffb013c39d3110530e5C",
     "rpc": ["https://andromeda.metis.io/?owner=1088"],
     "explorer": "https://andromeda-explorer.metis.io/"   
-  }
+  },
+  "336": {
+    "key": "336",
+    "name": "Shiden Network",
+    "shortName": "Shiden",
+    "chainId": 336,
+    "network": "mainnet",
+    "multicall": "0xeb8B87169549d524cA4C60165E550f520A3A48e0",
+    "rpc": ["https://rpc.shiden.astar.network:8545"],
+    "explorer": "https://blockscout.com/shiden"
+  },
 }
