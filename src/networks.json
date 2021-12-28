@@ -646,5 +646,5 @@
     "multicall": "0xeb8B87169549d524cA4C60165E550f520A3A48e0",
     "rpc": ["https://rpc.shiden.astar.network:8545"],
     "explorer": "https://blockscout.com/shiden"
-  },
+  }
 }
