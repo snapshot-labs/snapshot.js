@@ -636,5 +636,15 @@
     "multicall": "0xc39aBB6c4451089dE48Cffb013c39d3110530e5C",
     "rpc": ["https://andromeda.metis.io/?owner=1088"],
     "explorer": "https://andromeda-explorer.metis.io/"   
+  },
+  "361": {
+    "key": "361",
+    "name": "Theta Mainnet",
+    "shortName": "Theta",
+    "chainId": 361,
+    "network": "mainnet",
+    "multicall": "0xB48BbAD564Ceb6fB30cCea2Af248ccF6398aEab5",
+    "rpc": ["https://eth-rpc-api.thetatoken.org/rpc"],
+    "explorer": "https://explorer.thetatoken.org/"
   }
 }
