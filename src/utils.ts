@@ -99,6 +99,11 @@ export function getUrl(uri, gateway = gateways[0]) {
   return uri;
 }
 
+export async function getJSON(uri) {
+  const url = getUrl(uri);
+  return fetch(url).then((res) => res.json());
+}
+
 export async function ipfsGet(
   gateway: string,
   ipfsHash: string,
@@ -198,6 +203,7 @@ export default {
   subgraphRequest,
   ipfsGet,
   getUrl,
+  getJSON,
   sendTransaction,
   getScores,
   validateSchema,
