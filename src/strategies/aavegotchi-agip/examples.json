@@ -1,6 +1,6 @@
 [
   {
-    "name": "AGIP 8+9: Voting power for GHST value of items, their aavegotchis equippedWearables + baseRarityScore",
+    "name": "AGIP 8+9+17: Voting power for GHST value of parcels, items, aavegotchis equippedWearables + baseRarityScore",
     "strategy": {
       "name": "aavegotchi-agip",
       "params": {
