@@ -212,6 +212,18 @@
     "ws": ["wss://exchainws.okex.org:8443"],
     "explorer": "https://www.oklink.com/okexchain"
   },
+  "69": {
+    "key": "69",
+    "name": "Optimism Kovan",
+    "chainId": 69,
+    "network": "Optimism testnet",
+    "testnet": true,
+    "multicall": "0x28e9a2329aa6b675ca251a2ccaa7fb029c1e9bfb",
+    "rpc": [
+      "https://opt-kovan.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
+    ],
+    "explorer": "https://kovan-optimistic.etherscan.io/"
+  },
   "70": {
     "key": "70",
     "name": "Hoo Smart Chain Mainnet",
@@ -635,7 +647,7 @@
     "network": "mainnet",
     "multicall": "0xc39aBB6c4451089dE48Cffb013c39d3110530e5C",
     "rpc": ["https://andromeda.metis.io/?owner=1088"],
-    "explorer": "https://andromeda-explorer.metis.io/"   
+    "explorer": "https://andromeda-explorer.metis.io/"
   },
   "361": {
     "key": "361",
