@@ -646,5 +646,15 @@
     "multicall": "0xB48BbAD564Ceb6fB30cCea2Af248ccF6398aEab5",
     "rpc": ["https://eth-rpc-api.thetatoken.org/rpc"],
     "explorer": "https://explorer.thetatoken.org/"
+  },
+  "74": {
+    "key": "74",
+    "name": "IDChain",
+    "shortName": "IDChain",
+    "chainId": 74,
+    "network": "mainnet",
+    "multicall": "0x1b3effd72dF01BB5Cc6F364A35BBd512DE4Cd257",
+    "rpc": ["http://idcha-LoadB-SIC2G1YKU3AP-e11cad2cb76e5124.elb.us-east-1.amazonaws.com:8545"],
+    "explorer": "https://explorer.idchain.one/"
   }
 }
