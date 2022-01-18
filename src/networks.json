@@ -653,7 +653,7 @@
     "shortName": "IDChain",
     "chainId": 74,
     "network": "mainnet",
-    "multicall": "0x1b3effd72dF01BB5Cc6F364A35BBd512DE4Cd257",
+    "multicall": "0x41d289c966D51342A515A19dE9c27d16079c94E0",
     "rpc": ["http://idcha-LoadB-SIC2G1YKU3AP-e11cad2cb76e5124.elb.us-east-1.amazonaws.com:8545"],
     "explorer": "https://explorer.idchain.one/"
   }
