@@ -14,7 +14,7 @@ export async function verify(address, sig, data) {
   console.log('Hash', hash);
   console.log('Address', address);
   console.log('Recover address', recoverAddress);
-  if (address === recoverAddress) return true;
+  if (address.toLowerCase() === recoverAddress.toLowerCase()) return true;
   console.log('Check EIP1271 signature');
   return await verifyEIP1271(address, sig, hash);
 }
