@@ -669,5 +669,15 @@
     "multicall": "0x1b38EBAd553f218e2962Cb1C0539Abb5d6A37774",
     "rpc": ["https://smartbch.greyh.at/"],
     "explorer": "https://www.smartscan.cash"
+  },
+  "1313161554": {
+    "key": "1313161554",
+    "name": "Aurora Mainnet",
+    "shortName": "Aurora",
+    "chainId": 1313161554,
+    "network": "mainnet",
+    "multicall": "0x32b50c286DEFd2932a0247b8bb940b78c063F16c",
+    "rpc": ["https://mainnet.aurora.dev"],
+    "explorer": "https://explorer.mainnet.aurora.dev"
   }
 }
