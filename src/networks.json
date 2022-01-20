@@ -647,5 +647,15 @@
     "multicall": "0xB48BbAD564Ceb6fB30cCea2Af248ccF6398aEab5",
     "rpc": ["https://eth-rpc-api.thetatoken.org/rpc"],
     "explorer": "https://explorer.thetatoken.org/"
+  },
+  "10000": {
+    "key": "10000",
+    "name": "smartBCH",
+    "shortName": "BCH",
+    "chainId": 10000,
+    "network": "mainnet",
+    "multicall": "0x1b38EBAd553f218e2962Cb1C0539Abb5d6A37774",
+    "rpc": ["https://smartbch.greyh.at/"],
+    "explorer": "https://www.smartscan.cash"
   }
 }
