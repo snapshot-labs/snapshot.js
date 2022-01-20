@@ -667,7 +667,7 @@
     "chainId": 74,
     "network": "mainnet",
     "multicall": "0x41d289c966D51342A515A19dE9c27d16079c94E0",
-    "rpc": ["http://idcha-LoadB-SIC2G1YKU3AP-e11cad2cb76e5124.elb.us-east-1.amazonaws.com:8545"],
+    "rpc": ["https://idchain.one/rpc/"],
     "explorer": "https://explorer.idchain.one/"
   },
   "10000": {
