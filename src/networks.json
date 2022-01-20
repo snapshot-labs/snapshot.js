@@ -268,7 +268,7 @@
   },
   "100": {
     "key": "100",
-    "name": "xDAI Chain",
+    "name": "Gnosis Chain",
     "shortName": "xDAI",
     "chainId": 100,
     "network": "mainnet",
@@ -636,7 +636,7 @@
     "network": "mainnet",
     "multicall": "0xc39aBB6c4451089dE48Cffb013c39d3110530e5C",
     "rpc": ["https://andromeda.metis.io/?owner=1088"],
-    "explorer": "https://andromeda-explorer.metis.io/"   
+    "explorer": "https://andromeda-explorer.metis.io/"
   },
   "361": {
     "key": "361",
