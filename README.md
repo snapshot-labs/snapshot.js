@@ -20,12 +20,12 @@ You can create an index.html file and include Snapshot.js with:
 
 #### Install dependencies
 ```bash
-npm install
+yarn
 ```
 
 #### Build package
 ```bash
-npm run build
+yarn build
 ```
 
 ### License

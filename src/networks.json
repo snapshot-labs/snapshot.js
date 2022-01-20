@@ -89,9 +89,9 @@
   },
   "10": {
     "key": "10",
-    "name": "Optimistic Ethereum",
+    "name": "Optimism Mainnet",
     "chainId": 10,
-    "network": "Optimistic Ethereum",
+    "network": "Optimism mainnet",
     "multicall": "0x35A6Cdb2C9AD4a45112df4a04147EB07dFA01aB7",
     "rpc": [
       "https://opt-mainnet.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
@@ -211,6 +211,18 @@
     "rpc": ["https://exchainrpc.okex.org"],
     "ws": ["wss://exchainws.okex.org:8443"],
     "explorer": "https://www.oklink.com/okexchain"
+  },
+  "69": {
+    "key": "69",
+    "name": "Optimism Kovan",
+    "chainId": 69,
+    "network": "Optimism testnet",
+    "testnet": true,
+    "multicall": "0x28e9a2329aa6b675ca251a2ccaa7fb029c1e9bfb",
+    "rpc": [
+      "https://opt-kovan.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
+    ],
+    "explorer": "https://kovan-optimistic.etherscan.io/"
   },
   "70": {
     "key": "70",
@@ -531,6 +543,7 @@
     "network": "mainnet",
     "multicall": "0xb8d0d2C1391eeB350d2Cd39EfABBaaEC297368D9",
     "rpc": [
+      "https://forno.celo.org",
       "https://celo-mainnet--rpc.datahub.figment.io/apikey/e892a66dc36e4d2d98a5d6406d609796/"
     ],
     "explorer": "https://explorer.celo.org"
@@ -656,5 +669,15 @@
     "multicall": "0x41d289c966D51342A515A19dE9c27d16079c94E0",
     "rpc": ["http://idcha-LoadB-SIC2G1YKU3AP-e11cad2cb76e5124.elb.us-east-1.amazonaws.com:8545"],
     "explorer": "https://explorer.idchain.one/"
+  },
+  "10000": {
+    "key": "10000",
+    "name": "smartBCH",
+    "shortName": "BCH",
+    "chainId": 10000,
+    "network": "mainnet",
+    "multicall": "0x1b38EBAd553f218e2962Cb1C0539Abb5d6A37774",
+    "rpc": ["https://smartbch.greyh.at/"],
+    "explorer": "https://www.smartscan.cash"
   }
 }
