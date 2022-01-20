@@ -280,7 +280,7 @@
   },
   "100": {
     "key": "100",
-    "name": "xDAI Chain",
+    "name": "Gnosis Chain",
     "shortName": "xDAI",
     "chainId": 100,
     "network": "mainnet",
