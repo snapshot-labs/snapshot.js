@@ -667,7 +667,10 @@
     "chainId": 74,
     "network": "mainnet",
     "multicall": "0x41d289c966D51342A515A19dE9c27d16079c94E0",
-    "rpc": ["https://idchain.one/rpc/"],
+    "rpc": [
+      "https://idchain.one/rpc/",
+      "https://idchain.songadao.org/rpc"
+    ],
     "explorer": "https://explorer.idchain.one/"
   },
   "10000": {
