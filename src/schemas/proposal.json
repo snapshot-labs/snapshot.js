@@ -22,7 +22,7 @@
           "type": "array",
           "title": "choices",
           "minItems": 1,
-          "maxItems": 96
+          "maxItems": 120
         },
         "type": {
           "type": "string",
