@@ -673,6 +673,18 @@
     ],
     "explorer": "https://explorer.idchain.one/"
   },
+  "42262": {
+    "key": "42262",
+    "name": "Emerald",
+    "shortName": "Emerald",
+    "chainId": 42262,
+    "network": "mainnet",
+    "multicall": "0xBD46A7DCD1fefA63A7746a5762A71635Ee0843A1",
+    "rpc": [
+      "https://emerald.oasis.dev"
+    ],
+    "explorer": "https://explorer.emerald.oasis.dev/"
+  },
   "10000": {
     "key": "10000",
     "name": "smartBCH",
