@@ -75,7 +75,7 @@
           "type": "string",
           "title": "symbol",
           "minLength": 1,
-          "maxLength": 12
+          "maxLength": 16
         },
         "skin": {
           "type": "string",
