@@ -704,5 +704,15 @@
     "multicall": "0x32b50c286DEFd2932a0247b8bb940b78c063F16c",
     "rpc": ["https://mainnet.aurora.dev"],
     "explorer": "https://explorer.mainnet.aurora.dev"
-  }
+  },
+    "1284": {
+    "key": "1284",
+    "name": "Moonbeam",
+    "shortName": "GLMR",
+    "chainId": 1284,
+    "network": "mainnet",
+    "multicall": "0x83e3b61886770de2F64AAcaD2724ED4f08F7f36B",
+    "rpc": ["https://rpc.api.moonbeam.network"],
+    "explorer": "https://blockscout.moonbeam.network"
+    }
 }
