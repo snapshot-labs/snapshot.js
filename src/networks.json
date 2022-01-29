@@ -21,7 +21,8 @@
     "ws": [
       "wss://eth-mainnet.ws.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv"
     ],
-    "explorer": "https://etherscan.io"
+    "explorer": "https://etherscan.io",
+    "start": 7929876
   },
   "3": {
     "key": "3",
