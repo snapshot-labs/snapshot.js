@@ -389,7 +389,10 @@
     "chainId": 43114,
     "network": "mainnet",
     "multicall": "0x7E9985aE4C8248fdB07607648406a48C76e9e7eD",
-    "rpc": ["https://api.avax.network/ext/bc/C/rpc"],
+    "rpc": [
+      "https://rpc.ankr.com/avalanche",
+      "https://api.avax.network/ext/bc/C/rpc"
+    ],
     "explorer": "https://cchain.explorer.avax.network"
   },
   "108": {
