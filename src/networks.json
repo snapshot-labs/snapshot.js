@@ -21,7 +21,8 @@
     "ws": [
       "wss://eth-mainnet.ws.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv"
     ],
-    "explorer": "https://etherscan.io"
+    "explorer": "https://etherscan.io",
+    "start": 7929876
   },
   "3": {
     "key": "3",
@@ -34,7 +35,8 @@
     "rpc": [
       "https://eth-ropsten.alchemyapi.io/v2/QzGz6gdkpTyDzebi3PjxIaKO7bDTGnSy"
     ],
-    "explorer": "https://ropsten.etherscan.io"
+    "explorer": "https://ropsten.etherscan.io",
+    "start": 7980811
   },
   "4": {
     "key": "4",
@@ -52,7 +54,8 @@
     "ws": [
       "wss://eth-rinkeby.ws.alchemyapi.io/v2/twReQE9Px03E-E_N_Fbb3OVF7YgHxoGq"
     ],
-    "explorer": "https://rinkeby.etherscan.io"
+    "explorer": "https://rinkeby.etherscan.io",
+    "start": 4534725
   },
   "5": {
     "key": "5",
@@ -65,7 +68,8 @@
     "rpc": [
       "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
     ],
-    "explorer": "https://goerli.etherscan.io"
+    "explorer": "https://goerli.etherscan.io",
+    "start": 743550
   },
   "7": {
     "key": "7",
@@ -96,7 +100,8 @@
     "rpc": [
       "https://opt-mainnet.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
     ],
-    "explorer": "https://optimistic.etherscan.io"
+    "explorer": "https://optimistic.etherscan.io",
+    "start": 657806
   },
   "20": {
     "key": "20",
@@ -106,7 +111,8 @@
     "network": "mainnet",
     "multicall": "0x20205D3b6008bea1411bd4CaEA2D923FE231B6E5",
     "rpc": ["https://rpc.glidefinance.io", "https://escrpc.elaphant.app"],
-    "explorer": "https://esc.elastos.io"
+    "explorer": "https://esc.elastos.io",
+    "start": 7826070
   },
   "30": {
     "key": "30",
@@ -115,7 +121,8 @@
     "network": "rsk mainnet",
     "multicall": "0x4eeebb5580769ba6d26bfd07be636300076d1831",
     "rpc": ["https://public-node.rsk.co"],
-    "explorer": "https://explorer.rsk.co"
+    "explorer": "https://explorer.rsk.co",
+    "start": 2516442
   },
   "31": {
     "key": "31",
@@ -125,7 +132,8 @@
     "testnet": true,
     "multicall": "0x4eeebb5580769ba6d26bfd07be636300076d1831",
     "rpc": ["https://public-node.testnet.rsk.co"],
-    "explorer": "https://explorer.testnet.rsk.co"
+    "explorer": "https://explorer.testnet.rsk.co",
+    "start": 1002369
   },
   "42": {
     "key": "42",
@@ -144,7 +152,8 @@
     "ws": [
       "wss://eth-kovan.ws.alchemyapi.io/v2/QCsM2iU0bQ49eGDmZ7-Y--Wpu0lVWXSO"
     ],
-    "explorer": "https://kovan.etherscan.io"
+    "explorer": "https://kovan.etherscan.io",
+    "start": 11482433
   },
   "50": {
     "key": "50",
@@ -157,7 +166,7 @@
       "https://rpc.xinfin.network"
     ],
     "ws": ["wss://ws.xinfin.network"],
-    "explorer": "http://explorer.xinfin.network/"
+    "explorer": "http://explorer.xinfin.network"
   },
   "56": {
     "key": "56",
@@ -177,7 +186,8 @@
       "https://bsc-dataseed2.binance.org",
       "https://bsc-dataseed3.binance.org"
     ],
-    "explorer": "https://bscscan.com"
+    "explorer": "https://bscscan.com",
+    "start": 461230
   },
   "61": {
     "key": "61",
@@ -199,7 +209,8 @@
     "multicall": "0x04c68A7fB750ca0Ba232105B3b094926a0f77645",
     "rpc": ["https://exchaintestrpc.okex.org"],
     "ws": ["wss://exchaintestws.okex.org:8443"],
-    "explorer": "https://www.oklink.com/okexchain-test"
+    "explorer": "https://www.oklink.com/okexchain-test",
+    "start": 5320359
   },
   "66": {
     "key": "66",
@@ -210,7 +221,8 @@
     "multicall": "0x6EB187d8197Ac265c945b69f3c3064A6f3831866",
     "rpc": ["https://exchainrpc.okex.org"],
     "ws": ["wss://exchainws.okex.org:8443"],
-    "explorer": "https://www.oklink.com/okexchain"
+    "explorer": "https://www.oklink.com/okexchain",
+    "start": 5076543
   },
   "69": {
     "key": "69",
@@ -222,7 +234,8 @@
     "rpc": [
       "https://opt-kovan.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
     ],
-    "explorer": "https://kovan-optimistic.etherscan.io/"
+    "explorer": "https://kovan-optimistic.etherscan.io",
+    "start": 882942
   },
   "70": {
     "key": "70",
@@ -233,7 +246,8 @@
     "multicall": "0xd4b794b89baccb70ef851830099bee4d69f19ebc",
     "rpc": ["https://http-mainnet2.hoosmartchain.com"],
     "ws": ["wss://ws-mainnet2.hoosmartchain.com"],
-    "explorer": "https://hscscan.com"
+    "explorer": "https://hooscan.com",
+    "start": 404118 
   },
   "99": {
     "key": "99",
@@ -241,9 +255,10 @@
     "shortName": "POA",
     "chainId": 99,
     "network": "mainnet",
-    "multicall": "",
+    "multicall": "0x2754BB10580dFc6d8Ce6d6CA2939021A06923394",
     "rpc": ["https://core.poa.network"],
-    "explorer": "https://blockscout.com/poa/core/"
+    "explorer": "https://blockscout.com/poa/core",
+    "start": 22543252
   },
   "80": {
     "key": "80",
@@ -262,7 +277,8 @@
     "network": "mainnet",
     "multicall": "0x579De77CAEd0614e3b158cb738fcD5131B9719Ae",
     "rpc": ["https://rpc.meter.io"],
-    "explorer": "https://scan.meter.io"
+    "explorer": "https://scan.meter.io",
+    "start": 4992871
   },
   "97": {
     "key": "97",
@@ -276,7 +292,8 @@
       "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/bsc/testnet/archive",
       "https://data-seed-prebsc-1-s1.binance.org:8545"
     ],
-    "explorer": "https://testnet.bscscan.com"
+    "explorer": "https://testnet.bscscan.com",
+    "start": 3599656
   },
   "100": {
     "key": "100",
@@ -290,7 +307,8 @@
       "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
     ],
     "ws": ["wss://rpc.xdaichain.com/wss"],
-    "explorer": "https://blockscout.com/poa/xdai"
+    "explorer": "https://blockscout.com/poa/xdai",
+    "start": 4108192
   },
   "106": {
     "key": "106",
@@ -304,7 +322,8 @@
       "https://explorer.velas.com/rpc"
     ],
     "ws": ["wss://api.velas.com"],
-    "explorer": "https://evmexplorer.velas.com"
+    "explorer": "https://evmexplorer.velas.com",
+    "start": 141800
   },
   "111": {
     "key": "111",
@@ -319,7 +338,8 @@
       "https://explorer.testnet.velas.com/rpc"
     ],
     "ws": ["wss://api.testnet.velas.com"],
-    "explorer": "https://evmexplorer.testnet.velas.com"
+    "explorer": "https://evmexplorer.testnet.velas.com",
+    "start": 1195129
   },
   "122": {
     "key": "122",
@@ -329,7 +349,8 @@
     "network": "mainnet",
     "multicall": "0x7a59441fb06666F6d2D766393d876945D06a169c",
     "rpc": ["https://oefusefull1.liquify.info/"],
-    "explorer": "https://explorer.fuse.io"
+    "explorer": "https://explorer.fuse.io",
+    "start": 11923459
   },
   "137": {
     "key": "137",
@@ -344,7 +365,8 @@
       "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/polygon/mainnet/archive"
     ],
     "ws": ["wss://ws-mainnet.matic.network"],
-    "explorer": "https://polygonscan.com"
+    "explorer": "https://polygonscan.com",
+    "start": 9834491
   },
   "32659": {
     "key": "32659",
@@ -368,7 +390,8 @@
       "https://rpc-mumbai.matic.today"
     ],
     "ws": ["wss://ws-mumbai.matic.today"],
-    "explorer": ""
+    "explorer": "https://mumbai.polygonscan.com",
+    "start": 12011090
   },
   "888": {
     "key": "888",
@@ -380,7 +403,8 @@
     "ws": [
       "wss://api.wanchain.org:8443/ws/v3/ddd16770c68f30350a21114802d5418eafe039b722de52b488e7eee1ee2cd73f"
     ],
-    "explorer": "https://www.wanscan.org"
+    "explorer": "https://www.wanscan.org",
+    "start": 11302663
   },
   "43114": {
     "key": "43114",
@@ -388,8 +412,12 @@
     "chainId": 43114,
     "network": "mainnet",
     "multicall": "0x7E9985aE4C8248fdB07607648406a48C76e9e7eD",
-    "rpc": ["https://api.avax.network/ext/bc/C/rpc"],
-    "explorer": "https://cchain.explorer.avax.network"
+    "rpc": [
+      "https://rpc.ankr.com/avalanche",
+      "https://api.avax.network/ext/bc/C/rpc"
+    ],
+    "explorer": "https://snowtrace.io",
+    "start": 536483
   },
   "108": {
     "key": "108",
@@ -410,7 +438,8 @@
     "multicall": "0xC33994Eb943c61a8a59a918E2de65e03e4e385E0",
     "rpc": ["https://http-testnet.hecochain.com"],
     "ws": ["wss://ws-testnet.hecochain.com"],
-    "explorer": "https://testnet.hecoinfo.com"
+    "explorer": "https://testnet.hecoinfo.com",
+    "start": 379560
   },
   "128": {
     "key": "128",
@@ -423,7 +452,8 @@
       "https://pub001.hg.network/rpc"
     ],
     "ws": ["wss://pub001.hg.network/ws"],
-    "explorer": "https://hecoinfo.com"
+    "explorer": "https://hecoinfo.com",
+    "start": 403225
   },
   "246": {
     "key": "246",
@@ -433,7 +463,8 @@
     "network": "mainnet",
     "multicall": "0x0767F26d0D568aB61A98b279C0b28a4164A6f05e",
     "rpc": ["https://voting-rpc.carbonswap.exchange"],
-    "explorer": "https://explorer.energyweb.org"
+    "explorer": "https://explorer.energyweb.org",
+    "start": 12086501
   },
   "250": {
     "key": "250",
@@ -443,7 +474,8 @@
     "network": "Mainnet",
     "multicall": "0x7f6A10218264a22B4309F3896745687E712962a0",
     "rpc": ["https://rpc.ftm.tools", "https://rpcapi.fantom.network"],
-    "explorer": "https://ftmscan.com"
+    "explorer": "https://ftmscan.com",
+    "start": 2497732
   },
   "321": {
     "key": "321",
@@ -456,7 +488,8 @@
       "https://rpc-mainnet.kcc.network"
     ],
     "ws": ["wss://rpc-ws-mainnet.kcc.network"],
-    "explorer": "https://explorer.kcc.io"
+    "explorer": "https://explorer.kcc.io",
+    "start": 1487453
   },
   "499": {
     "key": "499",
@@ -467,7 +500,8 @@
     "multicall": "0x7955FF653FfDBf13056FeAe227f655CfF5C194D5",
     "rpc": ["https://rpc.rupx.io"],
     "ws": ["wss://ws.rupx.io"],
-    "explorer": "http://scan.rupx.io"
+    "explorer": "http://scan.rupx.io",
+    "start": 2762929
   },
   "1287": {
     "key": "1287",
@@ -478,7 +512,8 @@
     "testnet": true,
     "multicall": "0xf09FD6B6FF3f41614b9d6be2166A0D07045A3A97",
     "rpc": ["https://rpc.testnet.moonbeam.network"],
-    "explorer": "https://moonbase-blockscout.testnet.moonbeam.network/"
+    "explorer": "https://moonbase-blockscout.testnet.moonbeam.network",
+    "start": 859041
   },
   "42161": {
     "key": "42161",
@@ -489,7 +524,8 @@
     "rpc": [
       "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL"
     ],
-    "explorer": "https://arbiscan.io"
+    "explorer": "https://arbiscan.io",
+    "start": 256508
   },
   "4689": {
     "key": "4689",
@@ -499,7 +535,8 @@
     "network": "mainnet",
     "multicall": "0x9c8B105c94282CDB0F3ecF27e3cfA96A35c07be6",
     "rpc": ["https://babel-api.mainnet.iotex.io"],
-    "explorer": "https://iotexscan.io"
+    "explorer": "https://iotexscan.io",
+    "start": 11533283
   },
   "4690": {
     "key": "4690",
@@ -510,7 +547,8 @@
     "testnet": true,
     "multicall": "0x30aE8783d26aBE7Fbb9d83549CCb7430AE4A301F",
     "rpc": ["https://babel-api.testnet.iotex.io"],
-    "explorer": "https://testnet.iotexscan.io"
+    "explorer": "https://testnet.iotexscan.io",
+    "start": 8821493
   },
   "1666600000": {
     "key": "1666600000",
@@ -521,7 +559,8 @@
     "multicall": "0x9c31392D2e0229dC4Aa250F043d46B9E82074BF8",
     "rpc": ["https://a.api.s0.t.hmny.io"],
     "ws": ["wss://ws.s0.t.hmny.io"],
-    "explorer": "https://explorer.harmony.one"
+    "explorer": "https://explorer.harmony.one",
+    "start": 10911984
   },
   "1666700000": {
     "key": "1666700000",
@@ -533,7 +572,8 @@
     "multicall": "0x9923589503Fd205feE3d367DDFF2378f0F7dD2d4",
     "rpc": ["https://api.s0.b.hmny.io"],
     "ws": ["wss://ws.s0.b.hmny.io"],
-    "explorer": "https://explorer.pops.one"
+    "explorer": "https://explorer.pops.one",
+    "start": 7521509
   },
   "42220": {
     "key": "42220",
@@ -546,7 +586,8 @@
       "https://forno.celo.org",
       "https://celo-mainnet--rpc.datahub.figment.io/apikey/e892a66dc36e4d2d98a5d6406d609796/"
     ],
-    "explorer": "https://explorer.celo.org"
+    "explorer": "https://explorer.celo.org",
+    "start": 6599803
   },
   "11297108109": {
     "key": "11297108109",
@@ -556,7 +597,8 @@
     "network": "mainnet",
     "multicall": "0xfFE2FF36c5b8D948f788a34f867784828aa7415D",
     "rpc": ["https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b"],
-    "explorer": "https://explorer.palm.io"
+    "explorer": "https://explorer.palm.io",
+    "start": 1172267
   },
    "333888": {
     "key": "333888",
@@ -577,7 +619,8 @@
     "network": "mainnet",
     "multicall": "0x34b99C2a4a4620F10ac779c36b8c61F90FD61732",
     "rpc": ["https://rpc.polis.tech"],
-    "explorer": "https://explorer.polis.tech"
+    "explorer": "https://explorer.polis.tech",
+    "start": 1971
   },
     "1285": {
     "key": "1285",
@@ -587,7 +630,8 @@
     "network": "mainnet",
     "multicall": "0x537004440ffFE1D4AE9F009031Fc2b0385FCA9F1",
     "rpc": ["https://rpc.moonriver.moonbeam.network"],
-    "explorer": "https://blockscout.moonriver.moonbeam.network/"
+    "explorer": "https://blockscout.moonriver.moonbeam.network",
+    "start": 413539
   },
     "25": {
     "key": "25",
@@ -597,7 +641,8 @@
     "network": "mainnet",
     "multicall": "0x6F522a3982e8F9A50A2EDc9E46ed1A3aE2B3FD3a",
     "rpc": ["https://evm-cronos.crypto.org"],
-    "explorer": "https://cronos.crypto.org/explorer"
+    "explorer": "https://cronos.crypto.org/explorer",
+    "start": 4067
   },
     "44": {
     "key": "44",
@@ -607,7 +652,7 @@
     "network": "mainnet",
     "multicall": "0x4617D470F847Ce166019d19a7944049ebB017400",
     "rpc": ["https://crab-rpc.darwinia.network"],
-    "explorer": "https://crab.subscan.io/"
+    "explorer": "https://crab.subscan.io"
   },
   "288": {
     "key": "288",
@@ -617,7 +662,8 @@
     "network": "mainnet",
     "multicall": "0xfb91c019D9F12A0f9c23B4762fa64A34F8daDb4A",
     "rpc": ["https://mainnet.boba.network/"],
-    "explorer": "https://blockexplorer.boba.network/"
+    "explorer": "https://blockexplorer.boba.network",
+    "start": 74
   },
   "5553": {
     "key": "5553",
@@ -628,7 +674,8 @@
     "testnet": true,
     "multicall": "0x0e157d2E45af27564edFAaCcD68f2f0458F3D96c",
     "rpc": ["https://l2.testnet.nahmii.io"],
-    "explorer": "https://explorer.testnet.nahmii.io/"
+    "explorer": "https://explorer.testnet.nahmii.io",
+    "start": 53370
   },
     "5551": {
     "key": "5551",
@@ -638,7 +685,8 @@
     "network": "mainnet",
     "multicall": "0x05911151467b9F42eD14f10ddE0c057347Fff714",
     "rpc": ["https://l2.nahmii.io"],
-    "explorer": "https://explorer.nahmii.io/"
+    "explorer": "https://explorer.nahmii.io",
+    "start": 4364
   },
     "1088": {
     "key": "1088",
@@ -648,7 +696,8 @@
     "network": "mainnet",
     "multicall": "0xc39aBB6c4451089dE48Cffb013c39d3110530e5C",
     "rpc": ["https://andromeda.metis.io/?owner=1088"],
-    "explorer": "https://andromeda-explorer.metis.io/"
+    "explorer": "https://andromeda-explorer.metis.io",
+    "start": 451
   },
   "361": {
     "key": "361",
@@ -658,7 +707,35 @@
     "network": "mainnet",
     "multicall": "0xB48BbAD564Ceb6fB30cCea2Af248ccF6398aEab5",
     "rpc": ["https://eth-rpc-api.thetatoken.org/rpc"],
-    "explorer": "https://explorer.thetatoken.org/"
+    "explorer": "https://explorer.thetatoken.org",
+    "start": 12559216
+  },
+  "74": {
+    "key": "74",
+    "name": "IDChain",
+    "shortName": "IDChain",
+    "chainId": 74,
+    "network": "mainnet",
+    "multicall": "0x41d289c966D51342A515A19dE9c27d16079c94E0",
+    "rpc": [
+      "https://idchain.one/rpc/",
+      "https://idchain.songadao.org/rpc"
+    ],
+    "explorer": "https://explorer.idchain.one",
+    "start": 10780012
+  },
+  "42262": {
+    "key": "42262",
+    "name": "Emerald",
+    "shortName": "Emerald",
+    "chainId": 42262,
+    "network": "mainnet",
+    "multicall": "0xBD46A7DCD1fefA63A7746a5762A71635Ee0843A1",
+    "rpc": [
+      "https://emerald.oasis.dev"
+    ],
+    "explorer": "https://explorer.emerald.oasis.dev",
+    "start": 176517
   },
   "74": {
     "key": "74",
@@ -682,5 +759,27 @@
     "multicall": "0x1b38EBAd553f218e2962Cb1C0539Abb5d6A37774",
     "rpc": ["https://smartbch.greyh.at/"],
     "explorer": "https://www.smartscan.cash"
-  }
+  },
+  "1313161554": {
+    "key": "1313161554",
+    "name": "Aurora Mainnet",
+    "shortName": "Aurora",
+    "chainId": 1313161554,
+    "network": "mainnet",
+    "multicall": "0x32b50c286DEFd2932a0247b8bb940b78c063F16c",
+    "rpc": ["https://mainnet.aurora.dev"],
+    "explorer": "https://explorer.mainnet.aurora.dev",
+    "start": 57190533
+  },
+    "1284": {
+    "key": "1284",
+    "name": "Moonbeam",
+    "shortName": "GLMR",
+    "chainId": 1284,
+    "network": "mainnet",
+    "multicall": "0x83e3b61886770de2F64AAcaD2724ED4f08F7f36B",
+    "rpc": ["https://rpc.api.moonbeam.network"],
+    "explorer": "https://blockscout.moonbeam.network",
+    "start": 171135
+    }
 }
