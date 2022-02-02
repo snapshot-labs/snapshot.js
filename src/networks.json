@@ -718,7 +718,7 @@
     "network": "mainnet",
     "multicall": "0x41d289c966D51342A515A19dE9c27d16079c94E0",
     "rpc": [
-      "https://idchain.one/rpc/",
+      "https://idchain.one/archive/rpc/",
       "https://idchain.songadao.org/rpc"
     ],
     "explorer": "https://explorer.idchain.one",
@@ -736,19 +736,6 @@
     ],
     "explorer": "https://explorer.emerald.oasis.dev",
     "start": 176517
-  },
-  "74": {
-    "key": "74",
-    "name": "IDChain",
-    "shortName": "IDChain",
-    "chainId": 74,
-    "network": "mainnet",
-    "multicall": "0x41d289c966D51342A515A19dE9c27d16079c94E0",
-    "rpc": [
-      "https://idchain.one/archive/rpc/",
-      "https://idchain.songadao.org/rpc"
-    ],
-    "explorer": "https://explorer.idchain.one/"
   },
   "10000": {
     "key": "10000",
