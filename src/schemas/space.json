@@ -115,7 +115,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[A-Za-z0-9]*$",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
             "minLength": 42,
             "maxLength": 42
           },
@@ -125,7 +125,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[A-Za-z0-9]*$",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
             "minLength": 42,
             "maxLength": 42
           },
