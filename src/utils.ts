@@ -20,6 +20,10 @@ export const SNAPSHOT_SUBGRAPH_URL = {
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan'
 };
 
+const ENS_RESOLVER_ABI = [
+  'function text(bytes32 node, string calldata key) external view returns (string memory)'
+];
+
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
   try {
@@ -165,20 +169,20 @@ export function validateSchema(schema, data) {
   return valid ? valid : validate.errors;
 }
 
-export async function getSpaceUri(id, network = '1') {
-  const abi =
-    'function text(bytes32 node, string calldata key) external view returns (string memory)';
+export function getEnsTextRecord(ens: string, record: string, network = '1') {
   const address = networks[network].ensResolver || networks['1'].ensResolver;
+  const hash = namehash(ens);
+  const provider = getProvider(network);
+  return call(provider, ENS_RESOLVER_ABI, [address, 'text', [hash, record]]);
+}
 
-  let uri: any = false;
+export async function getSpaceUri(id, network = '1') {
   try {
-    const hash = namehash(id);
-    const provider = getProvider(network);
-    uri = await call(provider, [abi], [address, 'text', [hash, 'snapshot']]);
+    return await getEnsTextRecord(id, 'snapshot', network);
   } catch (e) {
     console.log('getSpaceUriFromTextRecord failed', id, e);
   }
-  return uri;
+  return false;
 }
 
 export function clone(item) {
@@ -207,6 +211,7 @@ export default {
   sendTransaction,
   getScores,
   validateSchema,
+  getEnsTextRecord,
   getSpaceUri,
   clone,
   sleep,
