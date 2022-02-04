@@ -690,8 +690,8 @@
   },
     "1088": {
     "key": "1088",
-    "name": "Metis Andromeda Mainnet",
-    "shortName": "andromeda-mainnet",
+    "name": "Metis",
+    "shortName": "metis",
     "chainId": 1088,
     "network": "mainnet",
     "multicall": "0xc39aBB6c4451089dE48Cffb013c39d3110530e5C",
