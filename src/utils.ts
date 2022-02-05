@@ -17,7 +17,13 @@ import voting from './voting';
 export const SNAPSHOT_SUBGRAPH_URL = {
   '1': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot',
   '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
-  '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan'
+  '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan',
+  '97':
+    'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-binance-smart-chain',
+  '100':
+    'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-gnosis-chain',
+  '137':
+    'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-polygon'
 };
 
 const ENS_RESOLVER_ABI = [
