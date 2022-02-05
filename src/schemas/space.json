@@ -99,6 +99,11 @@
                 "maxLength": 64,
                 "title": "name"
               },
+              "network": {
+                "type": "string",
+                "maxLength": 12,
+                "title": "network"
+              },
               "params": {
                 "type": "object",
                 "title": "params"
