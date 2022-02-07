@@ -769,5 +769,45 @@
     "rpc": ["https://rpc.api.moonbeam.network"],
     "explorer": "https://blockscout.moonbeam.network",
     "start": 171135
-    }
+  },
+  "81": {
+    "key": "81",
+    "name": "Shibuya Network",
+    "shortName": "Shibuya",
+    "chainId": 81,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x3E90A35839ff0Aa32992d33d861f24dC95BBf74d",
+    "rpc": ["https://rpc.shibuya.astar.network:8545"],
+    "explorer": "https://blockscout.com/shibuya",
+    "start": 856303
+  },
+  "336": {
+    "key": "336",
+    "name": "Shiden Network",
+    "shortName": "Shiden",
+    "chainId": 336,
+    "network": "mainnet",
+    "multicall": "0x3E90A35839ff0Aa32992d33d861f24dC95BBf74d",
+    "rpc": [
+      "https://rpc.shiden.astar.network:8545",
+      "https://shiden.api.onfinality.io/public"
+    ],
+    "explorer": "https://blockscout.com/shiden",
+    "start": 1170016
+  },
+  "592": {
+    "key": "592",
+    "name": "Astar Network",
+    "shortName": "Astar",
+    "chainId": 592,
+    "network": "mainnet",
+    "multicall": "0x3E90A35839ff0Aa32992d33d861f24dC95BBf74d",
+    "rpc": [
+      "https://rpc.astar.network:8545",
+      "https://astar.api.onfinality.io/public"
+    ],
+    "explorer": "https://blockscout.com/astar",
+    "start": 366482
+  }
 }
