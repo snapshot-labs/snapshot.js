@@ -229,5 +229,6 @@ export default {
   Multicaller,
   validations,
   getHash,
-  verify
+  verify,
+  SNAPSHOT_SUBGRAPH_URL
 };
