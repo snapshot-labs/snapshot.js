@@ -99,7 +99,12 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
 export function getUrl(uri, gateway = gateways[0]) {
   const ipfsGateway = `https://${gateway}`;
   if (!uri) return null;
-  if (!uri.includes('ipfs') && !uri.includes('ipns') && !uri.includes('http'))
+  if (
+    !uri.startsWith('ipfs://') &&
+    !uri.startsWith('ipns://') &&
+    !uri.startsWith('https://') &&
+    !uri.startsWith('http://')
+  )
     return `${ipfsGateway}/ipfs/${uri}`;
   const uriScheme = uri.split('://')[0];
   if (uriScheme === 'ipfs')
