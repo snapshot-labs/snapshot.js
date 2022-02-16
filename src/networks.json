@@ -877,6 +877,7 @@
     "network": "mainnet",
     "multicall": "0xb8d0d2C1391eeB350d2Cd39EfABBaaEC297368D9",
     "rpc": [
+      "https://celo.snapshot.org",
       "https://forno.celo.org",
       "https://celo-mainnet--rpc.datahub.figment.io/apikey/e892a66dc36e4d2d98a5d6406d609796/"
     ],
