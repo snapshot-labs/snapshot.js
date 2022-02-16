@@ -23,7 +23,8 @@ export const SNAPSHOT_SUBGRAPH_URL = {
   '100':
     'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-gnosis-chain',
   '137':
-    'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-polygon'
+    'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-polygon',
+  '250': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-fantom'
 };
 
 const ENS_RESOLVER_ABI = [
