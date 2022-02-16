@@ -797,6 +797,21 @@
     "explorer": "https://explorer.testnet.nahmii.io",
     "start": 53370,
     "imageIPFS": "QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
+  }, 
+  "7341": {
+    "key": "7341",
+    "name": "Shyft",
+    "shortName": "Shyft",
+    "chainId": 7341,
+    "network": "mainnet",
+    "testnet": false,
+    "multicall": "0xceb10e9133D771cA93c8002Be527A465E85381a2",
+    "rpc": [
+      "https://rpc.shyft.network"
+    ],
+    "explorer": "https://bx.shyft.network",
+    "start": 3673983,
+    "imageIPFS": "QmUkFZC2ZmoYPTKf7AHdjwRPZoV2h1MCuHaGM4iu8SNFpi"
   },
   "10000": {
     "key": "10000",
@@ -810,6 +825,21 @@
     ],
     "explorer": "https://www.smartscan.cash",
     "imageIPFS": "QmWG1p7om4hZ4Yi4uQvDpxg4si7qVYhtppGbcDGrhVFvMd"
+  },
+  "11437": {
+    "key": "11437",
+    "name": "Shyft Testnet",
+    "shortName": "Shyft_",
+    "chainId": 11437,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x407159bAA564dA0c3b14D1215d8E2654cEEE73F4",
+    "rpc": [
+      "https://rpc.testnet.shyft.network"
+    ],
+    "explorer": "https://bx.testnet.shyft.network",
+    "start": 2446296,
+    "imageIPFS": "QmUkFZC2ZmoYPTKf7AHdjwRPZoV2h1MCuHaGM4iu8SNFpi"
   },
   "32659": {
     "key": "32659",
