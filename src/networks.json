@@ -4,7 +4,7 @@
     "name": "Ethereum Mainnet",
     "chainId": 1,
     "network": "homestead",
-    "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
+    "multicall": "0x5e67901C2Dd1915E9Ef49aF39B62C28DF8C2c529",
     "ensResolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
     "rpc": [
       {
