@@ -683,6 +683,23 @@
     "start": 11302663,
     "imageIPFS": "QmewFFN44rkxESFsHG8edaLt1znr62hjvZhGynfXqruzX3"
   },
+  "940": {
+    "key": "940",
+    "name": "PulseChain Testnet",
+    "shortName": "pulsechain",
+    "chainId": 940,
+    "network": "Testnet",
+    "multicall": "0x5e67901C2Dd1915E9Ef49aF39B62C28DF8C2c529",
+    "rpc": [
+      "https://rpc.testnet.pulsedisco.net"
+    ],
+    "ws": [
+      "wss://ws.rpc.testnet.pulsedisco.net"
+    ],
+    "explorer": "https://scan.v2.testnet.pulsechain.com",
+    "start": 15123138,
+    "imageIPFS": "QmYqkn8pJUaV9KcEPYEvRPwgbfeozLEvcQ9aEwKNRUL3cR"
+  },
   "1088": {
     "key": "1088",
     "name": "Metis",
