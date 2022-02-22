@@ -926,35 +926,7 @@
     ],
     "explorer": "https://test1.thinkiumscan.net/",
     "start": 323327,
-    "imageIPFS": "QmY65iQYPer4P3hm5y38f7mRet4Lg43GGCbm5G6WSEB6rC"
-  },
-  "60002": {
-    "key": "60002",
-    "name": "Thinkium Testnet Chain 2",
-    "shortName": "ThinkiumTest2",
-    "chainId": 60002,
-    "network": "thinkiumtest2",
-    "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
-    "rpc": [
-      "https://test2.thinkiumrpc.net"
-    ],
-    "explorer": "https://test2.thinkiumscan.net/",
-    "start": 333423,
-    "imageIPFS": "QmY65iQYPer4P3hm5y38f7mRet4Lg43GGCbm5G6WSEB6rC"
-  },
-  "60103": {
-    "key": "60103",
-    "name": "Thinkium Testnet Chain 103",
-    "shortName": "ThinkiumTest103",
-    "chainId": 60103,
-    "network": "thinkiumtest103",
-    "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
-    "rpc": [
-      "https://test103.thinkiumrpc.net"
-    ],
-    "explorer": "https://test103.thinkiumscan.net/",
-    "start": 333860,
-    "imageIPFS": "QmY65iQYPer4P3hm5y38f7mRet4Lg43GGCbm5G6WSEB6rC"
+    "imageIPFS": "QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
   },
   "70001": {
     "key": "70001",
@@ -968,7 +940,7 @@
     ],
     "explorer": "https://chain1.thinkiumscan.net/",
     "start": 26677364,
-    "imageIPFS": "QmY65iQYPer4P3hm5y38f7mRet4Lg43GGCbm5G6WSEB6rC"
+    "imageIPFS": "QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
   },
   "70002": {
     "key": "70002",
@@ -982,7 +954,7 @@
     ],
     "explorer": "https://chain2.thinkiumscan.net/",
     "start": 22124397,
-    "imageIPFS": "QmY65iQYPer4P3hm5y38f7mRet4Lg43GGCbm5G6WSEB6rC"
+    "imageIPFS": "QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
   },
   "70103": {
     "key": "70103",
@@ -996,7 +968,7 @@
     ],
     "explorer": "https://chain103.thinkiumscan.net/",
     "start": 22090160,
-    "imageIPFS": "QmY65iQYPer4P3hm5y38f7mRet4Lg43GGCbm5G6WSEB6rC"
+    "imageIPFS": "QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
   },
   "80001": {
     "key": "80001",
