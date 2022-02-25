@@ -5,6 +5,7 @@
     "chainId": 1,
     "network": "homestead",
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
+    "multicall2": "0x5ba1e12693dc8f9c48aad8770482f4739beed696",
     "ensResolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
     "rpc": [
       {
@@ -34,6 +35,7 @@
     "network": "ropsten",
     "testnet": true,
     "multicall": "0x53c43764255c17bd724f74c4ef150724ac50a3ed",
+    "multicall2": "0x5ba1e12693dc8f9c48aad8770482f4739beed696",
     "rpc": [
       "https://eth-ropsten.alchemyapi.io/v2/QzGz6gdkpTyDzebi3PjxIaKO7bDTGnSy"
     ],
@@ -49,6 +51,7 @@
     "network": "rinkeby",
     "testnet": true,
     "multicall": "0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821",
+    "multicall2": "0x5ba1e12693dc8f9c48aad8770482f4739beed696",
     "ensResolver": "0xf6305c19e814d2a75429fd637d01f7ee0e77d615",
     "rpc": [
       "https://eth-rinkeby.alchemyapi.io/v2/ugiPEBqMebLQbjro42kalZ1h4StpW_fR",
@@ -69,6 +72,7 @@
     "network": "goerli",
     "testnet": true,
     "multicall": "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
+    "multicall2": "0x5ba1e12693dc8f9c48aad8770482f4739beed696",
     "rpc": [
       "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
     ],
