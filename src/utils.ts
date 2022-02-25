@@ -83,6 +83,52 @@ export async function multicall(
   }
 }
 
+export async function multicall2(
+  network: string,
+  provider,
+  abi: any[],
+  calls: any[],
+  requireSuccess: boolean = true,
+  options?
+) {
+  const multicall2Abi = [
+    'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)',
+    'function tryAggregate(bool requireSuccess, tuple(address target, bytes callData)[] calls) view returns (tuple(bool success, bytes returnData)[] returnData)',
+    'function tryBlockAndAggregate(bool requireSuccess, tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes32 blockHash, tuple(bool success, bytes returnData)[] returnData)'
+  ];
+  const multi = new Contract(
+    networks[network].multicall,
+    multicall2Abi,
+    provider
+  );
+  const itf = new Interface(abi);
+  try {
+    const max = options?.limit || 500;
+    const pages = Math.ceil(calls.length / max);
+    const promises: any = [];
+    Array.from(Array(pages)).forEach((x, i) => {
+      const callsInPage = calls.slice(max * i, max * (i + 1));
+      promises.push(
+        multi.tryBlockAndAggregate(
+          requireSuccess,
+          callsInPage.map((call) => [
+            call[0].toLowerCase(),
+            itf.encodeFunctionData(call[1], call[2])
+          ]),
+          options || {}
+        )
+      );
+    });
+    let results: any = await Promise.all(promises);
+    results = results.reduce((prev: any, [, res]: any) => prev.concat(res), []);
+    return results.map((call, i) =>
+      itf.decodeFunctionResult(calls[i][1], call[1])
+    );
+  } catch (e) {
+    return Promise.reject(e);
+  }
+}
+
 export async function subgraphRequest(url: string, query, options: any = {}) {
   const res = await fetch(url, {
     method: 'POST',

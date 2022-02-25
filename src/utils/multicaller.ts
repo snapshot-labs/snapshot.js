@@ -1,6 +1,6 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import set from 'lodash.set';
-import { multicall } from '../utils';
+import { multicall, multicall2 } from '../utils';
 
 export default class Multicaller {
   public network: string;
@@ -35,6 +35,22 @@ export default class Multicaller {
       this.provider,
       this.abi,
       this.calls,
+      this.options
+    );
+    result.forEach((r, i) => set(obj, this.paths[i], r.length > 1 ? r : r[0]));
+    this.calls = [];
+    this.paths = [];
+    return obj;
+  }
+
+  async execute2(from?: any, requireSuccess: boolean = true): Promise<any> {
+    const obj = from || {};
+    const result = await multicall2(
+      this.network,
+      this.provider,
+      this.abi,
+      this.calls,
+      requireSuccess,
       this.options
     );
     result.forEach((r, i) => set(obj, this.paths[i], r.length > 1 ? r : r[0]));
