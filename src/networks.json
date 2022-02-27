@@ -755,7 +755,7 @@
     "network": "mainnet",
     "multicall": "0x537004440ffFE1D4AE9F009031Fc2b0385FCA9F1",
     "rpc": [
-      "https://rpc.moonriver.moonbeam.network"
+      "https://rpc.api.moonriver.moonbeam.network"
     ],
     "explorer": "https://blockscout.moonriver.moonbeam.network",
     "start": 413539,
