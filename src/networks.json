@@ -877,6 +877,21 @@
     "start": 2446296,
     "imageIPFS": "QmUkFZC2ZmoYPTKf7AHdjwRPZoV2h1MCuHaGM4iu8SNFpi"
   },
+   "12357": {
+    "key": "12357",
+    "name": "REI Testnet",
+    "shortName": "REI",
+    "chainId": 12357,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x9eE9904815B80C39C1a27294E69a8626EAa7952d",
+    "rpc": [
+      "https://rpc-testnet.rei.network"
+    ],
+    "explorer": "https://scan-test.rei.network/",
+    "start": 79516,
+    "imageIPFS": "QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
+  },
   "32659": {
     "key": "32659",
     "name": "Fusion Mainnet",
@@ -949,6 +964,19 @@
     "explorer": "https://snowtrace.io",
     "start": 536483,
     "imageIPFS": "QmeS75uS7XLR8o8uUzhLRVYPX9vMFf4DXgKxQeCzyy7vM2"
+  },
+   "47805": {
+    "key": "47805",
+    "name": "REI Mainnet",
+    "chainId": 47805,
+    "network": "mainnet",
+    "multicall": "0x9eE9904815B80C39C1a27294E69a8626EAa7952d",
+    "rpc": [
+      "https://rpc.rei.network"
+    ],
+    "explorer": "https://scan.rei.network/",
+    "start": 1715902,
+    "imageIPFS": "QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
   },
   "80001": {
     "key": "80001",
