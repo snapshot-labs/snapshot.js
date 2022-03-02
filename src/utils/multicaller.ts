@@ -43,7 +43,7 @@ export default class Multicaller {
     return obj;
   }
 
-  async execute2(from?: any, requireSuccess: boolean = true): Promise<any> {
+  async execute2(from?: any, requireSuccess = true): Promise<any> {
     const obj = from || {};
     const result = await multicall2(
       this.network,
