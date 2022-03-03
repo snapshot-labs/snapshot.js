@@ -1059,5 +1059,33 @@
     "explorer": "https://explorer.palm.io",
     "start": 1172267,
     "imageIPFS": "QmaYQfjLfQpyRWZZZU1BE8X352rXEjNaNeahjvf1aHZrKY"
+  },
+  "666666": {
+    "key": "666666",
+    "name": "Vision - Vpioneer Testnet",
+    "shortName": "Vpioneer",
+    "chainId": 666666,
+    "network": "testnet",
+    "multicall": "0x7FD6D7BA12B27277FC58E3B734000C3383D37584",
+    "rpc": [
+      "https://vpioneer.infragrid.v.network/ethereum/compatible"
+    ],
+    "explorer": "https://visionscan.org",
+    "start": 3759625,
+    "imageIPFS": "QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
+  },
+  "888888": {
+    "key": "888888",
+    "name": "Vision - Mainnet",
+    "shortName": "Vision",
+    "chainId": 888888,
+    "network": "mainnet",
+    "multicall": "4EE880BC7EEA9333230B65C08DC409A27B89C9A3",
+    "rpc": [
+      "https://infragrid.v.network/ethereum/compatible"
+    ],
+    "explorer": "https://visionscan.org",
+    "start": 59797,
+    "imageIPFS": "QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
   }
 }
