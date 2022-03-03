@@ -1080,7 +1080,7 @@
     "shortName": "Vision",
     "chainId": 888888,
     "network": "mainnet",
-    "multicall": "4EE880BC7EEA9333230B65C08DC409A27B89C9A3",
+    "multicall": "0x4EE880BC7EEA9333230B65C08DC409A27B89C9A3",
     "rpc": [
       "https://infragrid.v.network/ethereum/compatible"
     ],
