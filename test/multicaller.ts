@@ -41,7 +41,14 @@ multi.execute().then((result) => {
   */
 });
 
-multi.execute2(undefined, true).then((result) => {
+const multi2 = new Multicaller(network, provider, abi, options);
+tokens.forEach((token) => {
+  multi2.call(`${token}.name`, token, 'name');
+  multi2.call(`${token}.symbol`, token, 'symbol');
+  multi2.call(`${token}.decimals`, token, 'decimals');
+});
+
+multi2.execute2(undefined, true).then((result) => {
   console.log('Multicaller v2 result', result);
   /* Multicaller result
   {

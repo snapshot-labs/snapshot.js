@@ -425,7 +425,8 @@
     "multicall": "0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a",
     "rpc": [
       "https://xdai-archive.blockscout.com",
-      "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
+      "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
+      "https://rpc.gnosischain.com"
     ],
     "ws": [
       "wss://rpc.xdaichain.com/wss"
@@ -579,6 +580,24 @@
     "explorer": "https://testnet.hecoinfo.com",
     "start": 379560,
     "imageIPFS": "QmSJEdToMvmjqoPvVq7awwdMeYKhXUYZMBiax9yHtFGMSq"
+  },
+  "269": {
+    "key": "269",
+    "name": "High Performance Blockchain Mainnet",
+    "shortName": "HPB",
+    "chainId": 269,
+    "network": "mainnet",
+    "testnet": false,
+    "multicall": "0x67D0f263aef2F6167FA77353695D75b582Ff4Bca",
+    "rpc": [
+      "https://hpbnode.com"
+    ],
+    "ws": [
+      "wss://ws.hpbnode.com"
+    ],
+    "explorer": "https://hscan.org",
+    "start": 13960096,
+    "imageIPFS": "QmU7f1MyRz8rLELFfypnWZQjGbDGYgZtC9rjw47jYMYrnu"
   },
   "288": {
     "key": "288",
