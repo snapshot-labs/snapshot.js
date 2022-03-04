@@ -63,15 +63,12 @@ export async function multicall(
     const promises: any = [];
     Array.from(Array(pages)).forEach((x, i) => {
       const callsInPage = calls.slice(max * i, max * (i + 1));
-      promises.push(
-        multi.aggregate(
-          callsInPage.map((call) => [
-            call[0].toLowerCase(),
-            itf.encodeFunctionData(call[1], call[2])
-          ]),
-          options || {}
-        )
-      );
+      const args = callsInPage.map((call) => [
+        call[0].toLowerCase(),
+        itf.encodeFunctionData(call[1], call[2])
+      ]);
+      console.log('Multicall Args:', args);
+      promises.push(multi.aggregate(args, options || {}));
     });
     let results: any = await Promise.all(promises);
     results = results.reduce((prev: any, [, res]: any) => prev.concat(res), []);
@@ -88,7 +85,7 @@ export async function multicall2(
   provider,
   abi: any[],
   calls: any[],
-  requireSuccess: boolean = true,
+  requireSuccess = true,
   options?
 ) {
   const multicall2Abi = [
@@ -97,7 +94,7 @@ export async function multicall2(
     'function tryBlockAndAggregate(bool requireSuccess, tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes32 blockHash, tuple(bool success, bytes returnData)[] returnData)'
   ];
   const multi = new Contract(
-    networks[network].multicall,
+    networks[network].multicall2,
     multicall2Abi,
     provider
   );
@@ -119,7 +116,9 @@ export async function multicall2(
         )
       );
     });
+    console.log('Calling tryBlockAndAggregate', promises.length, 'times');
     let results: any = await Promise.all(promises);
+    console.log('Got results:', results);
     results = results.reduce((prev: any, [, res]: any) => prev.concat(res), []);
     return results.map((call, i) =>
       itf.decodeFunctionResult(calls[i][1], call[1])
