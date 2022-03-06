@@ -211,18 +211,34 @@
   },
   "50": {
     "key": "50",
-    "name": "XinFin MainNet",
+    "name": "XDC.Network",
     "shortName": "XDC",
     "chainId": 50,
     "network": "mainnet",
-    "multicall": "",
+    "multicall": "0xc8160deb19559d93eadb82798ededce696ebcaf5",
     "rpc": [
-      "https://rpc.xinfin.network"
+      "https://snapshotrpc.blocksscan.io/"
     ],
     "ws": [
-      "wss://ws.xinfin.network"
+      "wss://ws.blocksscan.io"
     ],
-    "explorer": "http://explorer.xinfin.network",
+    "explorer": "http://xdc.blocksscan.io",
+    "imageIPFS": "QmaX3pqjWGg97bR6jjxvTopRkJVxrvwp6VB4jf1Lknq111"
+  },
+  "51": {
+    "key": "51",
+    "name": "XDC Apothem.network",
+    "shortName": "XDC",
+    "chainId": 51,
+    "network": "testnet",
+    "multicall": "0x3b353b02a8b42ee4222ea4be0836629b1f40c8db",
+    "rpc": [
+      "https://apothemrpc.blocksscan.io"
+    ],
+    "ws": [
+      "wss://apothemws.blocksscan.io"
+    ],
+    "explorer": "http://apothem.blocksscan.io",
     "imageIPFS": "QmaX3pqjWGg97bR6jjxvTopRkJVxrvwp6VB4jf1Lknq111"
   },
   "56": {
