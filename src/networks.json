@@ -1082,7 +1082,7 @@
     "network": "mainnet",
     "multicall": "0x4EE880BC7EEA9333230B65C08DC409A27B89C9A3",
     "rpc": [
-      "https://infragrid.v.network/ethereum/compatible"
+      "https://infragrid4snapshot.v.network:7080/ethereum/compatible"
     ],
     "explorer": "https://visionscan.org",
     "start": 59797,
