@@ -217,7 +217,8 @@
     "network": "mainnet",
     "multicall": "0xc8160deb19559d93eadb82798ededce696ebcaf5",
     "rpc": [
-      "https://snapshotrpc.blocksscan.io/"
+      "https://snapshotrpc.blocksscan.io/",
+      "https://rpc.xinfin.network"
     ],
     "ws": [
       "wss://ws.blocksscan.io"
