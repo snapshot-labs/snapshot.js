@@ -176,6 +176,14 @@ export function validateSchema(schema, data) {
   const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
   // @ts-ignore
   addFormats(ajv);
+  ajv.addFormat('uri-strict', {
+    type: 'string',
+    validate: (str) => {
+      return /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(
+        str
+      );
+    }
+  });
   const validate = ajv.compile(schema);
   const valid = validate(data);
   return valid ? valid : validate.errors;
