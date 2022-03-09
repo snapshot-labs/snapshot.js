@@ -179,7 +179,7 @@ export function validateSchema(schema, data) {
   ajv.addFormat('uri-strict', {
     type: 'string',
     validate: (str) => {
-      return /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(
+      return /^(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})([\/\w \.-]*)*\/?$/.test(
         str
       );
     }
