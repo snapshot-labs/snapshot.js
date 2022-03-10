@@ -45,7 +45,7 @@
         "website": {
           "type": "string",
           "title": "website",
-          "format": "uri-strict",
+          "format": "url",
           "maxLength": 128
         },
         "twitter": {
