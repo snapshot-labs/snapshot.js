@@ -536,6 +536,7 @@
     "network": "mainnet",
     "multicall": "0xCBca837161be50EfA5925bB9Cc77406468e76751",
     "rpc": [
+      "https://nd-870-705-593.p2pify.com/7a860fc0db2bbfe6dedd0bf84005a3b0"
       "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mainnet/archive",
       "https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e",
       "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/polygon/mainnet/archive"
