@@ -45,7 +45,7 @@
         "website": {
           "type": "string",
           "title": "website",
-          "format": "uri",
+          "format": "url",
           "maxLength": 128
         },
         "twitter": {
@@ -109,9 +109,7 @@
                 "title": "params"
               }
             },
-            "required": [
-              "name"
-            ],
+            "required": ["name"],
             "additionalProperties": false
           },
           "title": "strategies"
@@ -173,9 +171,7 @@
               "title": "params"
             }
           },
-          "required": [
-            "name"
-          ],
+          "required": ["name"],
           "additionalProperties": false
         },
         "plugins": {
@@ -227,12 +223,7 @@
           }
         }
       },
-      "required": [
-        "name",
-        "network",
-        "symbol",
-        "strategies"
-      ],
+      "required": ["name", "network", "symbol", "strategies"],
       "additionalProperties": false
     }
   }
