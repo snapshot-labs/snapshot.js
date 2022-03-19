@@ -683,21 +683,21 @@
     "start": 11302663,
     "imageIPFS": "QmewFFN44rkxESFsHG8edaLt1znr62hjvZhGynfXqruzX3"
   },
-  "940": {
-    "key": "940",
+  "941": {
+    "key": "941",
     "name": "PulseChain Testnet",
     "shortName": "pulsechain",
-    "chainId": 940,
+    "chainId": 941,
     "network": "Testnet",
-    "multicall": "0xD94d61d49B3e21453424fE0F498fa34FE6f3ABdA",
+    "multicall": "0x959a437F1444DaDaC8aF997E71EAF0479c810267",
     "rpc": [
       "https://rpc.testnet.pulsedisco.net"
     ],
     "ws": [
       "wss://ws.rpc.testnet.pulsedisco.net"
     ],
-    "explorer": "https://scan.v2.testnet.pulsechain.com",
-    "start": 15123138,
+    "explorer": "https://scan.v2b.testnet.pulsechain.com",
+    "start": 14473847,
     "imageIPFS": "QmYqkn8pJUaV9KcEPYEvRPwgbfeozLEvcQ9aEwKNRUL3cR"
   },
   "1088": {
