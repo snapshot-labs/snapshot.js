@@ -175,6 +175,44 @@
     "start": 1002369,
     "imageIPFS": "QmbpnJowePd9sDy8hrJv7LsTBkxksuJauw56Y7BqdMdzec"
   },
+  "40": {
+    "key": "40",
+    "name": "Telos EVM Mainnet",
+    "chainId": 40,
+    "network": "mainnet",
+    "testnet": false,
+    "multicall": "0xf070654b08595f8F358Ff90170829892F3254C67",
+    "rpc": [
+      "https://mainnet.telos.net/evm",
+      "https://rpc1.eu.telos.net/evm",
+      "https://rpc1.us.telos.net/evm",
+      "https://rpc2.eu.telos.net/evm",
+      "https://rpc2.us.telos.net/evm",
+      "https://rpc01.us.telosunlimited.io/evm",
+      "https://rpc02.us.telosunlimited.io/evm",
+      "https://evm.teloskorea.com/evm",
+      "https://rpc2.teloskorea.com/evm",
+      "https://rpc.telosarabia.net/evm",
+      "https://api.kainosbp.com/evm"
+    ],
+    "explorer": "https://www.teloscan.io",
+    "start": 205886087,
+    "imageIPFS": "QmVExTU96MuSXjbEjxgpetJbqPXNKSmcRinqxqwwpcdWQo"
+  },
+  "41": {
+    "key": "41",
+    "name": "Telos EVM Testnet",
+    "chainId": 41,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0xF4787FE7B27514367f24753Ec997070c4d8161DB",
+    "rpc": [
+      "https://testnet.telos.net/evm"
+    ],
+    "explorer": "https://testnet.teloscan.io",
+    "start": 162489484,
+    "imageIPFS": "QmVExTU96MuSXjbEjxgpetJbqPXNKSmcRinqxqwwpcdWQo"
+  },
   "42": {
     "key": "42",
     "name": "Ethereum Testnet Kovan",
