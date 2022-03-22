@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
-import { namehash } from '@ethersproject/hash';
+import { hash, normalize } from '@ensdomains/eth-ens-namehash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
@@ -183,9 +183,9 @@ export function validateSchema(schema, data) {
 
 export function getEnsTextRecord(ens: string, record: string, network = '1') {
   const address = networks[network].ensResolver || networks['1'].ensResolver;
-  const hash = namehash(ens);
+  const ensHash = hash(normalize(ens));
   const provider = getProvider(network);
-  return call(provider, ENS_RESOLVER_ABI, [address, 'text', [hash, record]]);
+  return call(provider, ENS_RESOLVER_ABI, [address, 'text', [ensHash, record]]);
 }
 
 export async function getSpaceUri(id, network = '1') {
