@@ -8,6 +8,8 @@ import {
   Vote,
   Follow,
   Unfollow,
+  WalletFollow,
+  WalletUnfollow,
   Subscribe,
   Unsubscribe,
   Alias,
@@ -22,8 +24,10 @@ import {
   voteArray2Types,
   voteString2Types,
   followTypes,
-  subscribeTypes,
   unfollowTypes,
+  walletFollowTypes,
+  walletUnfollowTypes,
+  subscribeTypes,
   unsubscribeTypes,
   aliasTypes
 } from './types';
@@ -127,6 +131,22 @@ export default class Client {
     message: Unfollow
   ) {
     return await this.sign(web3, address, message, unfollowTypes);
+  }
+
+  async walletFollow(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: WalletFollow
+  ) {
+    return await this.sign(web3, address, message, walletFollowTypes);
+  }
+
+  async walletUnfollow(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: WalletUnfollow
+  ) {
+    return await this.sign(web3, address, message, walletUnfollowTypes);
   }
 
   async subscribe(
