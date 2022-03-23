@@ -437,9 +437,12 @@
     "network": "mainnet",
     "multicall": "0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a",
     "rpc": [
-      "https://xdai-archive.blockscout.com",
+      "https://gno.getblock.io/mainnet/?api_key=6c1d1e6e-75d9-452f-a863-a694bff93d5c",
       "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
       "https://rpc.gnosischain.com"
+    ],
+    "nonArchiveRPC": [
+      "https://xdai-archive.blockscout.com"
     ],
     "ws": [
       "wss://rpc.xdaichain.com/wss"
