@@ -12,6 +12,7 @@ export interface Proposal {
   type: string;
   title: string;
   body: string;
+  discussion: string;
   choices: string[];
   start: number;
   end: number;
@@ -86,6 +87,7 @@ export const proposalTypes = {
     { name: 'type', type: 'string' },
     { name: 'title', type: 'string' },
     { name: 'body', type: 'string' },
+    { name: 'discussion', type: 'string' },
     { name: 'choices', type: 'string[]' },
     { name: 'start', type: 'uint64' },
     { name: 'end', type: 'uint64' },
