@@ -86,6 +86,7 @@ export default class Client {
     address: string,
     message: Proposal
   ) {
+    if (!message.discussion) message.discussion = '';
     return await this.sign(web3, address, message, proposalTypes);
   }
 
