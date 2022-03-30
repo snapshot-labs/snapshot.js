@@ -407,7 +407,7 @@
     "network": "mainnet",
     "multicall": "0x12C8e061782A011cB3Fe54fB22DaFf73186EeA6d",
     "rpc": [
-      "https://connect.novanetwork.io"
+      "https://rpc.novanetwork.io:9070/"
     ],
     "explorer": "https://explorer.novanetwork.io",
     "start": 283789,
