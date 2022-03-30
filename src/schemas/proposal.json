@@ -18,6 +18,11 @@
           "minLength": 0,
           "maxLength": 14400
         },
+        "discussion": {
+          "type": "string",
+          "title": "discussion",
+          "maxLength": 256
+        },
         "choices": {
           "type": "array",
           "title": "choices",
