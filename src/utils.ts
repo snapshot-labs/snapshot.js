@@ -94,7 +94,15 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
     },
     body: JSON.stringify({ query: jsonToGraphQLQuery({ query }) })
   });
-  const { data } = await res.json();
+  const responseData = await res.json();
+  if (responseData.errors) {
+    throw new Error(
+      'Errors found in subgraphRequest: ' +
+        url +
+        JSON.stringify(responseData.errors)
+    );
+  }
+  const { data } = responseData;
   return data || {};
 }
 
