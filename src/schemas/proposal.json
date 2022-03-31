@@ -20,7 +20,7 @@
         },
         "discussion": {
           "type": "string",
-          "format": "url",
+          "format": "uri",
           "title": "discussion",
           "maxLength": 256
         },
