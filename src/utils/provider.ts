@@ -17,9 +17,8 @@ export default function getProvider(network: string, type = 'archive') {
 
 export function getBatchedProvider(network: string, type = 'archive') {
   let url: any = networks[network].rpc[0];
-  if(type === 'light' && networks[network].light?.length) {
+  if (type === 'light' && networks[network].light?.length)
     url =  networks[network].light[0];
-  }
   if (!providers[network]) providers[network] = new JsonRpcBatchProvider(url);
   return providers[network];
 }
