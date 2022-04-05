@@ -270,9 +270,9 @@
     "shortName": "Ethereum Classic",
     "chainId": 61,
     "network": "mainnet",
-    "multicall": "",
+    "multicall": "0x51be3a92C56ae7E207C5b5Fd87F7798Ce82C1AC2",
     "rpc": [
-      "https://ethereumclassic.network"
+      "https://www.ethercluster.com/etc"
     ],
     "explorer": "https://blockscout.com/etc/mainnet",
     "imageIPFS": "QmVegc28DvA7LjKUFysab81c9BSuN4wQVDQkRXyAtuEBis"
