@@ -16,7 +16,9 @@
       "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/eth/mainnet/archive",
       "https://apis.ankr.com/e62bc219f9c9462b8749defe472d2dc5/6106d4a3ec1d1bcc87ec72158f8fd089/eth/archive/main",
       "https://eth-archival.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
-      "https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv",
+      "https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv"
+    ],
+    "light": [
       "https://cloudflare-eth.com"
     ],
     "ws": [
@@ -437,9 +439,12 @@
     "network": "mainnet",
     "multicall": "0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a",
     "rpc": [
-      "https://xdai-archive.blockscout.com",
+      "https://gno.getblock.io/mainnet/?api_key=6c1d1e6e-75d9-452f-a863-a694bff93d5c",
       "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
       "https://rpc.gnosischain.com"
+    ],
+    "light": [
+      "https://xdai-archive.blockscout.com"
     ],
     "ws": [
       "wss://rpc.xdaichain.com/wss"
