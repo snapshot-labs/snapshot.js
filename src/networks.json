@@ -272,9 +272,9 @@
     "shortName": "Ethereum Classic",
     "chainId": 61,
     "network": "mainnet",
-    "multicall": "",
+    "multicall": "0x51be3a92C56ae7E207C5b5Fd87F7798Ce82C1AC2",
     "rpc": [
-      "https://ethereumclassic.network"
+      "https://www.ethercluster.com/etc"
     ],
     "explorer": "https://blockscout.com/etc/mainnet",
     "imageIPFS": "QmVegc28DvA7LjKUFysab81c9BSuN4wQVDQkRXyAtuEBis"
@@ -740,6 +740,23 @@
     ],
     "explorer": "https://scan.v2.testnet.pulsechain.com",
     "start": 15123138,
+    "imageIPFS": "QmYqkn8pJUaV9KcEPYEvRPwgbfeozLEvcQ9aEwKNRUL3cR"
+  },
+  "941": {
+    "key": "941",
+    "name": "PulseChain Testnet V2B",
+    "shortName": "pulsechain",
+    "chainId": 941,
+    "network": "Testnet v2B",
+    "multicall": "0x959a437F1444DaDaC8aF997E71EAF0479c810267",
+    "rpc": [
+      "https://rpc.testnet.pulsedisco.net"
+    ],
+    "ws": [
+      "wss://ws.rpc.testnet.pulsedisco.net"
+    ],
+    "explorer": "https://scan.v2b.testnet.pulsechain.com",
+    "start": 14473847,
     "imageIPFS": "QmYqkn8pJUaV9KcEPYEvRPwgbfeozLEvcQ9aEwKNRUL3cR"
   },
   "1088": {
