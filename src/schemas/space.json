@@ -221,6 +221,17 @@
               "collector"
             ]
           }
+        },
+        "parent": {
+          "type": "string",
+          "title": "parent"
+        },
+        "children": {
+          "type": "array",
+          "title": "children",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": ["name", "network", "symbol", "strategies"],
