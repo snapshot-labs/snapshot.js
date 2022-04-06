@@ -811,6 +811,19 @@
     "start": 859041,
     "imageIPFS": "QmeGbNTU2Jqwg8qLTMGW8n8HSi2VdgCncAaeGzLx6gYnD7"
   },
+  "2001": {
+    "key": "2001",
+    "name": "Milkomeda C1 Mainnet",
+    "shortName": "Milkomeda",
+    "chainId": 2001,
+    "network": "mainnet",
+    "multicall": "0xe520aF265c5488104D9f63091b80F0a9feBF5070",
+    "rpc": [
+      "https://rpc-mainnet-cardano-evm.c1.milkomeda.com"
+    ],
+    "explorer": "https://explorer-mainnet-cardano-evm.c1.milkomeda.com",
+    "imageIPFS": "QmRrXHPzbQsnQkNWkM6TgUWoxnpgivU1gUvbTyHF7hKLuM"
+  },
   "4689": {
     "key": "4689",
     "name": "IoTeX Mainnet",
