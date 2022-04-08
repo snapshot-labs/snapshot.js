@@ -221,6 +221,18 @@
               "collector"
             ]
           }
+        },
+        "parent": {
+          "type": "string",
+          "title": "parent"
+        },
+        "children": {
+          "type": "array",
+          "maxItems": 8,
+          "title": "children",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": ["name", "network", "symbol", "strategies"],
