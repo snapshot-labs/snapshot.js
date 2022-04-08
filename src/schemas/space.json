@@ -228,6 +228,7 @@
         },
         "children": {
           "type": "array",
+          "maxItems": 8,
           "title": "children",
           "items": {
             "type": "string"
