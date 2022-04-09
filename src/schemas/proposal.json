@@ -20,7 +20,6 @@
         },
         "discussion": {
           "type": "string",
-          "format": "uri",
           "title": "discussion",
           "maxLength": 256
         },
@@ -66,14 +65,7 @@
           "title": "metadata"
         }
       },
-      "required": [
-        "name",
-        "body",
-        "choices",
-        "snapshot",
-        "start",
-        "end"
-      ],
+      "required": ["name", "body", "choices", "snapshot", "start", "end"],
       "additionalProperties": false
     }
   }
