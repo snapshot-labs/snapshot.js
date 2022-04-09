@@ -173,17 +173,6 @@ export async function getScores(
   }
 }
 
-function isUrl(str) {
-  if (!str.length) return true;
-  return (
-    str.startsWith('http://') ||
-    str.startsWith('https://') ||
-    str.startsWith('ipfs://') ||
-    str.startsWith('ipns://') ||
-    str.startsWith('snapshot://')
-  );
-}
-
 export function validateSchema(schema, data) {
   const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
   // @ts-ignore
@@ -192,7 +181,16 @@ export function validateSchema(schema, data) {
   // Custom URL format
   ajv.addFormat('customUrl', {
     type: 'string',
-    validate: (str) => isUrl(str)
+    validate: (str) => {
+      if (!str.length) return true;
+      return (
+        str.startsWith('http://') ||
+        str.startsWith('https://') ||
+        str.startsWith('ipfs://') ||
+        str.startsWith('ipns://') ||
+        str.startsWith('snapshot://')
+      );
+    }
   });
 
   const validate = ajv.compile(schema);
