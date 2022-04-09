@@ -178,7 +178,7 @@ export function validateSchema(schema, data) {
   // @ts-ignore
   addFormats(ajv);
 
-  // Custom URL format for to allow empty string values
+  // Custom URL format to allow empty string values
   // https://github.com/snapshot-labs/snapshot.js/pull/541/files
   ajv.addFormat('customUrl', {
     type: 'string',
