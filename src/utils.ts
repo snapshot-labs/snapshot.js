@@ -313,6 +313,7 @@ export default {
   validateSchema,
   getEnsTextRecord,
   getSpaceUri,
+  getDelegatesBySpace,
   clone,
   sleep,
   getNumberWithOrdinal,
