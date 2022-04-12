@@ -94,7 +94,15 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
     },
     body: JSON.stringify({ query: jsonToGraphQLQuery({ query }) })
   });
-  const { data } = await res.json();
+  const responseData = await res.json();
+  if (responseData.errors) {
+    throw new Error(
+      'Errors found in subgraphRequest: ' +
+        url +
+        JSON.stringify(responseData.errors)
+    );
+  }
+  const { data } = responseData;
   return data || {};
 }
 
@@ -177,6 +185,23 @@ export function validateSchema(schema, data) {
   const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
   // @ts-ignore
   addFormats(ajv);
+
+  // Custom URL format to allow empty string values
+  // https://github.com/snapshot-labs/snapshot.js/pull/541/files
+  ajv.addFormat('customUrl', {
+    type: 'string',
+    validate: (str) => {
+      if (!str.length) return true;
+      return (
+        str.startsWith('http://') ||
+        str.startsWith('https://') ||
+        str.startsWith('ipfs://') ||
+        str.startsWith('ipns://') ||
+        str.startsWith('snapshot://')
+      );
+    }
+  });
+
   const validate = ajv.compile(schema);
   const valid = validate(data);
   return valid ? valid : validate.errors;
