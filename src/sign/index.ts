@@ -10,6 +10,7 @@ import {
   Unfollow,
   Subscribe,
   Unsubscribe,
+  Profile,
   Alias,
   spaceTypes,
   proposalTypes,
@@ -25,6 +26,7 @@ import {
   subscribeTypes,
   unfollowTypes,
   unsubscribeTypes,
+  profileTypes,
   aliasTypes
 } from './types';
 import hubs from '../hubs.json';
@@ -144,6 +146,14 @@ export default class Client {
     message: Unsubscribe
   ) {
     return await this.sign(web3, address, message, unsubscribeTypes);
+  }
+
+  async profile(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: Profile
+  ) {
+    return await this.sign(web3, address, message, profileTypes);
   }
 
   async alias(web3: Web3Provider | Wallet, address: string, message: Alias) {
