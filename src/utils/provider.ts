@@ -18,7 +18,6 @@ export default function getProvider(network: string, type = 'archive') {
     providers[network] = { ...providers[network] };
     providers[network][type] = new StaticJsonRpcProvider(connectionInfo);
   }
-  console.log(connectionInfo);
   return providers[network][type];
 }
 
