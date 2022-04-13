@@ -64,6 +64,14 @@ export interface Unsubscribe {
   timestamp?: number;
 }
 
+export interface Profile {
+  from?: string;
+  timestamp?: number;
+  username?: string;
+  bio?: string;
+  avatar?: string;
+}
+
 export interface Alias {
   from?: string;
   alias: string;
@@ -208,6 +216,15 @@ export const unsubscribeTypes = {
   Unsubscribe: [
     { name: 'from', type: 'address' },
     { name: 'space', type: 'string' }
+  ]
+};
+
+export const profileTypes = {
+  Profile: [
+    { name: 'from', type: 'address' },
+    { name: 'username', type: 'string' },
+    { name: 'bio', type: 'string' },
+    { name: 'avatar', type: 'string' }
   ]
 };
 
