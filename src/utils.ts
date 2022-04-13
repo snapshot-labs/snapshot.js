@@ -223,6 +223,68 @@ export async function getSpaceUri(id, network = '1') {
   return false;
 }
 
+export async function getDelegatesBySpace(
+  network: string,
+  space: string,
+  snapshot = 'latest'
+) {
+  const spaceIn = ['', space];
+  if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
+
+  const PAGE_SIZE = 1000;
+  let result = [];
+  let page = 0;
+  const params: any = {
+    delegations: {
+      __args: {
+        where: {
+          space_in: spaceIn
+        },
+        first: PAGE_SIZE,
+        skip: 0
+      },
+      delegator: true,
+      space: true,
+      delegate: true
+    }
+  };
+  if (snapshot !== 'latest') {
+    params.delegations.__args.block = { number: snapshot };
+  }
+
+  while (true) {
+    params.delegations.__args.skip = page * PAGE_SIZE;
+
+    const pageResult = await subgraphRequest(
+      SNAPSHOT_SUBGRAPH_URL[network],
+      params
+    );
+    const pageDelegations = pageResult.delegations || [];
+    result = result.concat(pageDelegations);
+    page++;
+    if (pageDelegations.length < PAGE_SIZE) break;
+  }
+
+  // Global delegations are null in decentralized subgraph
+  page = 0;
+  delete params.delegations.__args.where.space_in;
+
+  while (true) {
+    params.delegations.__args.skip = page * PAGE_SIZE;
+    params.delegations.__args.where.space = null;
+    const pageResult = await subgraphRequest(
+      SNAPSHOT_SUBGRAPH_URL[network],
+      params
+    );
+
+    const pageDelegations = pageResult.delegations || [];
+    result = result.concat(pageDelegations);
+    page++;
+    if (pageDelegations.length < PAGE_SIZE) break;
+  }
+  return result;
+}
+
 export function clone(item) {
   return JSON.parse(JSON.stringify(item));
 }
@@ -251,6 +313,7 @@ export default {
   validateSchema,
   getEnsTextRecord,
   getSpaceUri,
+  getDelegatesBySpace,
   clone,
   sleep,
   getNumberWithOrdinal,
