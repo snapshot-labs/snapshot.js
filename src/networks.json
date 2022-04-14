@@ -874,7 +874,7 @@
     "explorer": "https://explorer.testnet.nahmii.io",
     "start": 53370,
     "imageIPFS": "QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
-  }, 
+  },
   "7341": {
     "key": "7341",
     "name": "Shyft",
@@ -955,8 +955,8 @@
     "network": "Arbitrum mainnet",
     "multicall": "0x7A7443F8c577d537f1d8cD4a629d40a3148Dd7ee",
     "rpc": [
-      "https://rpc.ankr.com/arbitrum",
-      "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL"
+      "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL",
+      "https://rpc.ankr.com/arbitrum"
     ],
     "explorer": "https://arbiscan.io",
     "start": 256508,
@@ -1028,8 +1028,8 @@
     "testnet": true,
     "multicall": "0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc",
     "rpc": [
-      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai/archive",
-      "https://rpc-mumbai.matic.today"
+      "https://rpc-mumbai.matic.today",
+      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai/archive"
     ],
     "ws": [
       "wss://ws-mumbai.matic.today"
