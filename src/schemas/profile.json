@@ -6,21 +6,27 @@
       "title": "Profile",
       "type": "object",
       "properties": {
-        "username": {
+        "name": {
           "type": "string",
-          "title": "username",
+          "title": "name",
           "maxLength": 32
+        },
+        "about": {
+          "type": "string",
+          "title": "about",
+          "maxLength": 256
         },
         "avatar": {
           "type": "string",
           "title": "avatar",
           "format": "uri",
-          "maxLength": 128
-        },
-        "bio": {
-          "type": "string",
-          "title": "bio",
           "maxLength": 256
+        },
+        "twitter": {
+          "type": "string",
+          "title": "twitter",
+          "pattern": "^[A-Za-z0-9_]*$",
+          "maxLength": 15
         }
       },
       "required": [],
