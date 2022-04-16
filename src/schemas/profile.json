@@ -9,13 +9,12 @@
         "name": {
           "type": "string",
           "title": "name",
-          "minLength": 1,
           "maxLength": 32
         },
         "about": {
           "type": "string",
           "title": "about",
-          "maxLength": 160
+          "maxLength": 256
         },
         "avatar": {
           "type": "string",
@@ -30,7 +29,7 @@
           "maxLength": 15
         }
       },
-      "required": ["name"],
+      "required": [],
       "additionalProperties": false
     }
   }
