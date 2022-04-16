@@ -67,11 +67,8 @@ export interface Unsubscribe {
 export interface Profile {
   from?: string;
   timestamp?: number;
-  username?: string;
-  bio?: string;
-  avatar?: string;
+  profile: string;
 }
-
 export interface Alias {
   from?: string;
   alias: string;
@@ -222,9 +219,8 @@ export const unsubscribeTypes = {
 export const profileTypes = {
   Profile: [
     { name: 'from', type: 'address' },
-    { name: 'username', type: 'string' },
-    { name: 'bio', type: 'string' },
-    { name: 'avatar', type: 'string' }
+    { name: 'timestamp', type: 'uint64' },
+    { name: 'payload', type: 'string' }
   ]
 };
 
