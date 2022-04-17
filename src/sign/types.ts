@@ -220,7 +220,7 @@ export const profileTypes = {
   Profile: [
     { name: 'from', type: 'address' },
     { name: 'timestamp', type: 'uint64' },
-    { name: 'payload', type: 'string' }
+    { name: 'profile', type: 'string' }
   ]
 };
 
