@@ -70,7 +70,7 @@ export async function multicall(
             call[0].toLowerCase(),
             itf.encodeFunctionData(call[1], call[2])
           ]),
-          options || {}
+          options?.overrides || {}
         )
       );
     });
