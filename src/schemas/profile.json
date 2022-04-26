@@ -19,7 +19,7 @@
         "avatar": {
           "type": "string",
           "title": "avatar",
-          "format": "uri",
+          "format": "customUrl",
           "maxLength": 256
         }
       },
