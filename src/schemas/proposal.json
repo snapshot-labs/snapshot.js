@@ -18,6 +18,12 @@
           "minLength": 0,
           "maxLength": 14400
         },
+        "discussion": {
+          "type": "string",
+          "format": "customUrl",
+          "title": "discussion",
+          "maxLength": 256
+        },
         "choices": {
           "type": "array",
           "title": "choices",
@@ -60,14 +66,7 @@
           "title": "metadata"
         }
       },
-      "required": [
-        "name",
-        "body",
-        "choices",
-        "snapshot",
-        "start",
-        "end"
-      ],
+      "required": ["name", "body", "choices", "snapshot", "start", "end"],
       "additionalProperties": false
     }
   }

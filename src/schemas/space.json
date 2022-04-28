@@ -116,6 +116,7 @@
         },
         "members": {
           "type": "array",
+          "maxItems": 100,
           "items": {
             "type": "string",
             "pattern": "^0x[a-fA-F0-9]{40}$",
@@ -126,6 +127,7 @@
         },
         "admins": {
           "type": "array",
+          "maxItems": 100,
           "items": {
             "type": "string",
             "pattern": "^0x[a-fA-F0-9]{40}$",
@@ -220,6 +222,18 @@
               "creator",
               "collector"
             ]
+          }
+        },
+        "parent": {
+          "type": "string",
+          "title": "parent"
+        },
+        "children": {
+          "type": "array",
+          "maxItems": 8,
+          "title": "children",
+          "items": {
+            "type": "string"
           }
         }
       },
