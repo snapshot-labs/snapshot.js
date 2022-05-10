@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
-import { namehash } from '@ethersproject/hash';
+import { hash, normalize } from '@ensdomains/eth-ens-namehash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
@@ -15,7 +15,8 @@ import networks from './networks.json';
 import voting from './voting';
 
 export const SNAPSHOT_SUBGRAPH_URL = {
-  '1': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot',
+  '1':
+    'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/subgraphs/id/3Q4vnuSqemXnSNHoiLD7wdBbGCXszUYnUbTz191kDMNn',
   '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan',
   '97':
@@ -93,7 +94,15 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
     },
     body: JSON.stringify({ query: jsonToGraphQLQuery({ query }) })
   });
-  const { data } = await res.json();
+  const responseData = await res.json();
+  if (responseData.errors) {
+    throw new Error(
+      'Errors found in subgraphRequest: ' +
+        url +
+        JSON.stringify(responseData.errors)
+    );
+  }
+  const { data } = responseData;
   return data || {};
 }
 
@@ -176,6 +185,23 @@ export function validateSchema(schema, data) {
   const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
   // @ts-ignore
   addFormats(ajv);
+
+  // Custom URL format to allow empty string values
+  // https://github.com/snapshot-labs/snapshot.js/pull/541/files
+  ajv.addFormat('customUrl', {
+    type: 'string',
+    validate: (str) => {
+      if (!str.length) return true;
+      return (
+        str.startsWith('http://') ||
+        str.startsWith('https://') ||
+        str.startsWith('ipfs://') ||
+        str.startsWith('ipns://') ||
+        str.startsWith('snapshot://')
+      );
+    }
+  });
+
   const validate = ajv.compile(schema);
   const valid = validate(data);
   return valid ? valid : validate.errors;
@@ -183,9 +209,9 @@ export function validateSchema(schema, data) {
 
 export function getEnsTextRecord(ens: string, record: string, network = '1') {
   const address = networks[network].ensResolver || networks['1'].ensResolver;
-  const hash = namehash(ens);
+  const ensHash = hash(normalize(ens));
   const provider = getProvider(network);
-  return call(provider, ENS_RESOLVER_ABI, [address, 'text', [hash, record]]);
+  return call(provider, ENS_RESOLVER_ABI, [address, 'text', [ensHash, record]]);
 }
 
 export async function getSpaceUri(id, network = '1') {
@@ -195,6 +221,68 @@ export async function getSpaceUri(id, network = '1') {
     console.log('getSpaceUriFromTextRecord failed', id, e);
   }
   return false;
+}
+
+export async function getDelegatesBySpace(
+  network: string,
+  space: string,
+  snapshot = 'latest'
+) {
+  const spaceIn = ['', space];
+  if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
+
+  const PAGE_SIZE = 1000;
+  let result = [];
+  let page = 0;
+  const params: any = {
+    delegations: {
+      __args: {
+        where: {
+          space_in: spaceIn
+        },
+        first: PAGE_SIZE,
+        skip: 0
+      },
+      delegator: true,
+      space: true,
+      delegate: true
+    }
+  };
+  if (snapshot !== 'latest') {
+    params.delegations.__args.block = { number: snapshot };
+  }
+
+  while (true) {
+    params.delegations.__args.skip = page * PAGE_SIZE;
+
+    const pageResult = await subgraphRequest(
+      SNAPSHOT_SUBGRAPH_URL[network],
+      params
+    );
+    const pageDelegations = pageResult.delegations || [];
+    result = result.concat(pageDelegations);
+    page++;
+    if (pageDelegations.length < PAGE_SIZE) break;
+  }
+
+  // Global delegations are null in decentralized subgraph
+  page = 0;
+  delete params.delegations.__args.where.space_in;
+
+  while (true) {
+    params.delegations.__args.skip = page * PAGE_SIZE;
+    params.delegations.__args.where.space = null;
+    const pageResult = await subgraphRequest(
+      SNAPSHOT_SUBGRAPH_URL[network],
+      params
+    );
+
+    const pageDelegations = pageResult.delegations || [];
+    result = result.concat(pageDelegations);
+    page++;
+    if (pageDelegations.length < PAGE_SIZE) break;
+  }
+  return result;
 }
 
 export function clone(item) {
@@ -225,6 +313,7 @@ export default {
   validateSchema,
   getEnsTextRecord,
   getSpaceUri,
+  getDelegatesBySpace,
   clone,
   sleep,
   getNumberWithOrdinal,

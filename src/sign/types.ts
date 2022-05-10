@@ -12,6 +12,7 @@ export interface Proposal {
   type: string;
   title: string;
   body: string;
+  discussion: string;
   choices: string[];
   start: number;
   end: number;
@@ -63,6 +64,11 @@ export interface Unsubscribe {
   timestamp?: number;
 }
 
+export interface Profile {
+  from?: string;
+  timestamp?: number;
+  profile: string;
+}
 export interface Alias {
   from?: string;
   alias: string;
@@ -86,6 +92,7 @@ export const proposalTypes = {
     { name: 'type', type: 'string' },
     { name: 'title', type: 'string' },
     { name: 'body', type: 'string' },
+    { name: 'discussion', type: 'string' },
     { name: 'choices', type: 'string[]' },
     { name: 'start', type: 'uint64' },
     { name: 'end', type: 'uint64' },
@@ -206,6 +213,14 @@ export const unsubscribeTypes = {
   Unsubscribe: [
     { name: 'from', type: 'address' },
     { name: 'space', type: 'string' }
+  ]
+};
+
+export const profileTypes = {
+  Profile: [
+    { name: 'from', type: 'address' },
+    { name: 'timestamp', type: 'uint64' },
+    { name: 'profile', type: 'string' }
   ]
 };
 

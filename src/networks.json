@@ -12,10 +12,13 @@
         "user": "balancer_user",
         "password": "balancerAnkr20201015"
       },
+      "https://rpc.ankr.com/eth",
       "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/eth/mainnet/archive",
       "https://apis.ankr.com/e62bc219f9c9462b8749defe472d2dc5/6106d4a3ec1d1bcc87ec72158f8fd089/eth/archive/main",
       "https://eth-archival.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
-      "https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv",
+      "https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv"
+    ],
+    "light": [
       "https://cloudflare-eth.com"
     ],
     "ws": [
@@ -210,18 +213,35 @@
   },
   "50": {
     "key": "50",
-    "name": "XinFin MainNet",
+    "name": "XDC.Network",
     "shortName": "XDC",
     "chainId": 50,
     "network": "mainnet",
-    "multicall": "",
+    "multicall": "0xc8160deb19559d93eadb82798ededce696ebcaf5",
     "rpc": [
+      "https://snapshotrpc.blocksscan.io/",
       "https://rpc.xinfin.network"
     ],
     "ws": [
-      "wss://ws.xinfin.network"
+      "wss://ws.blocksscan.io"
     ],
-    "explorer": "http://explorer.xinfin.network",
+    "explorer": "http://xdc.blocksscan.io",
+    "imageIPFS": "QmaX3pqjWGg97bR6jjxvTopRkJVxrvwp6VB4jf1Lknq111"
+  },
+  "51": {
+    "key": "51",
+    "name": "XDC Apothem.network",
+    "shortName": "XDC",
+    "chainId": 51,
+    "network": "testnet",
+    "multicall": "0x3b353b02a8b42ee4222ea4be0836629b1f40c8db",
+    "rpc": [
+      "https://apothemrpc.blocksscan.io"
+    ],
+    "ws": [
+      "wss://apothemws.blocksscan.io"
+    ],
+    "explorer": "http://apothem.blocksscan.io",
     "imageIPFS": "QmaX3pqjWGg97bR6jjxvTopRkJVxrvwp6VB4jf1Lknq111"
   },
   "56": {
@@ -252,9 +272,9 @@
     "shortName": "Ethereum Classic",
     "chainId": 61,
     "network": "mainnet",
-    "multicall": "",
+    "multicall": "0x51be3a92C56ae7E207C5b5Fd87F7798Ce82C1AC2",
     "rpc": [
-      "https://ethereumclassic.network"
+      "https://www.ethercluster.com/etc"
     ],
     "explorer": "https://blockscout.com/etc/mainnet",
     "imageIPFS": "QmVegc28DvA7LjKUFysab81c9BSuN4wQVDQkRXyAtuEBis"
@@ -420,7 +440,12 @@
     "multicall": "0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a",
     "rpc": [
       "https://xdai-archive.blockscout.com",
-      "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
+      "https://gno.getblock.io/mainnet/?api_key=6c1d1e6e-75d9-452f-a863-a694bff93d5c",
+      "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
+      "https://rpc.gnosischain.com"
+    ],
+    "light": [
+      "https://rpc.gnosischain.com"
     ],
     "ws": [
       "wss://rpc.xdaichain.com/wss"
@@ -575,6 +600,24 @@
     "start": 379560,
     "imageIPFS": "QmSJEdToMvmjqoPvVq7awwdMeYKhXUYZMBiax9yHtFGMSq"
   },
+  "269": {
+    "key": "269",
+    "name": "High Performance Blockchain Mainnet",
+    "shortName": "HPB",
+    "chainId": 269,
+    "network": "mainnet",
+    "testnet": false,
+    "multicall": "0x67D0f263aef2F6167FA77353695D75b582Ff4Bca",
+    "rpc": [
+      "https://hpbnode.com"
+    ],
+    "ws": [
+      "wss://ws.hpbnode.com"
+    ],
+    "explorer": "https://hscan.org",
+    "start": 13960096,
+    "imageIPFS": "QmU7f1MyRz8rLELFfypnWZQjGbDGYgZtC9rjw47jYMYrnu"
+  },
   "288": {
     "key": "288",
     "name": "Boba Mainnet",
@@ -683,6 +726,40 @@
     "start": 11302663,
     "imageIPFS": "QmewFFN44rkxESFsHG8edaLt1znr62hjvZhGynfXqruzX3"
   },
+  "940": {
+    "key": "940",
+    "name": "PulseChain Testnet",
+    "shortName": "pulsechain",
+    "chainId": 940,
+    "network": "Testnet",
+    "multicall": "0x5e67901C2Dd1915E9Ef49aF39B62C28DF8C2c529",
+    "rpc": [
+      "https://rpc.testnet.pulsedisco.net"
+    ],
+    "ws": [
+      "wss://ws.rpc.testnet.pulsedisco.net"
+    ],
+    "explorer": "https://scan.v2.testnet.pulsechain.com",
+    "start": 15123138,
+    "imageIPFS": "QmYqkn8pJUaV9KcEPYEvRPwgbfeozLEvcQ9aEwKNRUL3cR"
+  },
+  "941": {
+    "key": "941",
+    "name": "PulseChain Testnet V2B",
+    "shortName": "pulsechain",
+    "chainId": 941,
+    "network": "Testnet v2B",
+    "multicall": "0x959a437F1444DaDaC8aF997E71EAF0479c810267",
+    "rpc": [
+      "https://rpc.testnet.pulsedisco.net"
+    ],
+    "ws": [
+      "wss://ws.rpc.testnet.pulsedisco.net"
+    ],
+    "explorer": "https://scan.v2b.testnet.pulsechain.com",
+    "start": 14473847,
+    "imageIPFS": "QmYqkn8pJUaV9KcEPYEvRPwgbfeozLEvcQ9aEwKNRUL3cR"
+  },
   "1088": {
     "key": "1088",
     "name": "Metis",
@@ -719,7 +796,7 @@
     "network": "mainnet",
     "multicall": "0x537004440ffFE1D4AE9F009031Fc2b0385FCA9F1",
     "rpc": [
-      "https://rpc.moonriver.moonbeam.network"
+      "https://rpc.api.moonriver.moonbeam.network"
     ],
     "explorer": "https://blockscout.moonriver.moonbeam.network",
     "start": 413539,
@@ -797,7 +874,7 @@
     "explorer": "https://explorer.testnet.nahmii.io",
     "start": 53370,
     "imageIPFS": "QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
-  }, 
+  },
   "7341": {
     "key": "7341",
     "name": "Shyft",
@@ -841,6 +918,21 @@
     "start": 2446296,
     "imageIPFS": "QmUkFZC2ZmoYPTKf7AHdjwRPZoV2h1MCuHaGM4iu8SNFpi"
   },
+   "12357": {
+    "key": "12357",
+    "name": "REI Testnet",
+    "shortName": "REI",
+    "chainId": 12357,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x9eE9904815B80C39C1a27294E69a8626EAa7952d",
+    "rpc": [
+      "https://rpc-testnet.rei.network"
+    ],
+    "explorer": "https://scan-test.rei.network/",
+    "start": 79516,
+    "imageIPFS": "QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
+  },
   "32659": {
     "key": "32659",
     "name": "Fusion Mainnet",
@@ -863,7 +955,8 @@
     "network": "Arbitrum mainnet",
     "multicall": "0x7A7443F8c577d537f1d8cD4a629d40a3148Dd7ee",
     "rpc": [
-      "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL"
+      "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL",
+      "https://rpc.ankr.com/arbitrum"
     ],
     "explorer": "https://arbiscan.io",
     "start": 256508,
@@ -913,6 +1006,19 @@
     "explorer": "https://snowtrace.io",
     "start": 536483,
     "imageIPFS": "QmeS75uS7XLR8o8uUzhLRVYPX9vMFf4DXgKxQeCzyy7vM2"
+  },
+  "47805": {
+    "key": "47805",
+    "name": "REI Mainnet",
+    "chainId": 47805,
+    "network": "mainnet",
+    "multicall": "0x9eE9904815B80C39C1a27294E69a8626EAa7952d",
+    "rpc": [
+      "https://rpc.rei.network"
+    ],
+    "explorer": "https://scan.rei.network/",
+    "start": 1715902,
+    "imageIPFS": "QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
   },
   "60001": {
     "key": "60001",
@@ -978,8 +1084,8 @@
     "testnet": true,
     "multicall": "0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc",
     "rpc": [
-      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai/archive",
-      "https://rpc-mumbai.matic.today"
+      "https://rpc-mumbai.matic.today",
+      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai/archive"
     ],
     "ws": [
       "wss://ws-mumbai.matic.today"
@@ -1078,5 +1184,21 @@
     "explorer": "https://explorer.palm.io",
     "start": 1172267,
     "imageIPFS": "QmaYQfjLfQpyRWZZZU1BE8X352rXEjNaNeahjvf1aHZrKY"
-  }
+  },
+  "1001": {
+    "key": "1001",
+    "name": "Klaytn Baobab Testnet",
+    "shortName": "Boabab",
+    "chainId": 1001,
+    "network": "testnet",
+    "multicall": "0x40643B8Aeaaca0b87Ea1A1E596e64a0e14B1d244",
+    "rpc": [
+      "https://baobab.fandom.finance/archive"
+    ],
+    "ws": [
+      "wss://baobab.fandom.finance/archive/ws"
+    ],
+    "explorer": "https://baobab.scope.klaytn.com/",
+    "imageIPFS": "QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+    }
 }

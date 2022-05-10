@@ -103,6 +103,7 @@ export default class Client {
     {
       name,
       body,
+      discussion = '',
       choices,
       start,
       end,
@@ -114,6 +115,7 @@ export default class Client {
     return this.broadcast(web3, address, space, 'proposal', {
       name,
       body,
+      discussion,
       choices,
       start,
       end,

@@ -45,7 +45,7 @@
         "website": {
           "type": "string",
           "title": "website",
-          "format": "uri",
+          "format": "url",
           "maxLength": 128
         },
         "twitter": {
@@ -109,15 +109,14 @@
                 "title": "params"
               }
             },
-            "required": [
-              "name"
-            ],
+            "required": ["name"],
             "additionalProperties": false
           },
           "title": "strategies"
         },
         "members": {
           "type": "array",
+          "maxItems": 100,
           "items": {
             "type": "string",
             "pattern": "^0x[a-fA-F0-9]{40}$",
@@ -128,6 +127,7 @@
         },
         "admins": {
           "type": "array",
+          "maxItems": 100,
           "items": {
             "type": "string",
             "pattern": "^0x[a-fA-F0-9]{40}$",
@@ -173,9 +173,7 @@
               "title": "params"
             }
           },
-          "required": [
-            "name"
-          ],
+          "required": ["name"],
           "additionalProperties": false
         },
         "plugins": {
@@ -225,14 +223,21 @@
               "collector"
             ]
           }
+        },
+        "parent": {
+          "type": "string",
+          "title": "parent"
+        },
+        "children": {
+          "type": "array",
+          "maxItems": 8,
+          "title": "children",
+          "items": {
+            "type": "string"
+          }
         }
       },
-      "required": [
-        "name",
-        "network",
-        "symbol",
-        "strategies"
-      ],
+      "required": ["name", "network", "symbol", "strategies"],
       "additionalProperties": false
     }
   }

@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/Profile",
+  "definitions": {
+    "Profile": {
+      "title": "Profile",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "name",
+          "maxLength": 32
+        },
+        "about": {
+          "type": "string",
+          "title": "about",
+          "maxLength": 256
+        },
+        "avatar": {
+          "type": "string",
+          "title": "avatar",
+          "format": "customUrl",
+          "maxLength": 256
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  }
+}
