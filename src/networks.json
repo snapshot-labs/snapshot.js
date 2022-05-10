@@ -1128,5 +1128,21 @@
     "explorer": "https://explorer.palm.io",
     "start": 1172267,
     "imageIPFS": "QmaYQfjLfQpyRWZZZU1BE8X352rXEjNaNeahjvf1aHZrKY"
-  }
+  },
+  "1001": {
+    "key": "1001",
+    "name": "Klaytn Baobab Testnet",
+    "shortName": "Boabab",
+    "chainId": 1001,
+    "network": "testnet",
+    "multicall": "0x40643B8Aeaaca0b87Ea1A1E596e64a0e14B1d244",
+    "rpc": [
+      "https://baobab.fandom.finance/archive"
+    ],
+    "ws": [
+      "wss://baobab.fandom.finance/archive/ws"
+    ],
+    "explorer": "https://baobab.scope.klaytn.com/",
+    "imageIPFS": "QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+    }
 }
