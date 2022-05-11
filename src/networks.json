@@ -1007,7 +1007,7 @@
     "start": 536483,
     "imageIPFS": "QmeS75uS7XLR8o8uUzhLRVYPX9vMFf4DXgKxQeCzyy7vM2"
   },
-   "47805": {
+  "47805": {
     "key": "47805",
     "name": "REI Mainnet",
     "chainId": 47805,
@@ -1019,6 +1019,62 @@
     "explorer": "https://scan.rei.network/",
     "start": 1715902,
     "imageIPFS": "QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
+  },
+  "60001": {
+    "key": "60001",
+    "name": "Thinkium Testnet Chain 1",
+    "shortName": "ThinkiumTest1",
+    "chainId": 60001,
+    "network": "thinkiumtest1",
+    "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
+    "rpc": [
+      "https://test1.thinkiumrpc.net"
+    ],
+    "explorer": "https://test1.thinkiumscan.net/",
+    "start": 323327,
+    "imageIPFS": "QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
+  },
+  "70001": {
+    "key": "70001",
+    "name": "Thinkium Mainnet Chain 1",
+    "shortName": "Thinkium1",
+    "chainId": 70001,
+    "network": "thinkium1",
+    "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
+    "rpc": [
+      "https://proxy1.thinkiumrpc.net"
+    ],
+    "explorer": "https://chain1.thinkiumscan.net/",
+    "start": 26677364,
+    "imageIPFS": "QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
+  },
+  "70002": {
+    "key": "70002",
+    "name": "Thinkium Mainnet Chain 2",
+    "shortName": "Thinkium2",
+    "chainId": 70002,
+    "network": "thinkium2",
+    "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
+    "rpc": [
+      "https://proxy2.thinkiumrpc.net"
+    ],
+    "explorer": "https://chain2.thinkiumscan.net/",
+    "start": 22124397,
+    "imageIPFS": "QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
+  },
+  "70103": {
+    "key": "70103",
+    "name": "Thinkium Mainnet Chain 103",
+    "shortName": "Thinkium103",
+    "chainId": 70103,
+    "network": "thinkium103",
+    "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
+    "rpc": [
+      "https://proxy103.thinkiumrpc.net"
+    ],
+    "explorer": "https://chain103.thinkiumscan.net/",
+    "start": 22090160,
+    "imageIPFS": "QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
   },
   "80001": {
     "key": "80001",
