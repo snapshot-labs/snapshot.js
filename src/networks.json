@@ -703,8 +703,8 @@
     "network": "mainnet",
     "multicall": "0x3E90A35839ff0Aa32992d33d861f24dC95BBf74d",
     "rpc": [
-      "https://rpc.astar.network:8545",
-      "https://astar.api.onfinality.io/public"
+      "https://astar.api.onfinality.io/public",
+      "https://rpc.astar.network:8545"
     ],
     "explorer": "https://blockscout.com/astar",
     "start": 366482,
