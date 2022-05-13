@@ -6,6 +6,7 @@ import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import Multicaller from './utils/multicaller';
+import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
 import validations from './validations';
 import { signMessage, getBlockNumber } from './utils/web3';
@@ -322,6 +323,7 @@ export default {
   signMessage,
   getBlockNumber,
   Multicaller,
+  getSnapshots,
   validations,
   getHash,
   verify,
