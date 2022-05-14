@@ -17,7 +17,7 @@ import voting from './voting';
 
 export const SNAPSHOT_SUBGRAPH_URL = {
   '1':
-    'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/deployments/id/QmWtK3SiKTomQC24G9jWUpFQhfG1hdHo2Yh4nYABZ21cLq',
+    'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/deployments/id/QmXvEzRJXby7KFuTr7NJsM47hGefM5VckEXZrQyZzL9eJd',
   '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan',
   '97':
