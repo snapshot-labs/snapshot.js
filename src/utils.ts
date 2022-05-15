@@ -266,23 +266,6 @@ export async function getDelegatesBySpace(
     if (pageDelegations.length < PAGE_SIZE) break;
   }
 
-  // Global delegations are null in decentralized subgraph
-  page = 0;
-  delete params.delegations.__args.where.space_in;
-
-  while (true) {
-    params.delegations.__args.skip = page * PAGE_SIZE;
-    params.delegations.__args.where.space = null;
-    const pageResult = await subgraphRequest(
-      SNAPSHOT_SUBGRAPH_URL[network],
-      params
-    );
-
-    const pageDelegations = pageResult.delegations || [];
-    result = result.concat(pageDelegations);
-    page++;
-    if (pageDelegations.length < PAGE_SIZE) break;
-  }
   return result;
 }
 
