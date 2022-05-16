@@ -832,6 +832,21 @@
     "start": 859041,
     "logo": "ipfs://QmeGbNTU2Jqwg8qLTMGW8n8HSi2VdgCncAaeGzLx6gYnD7"
   },
+  "1819": {
+    "key": "1819",
+    "name": "Cubechain testnet",
+    "shortName": "cube",
+    "chainId": 1819,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x5db2AB28beD8EBDDe5F7202F5a11fF7E78Ad1FB5",
+    "rpc": [
+      "https://http-testnet-archive.cube.network"
+    ],
+    "explorer": "https://testnet.cubescan.network",
+    "start": 0,
+    "logo": "ipfs://QmbENgHTymTUUArX5MZ2XXH69WGenirU3oamkRD448hYdz"
+  },
   "4689": {
     "key": "4689",
     "name": "IoTeX Mainnet",
