@@ -693,6 +693,23 @@
     "start": 12559216,
     "logo": "ipfs://QmcMP9s9mUqfT2SCiP75sZgAVVev7H7RQAKiSx9xWEDKwe"
   },
+  "416": {
+    "key": "416",
+    "name": "SX Network",
+    "shortName": "SX",
+    "chainId": 416,
+    "network": "mainnet",
+    "multicall": "0x834a005DDCF990Ba1a79f259e840e58F2D14F49a",
+    "rpc": [
+      "https://rpc.sx.technology"
+    ],
+    "ws": [
+      "wss://rpc.sx.technology/ws"
+    ],
+    "explorer": "https://explorer.sx.technology",
+    "start": 2680605,
+    "logo": "ipfs://QmSXLXqyr2H6Ja5XrmznXbWTEvF2gFaL8RXNXgyLmDHjAF"
+  },
   "499": {
     "key": "499",
     "name": "Rupaya",
