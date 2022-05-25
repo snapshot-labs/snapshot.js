@@ -10,5 +10,6 @@ export default {
   quadratic,
   'ranked-choice': rankedChoice,
   weighted,
-  basic: singleChoice
+  basic: singleChoice,
+  shielded: singleChoice
 };
