@@ -39,7 +39,8 @@
             "quadratic",
             "weighted",
             "custom",
-            "basic"
+            "basic",
+            "shielded"
           ]
         },
         "snapshot": {
