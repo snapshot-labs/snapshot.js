@@ -1260,18 +1260,5 @@
     ],
     "explorer": "https://explorer.kardiachain.io",
     "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
-    },
-    "1003": {
-      "key": "1003",
-      "name": "KardiaChain Testnet",
-      "shortName": "KAI",
-      "chainId": 242,
-      "network": "testnet",
-      "multicall": "0x55C2f041dBf8eB1120fecd3B12580a424487bec1",
-      "rpc": [
-        "https://dev-1.kardiachain.io"
-      ],
-      "explorer": "https://explorer-dev.kardiachain.io",
-      "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
-      }
+    }
 }
