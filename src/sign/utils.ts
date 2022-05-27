@@ -9,12 +9,19 @@ export function getHash(data) {
 
 export async function verify(address, sig, data) {
   const { domain, types, message } = data;
-  const recoverAddress = verifyTypedData(domain, types, message, sig);
+
   const hash = getHash(data);
   console.log('Hash', hash);
   console.log('Address', address);
-  console.log('Recover address', recoverAddress);
-  if (address === recoverAddress) return true;
+
+  try {
+    const recoverAddress = verifyTypedData(domain, types, message, sig);
+    console.log('Recover address', recoverAddress);
+    if (address === recoverAddress) return true;
+  } catch (e) {
+    console.log('Could not recoverAddress:' + e.message);
+  }
+
   console.log('Check EIP1271 signature');
   return await verifyEIP1271(address, sig, hash);
 }
