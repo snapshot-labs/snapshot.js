@@ -108,6 +108,21 @@
     "explorer": "https://ubiqscan.io",
     "logo": "ipfs://Qmec3HLoN4QhwZAhw4XTi2aN8Wwmcko5hHN22sHARzb9tw"
   },
+  "4181": {
+    "key": "4181",
+    "name": "PHI",
+    "chainId": 4181,
+    "network": "PHI",
+    "multicall": "0xB141139f17c9F6B6B0da82bfC8E1153570AD44fE",
+    "rpc": [
+      "https://rpc1.phi.network"
+    ],
+    "ws": [
+      "wss://rpc1.phi.network"
+    ],
+    "explorer": "https://explorer.phi.network",
+    "logo": "ipfs://QmcxC8P7Yu5v587h7uokXJJd1dCQ71w76KRHX8cgzufWXz"
+  },
   "10": {
     "key": "10",
     "name": "Optimism Mainnet",
