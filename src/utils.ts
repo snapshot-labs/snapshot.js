@@ -229,6 +229,9 @@ export async function getDelegatesBySpace(
   space: string,
   snapshot = 'latest'
 ) {
+  if (!SNAPSHOT_SUBGRAPH_URL[network]) {
+    throw new Error(`Delegation not supported on network ${network}`);
+  }
   const spaceIn = ['', space];
   if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
 
