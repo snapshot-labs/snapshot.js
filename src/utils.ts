@@ -27,6 +27,7 @@ export const SNAPSHOT_SUBGRAPH_URL = {
   '137':
     'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-polygon',
   '250': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-fantom'
+  '4181': 'https://graph.phiswap.com/subgraphs/name/snapshot-labs/snapshot-phi'
 };
 
 const ENS_RESOLVER_ABI = [
