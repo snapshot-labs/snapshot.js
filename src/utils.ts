@@ -231,7 +231,7 @@ export async function getDelegatesBySpace(
 ) {
   if (!SNAPSHOT_SUBGRAPH_URL[network]) {
     return Promise.reject(
-      'Delegation subgraph not available for network ${network}'
+      `Delegation subgraph not available for network ${network}`
     );
   }
   const spaceIn = ['', space];
