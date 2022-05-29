@@ -93,22 +93,6 @@
     "explorer": "https://exp.tch.in.th",
     "logo": "ipfs://QmUcNN6ZMFEPLUw5WCknisSgs7nhWC5p992jSSsJVq34Eo"
   },
-  "4181": {
-    "key": "4181",
-    "name": "PHI Network",
-    "chainId": 4181,
-    "network": "mainnet",
-    "multicall": "0xB141139f17c9F6B6B0da82bfC8E1153570AD44fE",
-    "rpc": [
-      "https://rpc1.phi.network"
-      "https://rpc2.phi.network"
-    ],
-    "ws": [
-      "wss://rpc2.phi.network"
-    ],
-    "explorer": "https://explorer.phi.network",
-    "logo": "ipfs://bafybeideqgs54hqx23deytbf4ljbjxgt7tyqkr5b6o5y2yglwjjjf6c4uq"
-  },
   "8": {
     "key": "8",
     "name": "Ubiq Mainnet",
@@ -859,6 +843,21 @@
     "explorer": "https://testnet.cubescan.network",
     "start": 0,
     "logo": "ipfs://QmbENgHTymTUUArX5MZ2XXH69WGenirU3oamkRD448hYdz"
+  },
+    "4181": {
+    "key": "4181",
+    "name": "PHI Network",
+    "chainId": 4181,
+    "network": "mainnet",
+    "multicall": "0xB141139f17c9F6B6B0da82bfC8E1153570AD44fE",
+    "rpc": [
+      "https://rpc1.phi.network"
+    ],
+    "ws": [
+      "wss://rpc1.phi.network"
+    ],
+    "explorer": "https://explorer.phi.network",
+    "logo": "ipfs://bafybeideqgs54hqx23deytbf4ljbjxgt7tyqkr5b6o5y2yglwjjjf6c4uq"
   },
   "4689": {
     "key": "4689",
