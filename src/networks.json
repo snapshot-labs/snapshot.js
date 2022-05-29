@@ -1259,5 +1259,18 @@
     ],
     "explorer": "https://baobab.scope.klaytn.com/",
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+    },
+    "1002": {
+    "key": "1002",
+    "name": "KardiaChain Mainnet",
+    "shortName": "KAI",
+    "chainId": 24,
+    "network": "mainnet",
+    "multicall": "0xd9c92F2287B7802A37eC9BEce96Aa65fb5f31E1b",
+    "rpc": [
+      "https://kai-internal.kardiachain.io"
+    ],
+    "explorer": "https://explorer.kardiachain.io",
+    "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
     }
 }
