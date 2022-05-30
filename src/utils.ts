@@ -6,6 +6,7 @@ import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import Multicaller from './utils/multicaller';
+import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
 import validations from './validations';
 import { signMessage, getBlockNumber } from './utils/web3';
@@ -16,10 +17,10 @@ import voting from './voting';
 
 export const SNAPSHOT_SUBGRAPH_URL = {
   '1':
-    'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/subgraphs/id/3Q4vnuSqemXnSNHoiLD7wdBbGCXszUYnUbTz191kDMNn',
+    'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/deployments/id/QmXvEzRJXby7KFuTr7NJsM47hGefM5VckEXZrQyZzL9eJd',
   '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan',
-  '97':
+  '56':
     'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-binance-smart-chain',
   '100':
     'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-gnosis-chain',
@@ -223,6 +224,56 @@ export async function getSpaceUri(id, network = '1') {
   return false;
 }
 
+export async function getDelegatesBySpace(
+  network: string,
+  space: string,
+  snapshot = 'latest'
+) {
+  if (!SNAPSHOT_SUBGRAPH_URL[network]) {
+    return Promise.reject(
+      `Delegation subgraph not available for network ${network}`
+    );
+  }
+  const spaceIn = ['', space];
+  if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
+
+  const PAGE_SIZE = 1000;
+  let result = [];
+  let page = 0;
+  const params: any = {
+    delegations: {
+      __args: {
+        where: {
+          space_in: spaceIn
+        },
+        first: PAGE_SIZE,
+        skip: 0
+      },
+      delegator: true,
+      space: true,
+      delegate: true
+    }
+  };
+  if (snapshot !== 'latest') {
+    params.delegations.__args.block = { number: snapshot };
+  }
+
+  while (true) {
+    params.delegations.__args.skip = page * PAGE_SIZE;
+
+    const pageResult = await subgraphRequest(
+      SNAPSHOT_SUBGRAPH_URL[network],
+      params
+    );
+    const pageDelegations = pageResult.delegations || [];
+    result = result.concat(pageDelegations);
+    page++;
+    if (pageDelegations.length < PAGE_SIZE) break;
+  }
+
+  return result;
+}
+
 export function clone(item) {
   return JSON.parse(JSON.stringify(item));
 }
@@ -251,6 +302,7 @@ export default {
   validateSchema,
   getEnsTextRecord,
   getSpaceUri,
+  getDelegatesBySpace,
   clone,
   sleep,
   getNumberWithOrdinal,
@@ -259,6 +311,7 @@ export default {
   signMessage,
   getBlockNumber,
   Multicaller,
+  getSnapshots,
   validations,
   getHash,
   verify,
