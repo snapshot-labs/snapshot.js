@@ -523,6 +523,7 @@
     "network": "mainnet",
     "multicall": "0x7a59441fb06666F6d2D766393d876945D06a169c",
     "rpc": [
+      "https://explorer-node.fuse.io/",
       "https://oefusefull1.liquify.info/"
     ],
     "explorer": "https://explorer.fuse.io",
@@ -537,7 +538,6 @@
     "network": "Mainnet",
     "multicall": "0x37ab26db3df780e7026f3e767f65efb739f48d8e",
     "rpc": [
-      "https://explorer-node.fuse.io/",
       "https://pub001.hg.network/rpc"
     ],
     "ws": [
