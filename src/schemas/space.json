@@ -123,7 +123,8 @@
             "minLength": 42,
             "maxLength": 42
           },
-          "title": "members"
+          "title": "members",
+          "uniqueItems": true
         },
         "admins": {
           "type": "array",
@@ -134,7 +135,8 @@
             "minLength": 42,
             "maxLength": 42
           },
-          "title": "admins"
+          "title": "admins",
+          "uniqueItems": true
         },
         "filters": {
           "type": "object",
