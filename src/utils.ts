@@ -6,6 +6,7 @@ import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import Multicaller from './utils/multicaller';
+import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
 import validations from './validations';
 import { signMessage, getBlockNumber } from './utils/web3';
@@ -16,10 +17,10 @@ import voting from './voting';
 
 export const SNAPSHOT_SUBGRAPH_URL = {
   '1':
-    'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/subgraphs/id/3Q4vnuSqemXnSNHoiLD7wdBbGCXszUYnUbTz191kDMNn',
+    'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/deployments/id/QmXvEzRJXby7KFuTr7NJsM47hGefM5VckEXZrQyZzL9eJd',
   '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan',
-  '97':
+  '56':
     'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-binance-smart-chain',
   '100':
     'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-gnosis-chain',
@@ -228,6 +229,11 @@ export async function getDelegatesBySpace(
   space: string,
   snapshot = 'latest'
 ) {
+  if (!SNAPSHOT_SUBGRAPH_URL[network]) {
+    return Promise.reject(
+      `Delegation subgraph not available for network ${network}`
+    );
+  }
   const spaceIn = ['', space];
   if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
 
@@ -265,23 +271,6 @@ export async function getDelegatesBySpace(
     if (pageDelegations.length < PAGE_SIZE) break;
   }
 
-  // Global delegations are null in decentralized subgraph
-  page = 0;
-  delete params.delegations.__args.where.space_in;
-
-  while (true) {
-    params.delegations.__args.skip = page * PAGE_SIZE;
-    params.delegations.__args.where.space = null;
-    const pageResult = await subgraphRequest(
-      SNAPSHOT_SUBGRAPH_URL[network],
-      params
-    );
-
-    const pageDelegations = pageResult.delegations || [];
-    result = result.concat(pageDelegations);
-    page++;
-    if (pageDelegations.length < PAGE_SIZE) break;
-  }
   return result;
 }
 
@@ -322,6 +311,7 @@ export default {
   signMessage,
   getBlockNumber,
   Multicaller,
+  getSnapshots,
   validations,
   getHash,
   verify,
