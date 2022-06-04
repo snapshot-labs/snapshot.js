@@ -714,7 +714,7 @@
     "shortName": "CNDL",
     "chainId": 534,
     "network": "mainnet",
-    "multicall": "0x7839444C21C03F03cF7CD29718703D5e9B0B010C",
+    "multicall": "0x4A21871491adC2C429F9903918C306c97dd295A3",
     "rpc": [
       "https://rpc.cndlchain.com",
       "https://candle-rpc.com"
