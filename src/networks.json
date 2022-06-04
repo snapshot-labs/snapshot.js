@@ -451,8 +451,8 @@
     "network": "mainnet",
     "multicall": "0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a",
     "rpc": [
+      "https://gno.getblock.io/mainnet/6c1d1e6e-75d9-452f-a863-a694bff93d5c/",
       "https://xdai-archive.blockscout.com",
-      "https://gno.getblock.io/mainnet/?api_key=6c1d1e6e-75d9-452f-a863-a694bff93d5c",
       "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
       "https://rpc.gnosischain.com"
     ],
@@ -523,6 +523,7 @@
     "network": "mainnet",
     "multicall": "0x7a59441fb06666F6d2D766393d876945D06a169c",
     "rpc": [
+      "https://explorer-node.fuse.io/",
       "https://oefusefull1.liquify.info/"
     ],
     "explorer": "https://explorer.fuse.io",
@@ -1014,6 +1015,7 @@
     "network": "Arbitrum mainnet",
     "multicall": "0x7A7443F8c577d537f1d8cD4a629d40a3148Dd7ee",
     "rpc": [
+      "https://speedy-nodes-nyc.moralis.io/9e03baabdc27be2a35bdec4a/arbitrum/mainnet",
       "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL",
       "https://rpc.ankr.com/arbitrum"
     ],
@@ -1259,5 +1261,46 @@
     ],
     "explorer": "https://baobab.scope.klaytn.com/",
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
-    }
+    },
+    "1002": {
+    "key": "1002",
+    "name": "KardiaChain Mainnet",
+    "shortName": "KAI",
+    "chainId": 24,
+    "network": "mainnet",
+    "multicall": "0xd9c92F2287B7802A37eC9BEce96Aa65fb5f31E1b",
+    "rpc": [
+      "https://kai-internal.kardiachain.io"
+    ],
+    "explorer": "https://explorer.kardiachain.io",
+    "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
+    },
+  "666666": {
+    "key": "666666",
+    "name": "Vision - Vpioneer Testnet",
+    "shortName": "Vpioneer",
+    "chainId": 666666,
+    "network": "testnet",
+    "multicall": "0xb6E748D6632305E1c12D8369CC6B3eF4AA8A3c85",
+    "rpc": [
+      "https://vpioneer.infragrid.v.network/ethereum/compatible"
+    ],
+    "explorer": "https://visionscan.org",
+    "start": 3369285,
+    "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
+  },
+  "888888": {
+    "key": "888888",
+    "name": "Vision - Mainnet",
+    "shortName": "Vision",
+    "chainId": 888888,
+    "network": "mainnet",
+    "multicall": "0x7a677A43eb6eEe4AB6c13872Abc04e1bA5CF88eD",
+    "rpc": [
+      "https://infragrid4snapshot.v.network/ethereum/compatible"
+    ],
+    "explorer": "https://visionscan.org",
+    "start": 75909,
+    "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
+  }
 }
