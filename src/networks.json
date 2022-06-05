@@ -708,6 +708,21 @@
     "start": 2762929,
     "logo": "ipfs://QmXLZyAr6UNFQ4tkNwSyeNByFvzwYpwiNgV5vHuoxn74Rg"
   },
+  "534": {
+    "key": "534",
+    "name": "Candle",
+    "shortName": "CNDL",
+    "chainId": 534,
+    "network": "mainnet",
+    "multicall": "0x4A21871491adC2C429F9903918C306c97dd295A3",
+    "rpc": [
+      "https://rpc.cndlchain.com",
+      "https://candle-rpc.com"
+    ],
+    "explorer": "http://candleexplorer.com",
+    "start": 800000,
+    "logo": "ipfs://Qmbe3ChumXNRfHcLsNBY2APRrGxkFWP68Nb35MaKMRfPye"
+  },
   "592": {
     "key": "592",
     "name": "Astar Network",
