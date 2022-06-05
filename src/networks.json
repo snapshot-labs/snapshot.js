@@ -1274,7 +1274,23 @@
     ],
     "explorer": "https://explorer.kardiachain.io",
     "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
-    },
+  },
+  "8217": {
+      "key": "8217",
+      "name": "Klaytn Mainnet Cypress",
+      "shortName": "Cypress",
+      "chainId": 8217,
+      "network": "mainnet",
+      "multicall": "0x5f5f0d1b9ff8b3dcace308e39b13b203354906e9",
+      "rpc": [
+        "https://cypress.fandom.finance/archive"
+      ],
+      "ws": [
+        "wss://cypress.fandom.finance/archive/ws"
+      ],
+      "explorer": "https://scope.klaytn.com/",
+      "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+  },
   "666666": {
     "key": "666666",
     "name": "Vision - Vpioneer Testnet",
