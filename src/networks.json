@@ -252,15 +252,12 @@
     "network": "mainnet",
     "multicall": "0x1ee38d535d541c55c9dae27b12edf090c608e6fb",
     "rpc": [
-      "https://apis.ankr.com/c0d871dd3c6d4529b01c9362a9b79e89/6106d4a3ec1d1bcc87ec72158f8fd089/binance/archive/main",
+      "https://rpc.ankr.com/bsc",
       "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/bsc/mainnet/archive",
       "https://bsc.getblock.io/mainnet/?api_key=91f8195f-bf46-488f-846a-73d6853790e7",
       "https://bsc-private-dataseed1.nariox.org",
-      "https://bsc-private-dataseed2.nariox.org",
       "https://bsc-dataseed1.ninicoin.io",
-      "https://bsc-dataseed1.binance.org",
-      "https://bsc-dataseed2.binance.org",
-      "https://bsc-dataseed3.binance.org"
+      "https://bsc-dataseed1.binance.org"
     ],
     "explorer": "https://bscscan.com",
     "start": 461230,
@@ -454,8 +451,8 @@
     "network": "mainnet",
     "multicall": "0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a",
     "rpc": [
+      "https://gno.getblock.io/mainnet/6c1d1e6e-75d9-452f-a863-a694bff93d5c/",
       "https://xdai-archive.blockscout.com",
-      "https://gno.getblock.io/mainnet/?api_key=6c1d1e6e-75d9-452f-a863-a694bff93d5c",
       "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
       "https://rpc.gnosischain.com"
     ],
@@ -526,6 +523,7 @@
     "network": "mainnet",
     "multicall": "0x7a59441fb06666F6d2D766393d876945D06a169c",
     "rpc": [
+      "https://explorer-node.fuse.io/",
       "https://oefusefull1.liquify.info/"
     ],
     "explorer": "https://explorer.fuse.io",
@@ -709,6 +707,21 @@
     "explorer": "http://scan.rupx.io",
     "start": 2762929,
     "logo": "ipfs://QmXLZyAr6UNFQ4tkNwSyeNByFvzwYpwiNgV5vHuoxn74Rg"
+  },
+  "534": {
+    "key": "534",
+    "name": "Candle",
+    "shortName": "CNDL",
+    "chainId": 534,
+    "network": "mainnet",
+    "multicall": "0x4A21871491adC2C429F9903918C306c97dd295A3",
+    "rpc": [
+      "https://rpc.cndlchain.com",
+      "https://candle-rpc.com"
+    ],
+    "explorer": "http://candleexplorer.com",
+    "start": 800000,
+    "logo": "ipfs://Qmbe3ChumXNRfHcLsNBY2APRrGxkFWP68Nb35MaKMRfPye"
   },
   "592": {
     "key": "592",
@@ -1002,6 +1015,7 @@
     "network": "Arbitrum mainnet",
     "multicall": "0x7A7443F8c577d537f1d8cD4a629d40a3148Dd7ee",
     "rpc": [
+      "https://speedy-nodes-nyc.moralis.io/9e03baabdc27be2a35bdec4a/arbitrum/mainnet",
       "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL",
       "https://rpc.ankr.com/arbitrum"
     ],
@@ -1247,5 +1261,62 @@
     ],
     "explorer": "https://baobab.scope.klaytn.com/",
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
-    }
+    },
+    "1002": {
+    "key": "1002",
+    "name": "KardiaChain Mainnet",
+    "shortName": "KAI",
+    "chainId": 24,
+    "network": "mainnet",
+    "multicall": "0xd9c92F2287B7802A37eC9BEce96Aa65fb5f31E1b",
+    "rpc": [
+      "https://kai-internal.kardiachain.io"
+    ],
+    "explorer": "https://explorer.kardiachain.io",
+    "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
+  },
+  "8217": {
+      "key": "8217",
+      "name": "Klaytn Mainnet Cypress",
+      "shortName": "Cypress",
+      "chainId": 8217,
+      "network": "mainnet",
+      "multicall": "0x5f5f0d1b9ff8b3dcace308e39b13b203354906e9",
+      "rpc": [
+        "https://cypress.fandom.finance/archive"
+      ],
+      "ws": [
+        "wss://cypress.fandom.finance/archive/ws"
+      ],
+      "explorer": "https://scope.klaytn.com/",
+      "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+  },
+  "666666": {
+    "key": "666666",
+    "name": "Vision - Vpioneer Testnet",
+    "shortName": "Vpioneer",
+    "chainId": 666666,
+    "network": "testnet",
+    "multicall": "0xb6E748D6632305E1c12D8369CC6B3eF4AA8A3c85",
+    "rpc": [
+      "https://vpioneer.infragrid.v.network/ethereum/compatible"
+    ],
+    "explorer": "https://visionscan.org",
+    "start": 3369285,
+    "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
+  },
+  "888888": {
+    "key": "888888",
+    "name": "Vision - Mainnet",
+    "shortName": "Vision",
+    "chainId": 888888,
+    "network": "mainnet",
+    "multicall": "0x7a677A43eb6eEe4AB6c13872Abc04e1bA5CF88eD",
+    "rpc": [
+      "https://infragrid4snapshot.v.network/ethereum/compatible"
+    ],
+    "explorer": "https://visionscan.org",
+    "start": 75909,
+    "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
+  }
 }
