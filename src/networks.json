@@ -845,6 +845,21 @@
     "start": 859041,
     "logo": "ipfs://QmeGbNTU2Jqwg8qLTMGW8n8HSi2VdgCncAaeGzLx6gYnD7"
   },
+  "1818": {
+    "key": "1818",
+    "name": "Cubechain mainnet",
+    "shortName": "cube",
+    "chainId": 1818,
+    "network": "mainnet",
+    "testnet": false,
+    "multicall": "0xa2E875d4b62d68fdddFC89d68acc48f0ebE6503d",
+    "rpc": [
+      "https://http-mainnet-archive.cube.network"
+    ],
+    "explorer": "https://www.cubescan.network",
+    "start": 0,
+    "logo": "ipfs://QmbENgHTymTUUArX5MZ2XXH69WGenirU3oamkRD448hYdz"
+  },
   "1819": {
     "key": "1819",
     "name": "Cubechain testnet",
