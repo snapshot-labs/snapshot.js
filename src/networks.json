@@ -1058,12 +1058,13 @@
     "name": "Avalanche FUJI Testnet",
     "chainId": 43113,
     "network": "testnet",
-    "multicall": "0xccc75e78Dce6A20bCCa3a30deB23Cb4D23df993a",
+    "testnet": true,
+    "multicall": "0x984476ea55e32e785A9D8FF14329f99D74E3d2A2",
     "rpc": [
       "https://api.avax-test.network/ext/bc/C/rpc"
     ],
     "explorer": "https://testnet.snowtrace.io",
-    "start": 10473643,
+    "start": 10528153,
     "logo": "ipfs://QmeS75uS7XLR8o8uUzhLRVYPX9vMFf4DXgKxQeCzyy7vM2"
   },
   "43114": {
