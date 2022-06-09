@@ -1068,6 +1068,20 @@
     "start": 176517,
     "logo": "ipfs://QmQrZjZZyAcQmPXJM2cUh1KaaDeM8Sfcg3HnvZpBj8wTnG"
   },
+  "43113": {
+    "key": "43113",
+    "name": "Avalanche FUJI Testnet",
+    "chainId": 43113,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x984476ea55e32e785A9D8FF14329f99D74E3d2A2",
+    "rpc": [
+      "https://api.avax-test.network/ext/bc/C/rpc"
+    ],
+    "explorer": "https://testnet.snowtrace.io",
+    "start": 10528153,
+    "logo": "ipfs://QmeS75uS7XLR8o8uUzhLRVYPX9vMFf4DXgKxQeCzyy7vM2"
+  },
   "43114": {
     "key": "43114",
     "name": "Avalanche",
@@ -1276,8 +1290,8 @@
     ],
     "explorer": "https://baobab.scope.klaytn.com/",
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
-    },
-    "1002": {
+  },
+  "1002": {
     "key": "1002",
     "name": "KardiaChain Mainnet",
     "shortName": "KAI",
@@ -1291,20 +1305,20 @@
     "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
   },
   "8217": {
-      "key": "8217",
-      "name": "Klaytn Mainnet Cypress",
-      "shortName": "Cypress",
-      "chainId": 8217,
-      "network": "mainnet",
-      "multicall": "0x5f5f0d1b9ff8b3dcace308e39b13b203354906e9",
-      "rpc": [
-        "https://cypress.fandom.finance/archive"
-      ],
-      "ws": [
-        "wss://cypress.fandom.finance/archive/ws"
-      ],
-      "explorer": "https://scope.klaytn.com/",
-      "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+    "key": "8217",
+    "name": "Klaytn Mainnet Cypress",
+    "shortName": "Cypress",
+    "chainId": 8217,
+    "network": "mainnet",
+    "multicall": "0x5f5f0d1b9ff8b3dcace308e39b13b203354906e9",
+    "rpc": [
+      "https://cypress.fandom.finance/archive"
+    ],
+    "ws": [
+      "wss://cypress.fandom.finance/archive/ws"
+    ],
+    "explorer": "https://scope.klaytn.com/",
+    "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
   },
   "666666": {
     "key": "666666",
