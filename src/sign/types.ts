@@ -18,9 +18,7 @@ export interface Proposal {
   end: number;
   snapshot: number;
   network: string;
-  strategies: string;
   plugins: string;
-  metadata: string;
 }
 
 export interface CancelProposal {
@@ -98,9 +96,7 @@ export const proposalTypes = {
     { name: 'end', type: 'uint64' },
     { name: 'snapshot', type: 'uint64' },
     { name: 'network', type: 'string' },
-    { name: 'strategies', type: 'string' },
-    { name: 'plugins', type: 'string' },
-    { name: 'metadata', type: 'string' }
+    { name: 'plugins', type: 'string' }
   ]
 };
 
