@@ -20,7 +20,7 @@ export async function getSnapshots(network, snapshot, provider, networks) {
       number: true
     }
   };
-  const url = 'https://blockfinder.snapshot.org/graphql';
+  const url = 'https://blockfinder.snapshot.org';
   const data = await subgraphRequest(url, query);
   data.blocks.forEach((block) => (snapshots[block.network] = block.number));
   return snapshots;
