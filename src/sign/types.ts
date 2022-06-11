@@ -17,7 +17,6 @@ export interface Proposal {
   start: number;
   end: number;
   snapshot: number;
-  network: string;
   plugins: string;
 }
 
@@ -94,7 +93,6 @@ export const proposalTypes = {
     { name: 'start', type: 'uint64' },
     { name: 'end', type: 'uint64' },
     { name: 'snapshot', type: 'uint64' },
-    { name: 'network', type: 'string' },
     { name: 'plugins', type: 'string' }
   ]
 };
