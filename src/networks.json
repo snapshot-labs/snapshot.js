@@ -631,6 +631,21 @@
     "start": 13960096,
     "logo": "ipfs://QmU7f1MyRz8rLELFfypnWZQjGbDGYgZtC9rjw47jYMYrnu"
   },
+  "280": {
+    "key": "280",
+    "name": "zkSync 2 testnet",
+    "shortName": "zkSync2",
+    "chainId": 280,
+    "network": "zkSync alpha testnet",
+    "testnet": true,
+    "multicall": "0xD2CF10EF0b64B2C9B7147740AEda677d3EfeD2f8",
+    "rpc": [
+      "https://zksync2-testnet.zksync.dev"
+    ],
+    "explorer": "https://zksync2-testnet.zkscan.io/",
+    "start": 1374275,
+    "logo": "ipfs://QmPDbdmwpEeenaLHAbqcAerXdH9Z4Gfd7gm9M8tbkkjcAS"
+  },
   "288": {
     "key": "288",
     "name": "Boba Mainnet",
