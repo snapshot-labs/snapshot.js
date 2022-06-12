@@ -50,7 +50,7 @@ export async function verifyOldVersion(
 }
 
 export async function verify(address, sig, hash, network = '1') {
-  const provider = getProvider(network);
+  const provider = getProvider(network, 'brovider');
   if (await verifyDefault(address, sig, hash, provider)) return true;
   return await verifyOldVersion(address, sig, hash, provider);
 }

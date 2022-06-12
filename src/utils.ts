@@ -211,7 +211,7 @@ export function validateSchema(schema, data) {
 export function getEnsTextRecord(ens: string, record: string, network = '1') {
   const address = networks[network].ensResolver || networks['1'].ensResolver;
   const ensHash = hash(normalize(ens));
-  const provider = getProvider(network);
+  const provider = getProvider(network, 'brovider');
   return call(provider, ENS_RESOLVER_ABI, [address, 'text', [ensHash, record]]);
 }
 
