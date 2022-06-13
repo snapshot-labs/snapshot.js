@@ -17,10 +17,7 @@ export interface Proposal {
   start: number;
   end: number;
   snapshot: number;
-  network: string;
-  strategies: string;
   plugins: string;
-  metadata: string;
 }
 
 export interface CancelProposal {
@@ -37,7 +34,6 @@ export interface Vote {
   proposal: string;
   type: string;
   choice: number | number[] | string;
-  metadata: string;
 }
 
 export interface Follow {
@@ -97,10 +93,7 @@ export const proposalTypes = {
     { name: 'start', type: 'uint64' },
     { name: 'end', type: 'uint64' },
     { name: 'snapshot', type: 'uint64' },
-    { name: 'network', type: 'string' },
-    { name: 'strategies', type: 'string' },
-    { name: 'plugins', type: 'string' },
-    { name: 'metadata', type: 'string' }
+    { name: 'plugins', type: 'string' }
   ]
 };
 
@@ -128,8 +121,7 @@ export const voteTypes = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
-    { name: 'choice', type: 'uint32' },
-    { name: 'metadata', type: 'string' }
+    { name: 'choice', type: 'uint32' }
   ]
 };
 
@@ -139,8 +131,7 @@ export const voteArrayTypes = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
-    { name: 'choice', type: 'uint32[]' },
-    { name: 'metadata', type: 'string' }
+    { name: 'choice', type: 'uint32[]' }
   ]
 };
 
@@ -150,8 +141,7 @@ export const voteStringTypes = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
-    { name: 'choice', type: 'string' },
-    { name: 'metadata', type: 'string' }
+    { name: 'choice', type: 'string' }
   ]
 };
 
@@ -161,8 +151,7 @@ export const vote2Types = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'bytes32' },
-    { name: 'choice', type: 'uint32' },
-    { name: 'metadata', type: 'string' }
+    { name: 'choice', type: 'uint32' }
   ]
 };
 
@@ -172,8 +161,7 @@ export const voteArray2Types = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'bytes32' },
-    { name: 'choice', type: 'uint32[]' },
-    { name: 'metadata', type: 'string' }
+    { name: 'choice', type: 'uint32[]' }
   ]
 };
 
@@ -183,8 +171,7 @@ export const voteString2Types = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'bytes32' },
-    { name: 'choice', type: 'string' },
-    { name: 'metadata', type: 'string' }
+    { name: 'choice', type: 'string' }
   ]
 };
 

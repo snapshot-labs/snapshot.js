@@ -555,9 +555,9 @@
     "network": "mainnet",
     "multicall": "0xCBca837161be50EfA5925bB9Cc77406468e76751",
     "rpc": [
+      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/polygon/mainnet/archive",
       "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mainnet/archive",
-      "https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e",
-      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/polygon/mainnet/archive"
+      "https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e"
     ],
     "ws": [
       "wss://ws-mainnet.matic.network"
@@ -630,6 +630,21 @@
     "explorer": "https://hscan.org",
     "start": 13960096,
     "logo": "ipfs://QmU7f1MyRz8rLELFfypnWZQjGbDGYgZtC9rjw47jYMYrnu"
+  },
+  "280": {
+    "key": "280",
+    "name": "zkSync 2 testnet",
+    "shortName": "zkSync2",
+    "chainId": 280,
+    "network": "zkSync alpha testnet",
+    "testnet": true,
+    "multicall": "0xD2CF10EF0b64B2C9B7147740AEda677d3EfeD2f8",
+    "rpc": [
+      "https://zksync2-testnet.zksync.dev"
+    ],
+    "explorer": "https://zksync2-testnet.zkscan.io/",
+    "start": 1374275,
+    "logo": "ipfs://QmPDbdmwpEeenaLHAbqcAerXdH9Z4Gfd7gm9M8tbkkjcAS"
   },
   "288": {
     "key": "288",
