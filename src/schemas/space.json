@@ -226,6 +226,36 @@
             ]
           }
         },
+        "treasuries": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "title": "Name",
+                "examples": ["e.g. Balancer DAO 1"],
+                "maxLength": 64
+              },
+              "address": {
+                "type": "string",
+                "title": "Contract address",
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "minLength": 42,
+                "maxLength": 42
+              },
+              "network": {
+                "type": "number",
+                "title": "Network",
+                "maxLength": 12
+              }
+            },
+            "required": ["name", "address", "network"],
+            "additionalProperties": false
+          }
+        },
         "parent": {
           "type": "string",
           "title": "parent"
