@@ -247,7 +247,7 @@
                 "maxLength": 42
               },
               "network": {
-                "type": "number",
+                "type": "string",
                 "title": "Network",
                 "maxLength": 12
               }
