@@ -228,7 +228,6 @@
         },
         "treasuries": {
           "type": "array",
-          "minItems": 1,
           "maxItems": 10,
           "items": {
             "type": "object",
@@ -237,6 +236,7 @@
                 "type": "string",
                 "title": "Name",
                 "examples": ["e.g. Balancer DAO 1"],
+                "minLength": 1,
                 "maxLength": 64
               },
               "address": {
