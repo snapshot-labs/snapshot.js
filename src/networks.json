@@ -1349,6 +1349,20 @@
     "start": 3369285,
     "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
   },
+  "239": {
+    "key": "239",
+    "name": "AITD Testnet",
+    "chainId": 239,
+    "network": "Testnet",
+    "testnet": true,
+    "multicall": "0x71f63b35f4a90835678fcb3b53207d7b2ae252fa",
+    "rpc": [
+      "http://54.255.14.223:8545"
+    ],
+    "explorer": "http://aitd-explorer-pre.aitdcoin.com/",
+    "start": 5000000,
+    "logo": "ipfs://QmNUzX12Gtn4fePqJeMcACvECEH2VeUeNaMFja2kfff1WS"
+  },
   "888888": {
     "key": "888888",
     "name": "Vision - Mainnet",
