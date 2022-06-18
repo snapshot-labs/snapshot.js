@@ -185,11 +185,11 @@
           "type": "object",
           "properties": {
             "delay": {
-              "type": "number",
+              "type": "integer",
               "minimum": 0
             },
             "period": {
-              "type": "number",
+              "type": "integer",
               "minimum": 0
             },
             "type": {
