@@ -78,6 +78,21 @@
     "start": 743550,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
   },
+  "4181": {
+    "key": "4181",
+    "name": "PHI Network",
+    "chainId": 4181,
+    "network": "PHI",
+    "multicall": "0xB141139f17c9F6B6B0da82bfC8E1153570AD44fE",
+    "rpc": [
+      "https://rpc1.phi.network"
+    ],
+    "ws": [
+      "wss://ws.phi.network"
+    ],
+    "explorer": "https://exploreer.phi.network",
+    "logo": "ipfs://QmcxC8P7Yu5v587h7uokXJJd1dCQ71w76KRHX8cgzufWXz"
+  },
   "7": {
     "key": "7",
     "name": "ThaiChain",
