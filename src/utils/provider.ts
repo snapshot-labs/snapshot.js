@@ -10,6 +10,7 @@ export default function getProvider(network: string, type = 'archive') {
   let url: any = networks[network].rpc[0];
   if (type === 'light' && networks[network].light?.length)
     url = networks[network].light[0];
+  if (type === 'brovider') url = `https://brovider.xyz/${network}`;
   const connectionInfo =
     typeof url === 'object'
       ? { ...url, timeout: 25000 }
@@ -25,6 +26,7 @@ export function getBatchedProvider(network: string, type = 'archive') {
   let url: any = networks[network].rpc[0];
   if (type === 'light' && networks[network].light?.length)
     url = networks[network].light[0];
+  if (type === 'brovider') url = `https://brovider.xyz/${network}`;
   const connectionInfo =
     typeof url === 'object'
       ? { ...url, timeout: 25000 }

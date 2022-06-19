@@ -10,37 +10,6 @@
   "snapshot": 12345167,
   "discussion": "https://...",
   "metadata": {
-    "network": "1",
-    "strategies": [
-      {
-        "name": "contract-call",
-        "params": {
-          "symbol": "YAM LP",
-          "address": "0xc32f9b0292965c5dd4a0ea1abfcc1f5a36d66986",
-          "decimals": 24,
-          "methodABI": {
-            "name": "getCurrentVotes",
-            "type": "function",
-            "inputs": [
-              {
-                "name": "owner",
-                "type": "address",
-                "internalType": "address"
-              }
-            ],
-            "outputs": [
-              {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-              }
-            ],
-            "payable": false,
-            "constant": false,
-            "stateMutability": "nonpayable"
-          }
-        }
-      }
-    ]
+    "network": "1"
   }
 }

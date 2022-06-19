@@ -83,16 +83,10 @@ export default class Client {
     return await signMessage(web3, msg.msg, account);
   }
 
-  async vote(
-    web3: Web3Provider,
-    address: string,
-    space,
-    { proposal, choice, metadata = {} }
-  ) {
+  async vote(web3: Web3Provider, address: string, space, { proposal, choice }) {
     return this.broadcast(web3, address, space, 'vote', {
       proposal,
-      choice,
-      metadata
+      choice
     });
   }
 

@@ -466,8 +466,8 @@
     "network": "mainnet",
     "multicall": "0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a",
     "rpc": [
+      "https://gno.getblock.io/mainnet/6c1d1e6e-75d9-452f-a863-a694bff93d5c/",
       "https://xdai-archive.blockscout.com",
-      "https://gno.getblock.io/mainnet/?api_key=6c1d1e6e-75d9-452f-a863-a694bff93d5c",
       "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
       "https://rpc.gnosischain.com"
     ],
@@ -538,6 +538,7 @@
     "network": "mainnet",
     "multicall": "0x7a59441fb06666F6d2D766393d876945D06a169c",
     "rpc": [
+      "https://explorer-node.fuse.io/",
       "https://oefusefull1.liquify.info/"
     ],
     "explorer": "https://explorer.fuse.io",
@@ -569,9 +570,9 @@
     "network": "mainnet",
     "multicall": "0xCBca837161be50EfA5925bB9Cc77406468e76751",
     "rpc": [
+      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/polygon/mainnet/archive",
       "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mainnet/archive",
-      "https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e",
-      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/polygon/mainnet/archive"
+      "https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e"
     ],
     "ws": [
       "wss://ws-mainnet.matic.network"
@@ -644,6 +645,21 @@
     "explorer": "https://hscan.org",
     "start": 13960096,
     "logo": "ipfs://QmU7f1MyRz8rLELFfypnWZQjGbDGYgZtC9rjw47jYMYrnu"
+  },
+  "280": {
+    "key": "280",
+    "name": "zkSync 2 testnet",
+    "shortName": "zkSync2",
+    "chainId": 280,
+    "network": "zkSync alpha testnet",
+    "testnet": true,
+    "multicall": "0xD2CF10EF0b64B2C9B7147740AEda677d3EfeD2f8",
+    "rpc": [
+      "https://zksync2-testnet.zksync.dev"
+    ],
+    "explorer": "https://zksync2-testnet.zkscan.io/",
+    "start": 1374275,
+    "logo": "ipfs://QmPDbdmwpEeenaLHAbqcAerXdH9Z4Gfd7gm9M8tbkkjcAS"
   },
   "288": {
     "key": "288",
@@ -721,6 +737,21 @@
     "explorer": "http://scan.rupx.io",
     "start": 2762929,
     "logo": "ipfs://QmXLZyAr6UNFQ4tkNwSyeNByFvzwYpwiNgV5vHuoxn74Rg"
+  },
+  "534": {
+    "key": "534",
+    "name": "Candle",
+    "shortName": "CNDL",
+    "chainId": 534,
+    "network": "mainnet",
+    "multicall": "0x4A21871491adC2C429F9903918C306c97dd295A3",
+    "rpc": [
+      "https://rpc.cndlchain.com",
+      "https://candle-rpc.com"
+    ],
+    "explorer": "http://candleexplorer.com",
+    "start": 800000,
+    "logo": "ipfs://Qmbe3ChumXNRfHcLsNBY2APRrGxkFWP68Nb35MaKMRfPye"
   },
   "592": {
     "key": "592",
@@ -843,6 +874,21 @@
     "explorer": "https://moonbase-blockscout.testnet.moonbeam.network",
     "start": 859041,
     "logo": "ipfs://QmeGbNTU2Jqwg8qLTMGW8n8HSi2VdgCncAaeGzLx6gYnD7"
+  },
+  "1818": {
+    "key": "1818",
+    "name": "Cubechain mainnet",
+    "shortName": "cube",
+    "chainId": 1818,
+    "network": "mainnet",
+    "testnet": false,
+    "multicall": "0x28d2ebdb36369db1c51355cdc0898754d1a1c3c5",
+    "rpc": [
+      "https://http-mainnet-archive.cube.network"
+    ],
+    "explorer": "https://www.cubescan.network",
+    "start": 0,
+    "logo": "ipfs://QmbENgHTymTUUArX5MZ2XXH69WGenirU3oamkRD448hYdz"
   },
   "1819": {
     "key": "1819",
@@ -1028,6 +1074,7 @@
     "network": "Arbitrum mainnet",
     "multicall": "0x7A7443F8c577d537f1d8cD4a629d40a3148Dd7ee",
     "rpc": [
+      "https://speedy-nodes-nyc.moralis.io/9e03baabdc27be2a35bdec4a/arbitrum/mainnet",
       "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL",
       "https://rpc.ankr.com/arbitrum"
     ],
@@ -1064,6 +1111,20 @@
     "explorer": "https://explorer.emerald.oasis.dev",
     "start": 176517,
     "logo": "ipfs://QmQrZjZZyAcQmPXJM2cUh1KaaDeM8Sfcg3HnvZpBj8wTnG"
+  },
+  "43113": {
+    "key": "43113",
+    "name": "Avalanche FUJI Testnet",
+    "chainId": 43113,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x984476ea55e32e785A9D8FF14329f99D74E3d2A2",
+    "rpc": [
+      "https://api.avax-test.network/ext/bc/C/rpc"
+    ],
+    "explorer": "https://testnet.snowtrace.io",
+    "start": 10528153,
+    "logo": "ipfs://QmeS75uS7XLR8o8uUzhLRVYPX9vMFf4DXgKxQeCzyy7vM2"
   },
   "43114": {
     "key": "43114",
@@ -1273,8 +1334,8 @@
     ],
     "explorer": "https://baobab.scope.klaytn.com/",
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
-    },
-    "1002": {
+  },
+  "1002": {
     "key": "1002",
     "name": "KardiaChain Mainnet",
     "shortName": "KAI",
@@ -1286,5 +1347,49 @@
     ],
     "explorer": "https://explorer.kardiachain.io",
     "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
-    }
+  },
+  "8217": {
+    "key": "8217",
+    "name": "Klaytn Mainnet Cypress",
+    "shortName": "Cypress",
+    "chainId": 8217,
+    "network": "mainnet",
+    "multicall": "0x5f5f0d1b9ff8b3dcace308e39b13b203354906e9",
+    "rpc": [
+      "https://cypress.fandom.finance/archive"
+    ],
+    "ws": [
+      "wss://cypress.fandom.finance/archive/ws"
+    ],
+    "explorer": "https://scope.klaytn.com/",
+    "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+  },
+  "666666": {
+    "key": "666666",
+    "name": "Vision - Vpioneer Testnet",
+    "shortName": "Vpioneer",
+    "chainId": 666666,
+    "network": "testnet",
+    "multicall": "0xb6E748D6632305E1c12D8369CC6B3eF4AA8A3c85",
+    "rpc": [
+      "https://vpioneer.infragrid.v.network/ethereum/compatible"
+    ],
+    "explorer": "https://visionscan.org",
+    "start": 3369285,
+    "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
+  },
+  "888888": {
+    "key": "888888",
+    "name": "Vision - Mainnet",
+    "shortName": "Vision",
+    "chainId": 888888,
+    "network": "mainnet",
+    "multicall": "0x7a677A43eb6eEe4AB6c13872Abc04e1bA5CF88eD",
+    "rpc": [
+      "https://infragrid4snapshot.v.network/ethereum/compatible"
+    ],
+    "explorer": "https://visionscan.org",
+    "start": 75909,
+    "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
+  }
 }
