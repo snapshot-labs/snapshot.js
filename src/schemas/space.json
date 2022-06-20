@@ -205,6 +205,13 @@
             },
             "hideAbstain": {
               "type": "boolean"
+            },
+            "privacy": {
+              "type": "string",
+              "enum": [
+                "",
+                "shutter"
+              ]
             }
           },
           "additionalProperties": false
