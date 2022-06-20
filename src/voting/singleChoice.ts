@@ -1,8 +1,12 @@
 export default class SingleChoiceVoting {
-  public proposal;
-  public votes;
-  public strategies;
-  public selected;
+  proposal: { choices: string[] };
+  votes: { choice: number; balance: number; scores: number[] }[];
+  strategies: {
+    name: string;
+    network: string;
+    params: Record<string, unknown>;
+  }[];
+  selected: number;
 
   constructor(proposal, votes, strategies, selected) {
     this.proposal = proposal;
@@ -11,34 +15,31 @@ export default class SingleChoiceVoting {
     this.selected = selected;
   }
 
-  //  Returns an array with the results for each choice
-  resultsByVoteBalance() {
-    return this.proposal.choices.map((choice, i) =>
-      this.votes
-        .filter((vote: any) => vote.choice === i + 1)
-        .reduce((a, b: any) => a + b.balance, 0)
-    );
+  getProposalResults(): number[] {
+    return this.proposal.choices.map((choice, i) => {
+      const votes = this.votes.filter((vote) => vote.choice === i + 1);
+      const balanceSum = votes.reduce((a, b) => a + b.balance, 0);
+      return balanceSum;
+    });
   }
 
-  //  Returns an array with the results for each choice
-  //  and for each strategy
-  resultsByStrategyScore() {
-    return this.proposal.choices.map((choice, i) =>
-      this.strategies.map((strategy, sI) =>
-        this.votes
-          .filter((vote: any) => vote.choice === i + 1)
-          .reduce((a, b: any) => a + b.scores[sI], 0)
-      )
-    );
+  getProposalResultsByStrategy(): number[][] {
+    return this.proposal.choices.map((choice, i) => {
+      const scores = this.strategies.map((strategy, sI) => {
+        const votes = this.votes.filter((vote) => vote.choice === i + 1);
+        const scoreSum = votes.reduce((a, b) => a + b.scores[sI], 0);
+        return scoreSum;
+      });
+      return scores;
+    });
   }
 
-  // Returns the total amount of the results
-  sumOfResultsBalance() {
-    return this.votes.reduce((a, b: any) => a + b.balance, 0);
+  getProposalResultsSum(): number {
+    return this.votes.reduce((a, b) => a + b.balance, 0);
   }
 
-  //  Returns a string of all choices
-  getChoiceString() {
+  getChoiceString(): string {
+    console.log(this.selected);
     return this.proposal.choices[this.selected - 1];
   }
 }
