@@ -83,7 +83,12 @@ const getScoresTests = [
 test.each(getScoresTests)(
   'getScores',
   (proposal, votes, strategies, expected) => {
-    const single = new SingleChoiceVoting(proposal, votes, strategies, 1);
+    const single = new SingleChoiceVoting(
+      proposal,
+      votes,
+      strategies,
+      example.selectedChoice
+    );
     expect(single.getScores()).toEqual(expected);
   }
 );
@@ -118,7 +123,12 @@ const getScoresByStrategyTests = [
 test.each(getScoresByStrategyTests)(
   'getScoresByStrategy',
   (proposal, votes, strategies, expected) => {
-    const single = new SingleChoiceVoting(proposal, votes, strategies, 1);
+    const single = new SingleChoiceVoting(
+      proposal,
+      votes,
+      strategies,
+      example.selectedChoice
+    );
     expect(single.getScoresByStrategy()).toEqual(expected);
   }
 );
@@ -148,7 +158,12 @@ const getScoresTotalTests = [
 test.each(getScoresTotalTests)(
   'getScoresTotal',
   (proposal, votes, strategies, expected) => {
-    const single = new SingleChoiceVoting(proposal, votes, strategies, 1);
+    const single = new SingleChoiceVoting(
+      proposal,
+      votes,
+      strategies,
+      example.selectedChoice
+    );
     expect(single.getScoresTotal()).toEqual(expected);
   }
 );

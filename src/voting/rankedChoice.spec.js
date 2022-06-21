@@ -99,7 +99,12 @@ const getScoresTests = [
 test.each(getScoresTests)(
   'getScores',
   (proposal, votes, strategies, expected) => {
-    const ranked = new RankedChoiceVoting(proposal, votes, strategies, [1]);
+    const ranked = new RankedChoiceVoting(
+      proposal,
+      votes,
+      strategies,
+      example.selectedChoice
+    );
     expect(ranked.getScores()).toEqual(expected);
   }
 );
@@ -134,7 +139,12 @@ const getScoresByStrategyTests = [
 test.each(getScoresByStrategyTests)(
   'getScoresByStrategy',
   (proposal, votes, strategies, expected) => {
-    const ranked = new RankedChoiceVoting(proposal, votes, strategies, [1]);
+    const ranked = new RankedChoiceVoting(
+      proposal,
+      votes,
+      strategies,
+      example.selectedChoice
+    );
     expect(ranked.getScoresByStrategy()).toEqual(expected);
   }
 );
@@ -164,7 +174,12 @@ const getScoresTotalTests = [
 test.each(getScoresTotalTests)(
   'getScoresTotal',
   (proposal, votes, strategies, expected) => {
-    const ranked = new RankedChoiceVoting(proposal, votes, strategies, [1]);
+    const ranked = new RankedChoiceVoting(
+      proposal,
+      votes,
+      strategies,
+      example.selectedChoice
+    );
     expect(ranked.getScoresTotal()).toEqual(expected);
   }
 );
