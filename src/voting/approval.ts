@@ -1,4 +1,11 @@
-function filterVotesWithInvalidChoice(votes, choices) {
+function filterVotesWithInvalidChoice(
+  votes: {
+    choice: number[];
+    balance: number;
+    scores: number[];
+  }[],
+  choices: string[]
+) {
   return votes.filter((vote) => {
     return (
       Array.isArray(vote.choice) &&
@@ -27,11 +34,15 @@ export default class ApprovalVoting {
     this.selected = selected;
   }
 
-  getValidatedVotes() {
+  getValidatedVotes(): {
+    choice: number[];
+    balance: number;
+    scores: number[];
+  }[] {
     return filterVotesWithInvalidChoice(this.votes, this.proposal.choices);
   }
 
-  getScores() {
+  getScores(): number[] {
     return this.proposal.choices.map((choice, i) =>
       this.getValidatedVotes()
         .filter((vote) => vote.choice.includes(i + 1))
@@ -39,7 +50,7 @@ export default class ApprovalVoting {
     );
   }
 
-  getScoresByStrategy() {
+  getScoresByStrategy(): number[][] {
     return this.proposal.choices.map((choice, i) =>
       this.strategies.map((strategy, sI) =>
         this.getValidatedVotes()
@@ -49,11 +60,11 @@ export default class ApprovalVoting {
     );
   }
 
-  getScoresTotal() {
+  getScoresTotal(): number {
     return this.getValidatedVotes().reduce((a, b) => a + b.balance, 0);
   }
 
-  getChoiceString() {
+  getChoiceString(): string {
     if (!this.selected) return '';
     return this.proposal.choices
       .filter((choice, i) => this.selected.includes(i + 1))
