@@ -753,6 +753,20 @@
     "start": 366482,
     "logo": "ipfs://QmZLQVsUqHBDXutu6ywTvcYXDZG2xBstMfHkfJSzUNpZsc"
   },
+  "595": {
+    "key": "595",
+    "name": "Mandala TC7",
+    "chainId": 595,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x8ce86f733024c1ccae2224f05c11fd50713d6f81",
+    "rpc": [
+      "https://tc7-eth.aca-dev.network"
+    ],
+    "explorer": "https://blockscout.mandala.acala.network/",
+    "start": 1335512,
+    "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
+  },
   "888": {
     "key": "888",
     "name": "Wanchain",
