@@ -185,7 +185,5 @@ test('getChoiceString', () => {
     example.strategies,
     example.selectedChoice
   );
-  expect(approval.getChoiceString()).toEqual(
-    example.proposal.choices[example.selectedChoice - 1]
-  );
+  expect(approval.getChoiceString()).toEqual('Article 1, Article 3');
 });
