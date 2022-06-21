@@ -37,25 +37,17 @@ const example2 = () => {
 
 const rndChoices = () => {
   const rndNumber = () => {
-    return Math.random() < 0.9
+    return Math.random() < 0.1
       ? 2
-      : Math.random() < 0.7
+      : Math.random() < 0.3
       ? -1
       : Math.random() < 0.5
       ? 1000000
-      : Math.random() < 0.3
+      : Math.random() < 0.7
       ? 0
       : undefined;
   };
-  return [
-    rndNumber(),
-    rndNumber(),
-    rndNumber(),
-    rndNumber(),
-    rndNumber(),
-    rndNumber(),
-    rndNumber()
-  ];
+  return Array.from({ length: Math.floor(Math.random() * 9) + 1 }, rndNumber);
 };
 
 const votesWithInvalidChoices = () => {
