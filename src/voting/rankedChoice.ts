@@ -19,9 +19,17 @@ function filterVotesWithInvalidChoice(
   });
 }
 
-function irv(ballots: (number | number[])[][], rounds) {
-  const candidates: any[] = [...new Set(ballots.map((vote) => vote[0]).flat())];
-  const votes = Object.entries(
+function irv(
+  ballots: (number | number[])[][],
+  rounds: {
+    round: number;
+    sortedByHighest: [string, [number, number[]]][];
+  }[]
+): { round: number; sortedByHighest: [string, [number, number[]]][] }[] {
+  const candidates: number[] = [
+    ...new Set(ballots.map((vote) => vote[0]).flat())
+  ];
+  const votes: [string, [number, number[]]][] = Object.entries(
     ballots.reduce((votes, [v], i, src) => {
       const balance = src[i][1];
       votes[v[0]][0] += balance;
@@ -37,7 +45,7 @@ function irv(ballots: (number | number[])[][], rounds) {
     }, Object.assign({}, ...candidates.map((c) => ({ [c]: [0, []] }))))
   );
 
-  const votesWithoutScore = votes.map((vote: any) => [vote[0], vote[1][0]]);
+  const votesWithoutScore = votes.map((vote) => [vote[0], vote[1][0]]);
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
   const [topCand, topCount]: number[] = votesWithoutScore.reduce(
@@ -45,12 +53,12 @@ function irv(ballots: (number | number[])[][], rounds) {
     ['?', -Infinity]
   );
   const [bottomCand, bottomCount] = votesWithoutScore.reduce(
-    ([n, m]: any, [v, c]: any) => (c < m ? [v, c] : [n, m]),
+    ([n, m], [v, c]) => (c < m ? [v, c] : [n, m]),
     ['?', Infinity]
   );
   /* eslint-enable @typescript-eslint/no-unused-vars */
 
-  const sortedByHighest = votes.sort((a: any, b: any) => b[1][0] - a[1][0]);
+  const sortedByHighest = votes.sort((a, b) => b[1][0] - a[1][0]);
 
   const totalPowerOfVotes = ballots
     .map((bal) => bal[1])
@@ -77,15 +85,14 @@ function irv(ballots: (number | number[])[][], rounds) {
 }
 
 function getFinalRound(
-  index: number,
   votes: RankedChoiceVote[]
 ): [string, [number, number[]]][] {
-  const results = irv(
+  const rounds = irv(
     votes.map((vote) => [vote.choice, vote.balance, vote.scores]),
     []
   );
-  const finalRound = results[results.length - 1];
-  return finalRound.sortedByHighest.filter((res: any) => res[0] == index + 1);
+  const finalRound = rounds[rounds.length - 1];
+  return finalRound.sortedByHighest;
 }
 
 export default class RankedChoiceVoting {
@@ -111,21 +118,21 @@ export default class RankedChoiceVoting {
   }
 
   getScores(): number[] {
+    const finalRounde = getFinalRound(this.getValidatedVotes());
     return this.proposal.choices.map((choice, i) =>
-      getFinalRound(i, this.getValidatedVotes()).reduce(
-        (a, b) => a + b[1][0],
-        0
-      )
+      finalRounde
+        .filter((res) => Number(res[0]) === i + 1)
+        .reduce((a, b) => a + b[1][0], 0)
     );
   }
 
   getScoresByStrategy(): number[][] {
+    const finalRounde = getFinalRound(this.getValidatedVotes());
     return this.proposal.choices.map((choice, i) =>
       this.strategies.map((strategy, sI) => {
-        return getFinalRound(i, this.getValidatedVotes()).reduce(
-          (a, b) => a + b[1][1][sI],
-          0
-        );
+        return finalRounde
+          .filter((res) => Number(res[0]) === i + 1)
+          .reduce((a, b) => a + b[1][1][sI], 0);
       })
     );
   }
