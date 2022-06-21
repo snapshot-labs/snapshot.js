@@ -1,4 +1,9 @@
-function filterVotesWithInvalidChoice(votes, choices) {
+import { SingleChoiceVote, Strategy } from './types';
+
+function filterVotesWithInvalidChoice(
+  votes: SingleChoiceVote[],
+  choices: string[]
+): SingleChoiceVote[] {
   return votes.filter((vote) => {
     return (
       typeof vote.choice === 'number' &&
@@ -9,22 +14,23 @@ function filterVotesWithInvalidChoice(votes, choices) {
 
 export default class SingleChoiceVoting {
   proposal: { choices: string[] };
-  votes: { choice: number; balance: number; scores: number[] }[];
-  strategies: {
-    name: string;
-    network: string;
-    params: Record<string, unknown>;
-  }[];
+  votes: SingleChoiceVote[];
+  strategies: Strategy[];
   selected: number;
 
-  constructor(proposal, votes, strategies, selected) {
+  constructor(
+    proposal: { choices: string[] },
+    votes: SingleChoiceVote[],
+    strategies: Strategy[],
+    selected: number
+  ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
     this.selected = selected;
   }
 
-  getValidatedVotes(): { choice: number; balance: number; scores: number[] }[] {
+  getValidatedVotes(): SingleChoiceVote[] {
     return filterVotesWithInvalidChoice(this.votes, this.proposal.choices);
   }
 
