@@ -10,14 +10,14 @@ const example2 = () => {
     { name: 'ticket', network: 1, params: {} },
     { name: 'ticket', network: 1, params: {} }
   ];
-  const results = [1758, 222, 177, 120];
-  const resultsByStrategy = [
+  const scores = [1758, 222, 177, 120];
+  const scoresByStrategy = [
     [586, 586, 586],
     [74, 74, 74],
     [59, 59, 59],
     [40, 40, 40]
   ];
-  const resultsSum = 2277;
+  const scoresTotal = 2277;
   const votes = example.votes.map((vote) => ({
     choice: vote.choice,
     balance: 3,
@@ -27,9 +27,9 @@ const example2 = () => {
   return {
     proposal,
     strategies,
-    results,
-    resultsByStrategy,
-    resultsSum,
+    scores,
+    scoresByStrategy,
+    scoresTotal,
     votes
   };
 };
@@ -38,7 +38,7 @@ const votesWithInvalidChoices = () => {
   const votes = [];
   for (let i = 0; i < 100; i++) {
     votes.push({
-      choice: [Math.random() < 0.5 ? -1 : Math.random() < 0.5 ? 1000000 : 0],
+      choice: Math.random() < 0.5 ? -1 : Math.random() < 0.5 ? 1000000 : 0,
       balance: 1,
       scores: [1]
     });
@@ -59,24 +59,24 @@ const votesWithInvalidChoices2 = () => {
 };
 
 const getScoresTests = [
-  [example.proposal, example.votes, example.strategies, example.results],
+  [example.proposal, example.votes, example.strategies, example.scores],
   [
     example.proposal,
     votesWithInvalidChoices(),
     example.strategies,
-    example.results
+    example.scores
   ],
   [
     example2().proposal,
     example2().votes,
     example2().strategies,
-    example2().results
+    example2().scores
   ],
   [
     example2().proposal,
     votesWithInvalidChoices2(),
     example2().strategies,
-    example2().results
+    example2().scores
   ]
 ];
 
@@ -93,25 +93,25 @@ const getScoresByStrategyTests = [
     example.proposal,
     example.votes,
     example.strategies,
-    example.resultsByStrategy
+    example.scoresByStrategy
   ],
   [
     example.proposal,
     votesWithInvalidChoices(),
     example.strategies,
-    example.resultsByStrategy
+    example.scoresByStrategy
   ],
   [
     example2().proposal,
     example2().votes,
     example2().strategies,
-    example2().resultsByStrategy
+    example2().scoresByStrategy
   ],
   [
     example2().proposal,
     votesWithInvalidChoices2(),
     example2().strategies,
-    example2().resultsByStrategy
+    example2().scoresByStrategy
   ]
 ];
 
@@ -124,24 +124,24 @@ test.each(getScoresByStrategyTests)(
 );
 
 const getScoresTotalTests = [
-  [example.proposal, example.votes, example.strategies, example.resultsSum],
+  [example.proposal, example.votes, example.strategies, example.scoresTotal],
   [
     example.proposal,
     votesWithInvalidChoices(),
     example.strategies,
-    example.resultsSum
+    example.scoresTotal
   ],
   [
     example2().proposal,
     example2().votes,
     example2().strategies,
-    example2().resultsSum
+    example2().scoresTotal
   ],
   [
     example2().proposal,
     votesWithInvalidChoices2(),
     example2().strategies,
-    example2().resultsSum
+    example2().scoresTotal
   ]
 ];
 
