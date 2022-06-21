@@ -77,13 +77,13 @@ export default class ApprovalVoting {
     this.selected = selected;
   }
 
-  resultsByVoteBalance() {
+  getScores() {
     return this.proposal.choices.map((choice, i) =>
       getFinalRound(i, this.votes).reduce((a, b: any) => a + b[1][0], 0)
     );
   }
 
-  resultsByStrategyScore() {
+  getScoresByStrategy() {
     return this.proposal.choices.map((choice, i) =>
       this.strategies.map((strategy, sI) => {
         return getFinalRound(i, this.votes).reduce(
@@ -94,8 +94,8 @@ export default class ApprovalVoting {
     );
   }
 
-  sumOfResultsBalance() {
-    return this.resultsByVoteBalance().reduce((a, b: any) => a + b);
+  getScoresTotal() {
+    return this.getScores().reduce((a, b: any) => a + b);
   }
 
   getChoiceString() {

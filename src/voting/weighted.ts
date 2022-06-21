@@ -23,7 +23,7 @@ export default class WeightedVoting {
     this.selected = selected;
   }
 
-  resultsByVoteBalance() {
+  getScores() {
     const results = this.proposal.choices.map((choice, i) =>
       this.votes
         .map((vote) => weightedPower(i, vote.choice, vote.balance))
@@ -32,10 +32,10 @@ export default class WeightedVoting {
 
     return results
       .map((res, i) => percentageOfTotal(i, results, results))
-      .map((p) => (this.sumOfResultsBalance() / 100) * p);
+      .map((p) => (this.getScoresTotal() / 100) * p);
   }
 
-  resultsByStrategyScore() {
+  getScoresByStrategy() {
     const results = this.proposal.choices
       .map((choice, i) =>
         this.strategies.map((strategy, sI) =>
@@ -51,11 +51,11 @@ export default class WeightedVoting {
         .map((strategy, sI) => [
           percentageOfTotal(0, results[i][sI], results.flat(2))
         ])
-        .map((p) => [(this.sumOfResultsBalance() / 100) * p])
+        .map((p) => [(this.getScoresTotal() / 100) * p])
     );
   }
 
-  sumOfResultsBalance() {
+  getScoresTotal() {
     return this.votes.reduce((a, b: any) => a + b.balance, 0);
   }
 
