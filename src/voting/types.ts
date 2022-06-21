@@ -15,3 +15,9 @@ export interface ApprovalVote {
   balance: number;
   scores: number[];
 }
+
+export interface RankedChoiceVote {
+  choice: number[];
+  balance: number;
+  scores: number[];
+}

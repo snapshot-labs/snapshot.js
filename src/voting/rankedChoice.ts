@@ -1,6 +1,10 @@
 import { getNumberWithOrdinal } from '../utils';
+import { RankedChoiceVote, Strategy } from './types';
 
-function filterVotesWithInvalidChoice(votes, choices) {
+function filterVotesWithInvalidChoice(
+  votes: RankedChoiceVote[],
+  choices: string[]
+): RankedChoiceVote[] {
   return votes.filter((vote) => {
     return (
       Array.isArray(vote.choice) &&
@@ -72,37 +76,37 @@ function irv(ballots: (number | number[])[][], rounds) {
       );
 }
 
-function getFinalRound(i, votes) {
+function getFinalRound(
+  index: number,
+  votes: RankedChoiceVote[]
+): [string, [number, number[]]][] {
   const results = irv(
     votes.map((vote) => [vote.choice, vote.balance, vote.scores]),
     []
   );
   const finalRound = results[results.length - 1];
-  return finalRound.sortedByHighest.filter((res: any) => res[0] == i + 1);
+  return finalRound.sortedByHighest.filter((res: any) => res[0] == index + 1);
 }
 
 export default class RankedChoiceVoting {
   proposal: { choices: string[] };
-  votes: { choice: number[]; balance: number; scores: number[] }[];
-  strategies: {
-    name: string;
-    network: string;
-    params: Record<string, unknown>;
-  }[];
+  votes: RankedChoiceVote[];
+  strategies: Strategy[];
   selected: number[];
 
-  constructor(proposal, votes, strategies, selected) {
+  constructor(
+    proposal: { choices: string[] },
+    votes: RankedChoiceVote[],
+    strategies: Strategy[],
+    selected: number[]
+  ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
     this.selected = selected;
   }
 
-  getValidatedVotes(): {
-    choice: number[];
-    balance: number;
-    scores: number[];
-  }[] {
+  getValidatedVotes(): RankedChoiceVote[] {
     return filterVotesWithInvalidChoice(this.votes, this.proposal.choices);
   }
 
