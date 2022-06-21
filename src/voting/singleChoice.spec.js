@@ -58,7 +58,7 @@ const votesWithInvalidChoices2 = () => {
   return [...votes, ...example2().votes];
 };
 
-const getProposalResultsTests = [
+const getScoresTests = [
   [example.proposal, example.votes, example.strategies, example.results],
   [
     example.proposal,
@@ -80,7 +80,7 @@ const getProposalResultsTests = [
   ]
 ];
 
-test.each(getProposalResultsTests)(
+test.each(getScoresTests)(
   'getScores',
   (proposal, votes, strategies, expected) => {
     const single = new SingleChoiceVoting(proposal, votes, strategies, 1);
@@ -88,7 +88,7 @@ test.each(getProposalResultsTests)(
   }
 );
 
-const getProposalResultsByStrategyTests = [
+const getScoresByStrategyTests = [
   [
     example.proposal,
     example.votes,
@@ -115,7 +115,7 @@ const getProposalResultsByStrategyTests = [
   ]
 ];
 
-test.each(getProposalResultsByStrategyTests)(
+test.each(getScoresByStrategyTests)(
   'getScoresByStrategy',
   (proposal, votes, strategies, expected) => {
     const single = new SingleChoiceVoting(proposal, votes, strategies, 1);
@@ -123,7 +123,7 @@ test.each(getProposalResultsByStrategyTests)(
   }
 );
 
-const getScoresTotal = [
+const getScoresTotalTests = [
   [example.proposal, example.votes, example.strategies, example.resultsSum],
   [
     example.proposal,
@@ -145,7 +145,7 @@ const getScoresTotal = [
   ]
 ];
 
-test.each(getScoresTotal)(
+test.each(getScoresTotalTests)(
   'getScoresTotal',
   (proposal, votes, strategies, expected) => {
     const single = new SingleChoiceVoting(proposal, votes, strategies, 1);
