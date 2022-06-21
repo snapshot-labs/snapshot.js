@@ -1,17 +1,33 @@
 import { getNumberWithOrdinal } from '../utils';
 
-function irv(ballots, rounds) {
+function filterVotesWithInvalidChoice(votes, choices) {
+  return votes.filter((vote) => {
+    return (
+      Array.isArray(vote.choice) &&
+      // If choice index is not in choices, return false
+      vote.choice.every((choice) => choices?.[choice - 1] !== undefined) &&
+      // If any choice is duplicated, return false
+      vote.choice.length === new Set(vote.choice).size &&
+      // If not all choices are selected, return false
+      // TODO: We should add support for pacial bailout in the future
+      vote.choice.length === choices.length
+    );
+  });
+}
+
+function irv(ballots: (number | number[])[][], rounds) {
   const candidates: any[] = [...new Set(ballots.map((vote) => vote[0]).flat())];
   const votes = Object.entries(
     ballots.reduce((votes, [v], i, src) => {
-      votes[v[0]][0] += src[i][1];
-      if (votes[v[0]][1].length > 1)
-        votes[v[0]][1] = votes[v[0]][1].map(
-          (score, sI) => score + src[i][2][sI]
-        );
-      else
+      const balance = src[i][1];
+      votes[v[0]][0] += balance;
+
+      const score = src[i][2] as number[];
+      if (score.length > 1) {
+        votes[v[0]][1] = score.map((s, sI) => s + votes[v[0]][1][sI] || s);
+      } else
         votes[v[0]][1] = [
-          votes[v[0]][1].concat(src[i][2]).reduce((a, b) => a + b, 0)
+          votes[v[0]][1].concat(score).reduce((a, b) => a + b, 0)
         ];
       return votes;
     }, Object.assign({}, ...candidates.map((c) => ({ [c]: [0, []] }))))
@@ -20,7 +36,7 @@ function irv(ballots, rounds) {
   const votesWithoutScore = votes.map((vote: any) => [vote[0], vote[1][0]]);
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
-  const [topCand, topCount] = votesWithoutScore.reduce(
+  const [topCand, topCount]: number[] = votesWithoutScore.reduce(
     ([n, m]: any[], [v, c]: any[]) => (c > m ? [v, c] : [n, m]),
     ['?', -Infinity]
   );
@@ -41,34 +57,39 @@ function irv(ballots, rounds) {
     sortedByHighest
   });
 
-  return topCount > totalPowerOfVotes / 2 || sortedByHighest.length < 3
+  return topCount > (totalPowerOfVotes as number) / 2 ||
+    sortedByHighest.length < 3
     ? rounds
     : irv(
         ballots
           .map((ballot) => [
-            ballot[0].filter((c) => c != bottomCand),
+            (ballot[0] as number[]).filter((c) => c != bottomCand),
             ballot[1],
             ballot[2]
           ])
-          .filter((b) => b[0].length > 0),
+          .filter((ballot) => (ballot[0] as number[]).length > 0),
         rounds
       );
 }
 
 function getFinalRound(i, votes) {
   const results = irv(
-    votes.map((vote: any) => [vote.choice, vote.balance, vote.scores]),
+    votes.map((vote) => [vote.choice, vote.balance, vote.scores]),
     []
   );
   const finalRound = results[results.length - 1];
   return finalRound.sortedByHighest.filter((res: any) => res[0] == i + 1);
 }
 
-export default class ApprovalVoting {
-  public proposal;
-  public votes;
-  public strategies;
-  public selected;
+export default class RankedChoiceVoting {
+  proposal: { choices: string[] };
+  votes: { choice: number[]; balance: number; scores: number[] }[];
+  strategies: {
+    name: string;
+    network: string;
+    params: Record<string, unknown>;
+  }[];
+  selected: number[];
 
   constructor(proposal, votes, strategies, selected) {
     this.proposal = proposal;
@@ -77,28 +98,39 @@ export default class ApprovalVoting {
     this.selected = selected;
   }
 
-  getScores() {
+  getValidatedVotes(): {
+    choice: number[];
+    balance: number;
+    scores: number[];
+  }[] {
+    return filterVotesWithInvalidChoice(this.votes, this.proposal.choices);
+  }
+
+  getScores(): number[] {
     return this.proposal.choices.map((choice, i) =>
-      getFinalRound(i, this.votes).reduce((a, b: any) => a + b[1][0], 0)
+      getFinalRound(i, this.getValidatedVotes()).reduce(
+        (a, b) => a + b[1][0],
+        0
+      )
     );
   }
 
-  getScoresByStrategy() {
+  getScoresByStrategy(): number[][] {
     return this.proposal.choices.map((choice, i) =>
       this.strategies.map((strategy, sI) => {
-        return getFinalRound(i, this.votes).reduce(
-          (a, b: any) => a + b[1][1][sI],
+        return getFinalRound(i, this.getValidatedVotes()).reduce(
+          (a, b) => a + b[1][1][sI],
           0
         );
       })
     );
   }
 
-  getScoresTotal() {
-    return this.getScores().reduce((a, b: any) => a + b);
+  getScoresTotal(): number {
+    return this.getScores().reduce((a, b) => a + b);
   }
 
-  getChoiceString() {
+  getChoiceString(): string {
     return this.selected
       .map((choice) => {
         if (this.proposal.choices[choice - 1])
