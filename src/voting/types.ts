@@ -9,3 +9,9 @@ export interface SingleChoiceVote {
   balance: number;
   scores: number[];
 }
+
+export interface ApprovalVote {
+  choice: number[];
+  balance: number;
+  scores: number[];
+}

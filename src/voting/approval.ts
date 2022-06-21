@@ -1,9 +1,7 @@
+import { ApprovalVote, Strategy } from './types';
+
 function filterVotesWithInvalidChoice(
-  votes: {
-    choice: number[];
-    balance: number;
-    scores: number[];
-  }[],
+  votes: ApprovalVote[],
   choices: string[]
 ) {
   return votes.filter((vote) => {
@@ -19,15 +17,16 @@ function filterVotesWithInvalidChoice(
 
 export default class ApprovalVoting {
   proposal: { choices: string[] };
-  votes: { choice: number[]; balance: number; scores: number[] }[];
-  strategies: {
-    name: string;
-    network: string;
-    params: Record<string, unknown>;
-  }[];
+  votes: ApprovalVote[];
+  strategies: Strategy[];
   selected: number[];
 
-  constructor(proposal, votes, strategies, selected) {
+  constructor(
+    proposal: { choices: string[] },
+    votes: ApprovalVote[],
+    strategies: Strategy[],
+    selected: number[]
+  ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
