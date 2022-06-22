@@ -1,26 +1,21 @@
 import { QuadraticVote, Strategy } from './types';
 
-function filterVotesWithInvalidChoice(
-  votes: QuadraticVote[],
-  choices: string[]
-): QuadraticVote[] {
-  return votes.filter((vote) => {
-    return (
-      typeof vote.choice === 'object' &&
-      !Array.isArray(vote.choice) &&
-      vote.choice !== null &&
-      // If choice object keys are not in choices, return false
-      Object.keys(vote.choice).every(
-        (key) => choices?.[Number(key) - 1] !== undefined
-      ) &&
-      // If choice object is empty, return false
-      Object.keys(vote.choice).length > 0 &&
-      // If choice object values are not a positive integer, return false
-      Object.values(vote.choice).every(
-        (value) => typeof value === 'number' && value > 0
-      )
-    );
-  });
+export function isChoiceValid(vote: QuadraticVote, choices: string[]): boolean {
+  return (
+    typeof vote.choice === 'object' &&
+    !Array.isArray(vote.choice) &&
+    vote.choice !== null &&
+    // If choice object keys are not in choices, return false
+    Object.keys(vote.choice).every(
+      (key) => choices?.[Number(key) - 1] !== undefined
+    ) &&
+    // If choice object is empty, return false
+    Object.keys(vote.choice).length > 0 &&
+    // If choice object values are not a positive integer, return false
+    Object.values(vote.choice).every(
+      (value) => typeof value === 'number' && value > 0
+    )
+  );
 }
 
 export function percentageOfTotal(i, values, total): number {
@@ -54,7 +49,9 @@ export default class QuadraticVoting {
   }
 
   getValidatedVotes(): QuadraticVote[] {
-    return filterVotesWithInvalidChoice(this.votes, this.proposal.choices);
+    return this.votes.filter((vote) =>
+      isChoiceValid(vote, this.proposal.choices)
+    );
   }
 
   getScores(): number[] {

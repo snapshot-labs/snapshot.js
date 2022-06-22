@@ -1,18 +1,13 @@
 import { ApprovalVote, Strategy } from './types';
 
-function filterVotesWithInvalidChoice(
-  votes: ApprovalVote[],
-  choices: string[]
-) {
-  return votes.filter((vote) => {
-    return (
-      Array.isArray(vote.choice) &&
-      // If choice index is not in choices, return false
-      vote.choice.every((choice) => choices?.[choice - 1] !== undefined) &&
-      // If any choice is duplicated, return false
-      vote.choice.length === new Set(vote.choice).size
-    );
-  });
+export function isChoiceValid(vote: ApprovalVote, choices: string[]): boolean {
+  return (
+    Array.isArray(vote.choice) &&
+    // If choice index is not in choices, return false
+    vote.choice.every((choice) => choices?.[choice - 1] !== undefined) &&
+    // If any choice is duplicated, return false
+    vote.choice.length === new Set(vote.choice).size
+  );
 }
 
 export default class ApprovalVoting {
@@ -38,7 +33,9 @@ export default class ApprovalVoting {
     balance: number;
     scores: number[];
   }[] {
-    return filterVotesWithInvalidChoice(this.votes, this.proposal.choices);
+    return this.votes.filter((vote) =>
+      isChoiceValid(vote, this.proposal.choices)
+    );
   }
 
   getScores(): number[] {

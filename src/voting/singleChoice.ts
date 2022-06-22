@@ -1,15 +1,12 @@
 import { SingleChoiceVote, Strategy } from './types';
 
-function filterVotesWithInvalidChoice(
-  votes: SingleChoiceVote[],
+export function isChoiceValid(
+  vote: SingleChoiceVote,
   choices: string[]
-): SingleChoiceVote[] {
-  return votes.filter((vote) => {
-    return (
-      typeof vote.choice === 'number' &&
-      choices?.[vote.choice - 1] !== undefined
-    );
-  });
+): boolean {
+  return (
+    typeof vote.choice === 'number' && choices?.[vote.choice - 1] !== undefined
+  );
 }
 
 export default class SingleChoiceVoting {
@@ -31,7 +28,9 @@ export default class SingleChoiceVoting {
   }
 
   getValidatedVotes(): SingleChoiceVote[] {
-    return filterVotesWithInvalidChoice(this.votes, this.proposal.choices);
+    return this.votes.filter((vote) =>
+      isChoiceValid(vote, this.proposal.choices)
+    );
   }
 
   getScores(): number[] {

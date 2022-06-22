@@ -1,22 +1,20 @@
 import { getNumberWithOrdinal } from '../utils';
 import { RankedChoiceVote, Strategy } from './types';
 
-function filterVotesWithInvalidChoice(
-  votes: RankedChoiceVote[],
+export function isChoiceValid(
+  vote: RankedChoiceVote,
   choices: string[]
-): RankedChoiceVote[] {
-  return votes.filter((vote) => {
-    return (
-      Array.isArray(vote.choice) &&
-      // If choice index is not in choices, return false
-      vote.choice.every((choice) => choices?.[choice - 1] !== undefined) &&
-      // If any choice is duplicated, return false
-      vote.choice.length === new Set(vote.choice).size &&
-      // If not all choices are selected, return false
-      // TODO: We should add support for pacial bailout in the future
-      vote.choice.length === choices.length
-    );
-  });
+): boolean {
+  return (
+    Array.isArray(vote.choice) &&
+    // If choice index is not in choices, return false
+    vote.choice.every((choice) => choices?.[choice - 1] !== undefined) &&
+    // If any choice is duplicated, return false
+    vote.choice.length === new Set(vote.choice).size &&
+    // If not all choices are selected, return false
+    // TODO: We should add support for pacial bailout in the future
+    vote.choice.length === choices.length
+  );
 }
 
 function irv(
@@ -114,7 +112,9 @@ export default class RankedChoiceVoting {
   }
 
   getValidatedVotes(): RankedChoiceVote[] {
-    return filterVotesWithInvalidChoice(this.votes, this.proposal.choices);
+    return this.votes.filter((vote) =>
+      isChoiceValid(vote, this.proposal.choices)
+    );
   }
 
   getScores(): number[] {
