@@ -252,8 +252,8 @@
     "network": "mainnet",
     "multicall": "0x1ee38d535d541c55c9dae27b12edf090c608e6fb",
     "rpc": [
-      "https://rpc.ankr.com/bsc",
       "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/bsc/mainnet/archive",
+      "https://rpc.ankr.com/bsc",
       "https://bsc.getblock.io/mainnet/?api_key=91f8195f-bf46-488f-846a-73d6853790e7",
       "https://bsc-private-dataseed1.nariox.org",
       "https://bsc-dataseed1.ninicoin.io",
