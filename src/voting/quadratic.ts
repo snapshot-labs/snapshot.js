@@ -84,9 +84,9 @@ export default class QuadraticVoting {
 
     return results.map((res, i) =>
       this.strategies
-        .map((strategy, sI) => [
+        .map((strategy, sI) =>
           percentageOfTotal(0, results[i][sI], results.flat(2))
-        ])
+        )
         .map((p) => [(this.getScoresTotal() / 100) * p])
         .flat()
     );
