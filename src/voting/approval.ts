@@ -1,12 +1,12 @@
 import { ApprovalVote, Strategy } from './types';
 
-export function isChoiceValid(vote: ApprovalVote, choices: string[]): boolean {
+export function isChoiceValid(choice: number[], choices: string[]): boolean {
   return (
-    Array.isArray(vote.choice) &&
+    Array.isArray(choice) &&
     // If choice index is not in choices, return false
-    vote.choice.every((choice) => choices?.[choice - 1] !== undefined) &&
+    choice.every((choice) => choices?.[choice - 1] !== undefined) &&
     // If any choice is duplicated, return false
-    vote.choice.length === new Set(vote.choice).size
+    choice.length === new Set(choice).size
   );
 }
 
@@ -34,7 +34,7 @@ export default class ApprovalVoting {
     scores: number[];
   }[] {
     return this.votes.filter((vote) =>
-      isChoiceValid(vote, this.proposal.choices)
+      isChoiceValid(vote.choice, this.proposal.choices)
     );
   }
 

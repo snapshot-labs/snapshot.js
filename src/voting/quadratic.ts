@@ -1,18 +1,21 @@
 import { QuadraticVote, Strategy } from './types';
 
-export function isChoiceValid(vote: QuadraticVote, choices: string[]): boolean {
+export function isChoiceValid(
+  choice: { [key: string]: number },
+  choices: string[]
+): boolean {
   return (
-    typeof vote.choice === 'object' &&
-    !Array.isArray(vote.choice) &&
-    vote.choice !== null &&
+    typeof choice === 'object' &&
+    !Array.isArray(choice) &&
+    choice !== null &&
     // If choice object keys are not in choices, return false
-    Object.keys(vote.choice).every(
+    Object.keys(choice).every(
       (key) => choices?.[Number(key) - 1] !== undefined
     ) &&
     // If choice object is empty, return false
-    Object.keys(vote.choice).length > 0 &&
+    Object.keys(choice).length > 0 &&
     // If choice object values are not a positive integer, return false
-    Object.values(vote.choice).every(
+    Object.values(choice).every(
       (value) => typeof value === 'number' && value > 0
     )
   );
@@ -50,7 +53,7 @@ export default class QuadraticVoting {
 
   getValidatedVotes(): QuadraticVote[] {
     return this.votes.filter((vote) =>
-      isChoiceValid(vote, this.proposal.choices)
+      isChoiceValid(vote.choice, this.proposal.choices)
     );
   }
 

@@ -1,12 +1,7 @@
 import { SingleChoiceVote, Strategy } from './types';
 
-export function isChoiceValid(
-  vote: SingleChoiceVote,
-  choices: string[]
-): boolean {
-  return (
-    typeof vote.choice === 'number' && choices?.[vote.choice - 1] !== undefined
-  );
+export function isChoiceValid(choice: number, choices: string[]): boolean {
+  return typeof choice === 'number' && choices?.[choice - 1] !== undefined;
 }
 
 export default class SingleChoiceVoting {
@@ -29,7 +24,7 @@ export default class SingleChoiceVoting {
 
   getValidatedVotes(): SingleChoiceVote[] {
     return this.votes.filter((vote) =>
-      isChoiceValid(vote, this.proposal.choices)
+      isChoiceValid(vote.choice, this.proposal.choices)
     );
   }
 
