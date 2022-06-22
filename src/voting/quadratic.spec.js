@@ -191,14 +191,21 @@ test.each(getScoresTotalTests)(
   }
 );
 
-test('getChoiceString', () => {
+test.each([
+  [
+    { 1: 1, 2: 1, 3: 4, 4: 4 },
+    '10% for PistachioSwap, 10% for Pistachio UBI, 40% for ProofofPistachio, 40% for iPistachio'
+  ],
+  [
+    { 1: 4, 2: 4, 3: 1, 4: 1 },
+    '40% for PistachioSwap, 40% for Pistachio UBI, 10% for ProofofPistachio, 10% for iPistachio'
+  ]
+])('getChoiceString %s %s', (selected, expected) => {
   const quadratic = new QuadraticVoting(
     example.proposal,
     example.votes,
     example.strategies,
-    example.selectedChoice
+    selected
   );
-  expect(quadratic.getChoiceString()).toEqual(
-    '60% for Pistachio UBI, 40% for ProofofPistachio'
-  );
+  expect(quadratic.getChoiceString()).toEqual(expected);
 });

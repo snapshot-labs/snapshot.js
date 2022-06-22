@@ -168,14 +168,15 @@ test.each(getScoresTotalTests)(
   }
 );
 
-test('getChoiceString', () => {
+test.each([
+  [1, 'Alice'],
+  [4, 'David']
+])('getChoiceString %s %s', (selected, expected) => {
   const single = new SingleChoiceVoting(
     example.proposal,
     example.votes,
     example.strategies,
-    example.selectedChoice
+    selected
   );
-  expect(single.getChoiceString()).toEqual(
-    example.proposal.choices[example.selectedChoice - 1]
-  );
+  expect(single.getChoiceString()).toEqual(expected);
 });

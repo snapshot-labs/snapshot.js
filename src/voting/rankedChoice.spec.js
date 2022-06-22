@@ -184,12 +184,15 @@ test.each(getScoresTotalTests)(
   }
 );
 
-test('getChoiceString', () => {
+test.each([
+  [[1, 2, 3, 4], '(1st) Alice, (2nd) Bob, (3rd) Carol, (4th) David'],
+  [[4, 2, 3, 1], '(1st) David, (2nd) Bob, (3rd) Carol, (4th) Alice']
+])('getChoiceString %s %s', (selected, expected) => {
   const ranked = new RankedChoiceVoting(
     example.proposal,
     example.votes,
     example.strategies,
-    example.selectedChoice
+    selected
   );
-  expect(ranked.getChoiceString()).toEqual('(1st) Carol, (2nd) Bob');
+  expect(ranked.getChoiceString()).toEqual(expected);
 });

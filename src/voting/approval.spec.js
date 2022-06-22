@@ -193,12 +193,15 @@ test.each(getScoresTotalTests)(
   }
 );
 
-test('getChoiceString', () => {
+test.each([
+  [[1], 'Article 1'],
+  [[1, 2, 3, 4], 'Article 1, Article 2, Article 3, Article 4']
+])('getChoiceString %s %s', (selected, expected) => {
   const approval = new ApprovalVoting(
     example.proposal,
     example.votes,
     example.strategies,
-    example.selectedChoice
+    selected
   );
-  expect(approval.getChoiceString()).toEqual('Article 1, Article 3');
+  expect(approval.getChoiceString()).toEqual(expected);
 });
