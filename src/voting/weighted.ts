@@ -1,21 +1,18 @@
 import { WeightedVote, Strategy } from './types';
 
-export function isChoiceValid(
-  choice: { [key: string]: number },
-  choices: string[]
-): boolean {
+export function isChoiceValid(vote: WeightedVote, choices: string[]): boolean {
   return (
-    typeof choice === 'object' &&
-    !Array.isArray(choice) &&
-    choice !== null &&
+    typeof vote.choice === 'object' &&
+    !Array.isArray(vote.choice) &&
+    vote.choice !== null &&
     // If choice object keys are not in choices, return false
-    Object.keys(choice).every(
+    Object.keys(vote.choice).every(
       (key) => choices?.[Number(key) - 1] !== undefined
     ) &&
     // If choice object is empty, return false
-    Object.keys(choice).length > 0 &&
+    Object.keys(vote.choice).length > 0 &&
     // If choice object values are not a positive integer, return false
-    Object.values(choice).every(
+    Object.values(vote.choice).every(
       (value) => typeof value === 'number' && value > 0
     )
   );
@@ -53,7 +50,7 @@ export default class WeightedVoting {
 
   getValidatedVotes(): WeightedVote[] {
     return this.votes.filter((vote) =>
-      isChoiceValid(vote.choice, this.proposal.choices)
+      isChoiceValid(vote, this.proposal.choices)
     );
   }
 
