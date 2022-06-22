@@ -27,3 +27,9 @@ export interface QuadraticVote {
   balance: number;
   scores: number[];
 }
+
+export interface WeightedVote {
+  choice: { [key: string]: number };
+  balance: number;
+  scores: number[];
+}
