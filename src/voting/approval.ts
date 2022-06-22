@@ -1,12 +1,15 @@
 import { ApprovalVote, Strategy } from './types';
 
-export function isChoiceValid(choice: number[], choices: string[]): boolean {
+export function isValidChoice(
+  voteChoice: number[],
+  proposalChoices: string[]
+): boolean {
   return (
-    Array.isArray(choice) &&
+    Array.isArray(voteChoice) &&
     // If choice index is not in choices, return false
-    choice.every((choice) => choices?.[choice - 1] !== undefined) &&
+    voteChoice.every((choice) => proposalChoices?.[choice - 1] !== undefined) &&
     // If any choice is duplicated, return false
-    choice.length === new Set(choice).size
+    voteChoice.length === new Set(voteChoice).size
   );
 }
 
@@ -28,19 +31,19 @@ export default class ApprovalVoting {
     this.selected = selected;
   }
 
-  getValidatedVotes(): {
+  getValidVotes(): {
     choice: number[];
     balance: number;
     scores: number[];
   }[] {
     return this.votes.filter((vote) =>
-      isChoiceValid(vote.choice, this.proposal.choices)
+      isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
   getScores(): number[] {
     return this.proposal.choices.map((choice, i) =>
-      this.getValidatedVotes()
+      this.getValidVotes()
         .filter((vote) => vote.choice.includes(i + 1))
         .reduce((a, b) => a + b.balance, 0)
     );
@@ -49,7 +52,7 @@ export default class ApprovalVoting {
   getScoresByStrategy(): number[][] {
     return this.proposal.choices.map((choice, i) =>
       this.strategies.map((strategy, sI) =>
-        this.getValidatedVotes()
+        this.getValidVotes()
           .filter((vote) => vote.choice.includes(i + 1))
           .reduce((a, b) => a + b.scores[sI], 0)
       )
@@ -57,7 +60,7 @@ export default class ApprovalVoting {
   }
 
   getScoresTotal(): number {
-    return this.getValidatedVotes().reduce((a, b) => a + b.balance, 0);
+    return this.getValidVotes().reduce((a, b) => a + b.balance, 0);
   }
 
   getChoiceString(): string {

@@ -1,7 +1,13 @@
 import { SingleChoiceVote, Strategy } from './types';
 
-export function isChoiceValid(choice: number, choices: string[]): boolean {
-  return typeof choice === 'number' && choices?.[choice - 1] !== undefined;
+export function isValidChoice(
+  voteChoice: number,
+  proposalChoices: string[]
+): boolean {
+  return (
+    typeof voteChoice === 'number' &&
+    proposalChoices?.[voteChoice - 1] !== undefined
+  );
 }
 
 export default class SingleChoiceVoting {
@@ -22,15 +28,15 @@ export default class SingleChoiceVoting {
     this.selected = selected;
   }
 
-  getValidatedVotes(): SingleChoiceVote[] {
+  getValidVotes(): SingleChoiceVote[] {
     return this.votes.filter((vote) =>
-      isChoiceValid(vote.choice, this.proposal.choices)
+      isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
   getScores(): number[] {
     return this.proposal.choices.map((choice, i) => {
-      const votes = this.getValidatedVotes().filter(
+      const votes = this.getValidVotes().filter(
         (vote) => vote.choice === i + 1
       );
       const balanceSum = votes.reduce((a, b) => a + b.balance, 0);
@@ -41,7 +47,7 @@ export default class SingleChoiceVoting {
   getScoresByStrategy(): number[][] {
     return this.proposal.choices.map((choice, i) => {
       const scores = this.strategies.map((strategy, sI) => {
-        const votes = this.getValidatedVotes().filter(
+        const votes = this.getValidVotes().filter(
           (vote) => vote.choice === i + 1
         );
         const scoreSum = votes.reduce((a, b) => a + b.scores[sI], 0);
@@ -52,7 +58,7 @@ export default class SingleChoiceVoting {
   }
 
   getScoresTotal(): number {
-    return this.getValidatedVotes().reduce((a, b) => a + b.balance, 0);
+    return this.getValidVotes().reduce((a, b) => a + b.balance, 0);
   }
 
   getChoiceString(): string {

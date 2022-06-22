@@ -1,21 +1,21 @@
 import { WeightedVote, Strategy } from './types';
 
-export function isChoiceValid(
-  choice: { [key: string]: number },
-  choices: string[]
+export function isValidChoice(
+  voteChoice: { [key: string]: number },
+  proposalChoices: string[]
 ): boolean {
   return (
-    typeof choice === 'object' &&
-    !Array.isArray(choice) &&
-    choice !== null &&
-    // If choice object keys are not in choices, return false
-    Object.keys(choice).every(
-      (key) => choices?.[Number(key) - 1] !== undefined
+    typeof voteChoice === 'object' &&
+    !Array.isArray(voteChoice) &&
+    voteChoice !== null &&
+    // If voteChoice object keys are not in choices, return false
+    Object.keys(voteChoice).every(
+      (key) => proposalChoices?.[Number(key) - 1] !== undefined
     ) &&
-    // If choice object is empty, return false
-    Object.keys(choice).length > 0 &&
-    // If choice object values are not a positive integer, return false
-    Object.values(choice).every(
+    // If voteChoice object is empty, return false
+    Object.keys(voteChoice).length > 0 &&
+    // If voteChoice object values are not a positive integer, return false
+    Object.values(voteChoice).every(
       (value) => typeof value === 'number' && value > 0
     )
   );
@@ -51,15 +51,15 @@ export default class WeightedVoting {
     this.selected = selected;
   }
 
-  getValidatedVotes(): WeightedVote[] {
+  getValidVotes(): WeightedVote[] {
     return this.votes.filter((vote) =>
-      isChoiceValid(vote.choice, this.proposal.choices)
+      isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
   getScores(): number[] {
     const results = this.proposal.choices.map((choice, i) =>
-      this.getValidatedVotes()
+      this.getValidVotes()
         .map((vote) => weightedPower(i, vote.choice, vote.balance))
         .reduce((a, b: any) => a + b, 0)
     );
@@ -73,7 +73,7 @@ export default class WeightedVoting {
     const results = this.proposal.choices
       .map((choice, i) =>
         this.strategies.map((strategy, sI) =>
-          this.getValidatedVotes()
+          this.getValidVotes()
             .map((vote) => weightedPower(i, vote.choice, vote.scores[sI]))
             .reduce((a, b: any) => a + b, 0)
         )
@@ -91,7 +91,7 @@ export default class WeightedVoting {
   }
 
   getScoresTotal(): number {
-    return this.getValidatedVotes().reduce((a, b: any) => a + b.balance, 0);
+    return this.getValidVotes().reduce((a, b: any) => a + b.balance, 0);
   }
 
   getChoiceString(): string {

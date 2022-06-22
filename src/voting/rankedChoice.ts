@@ -1,16 +1,21 @@
 import { getNumberWithOrdinal } from '../utils';
 import { RankedChoiceVote, Strategy } from './types';
 
-export function isChoiceValid(choice: number[], choices: string[]): boolean {
+export function isValidChoice(
+  voteChoice: number[],
+  proposalChoices: string[]
+): boolean {
   return (
-    Array.isArray(choice) &&
-    // If choice index is not in choices, return false
-    choice.every((choice) => choices?.[choice - 1] !== undefined) &&
-    // If any choice is duplicated, return false
-    choice.length === new Set(choice).size &&
-    // If not all choices are selected, return false
+    Array.isArray(voteChoice) &&
+    // If voteChoice index is not in choices, return false
+    voteChoice.every(
+      (voteChoice) => proposalChoices?.[voteChoice - 1] !== undefined
+    ) &&
+    // If any voteChoice is duplicated, return false
+    voteChoice.length === new Set(voteChoice).size &&
+    // If not all proposalChoices are selected, return false
     // TODO: We should add support for pacial bailout in the future
-    choice.length === choices.length
+    voteChoice.length === proposalChoices.length
   );
 }
 
@@ -108,14 +113,14 @@ export default class RankedChoiceVoting {
     this.selected = selected;
   }
 
-  getValidatedVotes(): RankedChoiceVote[] {
+  getValidVotes(): RankedChoiceVote[] {
     return this.votes.filter((vote) =>
-      isChoiceValid(vote.choice, this.proposal.choices)
+      isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
   getScores(): number[] {
-    const finalRounde = getFinalRound(this.getValidatedVotes());
+    const finalRounde = getFinalRound(this.getValidVotes());
     return this.proposal.choices.map((choice, i) =>
       finalRounde
         .filter((res) => Number(res[0]) === i + 1)
@@ -124,7 +129,7 @@ export default class RankedChoiceVoting {
   }
 
   getScoresByStrategy(): number[][] {
-    const finalRounde = getFinalRound(this.getValidatedVotes());
+    const finalRounde = getFinalRound(this.getValidVotes());
     return this.proposal.choices.map((choice, i) =>
       this.strategies.map((strategy, sI) => {
         return finalRounde
