@@ -1,32 +1,66 @@
-export function percentageOfTotal(i, values, total) {
+import { QuadraticVote, Strategy } from './types';
+
+function filterVotesWithInvalidChoice(
+  votes: QuadraticVote[],
+  choices: string[]
+): QuadraticVote[] {
+  return votes.filter((vote) => {
+    return (
+      typeof vote.choice === 'object' &&
+      !Array.isArray(vote.choice) &&
+      vote.choice !== null &&
+      // If choice object keys are not in choices, return false
+      Object.keys(vote.choice).every(
+        (key) => choices?.[Number(key) - 1] !== undefined
+      ) &&
+      // If choice object is empty, return false
+      Object.keys(vote.choice).length > 0 &&
+      // If choice object values are not a positive integer, return false
+      Object.values(vote.choice).every(
+        (value) => typeof value === 'number' && value > 0
+      )
+    );
+  });
+}
+
+export function percentageOfTotal(i, values, total): number {
   const reducedTotal: any = total.reduce((a: any, b: any) => a + b, 0);
   const percent = (values[i] / reducedTotal) * 100;
   return isNaN(percent) ? 0 : percent;
 }
 
-export function quadraticMath(i, choice, balance) {
+export function quadraticMath(i, choice, balance): number {
   return Math.sqrt(
     (percentageOfTotal(i + 1, choice, Object.values(choice)) / 100) * balance
   );
 }
 
-export default class ApprovalVoting {
-  public proposal;
-  public votes;
-  public strategies;
-  public selected;
+export default class QuadraticVoting {
+  proposal: { choices: string[] };
+  votes: QuadraticVote[];
+  strategies: Strategy[];
+  selected: { [key: string]: number };
 
-  constructor(proposal, votes, strategies, selected) {
+  constructor(
+    proposal: { choices: string[] },
+    votes: QuadraticVote[],
+    strategies: Strategy[],
+    selected: { [key: string]: number }
+  ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
     this.selected = selected;
   }
 
-  getScores() {
+  getValidatedVotes(): QuadraticVote[] {
+    return filterVotesWithInvalidChoice(this.votes, this.proposal.choices);
+  }
+
+  getScores(): number[] {
     const results = this.proposal.choices
       .map((choice, i) =>
-        this.votes
+        this.getValidatedVotes()
           .map((vote) => quadraticMath(i, vote.choice, vote.balance))
           .reduce((a, b: any) => a + b, 0)
       )
@@ -37,11 +71,11 @@ export default class ApprovalVoting {
       .map((p) => (this.getScoresTotal() / 100) * p);
   }
 
-  getScoresByStrategy() {
+  getScoresByStrategy(): number[][] {
     const results = this.proposal.choices
       .map((choice, i) =>
         this.strategies.map((strategy, sI) =>
-          this.votes
+          this.getValidatedVotes()
             .map((vote) => quadraticMath(i, vote.choice, vote.scores[sI]))
             .reduce((a, b: any) => a + b, 0)
         )
@@ -54,14 +88,15 @@ export default class ApprovalVoting {
           percentageOfTotal(0, results[i][sI], results.flat(2))
         ])
         .map((p) => [(this.getScoresTotal() / 100) * p])
+        .flat()
     );
   }
 
-  getScoresTotal() {
-    return this.votes.reduce((a, b: any) => a + b.balance, 0);
+  getScoresTotal(): number {
+    return this.getValidatedVotes().reduce((a, b: any) => a + b.balance, 0);
   }
 
-  getChoiceString() {
+  getChoiceString(): string {
     return this.proposal.choices
       .map((choice, i) => {
         if (this.selected[i + 1]) {
