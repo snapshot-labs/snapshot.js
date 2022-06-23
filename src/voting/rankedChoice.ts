@@ -122,19 +122,19 @@ export default class RankedChoiceVoting {
   }
 
   getScores(): number[] {
-    const finalRounde = getFinalRound(this.getValidVotes());
+    const finalRound = getFinalRound(this.getValidVotes());
     return this.proposal.choices.map((choice, i) =>
-      finalRounde
+      finalRound
         .filter((res) => Number(res[0]) === i + 1)
         .reduce((a, b) => a + b[1][0], 0)
     );
   }
 
   getScoresByStrategy(): number[][] {
-    const finalRounde = getFinalRound(this.getValidVotes());
+    const finalRound = getFinalRound(this.getValidVotes());
     return this.proposal.choices.map((choice, i) =>
       this.strategies.map((strategy, sI) => {
-        return finalRounde
+        return finalRound
           .filter((res) => Number(res[0]) === i + 1)
           .reduce((a, b) => a + b[1][1][sI], 0);
       })
