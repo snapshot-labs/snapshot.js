@@ -18,9 +18,7 @@ const example2 = () => {
     { name: 'ticket', network: 1, params: {} }
   ];
   const scores = [
-    1056.126494229336,
-    267.57865596652977,
-    150.23400677711683,
+    1056.126494229336, 267.57865596652977, 150.23400677711683,
     155.06084302701717
   ];
   const scoresByStrategy = [
@@ -54,7 +52,7 @@ const rndChoices = () => {
     Array.from({ length: Math.floor(Math.random() * 6) + 1 }, rndNumber)
   );
   delete obj[0];
-  return obj;
+  return Math.random() < 0.9 ? obj : {};
 };
 
 const votesWithInvalidChoices = () => {

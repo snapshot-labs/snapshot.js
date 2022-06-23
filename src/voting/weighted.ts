@@ -17,7 +17,9 @@ export function isValidChoice(
     // If voteChoice object values are not a positive integer, return false
     Object.values(voteChoice).every(
       (value) => typeof value === 'number' && value > 0
-    )
+    ) &&
+    // If voteChoice is empty, return false
+    Object.keys(voteChoice).length > 0
   );
 }
 
