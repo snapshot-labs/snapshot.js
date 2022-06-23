@@ -13,6 +13,8 @@ export function isValidChoice(
     ) &&
     // If any voteChoice is duplicated, return false
     voteChoice.length === new Set(voteChoice).size &&
+    // If voteChoice is empty, return false
+    voteChoice.length > 0 &&
     // If not all proposalChoices are selected, return false
     // TODO: We should add support for pacial bailout in the future
     voteChoice.length === proposalChoices.length

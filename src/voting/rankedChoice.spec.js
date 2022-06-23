@@ -47,7 +47,11 @@ const rndChoices = () => {
       ? 0
       : undefined;
   };
-  return Array.from({ length: Math.floor(Math.random() * 9) + 1 }, rndNumber);
+  const choice = Array.from(
+    { length: Math.floor(Math.random() * 9) + 1 },
+    rndNumber
+  );
+  return Math.random() < 0.9 ? choice : [];
 };
 
 const votesWithInvalidChoices = () => {
