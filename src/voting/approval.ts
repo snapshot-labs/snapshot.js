@@ -6,10 +6,12 @@ export function isValidChoice(
 ): boolean {
   return (
     Array.isArray(voteChoice) &&
-    // If choice index is not in choices, return false
+    // If voteChoice index is not in proposalChoices, return false
     voteChoice.every((choice) => proposalChoices?.[choice - 1] !== undefined) &&
-    // If any choice is duplicated, return false
-    voteChoice.length === new Set(voteChoice).size
+    // If any voteChoice is duplicated, return false
+    voteChoice.length === new Set(voteChoice).size &&
+    // If voteChoice is empty, return false
+    voteChoice.length > 0
   );
 }
 
