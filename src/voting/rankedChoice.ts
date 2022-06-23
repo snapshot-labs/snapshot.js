@@ -1,36 +1,66 @@
 import { getNumberWithOrdinal } from '../utils';
+import { RankedChoiceVote, Strategy } from './types';
 
-function irv(ballots, rounds) {
-  const candidates: any[] = [...new Set(ballots.map((vote) => vote[0]).flat())];
-  const votes = Object.entries(
+export function isValidChoice(
+  voteChoice: number[],
+  proposalChoices: string[]
+): boolean {
+  return (
+    Array.isArray(voteChoice) &&
+    // If voteChoice index is not in choices, return false
+    voteChoice.every(
+      (voteChoice) => proposalChoices?.[voteChoice - 1] !== undefined
+    ) &&
+    // If any voteChoice is duplicated, return false
+    voteChoice.length === new Set(voteChoice).size &&
+    // If voteChoice is empty, return false
+    voteChoice.length > 0 &&
+    // If not all proposalChoices are selected, return false
+    // TODO: We should add support for pacial bailout in the future
+    voteChoice.length === proposalChoices.length
+  );
+}
+
+function irv(
+  ballots: (number | number[])[][],
+  rounds: {
+    round: number;
+    sortedByHighest: [string, [number, number[]]][];
+  }[]
+): { round: number; sortedByHighest: [string, [number, number[]]][] }[] {
+  const candidates: number[] = [
+    ...new Set(ballots.map((vote) => vote[0]).flat())
+  ];
+  const votes: [string, [number, number[]]][] = Object.entries(
     ballots.reduce((votes, [v], i, src) => {
-      votes[v[0]][0] += src[i][1];
-      if (votes[v[0]][1].length > 1)
-        votes[v[0]][1] = votes[v[0]][1].map(
-          (score, sI) => score + src[i][2][sI]
-        );
-      else
+      const balance = src[i][1];
+      votes[v[0]][0] += balance;
+
+      const score = src[i][2] as number[];
+      if (score.length > 1) {
+        votes[v[0]][1] = score.map((s, sI) => s + votes[v[0]][1][sI] || s);
+      } else
         votes[v[0]][1] = [
-          votes[v[0]][1].concat(src[i][2]).reduce((a, b) => a + b, 0)
+          votes[v[0]][1].concat(score).reduce((a, b) => a + b, 0)
         ];
       return votes;
     }, Object.assign({}, ...candidates.map((c) => ({ [c]: [0, []] }))))
   );
 
-  const votesWithoutScore = votes.map((vote: any) => [vote[0], vote[1][0]]);
+  const votesWithoutScore = votes.map((vote) => [vote[0], vote[1][0]]);
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
-  const [topCand, topCount] = votesWithoutScore.reduce(
+  const [topCand, topCount]: number[] = votesWithoutScore.reduce(
     ([n, m]: any[], [v, c]: any[]) => (c > m ? [v, c] : [n, m]),
     ['?', -Infinity]
   );
   const [bottomCand, bottomCount] = votesWithoutScore.reduce(
-    ([n, m]: any, [v, c]: any) => (c < m ? [v, c] : [n, m]),
+    ([n, m], [v, c]) => (c < m ? [v, c] : [n, m]),
     ['?', Infinity]
   );
   /* eslint-enable @typescript-eslint/no-unused-vars */
 
-  const sortedByHighest = votes.sort((a: any, b: any) => b[1][0] - a[1][0]);
+  const sortedByHighest = votes.sort((a, b) => b[1][0] - a[1][0]);
 
   const totalPowerOfVotes = ballots
     .map((bal) => bal[1])
@@ -41,64 +71,81 @@ function irv(ballots, rounds) {
     sortedByHighest
   });
 
-  return topCount > totalPowerOfVotes / 2 || sortedByHighest.length < 3
+  return topCount > (totalPowerOfVotes as number) / 2 ||
+    sortedByHighest.length < 3
     ? rounds
     : irv(
         ballots
           .map((ballot) => [
-            ballot[0].filter((c) => c != bottomCand),
+            (ballot[0] as number[]).filter((c) => c != bottomCand),
             ballot[1],
             ballot[2]
           ])
-          .filter((b) => b[0].length > 0),
+          .filter((ballot) => (ballot[0] as number[]).length > 0),
         rounds
       );
 }
 
-function getFinalRound(i, votes) {
-  const results = irv(
-    votes.map((vote: any) => [vote.choice, vote.balance, vote.scores]),
+function getFinalRound(
+  votes: RankedChoiceVote[]
+): [string, [number, number[]]][] {
+  const rounds = irv(
+    votes.map((vote) => [vote.choice, vote.balance, vote.scores]),
     []
   );
-  const finalRound = results[results.length - 1];
-  return finalRound.sortedByHighest.filter((res: any) => res[0] == i + 1);
+  const finalRound = rounds[rounds.length - 1];
+  return finalRound.sortedByHighest;
 }
 
-export default class ApprovalVoting {
-  public proposal;
-  public votes;
-  public strategies;
-  public selected;
+export default class RankedChoiceVoting {
+  proposal: { choices: string[] };
+  votes: RankedChoiceVote[];
+  strategies: Strategy[];
+  selected: number[];
 
-  constructor(proposal, votes, strategies, selected) {
+  constructor(
+    proposal: { choices: string[] },
+    votes: RankedChoiceVote[],
+    strategies: Strategy[],
+    selected: number[]
+  ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
     this.selected = selected;
   }
 
-  resultsByVoteBalance() {
-    return this.proposal.choices.map((choice, i) =>
-      getFinalRound(i, this.votes).reduce((a, b: any) => a + b[1][0], 0)
+  getValidVotes(): RankedChoiceVote[] {
+    return this.votes.filter((vote) =>
+      isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
-  resultsByStrategyScore() {
+  getScores(): number[] {
+    const finalRound = getFinalRound(this.getValidVotes());
+    return this.proposal.choices.map((choice, i) =>
+      finalRound
+        .filter((res) => Number(res[0]) === i + 1)
+        .reduce((a, b) => a + b[1][0], 0)
+    );
+  }
+
+  getScoresByStrategy(): number[][] {
+    const finalRound = getFinalRound(this.getValidVotes());
     return this.proposal.choices.map((choice, i) =>
       this.strategies.map((strategy, sI) => {
-        return getFinalRound(i, this.votes).reduce(
-          (a, b: any) => a + b[1][1][sI],
-          0
-        );
+        return finalRound
+          .filter((res) => Number(res[0]) === i + 1)
+          .reduce((a, b) => a + b[1][1][sI], 0);
       })
     );
   }
 
-  sumOfResultsBalance() {
-    return this.resultsByVoteBalance().reduce((a, b: any) => a + b);
+  getScoresTotal(): number {
+    return this.getScores().reduce((a, b) => a + b);
   }
 
-  getChoiceString() {
+  getChoiceString(): string {
     return this.selected
       .map((choice) => {
         if (this.proposal.choices[choice - 1])

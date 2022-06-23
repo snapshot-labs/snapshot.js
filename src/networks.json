@@ -252,8 +252,8 @@
     "network": "mainnet",
     "multicall": "0x1ee38d535d541c55c9dae27b12edf090c608e6fb",
     "rpc": [
-      "https://rpc.ankr.com/bsc",
       "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/bsc/mainnet/archive",
+      "https://rpc.ankr.com/bsc",
       "https://bsc.getblock.io/mainnet/?api_key=91f8195f-bf46-488f-846a-73d6853790e7",
       "https://bsc-private-dataseed1.nariox.org",
       "https://bsc-dataseed1.ninicoin.io",
@@ -752,6 +752,20 @@
     "explorer": "https://blockscout.com/astar",
     "start": 366482,
     "logo": "ipfs://QmZLQVsUqHBDXutu6ywTvcYXDZG2xBstMfHkfJSzUNpZsc"
+  },
+  "595": {
+    "key": "595",
+    "name": "Acala Mandala Testnet",
+    "chainId": 595,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x8ce86f733024c1ccae2224f05c11fd50713d6f81",
+    "rpc": [
+      "https://tc7-eth.aca-dev.network"
+    ],
+    "explorer": "https://blockscout.mandala.acala.network",
+    "start": 1335512,
+    "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
   },
   "888": {
     "key": "888",
