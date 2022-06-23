@@ -763,7 +763,7 @@
     "rpc": [
       "https://tc7-eth.aca-dev.network"
     ],
-    "explorer": "https://blockscout.mandala.acala.network/",
+    "explorer": "https://blockscout.mandala.acala.network",
     "start": 1335512,
     "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
   },
