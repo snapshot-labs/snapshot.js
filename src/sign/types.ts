@@ -10,6 +10,7 @@ export interface Proposal {
   space: string;
   timestamp?: number;
   type: string;
+  privacy: string;
   title: string;
   body: string;
   discussion: string;
