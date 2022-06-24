@@ -1203,8 +1203,8 @@
     "testnet": true,
     "multicall": "0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc",
     "rpc": [
-      "https://rpc-mumbai.matic.today",
-      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai/archive"
+      "https://speedy-nodes-nyc.moralis.io/9e03baabdc27be2a35bdec4a/polygon/mumbai/archive",
+      "https://rpc-mumbai.matic.today"
     ],
     "ws": [
       "wss://ws-mumbai.matic.today"
