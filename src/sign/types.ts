@@ -34,6 +34,7 @@ export interface Vote {
   proposal: string;
   type: string;
   choice: number | number[] | string;
+  privacy?: string;
 }
 
 export interface Follow {

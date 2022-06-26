@@ -115,7 +115,8 @@ export default class Client {
       type = type2 ? voteString2Types : voteStringTypes;
       message.choice = JSON.stringify(message.choice);
     }
-    // @ts-ignore
+    if (message?.privacy === 'shutter') type = voteStringTypes;
+    delete message.privacy;
     delete message.type;
     return await this.sign(web3, address, message, type);
   }
