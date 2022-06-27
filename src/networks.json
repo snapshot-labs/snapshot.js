@@ -252,8 +252,8 @@
     "network": "mainnet",
     "multicall": "0x1ee38d535d541c55c9dae27b12edf090c608e6fb",
     "rpc": [
-      "https://rpc.ankr.com/bsc",
       "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/bsc/mainnet/archive",
+      "https://rpc.ankr.com/bsc",
       "https://bsc.getblock.io/mainnet/?api_key=91f8195f-bf46-488f-846a-73d6853790e7",
       "https://bsc-private-dataseed1.nariox.org",
       "https://bsc-dataseed1.ninicoin.io",
@@ -770,6 +770,20 @@
     "start": 366482,
     "logo": "ipfs://QmZLQVsUqHBDXutu6ywTvcYXDZG2xBstMfHkfJSzUNpZsc"
   },
+  "595": {
+    "key": "595",
+    "name": "Acala Mandala Testnet",
+    "chainId": 595,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x8ce86f733024c1ccae2224f05c11fd50713d6f81",
+    "rpc": [
+      "https://tc7-eth.aca-dev.network"
+    ],
+    "explorer": "https://blockscout.mandala.acala.network",
+    "start": 1335512,
+    "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
+  },
   "888": {
     "key": "888",
     "name": "Wanchain",
@@ -1206,8 +1220,8 @@
     "testnet": true,
     "multicall": "0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc",
     "rpc": [
-      "https://rpc-mumbai.matic.today",
-      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mumbai/archive"
+      "https://speedy-nodes-nyc.moralis.io/9e03baabdc27be2a35bdec4a/polygon/mumbai/archive",
+      "https://rpc-mumbai.matic.today"
     ],
     "ws": [
       "wss://ws-mumbai.matic.today"
