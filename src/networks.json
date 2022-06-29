@@ -422,8 +422,8 @@
     "testnet": true,
     "multicall": "0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46",
     "rpc": [
-      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/bsc/testnet/archive",
-      "https://data-seed-prebsc-1-s1.binance.org:8545"
+      "https://data-seed-prebsc-1-s1.binance.org:8545",
+      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/bsc/testnet/archive"
     ],
     "explorer": "https://testnet.bscscan.com",
     "start": 3599656,
