@@ -707,6 +707,23 @@
     "start": 12559216,
     "logo": "ipfs://QmcMP9s9mUqfT2SCiP75sZgAVVev7H7RQAKiSx9xWEDKwe"
   },
+  "416": {
+    "key": "416",
+    "name": "SX Network",
+    "shortName": "SX",
+    "chainId": 416,
+    "network": "mainnet",
+    "multicall": "0x834a005DDCF990Ba1a79f259e840e58F2D14F49a",
+    "rpc": [
+      "https://rpc.sx.technology"
+    ],
+    "ws": [
+      "wss://rpc.sx.technology/ws"
+    ],
+    "explorer": "https://explorer.sx.technology",
+    "start": 2680605,
+    "logo": "ipfs://QmSXLXqyr2H6Ja5XrmznXbWTEvF2gFaL8RXNXgyLmDHjAF"
+  },
   "499": {
     "key": "499",
     "name": "Rupaya",
@@ -1060,9 +1077,9 @@
     "network": "Arbitrum mainnet",
     "multicall": "0x7A7443F8c577d537f1d8cD4a629d40a3148Dd7ee",
     "rpc": [
+      "https://rpc.ankr.com/arbitrum",
       "https://speedy-nodes-nyc.moralis.io/9e03baabdc27be2a35bdec4a/arbitrum/mainnet",
-      "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL",
-      "https://rpc.ankr.com/arbitrum"
+      "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL"
     ],
     "explorer": "https://arbiscan.io",
     "start": 256508,
