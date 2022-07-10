@@ -1,26 +1,6 @@
 import { getNumberWithOrdinal } from '../utils';
 import { RankedChoiceVote, Strategy } from './types';
 
-export function isValidChoice(
-  voteChoice: number[],
-  proposalChoices: string[]
-): boolean {
-  return (
-    Array.isArray(voteChoice) &&
-    // If voteChoice index is not in choices, return false
-    voteChoice.every(
-      (voteChoice) => proposalChoices?.[voteChoice - 1] !== undefined
-    ) &&
-    // If any voteChoice is duplicated, return false
-    voteChoice.length === new Set(voteChoice).size &&
-    // If voteChoice is empty, return false
-    voteChoice.length > 0 &&
-    // If not all proposalChoices are selected, return false
-    // TODO: We should add support for pacial bailout in the future
-    voteChoice.length === proposalChoices.length
-  );
-}
-
 function irv(
   ballots: (number | number[])[][],
   rounds: {
@@ -115,9 +95,26 @@ export default class RankedChoiceVoting {
     this.selected = selected;
   }
 
+  isValidChoice(voteChoice: number[], proposalChoices: string[]): boolean {
+    return (
+      Array.isArray(voteChoice) &&
+      // If voteChoice index is not in choices, return false
+      voteChoice.every(
+        (voteChoice) => proposalChoices?.[voteChoice - 1] !== undefined
+      ) &&
+      // If any voteChoice is duplicated, return false
+      voteChoice.length === new Set(voteChoice).size &&
+      // If voteChoice is empty, return false
+      voteChoice.length > 0 &&
+      // If not all proposalChoices are selected, return false
+      // TODO: We should add support for pacial bailout in the future
+      voteChoice.length === proposalChoices.length
+    );
+  }
+
   getValidVotes(): RankedChoiceVote[] {
     return this.votes.filter((vote) =>
-      isValidChoice(vote.choice, this.proposal.choices)
+      this.isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
