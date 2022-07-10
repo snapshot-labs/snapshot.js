@@ -1,28 +1,5 @@
 import { WeightedVote, Strategy } from './types';
 
-export function isValidChoice(
-  voteChoice: { [key: string]: number },
-  proposalChoices: string[]
-): boolean {
-  return (
-    typeof voteChoice === 'object' &&
-    !Array.isArray(voteChoice) &&
-    voteChoice !== null &&
-    // If voteChoice object keys are not in choices, return false
-    Object.keys(voteChoice).every(
-      (key) => proposalChoices?.[Number(key) - 1] !== undefined
-    ) &&
-    // If voteChoice object is empty, return false
-    Object.keys(voteChoice).length > 0 &&
-    // If voteChoice object values are not a positive integer, return false
-    Object.values(voteChoice).every(
-      (value) => typeof value === 'number' && value > 0
-    ) &&
-    // If voteChoice is empty, return false
-    Object.keys(voteChoice).length > 0
-  );
-}
-
 export function percentageOfTotal(i, values, total): number {
   const reducedTotal: any = total.reduce((a: any, b: any) => a + b, 0);
   const percent = (values[i] / reducedTotal) * 100;
@@ -53,9 +30,32 @@ export default class WeightedVoting {
     this.selected = selected;
   }
 
+  isValidChoice(
+    voteChoice: { [key: string]: number },
+    proposalChoices: string[]
+  ): boolean {
+    return (
+      typeof voteChoice === 'object' &&
+      !Array.isArray(voteChoice) &&
+      voteChoice !== null &&
+      // If voteChoice object keys are not in choices, return false
+      Object.keys(voteChoice).every(
+        (key) => proposalChoices?.[Number(key) - 1] !== undefined
+      ) &&
+      // If voteChoice object is empty, return false
+      Object.keys(voteChoice).length > 0 &&
+      // If voteChoice object values are not a positive integer, return false
+      Object.values(voteChoice).every(
+        (value) => typeof value === 'number' && value > 0
+      ) &&
+      // If voteChoice is empty, return false
+      Object.keys(voteChoice).length > 0
+    );
+  }
+
   getValidVotes(): WeightedVote[] {
     return this.votes.filter((vote) =>
-      isValidChoice(vote.choice, this.proposal.choices)
+      this.isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
