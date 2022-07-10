@@ -7,12 +7,12 @@
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
     "ensResolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
     "rpc": [
+      "https://rpc.ankr.com/eth",
       {
         "url": "https://api-geth-archive.ankr.com",
         "user": "balancer_user",
         "password": "balancerAnkr20201015"
       },
-      "https://rpc.ankr.com/eth",
       "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/eth/mainnet/archive",
       "https://apis.ankr.com/e62bc219f9c9462b8749defe472d2dc5/6106d4a3ec1d1bcc87ec72158f8fd089/eth/archive/main",
       "https://eth-archival.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
@@ -422,8 +422,8 @@
     "testnet": true,
     "multicall": "0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46",
     "rpc": [
-      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/bsc/testnet/archive",
-      "https://data-seed-prebsc-1-s1.binance.org:8545"
+      "https://data-seed-prebsc-1-s1.binance.org:8545",
+      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/bsc/testnet/archive"
     ],
     "explorer": "https://testnet.bscscan.com",
     "start": 3599656,
@@ -588,6 +588,7 @@
     "network": "Mainnet",
     "multicall": "0x7f6A10218264a22B4309F3896745687E712962a0",
     "rpc": [
+      "https://rpc.ankr.com/fantom",
       "https://rpc.ftm.tools",
       "https://rpcapi.fantom.network"
     ],
@@ -705,6 +706,23 @@
     "explorer": "https://explorer.thetatoken.org",
     "start": 12559216,
     "logo": "ipfs://QmcMP9s9mUqfT2SCiP75sZgAVVev7H7RQAKiSx9xWEDKwe"
+  },
+  "416": {
+    "key": "416",
+    "name": "SX Network",
+    "shortName": "SX",
+    "chainId": 416,
+    "network": "mainnet",
+    "multicall": "0x834a005DDCF990Ba1a79f259e840e58F2D14F49a",
+    "rpc": [
+      "https://rpc.sx.technology"
+    ],
+    "ws": [
+      "wss://rpc.sx.technology/ws"
+    ],
+    "explorer": "https://explorer.sx.technology",
+    "start": 2680605,
+    "logo": "ipfs://QmSXLXqyr2H6Ja5XrmznXbWTEvF2gFaL8RXNXgyLmDHjAF"
   },
   "499": {
     "key": "499",
@@ -1059,9 +1077,9 @@
     "network": "Arbitrum mainnet",
     "multicall": "0x7A7443F8c577d537f1d8cD4a629d40a3148Dd7ee",
     "rpc": [
+      "https://rpc.ankr.com/arbitrum",
       "https://speedy-nodes-nyc.moralis.io/9e03baabdc27be2a35bdec4a/arbitrum/mainnet",
-      "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL",
-      "https://rpc.ankr.com/arbitrum"
+      "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL"
     ],
     "explorer": "https://arbiscan.io",
     "start": 256508,
