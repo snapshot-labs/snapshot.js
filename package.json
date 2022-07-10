@@ -9,7 +9,7 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@ensdomains/eth-ens-namehash": "^2.0.15",
-    "@ethersproject/abi": "^5.0.4",
+    "@ethersproject/abi": "^5.6.4",
     "@ethersproject/bytes": "^5.6.1",
     "@ethersproject/contracts": "^5.0.3",
     "@ethersproject/hash": "^5.6.1",
