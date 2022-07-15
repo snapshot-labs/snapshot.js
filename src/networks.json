@@ -6,24 +6,6 @@
     "network": "homestead",
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
     "ensResolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
-    "rpc": [
-      "https://rpc.ankr.com/eth",
-      {
-        "url": "https://api-geth-archive.ankr.com",
-        "user": "balancer_user",
-        "password": "balancerAnkr20201015"
-      },
-      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/eth/mainnet/archive",
-      "https://apis.ankr.com/e62bc219f9c9462b8749defe472d2dc5/6106d4a3ec1d1bcc87ec72158f8fd089/eth/archive/main",
-      "https://eth-archival.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
-      "https://eth-mainnet.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv"
-    ],
-    "light": [
-      "https://cloudflare-eth.com"
-    ],
-    "ws": [
-      "wss://eth-mainnet.ws.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv"
-    ],
     "explorer": "https://etherscan.io",
     "start": 7929876,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
@@ -36,9 +18,6 @@
     "network": "ropsten",
     "testnet": true,
     "multicall": "0x53c43764255c17bd724f74c4ef150724ac50a3ed",
-    "rpc": [
-      "https://eth-ropsten.alchemyapi.io/v2/QzGz6gdkpTyDzebi3PjxIaKO7bDTGnSy"
-    ],
     "explorer": "https://ropsten.etherscan.io",
     "start": 7980811,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
@@ -52,13 +31,6 @@
     "testnet": true,
     "multicall": "0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821",
     "ensResolver": "0xf6305c19e814d2a75429fd637d01f7ee0e77d615",
-    "rpc": [
-      "https://eth-rinkeby.alchemyapi.io/v2/ugiPEBqMebLQbjro42kalZ1h4StpW_fR",
-      "https://eth-rinkeby.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
-    ],
-    "ws": [
-      "wss://eth-rinkeby.ws.alchemyapi.io/v2/twReQE9Px03E-E_N_Fbb3OVF7YgHxoGq"
-    ],
     "explorer": "https://rinkeby.etherscan.io",
     "start": 4534725,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
@@ -71,9 +43,6 @@
     "network": "goerli",
     "testnet": true,
     "multicall": "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
-    "rpc": [
-      "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
-    ],
     "explorer": "https://goerli.etherscan.io",
     "start": 743550,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
@@ -84,12 +53,6 @@
     "chainId": 7,
     "network": "mainnet",
     "multicall": "0xB9cb900E526e7Ad32A2f26f1fF6Dee63350fcDc5",
-    "rpc": [
-      "https://rpc.dome.cloud"
-    ],
-    "ws": [
-      "wss://ws.dome.cloud"
-    ],
     "explorer": "https://exp.tch.in.th",
     "logo": "ipfs://QmUcNN6ZMFEPLUw5WCknisSgs7nhWC5p992jSSsJVq34Eo"
   },
@@ -99,12 +62,6 @@
     "chainId": 8,
     "network": "Ubiq mainnet",
     "multicall": "0x6668750957e4083725926B71C41bDF1434C73262",
-    "rpc": [
-      "https://rpc.octano.dev"
-    ],
-    "ws": [
-      "wss://ws.octano.dev"
-    ],
     "explorer": "https://ubiqscan.io",
     "logo": "ipfs://Qmec3HLoN4QhwZAhw4XTi2aN8Wwmcko5hHN22sHARzb9tw"
   },
@@ -114,9 +71,6 @@
     "chainId": 10,
     "network": "Optimism mainnet",
     "multicall": "0x35A6Cdb2C9AD4a45112df4a04147EB07dFA01aB7",
-    "rpc": [
-      "https://opt-mainnet.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
-    ],
     "explorer": "https://optimistic.etherscan.io",
     "start": 657806,
     "logo": "ipfs://QmfF4kwhGL8QosUXvgq2KWCmavhKBvwD6kbhs7L4p5ZAWb"
@@ -128,10 +82,6 @@
     "chainId": 20,
     "network": "mainnet",
     "multicall": "0x20205D3b6008bea1411bd4CaEA2D923FE231B6E5",
-    "rpc": [
-      "https://rpc.glidefinance.io",
-      "https://escrpc.elaphant.app"
-    ],
     "explorer": "https://esc.elastos.io",
     "start": 7826070,
     "logo": "ipfs://Qmd2muU2UHo5WsTxE9EpZZJeatimTT9GD4sEnHQe6i9wiA"
@@ -143,9 +93,6 @@
     "chainId": 25,
     "network": "mainnet",
     "multicall": "0x6F522a3982e8F9A50A2EDc9E46ed1A3aE2B3FD3a",
-    "rpc": [
-      "https://evm-cronos.crypto.org"
-    ],
     "explorer": "https://cronos.crypto.org/explorer",
     "start": 4067,
     "logo": "ipfs://QmfSJbtirJoa3Pt7o5Fdm85wbyw9V1hpzqLr5PQbdnfsAj"
@@ -156,9 +103,6 @@
     "chainId": 30,
     "network": "rsk mainnet",
     "multicall": "0x4eeebb5580769ba6d26bfd07be636300076d1831",
-    "rpc": [
-      "https://public-node.rsk.co"
-    ],
     "explorer": "https://explorer.rsk.co",
     "start": 2516442,
     "logo": "ipfs://QmXTwpE1SqoNZmyY4c3fYWy6qUgQELsyWKbgJo2Pg6K6V9"
@@ -170,9 +114,6 @@
     "network": "rsk testnet",
     "testnet": true,
     "multicall": "0x4eeebb5580769ba6d26bfd07be636300076d1831",
-    "rpc": [
-      "https://public-node.testnet.rsk.co"
-    ],
     "explorer": "https://explorer.testnet.rsk.co",
     "start": 1002369,
     "logo": "ipfs://QmbpnJowePd9sDy8hrJv7LsTBkxksuJauw56Y7BqdMdzec"
@@ -185,15 +126,6 @@
     "network": "kovan",
     "testnet": true,
     "multicall": "0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a",
-    "rpc": [
-      "https://eth-kovan.alchemyapi.io/v2/sR9qngOH3w78GAaTtlTe8GwEnij0SnEa",
-      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/eth/kovan/archive",
-      "https://eth-kovan.alchemyapi.io/v2/s96TIUFYg0LuddgpmafA040ZyUaZbrpM",
-      "https://poa-kovan.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
-    ],
-    "ws": [
-      "wss://eth-kovan.ws.alchemyapi.io/v2/QCsM2iU0bQ49eGDmZ7-Y--Wpu0lVWXSO"
-    ],
     "explorer": "https://kovan.etherscan.io",
     "start": 11482433,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
@@ -205,9 +137,6 @@
     "chainId": 44,
     "network": "mainnet",
     "multicall": "0x4617D470F847Ce166019d19a7944049ebB017400",
-    "rpc": [
-      "https://crab-rpc.darwinia.network"
-    ],
     "explorer": "https://crab.subscan.io",
     "logo": "ipfs://QmTpySsG7rjLwuZX1Ep4ewGyVAyGrvCRC1oqEvU6oP1huf"
   },
@@ -218,13 +147,6 @@
     "chainId": 50,
     "network": "mainnet",
     "multicall": "0xc8160deb19559d93eadb82798ededce696ebcaf5",
-    "rpc": [
-      "https://snapshotrpc.blocksscan.io/",
-      "https://rpc.xinfin.network"
-    ],
-    "ws": [
-      "wss://ws.blocksscan.io"
-    ],
     "explorer": "http://xdc.blocksscan.io",
     "logo": "ipfs://QmaX3pqjWGg97bR6jjxvTopRkJVxrvwp6VB4jf1Lknq111"
   },
@@ -235,12 +157,6 @@
     "chainId": 51,
     "network": "testnet",
     "multicall": "0x3b353b02a8b42ee4222ea4be0836629b1f40c8db",
-    "rpc": [
-      "https://apothemrpc.blocksscan.io"
-    ],
-    "ws": [
-      "wss://apothemws.blocksscan.io"
-    ],
     "explorer": "http://apothem.blocksscan.io",
     "logo": "ipfs://QmaX3pqjWGg97bR6jjxvTopRkJVxrvwp6VB4jf1Lknq111"
   },
@@ -251,14 +167,6 @@
     "chainId": 56,
     "network": "mainnet",
     "multicall": "0x1ee38d535d541c55c9dae27b12edf090c608e6fb",
-    "rpc": [
-      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/bsc/mainnet/archive",
-      "https://rpc.ankr.com/bsc",
-      "https://bsc.getblock.io/mainnet/?api_key=91f8195f-bf46-488f-846a-73d6853790e7",
-      "https://bsc-private-dataseed1.nariox.org",
-      "https://bsc-dataseed1.ninicoin.io",
-      "https://bsc-dataseed1.binance.org"
-    ],
     "explorer": "https://bscscan.com",
     "start": 461230,
     "logo": "ipfs://QmWQaQ4Tv28DwA4DRKjSDJFWY9mZboGvuu77J8nh7kucxv"
@@ -269,12 +177,6 @@
     "chainId": 58,
     "network": "mainnet",
     "multicall": "0xce6292279bf688173B269Df080E14407470A9E60",
-    "rpc": [
-      "https://dappnode1.ont.io:10339",
-      "https://dappnode2.ont.io:10339",
-      "https://dappnode3.ont.io:10339",
-      "https://dappnode4.ont.io:10339"
-    ],
     "explorer": "https://explorer.ont.io/",
     "logo": "ipfs://Qme21sVqfwvrjkZHaeKaBH1F8AKPjbAV7vF7rH6akaLkU1"
   },
@@ -285,9 +187,6 @@
     "chainId": 61,
     "network": "mainnet",
     "multicall": "0x51be3a92C56ae7E207C5b5Fd87F7798Ce82C1AC2",
-    "rpc": [
-      "https://www.ethercluster.com/etc"
-    ],
     "explorer": "https://blockscout.com/etc/mainnet",
     "logo": "ipfs://QmVegc28DvA7LjKUFysab81c9BSuN4wQVDQkRXyAtuEBis"
   },
@@ -299,12 +198,6 @@
     "network": "oec testnet",
     "testnet": true,
     "multicall": "0x04c68A7fB750ca0Ba232105B3b094926a0f77645",
-    "rpc": [
-      "https://exchaintestrpc.okex.org"
-    ],
-    "ws": [
-      "wss://exchaintestws.okex.org:8443"
-    ],
     "explorer": "https://www.oklink.com/okexchain-test",
     "start": 5320359,
     "logo": "ipfs://Qmd7dKnNwHRZ4HRCbCXUbkNV7gP28fGqPdjbHtjRtT9sQF"
@@ -316,12 +209,6 @@
     "chainId": 66,
     "network": "oec mainnet",
     "multicall": "0x6EB187d8197Ac265c945b69f3c3064A6f3831866",
-    "rpc": [
-      "https://exchainrpc.okex.org"
-    ],
-    "ws": [
-      "wss://exchainws.okex.org:8443"
-    ],
     "explorer": "https://www.oklink.com/okexchain",
     "start": 5076543,
     "logo": "ipfs://Qmd7dKnNwHRZ4HRCbCXUbkNV7gP28fGqPdjbHtjRtT9sQF"
@@ -333,9 +220,6 @@
     "network": "Optimism testnet",
     "testnet": true,
     "multicall": "0x28e9a2329aa6b675ca251a2ccaa7fb029c1e9bfb",
-    "rpc": [
-      "https://opt-kovan.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
-    ],
     "explorer": "https://kovan-optimistic.etherscan.io",
     "start": 882942,
     "logo": "ipfs://QmfF4kwhGL8QosUXvgq2KWCmavhKBvwD6kbhs7L4p5ZAWb"
@@ -347,12 +231,6 @@
     "chainId": 70,
     "network": "Mainnet",
     "multicall": "0xd4b794b89baccb70ef851830099bee4d69f19ebc",
-    "rpc": [
-      "https://http-mainnet2.hoosmartchain.com"
-    ],
-    "ws": [
-      "wss://ws-mainnet2.hoosmartchain.com"
-    ],
     "explorer": "https://hooscan.com",
     "start": 404118,
     "logo": "ipfs://QmNhFCVw5GDsu86sGchoRNvQjcr5GL79UJQ3xCHzdFbZYk"
@@ -364,10 +242,6 @@
     "chainId": 74,
     "network": "mainnet",
     "multicall": "0x41d289c966D51342A515A19dE9c27d16079c94E0",
-    "rpc": [
-      "https://idchain.one/archive/rpc/",
-      "https://idchain.songadao.org/rpc"
-    ],
     "explorer": "https://explorer.idchain.one",
     "start": 10780012,
     "logo": "ipfs://QmXAKaNsyv6ctuRenYRJuZ1V4kn1eFwkUtjrjzX6jiKTqe"
@@ -378,9 +252,6 @@
     "chainId": 80,
     "network": "Mainnet",
     "multicall": "0x9e6ed491171A0D9089892aA5F14800f9f32038eb",
-    "rpc": [
-      "https://rpc.genechain.io"
-    ],
     "explorer": "https://scan.genechain.io",
     "logo": "ipfs://QmSV3LTGzE4159zLK4xJVDH5t8iKhY4peh7VAkjefawr2q"
   },
@@ -392,9 +263,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x3E90A35839ff0Aa32992d33d861f24dC95BBf74d",
-    "rpc": [
-      "https://rpc.shibuya.astar.network:8545"
-    ],
     "explorer": "https://blockscout.com/shibuya",
     "start": 856303,
     "logo": "ipfs://QmZLQVsUqHBDXutu6ywTvcYXDZG2xBstMfHkfJSzUNpZsc"
@@ -406,9 +274,6 @@
     "chainId": 82,
     "network": "mainnet",
     "multicall": "0x579De77CAEd0614e3b158cb738fcD5131B9719Ae",
-    "rpc": [
-      "https://rpc.meter.io"
-    ],
     "explorer": "https://scan.meter.io",
     "start": 4992871,
     "logo": "ipfs://QmSZvT9w9eUDvV1YVaq3BKKEbubtNVqu1Rin44FuN4wz11"
@@ -421,10 +286,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x8b54247c6BAe96A6ccAFa468ebae96c4D7445e46",
-    "rpc": [
-      "https://data-seed-prebsc-1-s1.binance.org:8545",
-      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/bsc/testnet/archive"
-    ],
     "explorer": "https://testnet.bscscan.com",
     "start": 3599656,
     "logo": "ipfs://QmWQaQ4Tv28DwA4DRKjSDJFWY9mZboGvuu77J8nh7kucxv"
@@ -436,9 +297,6 @@
     "chainId": 99,
     "network": "mainnet",
     "multicall": "0x2754BB10580dFc6d8Ce6d6CA2939021A06923394",
-    "rpc": [
-      "https://core.poa.network"
-    ],
     "explorer": "https://blockscout.com/poa/core",
     "start": 22543252,
     "logo": "ipfs://QmZNFCQGA7qT4XJnPSH5NNYrqK6aFsfzZ1NzJwp5D4Tdjr"
@@ -450,18 +308,6 @@
     "chainId": 100,
     "network": "mainnet",
     "multicall": "0xb5b692a88bdfc81ca69dcb1d924f59f0413a602a",
-    "rpc": [
-      "https://gno.getblock.io/mainnet/6c1d1e6e-75d9-452f-a863-a694bff93d5c/",
-      "https://xdai-archive.blockscout.com",
-      "https://poa-xdai.gateway.pokt.network/v1/5f76124fb90218002e9ce985",
-      "https://rpc.gnosischain.com"
-    ],
-    "light": [
-      "https://rpc.gnosischain.com"
-    ],
-    "ws": [
-      "wss://rpc.xdaichain.com/wss"
-    ],
     "explorer": "https://blockscout.com/poa/xdai",
     "start": 4108192,
     "logo": "ipfs://QmZeiy8Ax4133wzxUQM9ky8z5XFVf6YLFjJMmTWbWVniZR"
@@ -473,13 +319,6 @@
     "chainId": 106,
     "network": "mainnet",
     "multicall": "0x597Cc7c49a8e0041d3A43ec8D7dc651b47879108",
-    "rpc": [
-      "https://evmexplorer.velas.com/rpc",
-      "https://explorer.velas.com/rpc"
-    ],
-    "ws": [
-      "wss://api.velas.com"
-    ],
     "explorer": "https://evmexplorer.velas.com",
     "start": 141800,
     "logo": "ipfs://QmNXiCXJxEeBd7ZYGYjPSMTSdbDd2nfodLC677gUfk9ku5"
@@ -490,9 +329,6 @@
     "chainId": 108,
     "network": "mainnet",
     "multicall": "",
-    "rpc": [
-      "https://mainnet-rpc.thundercore.com"
-    ],
     "explorer": "https://scan.thundercore.com",
     "logo": "ipfs://QmbEsmMPZALcfvNnGDg8F2ABCJM3T2UFBiVBaRsMdkjefG"
   },
@@ -504,13 +340,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x55a827538FbF41b7334Dd49001220597898Ad954",
-    "rpc": [
-      "https://evmexplorer.testnet.velas.com/rpc",
-      "https://explorer.testnet.velas.com/rpc"
-    ],
-    "ws": [
-      "wss://api.testnet.velas.com"
-    ],
     "explorer": "https://evmexplorer.testnet.velas.com",
     "start": 1195129,
     "logo": "ipfs://QmQFWn7JJLigUPvvp6uKg6EWikx7QeNxQ2vaCngU3Uthho"
@@ -522,10 +351,6 @@
     "chainId": 122,
     "network": "mainnet",
     "multicall": "0x7a59441fb06666F6d2D766393d876945D06a169c",
-    "rpc": [
-      "https://explorer-node.fuse.io/",
-      "https://oefusefull1.liquify.info/"
-    ],
     "explorer": "https://explorer.fuse.io",
     "start": 11923459,
     "logo": "ipfs://QmXjWb64nako7voaVEifgdjAbDbswpTY8bghsiHpv8yWtb"
@@ -537,12 +362,6 @@
     "chainId": 128,
     "network": "Mainnet",
     "multicall": "0x37ab26db3df780e7026f3e767f65efb739f48d8e",
-    "rpc": [
-      "https://pub001.hg.network/rpc"
-    ],
-    "ws": [
-      "wss://pub001.hg.network/ws"
-    ],
     "explorer": "https://hecoinfo.com",
     "start": 403225,
     "logo": "ipfs://QmSJEdToMvmjqoPvVq7awwdMeYKhXUYZMBiax9yHtFGMSq"
@@ -554,15 +373,6 @@
     "chainId": 137,
     "network": "mainnet",
     "multicall": "0xCBca837161be50EfA5925bB9Cc77406468e76751",
-    "rpc": [
-      "https://rpc.ankr.com/polygon",
-      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/polygon/mainnet/archive",
-      "https://speedy-nodes-nyc.moralis.io/f2963e29bec0de5787da3164/polygon/mainnet/archive",
-      "https://rpc-mainnet.maticvigil.com/v1/1cfd7598e5ba6dcf0b4db58e8be484badc6ea08e"
-    ],
-    "ws": [
-      "wss://ws-mainnet.matic.network"
-    ],
     "explorer": "https://polygonscan.com",
     "start": 9834491,
     "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
@@ -574,9 +384,6 @@
     "chainId": 246,
     "network": "mainnet",
     "multicall": "0x0767F26d0D568aB61A98b279C0b28a4164A6f05e",
-    "rpc": [
-      "https://voting-rpc.carbonswap.exchange"
-    ],
     "explorer": "https://explorer.energyweb.org",
     "start": 12086501,
     "logo": "ipfs://Qmai7AGHgs8NpeGeXgbMZz7pS2i4kw44qubCJYGrZW2f3a"
@@ -588,11 +395,6 @@
     "chainId": 250,
     "network": "Mainnet",
     "multicall": "0x7f6A10218264a22B4309F3896745687E712962a0",
-    "rpc": [
-      "https://rpc.ankr.com/fantom",
-      "https://rpc.ftm.tools",
-      "https://rpcapi.fantom.network"
-    ],
     "explorer": "https://ftmscan.com",
     "start": 2497732,
     "logo": "ipfs://QmVEgNeQDKnXygeGxfY9FywZpNGQu98ktZtRJ9bToYF6g7"
@@ -605,12 +407,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0xC33994Eb943c61a8a59a918E2de65e03e4e385E0",
-    "rpc": [
-      "https://http-testnet.hecochain.com"
-    ],
-    "ws": [
-      "wss://ws-testnet.hecochain.com"
-    ],
     "explorer": "https://testnet.hecoinfo.com",
     "start": 379560,
     "logo": "ipfs://QmSJEdToMvmjqoPvVq7awwdMeYKhXUYZMBiax9yHtFGMSq"
@@ -623,12 +419,6 @@
     "network": "mainnet",
     "testnet": false,
     "multicall": "0x67D0f263aef2F6167FA77353695D75b582Ff4Bca",
-    "rpc": [
-      "https://hpbnode.com"
-    ],
-    "ws": [
-      "wss://ws.hpbnode.com"
-    ],
     "explorer": "https://hscan.org",
     "start": 13960096,
     "logo": "ipfs://QmU7f1MyRz8rLELFfypnWZQjGbDGYgZtC9rjw47jYMYrnu"
@@ -641,9 +431,6 @@
     "network": "zkSync alpha testnet",
     "testnet": true,
     "multicall": "0xD2CF10EF0b64B2C9B7147740AEda677d3EfeD2f8",
-    "rpc": [
-      "https://zksync2-testnet.zksync.dev"
-    ],
     "explorer": "https://zksync2-testnet.zkscan.io/",
     "start": 1374275,
     "logo": "ipfs://QmPDbdmwpEeenaLHAbqcAerXdH9Z4Gfd7gm9M8tbkkjcAS"
@@ -655,9 +442,6 @@
     "chainId": 288,
     "network": "mainnet",
     "multicall": "0xfb91c019D9F12A0f9c23B4762fa64A34F8daDb4A",
-    "rpc": [
-      "https://mainnet.boba.network/"
-    ],
     "explorer": "https://blockexplorer.boba.network",
     "start": 74,
     "logo": "ipfs://QmNc7QZFpPDue3Ef4SsuX55RHkqXxUxSyTCpoASeg2hW6d"
@@ -669,12 +453,6 @@
     "chainId": 321,
     "network": "mainnet",
     "multicall": "0xa64D6AFb48225BDA3259246cfb418c0b91de6D7a",
-    "rpc": [
-      "https://rpc-mainnet.kcc.network"
-    ],
-    "ws": [
-      "wss://rpc-ws-mainnet.kcc.network"
-    ],
     "explorer": "https://explorer.kcc.io",
     "start": 1487453,
     "logo": "ipfs://QmRdzYGhFRG8QLzMJahHrw3vETE2YZ9sywQbEkenSjKEvb"
@@ -686,10 +464,6 @@
     "chainId": 336,
     "network": "mainnet",
     "multicall": "0x3E90A35839ff0Aa32992d33d861f24dC95BBf74d",
-    "rpc": [
-      "https://rpc.shiden.astar.network:8545",
-      "https://shiden.api.onfinality.io/public"
-    ],
     "explorer": "https://blockscout.com/shiden",
     "start": 1170016,
     "logo": "ipfs://QmcqGQE4Sk73zXc3e91TUFFefKBVeaNgbxV141XkSNE4xj"
@@ -701,9 +475,6 @@
     "chainId": 361,
     "network": "mainnet",
     "multicall": "0xB48BbAD564Ceb6fB30cCea2Af248ccF6398aEab5",
-    "rpc": [
-      "https://eth-rpc-api.thetatoken.org/rpc"
-    ],
     "explorer": "https://explorer.thetatoken.org",
     "start": 12559216,
     "logo": "ipfs://QmcMP9s9mUqfT2SCiP75sZgAVVev7H7RQAKiSx9xWEDKwe"
@@ -715,12 +486,6 @@
     "chainId": 416,
     "network": "mainnet",
     "multicall": "0x834a005DDCF990Ba1a79f259e840e58F2D14F49a",
-    "rpc": [
-      "https://rpc.sx.technology"
-    ],
-    "ws": [
-      "wss://rpc.sx.technology/ws"
-    ],
     "explorer": "https://explorer.sx.technology",
     "start": 2680605,
     "logo": "ipfs://QmSXLXqyr2H6Ja5XrmznXbWTEvF2gFaL8RXNXgyLmDHjAF"
@@ -732,12 +497,6 @@
     "chainId": 499,
     "network": "mainnet",
     "multicall": "0x7955FF653FfDBf13056FeAe227f655CfF5C194D5",
-    "rpc": [
-      "https://rpc.rupx.io"
-    ],
-    "ws": [
-      "wss://ws.rupx.io"
-    ],
     "explorer": "http://scan.rupx.io",
     "start": 2762929,
     "logo": "ipfs://QmXLZyAr6UNFQ4tkNwSyeNByFvzwYpwiNgV5vHuoxn74Rg"
@@ -749,10 +508,6 @@
     "chainId": 534,
     "network": "mainnet",
     "multicall": "0x4A21871491adC2C429F9903918C306c97dd295A3",
-    "rpc": [
-      "https://rpc.cndlchain.com",
-      "https://candle-rpc.com"
-    ],
     "explorer": "http://candleexplorer.com",
     "start": 800000,
     "logo": "ipfs://Qmbe3ChumXNRfHcLsNBY2APRrGxkFWP68Nb35MaKMRfPye"
@@ -764,10 +519,6 @@
     "chainId": 592,
     "network": "mainnet",
     "multicall": "0x3E90A35839ff0Aa32992d33d861f24dC95BBf74d",
-    "rpc": [
-      "https://astar.api.onfinality.io/public",
-      "https://rpc.astar.network:8545"
-    ],
     "explorer": "https://blockscout.com/astar",
     "start": 366482,
     "logo": "ipfs://QmZLQVsUqHBDXutu6ywTvcYXDZG2xBstMfHkfJSzUNpZsc"
@@ -779,9 +530,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x8ce86f733024c1ccae2224f05c11fd50713d6f81",
-    "rpc": [
-      "https://tc7-eth.aca-dev.network"
-    ],
     "explorer": "https://blockscout.mandala.acala.network",
     "start": 1335512,
     "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
@@ -792,12 +540,6 @@
     "chainId": 888,
     "network": "mainnet",
     "multicall": "0xba5934ab3056fca1fa458d30fbb3810c3eb5145f",
-    "rpc": [
-      "https://gwan-ssl.wandevs.org:56891"
-    ],
-    "ws": [
-      "wss://api.wanchain.org:8443/ws/v3/ddd16770c68f30350a21114802d5418eafe039b722de52b488e7eee1ee2cd73f"
-    ],
     "explorer": "https://www.wanscan.org",
     "start": 11302663,
     "logo": "ipfs://QmewFFN44rkxESFsHG8edaLt1znr62hjvZhGynfXqruzX3"
@@ -809,12 +551,6 @@
     "chainId": 940,
     "network": "Testnet",
     "multicall": "0x5e67901C2Dd1915E9Ef49aF39B62C28DF8C2c529",
-    "rpc": [
-      "https://rpc.testnet.pulsedisco.net"
-    ],
-    "ws": [
-      "wss://ws.rpc.testnet.pulsedisco.net"
-    ],
     "explorer": "https://scan.v2.testnet.pulsechain.com",
     "start": 15123138,
     "logo": "ipfs://QmYqkn8pJUaV9KcEPYEvRPwgbfeozLEvcQ9aEwKNRUL3cR"
@@ -826,12 +562,6 @@
     "chainId": 941,
     "network": "Testnet v2B",
     "multicall": "0x959a437F1444DaDaC8aF997E71EAF0479c810267",
-    "rpc": [
-      "https://rpc.testnet.pulsedisco.net"
-    ],
-    "ws": [
-      "wss://ws.rpc.testnet.pulsedisco.net"
-    ],
     "explorer": "https://scan.v2b.testnet.pulsechain.com",
     "start": 14473847,
     "logo": "ipfs://QmYqkn8pJUaV9KcEPYEvRPwgbfeozLEvcQ9aEwKNRUL3cR"
@@ -843,9 +573,6 @@
     "chainId": 1088,
     "network": "mainnet",
     "multicall": "0xc39aBB6c4451089dE48Cffb013c39d3110530e5C",
-    "rpc": [
-      "https://andromeda.metis.io/?owner=1088"
-    ],
     "explorer": "https://andromeda-explorer.metis.io",
     "start": 451,
     "logo": "ipfs://QmYeskHqrEvWHqeAuqett64LxfH52HUXZi2T9BAMmgKvBF"
@@ -857,9 +584,6 @@
     "chainId": 1284,
     "network": "mainnet",
     "multicall": "0x83e3b61886770de2F64AAcaD2724ED4f08F7f36B",
-    "rpc": [
-      "https://rpc.api.moonbeam.network"
-    ],
     "explorer": "https://blockscout.moonbeam.network",
     "start": 171135,
     "logo": "ipfs://QmWKTEK2pj5sBBbHnMHQbWgw6euVdBrk2Ligpi2chrWASk"
@@ -871,9 +595,6 @@
     "chainId": 1285,
     "network": "mainnet",
     "multicall": "0x537004440ffFE1D4AE9F009031Fc2b0385FCA9F1",
-    "rpc": [
-      "https://rpc.api.moonriver.moonbeam.network"
-    ],
     "explorer": "https://blockscout.moonriver.moonbeam.network",
     "start": 413539,
     "logo": "ipfs://QmXtgPesL87Ejhq2Y7yxsaPYpf4RcnoTYPJWPcv6iiYhoi"
@@ -886,9 +607,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0xf09FD6B6FF3f41614b9d6be2166A0D07045A3A97",
-    "rpc": [
-      "https://rpc.testnet.moonbeam.network"
-    ],
     "explorer": "https://moonbase-blockscout.testnet.moonbeam.network",
     "start": 859041,
     "logo": "ipfs://QmeGbNTU2Jqwg8qLTMGW8n8HSi2VdgCncAaeGzLx6gYnD7"
@@ -901,9 +619,6 @@
     "network": "mainnet",
     "testnet": false,
     "multicall": "0x28d2ebdb36369db1c51355cdc0898754d1a1c3c5",
-    "rpc": [
-      "https://http-mainnet-archive.cube.network"
-    ],
     "explorer": "https://www.cubescan.network",
     "start": 0,
     "logo": "ipfs://QmbENgHTymTUUArX5MZ2XXH69WGenirU3oamkRD448hYdz"
@@ -916,9 +631,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x5db2AB28beD8EBDDe5F7202F5a11fF7E78Ad1FB5",
-    "rpc": [
-      "https://http-testnet-archive.cube.network"
-    ],
     "explorer": "https://testnet.cubescan.network",
     "start": 0,
     "logo": "ipfs://QmbENgHTymTUUArX5MZ2XXH69WGenirU3oamkRD448hYdz"
@@ -930,9 +642,6 @@
     "chainId": 4689,
     "network": "mainnet",
     "multicall": "0x9c8B105c94282CDB0F3ecF27e3cfA96A35c07be6",
-    "rpc": [
-      "https://babel-api.mainnet.iotex.io"
-    ],
     "explorer": "https://iotexscan.io",
     "start": 11533283,
     "logo": "ipfs://QmNkr1UPcBYbvLp7d7Pk4eF3YCsHpaNkfusKZNtykL2EQC"
@@ -945,9 +654,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x30aE8783d26aBE7Fbb9d83549CCb7430AE4A301F",
-    "rpc": [
-      "https://babel-api.testnet.iotex.io"
-    ],
     "explorer": "https://testnet.iotexscan.io",
     "start": 8821493,
     "logo": "ipfs://QmNkr1UPcBYbvLp7d7Pk4eF3YCsHpaNkfusKZNtykL2EQC"
@@ -959,9 +665,6 @@
     "chainId": 5551,
     "network": "mainnet",
     "multicall": "0x05911151467b9F42eD14f10ddE0c057347Fff714",
-    "rpc": [
-      "https://l2.nahmii.io"
-    ],
     "explorer": "https://explorer.nahmii.io",
     "start": 4364,
     "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
@@ -974,9 +677,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x0e157d2E45af27564edFAaCcD68f2f0458F3D96c",
-    "rpc": [
-      "https://l2.testnet.nahmii.io"
-    ],
     "explorer": "https://explorer.testnet.nahmii.io",
     "start": 53370,
     "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
@@ -987,14 +687,6 @@
     "chainId": 5851,
     "network": "testnet",
     "multicall": "0x381445710b5e73d34aF196c53A3D5cDa58EDBf7A",
-    "rpc": [
-      "https://polaris1.ont.io:10339",
-      "https://polaris2.ont.io:10339",
-      "https://polaris3.ont.io:10339",
-      "https://polaris4.ont.io:10339",
-      "https://polaris4.ont.io:10339",
-      "https://polaris5.ont.io:10339"
-    ],
     "explorer": "https://explorer.ont.io/testnet",
     "logo": "ipfs://Qme21sVqfwvrjkZHaeKaBH1F8AKPjbAV7vF7rH6akaLkU1"
   },
@@ -1006,9 +698,6 @@
     "network": "mainnet",
     "testnet": false,
     "multicall": "0xceb10e9133D771cA93c8002Be527A465E85381a2",
-    "rpc": [
-      "https://rpc.shyft.network"
-    ],
     "explorer": "https://bx.shyft.network",
     "start": 3673983,
     "logo": "ipfs://QmUkFZC2ZmoYPTKf7AHdjwRPZoV2h1MCuHaGM4iu8SNFpi"
@@ -1020,9 +709,6 @@
     "chainId": 10000,
     "network": "mainnet",
     "multicall": "0x1b38EBAd553f218e2962Cb1C0539Abb5d6A37774",
-    "rpc": [
-      "https://smartbch.greyh.at/"
-    ],
     "explorer": "https://www.smartscan.cash",
     "logo": "ipfs://QmWG1p7om4hZ4Yi4uQvDpxg4si7qVYhtppGbcDGrhVFvMd"
   },
@@ -1034,9 +720,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x407159bAA564dA0c3b14D1215d8E2654cEEE73F4",
-    "rpc": [
-      "https://rpc.testnet.shyft.network"
-    ],
     "explorer": "https://bx.testnet.shyft.network",
     "start": 2446296,
     "logo": "ipfs://QmUkFZC2ZmoYPTKf7AHdjwRPZoV2h1MCuHaGM4iu8SNFpi"
@@ -1049,9 +732,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x9eE9904815B80C39C1a27294E69a8626EAa7952d",
-    "rpc": [
-      "https://rpc-testnet.rei.network"
-    ],
     "explorer": "https://scan-test.rei.network/",
     "start": 79516,
     "logo": "ipfs://QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
@@ -1062,12 +742,6 @@
     "chainId": 32659,
     "network": "mainnet",
     "multicall": "",
-    "rpc": [
-      "https://vote.anyswap.exchange/mainnet"
-    ],
-    "ws": [
-      "wss://mainnetpublicgateway1.fusionnetwork.io:10001"
-    ],
     "explorer": "https://fsnex.com",
     "logo": "ipfs://QmRb6YCGdpQTQcdNTnBb5DUixGpjDp1wz6zoADJwQ7hyFq"
   },
@@ -1077,11 +751,6 @@
     "chainId": 42161,
     "network": "Arbitrum mainnet",
     "multicall": "0x7A7443F8c577d537f1d8cD4a629d40a3148Dd7ee",
-    "rpc": [
-      "https://rpc.ankr.com/arbitrum",
-      "https://speedy-nodes-nyc.moralis.io/9e03baabdc27be2a35bdec4a/arbitrum/mainnet",
-      "https://arb-mainnet.g.alchemy.com/v2/JDvtNGwnHhTltIwfnxQocKwKkCTKA1DL"
-    ],
     "explorer": "https://arbiscan.io",
     "start": 256508,
     "logo": "ipfs://QmWZ5SMRfvcK8tycsDqojQaSiKedgtVkS7CkZdxPgeCVsZ"
@@ -1093,11 +762,6 @@
     "chainId": 42220,
     "network": "mainnet",
     "multicall": "0xb8d0d2C1391eeB350d2Cd39EfABBaaEC297368D9",
-    "rpc": [
-      "https://celo.snapshot.org",
-      "https://forno.celo.org",
-      "https://celo-mainnet--rpc.datahub.figment.io/apikey/e892a66dc36e4d2d98a5d6406d609796/"
-    ],
     "explorer": "https://explorer.celo.org",
     "start": 6599803,
     "logo": "ipfs://QmS2tVJ7rdJRe1NHXAi2L86yCbUwVVrmB2mHQeNdJxvQti"
@@ -1109,9 +773,6 @@
     "chainId": 42262,
     "network": "mainnet",
     "multicall": "0xBD46A7DCD1fefA63A7746a5762A71635Ee0843A1",
-    "rpc": [
-      "https://emerald.oasis.dev"
-    ],
     "explorer": "https://explorer.emerald.oasis.dev",
     "start": 176517,
     "logo": "ipfs://QmQrZjZZyAcQmPXJM2cUh1KaaDeM8Sfcg3HnvZpBj8wTnG"
@@ -1123,9 +784,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x984476ea55e32e785A9D8FF14329f99D74E3d2A2",
-    "rpc": [
-      "https://api.avax-test.network/ext/bc/C/rpc"
-    ],
     "explorer": "https://testnet.snowtrace.io",
     "start": 10528153,
     "logo": "ipfs://QmeS75uS7XLR8o8uUzhLRVYPX9vMFf4DXgKxQeCzyy7vM2"
@@ -1136,11 +794,6 @@
     "chainId": 43114,
     "network": "mainnet",
     "multicall": "0x7E9985aE4C8248fdB07607648406a48C76e9e7eD",
-    "rpc": [
-      "https://nd-784-543-849.p2pify.com/aa7b29fc5fed65b34f0ee6b8de33f8c0/ext/bc/C/rpc",
-      "https://rpc.ankr.com/avalanche",
-      "https://api.avax.network/ext/bc/C/rpc"
-    ],
     "explorer": "https://snowtrace.io",
     "start": 536483,
     "logo": "ipfs://QmeS75uS7XLR8o8uUzhLRVYPX9vMFf4DXgKxQeCzyy7vM2"
@@ -1151,9 +804,6 @@
     "chainId": 47805,
     "network": "mainnet",
     "multicall": "0x9eE9904815B80C39C1a27294E69a8626EAa7952d",
-    "rpc": [
-      "https://rpc.rei.network"
-    ],
     "explorer": "https://scan.rei.network/",
     "start": 1715902,
     "logo": "ipfs://QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
@@ -1165,9 +815,6 @@
     "chainId": 60001,
     "network": "thinkiumtest1",
     "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
-    "rpc": [
-      "https://test1.thinkiumrpc.net"
-    ],
     "explorer": "https://test1.thinkiumscan.net/",
     "start": 323327,
     "logo": "ipfs://QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
@@ -1179,9 +826,6 @@
     "chainId": 70001,
     "network": "thinkium1",
     "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
-    "rpc": [
-      "https://proxy1.thinkiumrpc.net"
-    ],
     "explorer": "https://chain1.thinkiumscan.net/",
     "start": 26677364,
     "logo": "ipfs://QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
@@ -1193,9 +837,6 @@
     "chainId": 70002,
     "network": "thinkium2",
     "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
-    "rpc": [
-      "https://proxy2.thinkiumrpc.net"
-    ],
     "explorer": "https://chain2.thinkiumscan.net/",
     "start": 22124397,
     "logo": "ipfs://QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
@@ -1207,9 +848,6 @@
     "chainId": 70103,
     "network": "thinkium103",
     "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
-    "rpc": [
-      "https://proxy103.thinkiumrpc.net"
-    ],
     "explorer": "https://chain103.thinkiumscan.net/",
     "start": 22090160,
     "logo": "ipfs://QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
@@ -1221,13 +859,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc",
-    "rpc": [
-      "https://speedy-nodes-nyc.moralis.io/9e03baabdc27be2a35bdec4a/polygon/mumbai/archive",
-      "https://rpc-mumbai.matic.today"
-    ],
-    "ws": [
-      "wss://ws-mumbai.matic.today"
-    ],
     "explorer": "https://mumbai.polygonscan.com",
     "start": 12011090,
     "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
@@ -1240,9 +871,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0xA4c03972023d5f684d35eF1C541752490975383e",
-    "rpc": [
-      "https://sparta-rpc.polis.tech"
-    ],
     "explorer": "https://sparta-explorer.polis.tech",
     "logo": "ipfs://QmSiCni2Jn58WN74SyGNY1Aw5mSh9ypEfFULhjKxA7Tbpg"
   },
@@ -1253,9 +881,6 @@
     "chainId": 333999,
     "network": "mainnet",
     "multicall": "0x34b99C2a4a4620F10ac779c36b8c61F90FD61732",
-    "rpc": [
-      "https://rpc.polis.tech"
-    ],
     "explorer": "https://explorer.polis.tech",
     "start": 1971,
     "logo": "ipfs://QmSiCni2Jn58WN74SyGNY1Aw5mSh9ypEfFULhjKxA7Tbpg"
@@ -1267,9 +892,6 @@
     "chainId": 1313161554,
     "network": "mainnet",
     "multicall": "0x32b50c286DEFd2932a0247b8bb940b78c063F16c",
-    "rpc": [
-      "https://mainnet.aurora.dev"
-    ],
     "explorer": "https://explorer.mainnet.aurora.dev",
     "start": 57190533,
     "logo": "ipfs://QmeRhsR1UPRTQCizdhmgr2XxphXebVKU5di97uCV2UMFpa"
@@ -1281,12 +903,6 @@
     "chainId": 1666600000,
     "network": "mainnet",
     "multicall": "0x9c31392D2e0229dC4Aa250F043d46B9E82074BF8",
-    "rpc": [
-      "https://a.api.s0.t.hmny.io"
-    ],
-    "ws": [
-      "wss://ws.s0.t.hmny.io"
-    ],
     "explorer": "https://explorer.harmony.one",
     "start": 10911984,
     "logo": "ipfs://QmNnGPr1CNvj12SSGzKARtUHv9FyEfE5nES73U4vBWQSJL"
@@ -1299,12 +915,6 @@
     "network": "testnet",
     "testnet": true,
     "multicall": "0x9923589503Fd205feE3d367DDFF2378f0F7dD2d4",
-    "rpc": [
-      "https://api.s0.b.hmny.io"
-    ],
-    "ws": [
-      "wss://ws.s0.b.hmny.io"
-    ],
     "explorer": "https://explorer.pops.one",
     "start": 7521509,
     "logo": "ipfs://QmNnGPr1CNvj12SSGzKARtUHv9FyEfE5nES73U4vBWQSJL"
@@ -1316,9 +926,6 @@
     "chainId": 11297108109,
     "network": "mainnet",
     "multicall": "0xfFE2FF36c5b8D948f788a34f867784828aa7415D",
-    "rpc": [
-      "https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b"
-    ],
     "explorer": "https://explorer.palm.io",
     "start": 1172267,
     "logo": "ipfs://QmaYQfjLfQpyRWZZZU1BE8X352rXEjNaNeahjvf1aHZrKY"
@@ -1330,12 +937,6 @@
     "chainId": 1001,
     "network": "testnet",
     "multicall": "0x40643B8Aeaaca0b87Ea1A1E596e64a0e14B1d244",
-    "rpc": [
-      "https://baobab.fandom.finance/archive"
-    ],
-    "ws": [
-      "wss://baobab.fandom.finance/archive/ws"
-    ],
     "explorer": "https://baobab.scope.klaytn.com/",
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
   },
@@ -1346,9 +947,6 @@
     "chainId": 24,
     "network": "mainnet",
     "multicall": "0xd9c92F2287B7802A37eC9BEce96Aa65fb5f31E1b",
-    "rpc": [
-      "https://kai-internal.kardiachain.io"
-    ],
     "explorer": "https://explorer.kardiachain.io",
     "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
   },
@@ -1359,12 +957,6 @@
     "chainId": 8217,
     "network": "mainnet",
     "multicall": "0x5f5f0d1b9ff8b3dcace308e39b13b203354906e9",
-    "rpc": [
-      "https://cypress.fandom.finance/archive"
-    ],
-    "ws": [
-      "wss://cypress.fandom.finance/archive/ws"
-    ],
     "explorer": "https://scope.klaytn.com/",
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
   },
@@ -1375,9 +967,6 @@
     "chainId": 666666,
     "network": "testnet",
     "multicall": "0xb6E748D6632305E1c12D8369CC6B3eF4AA8A3c85",
-    "rpc": [
-      "https://vpioneer.infragrid.v.network/ethereum/compatible"
-    ],
     "explorer": "https://visionscan.org",
     "start": 3369285,
     "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
@@ -1389,9 +978,6 @@
     "chainId": 888888,
     "network": "mainnet",
     "multicall": "0x7a677A43eb6eEe4AB6c13872Abc04e1bA5CF88eD",
-    "rpc": [
-      "https://infragrid4snapshot.v.network/ethereum/compatible"
-    ],
     "explorer": "https://visionscan.org",
     "start": 75909,
     "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
