@@ -189,7 +189,8 @@ export async function getVp(
   delegation: boolean,
   options
 ) {
-  if (!options?.url) options.url = 'https://score.snapshot.org';
+  if (!options) options = {};
+  if (!options.url) options.url = 'https://score.snapshot.org';
   const init = {
     method: 'POST',
     headers: {
