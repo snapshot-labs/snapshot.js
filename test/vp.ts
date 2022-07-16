@@ -5,10 +5,16 @@ const network = '1';
 const strategies = [
   {
     name: 'eth-balance',
+    network: '1',
+    params: {}
+  },
+  {
+    name: 'eth-balance',
+    network: '10',
     params: {}
   }
 ];
-const s = 'latest';
+const s = 15109700;
 const space = 'fabien.eth';
 const delegation = false;
 
