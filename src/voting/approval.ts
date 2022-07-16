@@ -1,20 +1,5 @@
 import { ApprovalVote, Strategy } from './types';
 
-export function isValidChoice(
-  voteChoice: number[],
-  proposalChoices: string[]
-): boolean {
-  return (
-    Array.isArray(voteChoice) &&
-    // If voteChoice index is not in proposalChoices, return false
-    voteChoice.every((choice) => proposalChoices?.[choice - 1] !== undefined) &&
-    // If any voteChoice is duplicated, return false
-    voteChoice.length === new Set(voteChoice).size &&
-    // If voteChoice is empty, return false
-    voteChoice.length > 0
-  );
-}
-
 export default class ApprovalVoting {
   proposal: { choices: string[] };
   votes: ApprovalVote[];
@@ -33,13 +18,27 @@ export default class ApprovalVoting {
     this.selected = selected;
   }
 
+  isValidChoice(voteChoice: number[], proposalChoices: string[]): boolean {
+    return (
+      Array.isArray(voteChoice) &&
+      // If voteChoice index is not in proposalChoices, return false
+      voteChoice.every(
+        (choice) => proposalChoices?.[choice - 1] !== undefined
+      ) &&
+      // If any voteChoice is duplicated, return false
+      voteChoice.length === new Set(voteChoice).size &&
+      // If voteChoice is empty, return false
+      voteChoice.length > 0
+    );
+  }
+
   getValidVotes(): {
     choice: number[];
     balance: number;
     scores: number[];
   }[] {
     return this.votes.filter((vote) =>
-      isValidChoice(vote.choice, this.proposal.choices)
+      this.isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
