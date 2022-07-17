@@ -180,6 +180,41 @@ export async function getScores(
   }
 }
 
+export async function getVp(
+  address: string,
+  network: string,
+  strategies: any[],
+  snapshot: number | 'latest',
+  space: string,
+  delegation: boolean,
+  options
+) {
+  if (!options) options = {};
+  if (!options.url) options.url = 'https://score.snapshot.org';
+  const init = {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      method: 'get_vp',
+      params: {
+        address,
+        network,
+        strategies,
+        snapshot,
+        space,
+        delegation
+      },
+      id: null
+    })
+  };
+  const res = await fetch(options.url, init);
+  return (await res.json()).result;
+}
+
 export function validateSchema(schema, data) {
   const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
   // @ts-ignore
@@ -297,6 +332,7 @@ export default {
   getJSON,
   sendTransaction,
   getScores,
+  getVp,
   validateSchema,
   getEnsTextRecord,
   getSpaceUri,
