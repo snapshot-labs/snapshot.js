@@ -16,12 +16,10 @@ import networks from './networks.json';
 import voting from './voting';
 
 export const SNAPSHOT_SUBGRAPH_URL = {
-  '1':
-    'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/deployments/id/QmXvEzRJXby7KFuTr7NJsM47hGefM5VckEXZrQyZzL9eJd',
+  '1': 'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/deployments/id/QmXvEzRJXby7KFuTr7NJsM47hGefM5VckEXZrQyZzL9eJd',
   '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
   '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan',
-  '56':
-    'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-binance-smart-chain',
+  '56': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-binance-smart-chain',
   '100':
     'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-gnosis-chain',
   '137':
@@ -182,6 +180,41 @@ export async function getScores(
   }
 }
 
+export async function getVp(
+  address: string,
+  network: string,
+  strategies: any[],
+  snapshot: number | 'latest',
+  space: string,
+  delegation: boolean,
+  options
+) {
+  if (!options) options = {};
+  if (!options.url) options.url = 'https://score.snapshot.org';
+  const init = {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      method: 'get_vp',
+      params: {
+        address,
+        network,
+        strategies,
+        snapshot,
+        space,
+        delegation
+      },
+      id: null
+    })
+  };
+  const res = await fetch(options.url, init);
+  return (await res.json()).result;
+}
+
 export function validateSchema(schema, data) {
   const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
   // @ts-ignore
@@ -211,7 +244,7 @@ export function validateSchema(schema, data) {
 export function getEnsTextRecord(ens: string, record: string, network = '1') {
   const address = networks[network].ensResolver || networks['1'].ensResolver;
   const ensHash = hash(normalize(ens));
-  const provider = getProvider(network, 'brovider');
+  const provider = getProvider(network);
   return call(provider, ENS_RESOLVER_ABI, [address, 'text', [ensHash, record]]);
 }
 
@@ -299,6 +332,7 @@ export default {
   getJSON,
   sendTransaction,
   getScores,
+  getVp,
   validateSchema,
   getEnsTextRecord,
   getSpaceUri,

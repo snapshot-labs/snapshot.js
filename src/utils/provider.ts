@@ -2,38 +2,23 @@ import {
   JsonRpcBatchProvider,
   StaticJsonRpcProvider
 } from '@ethersproject/providers';
-import networks from '../networks.json';
 
 const providers = {};
+const batchedProviders = {};
 
-export default function getProvider(network: string, type = 'archive') {
-  let url: any = networks[network].rpc[0];
-  if (type === 'light' && networks[network].light?.length)
-    url = networks[network].light[0];
-  if (type === 'brovider') url = `https://brovider.xyz/${network}`;
-  const connectionInfo =
-    typeof url === 'object'
-      ? { ...url, timeout: 25000 }
-      : { url, timeout: 25000 };
-  if (!providers[network] || !providers[network][type]) {
-    providers[network] = { ...providers[network] };
-    providers[network][type] = new StaticJsonRpcProvider(connectionInfo);
-  }
-  return providers[network][type];
+export default function getProvider(network) {
+  const url = `https://brovider.xyz/${network}`;
+  if (!providers[network])
+    providers[network] = new StaticJsonRpcProvider({ url, timeout: 25000 });
+  return providers[network];
 }
 
-export function getBatchedProvider(network: string, type = 'archive') {
-  let url: any = networks[network].rpc[0];
-  if (type === 'light' && networks[network].light?.length)
-    url = networks[network].light[0];
-  if (type === 'brovider') url = `https://brovider.xyz/${network}`;
-  const connectionInfo =
-    typeof url === 'object'
-      ? { ...url, timeout: 25000 }
-      : { url, timeout: 25000 };
-  if (!providers[network] || !providers[network][type]) {
-    providers[network] = { ...providers[network] };
-    providers[network][type] = new JsonRpcBatchProvider(connectionInfo);
-  }
-  return providers[network][type];
+export function getBatchedProvider(network) {
+  const url = `https://brovider.xyz/${network}`;
+  if (!batchedProviders[network])
+    batchedProviders[network] = new JsonRpcBatchProvider({
+      url,
+      timeout: 25000
+    });
+  return batchedProviders[network];
 }

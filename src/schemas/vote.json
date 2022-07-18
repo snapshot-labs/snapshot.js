@@ -15,7 +15,8 @@
             "number",
             "array",
             "object",
-            "boolean"
+            "boolean",
+            "string"
           ],
           "title": "choice"
         },

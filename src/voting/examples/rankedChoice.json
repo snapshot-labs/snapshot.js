@@ -1,0 +1,2595 @@
+{
+  "proposal": {
+    "choices": ["Alice", "Bob", "Carol", "David"]
+  },
+  "strategies": [{ "name": "ticket", "network": 1, "params": {} }],
+  "scores": [117, 0, 80, 0],
+  "scoresByStrategy": [[117], [0], [80], [0]],
+  "scoresTotal": 197,
+  "selectedChoice": [3, 2],
+  "votes": [
+    {
+      "choice": [4, 3, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 2, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 2, 1, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 2, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 1, 2, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 2, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 2, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 3, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 2, 3, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 2, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 2, 3, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 2, 1, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 3, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 2, 1, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 2, 3, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 2, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 2, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 2, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 2, 3, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 3, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 3, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 3, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 3, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 3, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 4, 3, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 3, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 3, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 2, 3, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 3, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 3, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 3, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 2, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 4, 1, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 2, 3, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 3, 1, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 3, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 3, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 1, 2, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 1, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 4, 3, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 2, 1, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 3, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 4, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4, 3, 2, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 4, 2],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 3, 1, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 2, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 3, 4, 1],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [
+        1,
+        21,
+        21,
+        21,
+        21,
+        21,
+        21,
+        21,
+        22,
+        1,
+        1,
+        11,
+        21,
+        21,
+        21,
+        21,
+        22,
+        11,
+        21,
+        2,
+        21,
+        22,
+        11,
+        22,
+        1,
+        32,
+        11,
+        3,
+        21,
+        21,
+        11,
+        2,
+        5,
+        3,
+        31,
+        21,
+        25,
+        1,
+        2,
+        2,
+        31,
+        22,
+        1,
+        11,
+        23,
+        1,
+        1,
+        12,
+        11,
+        21,
+        22,
+        11,
+        11,
+        21,
+        21,
+        21,
+        21,
+        21,
+        21,
+        21,
+        22,
+        11,
+        21,
+        21,
+        21,
+        21,
+        2,
+        2,
+        21,
+        2,
+        4,
+        3,
+        5,
+        52,
+        4,
+        5,
+        5,
+        6,
+        1,
+        1,
+        1,
+        11,
+        1,
+        11,
+        23,
+        1,
+        21,
+        22,
+        11,
+        21,
+        21,
+        22,
+        11,
+        21,
+        22,
+        11,
+        22,
+        11,
+        11,
+        21,
+        2,
+        31,
+        2,
+        3,
+        41,
+        11,
+        2,
+        2,
+        22,
+        11,
+        11,
+        21,
+        11,
+        22,
+        1,
+        12,
+        1,
+        31,
+        2,
+        3,
+        3,
+        3,
+        3,
+        33,
+        1,
+        12,
+        11,
+        2,
+        34,
+        3,
+        2,
+        1,
+        11,
+        21,
+        2,
+        31,
+        11,
+        22,
+        1,
+        1,
+        1,
+        11,
+        21,
+        11,
+        3,
+        21,
+        22,
+        3,
+        1,
+        11,
+        21,
+        3,
+        21,
+        21,
+        11,
+        22,
+        11,
+        21,
+        2,
+        32,
+        1,
+        3,
+        3,
+        3,
+        31,
+        21,
+        1,
+        24,
+        3,
+        1,
+        21,
+        2,
+        5,
+        8,
+        4,
+        6,
+        3,
+        7,
+        9,
+        102,
+        12,
+        11,
+        2,
+        21,
+        21,
+        21,
+        22,
+        12,
+        11,
+        21,
+        11,
+        1,
+        12,
+        11,
+        21,
+        21,
+        22,
+        11,
+        2,
+        22,
+        11,
+        11,
+        2,
+        21,
+        21,
+        12,
+        17,
+        2,
+        6,
+        5,
+        1,
+        1,
+        31,
+        22,
+        11,
+        2,
+        31,
+        2,
+        32,
+        1,
+        3,
+        3,
+        31,
+        24,
+        1,
+        1,
+        11,
+        21,
+        11,
+        21,
+        3,
+        21,
+        21,
+        2,
+        21,
+        21,
+        21,
+        21,
+        23,
+        2,
+        13,
+        2,
+        11,
+        21,
+        21,
+        21,
+        21,
+        21,
+        21,
+        23,
+        1,
+        4,
+        21,
+        2,
+        22,
+        11,
+        13,
+        1,
+        11,
+        21,
+        21,
+        11,
+        21,
+        11,
+        11,
+        11,
+        11,
+        1,
+        2,
+        22,
+        11,
+        21,
+        21,
+        12,
+        1,
+        11,
+        21,
+        2,
+        21,
+        22,
+        11,
+        21,
+        21,
+        22,
+        12,
+        1,
+        1,
+        12,
+        11,
+        23,
+        1,
+        11,
+        21,
+        21,
+        11,
+        2,
+        4,
+        31,
+        3,
+        2,
+        4
+      ],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [
+        1,
+        22,
+        1,
+        32,
+        11,
+        11,
+        3,
+        21,
+        3,
+        21,
+        21,
+        11,
+        11,
+        12,
+        1,
+        11,
+        21,
+        21,
+        22,
+        11,
+        22,
+        12,
+        11,
+        2,
+        4,
+        3,
+        5,
+        511,
+        22,
+        4,
+        5,
+        5,
+        6,
+        1,
+        1,
+        1,
+        11,
+        211,
+        21,
+        21,
+        5,
+        4,
+        3,
+        21,
+        2,
+        3,
+        41,
+        21,
+        11,
+        2,
+        2,
+        21,
+        22,
+        1,
+        12,
+        1,
+        31,
+        2,
+        3,
+        3,
+        3,
+        3,
+        33,
+        1,
+        12,
+        14,
+        3,
+        2,
+        1,
+        11,
+        21,
+        2,
+        31,
+        211,
+        2,
+        22,
+        3,
+        1,
+        43,
+        1,
+        11,
+        21,
+        21,
+        21,
+        21,
+        2,
+        32,
+        1,
+        3,
+        3,
+        3,
+        33,
+        1,
+        1,
+        11,
+        3,
+        23,
+        1,
+        12,
+        12,
+        12,
+        12,
+        11,
+        2,
+        27,
+        2,
+        6,
+        5,
+        1,
+        1,
+        31,
+        2,
+        3,
+        3,
+        3,
+        3,
+        3,
+        31,
+        21,
+        21,
+        22,
+        1,
+        3,
+        3,
+        31,
+        21,
+        2,
+        21,
+        21,
+        21,
+        21,
+        21,
+        2,
+        21,
+        2,
+        21,
+        21,
+        4,
+        2,
+        22,
+        12,
+        13,
+        2,
+        12,
+        1,
+        11,
+        21,
+        2,
+        21,
+        11,
+        21,
+        21,
+        211,
+        21,
+        21,
+        23,
+        1,
+        111,
+        11,
+        2,
+        4,
+        31,
+        3,
+        2,
+        4
+      ],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [3, 1, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 4, 3],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    }
+  ]
+}

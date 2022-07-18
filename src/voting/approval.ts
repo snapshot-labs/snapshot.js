@@ -1,39 +1,70 @@
-export default class ApprovalVoting {
-  public proposal;
-  public votes;
-  public strategies;
-  public selected;
+import { ApprovalVote, Strategy } from './types';
 
-  constructor(proposal, votes, strategies, selected) {
+export default class ApprovalVoting {
+  proposal: { choices: string[] };
+  votes: ApprovalVote[];
+  strategies: Strategy[];
+  selected: number[];
+
+  constructor(
+    proposal: { choices: string[] },
+    votes: ApprovalVote[],
+    strategies: Strategy[],
+    selected: number[]
+  ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
     this.selected = selected;
   }
 
-  resultsByVoteBalance() {
-    return this.proposal.choices.map((choice, i) =>
-      this.votes
-        .filter((vote: any) => vote.choice.includes(i + 1))
-        .reduce((a, b: any) => a + b.balance, 0)
+  isValidChoice(voteChoice: number[], proposalChoices: string[]): boolean {
+    return (
+      Array.isArray(voteChoice) &&
+      // If voteChoice index is not in proposalChoices, return false
+      voteChoice.every(
+        (choice) => proposalChoices?.[choice - 1] !== undefined
+      ) &&
+      // If any voteChoice is duplicated, return false
+      voteChoice.length === new Set(voteChoice).size &&
+      // If voteChoice is empty, return false
+      voteChoice.length > 0
     );
   }
 
-  resultsByStrategyScore() {
+  getValidVotes(): {
+    choice: number[];
+    balance: number;
+    scores: number[];
+  }[] {
+    return this.votes.filter((vote) =>
+      this.isValidChoice(vote.choice, this.proposal.choices)
+    );
+  }
+
+  getScores(): number[] {
+    return this.proposal.choices.map((choice, i) =>
+      this.getValidVotes()
+        .filter((vote) => vote.choice.includes(i + 1))
+        .reduce((a, b) => a + b.balance, 0)
+    );
+  }
+
+  getScoresByStrategy(): number[][] {
     return this.proposal.choices.map((choice, i) =>
       this.strategies.map((strategy, sI) =>
-        this.votes
-          .filter((vote: any) => vote.choice.includes(i + 1))
-          .reduce((a, b: any) => a + b.scores[sI], 0)
+        this.getValidVotes()
+          .filter((vote) => vote.choice.includes(i + 1))
+          .reduce((a, b) => a + b.scores[sI], 0)
       )
     );
   }
 
-  sumOfResultsBalance() {
-    return this.votes.reduce((a, b: any) => a + b.balance, 0);
+  getScoresTotal(): number {
+    return this.getValidVotes().reduce((a, b) => a + b.balance, 0);
   }
 
-  getChoiceString() {
+  getChoiceString(): string {
     if (!this.selected) return '';
     return this.proposal.choices
       .filter((choice, i) => this.selected.includes(i + 1))

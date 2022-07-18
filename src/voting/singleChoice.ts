@@ -1,44 +1,64 @@
-export default class SingleChoiceVoting {
-  public proposal;
-  public votes;
-  public strategies;
-  public selected;
+import { SingleChoiceVote, Strategy } from './types';
 
-  constructor(proposal, votes, strategies, selected) {
+export default class SingleChoiceVoting {
+  proposal: { choices: string[] };
+  votes: SingleChoiceVote[];
+  strategies: Strategy[];
+  selected: number;
+
+  constructor(
+    proposal: { choices: string[] },
+    votes: SingleChoiceVote[],
+    strategies: Strategy[],
+    selected: number
+  ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
     this.selected = selected;
   }
 
-  //  Returns an array with the results for each choice
-  resultsByVoteBalance() {
-    return this.proposal.choices.map((choice, i) =>
-      this.votes
-        .filter((vote: any) => vote.choice === i + 1)
-        .reduce((a, b: any) => a + b.balance, 0)
+  isValidChoice(voteChoice: number, proposalChoices: string[]): boolean {
+    return (
+      typeof voteChoice === 'number' &&
+      proposalChoices?.[voteChoice - 1] !== undefined
     );
   }
 
-  //  Returns an array with the results for each choice
-  //  and for each strategy
-  resultsByStrategyScore() {
-    return this.proposal.choices.map((choice, i) =>
-      this.strategies.map((strategy, sI) =>
-        this.votes
-          .filter((vote: any) => vote.choice === i + 1)
-          .reduce((a, b: any) => a + b.scores[sI], 0)
-      )
+  getValidVotes(): SingleChoiceVote[] {
+    return this.votes.filter((vote) =>
+      this.isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
-  // Returns the total amount of the results
-  sumOfResultsBalance() {
-    return this.votes.reduce((a, b: any) => a + b.balance, 0);
+  getScores(): number[] {
+    return this.proposal.choices.map((choice, i) => {
+      const votes = this.getValidVotes().filter(
+        (vote) => vote.choice === i + 1
+      );
+      const balanceSum = votes.reduce((a, b) => a + b.balance, 0);
+      return balanceSum;
+    });
   }
 
-  //  Returns a string of all choices
-  getChoiceString() {
+  getScoresByStrategy(): number[][] {
+    return this.proposal.choices.map((choice, i) => {
+      const scores = this.strategies.map((strategy, sI) => {
+        const votes = this.getValidVotes().filter(
+          (vote) => vote.choice === i + 1
+        );
+        const scoreSum = votes.reduce((a, b) => a + b.scores[sI], 0);
+        return scoreSum;
+      });
+      return scores;
+    });
+  }
+
+  getScoresTotal(): number {
+    return this.getValidVotes().reduce((a, b) => a + b.balance, 0);
+  }
+
+  getChoiceString(): string {
     return this.proposal.choices[this.selected - 1];
   }
 }
