@@ -15,6 +15,16 @@ import gateways from './gateways.json';
 import networks from './networks.json';
 import voting from './voting';
 
+interface Options {
+  url?: string;
+}
+
+interface Strategy {
+  name: string;
+  network?: string;
+  params: any;
+}
+
 export const SNAPSHOT_SUBGRAPH_URL = {
   '1': 'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/deployments/id/QmXvEzRJXby7KFuTr7NJsM47hGefM5VckEXZrQyZzL9eJd',
   '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
@@ -154,7 +164,7 @@ export async function sendTransaction(
 
 export async function getScores(
   space: string,
-  strategies: any[],
+  strategies: Strategy[],
   network: string,
   addresses: string[],
   snapshot: number | string = 'latest',
@@ -183,11 +193,11 @@ export async function getScores(
 export async function getVp(
   address: string,
   network: string,
-  strategies: any[],
+  strategies: Strategy[],
   snapshot: number | 'latest',
   space: string,
   delegation: boolean,
-  options
+  options?: Options
 ) {
   if (!options) options = {};
   if (!options.url) options.url = 'https://score.snapshot.org';
