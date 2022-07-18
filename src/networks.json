@@ -860,6 +860,21 @@
     "start": 859041,
     "logo": "ipfs://QmeGbNTU2Jqwg8qLTMGW8n8HSi2VdgCncAaeGzLx6gYnD7"
   },
+  "1319": {
+    "key": "1319",
+    "name": "AITDChain Mainnet",
+    "shortName": "AITD",
+    "chainId": 1319,
+    "network": "mainnet",
+    "testnet": false,
+    "multicall": "0x16e98974D30263252aa273dC8e3d1d48380845FB",
+    "rpc": [
+      "http://node.aitd.io"
+    ],
+    "explorer": "http://aitd-explorer-new.aitd.io",
+    "start": 1000,
+    "logo": "ipfs://QmXbBMMhjTTGAGjmqMpJm3ufFrtdkfEXCFyXYgz7nnZzsy"
+  },
   "1818": {
     "key": "1818",
     "name": "Cubechain mainnet",
