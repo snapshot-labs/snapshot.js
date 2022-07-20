@@ -1395,5 +1395,19 @@
     "explorer": "https://visionscan.org",
     "start": 75909,
     "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
+  },
+  "12321": {
+    "key": "12321",
+    "name": "Wennect Testnet",
+    "shortName": "Wennect",
+    "chainId": 12321,
+    "network": "testnet",
+    "multicall": "0x009c55698516Fe3C58105Fe9bBC5A33ECE7A92e4",
+    "rpc": [
+      "https://rpc.testnet.wennect.com"
+    ],
+    "explorer": "https://explorer.testnet.wennect.com",
+    "start": 3606569,
+    "logo": "ipfs://QmTBo3zzrAvJ9p4oLAYtgyEw2LPaKRewHBjAxhWjskhqEU"
   }
 }
