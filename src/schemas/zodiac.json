@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/Zodiac",
+  "definitions": {
+    "Zodiac": {
+      "title": "Zodiac",
+      "type": "object",
+      "properties": {
+        "safes": {
+          "title": "Safe(s)",
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "properties": {
+              "network": {
+                "title": "Network",
+                "type": "string"
+              },
+              "multisend": {
+                "title": "Multisend contract address",
+                "type": "string"
+              },
+              "realityAddress": {
+                "title": "Reality module address",
+                "type": "string"
+              },
+              "umaAddress": {
+                "title": "UMA module address",
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
