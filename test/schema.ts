@@ -24,3 +24,9 @@ const isValidProfile = snapshot.utils.validateSchema(
   profile
 );
 console.log('Profile', isValidProfile);
+
+const isValidZodiac = snapshot.utils.validateSchema(
+  snapshot.schemas.zodiac,
+  space
+);
+console.log('Zodiac', isValidZodiac);

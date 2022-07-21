@@ -1,0 +1,14 @@
+{
+  "safes": [
+    {
+      "network": "1",
+      "multisend": "0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761",
+      "realityAddress": "0x0d70332CEB7F3C94b061cda48327891E3449A9E1"
+    },
+    {
+      "network": "100",
+      "multisend": "0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761",
+      "umaAddress": "0xf1C276217e305D701484fa510A2efaf8A31573fd"
+    }
+  ]
+}
