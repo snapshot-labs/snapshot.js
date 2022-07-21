@@ -902,7 +902,7 @@
     "testnet": false,
     "multicall": "0x16e98974D30263252aa273dC8e3d1d48380845FB",
     "rpc": [
-      "http://node.aitd.io"
+      "https://node.aitd.io"
     ],
     "explorer": "http://aitd-explorer-new.aitd.io",
     "start": 1000,
