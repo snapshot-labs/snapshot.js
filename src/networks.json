@@ -899,7 +899,6 @@
     "shortName": "AITD",
     "chainId": 1319,
     "network": "mainnet",
-    "testnet": false,
     "multicall": "0x16e98974D30263252aa273dC8e3d1d48380845FB",
     "rpc": [
       "https://node.aitd.io"
