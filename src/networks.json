@@ -1414,6 +1414,7 @@
     "key": "12321",
     "name": "Wennect Testnet",
     "shortName": "Wennect",
+    "testnet": true,
     "chainId": 12321,
     "network": "testnet",
     "multicall": "0x009c55698516Fe3C58105Fe9bBC5A33ECE7A92e4",
