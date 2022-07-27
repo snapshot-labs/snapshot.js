@@ -413,6 +413,21 @@
     "start": 4992871,
     "logo": "ipfs://QmSZvT9w9eUDvV1YVaq3BKKEbubtNVqu1Rin44FuN4wz11"
   },
+    },
+  "87": {
+    "key": "87",
+    "name": "Nova Network",
+    "shortName": "Nova",
+    "chainId": 87,
+    "network": "mainnet",
+    "multicall": "0x7A5a7579eb8DdEd352848cFDD0a5530C4e56FF7f",
+    "rpc": [
+      "https://dev.rpc.novanetwork.io/"
+    ],
+    "explorer": "https://explorer.novanetwork.io/",
+    "start": 1000000,
+    "logo": "ipfs://QmTTamJ55YGQwMboq4aqf3JjTEy5WDtjo4GBRQ5VdsWA6U"
+  },
   "97": {
     "key": "97",
     "name": "Binance Smart Chain Testnet",
