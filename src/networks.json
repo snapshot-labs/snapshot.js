@@ -419,12 +419,12 @@
     "shortName": "Nova",
     "chainId": 87,
     "network": "mainnet",
-    "multicall": "0x184d0f9e550d2d6757F34953d6Ba8b33839Fdefc",
+    "multicall": "0x07f6b55a5dae24ac8011cc2cb815de8316e2b965",
     "rpc": [
       "https://dev.rpc.novanetwork.io/"
     ],
     "explorer": "https://explorer.novanetwork.io/",
-    "start": 1075614,
+    "start": 1081731,
     "logo": "ipfs://QmTTamJ55YGQwMboq4aqf3JjTEy5WDtjo4GBRQ5VdsWA6U"
   },
   "97": {
