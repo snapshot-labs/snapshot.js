@@ -278,6 +278,20 @@
     "start": 4992871,
     "logo": "ipfs://QmSZvT9w9eUDvV1YVaq3BKKEbubtNVqu1Rin44FuN4wz11"
   },
+  "87": {
+    "key": "87",
+    "name": "Nova Network",
+    "shortName": "Nova",
+    "chainId": 87,
+    "network": "mainnet",
+    "multicall": "0x07f6b55a5dae24ac8011cc2cb815de8316e2b965",
+    "rpc": [
+      "https://dev.rpc.novanetwork.io/"
+    ],
+    "explorer": "https://explorer.novanetwork.io/",
+    "start": 1081731,
+    "logo": "ipfs://QmTTamJ55YGQwMboq4aqf3JjTEy5WDtjo4GBRQ5VdsWA6U"
+  },
   "97": {
     "key": "97",
     "name": "Binance Smart Chain Testnet",
@@ -992,5 +1006,20 @@
     "explorer": "https://visionscan.org",
     "start": 75909,
     "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
+  },
+  "12321": {
+    "key": "12321",
+    "name": "Wennect Testnet",
+    "shortName": "Wennect",
+    "testnet": true,
+    "chainId": 12321,
+    "network": "testnet",
+    "multicall": "0x009c55698516Fe3C58105Fe9bBC5A33ECE7A92e4",
+    "rpc": [
+      "https://rpc.testnet.wennect.com"
+    ],
+    "explorer": "https://explorer.testnet.wennect.com",
+    "start": 3606569,
+    "logo": "ipfs://bafkreieeo3cetehbkrxjrfzcdb2ym5qgs26cgcw6t633twnuzoqyohqo5m"
   }
 }
