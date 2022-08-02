@@ -1091,12 +1091,12 @@
     "network": "mainnet",
     "multicall": "",
     "rpc": [
-      "https://vote.anyswap.exchange/mainnet"
+      "https://mainnet-archive.fusionnetwork.io"
     ],
     "ws": [
-      "wss://mainnetpublicgateway1.fusionnetwork.io:10001"
+      "wss://mainnet-archive.fusionnetwork.io"
     ],
-    "explorer": "https://fsnex.com",
+    "explorer": "https://fsnscan.com",
     "logo": "ipfs://QmRb6YCGdpQTQcdNTnBb5DUixGpjDp1wz6zoADJwQ7hyFq"
   },
   "42161": {
