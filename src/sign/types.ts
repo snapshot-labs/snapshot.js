@@ -18,7 +18,7 @@ export interface Proposal {
   end: number;
   snapshot: number;
   plugins: string;
-  app: string;
+  app?: string;
 }
 
 export interface CancelProposal {
@@ -36,7 +36,7 @@ export interface Vote {
   type: string;
   choice: number | number[] | string;
   privacy?: string;
-  app: string;
+  app?: string;
 }
 
 export interface Follow {
