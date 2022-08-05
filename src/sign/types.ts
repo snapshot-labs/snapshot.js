@@ -18,6 +18,7 @@ export interface Proposal {
   end: number;
   snapshot: number;
   plugins: string;
+  app: string;
 }
 
 export interface CancelProposal {
@@ -35,6 +36,7 @@ export interface Vote {
   type: string;
   choice: number | number[] | string;
   privacy?: string;
+  app: string;
 }
 
 export interface Follow {
@@ -94,7 +96,8 @@ export const proposalTypes = {
     { name: 'start', type: 'uint64' },
     { name: 'end', type: 'uint64' },
     { name: 'snapshot', type: 'uint64' },
-    { name: 'plugins', type: 'string' }
+    { name: 'plugins', type: 'string' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -122,7 +125,8 @@ export const voteTypes = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
-    { name: 'choice', type: 'uint32' }
+    { name: 'choice', type: 'uint32' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -132,7 +136,8 @@ export const voteArrayTypes = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
-    { name: 'choice', type: 'uint32[]' }
+    { name: 'choice', type: 'uint32[]' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -142,7 +147,8 @@ export const voteStringTypes = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
-    { name: 'choice', type: 'string' }
+    { name: 'choice', type: 'string' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -152,7 +158,8 @@ export const vote2Types = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'bytes32' },
-    { name: 'choice', type: 'uint32' }
+    { name: 'choice', type: 'uint32' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -162,7 +169,8 @@ export const voteArray2Types = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'bytes32' },
-    { name: 'choice', type: 'uint32[]' }
+    { name: 'choice', type: 'uint32[]' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -172,7 +180,8 @@ export const voteString2Types = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'bytes32' },
-    { name: 'choice', type: 'string' }
+    { name: 'choice', type: 'string' },
+    { name: 'app', type: 'string' }
   ]
 };
 
