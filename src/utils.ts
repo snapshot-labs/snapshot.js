@@ -8,12 +8,10 @@ import addFormats from 'ajv-formats';
 import Multicaller from './utils/multicaller';
 import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
-import validations from './validations';
 import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
 import networks from './networks.json';
-import voting from './voting';
 
 interface Options {
   url?: string;
@@ -350,13 +348,11 @@ export default {
   clone,
   sleep,
   getNumberWithOrdinal,
-  voting,
   getProvider,
   signMessage,
   getBlockNumber,
   Multicaller,
   getSnapshots,
-  validations,
   getHash,
   verify,
   SNAPSHOT_SUBGRAPH_URL
