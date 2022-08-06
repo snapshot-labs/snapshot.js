@@ -64,6 +64,11 @@
         "metadata": {
           "type": "object",
           "title": "metadata"
+        },
+        "app": {
+          "type": "string",
+          "title": "app",
+          "maxLength": 24
         }
       },
       "required": ["name", "body", "choices", "snapshot", "start", "end"],
