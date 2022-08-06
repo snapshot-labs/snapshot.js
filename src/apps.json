@@ -19,22 +19,23 @@
     "twitter": "boardroom_info",
     "avatar": "https://pbs.twimg.com/profile_images/1361484445539315713/nu38uPhW_400x400.jpg",
     "homepage": "https://boardroom.io"
-  }
-   "geneva": {
+  },
+  "geneva": {
     "name": "geneva",
     "twitter": "geneva",
     "avatar": "https://pbs.twimg.com/profile_images/1358780285958111235/QRVJw6TV_400x400.jpg",
     "homepage": "https://geneva.com/"
-  
-   "common ground": {
+  },
+  "common ground": {
     "name": "Common Ground",
     "twitter": "commonground_cg",
     "avatar": "https://pbs.twimg.com/profile_images/1540311616608210947/DGqViVC7_400x400.png",
     "homepage": "https://www.commonground.cg/"
-  
-   "messari": {
+  },
+  "messari": {
     "name": "messari",
     "twitter": "messaricrypto",
     "avatar": "https://pbs.twimg.com/profile_images/1484602827204964355/hl3dgA-6_400x400.jpg",
     "homepage": "https://messari.io/governor/overview"
+  }
 }
