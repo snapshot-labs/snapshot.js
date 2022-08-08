@@ -1089,7 +1089,7 @@
     "name": "Fusion Mainnet",
     "chainId": 32659,
     "network": "mainnet",
-    "multicall": "",
+    "multicall": "0xcd11d8666203a4ea1ecd89885dfe1d4e1a088dbb",
     "rpc": [
       "https://mainnet-archive.fusionnetwork.io"
     ],
