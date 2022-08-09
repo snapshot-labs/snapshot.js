@@ -44,9 +44,9 @@ export default class WeightedVoting {
       ) &&
       // If voteChoice object is empty, return false
       Object.keys(voteChoice).length > 0 &&
-      // If voteChoice object values are not a positive integer, return false
+      // If voteChoice object values are negative number, return false
       Object.values(voteChoice).every(
-        (value) => typeof value === 'number' && value > 0
+        (value) => typeof value === 'number' && value >= 0
       ) &&
       // If voteChoice is empty, return false
       Object.keys(voteChoice).length > 0
