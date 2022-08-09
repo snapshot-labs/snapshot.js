@@ -30,7 +30,7 @@ export default class WeightedVoting {
     this.selected = selected;
   }
 
-  isValidChoice(
+  static isValidChoice(
     voteChoice: { [key: string]: number },
     proposalChoices: string[]
   ): boolean {
@@ -55,7 +55,7 @@ export default class WeightedVoting {
 
   getValidVotes(): WeightedVote[] {
     return this.votes.filter((vote) =>
-      this.isValidChoice(vote.choice, this.proposal.choices)
+      WeightedVoting.isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
