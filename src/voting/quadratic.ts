@@ -30,7 +30,7 @@ export default class QuadraticVoting {
     this.selected = selected;
   }
 
-  isValidChoice(
+  static isValidChoice(
     voteChoice: { [key: string]: number },
     proposalChoices: string[]
   ): boolean {
@@ -53,7 +53,7 @@ export default class QuadraticVoting {
 
   getValidVotes(): QuadraticVote[] {
     return this.votes.filter((vote) =>
-      this.isValidChoice(vote.choice, this.proposal.choices)
+      QuadraticVoting.isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
