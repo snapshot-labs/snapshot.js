@@ -5,11 +5,19 @@ export interface Space {
   settings: string;
 }
 
+export type ProposalType =
+  | 'single-choice'
+  | 'approval'
+  | 'quadratic'
+  | 'ranked-choice'
+  | 'weighted'
+  | 'basic';
+
 export interface Proposal {
   from?: string;
   space: string;
   timestamp?: number;
-  type: string;
+  type: ProposalType;
   title: string;
   body: string;
   discussion: string;
@@ -33,7 +41,7 @@ export interface Vote {
   space: string;
   timestamp?: number;
   proposal: string;
-  type: string;
+  type: ProposalType;
   choice: number | number[] | string;
   privacy?: string;
   app?: string;
@@ -68,6 +76,7 @@ export interface Profile {
   timestamp?: number;
   profile: string;
 }
+
 export interface Alias {
   from?: string;
   alias: string;
