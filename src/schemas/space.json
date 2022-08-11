@@ -210,6 +210,12 @@
           "required": ["name"],
           "additionalProperties": false
         },
+        "delegation": {
+          "type": "boolean"
+        },
+        "allowAlias": {
+          "type": "boolean"
+        },
         "plugins": {
           "type": "object"
         },
