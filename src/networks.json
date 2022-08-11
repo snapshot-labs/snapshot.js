@@ -1179,8 +1179,7 @@
     "network": "mainnet",
     "multicall": "0x5b24224dC16508DAD755756639E420817DD4c99E",
     "rpc": [
-      "https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc",
-      "https://avax-dfk.gateway.pokt.network/v1/lb/6244818c00b9f0003ad1b619/ext/bc/q2aTwKuyzgs8pynF7UXBZCU7DejbZbZ6EUyHr3JQzYgwNPUPi/rpc"
+      "https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc"
     ],
     "explorer": "https://subnets.avax.network/defi-kingdoms/",
     "start": 62,
