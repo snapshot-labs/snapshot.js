@@ -30,7 +30,7 @@ export default class QuadraticVoting {
     this.selected = selected;
   }
 
-  isValidChoice(
+  static isValidChoice(
     voteChoice: { [key: string]: number },
     proposalChoices: string[]
   ): boolean {
@@ -44,16 +44,16 @@ export default class QuadraticVoting {
       ) &&
       // If voteChoice object is empty, return false
       Object.keys(voteChoice).length > 0 &&
-      // If voteChoice object values are not a positive integer, return false
+      // If voteChoice object values are negative number, return false
       Object.values(voteChoice).every(
-        (value) => typeof value === 'number' && value > 0
+        (value) => typeof value === 'number' && value >= 0
       )
     );
   }
 
   getValidVotes(): QuadraticVote[] {
     return this.votes.filter((vote) =>
-      this.isValidChoice(vote.choice, this.proposal.choices)
+      QuadraticVoting.isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 

@@ -178,6 +178,44 @@
           "required": ["name"],
           "additionalProperties": false
         },
+        "voteValidation": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 32,
+              "title": "name"
+            },
+            "params": {
+              "type": "object",
+              "title": "params"
+            }
+          },
+          "required": ["name"],
+          "additionalProperties": false
+        },
+        "followValidation": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 32,
+              "title": "name"
+            },
+            "params": {
+              "type": "object",
+              "title": "params"
+            }
+          },
+          "required": ["name"],
+          "additionalProperties": false
+        },
+        "delegation": {
+          "type": "boolean"
+        },
+        "allowAlias": {
+          "type": "boolean"
+        },
         "plugins": {
           "type": "object"
         },

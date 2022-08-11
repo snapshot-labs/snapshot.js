@@ -763,8 +763,8 @@
     "name": "Fusion Mainnet",
     "chainId": 32659,
     "network": "mainnet",
-    "multicall": "",
-    "explorer": "https://fsnex.com",
+    "multicall": "0xcd11d8666203a4ea1ecd89885dfe1d4e1a088dbb",
+    "explorer": "https://fsnscan.com",
     "logo": "ipfs://QmRb6YCGdpQTQcdNTnBb5DUixGpjDp1wz6zoADJwQ7hyFq"
   },
   "42161": {

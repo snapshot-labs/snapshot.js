@@ -30,7 +30,7 @@ export default class WeightedVoting {
     this.selected = selected;
   }
 
-  isValidChoice(
+  static isValidChoice(
     voteChoice: { [key: string]: number },
     proposalChoices: string[]
   ): boolean {
@@ -44,9 +44,9 @@ export default class WeightedVoting {
       ) &&
       // If voteChoice object is empty, return false
       Object.keys(voteChoice).length > 0 &&
-      // If voteChoice object values are not a positive integer, return false
+      // If voteChoice object values are negative number, return false
       Object.values(voteChoice).every(
-        (value) => typeof value === 'number' && value > 0
+        (value) => typeof value === 'number' && value >= 0
       ) &&
       // If voteChoice is empty, return false
       Object.keys(voteChoice).length > 0
@@ -55,7 +55,7 @@ export default class WeightedVoting {
 
   getValidVotes(): WeightedVote[] {
     return this.votes.filter((vote) =>
-      this.isValidChoice(vote.choice, this.proposal.choices)
+      WeightedVoting.isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
