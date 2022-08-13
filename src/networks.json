@@ -1200,6 +1200,19 @@
     "start": 1715902,
     "logo": "ipfs://QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
   },
+  "53935": {
+    "key": "53935",
+    "name": "DFK Chain",
+    "chainId": 53935,
+    "network": "mainnet",
+    "multicall": "0x5b24224dC16508DAD755756639E420817DD4c99E",
+    "rpc": [
+      "https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc"
+    ],
+    "explorer": "https://subnets.avax.network/defi-kingdoms/",
+    "start": 62,
+    "logo": "ipfs://QmZNkpVgPbuVbDcsi6arwH1om3456FGnwfDqYQJWUfHDEx"
+  },
   "60001": {
     "key": "60001",
     "name": "Thinkium Testnet Chain 1",
