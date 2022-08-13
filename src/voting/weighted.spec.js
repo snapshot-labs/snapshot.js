@@ -45,7 +45,7 @@ const example2 = () => {
 
 const rndChoices = () => {
   const rndNumber = () => {
-    return Math.random() < 0.3 ? -1 : Math.random() < 0.5 ? 0 : undefined;
+    return Math.random() < 0.3 ? -1 : undefined;
   };
   const obj = Object.assign(
     {},

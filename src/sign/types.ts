@@ -5,11 +5,19 @@ export interface Space {
   settings: string;
 }
 
+export type ProposalType =
+  | 'single-choice'
+  | 'approval'
+  | 'quadratic'
+  | 'ranked-choice'
+  | 'weighted'
+  | 'basic';
+
 export interface Proposal {
   from?: string;
   space: string;
   timestamp?: number;
-  type: string;
+  type: ProposalType;
   title: string;
   body: string;
   discussion: string;
@@ -18,6 +26,7 @@ export interface Proposal {
   end: number;
   snapshot: number;
   plugins: string;
+  app?: string;
 }
 
 export interface CancelProposal {
@@ -32,9 +41,10 @@ export interface Vote {
   space: string;
   timestamp?: number;
   proposal: string;
-  type: string;
+  type: ProposalType;
   choice: number | number[] | string;
   privacy?: string;
+  app?: string;
 }
 
 export interface Follow {
@@ -66,6 +76,7 @@ export interface Profile {
   timestamp?: number;
   profile: string;
 }
+
 export interface Alias {
   from?: string;
   alias: string;
@@ -94,7 +105,8 @@ export const proposalTypes = {
     { name: 'start', type: 'uint64' },
     { name: 'end', type: 'uint64' },
     { name: 'snapshot', type: 'uint64' },
-    { name: 'plugins', type: 'string' }
+    { name: 'plugins', type: 'string' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -122,7 +134,8 @@ export const voteTypes = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
-    { name: 'choice', type: 'uint32' }
+    { name: 'choice', type: 'uint32' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -132,7 +145,8 @@ export const voteArrayTypes = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
-    { name: 'choice', type: 'uint32[]' }
+    { name: 'choice', type: 'uint32[]' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -142,7 +156,8 @@ export const voteStringTypes = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
-    { name: 'choice', type: 'string' }
+    { name: 'choice', type: 'string' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -152,7 +167,8 @@ export const vote2Types = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'bytes32' },
-    { name: 'choice', type: 'uint32' }
+    { name: 'choice', type: 'uint32' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -162,7 +178,8 @@ export const voteArray2Types = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'bytes32' },
-    { name: 'choice', type: 'uint32[]' }
+    { name: 'choice', type: 'uint32[]' },
+    { name: 'app', type: 'string' }
   ]
 };
 
@@ -172,7 +189,8 @@ export const voteString2Types = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'bytes32' },
-    { name: 'choice', type: 'string' }
+    { name: 'choice', type: 'string' },
+    { name: 'app', type: 'string' }
   ]
 };
 

@@ -18,7 +18,7 @@ export default class SingleChoiceVoting {
     this.selected = selected;
   }
 
-  isValidChoice(voteChoice: number, proposalChoices: string[]): boolean {
+  static isValidChoice(voteChoice: number, proposalChoices: string[]): boolean {
     return (
       typeof voteChoice === 'number' &&
       proposalChoices?.[voteChoice - 1] !== undefined
@@ -27,7 +27,7 @@ export default class SingleChoiceVoting {
 
   getValidVotes(): SingleChoiceVote[] {
     return this.votes.filter((vote) =>
-      this.isValidChoice(vote.choice, this.proposal.choices)
+      SingleChoiceVoting.isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 

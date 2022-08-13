@@ -18,7 +18,10 @@ export default class ApprovalVoting {
     this.selected = selected;
   }
 
-  isValidChoice(voteChoice: number[], proposalChoices: string[]): boolean {
+  static isValidChoice(
+    voteChoice: number[],
+    proposalChoices: string[]
+  ): boolean {
     return (
       Array.isArray(voteChoice) &&
       // If voteChoice index is not in proposalChoices, return false
@@ -38,7 +41,7 @@ export default class ApprovalVoting {
     scores: number[];
   }[] {
     return this.votes.filter((vote) =>
-      this.isValidChoice(vote.choice, this.proposal.choices)
+      ApprovalVoting.isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 
