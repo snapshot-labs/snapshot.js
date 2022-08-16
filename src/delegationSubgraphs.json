@@ -1,0 +1,11 @@
+{
+  "1": "https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/deployments/id/QmXvEzRJXby7KFuTr7NJsM47hGefM5VckEXZrQyZzL9eJd",
+  "4": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby",
+  "5": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-goerli",
+  "10": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-optimism",
+  "42": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan",
+  "56": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-binance-smart-chain",
+  "100": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-gnosis-chain",
+  "137": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-polygon",
+  "250": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-fantom"
+}
