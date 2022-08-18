@@ -80,15 +80,14 @@ const votesWithInvalidChoices2 = () => {
 };
 
 const votesWithInvalidChoicesAllZeros = () => {
-  const votes = [];
-  for (let i = 0; i < 100; i++) {
-    votes.push({
+  return [
+    ...example2().votes,
+    {
       choice: { 1: 0, 2: 0, 3: 0 },
       balance: 3,
       scores: [1, 1, 1]
-    });
-  }
-  return [...votes, ...example2().votes];
+    }
+  ];
 };
 
 const getScoresTests = [

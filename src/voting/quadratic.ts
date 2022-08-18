@@ -44,9 +44,13 @@ export default class QuadraticVoting {
       ) &&
       // If voteChoice object is empty, return false
       Object.keys(voteChoice).length > 0 &&
-      // If voteChoice object values are negative number, return false
+      // If voteChoice object values have a negative number, return false
       Object.values(voteChoice).every(
         (value) => typeof value === 'number' && value >= 0
+      ) &&
+      // If voteChoice doesn't have any positive value, return false
+      Object.values(voteChoice).some(
+        (value) => typeof value === 'number' && value > 0
       )
     );
   }
