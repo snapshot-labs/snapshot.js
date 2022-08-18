@@ -587,12 +587,12 @@
     "shortName": "BMC",
     "chainId": 188,
     "network": "mainnet",
-    "multicall": "0x10cd4fa0D02eD0f33e5b569C371194F39898Ff3b",
+    "multicall": "0xDA09528B093246eC70139b657d3B7A3bd5F4C859",
     "rpc": [
       "https://mainnet.bmcchain.com/"
     ],
     "explorer": "https://bmc.blockmeta.com/",
-    "start": 4500000,
+    "start": 4720651,
     "logo": "bafkreiabhsxuq35pp4kmrbptdeypd6clhcy3ue7ydpppo6onoo4igcjqia"
   },
   "246": {
