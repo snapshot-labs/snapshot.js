@@ -48,8 +48,10 @@ export default class WeightedVoting {
       Object.values(voteChoice).every(
         (value) => typeof value === 'number' && value >= 0
       ) &&
-      // If voteChoice is empty, return false
-      Object.keys(voteChoice).length > 0
+      // If voteChoice doesn't have any positive value, return false
+      Object.values(voteChoice).some(
+        (value) => typeof value === 'number' && value > 0
+      )
     );
   }
 
