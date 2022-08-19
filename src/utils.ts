@@ -94,7 +94,14 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
     },
     body: JSON.stringify({ query: jsonToGraphQLQuery({ query }) })
   });
-  const responseData = await res.json();
+  let responseData: any = {};
+  try {
+    responseData = await res.json();
+  } catch (error: any) {
+    console.log(error);
+    console.log('[debug] Text Response:', res.text());
+    throw new Error(`Error parsing response: ${error.message}`);
+  }
   if (responseData.errors) {
     throw new Error(
       'Errors found in subgraphRequest: ' +
@@ -297,7 +304,8 @@ export async function getDelegatesBySpace(
 
     const pageResult = await subgraphRequest(
       delegationSubgraphs[network],
-      params
+      params,
+      { headers: { pragma: 'no-cache', 'cache-control': 'no-cache' } }
     );
     const pageDelegations = pageResult.delegations || [];
     result = result.concat(pageDelegations);
