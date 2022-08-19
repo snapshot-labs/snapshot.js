@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Example of a role validation",
+    "validation": {
+      "name": "role",
+      "params": {}
+    },
+    "network": "97",
+    "userAddress": "0x8068dbC41e2f1C988EB0399da5C44F43b5e646C1"
+  }
+]
