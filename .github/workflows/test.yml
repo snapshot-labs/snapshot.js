@@ -1,0 +1,19 @@
+name: Tests
+on:
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - edited
+      - synchronize
+      - reopened
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.3.4
+    - name: yarn install and run tests
+      run: |
+        yarn install --frozen-lockfile
+        yarn test:once

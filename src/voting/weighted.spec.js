@@ -3,7 +3,7 @@ import WeightedVoting from './weighted';
 import example from './examples/weighted.json';
 
 const example2 = () => {
-  // Exmaple with multiple (3) stratgies
+  // Example with multiple (3) strategies
   const proposal = {
     choices: [
       'In Pistachio we believe',
