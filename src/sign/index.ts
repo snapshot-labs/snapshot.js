@@ -27,7 +27,9 @@ import {
   unfollowTypes,
   unsubscribeTypes,
   profileTypes,
-  aliasTypes
+  aliasTypes,
+  deleteSpaceType,
+  DeleteSpace
 } from './types';
 import hubs from '../hubs.json';
 
@@ -162,5 +164,13 @@ export default class Client {
 
   async alias(web3: Web3Provider | Wallet, address: string, message: Alias) {
     return await this.sign(web3, address, message, aliasTypes);
+  }
+
+  async deleteSpace(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: DeleteSpace
+  ) {
+    return await this.sign(web3, address, message, deleteSpaceType);
   }
 }
