@@ -594,6 +594,20 @@
     "explorer": "https://polygonscan.com",
     "start": 9834491,
     "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
+  },  
+  "188": {
+    "key": "188",
+    "name": "Bytom Sidechain",
+    "shortName": "BMC",
+    "chainId": 188,
+    "network": "mainnet",
+    "multicall": "0xDA09528B093246eC70139b657d3B7A3bd5F4C859",
+    "rpc": [
+      "https://mainnet.bmcchain.com/"
+    ],
+    "explorer": "https://bmc.blockmeta.com/",
+    "start": 4720651,
+    "logo": "ipfs://bafkreiabhsxuq35pp4kmrbptdeypd6clhcy3ue7ydpppo6onoo4igcjqia"
   },
   "246": {
     "key": "246",
