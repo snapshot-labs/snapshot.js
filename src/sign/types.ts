@@ -83,6 +83,12 @@ export interface Alias {
   timestamp?: number;
 }
 
+export interface DeleteSpace {
+  from?: string;
+  space: string;
+  timestamp?: number;
+}
+
 export const spaceTypes = {
   Space: [
     { name: 'from', type: 'address' },
@@ -234,5 +240,12 @@ export const aliasTypes = {
   Alias: [
     { name: 'from', type: 'address' },
     { name: 'alias', type: 'address' }
+  ]
+};
+
+export const deleteSpaceType = {
+  DeleteSpace: [
+    { name: 'from', type: 'address' },
+    { name: 'space', type: 'string' }
   ]
 };
