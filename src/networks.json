@@ -150,6 +150,20 @@
     "start": 4067,
     "logo": "ipfs://QmfSJbtirJoa3Pt7o5Fdm85wbyw9V1hpzqLr5PQbdnfsAj"
   },
+  "144": {
+    "key": "144",
+    "name": "PHI Network",
+    "shortName": "PHI",
+    "chainId": 144,
+    "network": "mainnet",
+    "multicall": "0xc2f41B404a6757863AAeF49ff93039421acCd630",
+    "rpc": [
+      "https://connect.phi.network"
+    ],
+    "explorer": "https://phiscan.com",
+    "start": 360030,
+    "logo": "ipfs://bafkreid6pm3mic7izp3a6zlfwhhe7etd276bjfsq2xash6a4s2vmcdf65a"
+  },
   "30": {
     "key": "30",
     "name": "RSK Mainnet",
