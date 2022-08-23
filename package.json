@@ -47,6 +47,7 @@
     "build": "rollup -c",
     "build:cjs": "rollup -c rollup.cjs.config.js",
     "test": "vitest",
+    "test:once": "vitest run",
     "dev": "rollup -c -w",
     "lint": "eslint . --ext .ts --fix",
     "prepublishOnly": "yarn build"
