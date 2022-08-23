@@ -79,6 +79,17 @@ const votesWithInvalidChoices2 = () => {
   return [...votes, ...example2().votes];
 };
 
+const votesWithInvalidChoicesAllZeros = () => {
+  return [
+    ...example2().votes,
+    {
+      choice: { 1: 0, 2: 0, 3: 0 },
+      balance: 3,
+      scores: [1, 1, 1]
+    }
+  ];
+};
+
 const getScoresTests = [
   [example.proposal, example.votes, example.strategies, example.scores],
   [
@@ -96,6 +107,12 @@ const getScoresTests = [
   [
     example2().proposal,
     votesWithInvalidChoices2(),
+    example2().strategies,
+    example2().scores
+  ],
+  [
+    example2().proposal,
+    votesWithInvalidChoicesAllZeros(),
     example2().strategies,
     example2().scores
   ]
