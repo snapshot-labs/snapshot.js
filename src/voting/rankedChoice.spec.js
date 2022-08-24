@@ -3,7 +3,7 @@ import RankedChoiceVoting from './rankedChoice';
 import example from './examples/rankedChoice.json';
 
 const example2 = () => {
-  // Exmaple with multiple (3) stratgies
+  // Example with multiple (3) strategies
   const proposal = {
     choices: ['Alice', 'Bob', 'Carol', 'David']
   };
