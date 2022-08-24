@@ -1,19 +1,24 @@
-name: Tests
-on:
-  pull_request:
-    types:
-      - opened
-      - ready_for_review
-      - edited
-      - synchronize
-      - reopened
+name: Tests CI
+
+on: [push]
 
 jobs:
   tests:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+    
     steps:
     - uses: actions/checkout@v2.3.4
-    - name: yarn install and run tests
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: yarn install, build and run tests
       run: |
         yarn install --frozen-lockfile
+        yarn build
         yarn test:once
+        yarn lint
