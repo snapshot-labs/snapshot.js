@@ -24,6 +24,11 @@
           "type": "object",
           "title": "metadata"
         },
+        "reason": {
+          "type": "string",
+          "title": "reason",
+          "maxLength": 140
+        },
         "app": {
           "type": "string",
           "title": "app",

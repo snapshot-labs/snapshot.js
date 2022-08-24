@@ -110,6 +110,7 @@ export default class Client {
   }
 
   async vote(web3: Web3Provider | Wallet, address: string, message: Vote) {
+    if (!message.reason) message.reason = '';
     if (!message.app) message.app = '';
     const type2 = message.proposal.startsWith('0x');
     let type = type2 ? vote2Types : voteTypes;
