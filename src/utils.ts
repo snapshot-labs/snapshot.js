@@ -13,6 +13,7 @@ import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
 import networks from './networks.json';
+import delegationSubgraphs from './delegationSubgraphs.json';
 import voting from './voting';
 
 interface Options {
@@ -25,17 +26,7 @@ interface Strategy {
   params: any;
 }
 
-export const SNAPSHOT_SUBGRAPH_URL = {
-  '1': 'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/deployments/id/QmXvEzRJXby7KFuTr7NJsM47hGefM5VckEXZrQyZzL9eJd',
-  '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
-  '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan',
-  '56': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-binance-smart-chain',
-  '100':
-    'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-gnosis-chain',
-  '137':
-    'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-polygon',
-  '250': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-fantom'
-};
+export const SNAPSHOT_SUBGRAPH_URL = delegationSubgraphs;
 
 const ENS_RESOLVER_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)'
@@ -272,7 +263,7 @@ export async function getDelegatesBySpace(
   space: string,
   snapshot = 'latest'
 ) {
-  if (!SNAPSHOT_SUBGRAPH_URL[network]) {
+  if (!delegationSubgraphs[network]) {
     return Promise.reject(
       `Delegation subgraph not available for network ${network}`
     );
@@ -305,7 +296,7 @@ export async function getDelegatesBySpace(
     params.delegations.__args.skip = page * PAGE_SIZE;
 
     const pageResult = await subgraphRequest(
-      SNAPSHOT_SUBGRAPH_URL[network],
+      delegationSubgraphs[network],
       params
     );
     const pageDelegations = pageResult.delegations || [];

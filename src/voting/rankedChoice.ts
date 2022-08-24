@@ -95,7 +95,10 @@ export default class RankedChoiceVoting {
     this.selected = selected;
   }
 
-  isValidChoice(voteChoice: number[], proposalChoices: string[]): boolean {
+  static isValidChoice(
+    voteChoice: number[],
+    proposalChoices: string[]
+  ): boolean {
     return (
       Array.isArray(voteChoice) &&
       // If voteChoice index is not in choices, return false
@@ -114,7 +117,7 @@ export default class RankedChoiceVoting {
 
   getValidVotes(): RankedChoiceVote[] {
     return this.votes.filter((vote) =>
-      this.isValidChoice(vote.choice, this.proposal.choices)
+      RankedChoiceVoting.isValidChoice(vote.choice, this.proposal.choices)
     );
   }
 

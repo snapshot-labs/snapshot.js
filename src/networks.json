@@ -71,6 +71,7 @@
     "network": "goerli",
     "testnet": true,
     "multicall": "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
+    "ensResolver": "0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329",
     "rpc": [
       "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
     ],
@@ -149,6 +150,20 @@
     "explorer": "https://cronos.crypto.org/explorer",
     "start": 4067,
     "logo": "ipfs://QmfSJbtirJoa3Pt7o5Fdm85wbyw9V1hpzqLr5PQbdnfsAj"
+  },
+  "144": {
+    "key": "144",
+    "name": "PHI Network",
+    "shortName": "PHI",
+    "chainId": 144,
+    "network": "mainnet",
+    "multicall": "0xc2f41B404a6757863AAeF49ff93039421acCd630",
+    "rpc": [
+      "https://connect.phi.network"
+    ],
+    "explorer": "https://phiscan.com",
+    "start": 360030,
+    "logo": "ipfs://bafkreid6pm3mic7izp3a6zlfwhhe7etd276bjfsq2xash6a4s2vmcdf65a"
   },
   "30": {
     "key": "30",
@@ -580,6 +595,20 @@
     "explorer": "https://polygonscan.com",
     "start": 9834491,
     "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
+  },  
+  "188": {
+    "key": "188",
+    "name": "Bytom Sidechain",
+    "shortName": "BMC",
+    "chainId": 188,
+    "network": "mainnet",
+    "multicall": "0xDA09528B093246eC70139b657d3B7A3bd5F4C859",
+    "rpc": [
+      "https://mainnet.bmcchain.com/"
+    ],
+    "explorer": "https://bmc.blockmeta.com/",
+    "start": 4720651,
+    "logo": "ipfs://bafkreiabhsxuq35pp4kmrbptdeypd6clhcy3ue7ydpppo6onoo4igcjqia"
   },
   "246": {
     "key": "246",
@@ -1185,6 +1214,19 @@
     "explorer": "https://scan.rei.network/",
     "start": 1715902,
     "logo": "ipfs://QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
+  },
+  "53935": {
+    "key": "53935",
+    "name": "DFK Chain",
+    "chainId": 53935,
+    "network": "mainnet",
+    "multicall": "0x5b24224dC16508DAD755756639E420817DD4c99E",
+    "rpc": [
+      "https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc"
+    ],
+    "explorer": "https://subnets.avax.network/defi-kingdoms/",
+    "start": 62,
+    "logo": "ipfs://QmZNkpVgPbuVbDcsi6arwH1om3456FGnwfDqYQJWUfHDEx"
   },
   "60001": {
     "key": "60001",

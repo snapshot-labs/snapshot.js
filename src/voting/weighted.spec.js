@@ -3,7 +3,7 @@ import WeightedVoting from './weighted';
 import example from './examples/weighted.json';
 
 const example2 = () => {
-  // Exmaple with multiple (3) stratgies
+  // Example with multiple (3) strategies
   const proposal = {
     choices: [
       'In Pistachio we believe',
@@ -45,7 +45,7 @@ const example2 = () => {
 
 const rndChoices = () => {
   const rndNumber = () => {
-    return Math.random() < 0.3 ? -1 : Math.random() < 0.5 ? 0 : undefined;
+    return Math.random() < 0.3 ? -1 : undefined;
   };
   const obj = Object.assign(
     {},
@@ -79,6 +79,17 @@ const votesWithInvalidChoices2 = () => {
   return [...votes, ...example2().votes];
 };
 
+const votesWithInvalidChoicesAllZeros = () => {
+  return [
+    ...example2().votes,
+    {
+      choice: { 1: 0, 2: 0, 3: 0 },
+      balance: 3,
+      scores: [1, 1, 1]
+    }
+  ];
+};
+
 const getScoresTests = [
   [example.proposal, example.votes, example.strategies, example.scores],
   [
@@ -96,6 +107,12 @@ const getScoresTests = [
   [
     example2().proposal,
     votesWithInvalidChoices2(),
+    example2().strategies,
+    example2().scores
+  ],
+  [
+    example2().proposal,
+    votesWithInvalidChoicesAllZeros(),
     example2().strategies,
     example2().scores
   ]

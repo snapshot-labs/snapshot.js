@@ -3,7 +3,7 @@ import ApprovalVoting from './approval';
 import example from './examples/approval.json';
 
 const example2 = () => {
-  // Exmaple with multiple (3) stratgies
+  // Example with multiple (3) strategies
   const proposal = {
     choices: ['Article 1', 'Article 2', 'Article 3', 'Article 4']
   };

@@ -27,7 +27,9 @@ import {
   unfollowTypes,
   unsubscribeTypes,
   profileTypes,
-  aliasTypes
+  aliasTypes,
+  deleteSpaceType,
+  DeleteSpace
 } from './types';
 import hubs from '../hubs.json';
 
@@ -108,6 +110,7 @@ export default class Client {
   }
 
   async vote(web3: Web3Provider | Wallet, address: string, message: Vote) {
+    if (!message.reason) message.reason = '';
     if (!message.app) message.app = '';
     const type2 = message.proposal.startsWith('0x');
     let type = type2 ? vote2Types : voteTypes;
@@ -162,5 +165,13 @@ export default class Client {
 
   async alias(web3: Web3Provider | Wallet, address: string, message: Alias) {
     return await this.sign(web3, address, message, aliasTypes);
+  }
+
+  async deleteSpace(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: DeleteSpace
+  ) {
+    return await this.sign(web3, address, message, deleteSpaceType);
   }
 }
