@@ -986,7 +986,6 @@
     "shortName": "dogechain",
     "chainId": 2000,
     "network": "mainnet",
-    "testnet": false,
     "multicall": "0x6f9D3f3932B417bd4957585D236Cbc32b32C0BDc",
     "rpc": [
       "https://rpc.dogechain.dog"
