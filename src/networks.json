@@ -1494,5 +1494,20 @@
     "explorer": "https://explorer.testnet.wennect.com",
     "start": 3606569,
     "logo": "ipfs://bafkreieeo3cetehbkrxjrfzcdb2ym5qgs26cgcw6t633twnuzoqyohqo5m"
+  },
+  "11297108099": {
+    "key": "11297108099",
+    "name": "Palm Testnet",
+    "shortName": "Palm",
+    "testnet": true,
+    "chainId": 11297108099,
+    "network": "testnet",
+    "multicall": "0x020D24E0b91Fa18Aade990dCEc7F21dcc8e5d174",
+    "rpc": [
+      "https://palm-testnet.infura.io/v3/e504875614714d3aac7061d4a197b190"
+    ],
+    "explorer": "https://explorer.palm-uat.xyz/",
+    "start": 7282345,
+    "logo": "ipfs://QmRHB9TqMdVHY392vYiv8sTJ7VHShkq5FT6nS9fPuUNBf1"
   }
 }
