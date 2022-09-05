@@ -595,7 +595,7 @@
     "explorer": "https://polygonscan.com",
     "start": 9834491,
     "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
-  },  
+  },
   "188": {
     "key": "188",
     "name": "Bytom Sidechain",
@@ -979,6 +979,20 @@
     "explorer": "https://testnet.cubescan.network",
     "start": 0,
     "logo": "ipfs://QmbENgHTymTUUArX5MZ2XXH69WGenirU3oamkRD448hYdz"
+  },
+  "2000": {
+    "key": "2000",
+    "name": "Doge Chain",
+    "shortName": "dogechain",
+    "chainId": 2000,
+    "network": "mainnet",
+    "multicall": "0x6f9D3f3932B417bd4957585D236Cbc32b32C0BDc",
+    "rpc": [
+      "https://rpc.dogechain.dog"
+    ],
+    "explorer": "https://explorer.dogechain.dog",
+    "start": 877115,
+    "logo": "ipfs://bafkreigovfh3pinsdih777issfgaflwu2yjzroljs2642gbvwikcd3nm4i"
   },
   "4689": {
     "key": "4689",
