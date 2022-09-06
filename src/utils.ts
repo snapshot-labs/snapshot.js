@@ -6,27 +6,27 @@ import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import Multicaller from './utils/multicaller';
+import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
 import validations from './validations';
 import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
 import networks from './networks.json';
+import delegationSubgraphs from './delegationSubgraphs.json';
 import voting from './voting';
 
-export const SNAPSHOT_SUBGRAPH_URL = {
-  '1':
-    'https://gateway.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/subgraphs/id/3Q4vnuSqemXnSNHoiLD7wdBbGCXszUYnUbTz191kDMNn',
-  '4': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-rinkeby',
-  '42': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-kovan',
-  '97':
-    'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-binance-smart-chain',
-  '100':
-    'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-gnosis-chain',
-  '137':
-    'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-polygon',
-  '250': 'https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-fantom'
-};
+interface Options {
+  url?: string;
+}
+
+interface Strategy {
+  name: string;
+  network?: string;
+  params: any;
+}
+
+export const SNAPSHOT_SUBGRAPH_URL = delegationSubgraphs;
 
 const ENS_RESOLVER_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)'
@@ -156,7 +156,7 @@ export async function sendTransaction(
 
 export async function getScores(
   space: string,
-  strategies: any[],
+  strategies: Strategy[],
   network: string,
   addresses: string[],
   snapshot: number | string = 'latest',
@@ -180,6 +180,41 @@ export async function getScores(
   } catch (e) {
     return Promise.reject(e);
   }
+}
+
+export async function getVp(
+  address: string,
+  network: string,
+  strategies: Strategy[],
+  snapshot: number | 'latest',
+  space: string,
+  delegation: boolean,
+  options?: Options
+) {
+  if (!options) options = {};
+  if (!options.url) options.url = 'https://score.snapshot.org';
+  const init = {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      method: 'get_vp',
+      params: {
+        address,
+        network,
+        strategies,
+        snapshot,
+        space,
+        delegation
+      },
+      id: null
+    })
+  };
+  const res = await fetch(options.url, init);
+  return (await res.json()).result;
 }
 
 export function validateSchema(schema, data) {
@@ -229,6 +264,11 @@ export async function getDelegatesBySpace(
   space: string,
   snapshot = 'latest'
 ) {
+  if (!delegationSubgraphs[network]) {
+    return Promise.reject(
+      `Delegation subgraph not available for network ${network}`
+    );
+  }
   const spaceIn = ['', space];
   if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
 
@@ -257,7 +297,7 @@ export async function getDelegatesBySpace(
     params.delegations.__args.skip = page * PAGE_SIZE;
 
     const pageResult = await subgraphRequest(
-      SNAPSHOT_SUBGRAPH_URL[network],
+      delegationSubgraphs[network],
       params
     );
     const pageDelegations = pageResult.delegations || [];
@@ -266,23 +306,6 @@ export async function getDelegatesBySpace(
     if (pageDelegations.length < PAGE_SIZE) break;
   }
 
-  // Global delegations are null in decentralized subgraph
-  page = 0;
-  delete params.delegations.__args.where.space_in;
-
-  while (true) {
-    params.delegations.__args.skip = page * PAGE_SIZE;
-    params.delegations.__args.where.space = null;
-    const pageResult = await subgraphRequest(
-      SNAPSHOT_SUBGRAPH_URL[network],
-      params
-    );
-
-    const pageDelegations = pageResult.delegations || [];
-    result = result.concat(pageDelegations);
-    page++;
-    if (pageDelegations.length < PAGE_SIZE) break;
-  }
   return result;
 }
 
@@ -311,6 +334,7 @@ export default {
   getJSON,
   sendTransaction,
   getScores,
+  getVp,
   validateSchema,
   getEnsTextRecord,
   getSpaceUri,
@@ -323,6 +347,7 @@ export default {
   signMessage,
   getBlockNumber,
   Multicaller,
+  getSnapshots,
   validations,
   getHash,
   verify,

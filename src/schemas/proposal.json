@@ -28,7 +28,7 @@
           "type": "array",
           "title": "choices",
           "minItems": 1,
-          "maxItems": 120
+          "maxItems": 200
         },
         "type": {
           "type": "string",
@@ -64,6 +64,11 @@
         "metadata": {
           "type": "object",
           "title": "metadata"
+        },
+        "app": {
+          "type": "string",
+          "title": "app",
+          "maxLength": 24
         }
       },
       "required": ["name", "body", "choices", "snapshot", "start", "end"],

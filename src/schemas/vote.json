@@ -15,13 +15,24 @@
             "number",
             "array",
             "object",
-            "boolean"
+            "boolean",
+            "string"
           ],
           "title": "choice"
         },
         "metadata": {
           "type": "object",
           "title": "metadata"
+        },
+        "reason": {
+          "type": "string",
+          "title": "reason",
+          "maxLength": 140
+        },
+        "app": {
+          "type": "string",
+          "title": "app",
+          "maxLength": 24
         }
       },
       "required": [

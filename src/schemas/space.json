@@ -123,7 +123,8 @@
             "minLength": 42,
             "maxLength": 42
           },
-          "title": "members"
+          "title": "members",
+          "uniqueItems": true
         },
         "admins": {
           "type": "array",
@@ -134,7 +135,8 @@
             "minLength": 42,
             "maxLength": 42
           },
-          "title": "admins"
+          "title": "admins",
+          "uniqueItems": true
         },
         "filters": {
           "type": "object",
@@ -176,6 +178,44 @@
           "required": ["name"],
           "additionalProperties": false
         },
+        "voteValidation": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 32,
+              "title": "name"
+            },
+            "params": {
+              "type": "object",
+              "title": "params"
+            }
+          },
+          "required": ["name"],
+          "additionalProperties": false
+        },
+        "followValidation": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 32,
+              "title": "name"
+            },
+            "params": {
+              "type": "object",
+              "title": "params"
+            }
+          },
+          "required": ["name"],
+          "additionalProperties": false
+        },
+        "delegation": {
+          "type": "boolean"
+        },
+        "allowAlias": {
+          "type": "boolean"
+        },
         "plugins": {
           "type": "object"
         },
@@ -183,11 +223,11 @@
           "type": "object",
           "properties": {
             "delay": {
-              "type": "number",
+              "type": "integer",
               "minimum": 0
             },
             "period": {
-              "type": "number",
+              "type": "integer",
               "minimum": 0
             },
             "type": {
@@ -203,6 +243,13 @@
             },
             "hideAbstain": {
               "type": "boolean"
+            },
+            "privacy": {
+              "type": "string",
+              "enum": [
+                "",
+                "shutter"
+              ]
             }
           },
           "additionalProperties": false
@@ -222,6 +269,37 @@
               "creator",
               "collector"
             ]
+          }
+        },
+        "treasuries": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "title": "Name",
+                "examples": ["e.g. Balancer DAO 1"],
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "address": {
+                "type": "string",
+                "title": "Contract address",
+                "examples": ["e.g. 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"],
+                "pattern": "^0x[a-fA-F0-9]{40}$",
+                "minLength": 42,
+                "maxLength": 42
+              },
+              "network": {
+                "type": "string",
+                "title": "Network",
+                "maxLength": 12
+              }
+            },
+            "required": ["name", "address", "network"],
+            "additionalProperties": false
           }
         },
         "parent": {
