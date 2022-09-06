@@ -192,6 +192,20 @@
     "start": 1002369,
     "logo": "ipfs://QmbpnJowePd9sDy8hrJv7LsTBkxksuJauw56Y7BqdMdzec"
   },
+  "36": {
+    "key": "36",
+    "name": "DXC-Mainnet",
+    "shortName": "DXC",
+    "chainId": 36,
+    "network": "mainnet",
+    "multicall": "0x49186b3b30922F89ca03B5f2bE7FFd8db9d0A761",
+    "rpc": [
+      "https://mainnet.dxchain.com"
+    ],
+    "explorer": "https://dxscan.io",
+    "start": 200000,
+    "logo": "ipfs://QmYBup5bWoBfkaHntbcgW8Ji7ncad7f53deJ4Q55z4PNQs"
+  },
   "42": {
     "key": "42",
     "name": "Ethereum Testnet Kovan",
