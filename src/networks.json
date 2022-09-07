@@ -122,6 +122,53 @@
     "start": 657806,
     "logo": "ipfs://QmfF4kwhGL8QosUXvgq2KWCmavhKBvwD6kbhs7L4p5ZAWb"
   },
+  "14": {
+    "key": "14",
+    "name": "Flare Mainnet",
+    "shortName": "Flare",
+    "chainId": 14,
+    "network": "flare",
+    "multicall": "0x0c7B6FC9ffaBC273E9934383f258294A00Db7Fc3",
+    "rpc": [
+      "https://flare-api.flare.network/ext/C/rpc"
+    ],
+    "explorer": "https://flare-explorer.flare.network",
+    "start": 946850,
+    "logo": "ipfs://QmdY9Augf63Ga5AZLeVX7fnHychr5KwhDEsJMNQ7X1HDeA"
+  },
+  "16": {
+    "key": "16",
+    "name": "Flare Testnet Coston",
+    "shortName": "Coston",
+    "chainId": 16,
+    "network": "coston",
+    "testnet": true,
+    "multicall": "0xF7aB82e5253F65496e21dF0dacfA6D5e765b4874",
+    "rpc": [
+      "https://coston-api.flare.network/ext/bc/C/rpc"
+    ],
+    "explorer": "https://coston-explorer.flare.network",
+    "start": 5042953,
+    "logo": "ipfs://QmZmDe1t5xvvCKrfDmCjNLG6etPK4NGQWSusYUF2cj7BxG"
+  },
+  "19": {
+    "key": "19",
+    "name": "Songbird Canary-Network",
+    "shortName": "Songbird",
+    "chainId": 19,
+    "network": "songbird",
+    "multicall": "0x17032Ea9c3a13Ed337665145364c0d2aD1108c91",
+    "rpc": [
+      "https://songbird-api.flare.network/ext/C/rpc",
+      "https://songbird.towolabs.com/rpc",
+      "https://sgb.ftso.com.au/ext/bc/C/rpc",
+      "https://sgb.lightft.so/rpc",
+      "https://sgb-rpc.ftso.eu"
+    ],
+    "explorer": "https://songbird-explorer.flare.network",
+    "start": 22501833,
+    "logo": "ipfs://QmeGiLMD8yU4YBq1cDWZy27CymD7CeJQVAvx8Cg2MuBzWm"
+  },
   "20": {
     "key": "20",
     "name": "Elastos Smart Chain",
