@@ -1523,5 +1523,19 @@
     "explorer": "https://explorer.palm-uat.xyz/",
     "start": 7282345,
     "logo": "ipfs://QmRHB9TqMdVHY392vYiv8sTJ7VHShkq5FT6nS9fPuUNBf1"
+  },
+  "278611351": {
+    "key": "278611351",
+    "name": "Razor SKALE Chain",
+    "shortName": "RazorSchain",
+    "chainId": 278611351,
+    "network": "mainnet",
+    "multicall": "0x295762C6f27c33cD7ce58fB6667E841E4EA67ef1",
+    "rpc": [
+      "https://mainnet.skalenodes.com/v1/turbulent-unique-scheat"
+    ],
+    "explorer": "https://turbulent-unique-scheat.explorer.mainnet.skalenodes.com/",
+    "start": 327242,
+    "logo": "ipfs://QmUdwAZJfyKGZnfPGDsCnNvGu123mdd57kTGj1Y3EWVuWK"
   }
 }
