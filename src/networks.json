@@ -532,11 +532,11 @@
     "name": "Thundercore Mainnet",
     "chainId": 108,
     "network": "mainnet",
-    "multicall": "",
+    "multicall": "0x3017086deef56679e267f67f66c4415109b7a97f",
     "rpc": [
       "https://mainnet-rpc.thundercore.com"
     ],
-    "explorer": "https://scan.thundercore.com",
+    "explorer": "https://viewblock.io/thundercore",
     "logo": "ipfs://QmbEsmMPZALcfvNnGDg8F2ABCJM3T2UFBiVBaRsMdkjefG"
   },
   "111": {
