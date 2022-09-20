@@ -1008,6 +1008,20 @@
     "start": 877115,
     "logo": "ipfs://bafkreigovfh3pinsdih777issfgaflwu2yjzroljs2642gbvwikcd3nm4i"
   },
+  "2020": {
+    "key": "2020",
+    "name": "Public Mint",
+    "shortName": "publicmint",
+    "chainId": 2020,
+    "network": "mainnet",
+    "multicall": "0x8De9F846d72Bd5CE7BC572994E5420d6CB047bF4",
+    "rpc": [
+      "https://rpc.publicmint.io:8545/"
+    ],
+    "explorer": "https://explorer.publicmint.io",
+    "start": 19454413,
+    "logo": "ipfs://bafybeidvlolktdvfhyc22tzds6sd4ygwlvxbmufbvzlo3s6hwhxj7tusbu"
+  },
   "4689": {
     "key": "4689",
     "name": "IoTeX Mainnet",
