@@ -118,7 +118,7 @@ export default class Client {
       type = type2 ? voteArray2Types : voteArrayTypes;
     if (['quadratic', 'weighted'].includes(message.type)) {
       type = type2 ? voteString2Types : voteStringTypes;
-      message.choice = JSON.stringify(message.choice);
+      message.choice = typeof message.choice === 'string' ? message.choice : JSON.stringify(message.choice);
     }
     if (message?.privacy === 'shutter')
       type = type2 ? voteString2Types : voteStringTypes;
