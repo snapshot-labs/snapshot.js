@@ -7,5 +7,6 @@
   "56": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-binance-smart-chain",
   "100": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-gnosis-chain",
   "137": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-polygon",
-  "250": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-fantom"
+  "250": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-fantom",
+  "42161": "https://api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-arbitrum"
 }

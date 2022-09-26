@@ -42,7 +42,7 @@ export interface Vote {
   timestamp?: number;
   proposal: string;
   type: ProposalType;
-  choice: number | number[] | string;
+  choice: number | number[] | string | { [key: string]: number };
   privacy?: string;
   reason?: string;
   app?: string;
