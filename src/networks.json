@@ -1571,6 +1571,20 @@
     "start": 7282345,
     "logo": "ipfs://QmRHB9TqMdVHY392vYiv8sTJ7VHShkq5FT6nS9fPuUNBf1"
   },
+  "7363": {
+    "key": "7363",
+    "name": "DynoChain",
+    "shortName": "DND",
+    "chainId": 7363,
+    "network": "mainnet",
+    "multicall": "0x70F9C674677Cb915042C11fcd4D3418A99aa7A3D",
+    "rpc": [
+      "https://rpc.dynochain.io"
+    ],
+    "explorer": "https://dynoscan.io",
+    "start": 30900,
+    "logo": "ipfs://QmNkwQ9uyaNgtu9YZM48VmKqmFceQhCMPLF2vZy7mWvw4L"
+  },
   "278611351": {
     "key": "278611351",
     "name": "Razor SKALE Chain",
