@@ -1575,7 +1575,7 @@
     "network": "mainnet",
     "multicall": "0x352E11Da7C12EA2440b079A335E67ff9219f6FfB",
     "rpc": [
-      "https://avax.boba.network"
+      "https://replica.avax.boba.network"
     ],
     "explorer": "https://blockexplorer.avax.boba.network/",
     "start": 4832,
