@@ -575,12 +575,13 @@
     "name": "Thundercore Mainnet",
     "chainId": 108,
     "network": "mainnet",
-    "multicall": "",
+    "multicall": "0x3017086deef56679e267f67f66c4415109b7a97f",
     "rpc": [
-      "https://mainnet-rpc.thundercore.com"
+      "https://mainnet-rpc.thundercore.com/archived/SNAPSHOTEuR82a75fLYA"
     ],
-    "explorer": "https://scan.thundercore.com",
-    "logo": "ipfs://QmbEsmMPZALcfvNnGDg8F2ABCJM3T2UFBiVBaRsMdkjefG"
+    "explorer": "https://viewblock.io/thundercore",
+    "start": 94425385,
+    "logo": "ipfs://bafkreifc5z5vtvqx2luzgateyvoocwpd2ifv2hwufxdnyl2a767wa6icli"
   },
   "111": {
     "key": "111",
@@ -1050,6 +1051,20 @@
     "explorer": "https://explorer.dogechain.dog",
     "start": 877115,
     "logo": "ipfs://bafkreigovfh3pinsdih777issfgaflwu2yjzroljs2642gbvwikcd3nm4i"
+  },
+  "2020": {
+    "key": "2020",
+    "name": "Public Mint",
+    "shortName": "publicmint",
+    "chainId": 2020,
+    "network": "mainnet",
+    "multicall": "0x8De9F846d72Bd5CE7BC572994E5420d6CB047bF4",
+    "rpc": [
+      "https://rpc.publicmint.io:8545/"
+    ],
+    "explorer": "https://explorer.publicmint.io",
+    "start": 19454413,
+    "logo": "ipfs://bafkreihh4y35xgshx7wbf7a2xj35do55f7lj4nhxqxtt5nqoohoojdvkki"
   },
   "4689": {
     "key": "4689",
@@ -1566,5 +1581,33 @@
     "explorer": "https://explorer.palm-uat.xyz/",
     "start": 7282345,
     "logo": "ipfs://QmRHB9TqMdVHY392vYiv8sTJ7VHShkq5FT6nS9fPuUNBf1"
+  },
+  "7363": {
+    "key": "7363",
+    "name": "DynoChain",
+    "shortName": "DND",
+    "chainId": 7363,
+    "network": "mainnet",
+    "multicall": "0x70F9C674677Cb915042C11fcd4D3418A99aa7A3D",
+    "rpc": [
+      "https://rpc.dynochain.io"
+    ],
+    "explorer": "https://dynoscan.io",
+    "start": 30900,
+    "logo": "ipfs://QmNkwQ9uyaNgtu9YZM48VmKqmFceQhCMPLF2vZy7mWvw4L"
+  },
+  "278611351": {
+    "key": "278611351",
+    "name": "Razor SKALE Chain",
+    "shortName": "RazorSchain",
+    "chainId": 278611351,
+    "network": "mainnet",
+    "multicall": "0x295762C6f27c33cD7ce58fB6667E841E4EA67ef1",
+    "rpc": [
+      "https://mainnet.skalenodes.com/v1/turbulent-unique-scheat"
+    ],
+    "explorer": "https://turbulent-unique-scheat.explorer.mainnet.skalenodes.com/",
+    "start": 401478,
+    "logo": "ipfs://QmUdwAZJfyKGZnfPGDsCnNvGu123mdd57kTGj1Y3EWVuWK"
   }
 }

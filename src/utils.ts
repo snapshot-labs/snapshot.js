@@ -213,7 +213,9 @@ export async function getVp(
     })
   };
   const res = await fetch(options.url, init);
-  return (await res.json()).result;
+  const json = await res.json();
+  if (json.error) return Promise.reject(json.error);
+  if (json.result) return json.result;
 }
 
 export function validateSchema(schema, data) {
