@@ -134,7 +134,7 @@
     ],
     "explorer": "https://flare-explorer.flare.network",
     "start": 936246,
-    "logo": "ipfs://QmdY9Augf63Ga5AZLeVX7fnHychr5KwhDEsJMNQ7X1HDeA"
+    "logo": "ipfs://QmevAevHxRkK2zVct2Eu6Y7s38YC4SmiAiw9X7473pVtmL"
   },
   "16": {
     "key": "16",
@@ -148,8 +148,8 @@
       "https://coston-api.flare.network/ext/bc/C/rpc"
     ],
     "explorer": "https://coston-explorer.flare.network",
-    "start": 5042953,
-    "logo": "ipfs://QmZmDe1t5xvvCKrfDmCjNLG6etPK4NGQWSusYUF2cj7BxG"
+    "start": 4782058,
+    "logo": "ipfs://QmW7Ljv2eLQ1poRrhJBaVWJBF1TyfZ8QYxDeELRo6sssrj"
   },
   "19": {
     "key": "19",
@@ -162,8 +162,8 @@
       "https://songbird-api.flare.network/ext/C/rpc"
     ],
     "explorer": "https://songbird-explorer.flare.network",
-    "start": 22501833,
-    "logo": "ipfs://QmeGiLMD8yU4YBq1cDWZy27CymD7CeJQVAvx8Cg2MuBzWm"
+    "start": 21807126,
+    "logo": "ipfs://QmXyvnrZY8FUxSULfnKKA99sAEkjAHtvhRx5WeHixgaEdu"
   },
   "20": {
     "key": "20",
