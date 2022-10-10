@@ -159,11 +159,7 @@
     "network": "songbird",
     "multicall": "0x17032Ea9c3a13Ed337665145364c0d2aD1108c91",
     "rpc": [
-      "https://songbird-api.flare.network/ext/C/rpc",
-      "https://songbird.towolabs.com/rpc",
-      "https://sgb.ftso.com.au/ext/bc/C/rpc",
-      "https://sgb.lightft.so/rpc",
-      "https://sgb-rpc.ftso.eu"
+      "https://songbird-api.flare.network/ext/C/rpc"
     ],
     "explorer": "https://songbird-explorer.flare.network",
     "start": 22501833,
