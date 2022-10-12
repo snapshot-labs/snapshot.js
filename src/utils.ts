@@ -255,9 +255,8 @@ export async function getSpaceUri(id, network = '1') {
   try {
     return await getEnsTextRecord(id, 'snapshot', network);
   } catch (e) {
-    console.log('getSpaceUriFromTextRecord failed', id, e);
+    return false;
   }
-  return false;
 }
 
 export async function getDelegatesBySpace(
