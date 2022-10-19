@@ -110,18 +110,18 @@ export default class Client {
   }
 
   async vote(web3: Web3Provider | Wallet, address: string, message: Vote) {
+    const isShutter = message?.privacy === 'shutter';
     if (!message.reason) message.reason = '';
     if (!message.app) message.app = '';
     const type2 = message.proposal.startsWith('0x');
     let type = type2 ? vote2Types : voteTypes;
     if (['approval', 'ranked-choice'].includes(message.type))
       type = type2 ? voteArray2Types : voteArrayTypes;
-    if (['quadratic', 'weighted'].includes(message.type)) {
+    if (!isShutter && ['quadratic', 'weighted'].includes(message.type)) {
       type = type2 ? voteString2Types : voteStringTypes;
       message.choice = JSON.stringify(message.choice);
     }
-    if (message?.privacy === 'shutter')
-      type = type2 ? voteString2Types : voteStringTypes;
+    if (isShutter) type = type2 ? voteString2Types : voteStringTypes;
     delete message.privacy;
     delete message.type;
     return await this.sign(web3, address, message, type);

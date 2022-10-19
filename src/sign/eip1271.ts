@@ -20,7 +20,6 @@ export async function verifyDefault(
       [address, 'isValidSignature', [arrayify(hash), sig]]
     );
   } catch (e) {
-    console.log(e);
     return false;
   }
   return returnValue.toLowerCase() === magicValue.toLowerCase();
@@ -43,7 +42,6 @@ export async function verifyOldVersion(
       [address, 'isValidSignature', [arrayify(hash), sig]]
     );
   } catch (e) {
-    console.log(e);
     return false;
   }
   return returnValue.toLowerCase() === magicValue.toLowerCase();
