@@ -1609,5 +1609,20 @@
     "explorer": "https://turbulent-unique-scheat.explorer.mainnet.skalenodes.com/",
     "start": 401478,
     "logo": "ipfs://QmUdwAZJfyKGZnfPGDsCnNvGu123mdd57kTGj1Y3EWVuWK"
+  },
+  "43288": {
+    "key": "43288",
+    "name": "Boba Avax L2",
+    "shortName": "Boba-Avax",
+    "chainId": 43288,
+    "network": "mainnet",
+    "multicall": "0x352E11Da7C12EA2440b079A335E67ff9219f6FfB",
+    "rpc": [
+      "https://replica.avax.boba.network",
+      "https://avax.boba.network"
+    ],
+    "explorer": "https://blockexplorer.avax.boba.network/",
+    "start": 4832,
+    "logo": "ipfs://QmP1iuEynzcghrukQLfw7zh7BJwG3dJSwyZprqD4YHHsFD"
   }
 }
