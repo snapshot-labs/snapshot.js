@@ -1609,5 +1609,19 @@
     "explorer": "https://turbulent-unique-scheat.explorer.mainnet.skalenodes.com/",
     "start": 401478,
     "logo": "ipfs://QmUdwAZJfyKGZnfPGDsCnNvGu123mdd57kTGj1Y3EWVuWK"
+  },
+  "1701": {
+    "key": "1701",
+    "name": "Anytype EVM Chain",
+    "shortName": "AnytypeChain",
+    "chainId": 1701,
+    "network": "mainnet",
+    "multicall": "0x4542a07dE7f8A1cEB85aEcBFD0d5338e9886EF49",
+    "rpc": [
+      "https://geth.anytype.io"
+    ],
+    "explorer": "https://explorer.anytype.io",
+    "start": 1126886,
+    "logo": "ipfs://QmaARJiAQUn4Z6wG8GLEry3kTeBB3k6RfHzSZU9SPhBgcG"
   }
 }
