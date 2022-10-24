@@ -157,6 +157,9 @@
             "onlyMembers": {
               "type": "boolean"
             },
+            "aliased": {
+              "type": "boolean"
+            },
             "invalids": {
               "type": "array",
               "items": {
@@ -248,6 +251,9 @@
               "type": "boolean"
             },
             "hideAbstain": {
+              "type": "boolean"
+            },
+            "aliased": {
               "type": "boolean"
             },
             "privacy": {
