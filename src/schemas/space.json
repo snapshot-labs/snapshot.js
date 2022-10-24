@@ -157,9 +157,6 @@
             "onlyMembers": {
               "type": "boolean"
             },
-            "aliased": {
-              "type": "boolean"
-            },
             "invalids": {
               "type": "array",
               "items": {
