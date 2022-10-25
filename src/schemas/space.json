@@ -250,6 +250,9 @@
             "hideAbstain": {
               "type": "boolean"
             },
+            "aliased": {
+              "type": "boolean"
+            },
             "privacy": {
               "type": "string",
               "enum": [
