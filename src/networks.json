@@ -24,7 +24,10 @@
     "ws": [
       "wss://eth-mainnet.ws.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv"
     ],
-    "explorer": "https://etherscan.io",
+    "explorer":{
+      "url":  "https://etherscan.io",
+      "apiUrl": "https://api.etherscan.io"
+    },
     "start": 7929876,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
   },
@@ -39,7 +42,10 @@
     "rpc": [
       "https://eth-ropsten.alchemyapi.io/v2/QzGz6gdkpTyDzebi3PjxIaKO7bDTGnSy"
     ],
-    "explorer": "https://ropsten.etherscan.io",
+    "explorer": {
+      "url": "https://ropsten.etherscan.io",
+      "apiUrl": "https://api-ropsten.etherscan.io"
+    },
     "start": 7980811,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
   },
@@ -59,7 +65,10 @@
     "ws": [
       "wss://eth-rinkeby.ws.alchemyapi.io/v2/twReQE9Px03E-E_N_Fbb3OVF7YgHxoGq"
     ],
-    "explorer": "https://rinkeby.etherscan.io",
+    "explorer": {
+      "url": "https://rinkeby.etherscan.io",
+      "apiUrl": "https://api-rinkeby.etherscan.io"
+    },
     "start": 4534725,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
   },
@@ -75,7 +84,10 @@
     "rpc": [
       "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
     ],
-    "explorer": "https://goerli.etherscan.io",
+    "explorer": {
+      "url": "https://goerli.etherscan.io",
+      "apiUrl": "https://api-goerli.etherscan.io"
+    },
     "start": 743550,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
   },
@@ -118,7 +130,10 @@
     "rpc": [
       "https://opt-mainnet.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
     ],
-    "explorer": "https://optimistic.etherscan.io",
+    "explorer": {
+      "url": "https://optimistic.etherscan.io",
+      "apiUrl": "https://api-optimistic.etherscan.io"
+    },
     "start": 657806,
     "logo": "ipfs://QmfF4kwhGL8QosUXvgq2KWCmavhKBvwD6kbhs7L4p5ZAWb"
   },
@@ -266,7 +281,10 @@
     "ws": [
       "wss://eth-kovan.ws.alchemyapi.io/v2/QCsM2iU0bQ49eGDmZ7-Y--Wpu0lVWXSO"
     ],
-    "explorer": "https://kovan.etherscan.io",
+    "explorer": {
+      "url": "https://kovan.etherscan.io",
+      "apiUrl": "https://api-kovan.etherscan.io"
+    },
     "start": 11482433,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
   },
@@ -650,7 +668,10 @@
     "ws": [
       "wss://ws-mainnet.matic.network"
     ],
-    "explorer": "https://polygonscan.com",
+    "explorer": {
+      "url":  "https://polygonscan.com",
+      "apiUrl": "https://api.polygonscan.com"
+    },
     "start": 9834491,
     "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
   },
@@ -1384,7 +1405,10 @@
     "ws": [
       "wss://ws-mumbai.matic.today"
     ],
-    "explorer": "https://mumbai.polygonscan.com",
+    "explorer": {
+      "url": "https://mumbai.polygonscan.com",
+      "apiUrl": "https://api-mumbai.polygonscan.com"
+    },
     "start": 12011090,
     "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
   },
