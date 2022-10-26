@@ -30,6 +30,7 @@
   },
   "3": {
     "key": "3",
+    "deprecated": true,
     "name": "Ethereum Testnet Ropsten",
     "shortName": "Ropsten",
     "chainId": 3,
@@ -45,6 +46,7 @@
   },
   "4": {
     "key": "4",
+    "deprecated": true,
     "name": "Ethereum Testnet Rinkeby",
     "shortName": "Rinkeby",
     "chainId": 4,
@@ -251,6 +253,7 @@
   },
   "42": {
     "key": "42",
+    "deprecated": true,
     "name": "Ethereum Testnet Kovan",
     "shortName": "Kovan",
     "chainId": 42,
