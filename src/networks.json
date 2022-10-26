@@ -33,6 +33,7 @@
   },
   "3": {
     "key": "3",
+    "deprecated": true,
     "name": "Ethereum Testnet Ropsten",
     "shortName": "Ropsten",
     "chainId": 3,
@@ -51,6 +52,7 @@
   },
   "4": {
     "key": "4",
+    "deprecated": true,
     "name": "Ethereum Testnet Rinkeby",
     "shortName": "Rinkeby",
     "chainId": 4,
@@ -288,6 +290,7 @@
   },
   "42": {
     "key": "42",
+    "deprecated": true,
     "name": "Ethereum Testnet Kovan",
     "shortName": "Kovan",
     "chainId": 42,
@@ -1844,5 +1847,19 @@
     },
     "start": 4832,
     "logo": "ipfs://QmP1iuEynzcghrukQLfw7zh7BJwG3dJSwyZprqD4YHHsFD"
+  },
+  "1701": {
+    "key": "1701",
+    "name": "Anytype EVM Chain",
+    "shortName": "AnytypeChain",
+    "chainId": 1701,
+    "network": "mainnet",
+    "multicall": "0x4542a07dE7f8A1cEB85aEcBFD0d5338e9886EF49",
+    "rpc": [
+      "https://geth.anytype.io"
+    ],
+    "explorer": "https://explorer.anytype.io",
+    "start": 1126886,
+    "logo": "ipfs://QmaARJiAQUn4Z6wG8GLEry3kTeBB3k6RfHzSZU9SPhBgcG"
   }
 }
