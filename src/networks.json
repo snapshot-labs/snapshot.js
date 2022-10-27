@@ -1858,7 +1858,9 @@
     "rpc": [
       "https://geth.anytype.io"
     ],
-    "explorer": "https://explorer.anytype.io",
+    "explorer": {
+      "url": "https://explorer.anytype.io"
+    },
     "start": 1126886,
     "logo": "ipfs://QmaARJiAQUn4Z6wG8GLEry3kTeBB3k6RfHzSZU9SPhBgcG"
   }
