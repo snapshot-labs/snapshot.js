@@ -31,49 +31,6 @@
     "start": 7929876,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
   },
-  "3": {
-    "key": "3",
-    "deprecated": true,
-    "name": "Ethereum Testnet Ropsten",
-    "shortName": "Ropsten",
-    "chainId": 3,
-    "network": "ropsten",
-    "testnet": true,
-    "multicall": "0x53c43764255c17bd724f74c4ef150724ac50a3ed",
-    "rpc": [
-      "https://eth-ropsten.alchemyapi.io/v2/QzGz6gdkpTyDzebi3PjxIaKO7bDTGnSy"
-    ],
-    "explorer": {
-      "url": "https://ropsten.etherscan.io",
-      "apiUrl": "https://api-ropsten.etherscan.io"
-    },
-    "start": 7980811,
-    "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
-  },
-  "4": {
-    "key": "4",
-    "deprecated": true,
-    "name": "Ethereum Testnet Rinkeby",
-    "shortName": "Rinkeby",
-    "chainId": 4,
-    "network": "rinkeby",
-    "testnet": true,
-    "multicall": "0x42ad527de7d4e9d9d011ac45b31d8551f8fe9821",
-    "ensResolver": "0xf6305c19e814d2a75429fd637d01f7ee0e77d615",
-    "rpc": [
-      "https://eth-rinkeby.alchemyapi.io/v2/ugiPEBqMebLQbjro42kalZ1h4StpW_fR",
-      "https://eth-rinkeby.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
-    ],
-    "ws": [
-      "wss://eth-rinkeby.ws.alchemyapi.io/v2/twReQE9Px03E-E_N_Fbb3OVF7YgHxoGq"
-    ],
-    "explorer": {
-      "url": "https://rinkeby.etherscan.io",
-      "apiUrl": "https://api-rinkeby.etherscan.io"
-    },
-    "start": 4534725,
-    "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
-  },
   "5": {
     "key": "5",
     "name": "Ethereum Testnet Görli",
@@ -287,31 +244,6 @@
     },
     "start": 207070,
     "logo": "ipfs://QmYBup5bWoBfkaHntbcgW8Ji7ncad7f53deJ4Q55z4PNQs"
-  },
-  "42": {
-    "key": "42",
-    "deprecated": true,
-    "name": "Ethereum Testnet Kovan",
-    "shortName": "Kovan",
-    "chainId": 42,
-    "network": "kovan",
-    "testnet": true,
-    "multicall": "0x2cc8688c5f75e365aaeeb4ea8d6a480405a48d2a",
-    "rpc": [
-      "https://eth-kovan.alchemyapi.io/v2/sR9qngOH3w78GAaTtlTe8GwEnij0SnEa",
-      "https://speedy-nodes-nyc.moralis.io/b9aed21e7bb7bdeb35972c9a/eth/kovan/archive",
-      "https://eth-kovan.alchemyapi.io/v2/s96TIUFYg0LuddgpmafA040ZyUaZbrpM",
-      "https://poa-kovan.gateway.pokt.network/v1/5f76124fb90218002e9ce985"
-    ],
-    "ws": [
-      "wss://eth-kovan.ws.alchemyapi.io/v2/QCsM2iU0bQ49eGDmZ7-Y--Wpu0lVWXSO"
-    ],
-    "explorer": {
-      "url": "https://kovan.etherscan.io",
-      "apiUrl": "https://api-kovan.etherscan.io"
-    },
-    "start": 11482433,
-    "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
   },
   "44": {
     "key": "44",
