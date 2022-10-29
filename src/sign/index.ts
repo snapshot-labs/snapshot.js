@@ -10,6 +10,7 @@ import {
   Unfollow,
   Subscribe,
   Unsubscribe,
+  AddWebhook,
   Profile,
   Alias,
   spaceTypes,
@@ -26,12 +27,14 @@ import {
   subscribeTypes,
   unfollowTypes,
   unsubscribeTypes,
+  addWebhookTypes,
   profileTypes,
   aliasTypes,
   deleteSpaceType,
   DeleteSpace
 } from './types';
 import hubs from '../hubs.json';
+import { verify } from './utils';
 
 const NAME = 'snapshot';
 const VERSION = '0.1.4';
@@ -49,7 +52,13 @@ export default class Client {
     this.address = address;
   }
 
-  async sign(web3: Web3Provider | Wallet, address: string, message, types) {
+  async sign(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message,
+    types,
+    skipHub?: boolean
+  ) {
     // @ts-ignore
     const signer = web3?.getSigner ? web3.getSigner() : web3;
     if (!message.from) message.from = address;
@@ -58,6 +67,19 @@ export default class Client {
     const data: any = { domain, types, message };
     const sig = await signer._signTypedData(domain, data.types, message);
     // console.log('Sign', { address, sig, data });
+    if (skipHub) {
+      try {
+        const isValidSig = await verify(address, sig, data);
+        if (!isValidSig) return Promise.reject('wrong signature');
+
+        return true;
+      } catch (e) {
+        console.warn(`signature validation failed for ${address}`);
+
+        return Promise.reject('signature validation failed');
+      }
+    }
+
     return await this.send({ address, sig, data });
   }
 
@@ -153,6 +175,14 @@ export default class Client {
     message: Unsubscribe
   ) {
     return await this.sign(web3, address, message, unsubscribeTypes);
+  }
+
+  async webhook(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: AddWebhook
+  ) {
+    return await this.sign(web3, address, message, addWebhookTypes, true);
   }
 
   async profile(

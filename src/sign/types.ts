@@ -72,6 +72,14 @@ export interface Unsubscribe {
   timestamp?: number;
 }
 
+export interface AddWebhook {
+  from?: string;
+  space: string;
+  url: string;
+  active: number;
+  timestamp?: number;
+}
+
 export interface Profile {
   from?: string;
   timestamp?: number;
@@ -232,6 +240,15 @@ export const unsubscribeTypes = {
   Unsubscribe: [
     { name: 'from', type: 'address' },
     { name: 'space', type: 'string' }
+  ]
+};
+
+export const addWebhookTypes = {
+  Webhook: [
+    { name: 'from', type: 'address' },
+    { name: 'space', type: 'string' },
+    { name: 'url', type: 'string' },
+    { name: 'active', type: 'uint8' }
   ]
 };
 
