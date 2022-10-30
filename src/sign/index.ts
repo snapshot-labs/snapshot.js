@@ -10,7 +10,8 @@ import {
   Unfollow,
   Subscribe,
   Unsubscribe,
-  AddWebhook,
+  Webhook,
+  RemoveWebhook,
   Profile,
   Alias,
   spaceTypes,
@@ -28,6 +29,7 @@ import {
   unfollowTypes,
   unsubscribeTypes,
   addWebhookTypes,
+  removeWebhookTypes,
   profileTypes,
   aliasTypes,
   deleteSpaceType,
@@ -46,45 +48,34 @@ export const domain = {
 };
 
 export default class Client {
-  readonly address: string;
+  readonly hubAddress: string;
+  readonly webhookAddress: string;
 
   constructor(address: string = hubs[0]) {
-    this.address = address;
+    this.hubAddress = address;
+    this.webhookAddress = 'http://localhost:3000';
   }
 
-  async sign(
-    web3: Web3Provider | Wallet,
-    address: string,
-    message,
-    types,
-    skipHub?: boolean
-  ) {
+  async sign(web3: Web3Provider | Wallet, address: string, message, types) {
     // @ts-ignore
     const signer = web3?.getSigner ? web3.getSigner() : web3;
     if (!message.from) message.from = address;
     if (!message.timestamp)
-      message.timestamp = parseInt((Date.now() / 1e3).toFixed());
+    message.timestamp = parseInt((Date.now() / 1e3).toFixed());
     const data: any = { domain, types, message };
     const sig = await signer._signTypedData(domain, data.types, message);
-    // console.log('Sign', { address, sig, data });
-    if (skipHub) {
-      try {
-        const isValidSig = await verify(address, sig, data);
-        if (!isValidSig) return Promise.reject('wrong signature');
-
-        return true;
-      } catch (e) {
-        console.warn(`signature validation failed for ${address}`);
-
-        return Promise.reject('signature validation failed');
-      }
-    }
+    console.log('Sign', { address, sig, data });
 
     return await this.send({ address, sig, data });
   }
 
   async send(envelop) {
-    const url = `${this.address}/api/msg`;
+    const webhookAction = Object.keys(envelop.data.types).filter(key => ['Webhook', 'RemoveWebhook'].includes(key)).length
+    console.log('webhook', webhookAction);
+    const url =
+      webhookAction > 0
+        ? `${this.webhookAddress}/api/subscribers`
+        : `${this.hubAddress}/api/msg`;
     const init = {
       method: 'POST',
       headers: {
@@ -180,9 +171,17 @@ export default class Client {
   async webhook(
     web3: Web3Provider | Wallet,
     address: string,
-    message: AddWebhook
+    message: Webhook
   ) {
-    return await this.sign(web3, address, message, addWebhookTypes, true);
+    return await this.sign(web3, address, message, addWebhookTypes);
+  }
+
+  async removeWebhook(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: RemoveWebhook
+  ) {
+    return await this.sign(web3, address, message, removeWebhookTypes);
   }
 
   async profile(
