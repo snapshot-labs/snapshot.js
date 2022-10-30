@@ -54,11 +54,7 @@ export default class Client {
     // @ts-ignore
     const signer = web3?.getSigner ? web3.getSigner() : web3;
     const checksumAddress = getAddress(address.toLowerCase());
-    if (message.from) {
-      message.from = getAddress(message.from.toLowerCase());
-    } else {
-      message.from = checksumAddress;
-    }
+    message.from = message.from ? getAddress(message.from.toLowerCase()) : checksumAddress
     if (!message.timestamp)
       message.timestamp = parseInt((Date.now() / 1e3).toFixed());
     const data: any = { domain, types, message };
