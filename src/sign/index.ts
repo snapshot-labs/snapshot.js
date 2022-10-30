@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import { Web3Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
-import { getAddress } from '@ethersproject/address'
+import { getAddress } from '@ethersproject/address';
 import {
   Space,
   Proposal,
@@ -54,7 +54,9 @@ export default class Client {
     // @ts-ignore
     const signer = web3?.getSigner ? web3.getSigner() : web3;
     const checksumAddress = getAddress(address.toLowerCase());
-    message.from = message.from ? getAddress(message.from.toLowerCase()) : checksumAddress
+    message.from = message.from
+      ? getAddress(message.from.toLowerCase())
+      : checksumAddress;
     if (!message.timestamp)
       message.timestamp = parseInt((Date.now() / 1e3).toFixed());
     const data: any = { domain, types, message };
