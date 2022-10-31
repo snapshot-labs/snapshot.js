@@ -63,7 +63,7 @@ export default class Client {
     message.timestamp = parseInt((Date.now() / 1e3).toFixed());
     const data: any = { domain, types, message };
     const sig = await signer._signTypedData(domain, data.types, message);
-    console.log('Sign', { address, sig, data });
+    // console.log('Sign', { address, sig, data });
 
     return await this.send({ address, sig, data });
   }
