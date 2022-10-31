@@ -250,7 +250,7 @@ export const unsubscribeTypes = {
   ]
 };
 
-export const addWebhookTypes = {
+export const webhookTypes = {
   Webhook: [
     { name: 'from', type: 'address' },
     { name: 'space', type: 'string' },

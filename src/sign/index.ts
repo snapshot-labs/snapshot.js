@@ -28,7 +28,7 @@ import {
   subscribeTypes,
   unfollowTypes,
   unsubscribeTypes,
-  addWebhookTypes,
+  webhookTypes,
   removeWebhookTypes,
   profileTypes,
   aliasTypes,
@@ -36,7 +36,6 @@ import {
   DeleteSpace
 } from './types';
 import hubs from '../hubs.json';
-import { verify } from './utils';
 
 const NAME = 'snapshot';
 const VERSION = '0.1.4';
@@ -71,7 +70,6 @@ export default class Client {
 
   async send(envelop) {
     const webhookAction = Object.keys(envelop.data.types).filter(key => ['Webhook', 'RemoveWebhook'].includes(key)).length
-    console.log('webhook', webhookAction);
     const url =
       webhookAction > 0
         ? `${this.webhookAddress}/api/subscribers`
@@ -173,7 +171,7 @@ export default class Client {
     address: string,
     message: Webhook
   ) {
-    return await this.sign(web3, address, message, addWebhookTypes);
+    return await this.sign(web3, address, message, webhookTypes);
   }
 
   async removeWebhook(
