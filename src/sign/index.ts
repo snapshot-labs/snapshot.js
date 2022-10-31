@@ -47,12 +47,10 @@ export const domain = {
 };
 
 export default class Client {
-  readonly hubAddress: string;
-  readonly webhookAddress: string;
+  readonly address: string;
 
   constructor(address: string = hubs[0]) {
-    this.hubAddress = address;
-    this.webhookAddress = 'http://localhost:3000';
+    this.address = address;
   }
 
   async sign(web3: Web3Provider | Wallet, address: string, message, types) {
@@ -68,10 +66,12 @@ export default class Client {
   }
 
   async send(envelop) {
-    const webhookAction = Object.keys(envelop.data.types).filter(key => ['Webhook', 'RemoveWebhook'].includes(key)).length
+    const webhookAction = Object.keys(envelop.data.types).filter((key) =>
+      ['Webhook', 'RemoveWebhook'].includes(key)
+    ).length;
     const url = webhookAction
-      ? `${this.webhookAddress}/api/subscribers`
-      : `${this.hubAddress}/api/msg`;
+      ? `${this.address}/api/subscribers`
+      : `${this.address}/api/msg`;
     const init = {
       method: 'POST',
       headers: {
