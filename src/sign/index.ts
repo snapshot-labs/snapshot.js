@@ -60,20 +60,18 @@ export default class Client {
     const signer = web3?.getSigner ? web3.getSigner() : web3;
     if (!message.from) message.from = address;
     if (!message.timestamp)
-    message.timestamp = parseInt((Date.now() / 1e3).toFixed());
+      message.timestamp = parseInt((Date.now() / 1e3).toFixed());
     const data: any = { domain, types, message };
     const sig = await signer._signTypedData(domain, data.types, message);
     // console.log('Sign', { address, sig, data });
-
     return await this.send({ address, sig, data });
   }
 
   async send(envelop) {
     const webhookAction = Object.keys(envelop.data.types).filter(key => ['Webhook', 'RemoveWebhook'].includes(key)).length
-    const url =
-      webhookAction > 0
-        ? `${this.webhookAddress}/api/subscribers`
-        : `${this.hubAddress}/api/msg`;
+    const url = webhookAction
+      ? `${this.webhookAddress}/api/subscribers`
+      : `${this.hubAddress}/api/msg`;
     const init = {
       method: 'POST',
       headers: {
