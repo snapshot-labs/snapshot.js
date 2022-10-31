@@ -1795,5 +1795,21 @@
     },
     "start": 1126886,
     "logo": "ipfs://QmaARJiAQUn4Z6wG8GLEry3kTeBB3k6RfHzSZU9SPhBgcG"
+  },
+  "900000": {
+    "key": "900000",
+    "name": "Posichain Mainnet",
+    "shortName": "PSC",
+    "chainId": 900000,
+    "network": "mainnet",
+    "multicall": "0xbe779BaA9dC15Ef307bdf4dDb35440A0a421a89A",
+    "rpc": [
+      "https://api-a001.s0.posichain.org"
+    ],
+    "explorer": {
+      "url": "https://explorer.posichain.org"
+    },
+    "start": 2560501,
+    "logo": "ipfs://QmXqprM1TPafQFLirQ7dMPMgou1hoUGuCvHYSWU9g8ocv8"
   }
 }
