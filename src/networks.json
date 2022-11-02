@@ -1502,7 +1502,9 @@
     "ws": [
       "wss://godwoken-testnet-v1.ckbapp.dev/ws" 
     ],
-    "explorer": "https://gw-explorer.nervosdao.community",
+    "explorer": {
+      "url": "https://gw-explorer.nervosdao.community"
+    },
     "start": 115283,
     "logo": "ipfs://QmR6Q2CTds6Uwu8Euo7BKvFKAeg1AyVSxWzqCvyquDD7NF"
   },
@@ -1518,7 +1520,9 @@
     "ws": [
       "wss://v1.mainnet.godwoken.io/ws"
     ],
-    "explorer": "https://gwscan.com",
+    "explorer": {
+      "url": "https://gwscan.com"
+    },
     "start": 15034,
     "logo": "ipfs://QmR6Q2CTds6Uwu8Euo7BKvFKAeg1AyVSxWzqCvyquDD7NF"
   },
