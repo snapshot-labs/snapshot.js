@@ -218,6 +218,43 @@ export async function getVp(
   if (json.result) return json.result;
 }
 
+export async function validate(
+  validation: string,
+  author: string,
+  space: string,
+  network: string,
+  snapshot: number | 'latest',
+  params: any,
+  options: any
+) {
+  if (!options) options = {};
+  if (!options.url) options.url = 'https://score.snapshot.org';
+  const init = {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      method: 'validate',
+      params: {
+        validation,
+        author,
+        space,
+        network,
+        snapshot,
+        params
+      },
+      id: null
+    })
+  };
+  const res = await fetch(options.url, init);
+  const json = await res.json();
+  if (json.error) return Promise.reject(json.error);
+  return json.result;
+}
+
 export function validateSchema(schema, data) {
   const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
   // @ts-ignore
@@ -239,9 +276,9 @@ export function validateSchema(schema, data) {
     }
   });
 
-  const validate = ajv.compile(schema);
-  const valid = validate(data);
-  return valid ? valid : validate.errors;
+  const ajvValidate = ajv.compile(schema);
+  const valid = ajvValidate(data);
+  return valid ? valid : ajvValidate.errors;
 }
 
 export function getEnsTextRecord(ens: string, record: string, network = '1') {
@@ -255,9 +292,8 @@ export async function getSpaceUri(id, network = '1') {
   try {
     return await getEnsTextRecord(id, 'snapshot', network);
   } catch (e) {
-    console.log('getSpaceUriFromTextRecord failed', id, e);
+    return false;
   }
-  return false;
 }
 
 export async function getDelegatesBySpace(
@@ -352,5 +388,6 @@ export default {
   validations,
   getHash,
   verify,
+  validate,
   SNAPSHOT_SUBGRAPH_URL
 };

@@ -54,6 +54,12 @@
           "pattern": "^[A-Za-z0-9_]*$",
           "maxLength": 15
         },
+        "coingecko": {
+          "type": "string",
+          "title": "coingecko",
+          "pattern": "^[a-z0-9-]*$",
+          "maxLength": 32
+        },
         "github": {
           "type": "string",
           "title": "github",
@@ -242,6 +248,9 @@
               "type": "boolean"
             },
             "hideAbstain": {
+              "type": "boolean"
+            },
+            "aliased": {
               "type": "boolean"
             },
             "privacy": {
