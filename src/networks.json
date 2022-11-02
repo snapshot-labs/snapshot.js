@@ -1492,7 +1492,7 @@
   },
   "71401": {
     "key": "71401",
-    "name": "GodwokenV1 Testnet",
+    "name": "Godwoken V1 Testnet",
     "chainId": 71401,
     "network": "testnet",
     "testnet": true,
@@ -1511,7 +1511,7 @@
   },
   "71402": {
     "key": "71402",
-    "name": "GodwokenV1",
+    "name": "Godwoken V1",
     "chainId": 71402,
     "network": "mainnet",
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
