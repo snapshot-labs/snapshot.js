@@ -113,7 +113,7 @@ export default class Client {
     const isShutter = message?.privacy === 'shutter';
     if (!message.reason) message.reason = '';
     if (!message.app) message.app = '';
-    if (!message.metadata) message.metadata = '';
+    if (!message.metadata) message.metadata = '{}';
     const type2 = message.proposal.startsWith('0x');
     let type = type2 ? vote2Types : voteTypes;
     if (['approval', 'ranked-choice'].includes(message.type))
