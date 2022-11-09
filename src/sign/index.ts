@@ -113,6 +113,7 @@ export default class Client {
     const isShutter = message?.privacy === 'shutter';
     if (!message.reason) message.reason = '';
     if (!message.app) message.app = '';
+    if (!message.metadata) message.metadata = '';
     const type2 = message.proposal.startsWith('0x');
     let type = type2 ? vote2Types : voteTypes;
     if (['approval', 'ranked-choice'].includes(message.type))
@@ -123,6 +124,7 @@ export default class Client {
     }
     if (isShutter) type = type2 ? voteString2Types : voteStringTypes;
     delete message.privacy;
+    // @ts-ignore
     delete message.type;
     return await this.sign(web3, address, message, type);
   }
