@@ -10,7 +10,7 @@ export default function getProvider(network) {
   const url = `https://brovider.xyz/${network}`;
   if (!providers[network])
     providers[network] = new StaticJsonRpcProvider(
-      { url, timeout: 25000 },
+      { url, timeout: 45000 },
       Number(network)
     );
   return providers[network];
@@ -21,7 +21,7 @@ export function getBatchedProvider(network) {
   if (!batchedProviders[network])
     batchedProviders[network] = new JsonRpcBatchProvider({
       url,
-      timeout: 25000
+      timeout: 45000
     });
   return batchedProviders[network];
 }
