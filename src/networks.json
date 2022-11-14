@@ -1426,6 +1426,21 @@
     "start": 62,
     "logo": "ipfs://QmZNkpVgPbuVbDcsi6arwH1om3456FGnwfDqYQJWUfHDEx"
   },
+  "55555": {
+    "key": "55555",
+    "name": "REI Chain Mainnet",
+    "chainId": 55555,
+    "network": "mainnet",
+    "multicall": "0x5CCBA81867AE1F9d470a9514fb9B175E84D47979",
+    "rpc": [
+      "https://rei-rpc.moonrhythm.io"
+    ],
+    "explorer": {
+      "url": "https://reiscan.com/"
+    },
+    "start": 45727,
+    "logo": "ipfs://QmNy5d5knHVjJJS9g4kLsh9i73RTjckpKL6KZvRk6ptbhf"
+  },
   "60001": {
     "key": "60001",
     "name": "Thinkium Testnet Chain 1",
