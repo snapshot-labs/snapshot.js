@@ -22,14 +22,20 @@
         },
         "guidelines": {
           "type": "string",
+          "format": "customUrl",
           "title": "guidelines",
+          "maxLength": 256
+        },
+        "template": {
+          "type": "string",
+          "title": "template",
           "maxLength": 1024
         },
         "terms": {
           "type": "string",
           "title": "terms",
-          "format": "uri",
-          "maxLength": 128
+          "format": "customUrl",
+          "maxLength": 256
         },
         "avatar": {
           "type": "string",
@@ -45,8 +51,8 @@
         "website": {
           "type": "string",
           "title": "website",
-          "format": "url",
-          "maxLength": 128
+          "format": "customUrl",
+          "maxLength": 256
         },
         "twitter": {
           "type": "string",
@@ -255,10 +261,7 @@
             },
             "privacy": {
               "type": "string",
-              "enum": [
-                "",
-                "shutter"
-              ]
+              "enum": ["", "shutter"]
             }
           },
           "additionalProperties": false
