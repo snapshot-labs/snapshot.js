@@ -121,7 +121,7 @@ export default class QuadraticVoting {
             .reduce((a, b: any) => a + b, 0)
         )
       )
-      .map((arr) => arr.map((res) => [res * res]));
+      .map((arr) => arr.map((num) => [calcSquare(num)]));
 
     const reducedQuadraticScores = quadraticScoresByStrategy.map((_, i) => {
       const percentagesOfScores = this.strategies.map((_, sI) =>
