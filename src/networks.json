@@ -1848,5 +1848,21 @@
     },
     "start": 2560501,
     "logo": "ipfs://QmXqprM1TPafQFLirQ7dMPMgou1hoUGuCvHYSWU9g8ocv8"
+  },
+  "813": {
+    "key": "813",
+    "name": "Qitmeer Mainnet",
+    "shortName": "MEER",
+    "chainId": 813,
+    "network": "mainnet",
+    "multicall": "0x55034b2cF530ae3A8fC1e2e4523F58496796610F",
+    "rpc": [
+      "https://evm-dataseed1.meerscan.com"
+    ],
+    "explorer": {
+      "url": "https://evm.meerscan.io"
+    },
+    "start": 43317,
+    "logo": "ipfs://QmXvum7SNVaAqAc2jNzR1NpNZN1GGvNaKWydg8a1GEDQ7y"
   }
 }
