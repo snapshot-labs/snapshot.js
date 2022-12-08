@@ -46,6 +46,7 @@ export interface Vote {
   privacy?: string;
   reason?: string;
   app?: string;
+  metadata?: string;
 }
 
 export interface Follow {
@@ -158,7 +159,8 @@ export const voteTypes = {
     { name: 'proposal', type: 'string' },
     { name: 'choice', type: 'uint32' },
     { name: 'reason', type: 'string' },
-    { name: 'app', type: 'string' }
+    { name: 'app', type: 'string' },
+    { name: 'metadata', type: 'string' }
   ]
 };
 
@@ -170,7 +172,8 @@ export const voteArrayTypes = {
     { name: 'proposal', type: 'string' },
     { name: 'choice', type: 'uint32[]' },
     { name: 'reason', type: 'string' },
-    { name: 'app', type: 'string' }
+    { name: 'app', type: 'string' },
+    { name: 'metadata', type: 'string' }
   ]
 };
 
@@ -182,7 +185,8 @@ export const voteStringTypes = {
     { name: 'proposal', type: 'string' },
     { name: 'choice', type: 'string' },
     { name: 'reason', type: 'string' },
-    { name: 'app', type: 'string' }
+    { name: 'app', type: 'string' },
+    { name: 'metadata', type: 'string' }
   ]
 };
 
@@ -194,7 +198,8 @@ export const vote2Types = {
     { name: 'proposal', type: 'bytes32' },
     { name: 'choice', type: 'uint32' },
     { name: 'reason', type: 'string' },
-    { name: 'app', type: 'string' }
+    { name: 'app', type: 'string' },
+    { name: 'metadata', type: 'string' }
   ]
 };
 
@@ -206,7 +211,8 @@ export const voteArray2Types = {
     { name: 'proposal', type: 'bytes32' },
     { name: 'choice', type: 'uint32[]' },
     { name: 'reason', type: 'string' },
-    { name: 'app', type: 'string' }
+    { name: 'app', type: 'string' },
+    { name: 'metadata', type: 'string' }
   ]
 };
 
@@ -218,7 +224,8 @@ export const voteString2Types = {
     { name: 'proposal', type: 'bytes32' },
     { name: 'choice', type: 'string' },
     { name: 'reason', type: 'string' },
-    { name: 'app', type: 'string' }
+    { name: 'app', type: 'string' },
+    { name: 'metadata', type: 'string' }
   ]
 };
 
