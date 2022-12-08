@@ -1252,7 +1252,6 @@
     "shortName": "Canto",
     "chainId": 7700,
     "network": "mainnet",
-    "testnet": false,
     "multicall": "0x9787792A1020B00fb65191754c3D87c89Bf36444",
     "rpc": [
       "https://canto.neobase.one"
