@@ -1246,6 +1246,22 @@
     "start": 3673983,
     "logo": "ipfs://QmUkFZC2ZmoYPTKf7AHdjwRPZoV2h1MCuHaGM4iu8SNFpi"
   },
+  "7700": {
+    "key": "7700",
+    "name": "Canto",
+    "shortName": "Canto",
+    "chainId": 7700,
+    "network": "mainnet",
+    "multicall": "0x9787792A1020B00fb65191754c3D87c89Bf36444",
+    "rpc": [
+      "https://canto.neobase.one"
+    ],
+    "explorer": {
+      "url": "https://evm.explorer.canto.io"
+    },
+    "start": 1683285,
+    "logo": "ipfs://QmVh5XRi7xN4UNw7SNKpEhjF1TsPXJnRyNkB4EuMVTVCB6"
+  },
   "10000": {
     "key": "10000",
     "name": "smartBCH",
