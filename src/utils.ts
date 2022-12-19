@@ -108,7 +108,7 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
     );
   }
   const { data } = responseData;
-  return data;
+  return data || {};
 }
 
 export function getUrl(uri, gateway = gateways[0]) {
