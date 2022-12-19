@@ -1891,9 +1891,6 @@
     "rpc": [
       "https://eth.bd.evmos.org:8545",
       "https://evmos-mainnet.public.blastapi.io",
-      "https://evmos-evm.publicnode.com",
-      "https://evmos-mainnet.gateway.pokt.network/v1/lb/627586ddea1b320039c95205",
-      "https://json-rpc.evmos.blockhunters.org",
       "https://evmos-json-rpc.stakely.io"
     ],
     "explorer": {
