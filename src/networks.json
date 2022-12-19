@@ -1517,7 +1517,7 @@
       "https://godwoken-testnet-v1.ckbapp.dev"
     ],
     "ws": [
-      "wss://godwoken-testnet-v1.ckbapp.dev/ws" 
+      "wss://godwoken-testnet-v1.ckbapp.dev/ws"
     ],
     "explorer": {
       "url": "https://gw-explorer.nervosdao.community"
@@ -1880,5 +1880,26 @@
     },
     "start": 43317,
     "logo": "ipfs://QmXvum7SNVaAqAc2jNzR1NpNZN1GGvNaKWydg8a1GEDQ7y"
+  },
+  "9001": {
+    "key": "9001",
+    "name": "Evmos Mainnet",
+    "shortName": "EVMOS",
+    "chainId": 9001,
+    "network": "mainnet",
+    "multicall": "0x2764b262E60D3Ac96999F7e73b0628B09CbB367E",
+    "rpc": [
+      "https://eth.bd.evmos.org:8545",
+      "https://evmos-mainnet.public.blastapi.io",
+      "https://evmos-evm.publicnode.com",
+      "https://evmos-mainnet.gateway.pokt.network/v1/lb/627586ddea1b320039c95205",
+      "https://json-rpc.evmos.blockhunters.org",
+      "https://evmos-json-rpc.stakely.io"
+    ],
+    "explorer": {
+      "url": "https://escan.live"
+    },
+    "start": 8791997,
+    "logo": "ipfs://QmSAuJKD9dxbFdiVGqgBt21kRZw2gGxS2UahgnQBEYwFNf"
   }
 }
