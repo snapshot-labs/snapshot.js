@@ -1889,7 +1889,9 @@
     "network": "mainnet",
     "multicall": "0x2764b262E60D3Ac96999F7e73b0628B09CbB367E",
     "rpc": [
-      "http://cluster2.bd.evmos.org"
+      "https://eth.bd.evmos.org:8545",
+      "https://evmos-mainnet.public.blastapi.io",
+      "https://evmos-json-rpc.stakely.io"
     ],
     "explorer": {
       "url": "http://blockscout.evmos.org"
