@@ -1144,6 +1144,22 @@
     "start": 19454413,
     "logo": "ipfs://bafkreihh4y35xgshx7wbf7a2xj35do55f7lj4nhxqxtt5nqoohoojdvkki"
   },
+  "2152": {
+    "key": "2152",
+    "name": "Findora Mainnet",
+    "shortName": "Findora",
+    "chainId": 2152,
+    "network": "mainnet",
+    "multicall": "0x319E6CCaA89C3dCe65946E759a32a09531E6b72f",
+    "rpc": [
+      "http://archive.prod.findora.org:8545/"
+    ],
+    "explorer": {
+      "url": "https://evm.findorascan.io"
+    },
+    "start": 3378569,
+    "logo": "ipfs://QmQpqPYEBgGGCoM46sCh2kgVQ5BYrM1JryLXkXMrNtE74S"
+  },
   "4689": {
     "key": "4689",
     "name": "IoTeX Mainnet",
