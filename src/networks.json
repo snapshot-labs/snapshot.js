@@ -1880,5 +1880,21 @@
     },
     "start": 43317,
     "logo": "ipfs://QmXvum7SNVaAqAc2jNzR1NpNZN1GGvNaKWydg8a1GEDQ7y"
+  },
+  "5001": {
+    "key": "5001",
+    "name": "Mantle Testnet",
+    "shortName": "MANTLETEST",
+    "chainId": 5001,
+    "network": "testnet",
+    "multicall": "0xA70bD0f369C776B2774FD3C0949DCb5251fC3b79",
+    "rpc": [
+      "https://rpc.testnet.mantle.xyz"
+    ],
+    "explorer": {
+      "url": "https://explorer.testnet.mantle.xyz"
+    },
+    "start": 7923,
+    "logo": "ipfs://QmP8GcLxRXgEKkHbGtLXvDLUZ9cdLtxLPoLfPr1LeCF4vY"
   }
 }
