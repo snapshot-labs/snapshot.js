@@ -1885,6 +1885,7 @@
     "key": "5001",
     "name": "Mantle Testnet",
     "shortName": "MANTLETEST",
+    "testnet": true,
     "chainId": 5001,
     "network": "testnet",
     "multicall": "0xA70bD0f369C776B2774FD3C0949DCb5251fC3b79",
