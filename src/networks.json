@@ -1144,21 +1144,21 @@
     "start": 19454413,
     "logo": "ipfs://bafkreihh4y35xgshx7wbf7a2xj35do55f7lj4nhxqxtt5nqoohoojdvkki"
   },
-  "2152": {
-    "key": "2152",
-    "name": "Findora Mainnet",
-    "shortName": "Findora",
-    "chainId": 2152,
+  "2109": {
+    "key": "2109",
+    "name": "Exosama Network",
+    "shortName": "EXN",
+    "chainId": 2109,
     "network": "mainnet",
-    "multicall": "0x319E6CCaA89C3dCe65946E759a32a09531E6b72f",
+    "multicall": "0x2feFC828e2fEfdE0C9f7740919c6A9139F886067",
     "rpc": [
-      "http://archive.prod.findora.org:8545/"
+      "https://rpc.exosama.com"
     ],
     "explorer": {
-      "url": "https://evm.findorascan.io"
+      "url": "https://explorer.exosama.com"
     },
-    "start": 3378569,
-    "logo": "ipfs://QmQpqPYEBgGGCoM46sCh2kgVQ5BYrM1JryLXkXMrNtE74S"
+    "start": 94085,
+    "logo": "ipfs://QmaQxfwpXYTomUd24PMx5tKjosupXcm99z1jL1XLq9LWBS"
   },
   "4689": {
     "key": "4689",
