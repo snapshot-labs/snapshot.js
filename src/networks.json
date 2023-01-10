@@ -1168,7 +1168,7 @@
     "network": "mainnet",
     "multicall": "0x319E6CCaA89C3dCe65946E759a32a09531E6b72f",
     "rpc": [
-      "http://archive.prod.findora.org:8545/"
+      "https://archive.prod.findora.org:8545/"
     ],
     "explorer": {
       "url": "https://evm.findorascan.io"
