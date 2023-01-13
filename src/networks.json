@@ -1905,7 +1905,7 @@
     "network": "testnet",
     "multicall": "0xBd186aca63bD4f5f4eC9E98028461A6A94ac4a12",
     "rpc": [
-      "http://3.217.34.129:8545"
+      "https://devnet.cascadia.foundation"
     ],
     "explorer": {
       "url": "https://explorer.cascadia.foundation"
