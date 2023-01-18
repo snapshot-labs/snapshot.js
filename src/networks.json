@@ -1912,5 +1912,22 @@
     },
     "start": 43317,
     "logo": "ipfs://QmXvum7SNVaAqAc2jNzR1NpNZN1GGvNaKWydg8a1GEDQ7y"
+  },
+  "9000": {
+    "key": "9000",
+    "name": "Cascadia Testnet",
+    "shortName": "Cascadia",
+    "chainId": 9000,
+    "network": "testnet",
+    "multicall": "0xBd186aca63bD4f5f4eC9E98028461A6A94ac4a12",
+    "rpc": [
+      "https://devnet.cascadia.foundation"
+    ],
+    "explorer": {
+      "url": "https://explorer.cascadia.foundation"
+    },
+    "start": 694000,
+    "logo": "ipfs://QmRgv8ckPdzwHKehJphKDcE3rfuNQaJzjSWq2nuVTTMepZ"
   }
 }
+
