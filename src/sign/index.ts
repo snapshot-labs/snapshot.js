@@ -11,6 +11,8 @@ import {
   Unfollow,
   Subscribe,
   Unsubscribe,
+  Webhook,
+  RemoveWebhook,
   Profile,
   Alias,
   spaceTypes,
@@ -27,6 +29,8 @@ import {
   subscribeTypes,
   unfollowTypes,
   unsubscribeTypes,
+  webhookTypes,
+  removeWebhookTypes,
   profileTypes,
   aliasTypes,
   deleteSpaceType,
@@ -64,7 +68,12 @@ export default class Client {
   }
 
   async send(envelop) {
-    const url = `${this.address}/api/msg`;
+    const webhookAction = Object.keys(envelop.data.types).filter((key) =>
+      ['Webhook', 'RemoveWebhook'].includes(key)
+    ).length;
+    const url = webhookAction
+      ? `${this.address}/api/subscribers`
+      : `${this.address}/api/msg`;
     const init = {
       method: 'POST',
       headers: {
@@ -157,6 +166,22 @@ export default class Client {
     message: Unsubscribe
   ) {
     return await this.sign(web3, address, message, unsubscribeTypes);
+  }
+
+  async webhook(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: Webhook
+  ) {
+    return await this.sign(web3, address, message, webhookTypes);
+  }
+
+  async removeWebhook(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: RemoveWebhook
+  ) {
+    return await this.sign(web3, address, message, removeWebhookTypes);
   }
 
   async profile(
