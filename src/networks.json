@@ -1013,6 +1013,22 @@
     "start": 451,
     "logo": "ipfs://QmYeskHqrEvWHqeAuqett64LxfH52HUXZi2T9BAMmgKvBF"
   },
+  "1234": {
+    "key": "1234",
+    "name": "Step Network",
+    "shortName": "stepnetwork",
+    "chainId": 1234,
+    "network": "mainnet",
+    "multicall": "0x176CcFFbAB792Aaa0da7C430FE20a7106d969f66",
+    "rpc": [
+      "https://rpc.step.network"
+    ],
+    "explorer": {
+      "url": "https://stepscan.io"
+    },
+    "start": 22,
+    "logo": "ipfs://QmUj734i8ggjnKhaoA346cA7rEuE5GkV4aDXQ1EKaQWdEF"
+  },
   "1284": {
     "key": "1284",
     "name": "Moonbeam",
@@ -1533,7 +1549,7 @@
       "https://godwoken-testnet-v1.ckbapp.dev"
     ],
     "ws": [
-      "wss://godwoken-testnet-v1.ckbapp.dev/ws" 
+      "wss://godwoken-testnet-v1.ckbapp.dev/ws"
     ],
     "explorer": {
       "url": "https://gw-explorer.nervosdao.community"
