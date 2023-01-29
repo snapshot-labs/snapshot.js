@@ -47,8 +47,11 @@ export default class Client {
   readonly address: string;
 
   constructor(address: string = constants.livenet.sequencer) {
-    address.replace('https://hub.snapshot.org', constants.livenet.sequencer);
-    address.replace(
+    address = address.replace(
+      'https://hub.snapshot.org',
+      constants.livenet.sequencer
+    );
+    address = address.replace(
       'https://testnet.snapshot.org',
       constants.testnet.sequencer
     );
