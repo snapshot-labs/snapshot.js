@@ -1013,6 +1013,22 @@
     "start": 451,
     "logo": "ipfs://QmYeskHqrEvWHqeAuqett64LxfH52HUXZi2T9BAMmgKvBF"
   },
+  "1234": {
+    "key": "1234",
+    "name": "Step Network",
+    "shortName": "stepnetwork",
+    "chainId": 1234,
+    "network": "mainnet",
+    "multicall": "0x176CcFFbAB792Aaa0da7C430FE20a7106d969f66",
+    "rpc": [
+      "https://rpc.step.network"
+    ],
+    "explorer": {
+      "url": "https://stepscan.io"
+    },
+    "start": 22,
+    "logo": "ipfs://QmUj734i8ggjnKhaoA346cA7rEuE5GkV4aDXQ1EKaQWdEF"
+  },
   "1284": {
     "key": "1284",
     "name": "Moonbeam",
@@ -1143,6 +1159,22 @@
     },
     "start": 19454413,
     "logo": "ipfs://bafkreihh4y35xgshx7wbf7a2xj35do55f7lj4nhxqxtt5nqoohoojdvkki"
+  },
+  "2109": {
+    "key": "2109",
+    "name": "Exosama Network",
+    "shortName": "EXN",
+    "chainId": 2109,
+    "network": "mainnet",
+    "multicall": "0x2feFC828e2fEfdE0C9f7740919c6A9139F886067",
+    "rpc": [
+      "https://rpc.exosama.com"
+    ],
+    "explorer": {
+      "url": "https://explorer.exosama.com"
+    },
+    "start": 94085,
+    "logo": "ipfs://QmaQxfwpXYTomUd24PMx5tKjosupXcm99z1jL1XLq9LWBS"
   },
   "4689": {
     "key": "4689",
@@ -1517,7 +1549,7 @@
       "https://godwoken-testnet-v1.ckbapp.dev"
     ],
     "ws": [
-      "wss://godwoken-testnet-v1.ckbapp.dev/ws" 
+      "wss://godwoken-testnet-v1.ckbapp.dev/ws"
     ],
     "explorer": {
       "url": "https://gw-explorer.nervosdao.community"
@@ -1880,5 +1912,22 @@
     },
     "start": 43317,
     "logo": "ipfs://QmXvum7SNVaAqAc2jNzR1NpNZN1GGvNaKWydg8a1GEDQ7y"
+  },
+  "9000": {
+    "key": "9000",
+    "name": "Cascadia Testnet",
+    "shortName": "Cascadia",
+    "chainId": 9000,
+    "network": "testnet",
+    "multicall": "0xBd186aca63bD4f5f4eC9E98028461A6A94ac4a12",
+    "rpc": [
+      "https://devnet.cascadia.foundation"
+    ],
+    "explorer": {
+      "url": "https://explorer.cascadia.foundation"
+    },
+    "start": 694000,
+    "logo": "ipfs://QmRgv8ckPdzwHKehJphKDcE3rfuNQaJzjSWq2nuVTTMepZ"
   }
 }
+

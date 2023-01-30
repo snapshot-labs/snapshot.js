@@ -32,7 +32,7 @@ import {
   deleteSpaceType,
   DeleteSpace
 } from './types';
-import hubs from '../hubs.json';
+import constants from '../constants.json';
 
 const NAME = 'snapshot';
 const VERSION = '0.1.4';
@@ -46,7 +46,15 @@ export const domain = {
 export default class Client {
   readonly address: string;
 
-  constructor(address: string = hubs[0]) {
+  constructor(address: string = constants.livenet.sequencer) {
+    address = address.replace(
+      'https://hub.snapshot.org',
+      constants.livenet.sequencer
+    );
+    address = address.replace(
+      'https://testnet.snapshot.org',
+      constants.testnet.sequencer
+    );
     this.address = address;
   }
 
@@ -64,7 +72,6 @@ export default class Client {
   }
 
   async send(envelop) {
-    const url = `${this.address}/api/msg`;
     const init = {
       method: 'POST',
       headers: {
@@ -74,7 +81,7 @@ export default class Client {
       body: JSON.stringify(envelop)
     };
     return new Promise((resolve, reject) => {
-      fetch(url, init)
+      fetch(this.address, init)
         .then((res) => {
           if (res.ok) return resolve(res.json());
           throw res;
