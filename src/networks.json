@@ -941,6 +941,25 @@
     "start": 1335512,
     "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
   },
+  "647": {
+    "key": "647",
+    "name": "SX Network Testnet",
+    "shortName": "647",
+    "chainId": 647,
+    "network": "testnet",
+    "multicall": "0x750e0f8efD3c3cF41c4D8BB0355d659bCbc75dB9",
+    "rpc": [
+      "https://rpc.toronto.sx.technology"
+    ],
+    "ws": [
+      "wss://rpc.toronto.sx.technology/ws"
+    ],
+    "explorer": {
+      "url": "https://explorer.toronto.sx.technology"
+    },
+    "start": 14441039,
+    "logo": "ipfs://QmSXLXqyr2H6Ja5XrmznXbWTEvF2gFaL8RXNXgyLmDHjAF"
+  },
   "888": {
     "key": "888",
     "name": "Wanchain",
