@@ -301,6 +301,7 @@ export async function getSpaceUri(
   try {
     return await getEnsTextRecord(id, 'snapshot', network);
   } catch (e) {
+    console.log(e);
     return null;
   }
 }
