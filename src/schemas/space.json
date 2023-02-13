@@ -150,6 +150,18 @@
           "title": "admins",
           "uniqueItems": true
         },
+        "moderators": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "minLength": 42,
+            "maxLength": 42
+          },
+          "title": "admins",
+          "uniqueItems": true
+        },
         "filters": {
           "type": "object",
           "properties": {
