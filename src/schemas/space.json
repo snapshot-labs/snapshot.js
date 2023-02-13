@@ -159,7 +159,7 @@
             "minLength": 42,
             "maxLength": 42
           },
-          "title": "admins",
+          "title": "moderators",
           "uniqueItems": true
         },
         "filters": {
