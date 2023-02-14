@@ -941,6 +941,26 @@
     "start": 1335512,
     "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
   },
+  "647": {
+    "key": "647",
+    "name": "SX Network Testnet",
+    "shortName": "647",
+    "chainId": 647,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x750e0f8efD3c3cF41c4D8BB0355d659bCbc75dB9",
+    "rpc": [
+      "https://rpc.toronto.sx.technology"
+    ],
+    "ws": [
+      "wss://rpc.toronto.sx.technology/ws"
+    ],
+    "explorer": {
+      "url": "https://explorer.toronto.sx.technology"
+    },
+    "start": 14441039,
+    "logo": "ipfs://QmSXLXqyr2H6Ja5XrmznXbWTEvF2gFaL8RXNXgyLmDHjAF"
+  },
   "888": {
     "key": "888",
     "name": "Wanchain",
@@ -1342,6 +1362,43 @@
     },
     "start": 79516,
     "logo": "ipfs://QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
+  },
+  "16718": {
+    "key": "16718",
+    "name": "AirDAO Mainnet",
+    "chainId": 16718,
+    "network": "mainnet",
+    "multicall": "0x25e81aC81A8B03389D78CB45faB78353aB528574",
+    "rpc": [
+      "https://network-archive.ambrosus.io"
+    ],
+    "ws": [
+      "wss://network-archive.ambrosus.io/ws"
+    ],
+    "explorer": {
+      "url": "https://airdao.io/explorer"
+    },
+    "start": 22922566,
+    "logo": "ipfs://QmSxXjvWng3Diz4YwXDV2VqSPgMyzLYBNfkjJcr7rzkxom"
+  },
+  "22040": {
+    "key": "22040",
+    "name": "AirDAO Testnet",
+    "chainId": 22040,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x18f7BFad831D8ED9E16C4cD50D6041dD453Ca1EF",
+    "rpc": [
+      "https://network-archive.ambrosus-test.io"
+    ],
+    "ws": [
+      "wss://network-archive.ambrosus-test.io/ws"
+    ],
+    "explorer": {
+      "url": "https://testnet.airdao.io/explorer"
+    },
+    "start": 3368046,
+    "logo": "ipfs://QmSxXjvWng3Diz4YwXDV2VqSPgMyzLYBNfkjJcr7rzkxom"
   },
   "32659": {
     "key": "32659",
