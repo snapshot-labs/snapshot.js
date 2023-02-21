@@ -306,12 +306,15 @@ export async function getSpaceUri(
   }
 }
 
-export async function getEnsOwner(
-  ens: string,
-  network = '1'
-): Promise<string | null> {
-  const provider = getProvider(network);
-  return provider.resolveName(ens);
+export async function getEnsOwner(ens: string): Promise<string | null> {
+  const registryAddress = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
+  const provider = getProvider('1');
+  const ensRegistry = new Contract(
+    registryAddress,
+    'function owner(bytes32) view returns (address)',
+    provider
+  );
+  return await ensRegistry.owner(ens);
 }
 
 export async function getSpaceController(
@@ -329,7 +332,7 @@ export async function getSpaceController(
     isUriAddress = isAddress(address);
     if (isUriAddress) return address;
   }
-  return await getEnsOwner(id, network);
+  return await getEnsOwner(id);
 }
 
 export async function getDelegatesBySpace(
