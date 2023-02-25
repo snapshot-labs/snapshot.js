@@ -311,7 +311,7 @@ export async function getEnsOwner(ens: string): Promise<string | null> {
   const provider = getProvider('1');
   const ensRegistry = new Contract(
     registryAddress,
-    'function owner(bytes32) view returns (address)',
+   ['function owner(bytes32) view returns (address)'],
     provider
   );
   return await ensRegistry.owner(ens);
