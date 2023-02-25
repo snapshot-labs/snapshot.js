@@ -314,7 +314,8 @@ export async function getEnsOwner(ens: string): Promise<string | null> {
    ['function owner(bytes32) view returns (address)'],
     provider
   );
-  return await ensRegistry.owner(ens);
+  const ensHash = hash(normalize(ens));
+  return await ensRegistry.owner(ensHash);
 }
 
 export async function getSpaceController(
