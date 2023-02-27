@@ -1196,6 +1196,22 @@
     "start": 94085,
     "logo": "ipfs://QmaQxfwpXYTomUd24PMx5tKjosupXcm99z1jL1XLq9LWBS"
   },
+  "2152": {
+    "key": "2152",
+    "name": "Findora Mainnet",
+    "shortName": "Findora",
+    "chainId": 2152,
+    "network": "mainnet",
+    "multicall": "0x319E6CCaA89C3dCe65946E759a32a09531E6b72f",
+    "rpc": [
+      "https://archive.prod.findora.org:8545/"
+    ],
+    "explorer": {
+      "url": "https://evm.findorascan.io"
+    },
+    "start": 3378569,
+    "logo": "ipfs://QmXkneyRB6HbHTHRLCZpZqSsawiyJY7b2kZ2V8ydvKYAgv"
+  },
   "2611": {
     "key": "2611",
     "name": "Redlight Mainnet",
