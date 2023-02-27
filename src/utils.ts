@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
+import { isAddress } from '@ethersproject/address';
 import { hash, normalize } from '@ensdomains/eth-ens-namehash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
@@ -293,12 +294,49 @@ export function getEnsTextRecord(ens: string, record: string, network = '1') {
   return call(provider, ENS_RESOLVER_ABI, [address, 'text', [ensHash, record]]);
 }
 
-export async function getSpaceUri(id, network = '1') {
+export async function getSpaceUri(
+  id: string,
+  network = '1'
+): Promise<string | null> {
   try {
     return await getEnsTextRecord(id, 'snapshot', network);
   } catch (e) {
-    return false;
+    console.log(e);
+    return null;
   }
+}
+
+export async function getEnsOwner(
+  ens: string,
+  network = '1'
+): Promise<string | null> {
+  const registryAddress = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
+  const provider = getProvider(network);
+  const ensRegistry = new Contract(
+    registryAddress,
+    ['function owner(bytes32) view returns (address)'],
+    provider
+  );
+  const ensHash = hash(normalize(ens));
+  return await ensRegistry.owner(ensHash);
+}
+
+export async function getSpaceController(
+  id: string,
+  network = '1'
+): Promise<string | null> {
+  const spaceUri = await getSpaceUri(id, network);
+  if (spaceUri) {
+    let isUriAddress = isAddress(spaceUri);
+    if (isUriAddress) return spaceUri;
+
+    const uriParts = spaceUri.split('/');
+    const position = uriParts.includes('testnet') ? 5 : 4;
+    const address = uriParts[position];
+    isUriAddress = isAddress(address);
+    if (isUriAddress) return address;
+  }
+  return await getEnsOwner(id, network);
 }
 
 export async function getDelegatesBySpace(
@@ -380,6 +418,8 @@ export default {
   validateSchema,
   getEnsTextRecord,
   getSpaceUri,
+  getEnsOwner,
+  getSpaceController,
   getDelegatesBySpace,
   clone,
   sleep,
