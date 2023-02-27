@@ -2007,6 +2007,7 @@
     "name": "Base Goerli Testnet",
     "chainId": 84531,
     "network": "Base",
+    "testnet": true,
     "multicall": "0x0012989E982C2c473e36418384Ab707C72f2B782",
     "rpc": [
       "https://goerli.base.org"
