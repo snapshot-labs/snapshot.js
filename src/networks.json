@@ -2002,6 +2002,22 @@
     "start": 694000,
     "logo": "ipfs://QmRgv8ckPdzwHKehJphKDcE3rfuNQaJzjSWq2nuVTTMepZ"
   },
+  "84531": {
+    "key": "84531",
+    "name": "Base Goerli Testnet",
+    "chainId": 84531,
+    "network": "Base",
+    "testnet": true,
+    "multicall": "0x0012989E982C2c473e36418384Ab707C72f2B782",
+    "rpc": [
+      "https://goerli.base.org"
+    ],
+    "explorer": {
+      "url": "https://goerli.basescan.org/"
+    },
+    "start": 1151797,
+    "logo": "ipfs://QmQqrze3W1uSYWq2cGSYDeDwtjGXohTjWPnQ87EVJGeq2P" 
+  },
   "1116": {
     "key": "1116",
     "name": "Core Chain Mainnet ",
