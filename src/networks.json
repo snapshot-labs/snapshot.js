@@ -2016,6 +2016,22 @@
     },
     "start": 1,
     "logo": "ipfs://QmQqrze3W1uSYWq2cGSYDeDwtjGXohTjWPnQ87EVJGeq2P" 
+  },
+  "1116": {
+    "key": "1116",
+    "name": "Core Chain Mainnet ",
+    "shortName": "Core",
+    "chainId": 1116,
+    "network": "mainnet",
+    "multicall": "0x024f0041b76B598c2A0a75004F8447FaF67BD004",
+    "rpc": [
+      "https://rpc.coredao.org/"
+    ],
+    "explorer": {
+      "url": "https://scan.coredao.org/"
+    },
+    "start": 853908,
+    "logo": "ipfs://QmVctLQ44vhkwejja9DDjDYUdYgVRBEWs242mhd95SeM5q"
   }
 }
 
