@@ -55,6 +55,10 @@ export default class Client {
       'https://testnet.snapshot.org',
       constants.testnet.sequencer
     );
+    address = address.replace(
+      'https://localhost:3000',
+      constants.local.sequencer
+    );
     this.address = address;
   }
 
