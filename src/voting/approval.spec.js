@@ -19,7 +19,7 @@ const example2 = () => {
     [139, 139, 139],
     [125, 125, 125]
   ];
-  const scoresTotal = 1161;
+  const scoresTotal = 1218;
   const votes = example.votes.map((vote) => ({
     choice: vote.choice,
     balance: 3,
@@ -57,7 +57,7 @@ const rndChoices = () => {
     rndNumber(),
     rndNumber()
   ];
-  return Math.random() < 0.9 ? choices : [];
+  return choices;
 };
 
 const votesWithInvalidChoices = () => {
