@@ -1,4 +1,4 @@
-import { QuadraticVote, QuadraticChoice, Strategy } from './types';
+import { QuadraticVote, QuadraticChoice, Strategy, Options } from './types';
 
 export function calcPercentageOfSum(
   part: number,
@@ -35,23 +35,30 @@ export default class QuadraticVoting {
   votes: QuadraticVote[];
   strategies: Strategy[];
   selected: QuadraticChoice;
+  options: Options;
 
   constructor(
     proposal: { choices: string[] },
     votes: QuadraticVote[],
     strategies: Strategy[],
-    selected: QuadraticChoice
+    selected: QuadraticChoice,
+    options: Options = { shutter: false }
   ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
     this.selected = selected;
+    this.options = options;
   }
 
   static isValidChoice(
-    voteChoice: QuadraticChoice,
-    proposalChoices: string[]
+    voteChoice: QuadraticChoice | string,
+    proposalChoices: string[],
+    shutter = false
   ): boolean {
+    if (shutter && typeof voteChoice === 'string' && voteChoice.length > 0) {
+      return true;
+    }
     return (
       typeof voteChoice === 'object' &&
       !Array.isArray(voteChoice) &&
@@ -75,7 +82,11 @@ export default class QuadraticVoting {
 
   getValidVotes(): QuadraticVote[] {
     return this.votes.filter((vote) =>
-      QuadraticVoting.isValidChoice(vote.choice, this.proposal.choices)
+      QuadraticVoting.isValidChoice(
+        vote.choice,
+        this.proposal.choices,
+        this.options.shutter
+      )
     );
   }
 

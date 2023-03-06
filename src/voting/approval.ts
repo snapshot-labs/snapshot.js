@@ -1,27 +1,34 @@
-import { ApprovalVote, Strategy } from './types';
+import { ApprovalVote, Strategy, Options } from './types';
 
 export default class ApprovalVoting {
   proposal: { choices: string[] };
   votes: ApprovalVote[];
   strategies: Strategy[];
   selected: number[];
+  options: Options;
 
   constructor(
     proposal: { choices: string[] },
     votes: ApprovalVote[],
     strategies: Strategy[],
-    selected: number[]
+    selected: number[],
+    options: Options = { shutter: false }
   ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
     this.selected = selected;
+    this.options = options;
   }
 
   static isValidChoice(
-    voteChoice: number[],
-    proposalChoices: string[]
+    voteChoice: number[] | string,
+    proposalChoices: string[],
+    shutter = false
   ): boolean {
+    if (shutter && typeof voteChoice === 'string' && voteChoice.length > 0) {
+      return true;
+    }
     return (
       Array.isArray(voteChoice) &&
       // If voteChoice index is not in proposalChoices, return false
@@ -39,7 +46,11 @@ export default class ApprovalVoting {
     scores: number[];
   }[] {
     return this.votes.filter((vote) =>
-      ApprovalVoting.isValidChoice(vote.choice, this.proposal.choices)
+      ApprovalVoting.isValidChoice(
+        vote.choice,
+        this.proposal.choices,
+        this.options.shutter
+      )
     );
   }
 

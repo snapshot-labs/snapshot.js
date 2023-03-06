@@ -1,24 +1,34 @@
-import { SingleChoiceVote, Strategy } from './types';
+import { SingleChoiceVote, Strategy, Options } from './types';
 
 export default class SingleChoiceVoting {
   proposal: { choices: string[] };
   votes: SingleChoiceVote[];
   strategies: Strategy[];
   selected: number;
+  options: Options;
 
   constructor(
     proposal: { choices: string[] },
     votes: SingleChoiceVote[],
     strategies: Strategy[],
-    selected: number
+    selected: number,
+    options: Options = { shutter: false }
   ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
     this.selected = selected;
+    this.options = options;
   }
 
-  static isValidChoice(voteChoice: number, proposalChoices: string[]): boolean {
+  static isValidChoice(
+    voteChoice: number | string,
+    proposalChoices: string[],
+    shutter = false
+  ): boolean {
+    if (shutter && typeof voteChoice === 'string' && voteChoice.length > 0) {
+      return true;
+    }
     return (
       typeof voteChoice === 'number' &&
       proposalChoices?.[voteChoice - 1] !== undefined
@@ -27,7 +37,11 @@ export default class SingleChoiceVoting {
 
   getValidVotes(): SingleChoiceVote[] {
     return this.votes.filter((vote) =>
-      SingleChoiceVoting.isValidChoice(vote.choice, this.proposal.choices)
+      SingleChoiceVoting.isValidChoice(
+        vote.choice,
+        this.proposal.choices,
+        this.options.shutter
+      )
     );
   }
 

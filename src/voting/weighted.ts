@@ -1,4 +1,4 @@
-import { WeightedVote, Strategy } from './types';
+import { WeightedVote, Strategy, Options } from './types';
 
 export function percentageOfTotal(i, values, total): number {
   const reducedTotal: any = total.reduce((a: any, b: any) => a + b, 0);
@@ -17,23 +17,30 @@ export default class WeightedVoting {
   votes: WeightedVote[];
   strategies: Strategy[];
   selected: { [key: string]: number };
+  options: Options;
 
   constructor(
     proposal: { choices: string[] },
     votes: WeightedVote[],
     strategies: Strategy[],
-    selected: { [key: string]: number }
+    selected: { [key: string]: number },
+    options: Options = { shutter: false }
   ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
     this.selected = selected;
+    this.options = options;
   }
 
   static isValidChoice(
-    voteChoice: { [key: string]: number },
-    proposalChoices: string[]
+    voteChoice: { [key: string]: number } | string,
+    proposalChoices: string[],
+    shutter = false
   ): boolean {
+    if (shutter && typeof voteChoice === 'string' && voteChoice.length > 0) {
+      return true;
+    }
     return (
       typeof voteChoice === 'object' &&
       !Array.isArray(voteChoice) &&

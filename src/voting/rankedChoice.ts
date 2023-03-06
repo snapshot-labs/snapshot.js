@@ -1,5 +1,5 @@
 import { getNumberWithOrdinal } from '../utils';
-import { RankedChoiceVote, Strategy } from './types';
+import { RankedChoiceVote, Strategy, Options } from './types';
 
 function irv(
   ballots: (number | number[])[][],
@@ -82,23 +82,30 @@ export default class RankedChoiceVoting {
   votes: RankedChoiceVote[];
   strategies: Strategy[];
   selected: number[];
+  options: Options;
 
   constructor(
     proposal: { choices: string[] },
     votes: RankedChoiceVote[],
     strategies: Strategy[],
-    selected: number[]
+    selected: number[],
+    options: Options = { shutter: false }
   ) {
     this.proposal = proposal;
     this.votes = votes;
     this.strategies = strategies;
     this.selected = selected;
+    this.options = options;
   }
 
   static isValidChoice(
-    voteChoice: number[],
-    proposalChoices: string[]
+    voteChoice: number[] | string,
+    proposalChoices: string[],
+    shutter = false
   ): boolean {
+    if (shutter && typeof voteChoice === 'string' && voteChoice.length > 0) {
+      return true;
+    }
     return (
       Array.isArray(voteChoice) &&
       // If voteChoice index is not in choices, return false
@@ -117,7 +124,11 @@ export default class RankedChoiceVoting {
 
   getValidVotes(): RankedChoiceVote[] {
     return this.votes.filter((vote) =>
-      RankedChoiceVoting.isValidChoice(vote.choice, this.proposal.choices)
+      RankedChoiceVoting.isValidChoice(
+        vote.choice,
+        this.proposal.choices,
+        this.options.shutter
+      )
     );
   }
 

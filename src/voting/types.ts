@@ -37,3 +37,7 @@ export interface WeightedVote {
   balance: number;
   scores: number[];
 }
+
+export interface Options {
+  shutter: boolean;
+}
