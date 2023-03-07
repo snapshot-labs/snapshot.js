@@ -173,13 +173,6 @@ test.each(getScoresByStrategyTests)(
 
 const getScoresTotalTests = [
   [example.proposal, example.votes, example.strategies, example.scoresTotal],
-  [example.proposal, example.votes, example.strategies, example.scoresTotal],
-  [
-    example2().proposal,
-    example2().votes,
-    example2().strategies,
-    example2().scoresTotal
-  ],
   [
     example2().proposal,
     example2().votes,
