@@ -62,7 +62,7 @@ export default class ApprovalVoting {
   }
 
   getScoresTotal(): number {
-    return this.getValidVotes().reduce((a, b) => a + b.balance, 0);
+    return this.votes.reduce((a, b) => a + b.balance, 0);
   }
 
   getChoiceString(): string {
