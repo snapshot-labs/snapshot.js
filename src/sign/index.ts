@@ -48,13 +48,14 @@ export default class Client {
 
   constructor(address: string = constants.livenet.sequencer) {
     address = address.replace(
-      'https://hub.snapshot.org',
+      constants.livenet.hub,
       constants.livenet.sequencer
     );
     address = address.replace(
-      'https://testnet.snapshot.org',
+      constants.testnet.hub,
       constants.testnet.sequencer
     );
+    address = address.replace(constants.local.hub, constants.local.sequencer);
     this.address = address;
   }
 
