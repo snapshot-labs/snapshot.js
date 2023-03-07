@@ -12,7 +12,7 @@ export default class ApprovalVoting {
     votes: ApprovalVote[],
     strategies: Strategy[],
     selected: number[],
-    options: Options = { shutter: false }
+    options: Options = { encryptedChoice: false }
   ) {
     this.proposal = proposal;
     this.votes = votes;
@@ -24,9 +24,13 @@ export default class ApprovalVoting {
   static isValidChoice(
     voteChoice: number[] | string,
     proposalChoices: string[],
-    shutter = false
+    encryptedChoice = false
   ): boolean {
-    if (shutter && typeof voteChoice === 'string' && voteChoice.length > 0) {
+    if (
+      encryptedChoice &&
+      typeof voteChoice === 'string' &&
+      voteChoice.length > 0
+    ) {
       return true;
     }
     return (
@@ -49,7 +53,7 @@ export default class ApprovalVoting {
       ApprovalVoting.isValidChoice(
         vote.choice,
         this.proposal.choices,
-        this.options.shutter
+        this.options.encryptedChoice
       )
     );
   }

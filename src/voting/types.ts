@@ -39,5 +39,5 @@ export interface WeightedVote {
 }
 
 export interface Options {
-  shutter: boolean;
+  encryptedChoice: boolean;
 }

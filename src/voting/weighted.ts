@@ -24,7 +24,7 @@ export default class WeightedVoting {
     votes: WeightedVote[],
     strategies: Strategy[],
     selected: { [key: string]: number },
-    options: Options = { shutter: false }
+    options: Options = { encryptedChoice: false }
   ) {
     this.proposal = proposal;
     this.votes = votes;
@@ -36,9 +36,13 @@ export default class WeightedVoting {
   static isValidChoice(
     voteChoice: { [key: string]: number } | string,
     proposalChoices: string[],
-    shutter = false
+    encryptedChoice = false
   ): boolean {
-    if (shutter && typeof voteChoice === 'string' && voteChoice.length > 0) {
+    if (
+      encryptedChoice &&
+      typeof voteChoice === 'string' &&
+      voteChoice.length > 0
+    ) {
       return true;
     }
     return (
