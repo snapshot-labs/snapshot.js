@@ -1378,23 +1378,6 @@
     "start": 2446296,
     "logo": "ipfs://QmUkFZC2ZmoYPTKf7AHdjwRPZoV2h1MCuHaGM4iu8SNFpi"
   },
-  "12005": {
-    "key": "12005",
-    "name": "TCG Verse Testnet",
-    "shortName": "TCGV",
-    "chainId": 12005,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x1932480520b480413F083584cD3E2C9ad60375f2",
-    "rpc": [
-      "https://testnet.rpc.tcgverse.xyz"
-    ],
-    "explorer": {
-      "url": "https://testnet.explorer.tcgverse.xyz"
-    },
-    "start": 270,
-    "logo": "ipfs://bafkreidg4wpewve5mdxrofneqblydkrjl3oevtgpdf3fk3z3vjqam6ocoe"
-  },
   "12357": {
     "key": "12357",
     "name": "REI Testnet",
