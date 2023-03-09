@@ -19,7 +19,7 @@ const example2 = () => {
     [139, 139, 139],
     [125, 125, 125]
   ];
-  const scoresTotal = 1161;
+  const scoresTotal = 1218;
   const votes = example.votes.map((vote) => ({
     choice: vote.choice,
     balance: 3,
@@ -57,7 +57,7 @@ const rndChoices = () => {
     rndNumber(),
     rndNumber()
   ];
-  return Math.random() < 0.9 ? choices : [];
+  return choices;
 };
 
 const votesWithInvalidChoices = () => {
@@ -162,20 +162,8 @@ test.each(getScoresByStrategyTests)(
 const getScoresTotalTests = [
   [example.proposal, example.votes, example.strategies, example.scoresTotal],
   [
-    example.proposal,
-    votesWithInvalidChoices(),
-    example.strategies,
-    example.scoresTotal
-  ],
-  [
     example2().proposal,
     example2().votes,
-    example2().strategies,
-    example2().scoresTotal
-  ],
-  [
-    example2().proposal,
-    votesWithInvalidChoices2(),
     example2().strategies,
     example2().scoresTotal
   ]

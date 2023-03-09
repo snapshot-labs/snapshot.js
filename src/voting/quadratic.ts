@@ -81,7 +81,10 @@ export default class QuadraticVoting {
 
   getScores(): number[] {
     const validVotes = this.getValidVotes();
-    const scoresTotal = this.getScoresTotal();
+    const scoresTotal = this.getValidVotes().reduce(
+      (a, b: any) => a + b.balance,
+      0
+    );
 
     const quadraticScores = this.proposal.choices.map((_, i) => {
       const votingPowerSqrt = validVotes
@@ -105,7 +108,10 @@ export default class QuadraticVoting {
 
   getScoresByStrategy(): number[][] {
     const validVotes = this.getValidVotes();
-    const scoresTotal = this.getScoresTotal();
+    const scoresTotal = this.getValidVotes().reduce(
+      (a, b: any) => a + b.balance,
+      0
+    );
 
     const quadraticScoresByStrategy = this.proposal.choices
       .map((_, i) =>
@@ -138,7 +144,7 @@ export default class QuadraticVoting {
   }
 
   getScoresTotal(): number {
-    return this.getValidVotes().reduce((a, b: any) => a + b.balance, 0);
+    return this.votes.reduce((a, b: any) => a + b.balance, 0);
   }
 
   getChoiceString(): string {
