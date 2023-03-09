@@ -1196,6 +1196,22 @@
     "start": 94085,
     "logo": "ipfs://QmaQxfwpXYTomUd24PMx5tKjosupXcm99z1jL1XLq9LWBS"
   },
+  "2400": {
+    "key": "2400",
+    "name": "TCG Verse Mainnet",
+    "shortName": "TCGV",
+    "chainId": 2400,
+    "network": "mainnet",
+    "multicall": "0xceC65DEE0b5012F1b7321b2647681F997c7204FC",
+    "rpc": [
+      "https://rpc.tcgverse.xyz"
+    ],
+    "explorer": {
+      "url": "https://explorer.tcgverse.xyz"
+    },
+    "start": 54248,
+    "logo": "ipfs://bafkreidg4wpewve5mdxrofneqblydkrjl3oevtgpdf3fk3z3vjqam6ocoe"
+  },
   "2611": {
     "key": "2611",
     "name": "Redlight Mainnet",
@@ -1361,6 +1377,23 @@
     },
     "start": 2446296,
     "logo": "ipfs://QmUkFZC2ZmoYPTKf7AHdjwRPZoV2h1MCuHaGM4iu8SNFpi"
+  },
+  "12005": {
+    "key": "12005",
+    "name": "TCG Verse Testnet",
+    "shortName": "TCGV",
+    "chainId": 12005,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x1932480520b480413F083584cD3E2C9ad60375f2",
+    "rpc": [
+      "https://testnet.rpc.tcgverse.xyz"
+    ],
+    "explorer": {
+      "url": "https://testnet.explorer.tcgverse.xyz"
+    },
+    "start": 270,
+    "logo": "ipfs://bafkreidg4wpewve5mdxrofneqblydkrjl3oevtgpdf3fk3z3vjqam6ocoe"
   },
   "12357": {
     "key": "12357",
