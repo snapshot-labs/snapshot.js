@@ -60,7 +60,7 @@ export async function multicall(
   );
   const itf = new Interface(abi);
   try {
-    const max = options?.callsLimit || options?.limit || 500;
+    const max = options?.limit || 500;
     if(options?.limit) delete options.limit;
     const pages = Math.ceil(calls.length / max);
     const promises: any = [];
