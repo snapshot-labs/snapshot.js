@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import { Web3Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
+import { getAddress } from '@ethersproject/address';
 import {
   Space,
   Proposal,
@@ -31,7 +32,7 @@ import {
   deleteSpaceType,
   DeleteSpace
 } from './types';
-import hubs from '../hubs.json';
+import constants from '../constants.json';
 
 const NAME = 'snapshot';
 const VERSION = '0.1.4';
@@ -45,24 +46,33 @@ export const domain = {
 export default class Client {
   readonly address: string;
 
-  constructor(address: string = hubs[0]) {
+  constructor(address: string = constants.livenet.sequencer) {
+    address = address.replace(
+      constants.livenet.hub,
+      constants.livenet.sequencer
+    );
+    address = address.replace(
+      constants.testnet.hub,
+      constants.testnet.sequencer
+    );
+    address = address.replace(constants.local.hub, constants.local.sequencer);
     this.address = address;
   }
 
   async sign(web3: Web3Provider | Wallet, address: string, message, types) {
     // @ts-ignore
     const signer = web3?.getSigner ? web3.getSigner() : web3;
-    if (!message.from) message.from = address;
+    const checksumAddress = getAddress(address);
+    message.from = message.from ? getAddress(message.from) : checksumAddress;
     if (!message.timestamp)
       message.timestamp = parseInt((Date.now() / 1e3).toFixed());
     const data: any = { domain, types, message };
     const sig = await signer._signTypedData(domain, data.types, message);
-    console.log('Sign', { address, sig, data });
-    return await this.send({ address, sig, data });
+    //console.log('Sign', { address: checksumAddress, sig, data });
+    return await this.send({ address: checksumAddress, sig, data });
   }
 
   async send(envelop) {
-    const url = `${this.address}/api/msg`;
     const init = {
       method: 'POST',
       headers: {
@@ -72,7 +82,7 @@ export default class Client {
       body: JSON.stringify(envelop)
     };
     return new Promise((resolve, reject) => {
-      fetch(url, init)
+      fetch(this.address, init)
         .then((res) => {
           if (res.ok) return resolve(res.json());
           throw res;
@@ -110,19 +120,21 @@ export default class Client {
   }
 
   async vote(web3: Web3Provider | Wallet, address: string, message: Vote) {
+    const isShutter = message?.privacy === 'shutter';
     if (!message.reason) message.reason = '';
     if (!message.app) message.app = '';
+    if (!message.metadata) message.metadata = '{}';
     const type2 = message.proposal.startsWith('0x');
     let type = type2 ? vote2Types : voteTypes;
     if (['approval', 'ranked-choice'].includes(message.type))
       type = type2 ? voteArray2Types : voteArrayTypes;
-    if (['quadratic', 'weighted'].includes(message.type)) {
+    if (!isShutter && ['quadratic', 'weighted'].includes(message.type)) {
       type = type2 ? voteString2Types : voteStringTypes;
       message.choice = JSON.stringify(message.choice);
     }
-    if (message?.privacy === 'shutter')
-      type = type2 ? voteString2Types : voteStringTypes;
+    if (isShutter) type = type2 ? voteString2Types : voteStringTypes;
     delete message.privacy;
+    // @ts-ignore
     delete message.type;
     return await this.sign(web3, address, message, type);
   }

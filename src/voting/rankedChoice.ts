@@ -77,6 +77,18 @@ function getFinalRound(
   return finalRound.sortedByHighest;
 }
 
+function getScoresMethod(
+  votes: RankedChoiceVote[],
+  proposal: { choices: string[] }
+) {
+  const finalRound = getFinalRound(votes);
+  return proposal.choices.map((choice, i) =>
+    finalRound
+      .filter((res) => Number(res[0]) === i + 1)
+      .reduce((a, b) => a + b[1][0], 0)
+  );
+}
+
 export default class RankedChoiceVoting {
   proposal: { choices: string[] };
   votes: RankedChoiceVote[];
@@ -122,12 +134,7 @@ export default class RankedChoiceVoting {
   }
 
   getScores(): number[] {
-    const finalRound = getFinalRound(this.getValidVotes());
-    return this.proposal.choices.map((choice, i) =>
-      finalRound
-        .filter((res) => Number(res[0]) === i + 1)
-        .reduce((a, b) => a + b[1][0], 0)
-    );
+    return getScoresMethod(this.getValidVotes(), this.proposal);
   }
 
   getScoresByStrategy(): number[][] {
@@ -142,7 +149,7 @@ export default class RankedChoiceVoting {
   }
 
   getScoresTotal(): number {
-    return this.getScores().reduce((a, b) => a + b);
+    return getScoresMethod(this.votes, this.proposal).reduce((a, b) => a + b);
   }
 
   getChoiceString(): string {

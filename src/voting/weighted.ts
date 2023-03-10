@@ -68,9 +68,14 @@ export default class WeightedVoting {
         .reduce((a, b: any) => a + b, 0)
     );
 
+    const validScoresTotal = this.getValidVotes().reduce(
+      (a, b: any) => a + b.balance,
+      0
+    );
+
     return results
       .map((res, i) => percentageOfTotal(i, results, results))
-      .map((p) => (this.getScoresTotal() / 100) * p);
+      .map((p) => (validScoresTotal / 100) * p);
   }
 
   getScoresByStrategy(): number[][] {
@@ -84,18 +89,23 @@ export default class WeightedVoting {
       )
       .map((arr) => arr.map((pwr) => [pwr]));
 
+    const validScoresTotal = this.getValidVotes().reduce(
+      (a, b: any) => a + b.balance,
+      0
+    );
+
     return results.map((res, i) =>
       this.strategies
         .map((strategy, sI) =>
           percentageOfTotal(0, results[i][sI], results.flat(2))
         )
-        .map((p) => [(this.getScoresTotal() / 100) * p])
+        .map((p) => [(validScoresTotal / 100) * p])
         .flat()
     );
   }
 
   getScoresTotal(): number {
-    return this.getValidVotes().reduce((a, b: any) => a + b.balance, 0);
+    return this.votes.reduce((a, b: any) => a + b.balance, 0);
   }
 
   getChoiceString(): string {

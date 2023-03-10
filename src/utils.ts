@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
+import { isAddress } from '@ethersproject/address';
 import { hash, normalize } from '@ensdomains/eth-ens-namehash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
@@ -95,7 +96,12 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
     },
     body: JSON.stringify({ query: jsonToGraphQLQuery({ query }) })
   });
-  const responseData = await res.json();
+  let responseData: any = await res.text();
+  try {
+    responseData = JSON.parse(responseData);
+  } catch (e) {
+    throw new Error(`Errors found in subgraphRequest: ${url} ${responseData}`);
+  }
   if (responseData.errors) {
     throw new Error(
       'Errors found in subgraphRequest: ' +
@@ -214,7 +220,46 @@ export async function getVp(
     })
   };
   const res = await fetch(options.url, init);
-  return (await res.json()).result;
+  const json = await res.json();
+  if (json.error) return Promise.reject(json.error);
+  if (json.result) return json.result;
+}
+
+export async function validate(
+  validation: string,
+  author: string,
+  space: string,
+  network: string,
+  snapshot: number | 'latest',
+  params: any,
+  options: any
+) {
+  if (!options) options = {};
+  if (!options.url) options.url = 'https://score.snapshot.org';
+  const init = {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      method: 'validate',
+      params: {
+        validation,
+        author,
+        space,
+        network,
+        snapshot,
+        params
+      },
+      id: null
+    })
+  };
+  const res = await fetch(options.url, init);
+  const json = await res.json();
+  if (json.error) return Promise.reject(json.error);
+  return json.result;
 }
 
 export function validateSchema(schema, data) {
@@ -238,9 +283,9 @@ export function validateSchema(schema, data) {
     }
   });
 
-  const validate = ajv.compile(schema);
-  const valid = validate(data);
-  return valid ? valid : validate.errors;
+  const ajvValidate = ajv.compile(schema);
+  const valid = ajvValidate(data);
+  return valid ? valid : ajvValidate.errors;
 }
 
 export function getEnsTextRecord(ens: string, record: string, network = '1') {
@@ -250,13 +295,49 @@ export function getEnsTextRecord(ens: string, record: string, network = '1') {
   return call(provider, ENS_RESOLVER_ABI, [address, 'text', [ensHash, record]]);
 }
 
-export async function getSpaceUri(id, network = '1') {
+export async function getSpaceUri(
+  id: string,
+  network = '1'
+): Promise<string | null> {
   try {
     return await getEnsTextRecord(id, 'snapshot', network);
   } catch (e) {
-    console.log('getSpaceUriFromTextRecord failed', id, e);
+    console.log(e);
+    return null;
   }
-  return false;
+}
+
+export async function getEnsOwner(
+  ens: string,
+  network = '1'
+): Promise<string | null> {
+  const registryAddress = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
+  const provider = getProvider(network);
+  const ensRegistry = new Contract(
+    registryAddress,
+    ['function owner(bytes32) view returns (address)'],
+    provider
+  );
+  const ensHash = hash(normalize(ens));
+  return await ensRegistry.owner(ensHash);
+}
+
+export async function getSpaceController(
+  id: string,
+  network = '1'
+): Promise<string | null> {
+  const spaceUri = await getSpaceUri(id, network);
+  if (spaceUri) {
+    let isUriAddress = isAddress(spaceUri);
+    if (isUriAddress) return spaceUri;
+
+    const uriParts = spaceUri.split('/');
+    const position = uriParts.includes('testnet') ? 5 : 4;
+    const address = uriParts[position];
+    isUriAddress = isAddress(address);
+    if (isUriAddress) return address;
+  }
+  return await getEnsOwner(id, network);
 }
 
 export async function getDelegatesBySpace(
@@ -338,6 +419,8 @@ export default {
   validateSchema,
   getEnsTextRecord,
   getSpaceUri,
+  getEnsOwner,
+  getSpaceController,
   getDelegatesBySpace,
   clone,
   sleep,
@@ -351,5 +434,6 @@ export default {
   validations,
   getHash,
   verify,
+  validate,
   SNAPSHOT_SUBGRAPH_URL
 };

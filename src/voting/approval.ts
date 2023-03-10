@@ -29,9 +29,7 @@ export default class ApprovalVoting {
         (choice) => proposalChoices?.[choice - 1] !== undefined
       ) &&
       // If any voteChoice is duplicated, return false
-      voteChoice.length === new Set(voteChoice).size &&
-      // If voteChoice is empty, return false
-      voteChoice.length > 0
+      voteChoice.length === new Set(voteChoice).size
     );
   }
 
@@ -64,7 +62,7 @@ export default class ApprovalVoting {
   }
 
   getScoresTotal(): number {
-    return this.getValidVotes().reduce((a, b) => a + b.balance, 0);
+    return this.votes.reduce((a, b) => a + b.balance, 0);
   }
 
   getChoiceString(): string {

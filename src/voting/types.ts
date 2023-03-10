@@ -22,8 +22,12 @@ export interface RankedChoiceVote {
   scores: number[];
 }
 
+export interface QuadraticChoice {
+  [key: string]: number;
+}
+
 export interface QuadraticVote {
-  choice: { [key: string]: number };
+  choice: QuadraticChoice;
   balance: number;
   scores: number[];
 }
