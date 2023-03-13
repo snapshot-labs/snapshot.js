@@ -1330,6 +1330,22 @@
     "start": 1683285,
     "logo": "ipfs://QmVh5XRi7xN4UNw7SNKpEhjF1TsPXJnRyNkB4EuMVTVCB6"
   },
+  "9052": {
+    "key": "9052",
+    "name": "Acrechain Mainnet",
+    "shortName": "Acrechain",
+    "chainId": 9052,
+    "network": "mainnet",
+    "multicall": "0x5B614BB4b2939dc4E5EC1399F16c7E78949764CB",
+    "rpc": [
+      "https://evm.acrescan.com"
+    ],
+    "explorer": {
+      "url": "https://acrescout.mindheartsoul.org"
+    },
+    "start": 1690100,
+    "logo": "ipfs://QmbA6CE3G81mm4eDEBUezwcq2qdqEh1zEToG3MbJHirxQt"
+  },  
   "10000": {
     "key": "10000",
     "name": "smartBCH",
