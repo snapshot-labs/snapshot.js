@@ -1780,10 +1780,10 @@
     "network": "testnet",
     "multicall": "0x40643B8Aeaaca0b87Ea1A1E596e64a0e14B1d244",
     "rpc": [
-      "https://baobab.fautor.app/archive"
+      "https://archive-en.baobab.klaytn.net"
     ],
     "ws": [
-      "wss://baobab.fautor.app/archive/ws"
+      "wss://archive-en.baobab.klaytn.net/ws"
     ],
     "explorer": {
       "url": "https://baobab.scope.klaytn.com/"
