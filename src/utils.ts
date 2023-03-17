@@ -9,7 +9,6 @@ import addFormats from 'ajv-formats';
 import Multicaller from './utils/multicaller';
 import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
-import validations from './validations';
 import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
@@ -61,6 +60,7 @@ export async function multicall(
   const itf = new Interface(abi);
   try {
     const max = options?.limit || 500;
+    if(options?.limit) delete options.limit;
     const pages = Math.ceil(calls.length / max);
     const promises: any = [];
     Array.from(Array(pages)).forEach((x, i) => {
@@ -430,7 +430,6 @@ export default {
   getBlockNumber,
   Multicaller,
   getSnapshots,
-  validations,
   getHash,
   verify,
   validate,
