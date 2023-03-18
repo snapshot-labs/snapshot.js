@@ -1196,6 +1196,22 @@
     "start": 94085,
     "logo": "ipfs://QmaQxfwpXYTomUd24PMx5tKjosupXcm99z1jL1XLq9LWBS"
   },
+  "2400": {
+    "key": "2400",
+    "name": "TCG Verse Mainnet",
+    "shortName": "TCGV",
+    "chainId": 2400,
+    "network": "mainnet",
+    "multicall": "0xceC65DEE0b5012F1b7321b2647681F997c7204FC",
+    "rpc": [
+      "https://rpc.tcgverse.xyz"
+    ],
+    "explorer": {
+      "url": "https://explorer.tcgverse.xyz"
+    },
+    "start": 57500,
+    "logo": "ipfs://bafkreidg4wpewve5mdxrofneqblydkrjl3oevtgpdf3fk3z3vjqam6ocoe"
+  },
   "2611": {
     "key": "2611",
     "name": "Redlight Mainnet",
