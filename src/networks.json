@@ -1336,14 +1336,14 @@
     "shortName": "Acrechain",
     "chainId": 9052,
     "network": "mainnet",
-    "multicall": "0x5B614BB4b2939dc4E5EC1399F16c7E78949764CB",
+    "multicall": "0x6D7ce9f27f188cD042b20742DC95b0C75D5667bB",
     "rpc": [
       "https://evm.acrescan.com"
     ],
     "explorer": {
       "url": "https://acrescout.mindheartsoul.org"
     },
-    "start": 1690100,
+    "start": 1759024,
     "logo": "ipfs://QmbA6CE3G81mm4eDEBUezwcq2qdqEh1zEToG3MbJHirxQt"
   },  
   "10000": {
