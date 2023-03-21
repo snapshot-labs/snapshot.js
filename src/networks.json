@@ -1212,6 +1212,22 @@
     "start": 3378569,
     "logo": "ipfs://QmXkneyRB6HbHTHRLCZpZqSsawiyJY7b2kZ2V8ydvKYAgv"
   },
+  "2400": {
+    "key": "2400",
+    "name": "TCG Verse Mainnet",
+    "shortName": "TCGV",
+    "chainId": 2400,
+    "network": "mainnet",
+    "multicall": "0xceC65DEE0b5012F1b7321b2647681F997c7204FC",
+    "rpc": [
+      "https://rpc.tcgverse.xyz"
+    ],
+    "explorer": {
+      "url": "https://explorer.tcgverse.xyz"
+    },
+    "start": 57500,
+    "logo": "ipfs://bafkreidg4wpewve5mdxrofneqblydkrjl3oevtgpdf3fk3z3vjqam6ocoe"
+  },
   "2611": {
     "key": "2611",
     "name": "Redlight Mainnet",
@@ -1346,6 +1362,22 @@
     "start": 1683285,
     "logo": "ipfs://QmVh5XRi7xN4UNw7SNKpEhjF1TsPXJnRyNkB4EuMVTVCB6"
   },
+  "9052": {
+    "key": "9052",
+    "name": "Acrechain Mainnet",
+    "shortName": "Acrechain",
+    "chainId": 9052,
+    "network": "mainnet",
+    "multicall": "0x6D7ce9f27f188cD042b20742DC95b0C75D5667bB",
+    "rpc": [
+      "https://evm.acrescan.com"
+    ],
+    "explorer": {
+      "url": "https://acrescout.mindheartsoul.org"
+    },
+    "start": 1759024,
+    "logo": "ipfs://QmbA6CE3G81mm4eDEBUezwcq2qdqEh1zEToG3MbJHirxQt"
+  },  
   "10000": {
     "key": "10000",
     "name": "smartBCH",
@@ -1796,10 +1828,10 @@
     "network": "testnet",
     "multicall": "0x40643B8Aeaaca0b87Ea1A1E596e64a0e14B1d244",
     "rpc": [
-      "https://baobab.fandom.finance/archive"
+      "https://archive-en.baobab.klaytn.net"
     ],
     "ws": [
-      "wss://baobab.fandom.finance/archive/ws"
+      "wss://archive-en.baobab.klaytn.net/ws"
     ],
     "explorer": {
       "url": "https://baobab.scope.klaytn.com/"
@@ -1829,10 +1861,10 @@
     "network": "mainnet",
     "multicall": "0x5f5f0d1b9ff8b3dcace308e39b13b203354906e9",
     "rpc": [
-      "https://cypress.fandom.finance/archive"
+      "https://archive-en.cypress.klaytn.net"
     ],
     "ws": [
-      "wss://cypress.fandom.finance/archive/ws"
+      "wss://archive-en.cypress.klaytn.net/ws"
     ],
     "explorer": {
       "url": "https://scope.klaytn.com/"
