@@ -14,13 +14,9 @@ export async function verify(address, sig, data, network = '1') {
   // console.log('Hash', hash);
   // console.log('Address', address);
 
-  try {
-    const recoverAddress = verifyTypedData(domain, types, message, sig);
-    // console.log('Recover address', recoverAddress);
-    if (address === recoverAddress) return true;
-  } catch (e) {
-    // console.log('Could not recoverAddress:' + e.message);
-  }
+  const recoverAddress = verifyTypedData(domain, types, message, sig);
+  // console.log('Recover address', recoverAddress);
+  if (address === recoverAddress) return true;
 
   // console.log('Check EIP1271 signature');
   return await verifyEIP1271(address, sig, hash, network);
