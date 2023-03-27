@@ -1060,7 +1060,7 @@
       "https://rpc.api.moonbeam.network"
     ],
     "explorer": {
-      "url": "https://blockscout.moonbeam.network"
+      "url": "https://moonscan.io/"
     },
     "start": 171135,
     "logo": "ipfs://QmWKTEK2pj5sBBbHnMHQbWgw6euVdBrk2Ligpi2chrWASk"
