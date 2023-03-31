@@ -2065,6 +2065,22 @@
     },
     "start": 853908,
     "logo": "ipfs://QmVctLQ44vhkwejja9DDjDYUdYgVRBEWs242mhd95SeM5q"
+  },
+  "1071": {
+    "key": "1071",
+    "name": "Shimmer EVM Testnet",
+    "shortName": "ShimmerEVM",
+    "chainId": 1071,
+    "network": "testnet",
+    "multicall": "0xb6d9a0849bA7a6FB565567A6013cFEb8d91A1688",
+    "rpc": [
+      "https://json-rpc.evm.testnet.shimmer.network/"
+    ],
+    "explorer": {
+      "url": "https://explorer.evm.testnet.shimmer.network/"
+    },
+    "start": 38066,
+    "logo": "ipfs://bafybeid3xj7o3aslkl3dpnz77uwex7ycnufpe6gb33sm2b5j52pdtmi3pi"
   }
 }
 
