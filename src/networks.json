@@ -1033,6 +1033,23 @@
     "start": 451,
     "logo": "ipfs://QmYeskHqrEvWHqeAuqett64LxfH52HUXZi2T9BAMmgKvBF"
   },
+  "1101": {
+    "key": "1101",
+    "name": "Polygon zkEVM Mainnet",
+    "shortName": "Polygon zkEVM",
+    "chainId": 1101,
+    "network": "mainnet",
+    "multicall": "0x0B89Fc9fC6EAba660Ab984996E133C21E23F535D",
+    "rpc": [
+      "https://zkevm-rpc.com",
+      "https://polygon-rpc.com/zkevm"
+    ],
+    "explorer": {
+      "url": "https://zkevm.polygonscan.com"
+    },
+    "start": 29184,
+    "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
+  },
   "1234": {
     "key": "1234",
     "name": "Step Network",
