@@ -2072,6 +2072,7 @@
     "shortName": "ShimmerEVM",
     "chainId": 1071,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0xb6d9a0849bA7a6FB565567A6013cFEb8d91A1688",
     "rpc": [
       "https://json-rpc.evm.testnet.shimmer.network/"
