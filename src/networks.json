@@ -801,6 +801,23 @@
     "start": 74,
     "logo": "ipfs://QmNc7QZFpPDue3Ef4SsuX55RHkqXxUxSyTCpoASeg2hW6d"
   },
+  "314": {
+    "key": "314",
+    "name": "Filecoin Mainnet",
+    "shortName": "FIL",
+    "chainId": 314,
+    "network": "mainnet",
+    "multicall": "0xAB7a22701AB6e9F7a0a295a8D8a0fBDA2C4BefAc",
+    "rpc": [
+      "https://api.node.glif.io",
+      "https://rpc.ankr.com/filecoin"
+    ],
+    "explorer": {
+      "url": "https://filfox.info"
+    },
+    "start": 2750984,
+    "logo": "ipfs://bafkreif6hgofppilrhz5kwll7664cstsohzenyvobr72kos67ivkv5dddy"
+  },
   "321": {
     "key": "321",
     "name": "KCC Mainnet",
