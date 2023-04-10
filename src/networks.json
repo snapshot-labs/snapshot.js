@@ -1196,6 +1196,23 @@
     "start": 94085,
     "logo": "ipfs://QmaQxfwpXYTomUd24PMx5tKjosupXcm99z1jL1XLq9LWBS"
   },
+  "2222": {
+    "key": "2222",
+    "name": "Kava EVM",
+    "shortName": "KAVA",
+    "chainId": 2222,
+    "network": "mainnet",
+    "multicall": "0x30A62aA52Fa099C4B227869EB6aeaDEda054d121",
+    "rpc": [
+        "https://evm.kava.io",
+        "https://evm2.kava.io"
+    ],
+    "explorer": {
+        "url": "https://explorer.kava.io"
+    },
+    "start": 392,
+    "logo": "https://assets-global.website-files.com/61e9c71623b1f0311abcbbbc/6226336a8447b54da43b4423_Kava-Logomark.svg"
+  },
   "2400": {
     "key": "2400",
     "name": "TCG Verse Mainnet",
