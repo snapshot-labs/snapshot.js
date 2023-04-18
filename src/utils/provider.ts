@@ -11,7 +11,7 @@ export default function getProvider(network) {
   if (!providers[network])
     providers[network] = new StaticJsonRpcProvider(
       {
-        allowGzip: "true",
+        allowGzip: true,
         url: url,
         timeout: 25000
       },
@@ -25,7 +25,7 @@ export function getBatchedProvider(network) {
   if (!batchedProviders[network])
     batchedProviders[network] = new JsonRpcBatchProvider(
       {
-        allowGzip: "true",
+        allowGzip: true,
         url: url,
         timeout: 25000
       });
