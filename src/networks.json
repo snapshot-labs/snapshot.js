@@ -24,8 +24,8 @@
     "ws": [
       "wss://eth-mainnet.ws.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv"
     ],
-    "explorer":{
-      "url":  "https://etherscan.io",
+    "explorer": {
+      "url": "https://etherscan.io",
       "apiUrl": "https://api.etherscan.io"
     },
     "start": 7929876,
@@ -672,7 +672,7 @@
       "wss://ws-mainnet.matic.network"
     ],
     "explorer": {
-      "url":  "https://polygonscan.com",
+      "url": "https://polygonscan.com",
       "apiUrl": "https://api.polygonscan.com"
     },
     "start": 9834491,
@@ -2102,4 +2102,3 @@
     "logo": "ipfs://QmYGxmEhV6djksUk97pdE9TmL6DXm9KW8BP7pwUv8pqp8r"
   }
 }
-
