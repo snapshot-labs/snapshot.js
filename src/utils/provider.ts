@@ -25,9 +25,9 @@ export function getBatchedProvider(network) {
   if (!batchedProviders[network])
     batchedProviders[network] = new JsonRpcBatchProvider(
       {
-        allowGzip: true,
-        url: url,
-        timeout: 25000
+        url,
+        timeout: 25000,
+        allowGzip: true
       });
   return batchedProviders[network];
 }
