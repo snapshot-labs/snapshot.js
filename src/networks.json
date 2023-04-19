@@ -1228,6 +1228,23 @@
     "start": 6504228,
     "logo": "ipfs://QmZDdFjM37M3Zn6aCAuBnRwnWYTzFMg8k2zhKedczwBb58" 
   },
+  "4062": {
+    "key": "4062",
+    "name": "Nahmii N3 Testnet",
+    "shortName": "Nahmii",
+    "chainId": 4062,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x495Da6Fdad384f3FF733f860d63c4F9457D2a0b0",
+    "rpc": [
+      "https://ngeth.testnet.n3.nahmii.io"
+    ],
+    "explorer": {
+      "url": "https://explorer.testnet.n3.nahmii.io/"
+    },
+    "start": 2607889,
+    "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
+  },
   "4689": {
     "key": "4689",
     "name": "IoTeX Mainnet",
@@ -1275,23 +1292,6 @@
       "url": "https://explorer.nahmii.io"
     },
     "start": 4364,
-    "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
-  },
-  "5553": {
-    "key": "5553",
-    "name": "Nahmii Testnet",
-    "shortName": "Nahmii",
-    "chainId": 5553,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x0e157d2E45af27564edFAaCcD68f2f0458F3D96c",
-    "rpc": [
-      "https://l2.testnet.nahmii.io"
-    ],
-    "explorer": {
-      "url": "https://explorer.testnet.nahmii.io"
-    },
-    "start": 53370,
     "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
   },
   "5851": {
