@@ -1226,7 +1226,7 @@
       "url": "https://redlightscan.finance/"
     },
     "start": 6504228,
-    "logo": "ipfs://QmZDdFjM37M3Zn6aCAuBnRwnWYTzFMg8k2zhKedczwBb58" 
+    "logo": "ipfs://QmZDdFjM37M3Zn6aCAuBnRwnWYTzFMg8k2zhKedczwBb58"
   },
   "4689": {
     "key": "4689",
@@ -1361,7 +1361,7 @@
     },
     "start": 1759024,
     "logo": "ipfs://QmbA6CE3G81mm4eDEBUezwcq2qdqEh1zEToG3MbJHirxQt"
-  },  
+  },
   "10000": {
     "key": "10000",
     "name": "smartBCH",
@@ -2002,6 +2002,24 @@
     "start": 2560501,
     "logo": "ipfs://QmXqprM1TPafQFLirQ7dMPMgou1hoUGuCvHYSWU9g8ocv8"
   },
+  "11155111": {
+    "key": "11155111",
+    "name": "Sepolia",
+    "shortName": "Sepolia",
+    "chainId": 11155111,
+    "network": "sepolia",
+    "testnet": true,
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [
+      "https://sepolia.infura.io/v3/d26b4fd748814fe994b05899fd89e667"
+    ],
+    "explorer": {
+      "url": "https://sepolia.etherscan.io",
+      "apiUrl": "https://api-sepolia.etherscan.io"
+    },
+    "start": 751532,
+    "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
+  }
   "813": {
     "key": "813",
     "name": "Qitmeer Mainnet",
@@ -2048,7 +2066,7 @@
       "url": "https://goerli.basescan.org/"
     },
     "start": 1151797,
-    "logo": "ipfs://QmQqrze3W1uSYWq2cGSYDeDwtjGXohTjWPnQ87EVJGeq2P" 
+    "logo": "ipfs://QmQqrze3W1uSYWq2cGSYDeDwtjGXohTjWPnQ87EVJGeq2P"
   },
   "1116": {
     "key": "1116",
