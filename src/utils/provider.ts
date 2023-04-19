@@ -11,9 +11,9 @@ export default function getProvider(network) {
   if (!providers[network])
     providers[network] = new StaticJsonRpcProvider(
       {
-        allowGzip: true,
-        url: url,
-        timeout: 25000
+        url,
+        timeout: 25000,
+        allowGzip: true
       },
       Number(network)
     );
