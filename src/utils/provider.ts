@@ -23,11 +23,10 @@ export default function getProvider(network) {
 export function getBatchedProvider(network) {
   const url = `https://rpc.snapshot.org/${network}`;
   if (!batchedProviders[network])
-    batchedProviders[network] = new JsonRpcBatchProvider(
-      {
-        url,
-        timeout: 25000,
-        allowGzip: true
-      });
+    batchedProviders[network] = new JsonRpcBatchProvider({
+      url,
+      timeout: 25000,
+      allowGzip: true
+    });
   return batchedProviders[network];
 }
