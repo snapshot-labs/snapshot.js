@@ -125,7 +125,7 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
   }
   if (responseData.errors) {
     throw new Error(
-      `[${res.status}] Errors found in subgraphRequest: URL: ${url}, Status: ${
+      `Errors found in subgraphRequest: URL: ${url}, Status: ${
         res.status
       },  Response: ${JSON.stringify(responseData.errors)}`
     );
