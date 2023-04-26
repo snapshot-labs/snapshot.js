@@ -20,8 +20,13 @@ export async function verifyDefault(
       [address, 'isValidSignature', [arrayify(hash), sig]]
     );
   } catch (e) {
-    return false;
+    // @ts-ignore
+    if (e.message.startsWith('missing revert data in call exception')) {
+      return false;
+    }
+    throw e;
   }
+
   return returnValue.toLowerCase() === magicValue.toLowerCase();
 }
 
@@ -31,19 +36,15 @@ export async function verifyOldVersion(
   hash: string,
   provider: StaticJsonRpcProvider
 ) {
-  let returnValue;
   const magicValue = '0x20c13b0b';
   const abi =
     'function isValidSignature(bytes _hash, bytes memory _signature) public view returns (bytes4 magicValue)';
-  try {
-    returnValue = await call(
-      provider,
-      [abi],
-      [address, 'isValidSignature', [arrayify(hash), sig]]
-    );
-  } catch (e) {
-    return false;
-  }
+
+  const returnValue = await call(
+    provider,
+    [abi],
+    [address, 'isValidSignature', [arrayify(hash), sig]]
+  );
   return returnValue.toLowerCase() === magicValue.toLowerCase();
 }
 

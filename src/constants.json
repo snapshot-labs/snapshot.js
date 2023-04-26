@@ -6,5 +6,9 @@
   "testnet": {
     "hub": "https://testnet.snapshot.org",
     "sequencer": "https://testnet.seq.snapshot.org"
+  },
+  "local": {
+    "hub": "http://localhost:3000",
+    "sequencer": "http://localhost:3001"
   }
 }
