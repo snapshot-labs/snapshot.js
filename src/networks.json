@@ -1116,6 +1116,22 @@
     "start": 1893,
     "logo": "ipfs://QmXbBMMhjTTGAGjmqMpJm3ufFrtdkfEXCFyXYgz7nnZzsy"
   },
+  "1663": {
+    "key": "1663",
+    "name": "Horizen Gobi Testnet",
+    "shortName": "Gobi",
+    "chainId": 1663,
+    "network": "testnet",
+    "multicall": "0xC743e4910Bdd4e5aBacCA38F74cdA270281C5eef",
+    "rpc": [
+      "https://gobi-testnet.horizenlabs.io/ethv1"
+    ],
+    "explorer": {
+      "url": "https://gobi-explorer.horizen.io"
+    },
+    "start": 1,
+    "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
+  },
   "1818": {
     "key": "1818",
     "name": "Cubechain mainnet",
