@@ -319,8 +319,20 @@ export async function getEnsOwner(
     ['function owner(bytes32) view returns (address)'],
     provider
   );
+  const ensNameWrapper =
+    networks[network].ensNameWrapper || networks['1'].ensNameWrapper;
   const ensHash = hash(normalize(ens));
-  return await ensRegistry.owner(ensHash);
+  let owner = await ensRegistry.owner(ensHash);
+  // If owner is the ENSNameWrapper contract, resolve the owner of the name
+  if (owner === ensNameWrapper) {
+    const ensNameWrapperContract = new Contract(
+      ensNameWrapper,
+      ['function ownerOf(uint256) view returns (address)'],
+      provider
+    );
+    owner = await ensNameWrapperContract.ownerOf(ensHash);
+  }
+  return owner;
 }
 
 export async function getSpaceController(
