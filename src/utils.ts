@@ -320,7 +320,7 @@ export async function getEnsOwner(
     provider
   );
   const ensNameWrapper =
-    networks[network].ensNameWrapper || networks['1'].ensNameWrapper;
+    networks[network].ensNameWrapper;
   const ensHash = hash(normalize(ens));
   let owner = await ensRegistry.owner(ensHash);
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
