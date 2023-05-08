@@ -1453,7 +1453,7 @@
     "chainId": 22040,
     "network": "testnet",
     "testnet": true,
-    "multicall": "0x18f7BFad831D8ED9E16C4cD50D6041dD453Ca1EF",
+    "multicall": "0xFCE5b5ca100e58E5635B15b79F0163be4CbD258b",
     "rpc": [
       "https://network-archive.ambrosus-test.io"
     ],
@@ -1463,7 +1463,26 @@
     "explorer": {
       "url": "https://testnet.airdao.io/explorer"
     },
-    "start": 3368046,
+    "start": 709476,
+    "logo": "ipfs://QmSxXjvWng3Diz4YwXDV2VqSPgMyzLYBNfkjJcr7rzkxom"
+  },
+  "30746": {
+    "key": "30746",
+    "name": "AirDAO Devnet",
+    "chainId": 30746,
+    "network": "devnet",
+    "testnet": true,
+    "multicall": "0x55Be7dd776fAbe89d93bAC66ed1cf0Ab31bdd6eB",
+    "rpc": [
+      "https://network-archive.ambrosus-dev.io"
+    ],
+    "ws": [
+      "wss://network-archive.ambrosus-dev.io/ws"
+    ],
+    "explorer": {
+      "url": "https://devnet.airdao.io/explorer"
+    },
+    "start": 710124,
     "logo": "ipfs://QmSxXjvWng3Diz4YwXDV2VqSPgMyzLYBNfkjJcr7rzkxom"
   },
   "32659": {
