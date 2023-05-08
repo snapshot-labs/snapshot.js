@@ -1500,6 +1500,22 @@
     "start": 256508,
     "logo": "ipfs://QmWZ5SMRfvcK8tycsDqojQaSiKedgtVkS7CkZdxPgeCVsZ"
   },
+  "42170": {
+    "key": "42170",
+    "name": "Arbitrum Nova",
+    "chainId": 42170,
+    "network": "Arbitrum Nova",
+    "multicall": "0x4E74EBd9CABff51cE9a43EFe059bA8c5A28E4A14",
+    "rpc": [
+      "https://nova.arbitrum.io/rpc",
+      "https://arbitrum-nova.public.blastapi.io"
+    ],
+    "explorer": {
+      "url": "https://nova.arbiscan.io/"
+    },
+    "start": 256508,
+    "logo": "ipfs://bafkreie5xsqt3mrrwu7v32qpmmctibhzhgxf4emfzzddsdhdlfsa7fmplu"
+  },
   "42220": {
     "key": "42220",
     "name": "Celo Mainnet",
