@@ -357,7 +357,9 @@
             "enabled": {
               "type": "boolean"
             }
-          }
+          },
+          "required": ["maxSupply", "mintPrice", "proposerCut", "network"],
+          "additionalProperties": false
         },
         "parent": {
           "type": "string",
