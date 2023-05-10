@@ -358,7 +358,13 @@
               "type": "boolean"
             }
           },
-          "required": ["maxSupply", "mintPrice", "proposerCut", "network"],
+          "required": [
+            "maxSupply",
+            "mintPrice",
+            "proposerCut",
+            "network",
+            "enabled"
+          ],
           "additionalProperties": false
         },
         "parent": {
