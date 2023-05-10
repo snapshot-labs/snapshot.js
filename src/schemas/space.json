@@ -329,10 +329,6 @@
         "nft": {
           "type": "object",
           "properties": {
-            "minSupply": {
-              "type": "number",
-              "minimum": 0
-            },
             "maxSupply": {
               "type": "number",
               "minimum": 0
@@ -341,7 +337,7 @@
               "type": "number",
               "minimum": 0
             },
-            "proposalCreatorProfitSharing": {
+            "proposerCut": {
               "type": "number",
               "minimum": 0
             },
