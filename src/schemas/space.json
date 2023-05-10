@@ -341,6 +341,14 @@
               "type": "number",
               "minimum": 0
             },
+            "address": {
+              "type": "string",
+              "title": "Contract address",
+              "examples": ["e.g. 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"],
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "minLength": 42,
+              "maxLength": 42
+            },
             "network": {
               "type": "string",
               "title": "Network",
