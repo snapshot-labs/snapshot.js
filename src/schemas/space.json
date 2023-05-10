@@ -326,6 +326,35 @@
             "additionalProperties": false
           }
         },
+        "nft": {
+          "type": "object",
+          "properties": {
+            "minSupply": {
+              "type": "number",
+              "minimum": 0
+            },
+            "maxSupply": {
+              "type": "number",
+              "minimum": 0
+            },
+            "mintPrice": {
+              "type": "number",
+              "minimum": 0
+            },
+            "proposalCreatorProfitSharing": {
+              "type": "number",
+              "minimum": 0
+            },
+            "network": {
+              "type": "string",
+              "title": "Network",
+              "maxLength": 12
+            },
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        },
         "parent": {
           "type": "string",
           "title": "parent"
