@@ -326,7 +326,7 @@
             "additionalProperties": false
           }
         },
-        "nft": {
+        "nftClaimer": {
           "type": "object",
           "properties": {
             "maxSupply": {
