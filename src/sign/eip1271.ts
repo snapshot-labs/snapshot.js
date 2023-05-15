@@ -9,14 +9,23 @@ export async function verifyDefault(
   hash: string,
   provider: StaticJsonRpcProvider
 ) {
+  let returnValue;
   const magicValue = '0x1626ba7e';
   const abi =
     'function isValidSignature(bytes32 _hash, bytes memory _signature) public view returns (bytes4 magicValue)';
-  const returnValue = await call(
-    provider,
-    [abi],
-    [address, 'isValidSignature', [arrayify(hash), sig]]
-  );
+  try {
+    returnValue = await call(
+      provider,
+      [abi],
+      [address, 'isValidSignature', [arrayify(hash), sig]]
+    );
+  } catch (e) {
+    // @ts-ignore
+    if (e.message.startsWith('missing revert data in call exception')) {
+      return false;
+    }
+    throw e;
+  }
 
   return returnValue.toLowerCase() === magicValue.toLowerCase();
 }

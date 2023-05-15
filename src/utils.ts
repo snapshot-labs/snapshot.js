@@ -32,6 +32,26 @@ const ENS_RESOLVER_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)'
 ];
 
+const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
+// @ts-ignore
+addFormats(ajv);
+
+// Custom URL format to allow empty string values
+// https://github.com/snapshot-labs/snapshot.js/pull/541/files
+ajv.addFormat('customUrl', {
+  type: 'string',
+  validate: (str) => {
+    if (!str.length) return true;
+    return (
+      str.startsWith('http://') ||
+      str.startsWith('https://') ||
+      str.startsWith('ipfs://') ||
+      str.startsWith('ipns://') ||
+      str.startsWith('snapshot://')
+    );
+  }
+});
+
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
   try {
@@ -60,7 +80,7 @@ export async function multicall(
   const itf = new Interface(abi);
   try {
     const max = options?.limit || 500;
-    if(options?.limit) delete options.limit;
+    if (options?.limit) delete options.limit;
     const pages = Math.ceil(calls.length / max);
     const promises: any = [];
     Array.from(Array(pages)).forEach((x, i) => {
@@ -99,13 +119,15 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
   try {
     responseData = JSON.parse(responseData);
   } catch (e) {
-    throw new Error(`Errors found in subgraphRequest: ${url} ${responseData}`);
+    throw new Error(
+      `Errors found in subgraphRequest: URL: ${url}, Status: ${res.status}, Response: ${responseData}`
+    );
   }
   if (responseData.errors) {
     throw new Error(
-      'Errors found in subgraphRequest: ' +
-        url +
-        JSON.stringify(responseData.errors)
+      `Errors found in subgraphRequest: URL: ${url}, Status: ${
+        res.status
+      },  Response: ${JSON.stringify(responseData.errors)}`
     );
   }
   const { data } = responseData;
@@ -262,26 +284,6 @@ export async function validate(
 }
 
 export function validateSchema(schema, data) {
-  const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
-  // @ts-ignore
-  addFormats(ajv);
-
-  // Custom URL format to allow empty string values
-  // https://github.com/snapshot-labs/snapshot.js/pull/541/files
-  ajv.addFormat('customUrl', {
-    type: 'string',
-    validate: (str) => {
-      if (!str.length) return true;
-      return (
-        str.startsWith('http://') ||
-        str.startsWith('https://') ||
-        str.startsWith('ipfs://') ||
-        str.startsWith('ipns://') ||
-        str.startsWith('snapshot://')
-      );
-    }
-  });
-
   const ajvValidate = ajv.compile(schema);
   const valid = ajvValidate(data);
   return valid ? valid : ajvValidate.errors;
@@ -317,8 +319,20 @@ export async function getEnsOwner(
     ['function owner(bytes32) view returns (address)'],
     provider
   );
+  const ensNameWrapper =
+    networks[network].ensNameWrapper;
   const ensHash = hash(normalize(ens));
-  return await ensRegistry.owner(ensHash);
+  let owner = await ensRegistry.owner(ensHash);
+  // If owner is the ENSNameWrapper contract, resolve the owner of the name
+  if (owner === ensNameWrapper) {
+    const ensNameWrapperContract = new Contract(
+      ensNameWrapper,
+      ['function ownerOf(uint256) view returns (address)'],
+      provider
+    );
+    owner = await ensNameWrapperContract.ownerOf(ensHash);
+  }
+  return owner;
 }
 
 export async function getSpaceController(

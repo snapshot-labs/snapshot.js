@@ -6,6 +6,7 @@
     "network": "homestead",
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
     "ensResolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
+    "ensNameWrapper": "0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401",
     "rpc": [
       "https://rpc.ankr.com/eth",
       {
@@ -24,8 +25,8 @@
     "ws": [
       "wss://eth-mainnet.ws.alchemyapi.io/v2/4bdDVB5QAaorY2UE-GBUbM2yQB3QJqzv"
     ],
-    "explorer":{
-      "url":  "https://etherscan.io",
+    "explorer": {
+      "url": "https://etherscan.io",
       "apiUrl": "https://api.etherscan.io"
     },
     "start": 7929876,
@@ -40,6 +41,7 @@
     "testnet": true,
     "multicall": "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
     "ensResolver": "0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329",
+    "ensNameWrapper": "0x114D4603199df73e7D157787f8778E21fCd13066",
     "rpc": [
       "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
     ],
@@ -672,7 +674,7 @@
       "wss://ws-mainnet.matic.network"
     ],
     "explorer": {
-      "url":  "https://polygonscan.com",
+      "url": "https://polygonscan.com",
       "apiUrl": "https://api.polygonscan.com"
     },
     "start": 9834491,
@@ -1114,6 +1116,22 @@
     "start": 1893,
     "logo": "ipfs://QmXbBMMhjTTGAGjmqMpJm3ufFrtdkfEXCFyXYgz7nnZzsy"
   },
+  "1663": {
+    "key": "1663",
+    "name": "Horizen Gobi Testnet",
+    "shortName": "Gobi",
+    "chainId": 1663,
+    "network": "testnet",
+    "multicall": "0xC743e4910Bdd4e5aBacCA38F74cdA270281C5eef",
+    "rpc": [
+      "https://gobi-testnet.horizenlabs.io/ethv1"
+    ],
+    "explorer": {
+      "url": "https://gobi-explorer.horizen.io"
+    },
+    "start": 1,
+    "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
+  },
   "1818": {
     "key": "1818",
     "name": "Cubechain mainnet",
@@ -1226,7 +1244,24 @@
       "url": "https://redlightscan.finance/"
     },
     "start": 6504228,
-    "logo": "ipfs://QmZDdFjM37M3Zn6aCAuBnRwnWYTzFMg8k2zhKedczwBb58" 
+    "logo": "ipfs://QmZDdFjM37M3Zn6aCAuBnRwnWYTzFMg8k2zhKedczwBb58"
+  },
+  "4062": {
+    "key": "4062",
+    "name": "Nahmii N3 Testnet",
+    "shortName": "Nahmii",
+    "chainId": 4062,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x495Da6Fdad384f3FF733f860d63c4F9457D2a0b0",
+    "rpc": [
+      "https://ngeth.testnet.n3.nahmii.io"
+    ],
+    "explorer": {
+      "url": "https://explorer.testnet.n3.nahmii.io/"
+    },
+    "start": 2607889,
+    "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
   },
   "4689": {
     "key": "4689",
@@ -1275,23 +1310,6 @@
       "url": "https://explorer.nahmii.io"
     },
     "start": 4364,
-    "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
-  },
-  "5553": {
-    "key": "5553",
-    "name": "Nahmii Testnet",
-    "shortName": "Nahmii",
-    "chainId": 5553,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x0e157d2E45af27564edFAaCcD68f2f0458F3D96c",
-    "rpc": [
-      "https://l2.testnet.nahmii.io"
-    ],
-    "explorer": {
-      "url": "https://explorer.testnet.nahmii.io"
-    },
-    "start": 53370,
     "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
   },
   "5851": {
@@ -1361,7 +1379,7 @@
     },
     "start": 1759024,
     "logo": "ipfs://QmbA6CE3G81mm4eDEBUezwcq2qdqEh1zEToG3MbJHirxQt"
-  },  
+  },
   "10000": {
     "key": "10000",
     "name": "smartBCH",
@@ -1481,6 +1499,22 @@
     },
     "start": 256508,
     "logo": "ipfs://QmWZ5SMRfvcK8tycsDqojQaSiKedgtVkS7CkZdxPgeCVsZ"
+  },
+  "42170": {
+    "key": "42170",
+    "name": "Arbitrum Nova",
+    "chainId": 42170,
+    "network": "Arbitrum Nova",
+    "multicall": "0x4E74EBd9CABff51cE9a43EFe059bA8c5A28E4A14",
+    "rpc": [
+      "https://nova.arbitrum.io/rpc",
+      "https://arbitrum-nova.public.blastapi.io"
+    ],
+    "explorer": {
+      "url": "https://nova.arbiscan.io/"
+    },
+    "start": 6006607,
+    "logo": "ipfs://bafkreie5xsqt3mrrwu7v32qpmmctibhzhgxf4emfzzddsdhdlfsa7fmplu"
   },
   "42220": {
     "key": "42220",
@@ -2002,6 +2036,24 @@
     "start": 2560501,
     "logo": "ipfs://QmXqprM1TPafQFLirQ7dMPMgou1hoUGuCvHYSWU9g8ocv8"
   },
+  "11155111": {
+    "key": "11155111",
+    "name": "Sepolia",
+    "shortName": "Sepolia",
+    "chainId": 11155111,
+    "network": "sepolia",
+    "testnet": true,
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [
+      "https://sepolia.infura.io/v3/d26b4fd748814fe994b05899fd89e667"
+    ],
+    "explorer": {
+      "url": "https://sepolia.etherscan.io",
+      "apiUrl": "https://api-sepolia.etherscan.io"
+    },
+    "start": 751532,
+    "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
+  },
   "813": {
     "key": "813",
     "name": "Qitmeer Mainnet",
@@ -2048,7 +2100,7 @@
       "url": "https://goerli.basescan.org/"
     },
     "start": 1151797,
-    "logo": "ipfs://QmQqrze3W1uSYWq2cGSYDeDwtjGXohTjWPnQ87EVJGeq2P" 
+    "logo": "ipfs://QmQqrze3W1uSYWq2cGSYDeDwtjGXohTjWPnQ87EVJGeq2P"
   },
   "1116": {
     "key": "1116",
@@ -2084,4 +2136,3 @@
     "logo": "ipfs://QmYGxmEhV6djksUk97pdE9TmL6DXm9KW8BP7pwUv8pqp8r"
   }
 }
-
