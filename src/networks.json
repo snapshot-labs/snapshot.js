@@ -943,6 +943,21 @@
     "start": 1335512,
     "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
   },
+  "599":{
+    "key": "599",
+    "name": "Metis Testnet",
+    "chainId": 599,
+    "network": "testnet",
+    "multicall": "0x5A958c159F4AEA990b1195C44624B94dC0825470",
+    "rpc": [
+      "https://goerli.gateway.metisdevops.link"
+    ],
+    "explorer": {
+      "url": "https://goerli.explorer.metisdevops.link/"
+    },
+    "start": 1018715,
+    "logo": "ipfs://QmYeskHqrEvWHqeAuqett64LxfH52HUXZi2T9BAMmgKvBF"
+  },
   "647": {
     "key": "647",
     "name": "SX Network Testnet",
