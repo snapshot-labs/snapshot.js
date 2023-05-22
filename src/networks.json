@@ -2150,5 +2150,20 @@
     },
     "start": 38066,
     "logo": "ipfs://QmYGxmEhV6djksUk97pdE9TmL6DXm9KW8BP7pwUv8pqp8r"
+  },
+  "119": {
+    "key": "119",
+    "name": "ENULS Mainnet",
+    "chainId": 119,
+    "network": "mainnet",
+    "multicall": "0xd7d2Aa52f5491cB60ccD85b8c39935BF0baCd142",
+    "rpc": [
+      "https://evmapi.nuls.io/"
+    ],
+    "explorer": {
+      "url": "https://evmscan.nuls.io"
+    },
+    "start": 501318,
+    "logo": "ipfs://QmYz8LK5WkUN8UwqKfWUjnyLuYqQZWihT7J766YXft4TSy" 
   }
 }
