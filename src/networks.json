@@ -964,6 +964,7 @@
     "name": "Metis Testnet",
     "chainId": 599,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0x5A958c159F4AEA990b1195C44624B94dC0825470",
     "rpc": [
       "https://goerli.gateway.metisdevops.link"
