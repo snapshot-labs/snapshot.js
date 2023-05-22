@@ -262,6 +262,22 @@
     },
     "logo": "ipfs://QmTpySsG7rjLwuZX1Ep4ewGyVAyGrvCRC1oqEvU6oP1huf"
   },
+  "46": {
+    "key": "46",
+    "name": "Darwinia Network",
+    "shortName": "Darwinia",
+    "chainId": 46,
+    "network": "mainnet",
+    "multicall": "0x67f9ae42EaA9a8aBf065D60ec6Ab3C1A11370607",
+    "rpc": [
+      "https://rpc.darwinia.network"
+    ],
+    "explorer": {
+      "url": "https://darwinia.subscan.io"
+    },
+    "start": 141853,
+    "logo": "ipfs://bafkreicf55maidhx46pyu3mwsshlr43xbewr6tkckkonh4nesbkp7krwkm"
+  },
   "50": {
     "key": "50",
     "name": "XDC.Network",
@@ -2149,5 +2165,20 @@
     },
     "start": 38066,
     "logo": "ipfs://QmYGxmEhV6djksUk97pdE9TmL6DXm9KW8BP7pwUv8pqp8r"
+  },
+  "119": {
+    "key": "119",
+    "name": "ENULS Mainnet",
+    "chainId": 119,
+    "network": "mainnet",
+    "multicall": "0xd7d2Aa52f5491cB60ccD85b8c39935BF0baCd142",
+    "rpc": [
+      "https://evmapi.nuls.io/"
+    ],
+    "explorer": {
+      "url": "https://evmscan.nuls.io"
+    },
+    "start": 501318,
+    "logo": "ipfs://QmYz8LK5WkUN8UwqKfWUjnyLuYqQZWihT7J766YXft4TSy" 
   }
 }
