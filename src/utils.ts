@@ -289,11 +289,23 @@ export function validateSchema(schema, data) {
   return valid ? valid : ajvValidate.errors;
 }
 
-export function getEnsTextRecord(ens: string, record: string, network = '1') {
-  const address = networks[network].ensResolver || networks['1'].ensResolver;
+export async function getEnsTextRecord(
+  ens: string,
+  record: string,
+  network = '1'
+) {
+  const ensResolvers =
+    networks[network].ensResolvers || networks['1'].ensResolvers;
   const ensHash = hash(normalize(ens));
   const provider = getProvider(network);
-  return call(provider, ENS_RESOLVER_ABI, [address, 'text', [ensHash, record]]);
+
+  const result = await multicall(
+    network,
+    provider,
+    ENS_RESOLVER_ABI,
+    ensResolvers.map((address: any) => [address, 'text', [ensHash, record]])
+  );
+  return result.flat().find((r: string) => r) || '';
 }
 
 export async function getSpaceUri(
@@ -319,8 +331,7 @@ export async function getEnsOwner(
     ['function owner(bytes32) view returns (address)'],
     provider
   );
-  const ensNameWrapper =
-    networks[network].ensNameWrapper;
+  const ensNameWrapper = networks[network].ensNameWrapper;
   const ensHash = hash(normalize(ens));
   let owner = await ensRegistry.owner(ensHash);
   // If owner is the ENSNameWrapper contract, resolve the owner of the name

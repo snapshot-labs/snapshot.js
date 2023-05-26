@@ -5,7 +5,10 @@
     "chainId": 1,
     "network": "homestead",
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
-    "ensResolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
+    "ensResolvers": [
+      "0x231b0Ee14048e9dCcD1d247744d114a4EB5E8E63",
+      "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41"
+    ],
     "ensNameWrapper": "0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401",
     "rpc": [
       "https://rpc.ankr.com/eth",
@@ -40,7 +43,10 @@
     "network": "goerli",
     "testnet": true,
     "multicall": "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
-    "ensResolver": "0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329",
+    "ensResolvers": [
+      "0xd7a4F6473f32aC2Af804B3686AE8F1932bC35750",
+      "0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329"
+    ],
     "ensNameWrapper": "0x114D4603199df73e7D157787f8778E21fCd13066",
     "rpc": [
       "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
@@ -958,6 +964,22 @@
     },
     "start": 1335512,
     "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
+  },
+  "599":{
+    "key": "599",
+    "name": "Metis Testnet",
+    "chainId": 599,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x5A958c159F4AEA990b1195C44624B94dC0825470",
+    "rpc": [
+      "https://goerli.gateway.metisdevops.link"
+    ],
+    "explorer": {
+      "url": "https://goerli.explorer.metisdevops.link/"
+    },
+    "start": 1018715,
+    "logo": "ipfs://QmYeskHqrEvWHqeAuqett64LxfH52HUXZi2T9BAMmgKvBF"
   },
   "647": {
     "key": "647",
@@ -2167,6 +2189,6 @@
       "url": "https://evmscan.nuls.io"
     },
     "start": 501318,
-    "logo": "ipfs://QmYz8LK5WkUN8UwqKfWUjnyLuYqQZWihT7J766YXft4TSy" 
+    "logo": "ipfs://QmYz8LK5WkUN8UwqKfWUjnyLuYqQZWihT7J766YXft4TSy"
   }
 }
