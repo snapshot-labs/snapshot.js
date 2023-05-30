@@ -15,7 +15,7 @@
         "body": {
           "type": "string",
           "title": "body",
-          "minLength": 0,
+          "minLength": 100,
           "maxLength": 14400
         },
         "discussion": {
@@ -56,10 +56,7 @@
           "type": "number",
           "title": "end",
           "minimum": 1000000000,
-          "maximum": 2000000000,
-          "exclusiveMinimum": {
-            "$data": "1/start"
-          }
+          "maximum": 2000000000
         },
         "metadata": {
           "type": "object",
