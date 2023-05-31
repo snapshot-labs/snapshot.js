@@ -2193,7 +2193,7 @@
   }
    "1116": {
     "key": "1116",
-    "name": "Core Chain Mainnet ",
+    "name": "Core Chain Mainnet",
     "shortName": "Core",
     "chainId": 1116,
     "network": "mainnet",
