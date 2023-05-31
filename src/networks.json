@@ -1073,6 +1073,20 @@
     "start": 451,
     "logo": "ipfs://QmYeskHqrEvWHqeAuqett64LxfH52HUXZi2T9BAMmgKvBF"
   },
+  "1116": {
+    "key": "1116",
+    "name": "Core Chain Mainnet ",
+    "shortName": "Core",
+    "chainId": 1116,
+    "network": "mainnet",
+    "multicall": "0x024f0041b76B598c2A0a75004F8447FaF67BD004",
+    "rpc": [
+      "https://rpceuwest3.coredao.org"
+    ],
+    "explorer": {
+      "url": "https://scan.coredao.org"
+    },
+  },
   "1234": {
     "key": "1234",
     "name": "Step Network",
