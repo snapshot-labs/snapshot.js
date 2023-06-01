@@ -5,7 +5,10 @@
     "chainId": 1,
     "network": "homestead",
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
-    "ensResolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
+    "ensResolvers": [
+      "0x231b0Ee14048e9dCcD1d247744d114a4EB5E8E63",
+      "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41"
+    ],
     "ensNameWrapper": "0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401",
     "rpc": [
       "https://rpc.ankr.com/eth",
@@ -34,13 +37,16 @@
   },
   "5": {
     "key": "5",
-    "name": "Ethereum Testnet Görli",
-    "shortName": "Görli",
+    "name": "Ethereum Testnet Goerli",
+    "shortName": "Goerli",
     "chainId": 5,
     "network": "goerli",
     "testnet": true,
     "multicall": "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
-    "ensResolver": "0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329",
+    "ensResolvers": [
+      "0xd7a4F6473f32aC2Af804B3686AE8F1932bC35750",
+      "0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329"
+    ],
     "ensNameWrapper": "0x114D4603199df73e7D157787f8778E21fCd13066",
     "rpc": [
       "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
@@ -261,6 +267,22 @@
       "url": "https://crab.subscan.io"
     },
     "logo": "ipfs://QmTpySsG7rjLwuZX1Ep4ewGyVAyGrvCRC1oqEvU6oP1huf"
+  },
+  "46": {
+    "key": "46",
+    "name": "Darwinia Network",
+    "shortName": "Darwinia",
+    "chainId": 46,
+    "network": "mainnet",
+    "multicall": "0x67f9ae42EaA9a8aBf065D60ec6Ab3C1A11370607",
+    "rpc": [
+      "https://rpc.darwinia.network"
+    ],
+    "explorer": {
+      "url": "https://darwinia.subscan.io"
+    },
+    "start": 141853,
+    "logo": "ipfs://bafkreicf55maidhx46pyu3mwsshlr43xbewr6tkckkonh4nesbkp7krwkm"
   },
   "50": {
     "key": "50",
@@ -943,6 +965,22 @@
     "start": 1335512,
     "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
   },
+  "599":{
+    "key": "599",
+    "name": "Metis Testnet",
+    "chainId": 599,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x5A958c159F4AEA990b1195C44624B94dC0825470",
+    "rpc": [
+      "https://goerli.gateway.metisdevops.link"
+    ],
+    "explorer": {
+      "url": "https://goerli.explorer.metisdevops.link/"
+    },
+    "start": 1018715,
+    "logo": "ipfs://QmYeskHqrEvWHqeAuqett64LxfH52HUXZi2T9BAMmgKvBF"
+  },
   "647": {
     "key": "647",
     "name": "SX Network Testnet",
@@ -1500,6 +1538,22 @@
     "start": 256508,
     "logo": "ipfs://QmWZ5SMRfvcK8tycsDqojQaSiKedgtVkS7CkZdxPgeCVsZ"
   },
+  "42170": {
+    "key": "42170",
+    "name": "Arbitrum Nova",
+    "chainId": 42170,
+    "network": "Arbitrum Nova",
+    "multicall": "0x4E74EBd9CABff51cE9a43EFe059bA8c5A28E4A14",
+    "rpc": [
+      "https://nova.arbitrum.io/rpc",
+      "https://arbitrum-nova.public.blastapi.io"
+    ],
+    "explorer": {
+      "url": "https://nova.arbiscan.io/"
+    },
+    "start": 6006607,
+    "logo": "ipfs://bafkreie5xsqt3mrrwu7v32qpmmctibhzhgxf4emfzzddsdhdlfsa7fmplu"
+  },
   "42220": {
     "key": "42220",
     "name": "Celo Mainnet",
@@ -2046,7 +2100,10 @@
     "network": "mainnet",
     "multicall": "0x55034b2cF530ae3A8fC1e2e4523F58496796610F",
     "rpc": [
-      "https://evm-dataseed1.meerscan.com"
+      "https://evm-dataseed1.meerscan.io",
+      "https://evm-dataseed.meerscan.com",
+      "https://evm-dataseed2.meerscan.io",
+      "https://evm-dataseed3.meerscan.io"
     ],
     "explorer": {
       "url": "https://evm.meerscan.io"
@@ -2118,5 +2175,20 @@
     },
     "start": 38066,
     "logo": "ipfs://QmYGxmEhV6djksUk97pdE9TmL6DXm9KW8BP7pwUv8pqp8r"
+  },
+  "119": {
+    "key": "119",
+    "name": "ENULS Mainnet",
+    "chainId": 119,
+    "network": "mainnet",
+    "multicall": "0xd7d2Aa52f5491cB60ccD85b8c39935BF0baCd142",
+    "rpc": [
+      "https://evmapi.nuls.io/"
+    ],
+    "explorer": {
+      "url": "https://evmscan.nuls.io"
+    },
+    "start": 501318,
+    "logo": "ipfs://QmYz8LK5WkUN8UwqKfWUjnyLuYqQZWihT7J766YXft4TSy"
   }
 }
