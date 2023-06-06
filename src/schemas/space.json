@@ -237,8 +237,8 @@
         "delegationPortal": {
           "delegationType": {
             "type": "string",
-            "title": "Standard",
-            "description": "The standard used by your delegation contract",
+            "title": "Delegation type",
+            "description": "Specify the type of delegation that you are using",
             "anyOf": [
               { "const": "compound-governor", "title": "Compound governor" }
             ]
