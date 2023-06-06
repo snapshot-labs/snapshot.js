@@ -253,8 +253,8 @@
           "delegationApi": {
             "type": "string",
             "format": "uri",
-            "title": "Subgraph URL",
-            "description": "The URL of your delegation subgraph",
+            "title": "Delegation API",
+            "description": "The URL of your delegation API (e.g a subgraph)",
             "examples": [
               "https://api.thegraph.com/subgraphs/name/arr00/uniswap-governance-v2"
             ]
