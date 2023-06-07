@@ -1860,6 +1860,26 @@
     "start": 7521509,
     "logo": "ipfs://QmNnGPr1CNvj12SSGzKARtUHv9FyEfE5nES73U4vBWQSJL"
   },
+  "1733320111": {
+    "key": "1733320111",
+    "name": "Nusphere DevNet",
+    "chainId": 1733320111,
+    "network": "Nusphere DevNet",
+    "testnet": true,
+    "multicall": "0x7b55399d0b394b32b6f1974892be3f8d9e659475",
+    "rpc": [
+      {
+        "url": "https://u0p4xgo08c-u0mrdoctj2-rpc.us0-aws.kaleido.io/",
+        "user": "u0bzotd8yx",
+        "password": "610jGOOaAMlgzFRic40_QueqbJolGulwo0r9JiuE9VQ"
+      }
+    ],
+    "explorer": {
+      "url": "https://nusphere-testnet.tryethernal.com"
+    },
+    "start": 166736,
+    "logo": "ipfs://QmVAYofHEKwb6GjWuoZutT85SbhkgeSNcNk7BohHawnkcd"
+  },
   "11297108109": {
     "key": "11297108109",
     "name": "Palm Mainnet",
