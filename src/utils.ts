@@ -2,6 +2,7 @@ import fetch from "cross-fetch";
 import { Interface } from "@ethersproject/abi";
 import { Contract } from "@ethersproject/contracts";
 import { isAddress } from "@ethersproject/address";
+import { parseUnits } from '@ethersproject/units';
 import { hash, normalize } from "@ensdomains/eth-ens-namehash";
 import { jsonToGraphQLQuery } from "json-to-graphql-query";
 import Ajv from "ajv";
