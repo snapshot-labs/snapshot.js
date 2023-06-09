@@ -1001,6 +1001,45 @@
     "start": 14441039,
     "logo": "ipfs://QmSXLXqyr2H6Ja5XrmznXbWTEvF2gFaL8RXNXgyLmDHjAF"
   },
+  "841": {
+    "key": "841",
+    "name": "Taraxa Mainnet",
+    "shortName": "841",
+    "chainId": 841,
+    "network": "mainnet",
+    "multicall": "0xFCe7a3121B42664AaD145712e1c2Bf2e38f60AA1",
+    "rpc": [
+      "https://rpc.mainnet.taraxa.io"
+    ],
+    "ws": [
+      "wss://rpc.mainnet.taraxa.io"
+    ],
+    "explorer": {
+      "url": "https://explorer.mainnet.taraxa.io"
+    },
+    "start": 1515906,
+    "logo": "ipfs://Qmcc6ZCAGESMzZzoj5LsTVcCo2E35x3Ydk71uPJyov6Mwx"
+  },
+  "842": {
+    "key": "842",
+    "name": "Taraxa Testnet",
+    "shortName": "842",
+    "chainId": 842,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x7749051abc57e1105941Ea3Eb2a3F873F300E861",
+    "rpc": [
+      "https://rpc.testnet.taraxa.io"
+    ],
+    "ws": [
+      "wss://rpc.testnet.taraxa.io"
+    ],
+    "explorer": {
+      "url": "https://explorer.testnet.taraxa.io"
+    },
+    "start": 1462328,
+    "logo": "ipfs://Qmcc6ZCAGESMzZzoj5LsTVcCo2E35x3Ydk71uPJyov6Mwx"
+  },
   "888": {
     "key": "888",
     "name": "Wanchain",
