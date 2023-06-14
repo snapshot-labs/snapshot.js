@@ -8,7 +8,7 @@
       "properties": {
         "about": {
           "type": "string",
-          "title": "about",
+          "title": "About",
           "minLength": 1,
           "maxLength": 140
         },
