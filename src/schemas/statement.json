@@ -14,7 +14,7 @@
         },
         "statement": {
           "type": "string",
-          "title": "statement"
+          "title": "Statement"
         }
       },
       "required": ["about"],
