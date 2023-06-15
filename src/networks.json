@@ -1012,10 +1012,10 @@
       "https://rpc.mainnet.taraxa.io"
     ],
     "ws": [
-      "wss://rpc.mainnet.taraxa.io"
+      "wss://ws.mainnet.taraxa.io"
     ],
     "explorer": {
-      "url": "https://explorer.mainnet.taraxa.io"
+      "url": "https://mainnet.explorer.taraxa.io"
     },
     "start": 1515906,
     "logo": "ipfs://Qmcc6ZCAGESMzZzoj5LsTVcCo2E35x3Ydk71uPJyov6Mwx"
@@ -1032,10 +1032,10 @@
       "https://rpc.testnet.taraxa.io"
     ],
     "ws": [
-      "wss://rpc.testnet.taraxa.io"
+      "wss://ws.testnet.taraxa.io"
     ],
     "explorer": {
-      "url": "https://explorer.testnet.taraxa.io"
+      "url": "https://testnet.explorer.taraxa.io"
     },
     "start": 1462328,
     "logo": "ipfs://Qmcc6ZCAGESMzZzoj5LsTVcCo2E35x3Ydk71uPJyov6Mwx"
