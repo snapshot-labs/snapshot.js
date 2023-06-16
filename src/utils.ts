@@ -133,8 +133,18 @@ export async function multicall(
   }
 }
 
+export function fetchWithTimeout(url, options): Promise<any> {
+  const timeout = 30000 || options.timeout;
+  return Promise.race([
+    fetch(url, options),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Request timeout')), timeout)
+    )
+  ]);
+}
+
 export async function subgraphRequest(url: string, query, options: any = {}) {
-  const res = await fetch(url, {
+  const res = await fetchWithTimeout(url, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -461,6 +471,7 @@ export function getNumberWithOrdinal(n) {
 export default {
   call,
   multicall,
+  fetchWithTimeout,
   subgraphRequest,
   ipfsGet,
   getUrl,
