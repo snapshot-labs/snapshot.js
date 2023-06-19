@@ -8,12 +8,14 @@
       "properties": {
         "about": {
           "type": "string",
+          "format": "long",
           "title": "About",
           "minLength": 1,
           "maxLength": 140
         },
         "statement": {
           "type": "string",
+          "format": "long",
           "title": "Statement"
         }
       },
