@@ -2,6 +2,7 @@ import fetch from 'cross-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { isAddress } from '@ethersproject/address';
+import { parseUnits } from '@ethersproject/units';
 import { hash, normalize } from '@ensdomains/eth-ens-namehash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
@@ -35,6 +36,33 @@ const ENS_RESOLVER_ABI = [
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
 // @ts-ignore
 addFormats(ajv);
+
+ajv.addFormat('address', {
+  validate: (value: string) => {
+    try {
+      return isAddress(value);
+    } catch (err) {
+      return false;
+    }
+  }
+});
+
+ajv.addFormat('long', {
+  validate: () => true
+});
+
+ajv.addFormat('ethValue', {
+  validate: (value: string) => {
+    if (!value.match(/^([0-9]|[1-9][0-9]+)(\.[0-9]+)?$/)) return false;
+
+    try {
+      parseUnits(value, 18);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+});
 
 // Custom URL format to allow empty string values
 // https://github.com/snapshot-labs/snapshot.js/pull/541/files
