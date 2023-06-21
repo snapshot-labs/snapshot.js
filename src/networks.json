@@ -2297,7 +2297,7 @@
       "wss://eth.bd.evmos.org:8546"
     ],
     "explorer": {
-      "url": "https://escan.live/"
+      "url": "https://escan.live"
     },
     "start": 13959539,
     "logo": "ipfs://QmVgkQTA8cbYMijWS8AN44xzwAEQvFc2dCpih1qK78ZRQW"
