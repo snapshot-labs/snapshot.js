@@ -2163,6 +2163,7 @@
     "explorer": {
       "url": "https://explorer.cascadia.foundation"
     },
+    "testnet": true,
     "start": 0,
     "logo": "ipfs://QmWkhZYhReYyaa5pQXj32hEGxoRcBqarFMcfQScELmjYQj"
   },
