@@ -2156,15 +2156,16 @@
     "shortName": "Cascadia",
     "chainId": 6102,
     "network": "testnet",
-    "multicall": "0xBd186aca63bD4f5f4eC9E98028461A6A94ac4a12",
+    "multicall": "0x728989819bAD588F193563008E0a03E8cD6a3e4a",
     "rpc": [
-      "https://devnet.cascadia.foundation"
+      "https://testnet.cascadia.foundation"
     ],
     "explorer": {
       "url": "https://explorer.cascadia.foundation"
     },
-    "start": 694000,
-    "logo": "ipfs://QmRgv8ckPdzwHKehJphKDcE3rfuNQaJzjSWq2nuVTTMepZ"
+    "testnet": true,
+    "start": 370457,
+    "logo": "ipfs://QmWkhZYhReYyaa5pQXj32hEGxoRcBqarFMcfQScELmjYQj"
   },
   "84531": {
     "key": "84531",
