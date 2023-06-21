@@ -2277,7 +2277,7 @@
       "wss://eth.bd.evmos.dev:8546"
     ],
     "explorer": {
-      "url": "https://testnet.escan.live/"
+      "url": "https://testnet.escan.live"
     },
     "start": 14929860,
     "logo": "ipfs://QmVgkQTA8cbYMijWS8AN44xzwAEQvFc2dCpih1qK78ZRQW"
