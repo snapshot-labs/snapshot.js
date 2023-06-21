@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/Statement",
+  "definitions": {
+    "Statement": {
+      "title": "Statement",
+      "type": "object",
+      "properties": {
+        "about": {
+          "type": "string",
+          "format": "long",
+          "title": "About",
+          "minLength": 1,
+          "maxLength": 140
+        },
+        "statement": {
+          "type": "string",
+          "format": "long",
+          "title": "Statement"
+        }
+      },
+      "required": ["about"],
+      "additionalProperties": false
+    }
+  }
+}
