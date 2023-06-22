@@ -79,6 +79,14 @@ export interface Profile {
   profile: string;
 }
 
+export interface Statement {
+  from?: string;
+  timestamp?: number;
+  space: string;
+  about: string;
+  statement: string;
+}
+
 export interface Alias {
   from?: string;
   alias: string;
@@ -247,6 +255,16 @@ export const profileTypes = {
     { name: 'from', type: 'address' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'profile', type: 'string' }
+  ]
+};
+
+export const statementTypes = {
+  Statement: [
+    { name: 'from', type: 'address' },
+    { name: 'timestamp', type: 'uint64' },
+    { name: 'space', type: 'string' },
+    { name: 'about', type: 'string' },
+    { name: 'statement', type: 'string' }
   ]
 };
 
