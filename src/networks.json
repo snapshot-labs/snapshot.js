@@ -2248,7 +2248,7 @@
   },
   "59140": {
     "key": "59140",
-    "name": "Linea Goerli test network",
+    "name": "Linea Goerli testnet",
     "shortName": "Linea Goerli",
     "chainId": 59140,
     "network": "testnet",
