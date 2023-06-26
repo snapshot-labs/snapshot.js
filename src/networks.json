@@ -809,6 +809,23 @@
     "start": 1374275,
     "logo": "ipfs://QmPDbdmwpEeenaLHAbqcAerXdH9Z4Gfd7gm9M8tbkkjcAS"
   },
+  "324": {
+    "key": "324",
+    "name": "zkSync Era",
+    "shortName": "zkSync-era",
+    "chainId": 324,
+    "network": "zkSync Era Mainnet",
+    "testnet": false,
+    "multicall": "0xF9cda624FBC7e059355ce98a31693d299FACd963,",
+    "rpc": [
+      "https://mainnet.era.zksync.io"
+    ],
+    "explorer": {
+      "url": "https://explorer.zksync.io/"
+    },
+    "start": 7021068,
+    "logo": "ipfs://QmPDbdmwpEeenaLHAbqcAerXdH9Z4Gfd7gm9M8tbkkjcAS"
+  },
   "288": {
     "key": "288",
     "name": "Boba Mainnet",
