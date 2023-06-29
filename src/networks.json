@@ -1297,14 +1297,14 @@
     "shortName": "Findora",
     "chainId": 2152,
     "network": "mainnet",
-    "multicall": "0x319E6CCaA89C3dCe65946E759a32a09531E6b72f",
+    "multicall": "0xCF7D1e21CBe9bdEF235aef06C5d8051B3d4DF0f5",
     "rpc": [
       "https://archive.prod.findora.org:8545/"
     ],
     "explorer": {
       "url": "https://evm.findorascan.io"
     },
-    "start": 3378569,
+    "start": 4219343,
     "logo": "ipfs://QmXkneyRB6HbHTHRLCZpZqSsawiyJY7b2kZ2V8ydvKYAgv"
   },
   "2400": {
