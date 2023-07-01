@@ -1480,7 +1480,8 @@
     "network": "testnet",
     "multicall": "0x",
     "rpc": ["https://rpc-test.arthera.net"],
-    "explorer": "https://explorer-test.arthera.net"
+    "explorer": "https://explorer-test.arthera.net",
+    "logo": "ipfs://QmYQp3e52KjkT4bYdAvB6ACEEpXs2D8DozsDitaADRY2Ak"
   },
   "11437": {
     "key": "11437",
