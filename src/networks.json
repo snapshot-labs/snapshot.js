@@ -1472,6 +1472,16 @@
     },
     "logo": "ipfs://QmWG1p7om4hZ4Yi4uQvDpxg4si7qVYhtppGbcDGrhVFvMd"
   },
+  "10243": {
+    "key": "10243",
+    "name": "Arthera Testnet",
+    "shortName": "Arthera_",
+    "chainId": 10243,
+    "network": "testnet",
+    "multicall": "0x",
+    "rpc": ["https://rpc-test.arthera.net"],
+    "explorer": "https://explorer-test.arthera.net"
+  },
   "11437": {
     "key": "11437",
     "name": "Shyft Testnet",
