@@ -877,6 +877,22 @@
     "start": 12559216,
     "logo": "ipfs://QmcMP9s9mUqfT2SCiP75sZgAVVev7H7RQAKiSx9xWEDKwe"
   },
+  "369": {
+    "key": "369",
+    "name": "Pulsechain Mainnet",
+    "shortName": "Pulsechain",
+    "chainId": 369,
+    "network": "mainnet",
+    "multicall": "0xdbdd0FD8B16F0092f306392b699D7fbddaA9011B",
+    "rpc": [
+      "https://rpc.pulsechain.com"
+    ],
+    "explorer": {
+      "url": "https://scan.pulsechain.com/"
+    },
+    "start": 17657774,
+    "logo": "ipfs://QmWUsiEWdejtHZ9B9981TYXn7Ds8C7fkB1S4h5rP3kCCZR"
+  },
   "416": {
     "key": "416",
     "name": "SX Network",
@@ -965,7 +981,7 @@
     "start": 1335512,
     "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
   },
-  "599":{
+  "599": {
     "key": "599",
     "name": "Metis Testnet",
     "chainId": 599,
@@ -1291,6 +1307,22 @@
     "start": 94085,
     "logo": "ipfs://QmaQxfwpXYTomUd24PMx5tKjosupXcm99z1jL1XLq9LWBS"
   },
+  "2152": {
+    "key": "2152",
+    "name": "Findora Mainnet",
+    "shortName": "Findora",
+    "chainId": 2152,
+    "network": "mainnet",
+    "multicall": "0xCF7D1e21CBe9bdEF235aef06C5d8051B3d4DF0f5",
+    "rpc": [
+      "https://archive.prod.findora.org:8545/"
+    ],
+    "explorer": {
+      "url": "https://evm.findorascan.io"
+    },
+    "start": 4219343,
+    "logo": "ipfs://QmXkneyRB6HbHTHRLCZpZqSsawiyJY7b2kZ2V8ydvKYAgv"
+  },
   "2400": {
     "key": "2400",
     "name": "TCG Verse Mainnet",
@@ -1471,6 +1503,21 @@
       "url": "https://www.smartscan.cash"
     },
     "logo": "ipfs://QmWG1p7om4hZ4Yi4uQvDpxg4si7qVYhtppGbcDGrhVFvMd"
+  },
+  "10243": {
+    "key": "10243",
+    "name": "Arthera Testnet",
+    "shortName": "Arthera_",
+    "chainId": 10243,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x27c7FC597aD2E81C4c1cA1769972f79DaF042Da7",
+    "rpc": ["https://rpc-test.arthera.net"],
+    "explorer": {
+      "url": "https://explorer-test.arthera.net"
+    },
+    "start": 10523,
+    "logo": "ipfs://QmYQp3e52KjkT4bYdAvB6ACEEpXs2D8DozsDitaADRY2Ak"
   },
   "11437": {
     "key": "11437",
@@ -1788,7 +1835,7 @@
     "explorer": {
       "url": "https://gwscan.com"
     },
-    "start": 15034, 
+    "start": 15034,
     "logo": "ipfs://QmR6Q2CTds6Uwu8Euo7BKvFKAeg1AyVSxWzqCvyquDD7NF"
   },
   "80001": {
@@ -2231,7 +2278,7 @@
     "start": 501318,
     "logo": "ipfs://QmYz8LK5WkUN8UwqKfWUjnyLuYqQZWihT7J766YXft4TSy"
   },
-  "5555":  {
+  "5555": {
     "key": "5555",
     "name": "Chain Verse Mainnet",
     "shortName": "ChainVerse",
