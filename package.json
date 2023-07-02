@@ -49,7 +49,7 @@
   "scripts": {
     "build": "rollup -c",
     "build:cjs": "rollup -c rollup.cjs.config.js",
-    "test": "vitest",
+    "test": "vitest --coverage",
     "test:once": "vitest run",
     "dev": "rollup -c -w",
     "lint": "eslint . --ext .ts --fix",
