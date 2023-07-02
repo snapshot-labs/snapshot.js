@@ -1291,6 +1291,22 @@
     "start": 94085,
     "logo": "ipfs://QmaQxfwpXYTomUd24PMx5tKjosupXcm99z1jL1XLq9LWBS"
   },
+  "2152": {
+    "key": "2152",
+    "name": "Findora Mainnet",
+    "shortName": "Findora",
+    "chainId": 2152,
+    "network": "mainnet",
+    "multicall": "0xCF7D1e21CBe9bdEF235aef06C5d8051B3d4DF0f5",
+    "rpc": [
+      "https://archive.prod.findora.org:8545/"
+    ],
+    "explorer": {
+      "url": "https://evm.findorascan.io"
+    },
+    "start": 4219343,
+    "logo": "ipfs://QmXkneyRB6HbHTHRLCZpZqSsawiyJY7b2kZ2V8ydvKYAgv"
+  },
   "2400": {
     "key": "2400",
     "name": "TCG Verse Mainnet",
