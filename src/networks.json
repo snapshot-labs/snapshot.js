@@ -815,7 +815,6 @@
     "shortName": "zkSync-era",
     "chainId": 324,
     "network": "zkSync Era Mainnet",
-    "testnet": false,
     "multicall": "0xF9cda624FBC7e059355ce98a31693d299FACd963,",
     "rpc": [
       "https://mainnet.era.zksync.io"
