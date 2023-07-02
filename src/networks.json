@@ -877,6 +877,22 @@
     "start": 12559216,
     "logo": "ipfs://QmcMP9s9mUqfT2SCiP75sZgAVVev7H7RQAKiSx9xWEDKwe"
   },
+  "369": {
+    "key": "369",
+    "name": "Pulsechain Mainnet",
+    "shortName": "Pulsechain",
+    "chainId": 369,
+    "network": "mainnet",
+    "multicall": "0xdbdd0FD8B16F0092f306392b699D7fbddaA9011B",
+    "rpc": [
+      "https://rpc.pulsechain.com"
+    ],
+    "explorer": {
+      "url": "https://scan.pulsechain.com/"
+    },
+    "start": 17657774,
+    "logo": "ipfs://QmWUsiEWdejtHZ9B9981TYXn7Ds8C7fkB1S4h5rP3kCCZR"
+  },
   "416": {
     "key": "416",
     "name": "SX Network",
@@ -965,7 +981,7 @@
     "start": 1335512,
     "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
   },
-  "599":{
+  "599": {
     "key": "599",
     "name": "Metis Testnet",
     "chainId": 599,
@@ -1804,7 +1820,7 @@
     "explorer": {
       "url": "https://gwscan.com"
     },
-    "start": 15034, 
+    "start": 15034,
     "logo": "ipfs://QmR6Q2CTds6Uwu8Euo7BKvFKAeg1AyVSxWzqCvyquDD7NF"
   },
   "80001": {
@@ -2247,7 +2263,7 @@
     "start": 501318,
     "logo": "ipfs://QmYz8LK5WkUN8UwqKfWUjnyLuYqQZWihT7J766YXft4TSy"
   },
-  "5555":  {
+  "5555": {
     "key": "5555",
     "name": "Chain Verse Mainnet",
     "shortName": "ChainVerse",
