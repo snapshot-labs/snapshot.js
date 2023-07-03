@@ -794,20 +794,20 @@
   },
   "280": {
     "key": "280",
-    "name": "zkSync 2 testnet",
-    "shortName": "zkSync2",
+    "name": "zkSync Era Testnet",
+    "shortName": "zkSync testnet",
     "chainId": 280,
     "network": "zkSync alpha testnet",
     "testnet": true,
-    "multicall": "0xD2CF10EF0b64B2C9B7147740AEda677d3EfeD2f8",
+    "multicall": "0xbDAd32d600915cB70576D3d935d49bFf3C9cB0CF",
     "rpc": [
-      "https://zksync2-testnet.zksync.dev"
+      "https://testnet.era.zksync.dev"
     ],
     "explorer": {
-      "url": "https://zksync2-testnet.zkscan.io/"
+      "url": "https://goerli.explorer.zksync.io/"
     },
     "start": 1374275,
-    "logo": "ipfs://QmPDbdmwpEeenaLHAbqcAerXdH9Z4Gfd7gm9M8tbkkjcAS"
+    "logo": "ipfs://bafkreih6y7ri7h667cwxe5miisxghfheiidtbw2747y75stoxt3gp3a2yy"
   },
   "324": {
     "key": "324",
@@ -823,7 +823,7 @@
       "url": "https://explorer.zksync.io/"
     },
     "start": 3908235,
-    "logo": "ipfs://QmPDbdmwpEeenaLHAbqcAerXdH9Z4Gfd7gm9M8tbkkjcAS"
+    "logo": "ipfs://bafkreih6y7ri7h667cwxe5miisxghfheiidtbw2747y75stoxt3gp3a2yy"
   },
   "288": {
     "key": "288",
