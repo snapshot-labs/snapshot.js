@@ -794,20 +794,36 @@
   },
   "280": {
     "key": "280",
-    "name": "zkSync 2 testnet",
-    "shortName": "zkSync2",
+    "name": "zkSync Era Testnet",
+    "shortName": "zkSync testnet",
     "chainId": 280,
     "network": "zkSync alpha testnet",
     "testnet": true,
-    "multicall": "0xD2CF10EF0b64B2C9B7147740AEda677d3EfeD2f8",
+    "multicall": "0xbDAd32d600915cB70576D3d935d49bFf3C9cB0CF",
     "rpc": [
-      "https://zksync2-testnet.zksync.dev"
+      "https://testnet.era.zksync.dev"
     ],
     "explorer": {
-      "url": "https://zksync2-testnet.zkscan.io/"
+      "url": "https://goerli.explorer.zksync.io/"
     },
-    "start": 1374275,
-    "logo": "ipfs://QmPDbdmwpEeenaLHAbqcAerXdH9Z4Gfd7gm9M8tbkkjcAS"
+    "start": 9012429,
+    "logo": "ipfs://bafkreih6y7ri7h667cwxe5miisxghfheiidtbw2747y75stoxt3gp3a2yy"
+  },
+  "324": {
+    "key": "324",
+    "name": "zkSync Era",
+    "shortName": "zkSync-era",
+    "chainId": 324,
+    "network": "zkSync Era Mainnet",
+    "multicall": "0xF9cda624FBC7e059355ce98a31693d299FACd963",
+    "rpc": [
+      "https://mainnet.era.zksync.io"
+    ],
+    "explorer": {
+      "url": "https://explorer.zksync.io/"
+    },
+    "start": 3908235,
+    "logo": "ipfs://bafkreih6y7ri7h667cwxe5miisxghfheiidtbw2747y75stoxt3gp3a2yy"
   },
   "288": {
     "key": "288",
@@ -876,6 +892,22 @@
     },
     "start": 12559216,
     "logo": "ipfs://QmcMP9s9mUqfT2SCiP75sZgAVVev7H7RQAKiSx9xWEDKwe"
+  },
+  "369": {
+    "key": "369",
+    "name": "Pulsechain Mainnet",
+    "shortName": "Pulsechain",
+    "chainId": 369,
+    "network": "mainnet",
+    "multicall": "0xdbdd0FD8B16F0092f306392b699D7fbddaA9011B",
+    "rpc": [
+      "https://rpc.pulsechain.com"
+    ],
+    "explorer": {
+      "url": "https://scan.pulsechain.com/"
+    },
+    "start": 17657774,
+    "logo": "ipfs://QmWUsiEWdejtHZ9B9981TYXn7Ds8C7fkB1S4h5rP3kCCZR"
   },
   "416": {
     "key": "416",
@@ -965,7 +997,7 @@
     "start": 1335512,
     "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
   },
-  "599":{
+  "599": {
     "key": "599",
     "name": "Metis Testnet",
     "chainId": 599,
@@ -1000,6 +1032,45 @@
     },
     "start": 14441039,
     "logo": "ipfs://QmSXLXqyr2H6Ja5XrmznXbWTEvF2gFaL8RXNXgyLmDHjAF"
+  },
+  "841": {
+    "key": "841",
+    "name": "Taraxa Mainnet",
+    "shortName": "841",
+    "chainId": 841,
+    "network": "mainnet",
+    "multicall": "0xFCe7a3121B42664AaD145712e1c2Bf2e38f60AA1",
+    "rpc": [
+      "https://rpc.mainnet.taraxa.io"
+    ],
+    "ws": [
+      "wss://ws.mainnet.taraxa.io"
+    ],
+    "explorer": {
+      "url": "https://mainnet.explorer.taraxa.io"
+    },
+    "start": 1515906,
+    "logo": "ipfs://Qmcc6ZCAGESMzZzoj5LsTVcCo2E35x3Ydk71uPJyov6Mwx"
+  },
+  "842": {
+    "key": "842",
+    "name": "Taraxa Testnet",
+    "shortName": "842",
+    "chainId": 842,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x7749051abc57e1105941Ea3Eb2a3F873F300E861",
+    "rpc": [
+      "https://rpc.testnet.taraxa.io"
+    ],
+    "ws": [
+      "wss://ws.testnet.taraxa.io"
+    ],
+    "explorer": {
+      "url": "https://testnet.explorer.taraxa.io"
+    },
+    "start": 1462328,
+    "logo": "ipfs://Qmcc6ZCAGESMzZzoj5LsTVcCo2E35x3Ydk71uPJyov6Mwx"
   },
   "888": {
     "key": "888",
@@ -1252,6 +1323,22 @@
     "start": 94085,
     "logo": "ipfs://QmaQxfwpXYTomUd24PMx5tKjosupXcm99z1jL1XLq9LWBS"
   },
+  "2152": {
+    "key": "2152",
+    "name": "Findora Mainnet",
+    "shortName": "Findora",
+    "chainId": 2152,
+    "network": "mainnet",
+    "multicall": "0xCF7D1e21CBe9bdEF235aef06C5d8051B3d4DF0f5",
+    "rpc": [
+      "https://archive.prod.findora.org:8545/"
+    ],
+    "explorer": {
+      "url": "https://evm.findorascan.io"
+    },
+    "start": 4219343,
+    "logo": "ipfs://QmXkneyRB6HbHTHRLCZpZqSsawiyJY7b2kZ2V8ydvKYAgv"
+  },
   "2400": {
     "key": "2400",
     "name": "TCG Verse Mainnet",
@@ -1432,6 +1519,21 @@
       "url": "https://www.smartscan.cash"
     },
     "logo": "ipfs://QmWG1p7om4hZ4Yi4uQvDpxg4si7qVYhtppGbcDGrhVFvMd"
+  },
+  "10243": {
+    "key": "10243",
+    "name": "Arthera Testnet",
+    "shortName": "Arthera_",
+    "chainId": 10243,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x27c7FC597aD2E81C4c1cA1769972f79DaF042Da7",
+    "rpc": ["https://rpc-test.arthera.net"],
+    "explorer": {
+      "url": "https://explorer-test.arthera.net"
+    },
+    "start": 10523,
+    "logo": "ipfs://QmYQp3e52KjkT4bYdAvB6ACEEpXs2D8DozsDitaADRY2Ak"
   },
   "11437": {
     "key": "11437",
@@ -1749,7 +1851,7 @@
     "explorer": {
       "url": "https://gwscan.com"
     },
-    "start": 15034, 
+    "start": 15034,
     "logo": "ipfs://QmR6Q2CTds6Uwu8Euo7BKvFKAeg1AyVSxWzqCvyquDD7NF"
   },
   "80001": {
@@ -2111,21 +2213,22 @@
     "start": 43317,
     "logo": "ipfs://QmXvum7SNVaAqAc2jNzR1NpNZN1GGvNaKWydg8a1GEDQ7y"
   },
-  "9000": {
-    "key": "9000",
+  "6102": {
+    "key": "6102",
     "name": "Cascadia Testnet",
     "shortName": "Cascadia",
-    "chainId": 9000,
+    "chainId": 6102,
     "network": "testnet",
-    "multicall": "0xBd186aca63bD4f5f4eC9E98028461A6A94ac4a12",
+    "multicall": "0x728989819bAD588F193563008E0a03E8cD6a3e4a",
     "rpc": [
-      "https://devnet.cascadia.foundation"
+      "https://testnet.cascadia.foundation"
     ],
     "explorer": {
       "url": "https://explorer.cascadia.foundation"
     },
-    "start": 694000,
-    "logo": "ipfs://QmRgv8ckPdzwHKehJphKDcE3rfuNQaJzjSWq2nuVTTMepZ"
+    "testnet": true,
+    "start": 370457,
+    "logo": "ipfs://QmWkhZYhReYyaa5pQXj32hEGxoRcBqarFMcfQScELmjYQj"
   },
   "84531": {
     "key": "84531",
@@ -2191,7 +2294,7 @@
     "start": 501318,
     "logo": "ipfs://QmYz8LK5WkUN8UwqKfWUjnyLuYqQZWihT7J766YXft4TSy"
   },
-  "5555":  {
+  "5555": {
     "key": "5555",
     "name": "Chain Verse Mainnet",
     "shortName": "ChainVerse",
@@ -2208,7 +2311,7 @@
   },
   "59140": {
     "key": "59140",
-    "name": "Linea Goerli test network",
+    "name": "Linea Goerli testnet",
     "shortName": "Linea Goerli",
     "chainId": 59140,
     "network": "testnet",
@@ -2222,5 +2325,45 @@
     },
     "start": 498623,
     "logo": "ipfs://QmSwCnEeLoyMApQd1YfhmGvLt97bH5mLPoabjKqUSuQHHF"
+  },
+  "9000": {
+    "key": "9000",
+    "name": "Evmos Network Testnet",
+    "shortName": "Evmos Testnet",
+    "chainId": 9000,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0xbf84d77eb467c4aaa2988ac070cd119984c0aaa2",
+    "rpc": [
+      "https://eth.bd.evmos.dev:8545"
+    ],
+    "ws": [
+      "wss://eth.bd.evmos.dev:8546"
+    ],
+    "explorer": {
+      "url": "https://testnet.escan.live"
+    },
+    "start": 14929860,
+    "logo": "ipfs://QmVgkQTA8cbYMijWS8AN44xzwAEQvFc2dCpih1qK78ZRQW"
+  },
+  "9001": {
+    "key": "9001",
+    "name": "Evmos Network",
+    "shortName": "Evmos",
+    "chainId": 9001,
+    "network": "mainnet",
+    "testnet": false,
+    "multicall": "0x37763d16f8dBf6F185368E0f256350cAb7E24b26",
+    "rpc": [
+      "https://eth.bd.evmos.org:8545"
+    ],
+    "ws": [
+      "wss://eth.bd.evmos.org:8546"
+    ],
+    "explorer": {
+      "url": "https://escan.live"
+    },
+    "start": 13959539,
+    "logo": "ipfs://QmVgkQTA8cbYMijWS8AN44xzwAEQvFc2dCpih1qK78ZRQW"
   }
 }
