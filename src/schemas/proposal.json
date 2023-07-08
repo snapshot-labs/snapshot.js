@@ -16,7 +16,7 @@
           "type": "string",
           "title": "body",
           "minLength": 0,
-          "maxLength": 14400
+          "maxLength": 20000
         },
         "discussion": {
           "type": "string",
@@ -28,7 +28,7 @@
           "type": "array",
           "title": "choices",
           "minItems": 1,
-          "maxItems": 300
+          "maxItems": 500
         },
         "type": {
           "type": "string",
@@ -56,10 +56,7 @@
           "type": "number",
           "title": "end",
           "minimum": 1000000000,
-          "maximum": 2000000000,
-          "exclusiveMinimum": {
-            "$data": "1/start"
-          }
+          "maximum": 2000000000
         },
         "metadata": {
           "type": "object",

@@ -1,28 +1,46 @@
-import { QuadraticVote, Strategy } from './types';
+import { QuadraticVote, QuadraticChoice, Strategy } from './types';
 
-export function percentageOfTotal(i, values, total): number {
-  const reducedTotal: any = total.reduce((a: any, b: any) => a + b, 0);
-  const percent = (values[i] / reducedTotal) * 100;
+export function calcPercentageOfSum(
+  part: number,
+  wholeArray: number[]
+): number {
+  const whole = wholeArray.reduce((a, b) => a + b, 0);
+  const percent = part / whole;
   return isNaN(percent) ? 0 : percent;
 }
 
-export function quadraticMath(i, choice, balance): number {
-  return Math.sqrt(
-    (percentageOfTotal(i + 1, choice, Object.values(choice)) / 100) * balance
-  );
+export function calcSqrt(
+  percentageWeight: number,
+  votingPower: number
+): number {
+  return Math.sqrt(percentageWeight * votingPower);
+}
+
+function calcSquare(num: number): number {
+  return num * num;
+}
+
+function calcReducedQuadraticScores(
+  percentages: number[],
+  scoresTotal: number
+): number[] {
+  // Reduce each quadratic score so that the sum of quadratic scores matches
+  // the total scores.
+  // This is done to unsure that features like quorum still work as expected.
+  return percentages.map((p) => scoresTotal * p);
 }
 
 export default class QuadraticVoting {
   proposal: { choices: string[] };
   votes: QuadraticVote[];
   strategies: Strategy[];
-  selected: { [key: string]: number };
+  selected: QuadraticChoice;
 
   constructor(
     proposal: { choices: string[] },
     votes: QuadraticVote[],
     strategies: Strategy[],
-    selected: { [key: string]: number }
+    selected: QuadraticChoice
   ) {
     this.proposal = proposal;
     this.votes = votes;
@@ -31,7 +49,7 @@ export default class QuadraticVoting {
   }
 
   static isValidChoice(
-    voteChoice: { [key: string]: number },
+    voteChoice: QuadraticChoice,
     proposalChoices: string[]
   ): boolean {
     return (
@@ -62,57 +80,82 @@ export default class QuadraticVoting {
   }
 
   getScores(): number[] {
-    const results = this.proposal.choices
-      .map((choice, i) =>
-        this.getValidVotes()
-          .map((vote) => quadraticMath(i, vote.choice, vote.balance))
-          .reduce((a, b: any) => a + b, 0)
-      )
-      .map((sqrt) => sqrt * sqrt);
+    const validVotes = this.getValidVotes();
+    const scoresTotal = this.getValidVotes().reduce(
+      (a, b: any) => a + b.balance,
+      0
+    );
 
-    return results
-      .map((res, i) => percentageOfTotal(i, results, results))
-      .map((p) => (this.getScoresTotal() / 100) * p);
+    const quadraticScores = this.proposal.choices.map((_, i) => {
+      const votingPowerSqrt = validVotes
+        .map((vote) => {
+          const choiceWeightPercent = calcPercentageOfSum(
+            vote.choice[i + 1],
+            Object.values(vote.choice)
+          );
+          return calcSqrt(choiceWeightPercent, vote.balance);
+        })
+        .reduce((a, b: any) => a + b, 0);
+      return calcSquare(votingPowerSqrt);
+    });
+
+    const percentagesOfScores = quadraticScores.map((_, i) =>
+      calcPercentageOfSum(quadraticScores[i], quadraticScores)
+    );
+
+    return calcReducedQuadraticScores(percentagesOfScores, scoresTotal);
   }
 
   getScoresByStrategy(): number[][] {
-    const results = this.proposal.choices
-      .map((choice, i) =>
-        this.strategies.map((strategy, sI) =>
-          this.getValidVotes()
-            .map((vote) => quadraticMath(i, vote.choice, vote.scores[sI]))
+    const validVotes = this.getValidVotes();
+    const scoresTotal = this.getValidVotes().reduce(
+      (a, b: any) => a + b.balance,
+      0
+    );
+
+    const quadraticScoresByStrategy = this.proposal.choices
+      .map((_, i) =>
+        this.strategies.map((_, sI) =>
+          validVotes
+            .map((vote) => {
+              const choiceWeightPercentByStrategy = calcPercentageOfSum(
+                vote.choice[i + 1],
+                Object.values(vote.choice)
+              );
+              return calcSqrt(choiceWeightPercentByStrategy, vote.scores[sI]);
+            })
             .reduce((a, b: any) => a + b, 0)
         )
       )
-      .map((arr) => arr.map((sqrt) => [sqrt * sqrt]));
+      .map((arr) => arr.map((num) => [calcSquare(num)]));
 
-    return results.map((res, i) =>
-      this.strategies
-        .map((strategy, sI) =>
-          percentageOfTotal(0, results[i][sI], results.flat(2))
+    const reducedQuadraticScores = quadraticScoresByStrategy.map((_, i) => {
+      const percentagesOfScores = this.strategies.map((_, sI) =>
+        calcPercentageOfSum(
+          quadraticScoresByStrategy[i][sI][0],
+          quadraticScoresByStrategy.flat(2)
         )
-        .map((p) => [(this.getScoresTotal() / 100) * p])
-        .flat()
-    );
+      );
+
+      return calcReducedQuadraticScores(percentagesOfScores, scoresTotal);
+    });
+
+    return reducedQuadraticScores;
   }
 
   getScoresTotal(): number {
-    return this.getValidVotes().reduce((a, b: any) => a + b.balance, 0);
+    return this.votes.reduce((a, b: any) => a + b.balance, 0);
   }
 
   getChoiceString(): string {
     return this.proposal.choices
       .map((choice, i) => {
         if (this.selected[i + 1]) {
-          return `${
-            Math.round(
-              percentageOfTotal(
-                i + 1,
-                this.selected,
-                Object.values(this.selected)
-              ) * 10
-            ) / 10
-          }% for ${choice}`;
+          const percent = calcPercentageOfSum(
+            this.selected[i + 1],
+            Object.values(this.selected)
+          );
+          return `${Math.round(percent * 1000) / 10}% for ${choice}`;
         }
       })
       .filter((el) => el != null)

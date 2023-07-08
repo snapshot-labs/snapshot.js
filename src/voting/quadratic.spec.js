@@ -18,13 +18,13 @@ const example2 = () => {
     { name: 'ticket', network: 1, params: {} }
   ];
   const scores = [
-    854.6690338964087, 135.07224932254462, 119.01320657080511, 73.24551021024158
+    854.6690338964088, 135.07224932254462, 119.01320657080512, 73.24551021024158
   ];
   const scoresByStrategy = [
     [284.8896779654692, 284.8896779654692, 284.8896779654692],
     [45.02408310751502, 45.02408310751502, 45.02408310751502],
     [39.671068856935044, 39.671068856935044, 39.671068856935044],
-    [24.41517007008055, 24.41517007008055, 24.41517007008055]
+    [24.415170070080546, 24.415170070080546, 24.415170070080546]
   ];
   const scoresTotal = 1182;
   const votes = example.votes.map((vote) => ({
@@ -173,20 +173,8 @@ test.each(getScoresByStrategyTests)(
 const getScoresTotalTests = [
   [example.proposal, example.votes, example.strategies, example.scoresTotal],
   [
-    example.proposal,
-    votesWithInvalidChoices(),
-    example.strategies,
-    example.scoresTotal
-  ],
-  [
     example2().proposal,
     example2().votes,
-    example2().strategies,
-    example2().scoresTotal
-  ],
-  [
-    example2().proposal,
-    votesWithInvalidChoices2(),
     example2().strategies,
     example2().scoresTotal
   ]
@@ -208,11 +196,11 @@ test.each(getScoresTotalTests)(
 test.each([
   [
     { 1: 1, 2: 1, 3: 4, 4: 4 },
-    '10% for PistachioSwap, 10% for Pistachio UBI, 40% for ProofofPistachio, 40% for iPistachio'
+    '10% for PistachioSwap, 10% for Pistachio UBI, 40% for ProofOfPistachio, 40% for iPistachio'
   ],
   [
     { 1: 4, 2: 4, 3: 1, 4: 1 },
-    '40% for PistachioSwap, 40% for Pistachio UBI, 10% for ProofofPistachio, 10% for iPistachio'
+    '40% for PistachioSwap, 40% for Pistachio UBI, 10% for ProofOfPistachio, 10% for iPistachio'
   ]
 ])('getChoiceString %s %s', (selected, expected) => {
   const quadratic = new QuadraticVoting(

@@ -13,6 +13,8 @@ import {
   Unsubscribe,
   Profile,
   Alias,
+  DeleteSpace,
+  Statement,
   spaceTypes,
   proposalTypes,
   cancelProposalTypes,
@@ -30,9 +32,9 @@ import {
   profileTypes,
   aliasTypes,
   deleteSpaceType,
-  DeleteSpace
+  statementTypes
 } from './types';
-import hubs from '../hubs.json';
+import constants from '../constants.json';
 
 const NAME = 'snapshot';
 const VERSION = '0.1.4';
@@ -46,7 +48,16 @@ export const domain = {
 export default class Client {
   readonly address: string;
 
-  constructor(address: string = hubs[0]) {
+  constructor(address: string = constants.livenet.sequencer) {
+    address = address.replace(
+      constants.livenet.hub,
+      constants.livenet.sequencer
+    );
+    address = address.replace(
+      constants.testnet.hub,
+      constants.testnet.sequencer
+    );
+    address = address.replace(constants.local.hub, constants.local.sequencer);
     this.address = address;
   }
 
@@ -64,7 +75,6 @@ export default class Client {
   }
 
   async send(envelop) {
-    const url = `${this.address}/api/msg`;
     const init = {
       method: 'POST',
       headers: {
@@ -74,7 +84,7 @@ export default class Client {
       body: JSON.stringify(envelop)
     };
     return new Promise((resolve, reject) => {
-      fetch(url, init)
+      fetch(this.address, init)
         .then((res) => {
           if (res.ok) return resolve(res.json());
           throw res;
@@ -165,6 +175,14 @@ export default class Client {
     message: Profile
   ) {
     return await this.sign(web3, address, message, profileTypes);
+  }
+
+  async statement(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: Statement
+  ) {
+    return await this.sign(web3, address, message, statementTypes);
   }
 
   async alias(web3: Web3Provider | Wallet, address: string, message: Alias) {

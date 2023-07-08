@@ -22,14 +22,20 @@
         },
         "guidelines": {
           "type": "string",
+          "format": "customUrl",
           "title": "guidelines",
+          "maxLength": 256
+        },
+        "template": {
+          "type": "string",
+          "title": "template",
           "maxLength": 1024
         },
         "terms": {
           "type": "string",
           "title": "terms",
-          "format": "uri",
-          "maxLength": 128
+          "format": "customUrl",
+          "maxLength": 256
         },
         "avatar": {
           "type": "string",
@@ -45,8 +51,8 @@
         "website": {
           "type": "string",
           "title": "website",
-          "format": "url",
-          "maxLength": 128
+          "format": "customUrl",
+          "maxLength": 256
         },
         "twitter": {
           "type": "string",
@@ -144,6 +150,18 @@
           "title": "admins",
           "uniqueItems": true
         },
+        "moderators": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "string",
+            "pattern": "^0x[a-fA-F0-9]{40}$",
+            "minLength": 42,
+            "maxLength": 42
+          },
+          "title": "moderators",
+          "uniqueItems": true
+        },
         "filters": {
           "type": "object",
           "properties": {
@@ -216,8 +234,36 @@
           "required": ["name"],
           "additionalProperties": false
         },
-        "delegation": {
-          "type": "boolean"
+        "delegationPortal": {
+          "type": "object",
+          "properties": {
+            "delegationType": {
+              "type": "string",
+              "title": "Delegation type",
+              "description": "Specify the type of delegation that you are using",
+              "anyOf": [
+                { "const": "compound-governor", "title": "Compound governor" }
+              ]
+            },
+            "delegationContract": {
+              "type": "string",
+              "format": "address",
+              "title": "Contract address",
+              "description": "The address of your delegation contract",
+              "examples": ["0x3901D0fDe202aF1427216b79f5243f8A022d68cf"]
+            },
+            "delegationApi": {
+              "type": "string",
+              "format": "uri",
+              "title": "Delegation API",
+              "description": "The URL of your delegation API (e.g a subgraph)",
+              "examples": [
+                "https://api.thegraph.com/subgraphs/name/arr00/uniswap-governance-v2"
+              ]
+            }
+          },
+          "required": ["delegationType", "delegationApi", "delegationContract"],
+          "additionalProperties": false
         },
         "allowAlias": {
           "type": "boolean"
@@ -255,10 +301,7 @@
             },
             "privacy": {
               "type": "string",
-              "enum": [
-                "",
-                "shutter"
-              ]
+              "enum": ["", "shutter"]
             }
           },
           "additionalProperties": false
