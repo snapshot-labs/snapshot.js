@@ -21,14 +21,14 @@ const network = {
   key: chainId,
   name: networkName,
   shortName,
-  chainId,
+  chainId: parseInt(chainId, 10),
   network: testnet ? 'testnet' : networkName,
   multicall,
   rpc: [],
   explorer: {
     url: explorer
   },
-  start,
+  start: parseInt(start, 10),
   logo: `ipfs://${logo}`
 };
 if (testnet) (network as any).testnet = true;
