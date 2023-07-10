@@ -55,6 +55,9 @@ jobs:
       - name: Add new network
         run: |
           node scripts/addNetwork.ts ${{ inputs.chainid }} ${{ inputs.explorer }} ${{ inputs.multicall }} ${{ inputs.start }} ${{ inputs.logo }} ${{ inputs.networkname }} ${{ inputs.shortname }} ${{ inputs.testnet }}
+      - name: Update minor
+        run: |
+          npm --no-git-tag-version version patch
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
