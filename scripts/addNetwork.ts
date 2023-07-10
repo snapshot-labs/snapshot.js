@@ -22,7 +22,7 @@ const network = {
   name: networkName,
   shortName,
   chainId: parseInt(chainId, 10),
-  network: testnet ? 'testnet' : networkName,
+  network: testnet ? 'testnet' : 'mainnet',
   multicall,
   rpc: [],
   explorer: {
@@ -31,7 +31,8 @@ const network = {
   start: parseInt(start, 10),
   logo: `ipfs://${logo}`
 };
-if (testnet) (network as any).testnet = true;
+// @ts-ignore
+if (testnet) network.testnet = true;
 
 networks[chainId] = network;
 console.log(networks[chainId]);
