@@ -566,7 +566,7 @@
       "wss://rpc.xdaichain.com/wss"
     ],
     "explorer": {
-      "url": "https://blockscout.com/poa/xdai"
+      "url": "https://gnosis.blockscout.com/api"
     },
     "start": 4108192,
     "logo": "ipfs://QmZeiy8Ax4133wzxUQM9ky8z5XFVf6YLFjJMmTWbWVniZR"
