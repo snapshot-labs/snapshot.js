@@ -1618,6 +1618,23 @@
     "start": 370457,
     "logo": "ipfs://QmWkhZYhReYyaa5pQXj32hEGxoRcBqarFMcfQScELmjYQj"
   },
+  "7332": {
+    "key": "7332",
+    "name": "EON",
+    "shortName": "EON",
+    "chainId": 7332,
+    "network": "mainnet",
+    "testnet": false,
+    "multicall": "0xC743e4910Bdd4e5aBacCA38F74cdA270281C5eef",
+    "rpc": [
+      "https://eon-rpc.horizenlabs.io/ethv1"
+    ],
+    "explorer": {
+      "url": "https://eon-explorer.horizenlabs.io"
+    },
+    "start": 1,
+    "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
+  },
   "7341": {
     "key": "7341",
     "name": "Shyft",
