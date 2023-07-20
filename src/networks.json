@@ -1618,6 +1618,21 @@
     "start": 370457,
     "logo": "ipfs://QmWkhZYhReYyaa5pQXj32hEGxoRcBqarFMcfQScELmjYQj"
   },
+  "7332": {
+    "key": "7332",
+    "name": "Horizen EON",
+    "shortName": "EON",
+    "chainId": 7332,
+    "network": "mainnet",
+    "multicall": "0xC743e4910Bdd4e5aBacCA38F74cdA270281C5eef",
+    "rpc": [
+    ],
+    "explorer": {
+      "url": "https://eon-explorer.horizenlabs.io"
+    },
+    "start": 85108,
+    "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
+  },
   "7341": {
     "key": "7341",
     "name": "Shyft",
