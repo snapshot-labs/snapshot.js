@@ -12,6 +12,8 @@ export async function getSnapshots(network, snapshot, provider, networks) {
   const cachedEntry = cache[cacheKey];
   if (cachedEntry && cachedEntry.expirationTime > Date.now()) {
     return cachedEntry.value;
+  } else {
+    delete cache[cacheKey];
   }
   const snapshots = {};
   networks.forEach((n) => (snapshots[n] = 'latest'));
