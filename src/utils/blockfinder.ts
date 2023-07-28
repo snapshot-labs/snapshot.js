@@ -1,9 +1,18 @@
 import { subgraphRequest } from '../utils';
 
-let cache = {};
+interface CacheEntry {
+  value: any;
+  expirationTime: number;
+}
+
+const cache: Record<string, CacheEntry> = {};
+
 export async function getSnapshots(network, snapshot, provider, networks) {
   const cacheKey = `${network}-${snapshot}-${networks.join('-')}`;
-  if (cache[cacheKey]) return cache[cacheKey];
+  const cachedEntry = cache[cacheKey];
+  if (cachedEntry && cachedEntry.expirationTime > Date.now()) {
+    return cachedEntry.value;
+  }
   const snapshots = {};
   networks.forEach((n) => (snapshots[n] = 'latest'));
   if (snapshot === 'latest') return snapshots;
@@ -26,8 +35,7 @@ export async function getSnapshots(network, snapshot, provider, networks) {
   const url = 'https://blockfinder.snapshot.org';
   const data = await subgraphRequest(url, query);
   data.blocks.forEach((block) => (snapshots[block.network] = block.number));
-  cache[cacheKey] = snapshots;
+  const expirationTime = Date.now() + 1000 * 60 * 60 * 1; // Cache for 1 hour
+  cache[cacheKey] = { value: snapshots, expirationTime };
   return snapshots;
 }
-
-setInterval(() => (cache = {}), 1000 * 60 * 60 * 1); // Clear cache every 1 hour
