@@ -19,6 +19,7 @@ import voting from './voting';
 
 interface Options {
   url?: string;
+  headers?: any;
 }
 
 interface Strategy {
@@ -215,7 +216,8 @@ export async function getScores(
   network: string,
   addresses: string[],
   snapshot: number | string = 'latest',
-  scoreApiUrl = 'https://score.snapshot.org/api/scores'
+  scoreApiUrl = 'https://score.snapshot.org/api/scores',
+  options: Options = {}
 ) {
   try {
     const params = {
@@ -225,9 +227,9 @@ export async function getScores(
       strategies,
       addresses
     };
-    const res = await fetch(scoreApiUrl, {
+    const res = await fetch(options.url || scoreApiUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...options.headers },
       body: JSON.stringify({ params })
     });
     const obj = await res.json();
@@ -252,7 +254,8 @@ export async function getVp(
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...options?.headers
     },
     body: JSON.stringify({
       jsonrpc: '2.0',
@@ -289,7 +292,8 @@ export async function validate(
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...options?.headers
     },
     body: JSON.stringify({
       jsonrpc: '2.0',
