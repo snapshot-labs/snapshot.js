@@ -19,6 +19,7 @@ export async function getSnapshots(network, snapshot, provider, networks) {
   // Reset cache every hour
   if (expirationTime < now) {
     cache = {};
+    // Set expiration time to next hour
     expirationTime = now + 60 * 60 * 1000 - (now % (60 * 60 * 1000));
   }
 
