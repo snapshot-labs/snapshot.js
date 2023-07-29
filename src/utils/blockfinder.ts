@@ -1,23 +1,27 @@
 import { subgraphRequest } from '../utils';
 
-interface CacheEntry {
-  value: any;
-  expirationTime: number;
-}
-
-const cache: Record<string, CacheEntry> = {};
+let cache: Record<string, any> = {};
+let expirationTime = 0;
 
 export async function getSnapshots(network, snapshot, provider, networks) {
-  const cacheKey = `${network}-${snapshot}-${networks.join('-')}`;
-  const cachedEntry = cache[cacheKey];
-  if (cachedEntry && cachedEntry.expirationTime > Date.now()) {
-    return cachedEntry.value;
-  } else {
-    delete cache[cacheKey];
-  }
+  // If snapshot is latest, return all latest
   const snapshots = {};
   networks.forEach((n) => (snapshots[n] = 'latest'));
   if (snapshot === 'latest') return snapshots;
+
+  // Check if cache is valid
+  const cacheKey = `${network}-${snapshot}-${networks.join('-')}`;
+  const cachedEntry = cache[cacheKey];
+  const now = Date.now();
+  if (cachedEntry && expirationTime > now) {
+    return cachedEntry;
+  }
+  // Reset cache every hour
+  if (expirationTime < now) {
+    cache = {};
+    expirationTime = now + 60 * 60 * 1000 - (now % (60 * 60 * 1000));
+  }
+
   snapshots[network] = snapshot;
   const networkIn = Object.keys(snapshots).filter((s) => network !== s);
   if (networkIn.length === 0) return snapshots;
@@ -37,7 +41,6 @@ export async function getSnapshots(network, snapshot, provider, networks) {
   const url = 'https://blockfinder.snapshot.org';
   const data = await subgraphRequest(url, query);
   data.blocks.forEach((block) => (snapshots[block.network] = block.number));
-  const expirationTime = Date.now() + 1000 * 60 * 60 * 1; // Cache for 1 hour
-  cache[cacheKey] = { value: snapshots, expirationTime };
+  cache[cacheKey] = snapshots;
   return snapshots;
 }
