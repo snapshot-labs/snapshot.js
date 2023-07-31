@@ -1,12 +1,28 @@
 import { subgraphRequest } from '../utils';
 
-let cache = {};
+let cache: Record<string, any> = {};
+let expirationTime = 0;
+
 export async function getSnapshots(network, snapshot, provider, networks) {
-  const cacheKey = `${network}-${snapshot}-${networks.join('-')}`;
-  if (cache[cacheKey]) return cache[cacheKey];
+  // If snapshot is latest, return all latest
   const snapshots = {};
   networks.forEach((n) => (snapshots[n] = 'latest'));
   if (snapshot === 'latest') return snapshots;
+
+  // Check if cache is valid
+  const cacheKey = `${network}-${snapshot}-${networks.join('-')}`;
+  const cachedEntry = cache[cacheKey];
+  const now = Date.now();
+  if (cachedEntry && expirationTime > now) {
+    return cachedEntry;
+  }
+  // Reset cache every hour
+  if (expirationTime < now) {
+    cache = {};
+    // Set expiration time to next hour
+    expirationTime = now + 60 * 60 * 1000 - (now % (60 * 60 * 1000));
+  }
+
   snapshots[network] = snapshot;
   const networkIn = Object.keys(snapshots).filter((s) => network !== s);
   if (networkIn.length === 0) return snapshots;
@@ -29,5 +45,3 @@ export async function getSnapshots(network, snapshot, provider, networks) {
   cache[cacheKey] = snapshots;
   return snapshots;
 }
-
-setInterval(() => (cache = {}), 1000 * 60 * 60 * 1); // Clear cache every 1 hour
