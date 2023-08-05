@@ -1625,8 +1625,7 @@
     "chainId": 7332,
     "network": "mainnet",
     "multicall": "0xC743e4910Bdd4e5aBacCA38F74cdA270281C5eef",
-    "rpc": [
-    ],
+    "rpc": [],
     "explorer": {
       "url": "https://eon-explorer.horizenlabs.io"
     },
@@ -1699,6 +1698,20 @@
       "url": "https://scope.klaytn.com/"
     },
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+  },
+  "8453": {
+    "key": "8453",
+    "name": "Base",
+    "shortName": "mainnet",
+    "chainId": 8453,
+    "network": "mainnet",
+    "multicall": "0xca11bde05977b3631167028862be2a173976ca11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://basescan.org/"
+    },
+    "start": 5022,
+    "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv"
   },
   "9000": {
     "key": "9000",
@@ -2193,7 +2206,7 @@
       "url": "https://goerli.basescan.org/"
     },
     "start": 1151797,
-    "logo": "ipfs://QmQqrze3W1uSYWq2cGSYDeDwtjGXohTjWPnQ87EVJGeq2P"
+    "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv"
   },
   "333888": {
     "key": "333888",
