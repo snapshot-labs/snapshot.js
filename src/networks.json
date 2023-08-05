@@ -1204,7 +1204,7 @@
     "testnet": true,
     "multicall": "0x751d21047C116413895c259f3f305e38C10B7cF6",
     "rpc": [
-      "https://json-rpc.evm.testnet.shimmer.network/"
+      "https://archive.evm.testnet.shimmer.network/v1/chains/rms1pr75wa5xuepg2hew44vnr28wz5h6n6x99zptk2g68sp2wuu2karywgrztx3/evm"
     ],
     "explorer": {
       "url": "https://explorer.evm.testnet.shimmer.network/"
