@@ -1209,7 +1209,7 @@
     "explorer": {
       "url": "https://explorer.evm.testnet.shimmer.network/"
     },
-    "start": 38066,
+    "start": 10614,
     "logo": "ipfs://QmYGxmEhV6djksUk97pdE9TmL6DXm9KW8BP7pwUv8pqp8r"
   },
   "1088": {
@@ -2407,7 +2407,7 @@
     "explorer": {
       "url": "https://explorer.palm-uat.xyz/"
     },
-    "start": 10614,
+    "start": 7282345,
     "logo": "ipfs://QmRHB9TqMdVHY392vYiv8sTJ7VHShkq5FT6nS9fPuUNBf1"
   }
 }
