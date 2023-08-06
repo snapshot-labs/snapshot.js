@@ -1195,21 +1195,21 @@
     },
     "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
   },
-  "1071": {
-    "key": "1071",
+  "1072": {
+    "key": "1072",
     "name": "Shimmer EVM Testnet",
     "shortName": "ShimmerEVM",
-    "chainId": 1071,
+    "chainId": 1072,
     "network": "testnet",
     "testnet": true,
-    "multicall": "0xb6d9a0849bA7a6FB565567A6013cFEb8d91A1688",
+    "multicall": "0x751d21047C116413895c259f3f305e38C10B7cF6",
     "rpc": [
-      "https://json-rpc.evm.testnet.shimmer.network/"
+      "https://archive.evm.testnet.shimmer.network/v1/chains/rms1pr75wa5xuepg2hew44vnr28wz5h6n6x99zptk2g68sp2wuu2karywgrztx3/evm"
     ],
     "explorer": {
       "url": "https://explorer.evm.testnet.shimmer.network/"
     },
-    "start": 38066,
+    "start": 10614,
     "logo": "ipfs://QmYGxmEhV6djksUk97pdE9TmL6DXm9KW8BP7pwUv8pqp8r"
   },
   "1088": {
