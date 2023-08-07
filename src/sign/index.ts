@@ -77,7 +77,6 @@ export default class Client {
 
   async send(envelop) {
     let address = this.address;
-    console.log('sig', envelop.sig);
     if (envelop.sig === '0x' && this.options.relayerURL)
       address = this.options.relayerURL;
     const init = {
