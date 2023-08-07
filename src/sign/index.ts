@@ -47,8 +47,9 @@ export const domain = {
 
 export default class Client {
   readonly address: string;
+  readonly options: any;
 
-  constructor(address: string = constants.livenet.sequencer) {
+  constructor(address: string = constants.livenet.sequencer, options = {}) {
     address = address.replace(
       constants.livenet.hub,
       constants.livenet.sequencer
@@ -59,6 +60,7 @@ export default class Client {
     );
     address = address.replace(constants.local.hub, constants.local.sequencer);
     this.address = address;
+    this.options = options;
   }
 
   async sign(web3: Web3Provider | Wallet, address: string, message, types) {
@@ -70,11 +72,14 @@ export default class Client {
       message.timestamp = parseInt((Date.now() / 1e3).toFixed());
     const data: any = { domain, types, message };
     const sig = await signer._signTypedData(domain, data.types, message);
-    //console.log('Sign', { address: checksumAddress, sig, data });
     return await this.send({ address: checksumAddress, sig, data });
   }
 
   async send(envelop) {
+    let address = this.address;
+    console.log('sig', envelop.sig);
+    if (envelop.sig === '0x' && this.options.relayerURL)
+      address = this.options.relayerURL;
     const init = {
       method: 'POST',
       headers: {
@@ -84,7 +89,7 @@ export default class Client {
       body: JSON.stringify(envelop)
     };
     return new Promise((resolve, reject) => {
-      fetch(this.address, init)
+      fetch(address, init)
         .then((res) => {
           if (res.ok) return resolve(res.json());
           throw res;
