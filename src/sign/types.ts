@@ -30,6 +30,7 @@ export interface Proposal {
 }
 
 export interface Propose {
+  execution?: string;
   from?: string;
   space: string;
   timestamp?: number;
