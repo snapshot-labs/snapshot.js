@@ -28,10 +28,16 @@ interface Strategy {
 }
 
 export const SNAPSHOT_SUBGRAPH_URL = delegationSubgraphs;
-
 const ENS_RESOLVER_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)'
 ];
+const SCORE_API_KEY = process?.env?.KEYCARD_SECRET || '';
+
+const scoreApiHeaders = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json'
+};
+if (SCORE_API_KEY) scoreApiHeaders['X-API-KEY'] = SCORE_API_KEY;
 
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
 // @ts-ignore
@@ -215,7 +221,8 @@ export async function getScores(
   network: string,
   addresses: string[],
   snapshot: number | string = 'latest',
-  scoreApiUrl = 'https://score.snapshot.org/api/scores'
+  scoreApiUrl = 'https://score.snapshot.org/api/scores',
+  options: any = { returnValue: 'scores' }
 ) {
   try {
     const params = {
@@ -227,11 +234,11 @@ export async function getScores(
     };
     const res = await fetch(scoreApiUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: scoreApiHeaders,
       body: JSON.stringify({ params })
     });
     const obj = await res.json();
-    return obj.result.scores;
+    return options.returnValue ? obj.result[options.returnValue] : obj.result;
   } catch (e) {
     return Promise.reject(e);
   }
@@ -250,10 +257,7 @@ export async function getVp(
   if (!options.url) options.url = 'https://score.snapshot.org';
   const init = {
     method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
+    headers: scoreApiHeaders,
     body: JSON.stringify({
       jsonrpc: '2.0',
       method: 'get_vp',
@@ -264,8 +268,7 @@ export async function getVp(
         snapshot,
         space,
         delegation
-      },
-      id: null
+      }
     })
   };
   const res = await fetch(options.url, init);
@@ -287,10 +290,7 @@ export async function validate(
   if (!options.url) options.url = 'https://score.snapshot.org';
   const init = {
     method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
+    headers: scoreApiHeaders,
     body: JSON.stringify({
       jsonrpc: '2.0',
       method: 'validate',
@@ -301,8 +301,7 @@ export async function validate(
         network,
         snapshot,
         params
-      },
-      id: null
+      }
     })
   };
   const res = await fetch(options.url, init);

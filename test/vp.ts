@@ -20,4 +20,5 @@ const delegation = false;
 
 snapshot.utils
   .getVp(address, network, strategies, s, space, delegation)
-  .then((result) => console.log(result));
+  .then(console.log)
+  .catch(console.log);
