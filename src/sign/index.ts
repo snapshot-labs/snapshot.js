@@ -5,6 +5,7 @@ import { getAddress } from '@ethersproject/address';
 import {
   Space,
   Proposal,
+  Propose,
   CancelProposal,
   Vote,
   Follow,
@@ -17,6 +18,7 @@ import {
   Statement,
   spaceTypes,
   proposalTypes,
+  proposeTypes,
   cancelProposalTypes,
   cancelProposal2Types,
   voteTypes,
@@ -105,6 +107,14 @@ export default class Client {
     if (!message.discussion) message.discussion = '';
     if (!message.app) message.app = '';
     return await this.sign(web3, address, message, proposalTypes);
+  }
+
+  async propose(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: Propose
+  ) {
+    return await this.sign(web3, address, message, proposeTypes);
   }
 
   async cancelProposal(

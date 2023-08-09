@@ -29,6 +29,18 @@ export interface Proposal {
   app?: string;
 }
 
+export interface Propose {
+  from?: string;
+  space: string;
+  timestamp?: number;
+  type: ProposalType;
+  choices: string[];
+  start: number;
+  end: number;
+  snapshot: number;
+  metadata: string;
+}
+
 export interface CancelProposal {
   from?: string;
   space: string;
@@ -123,6 +135,20 @@ export const proposalTypes = {
     { name: 'snapshot', type: 'uint64' },
     { name: 'plugins', type: 'string' },
     { name: 'app', type: 'string' }
+  ]
+};
+
+export const proposeTypes = {
+  Propose: [
+    { name: 'from', type: 'address' },
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' },
+    { name: 'type', type: 'string' },
+    { name: 'choices', type: 'string[]' },
+    { name: 'start', type: 'uint64' },
+    { name: 'end', type: 'uint64' },
+    { name: 'snapshot', type: 'uint64' },
+    { name: 'metadata', type: 'string' }
   ]
 };
 
