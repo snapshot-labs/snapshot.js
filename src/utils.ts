@@ -3,7 +3,7 @@ import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { isAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
-import { hash, normalize } from '@ensdomains/eth-ens-namehash';
+import { namehash, ensNormalize } from '@ethersproject/hash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
@@ -324,7 +324,7 @@ export async function getEnsTextRecord(
 ) {
   const ensResolvers =
     networks[network].ensResolvers || networks['1'].ensResolvers;
-  const ensHash = hash(normalize(ens));
+  const ensHash = namehash(ensNormalize(ens));
   const provider = getProvider(network);
 
   const result = await multicall(
@@ -360,7 +360,7 @@ export async function getEnsOwner(
     provider
   );
   const ensNameWrapper = networks[network].ensNameWrapper;
-  const ensHash = hash(normalize(ens));
+  const ensHash = namehash(ensNormalize(ens));
   let owner = await ensRegistry.owner(ensHash);
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
   if (owner === ensNameWrapper) {
