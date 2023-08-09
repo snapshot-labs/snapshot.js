@@ -140,6 +140,7 @@ export const proposalTypes = {
 
 export const proposeTypes = {
   Propose: [
+    { name: 'execution', type: 'bytes32' },
     { name: 'from', type: 'address' },
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
