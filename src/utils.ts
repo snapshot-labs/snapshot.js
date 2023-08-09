@@ -28,16 +28,16 @@ interface Strategy {
 }
 
 export const SNAPSHOT_SUBGRAPH_URL = delegationSubgraphs;
-const SCORE_API_KEY = process?.env?.KEYCARD_SECRET || '';
-const SCORE_API_HEADERS = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json'
-};
-if (SCORE_API_KEY) SCORE_API_HEADERS['X-API-KEY'] = SCORE_API_KEY;
-
 const ENS_RESOLVER_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)'
 ];
+const SCORE_API_KEY = process?.env?.KEYCARD_SECRET || '';
+
+const scoreApiHeaders = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json'
+};
+if (SCORE_API_KEY) scoreApiHeaders['X-API-KEY'] = SCORE_API_KEY;
 
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
 // @ts-ignore
@@ -234,7 +234,7 @@ export async function getScores(
     };
     const res = await fetch(scoreApiUrl, {
       method: 'POST',
-      headers: SCORE_API_HEADERS,
+      headers: scoreApiHeaders,
       body: JSON.stringify({ params })
     });
     const obj = await res.json();
@@ -257,7 +257,7 @@ export async function getVp(
   if (!options.url) options.url = 'https://score.snapshot.org';
   const init = {
     method: 'POST',
-    headers: SCORE_API_HEADERS,
+    headers: scoreApiHeaders,
     body: JSON.stringify({
       jsonrpc: '2.0',
       method: 'get_vp',
@@ -290,7 +290,7 @@ export async function validate(
   if (!options.url) options.url = 'https://score.snapshot.org';
   const init = {
     method: 'POST',
-    headers: SCORE_API_HEADERS,
+    headers: scoreApiHeaders,
     body: JSON.stringify({
       jsonrpc: '2.0',
       method: 'validate',
