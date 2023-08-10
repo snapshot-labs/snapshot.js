@@ -241,7 +241,9 @@ export async function getScores(
       body: JSON.stringify({ params })
     });
     const obj = await res.json();
-    return options.returnValue ? obj.result[options.returnValue] : obj.result;
+    return options.returnValue === 'all'
+      ? obj.result
+      : obj.result[options.returnValue];
   } catch (e) {
     return Promise.reject(e);
   }
