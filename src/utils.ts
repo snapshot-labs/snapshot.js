@@ -220,8 +220,9 @@ export async function getScores(
   addresses: string[],
   snapshot: number | string = 'latest',
   scoreApiUrl = 'https://score.snapshot.org',
-  options: any = { returnValue: 'scores' }
+  options: any = {}
 ) {
+  if (!options.returnValue) options.returnValue = 'scores';
   const url = new URL(scoreApiUrl);
   url.pathname = '/api/scores';
   scoreApiUrl = url.toString();
