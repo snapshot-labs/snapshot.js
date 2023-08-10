@@ -222,7 +222,6 @@ export async function getScores(
   scoreApiUrl = 'https://score.snapshot.org',
   options: any = {}
 ) {
-  if (!options.returnValue) options.returnValue = 'scores';
   const url = new URL(scoreApiUrl);
   url.pathname = '/api/scores';
   scoreApiUrl = url.toString();
@@ -243,7 +242,7 @@ export async function getScores(
     const obj = await res.json();
     return options.returnValue === 'all'
       ? obj.result
-      : obj.result[options.returnValue];
+      : obj.result[options.returnValue || 'scores'];
   } catch (e) {
     return Promise.reject(e);
   }
