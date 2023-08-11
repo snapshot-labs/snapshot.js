@@ -3,7 +3,13 @@ import { subgraphRequest } from '../utils';
 let cache: Record<string, any> = {};
 let expirationTime = 0;
 
-export async function getSnapshots(network, snapshot, provider, networks, opts: any = {}) {
+export async function getSnapshots(
+  network,
+  snapshot,
+  provider,
+  networks,
+  opts: any = {}
+) {
   // If snapshot is latest, return all latest
   const snapshots = {};
   networks.forEach((n) => (snapshots[n] = 'latest'));

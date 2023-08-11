@@ -104,12 +104,9 @@ export async function multicall(
   const multicallAbi = [
     'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)'
   ];
-  const multicallAddress = options?.multicallAddress || networks[network].multicall;
-  const multi = new Contract(
-    multicallAddress,
-    multicallAbi,
-    provider
-  );
+  const multicallAddress =
+    options?.multicallAddress || networks[network].multicall;
+  const multi = new Contract(multicallAddress, multicallAbi, provider);
   const itf = new Interface(abi);
   try {
     const max = options?.limit || 500;
@@ -327,9 +324,10 @@ export async function getEnsTextRecord(
   network = '1',
   opts: any = {}
 ) {
-  const ensResolvers = opts.ensResolvers 
-    || networks[network].ensResolvers 
-    || networks['1'].ensResolvers;
+  const ensResolvers =
+    opts.ensResolvers ||
+    networks[network].ensResolvers ||
+    networks['1'].ensResolvers;
   const ensHash = namehash(ensNormalize(ens));
   const provider = getProvider(network, opts);
 
@@ -368,7 +366,8 @@ export async function getEnsOwner(
     ['function owner(bytes32) view returns (address)'],
     provider
   );
-  const ensNameWrapper = opts.ensNameWrapper || networks[network].ensNameWrapper;
+  const ensNameWrapper =
+    opts.ensNameWrapper || networks[network].ensNameWrapper;
   const ensHash = namehash(ensNormalize(ens));
   let owner = await ensRegistry.owner(ensHash);
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
@@ -408,7 +407,8 @@ export async function getDelegatesBySpace(
   snapshot = 'latest',
   options: any = {}
 ) {
-  const subgraphNetwork = options.subgraphNetwork || SNAPSHOT_SUBGRAPH_URL[network]
+  const subgraphNetwork =
+    options.subgraphNetwork || SNAPSHOT_SUBGRAPH_URL[network];
   if (!subgraphNetwork) {
     return Promise.reject(
       `Delegation subgraph not available for network ${network}`
