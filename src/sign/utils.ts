@@ -7,7 +7,7 @@ export function getHash(data) {
   return _TypedDataEncoder.hash(domain, types, message);
 }
 
-export async function verify(address, sig, data, network = '1') {
+export async function verify(address, sig, data, network = '1', opts) {
   const { domain, types, message } = data;
 
   const hash = getHash(data);
@@ -23,5 +23,5 @@ export async function verify(address, sig, data, network = '1') {
   }
 
   // console.log('Check EIP1271 signature');
-  return await verifyEIP1271(address, sig, hash, network);
+  return await verifyEIP1271(address, sig, hash, network, opts);
 }

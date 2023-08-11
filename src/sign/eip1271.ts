@@ -48,8 +48,8 @@ export async function verifyOldVersion(
   return returnValue.toLowerCase() === magicValue.toLowerCase();
 }
 
-export async function verify(address, sig, hash, network = '1') {
-  const provider = getProvider(network);
+export async function verify(address, sig, hash, network = '1', opts) {
+  const provider = getProvider(network, opts);
   if (await verifyDefault(address, sig, hash, provider)) return true;
   return await verifyOldVersion(address, sig, hash, provider);
 }

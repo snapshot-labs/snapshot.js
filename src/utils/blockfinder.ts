@@ -3,7 +3,7 @@ import { subgraphRequest } from '../utils';
 let cache: Record<string, any> = {};
 let expirationTime = 0;
 
-export async function getSnapshots(network, snapshot, provider, networks) {
+export async function getSnapshots(network, snapshot, provider, networks, opts: any = {}) {
   // If snapshot is latest, return all latest
   const snapshots = {};
   networks.forEach((n) => (snapshots[n] = 'latest'));
@@ -39,7 +39,7 @@ export async function getSnapshots(network, snapshot, provider, networks) {
       number: true
     }
   };
-  const url = 'https://blockfinder.snapshot.org';
+  const url = opts.blockFinderUrl || 'https://blockfinder.snapshot.org';
   const data = await subgraphRequest(url, query);
   data.blocks.forEach((block) => (snapshots[block.network] = block.number));
   cache[cacheKey] = snapshots;
