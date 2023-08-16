@@ -8,7 +8,7 @@ export async function getSnapshots(
   snapshot,
   provider,
   networks,
-  opts: any = {}
+  options: any = {}
 ) {
   // If snapshot is latest, return all latest
   const snapshots = {};
@@ -45,7 +45,7 @@ export async function getSnapshots(
       number: true
     }
   };
-  const url = opts.blockFinderUrl || 'https://blockfinder.snapshot.org';
+  const url = options.blockFinderUrl || 'https://blockfinder.snapshot.org';
   const data = await subgraphRequest(url, query);
   data.blocks.forEach((block) => (snapshots[block.network] = block.number));
   cache[cacheKey] = snapshots;

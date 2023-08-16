@@ -182,8 +182,8 @@ export function getUrl(uri, gateway = gateways[0]) {
   return uri;
 }
 
-export async function getJSON(uri, opts: any = {}) {
-  const url = getUrl(uri, opts.gateways);
+export async function getJSON(uri, options: any = {}) {
+  const url = getUrl(uri, options.gateways);
   return fetch(url).then((res) => res.json());
 }
 
@@ -322,21 +322,21 @@ export async function getEnsTextRecord(
   ens: string,
   record: string,
   network = '1',
-  opts: any = {}
+  options: any = {}
 ) {
   const ensResolvers =
-    opts.ensResolvers ||
+    options.ensResolvers ||
     networks[network].ensResolvers ||
     networks['1'].ensResolvers;
   const ensHash = namehash(ensNormalize(ens));
-  const provider = getProvider(network, opts);
+  const provider = getProvider(network, options);
 
   const result = await multicall(
     network,
     provider,
     ENS_RESOLVER_ABI,
     ensResolvers.map((address: any) => [address, 'text', [ensHash, record]]),
-    opts
+    options
   );
   return result.flat().find((r: string) => r) || '';
 }
@@ -344,10 +344,10 @@ export async function getEnsTextRecord(
 export async function getSpaceUri(
   id: string,
   network = '1',
-  opts: any = {}
+  options: any = {}
 ): Promise<string | null> {
   try {
-    return await getEnsTextRecord(id, 'snapshot', network, opts);
+    return await getEnsTextRecord(id, 'snapshot', network, options);
   } catch (e) {
     console.log(e);
     return null;
@@ -357,17 +357,17 @@ export async function getSpaceUri(
 export async function getEnsOwner(
   ens: string,
   network = '1',
-  opts: any = {}
+  options: any = {}
 ): Promise<string | null> {
   const registryAddress = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
-  const provider = getProvider(network, opts);
+  const provider = getProvider(network, options);
   const ensRegistry = new Contract(
     registryAddress,
     ['function owner(bytes32) view returns (address)'],
     provider
   );
   const ensNameWrapper =
-    opts.ensNameWrapper || networks[network].ensNameWrapper;
+    options.ensNameWrapper || networks[network].ensNameWrapper;
   const ensHash = namehash(ensNormalize(ens));
   let owner = await ensRegistry.owner(ensHash);
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
@@ -385,9 +385,9 @@ export async function getEnsOwner(
 export async function getSpaceController(
   id: string,
   network = '1',
-  opts: any = {}
+  options: any = {}
 ): Promise<string | null> {
-  const spaceUri = await getSpaceUri(id, network, opts);
+  const spaceUri = await getSpaceUri(id, network, options);
   if (spaceUri) {
     let isUriAddress = isAddress(spaceUri);
     if (isUriAddress) return spaceUri;
@@ -398,7 +398,7 @@ export async function getSpaceController(
     isUriAddress = isAddress(address);
     if (isUriAddress) return address;
   }
-  return await getEnsOwner(id, network, opts);
+  return await getEnsOwner(id, network, options);
 }
 
 export async function getDelegatesBySpace(
