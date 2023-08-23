@@ -10,13 +10,14 @@
           "type": "string",
           "format": "long",
           "title": "About",
-          "minLength": 1,
+          "minLength": 40,
           "maxLength": 140
         },
         "statement": {
           "type": "string",
           "format": "long",
-          "title": "Statement"
+          "title": "Statement",
+          "maxLength": 10000
         }
       },
       "required": ["about"],
