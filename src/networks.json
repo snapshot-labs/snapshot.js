@@ -1195,21 +1195,21 @@
     },
     "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
   },
-  "1071": {
-    "key": "1071",
+  "1072": {
+    "key": "1072",
     "name": "Shimmer EVM Testnet",
     "shortName": "ShimmerEVM",
-    "chainId": 1071,
+    "chainId": 1072,
     "network": "testnet",
     "testnet": true,
-    "multicall": "0xb6d9a0849bA7a6FB565567A6013cFEb8d91A1688",
+    "multicall": "0x751d21047C116413895c259f3f305e38C10B7cF6",
     "rpc": [
-      "https://json-rpc.evm.testnet.shimmer.network/"
+      "https://archive.evm.testnet.shimmer.network/v1/chains/rms1pr75wa5xuepg2hew44vnr28wz5h6n6x99zptk2g68sp2wuu2karywgrztx3/evm"
     ],
     "explorer": {
       "url": "https://explorer.evm.testnet.shimmer.network/"
     },
-    "start": 38066,
+    "start": 10614,
     "logo": "ipfs://QmYGxmEhV6djksUk97pdE9TmL6DXm9KW8BP7pwUv8pqp8r"
   },
   "1088": {
@@ -1551,6 +1551,21 @@
     "start": 8821493,
     "logo": "ipfs://QmNkr1UPcBYbvLp7d7Pk4eF3YCsHpaNkfusKZNtykL2EQC"
   },
+  "5000": {
+    "key": "5000",
+    "name": "Mantle",
+    "chainId": 5000,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [
+      "https://rpc.mantle.xyz"
+    ],
+    "explorer": {
+      "url": "https://explorer.mantle.xyz"
+    },
+    "start": 304717,
+    "logo": "ipfs://bafkreidkucwfn4mzo2gtydrt2wogk3je5xpugom67vhi4h4comaxxjzoz4"
+  },
   "5551": {
     "key": "5551",
     "name": "Nahmii Mainnet",
@@ -1618,6 +1633,20 @@
     "start": 370457,
     "logo": "ipfs://QmWkhZYhReYyaa5pQXj32hEGxoRcBqarFMcfQScELmjYQj"
   },
+  "7332": {
+    "key": "7332",
+    "name": "Horizen EON",
+    "shortName": "EON",
+    "chainId": 7332,
+    "network": "mainnet",
+    "multicall": "0xC743e4910Bdd4e5aBacCA38F74cdA270281C5eef",
+    "rpc": [],
+    "explorer": {
+      "url": "https://eon-explorer.horizenlabs.io"
+    },
+    "start": 85108,
+    "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
+  },
   "7341": {
     "key": "7341",
     "name": "Shyft",
@@ -1684,6 +1713,20 @@
       "url": "https://scope.klaytn.com/"
     },
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+  },
+  "8453": {
+    "key": "8453",
+    "name": "Base",
+    "shortName": "mainnet",
+    "chainId": 8453,
+    "network": "mainnet",
+    "multicall": "0xca11bde05977b3631167028862be2a173976ca11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://basescan.org/"
+    },
+    "start": 5022,
+    "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv"
   },
   "9000": {
     "key": "9000",
@@ -2178,7 +2221,7 @@
       "url": "https://goerli.basescan.org/"
     },
     "start": 1151797,
-    "logo": "ipfs://QmQqrze3W1uSYWq2cGSYDeDwtjGXohTjWPnQ87EVJGeq2P"
+    "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv"
   },
   "333888": {
     "key": "333888",

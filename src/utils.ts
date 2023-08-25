@@ -3,7 +3,7 @@ import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { isAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
-import { hash, normalize } from '@ensdomains/eth-ens-namehash';
+import { namehash, ensNormalize } from '@ethersproject/hash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
@@ -28,10 +28,14 @@ interface Strategy {
 }
 
 export const SNAPSHOT_SUBGRAPH_URL = delegationSubgraphs;
-
 const ENS_RESOLVER_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)'
 ];
+
+const scoreApiHeaders = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json'
+};
 
 const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
 // @ts-ignore
@@ -100,11 +104,9 @@ export async function multicall(
   const multicallAbi = [
     'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)'
   ];
-  const multi = new Contract(
-    networks[network].multicall,
-    multicallAbi,
-    provider
-  );
+  const multicallAddress =
+    options?.multicallAddress || networks[network].multicall;
+  const multi = new Contract(multicallAddress, multicallAbi, provider);
   const itf = new Interface(abi);
   try {
     const max = options?.limit || 500;
@@ -190,8 +192,8 @@ export function getUrl(uri, gateway = gateways[0]) {
   return uri;
 }
 
-export async function getJSON(uri) {
-  const url = getUrl(uri);
+export async function getJSON(uri, options: any = {}) {
+  const url = getUrl(uri, options.gateways);
   return fetch(url).then((res) => res.json());
 }
 
@@ -225,8 +227,13 @@ export async function getScores(
   network: string,
   addresses: string[],
   snapshot: number | string = 'latest',
-  scoreApiUrl = 'https://score.snapshot.org/api/scores'
+  scoreApiUrl = 'https://score.snapshot.org',
+  options: any = {}
 ) {
+  const url = new URL(scoreApiUrl);
+  url.pathname = '/api/scores';
+  scoreApiUrl = url.toString();
+
   try {
     const params = {
       space,
@@ -237,11 +244,13 @@ export async function getScores(
     };
     const res = await fetch(scoreApiUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: scoreApiHeaders,
       body: JSON.stringify({ params })
     });
     const obj = await res.json();
-    return obj.result.scores;
+    return options.returnValue === 'all'
+      ? obj.result
+      : obj.result[options.returnValue || 'scores'];
   } catch (e) {
     return Promise.reject(e);
   }
@@ -260,10 +269,7 @@ export async function getVp(
   if (!options.url) options.url = 'https://score.snapshot.org';
   const init = {
     method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
+    headers: scoreApiHeaders,
     body: JSON.stringify({
       jsonrpc: '2.0',
       method: 'get_vp',
@@ -274,8 +280,7 @@ export async function getVp(
         snapshot,
         space,
         delegation
-      },
-      id: null
+      }
     })
   };
   const res = await fetch(options.url, init);
@@ -297,10 +302,7 @@ export async function validate(
   if (!options.url) options.url = 'https://score.snapshot.org';
   const init = {
     method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
+    headers: scoreApiHeaders,
     body: JSON.stringify({
       jsonrpc: '2.0',
       method: 'validate',
@@ -311,8 +313,7 @@ export async function validate(
         network,
         snapshot,
         params
-      },
-      id: null
+      }
     })
   };
   const res = await fetch(options.url, init);
@@ -330,28 +331,33 @@ export function validateSchema(schema, data) {
 export async function getEnsTextRecord(
   ens: string,
   record: string,
-  network = '1'
+  network = '1',
+  options: any = {}
 ) {
   const ensResolvers =
-    networks[network].ensResolvers || networks['1'].ensResolvers;
-  const ensHash = hash(normalize(ens));
-  const provider = getProvider(network);
+    options.ensResolvers ||
+    networks[network].ensResolvers ||
+    networks['1'].ensResolvers;
+  const ensHash = namehash(ensNormalize(ens));
+  const provider = getProvider(network, options);
 
   const result = await multicall(
     network,
     provider,
     ENS_RESOLVER_ABI,
-    ensResolvers.map((address: any) => [address, 'text', [ensHash, record]])
+    ensResolvers.map((address: any) => [address, 'text', [ensHash, record]]),
+    options
   );
   return result.flat().find((r: string) => r) || '';
 }
 
 export async function getSpaceUri(
   id: string,
-  network = '1'
+  network = '1',
+  options: any = {}
 ): Promise<string | null> {
   try {
-    return await getEnsTextRecord(id, 'snapshot', network);
+    return await getEnsTextRecord(id, 'snapshot', network, options);
   } catch (e) {
     console.log(e);
     return null;
@@ -360,17 +366,19 @@ export async function getSpaceUri(
 
 export async function getEnsOwner(
   ens: string,
-  network = '1'
+  network = '1',
+  options: any = {}
 ): Promise<string | null> {
   const registryAddress = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
-  const provider = getProvider(network);
+  const provider = getProvider(network, options);
   const ensRegistry = new Contract(
     registryAddress,
     ['function owner(bytes32) view returns (address)'],
     provider
   );
-  const ensNameWrapper = networks[network].ensNameWrapper;
-  const ensHash = hash(normalize(ens));
+  const ensNameWrapper =
+    options.ensNameWrapper || networks[network].ensNameWrapper;
+  const ensHash = namehash(ensNormalize(ens));
   let owner = await ensRegistry.owner(ensHash);
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
   if (owner === ensNameWrapper) {
@@ -386,9 +394,10 @@ export async function getEnsOwner(
 
 export async function getSpaceController(
   id: string,
-  network = '1'
+  network = '1',
+  options: any = {}
 ): Promise<string | null> {
-  const spaceUri = await getSpaceUri(id, network);
+  const spaceUri = await getSpaceUri(id, network, options);
   if (spaceUri) {
     let isUriAddress = isAddress(spaceUri);
     if (isUriAddress) return spaceUri;
@@ -399,15 +408,18 @@ export async function getSpaceController(
     isUriAddress = isAddress(address);
     if (isUriAddress) return address;
   }
-  return await getEnsOwner(id, network);
+  return await getEnsOwner(id, network, options);
 }
 
 export async function getDelegatesBySpace(
   network: string,
   space: string,
-  snapshot = 'latest'
+  snapshot = 'latest',
+  options: any = {}
 ) {
-  if (!delegationSubgraphs[network]) {
+  const subgraphUrl =
+    options.subgraphUrl || SNAPSHOT_SUBGRAPH_URL[network];
+  if (!subgraphUrl) {
     return Promise.reject(
       `Delegation subgraph not available for network ${network}`
     );
@@ -439,10 +451,7 @@ export async function getDelegatesBySpace(
   while (true) {
     params.delegations.__args.skip = page * PAGE_SIZE;
 
-    const pageResult = await subgraphRequest(
-      delegationSubgraphs[network],
-      params
-    );
+    const pageResult = await subgraphRequest(subgraphUrl, params);
     const pageDelegations = pageResult.delegations || [];
     result = result.concat(pageDelegations);
     page++;

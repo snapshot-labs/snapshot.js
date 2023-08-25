@@ -6,8 +6,11 @@ import {
 const providers = {};
 const batchedProviders = {};
 
-export default function getProvider(network) {
-  const url = `https://rpc.snapshot.org/${network}`;
+export default function getProvider(
+  network,
+  { broviderUrl = 'https://rpc.snapshot.org' } = {}
+) {
+  const url = `${broviderUrl}/${network}`;
   if (!providers[network])
     providers[network] = new StaticJsonRpcProvider(
       {
@@ -20,8 +23,11 @@ export default function getProvider(network) {
   return providers[network];
 }
 
-export function getBatchedProvider(network) {
-  const url = `https://rpc.snapshot.org/${network}`;
+export function getBatchedProvider(
+  network,
+  { broviderUrl = 'https://rpc.snapshot.org' } = {}
+) {
+  const url = `${broviderUrl}/${network}`;
   if (!batchedProviders[network])
     batchedProviders[network] = new JsonRpcBatchProvider({
       url,
