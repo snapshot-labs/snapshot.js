@@ -136,7 +136,7 @@ export async function multicall(
 }
 
 export function fetchWithTimeout(url, options): Promise<any> {
-  const timeout = 30000 || options.timeout;
+  const timeout = options.timeout || 30000;
   return Promise.race([
     fetch(url, options),
     new Promise((_, reject) =>
