@@ -441,7 +441,7 @@ export async function getDelegatesBySpace(
   while (true) {
     params.delegations.__args.skip = page * PAGE_SIZE;
 
-    const pageResult = await subgraphRequest(subgraphNetwork, params);
+    const pageResult = await subgraphRequest(subgraphUrl, params);
     const pageDelegations = pageResult.delegations || [];
     result = result.concat(pageDelegations);
     page++;
