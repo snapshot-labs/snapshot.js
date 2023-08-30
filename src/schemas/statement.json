@@ -10,7 +10,7 @@
           "type": "string",
           "format": "long",
           "title": "About",
-          "minLength": 40,
+          "minLength": 1,
           "maxLength": 140
         },
         "statement": {
