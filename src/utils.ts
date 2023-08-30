@@ -324,19 +324,24 @@ export async function getEnsTextRecord(
   network = '1',
   options: any = {}
 ) {
+  const {
+    ensResolvers: ensResolversOpt,
+    broviderUrl,
+    ...multicallOptions
+  } = options;
   const ensResolvers =
-    options.ensResolvers ||
+    ensResolversOpt ||
     networks[network].ensResolvers ||
     networks['1'].ensResolvers;
   const ensHash = namehash(ensNormalize(ens));
-  const provider = getProvider(network, options);
+  const provider = getProvider(network, { broviderUrl });
 
   const result = await multicall(
     network,
     provider,
     ENS_RESOLVER_ABI,
     ensResolvers.map((address: any) => [address, 'text', [ensHash, record]]),
-    options
+    multicallOptions
   );
   return result.flat().find((r: string) => r) || '';
 }
