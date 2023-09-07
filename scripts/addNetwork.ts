@@ -1,5 +1,5 @@
 const networks = require('../src/networks.json');
-import { getAddress } from '@ethersproject/address';
+const { getAddress } = require('@ethersproject/address');
 
 if (process.argv.length < 7) {
   console.log(
