@@ -1,4 +1,5 @@
 const networks = require('../src/networks.json');
+import { getAddress } from '@ethersproject/address';
 
 if (process.argv.length < 7) {
   console.log(
@@ -10,7 +11,7 @@ if (process.argv.length < 7) {
 const args = process.argv.slice(2);
 const chainId = args[0];
 const explorer = args[1];
-const multicall = args[2];
+const multicall = getAddress(args[2]);
 const start = args[3];
 const logo = args[4];
 const networkName = args[5];
