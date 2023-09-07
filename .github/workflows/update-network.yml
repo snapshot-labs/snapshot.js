@@ -54,6 +54,7 @@ jobs:
           node-version: '16.10.0'
       - name: Add new network
         run: |
+          yarn install --frozen-lockfile
           node scripts/addNetwork.ts ${{ inputs.chainid }} ${{ inputs.explorer }} ${{ inputs.multicall }} ${{ inputs.start }} ${{ inputs.logo }} "${{ inputs.networkname }}" ${{ inputs.shortname }} ${{ inputs.testnet }}
       - name: Update minor
         run: |
