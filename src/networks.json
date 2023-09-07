@@ -449,6 +449,20 @@
     "start": 10780012,
     "logo": "ipfs://QmXAKaNsyv6ctuRenYRJuZ1V4kn1eFwkUtjrjzX6jiKTqe"
   },
+  "75": {
+    "key": "75",
+    "name": "Decimal Smart Chain",
+    "shortName": "mainnet",
+    "chainId": 75,
+    "network": "mainnet",
+    "multicall": "0x949d1A0757803C51F2EfFFEb5472C861A898B8E8",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.decimalchain.com"
+    },
+    "start": 16031065,
+    "logo": "ipfs://bafkreihkdhbce5rkogl63xegaarlirjrvbfarxbtbf5mqme3s5grvbjyxm"
+  },
   "80": {
     "key": "80",
     "name": "GeneChain",
