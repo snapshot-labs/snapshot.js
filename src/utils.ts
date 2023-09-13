@@ -412,8 +412,7 @@ export async function getDelegatesBySpace(
   snapshot = 'latest',
   options: any = {}
 ) {
-  const subgraphUrl =
-    options.subgraphUrl || SNAPSHOT_SUBGRAPH_URL[network];
+  const subgraphUrl = options.subgraphUrl || SNAPSHOT_SUBGRAPH_URL[network];
   if (!subgraphUrl) {
     return Promise.reject(
       `Delegation subgraph not available for network ${network}`

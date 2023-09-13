@@ -35,7 +35,6 @@
           "maxItems": 500
         },
         "type": {
-          "type": "string",
           "enum": [
             "single-choice",
             "approval",
@@ -51,7 +50,7 @@
           "title": "metadata"
         }
       },
-      "required": ["proposal"],
+      "required": ["proposal", "name", "body", "discussion", "choices", "type", "metadata"],
       "additionalProperties": false
     }
   }
