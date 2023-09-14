@@ -34,12 +34,12 @@ export interface UpdateProposal {
   from: string;
   space: string;
   timestamp: number;
-  type?: ProposalType;
-  title?: string;
-  body?: string;
-  discussion?: string;
-  choices?: string[];
-  plugins?: string;
+  type: ProposalType;
+  title: string;
+  body: string;
+  discussion: string;
+  choices: string[];
+  plugins: string;
 }
 
 export interface CancelProposal {
