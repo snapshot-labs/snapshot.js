@@ -140,7 +140,7 @@ export const proposalTypes = {
 };
 
 export const updateProposalTypes = {
-  updateProposal: [
+  UpdateProposal: [
     { name: 'proposal', type: 'string' },
     { name: 'from', type: 'address' },
     { name: 'space', type: 'string' },
