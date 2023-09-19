@@ -238,6 +238,11 @@ export async function getScores(
       body: JSON.stringify({ params })
     });
     const obj = await res.json();
+
+    if (obj.error) {
+      return Promise.reject(obj.error);
+    }
+
     return options.returnValue === 'all'
       ? obj.result
       : obj.result[options.returnValue || 'scores'];
