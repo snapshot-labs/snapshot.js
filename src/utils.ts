@@ -247,6 +247,9 @@ export async function getScores(
       ? obj.result
       : obj.result[options.returnValue || 'scores'];
   } catch (e) {
+    if (e.errno) {
+      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
+    }
     return Promise.reject(e);
   }
 }
@@ -278,10 +281,18 @@ export async function getVp(
       }
     })
   };
-  const res = await fetch(options.url, init);
-  const json = await res.json();
-  if (json.error) return Promise.reject(json.error);
-  if (json.result) return json.result;
+
+  try {
+    const res = await fetch(options.url, init);
+    const json = await res.json();
+    if (json.error) return Promise.reject(json.error);
+    if (json.result) return json.result;
+  } catch (e) {
+    if (e.errno) {
+      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
+    }
+    return Promise.reject(e);
+  }
 }
 
 export async function validate(
@@ -311,10 +322,18 @@ export async function validate(
       }
     })
   };
-  const res = await fetch(options.url, init);
-  const json = await res.json();
-  if (json.error) return Promise.reject(json.error);
-  return json.result;
+
+  try {
+    const res = await fetch(options.url, init);
+    const json = await res.json();
+    if (json.error) return Promise.reject(json.error);
+    return json.result;
+  } catch (e) {
+    if (e.errno) {
+      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
+    }
+    return Promise.reject(e);
+  }
 }
 
 export function validateSchema(schema, data) {
@@ -417,8 +436,7 @@ export async function getDelegatesBySpace(
   snapshot = 'latest',
   options: any = {}
 ) {
-  const subgraphUrl =
-    options.subgraphUrl || SNAPSHOT_SUBGRAPH_URL[network];
+  const subgraphUrl = options.subgraphUrl || SNAPSHOT_SUBGRAPH_URL[network];
   if (!subgraphUrl) {
     return Promise.reject(
       `Delegation subgraph not available for network ${network}`
