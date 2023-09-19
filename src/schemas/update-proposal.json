@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/UpdateProposal",
+  "definitions": {
+    "UpdateProposal": {
+      "title": "Update Proposal",
+      "type": "object",
+      "properties": {
+        "proposal": {
+          "type": "string",
+          "title": "proposal id"
+        },
+        "name": {
+          "type": "string",
+          "title": "name",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "body": {
+          "type": "string",
+          "title": "body",
+          "minLength": 0,
+          "maxLength": 20000
+        },
+        "discussion": {
+          "type": "string",
+          "format": "customUrl",
+          "title": "discussion",
+          "maxLength": 256
+        },
+        "choices": {
+          "type": "array",
+          "title": "choices",
+          "minItems": 1,
+          "maxItems": 500
+        },
+        "type": {
+          "enum": [
+            "single-choice",
+            "approval",
+            "ranked-choice",
+            "quadratic",
+            "weighted",
+            "custom",
+            "basic"
+          ]
+        },
+        "metadata": {
+          "type": "object",
+          "title": "metadata"
+        }
+      },
+      "required": ["proposal", "name", "body", "discussion", "choices", "type", "metadata"],
+      "additionalProperties": false
+    }
+  }
+}
