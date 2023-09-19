@@ -9,7 +9,7 @@ describe('test getScores', () => {
     ).to.rejects.toHaveProperty('code');
   });
 
-  test.only('getScores should return a promise rejection with JSON-RPC format on network error', async () => {
+  test('getScores should return a promise rejection with JSON-RPC format on network error', async () => {
     expect.assertions(1);
     await expect(
       getScores(
