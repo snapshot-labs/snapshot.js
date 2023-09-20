@@ -1,4 +1,4 @@
-import fetch from 'cross-fetch';
+import { ofetch as fetch } from 'ofetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { isAddress } from '@ethersproject/address';
