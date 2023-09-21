@@ -2,6 +2,28 @@ import { test, expect, describe } from 'vitest';
 import { getScores, getVp, validate } from '../../src/utils';
 
 describe('getScores', () => {
+  test('should return a score', async () => {
+    expect.assertions(1);
+    expect(
+      await getScores(
+        'fabien.eth',
+        [
+          {
+            name: 'eth-balance',
+            network: '1',
+            params: {}
+          }
+        ],
+        '1',
+        ['0xeF8305E140ac520225DAf050e2f71d5fBcC543e7']
+      )
+    ).toEqual([
+      {
+        '0xeF8305E140ac520225DAf050e2f71d5fBcC543e7': 0.041582733391515345
+      }
+    ]);
+  });
+
   test('should return a promise rejection on error from score-api', async () => {
     expect.assertions(1);
     await expect(getScores('test.eth', [], '1', ['0x0'])).to.rejects.toEqual({
