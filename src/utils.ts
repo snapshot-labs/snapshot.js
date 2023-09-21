@@ -143,6 +143,7 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
       'Content-Type': 'application/json',
       ...options?.headers
     },
+    timeout: 20e3,
     body: JSON.stringify({ query: jsonToGraphQLQuery({ query }) })
   });
   let responseData: any = await res.text();
@@ -184,7 +185,7 @@ export function getUrl(uri, gateway = gateways[0]) {
 
 export async function getJSON(uri, options: any = {}) {
   const url = getUrl(uri, options.gateways);
-  return fetch(url).then((res) => res.json());
+  return fetch(url, { timeout: 30e3 }).then((res) => res.json());
 }
 
 export async function ipfsGet(
@@ -193,7 +194,7 @@ export async function ipfsGet(
   protocolType = 'ipfs'
 ) {
   const url = `https://${gateway}/${protocolType}/${ipfsHash}`;
-  return fetch(url).then((res) => res.json());
+  return fetch(url, { timeout: 20e3 }).then((res) => res.json());
 }
 
 export async function sendTransaction(
@@ -235,6 +236,7 @@ export async function getScores(
     const res = await fetch(scoreApiUrl, {
       method: 'POST',
       headers: scoreApiHeaders,
+      timeout: 60e3,
       body: JSON.stringify({ params })
     });
     const obj = await res.json();
@@ -268,6 +270,7 @@ export async function getVp(
   const init = {
     method: 'POST',
     headers: scoreApiHeaders,
+    timeout: 60e3,
     body: JSON.stringify({
       jsonrpc: '2.0',
       method: 'get_vp',
@@ -309,6 +312,7 @@ export async function validate(
   const init = {
     method: 'POST',
     headers: scoreApiHeaders,
+    timeout: 30e3,
     body: JSON.stringify({
       jsonrpc: '2.0',
       method: 'validate',
