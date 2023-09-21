@@ -42,6 +42,12 @@ export interface UpdateProposal {
   plugins: string;
 }
 
+export interface FlagProposal {
+  from: string;
+  space: string;
+  proposal: string;
+}
+
 export interface CancelProposal {
   from?: string;
   space: string;
@@ -151,6 +157,14 @@ export const updateProposalTypes = {
     { name: 'discussion', type: 'string' },
     { name: 'choices', type: 'string[]' },
     { name: 'plugins', type: 'string' }
+  ]
+};
+
+export const flagProposalTypes = {
+  FlagProposal: [
+    { name: 'from', type: 'address' },
+    { name: 'space', type: 'string' },
+    { name: 'proposal', type: 'string' }
   ]
 };
 
