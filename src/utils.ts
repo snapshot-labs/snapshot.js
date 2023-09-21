@@ -322,8 +322,7 @@ export async function validate(
   };
 
   try {
-    const res = await fetch(options.url, init);
-    return res.result;
+    return (await fetch(options.url, init)).result;
   } catch (e) {
     return Promise.reject(
       e.data?.error || {
