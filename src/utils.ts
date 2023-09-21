@@ -136,33 +136,28 @@ export async function multicall(
 }
 
 export async function subgraphRequest(url: string, query, options: any = {}) {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      ...options?.headers
-    },
-    timeout: 20e3,
-    body: JSON.stringify({ query: jsonToGraphQLQuery({ query }) })
-  });
-  let responseData: any = await res.text();
   try {
-    responseData = JSON.parse(responseData);
+    const init = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        ...options?.headers
+      },
+      timeout: 20e3,
+      body: { query: jsonToGraphQLQuery({ query }) }
+    };
+
+    return (await fetch(url, init)).data;
   } catch (e) {
-    throw new Error(
-      `Errors found in subgraphRequest: URL: ${url}, Status: ${res.status}, Response: ${responseData}`
+    return Promise.reject(
+      e.data?.error || {
+        code: e.status || 0,
+        message: e.statusText || e.toString(),
+        data: e.data || ''
+      }
     );
   }
-  if (responseData.errors) {
-    throw new Error(
-      `Errors found in subgraphRequest: URL: ${url}, Status: ${
-        res.status
-      },  Response: ${JSON.stringify(responseData.errors)}`
-    );
-  }
-  const { data } = responseData;
-  return data || {};
 }
 
 export function getUrl(uri, gateway = gateways[0]) {
@@ -233,26 +228,25 @@ export async function getScores(
       strategies,
       addresses
     };
+
     const res = await fetch(scoreApiUrl, {
       method: 'POST',
       headers: scoreApiHeaders,
       timeout: 60e3,
       body: JSON.stringify({ params })
     });
-    const obj = await res.json();
-
-    if (obj.error) {
-      return Promise.reject(obj.error);
-    }
 
     return options.returnValue === 'all'
-      ? obj.result
-      : obj.result[options.returnValue || 'scores'];
+      ? res.result
+      : res.result[options.returnValue || 'scores'];
   } catch (e) {
-    if (e.errno) {
-      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
-    }
-    return Promise.reject(e);
+    return Promise.reject(
+      e.data?.error || {
+        code: e.status || 0,
+        message: e.statusText || e.toString(),
+        data: e.data || ''
+      }
+    );
   }
 }
 
@@ -271,7 +265,7 @@ export async function getVp(
     method: 'POST',
     headers: scoreApiHeaders,
     timeout: 60e3,
-    body: JSON.stringify({
+    body: {
       jsonrpc: '2.0',
       method: 'get_vp',
       params: {
@@ -282,19 +276,19 @@ export async function getVp(
         space,
         delegation
       }
-    })
+    }
   };
 
   try {
-    const res = await fetch(options.url, init);
-    const json = await res.json();
-    if (json.error) return Promise.reject(json.error);
-    if (json.result) return json.result;
+    return (await fetch(options.url, init)).result;
   } catch (e) {
-    if (e.errno) {
-      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
-    }
-    return Promise.reject(e);
+    return Promise.reject(
+      e.data?.error || {
+        code: e.status || 0,
+        message: e.statusText || e.toString(),
+        data: e.data || ''
+      }
+    );
   }
 }
 
@@ -313,7 +307,7 @@ export async function validate(
     method: 'POST',
     headers: scoreApiHeaders,
     timeout: 30e3,
-    body: JSON.stringify({
+    body: {
       jsonrpc: '2.0',
       method: 'validate',
       params: {
@@ -324,19 +318,20 @@ export async function validate(
         snapshot,
         params
       }
-    })
+    }
   };
 
   try {
     const res = await fetch(options.url, init);
-    const json = await res.json();
-    if (json.error) return Promise.reject(json.error);
-    return json.result;
+    return res.result;
   } catch (e) {
-    if (e.errno) {
-      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
-    }
-    return Promise.reject(e);
+    return Promise.reject(
+      e.data?.error || {
+        code: e.status || 0,
+        message: e.statusText || e.toString(),
+        data: e.data || ''
+      }
+    );
   }
 }
 
