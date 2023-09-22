@@ -1,5 +1,5 @@
 import { test, expect, describe } from 'vitest';
-import { getScores, getVp, validate } from '../../src/utils';
+import { getScores, getVp, validate, getJSON, ipfsGet } from '../../src/utils';
 
 describe('getScores', () => {
   test('should return a score', async () => {
@@ -22,7 +22,7 @@ describe('getScores', () => {
         '0xeF8305E140ac520225DAf050e2f71d5fBcC543e7': 0.041582733391515345
       }
     ]);
-  });
+  }, 20e3);
 
   test('should return a promise rejection on error from score-api', async () => {
     expect.assertions(1);
@@ -55,7 +55,7 @@ describe('getScores', () => {
   test('should return a promise rejection with JSON-RPC format on network error (not found)', async () => {
     expect.assertions(1);
     await expect(
-      getScores('test.eth', [], '1', [''], 'latest', 'https://google.com')
+      getScores('test.eth', [], '1', [''], 'latest', 'https://hub.snapshot.org')
     ).to.rejects.toEqual(
       expect.objectContaining({
         code: 404
@@ -123,7 +123,7 @@ describe('getVp', () => {
     expect.assertions(1);
     await expect(
       getVp(...defaultOptions, {
-        url: 'https://google.com'
+        url: 'https://httpstat.us/405'
       })
     ).to.rejects.toEqual(
       expect.objectContaining({
@@ -187,13 +187,66 @@ describe('validate', () => {
     expect.assertions(1);
     await expect(
       validate(...defaultOptions, {
-        url: 'https://google.com'
+        url: 'https://httpstat.us/405'
       })
     ).to.rejects.toEqual(
       expect.objectContaining({
         code: 405,
         message: 'Method Not Allowed'
       })
+    );
+  });
+});
+
+describe('getJSON', () => {
+  test('should return a JSON', async () => {
+    expect.assertions(1);
+    expect(await getJSON('https://hub.snapshot.org')).toEqual(
+      expect.objectContaining({ name: 'snapshot-hub' })
+    );
+  });
+
+  test('should throw an error when the response is not a JSON file', async () => {
+    expect.assertions(1);
+    await expect(() => getJSON('https://snapshot.org')).rejects.toThrowError(
+      /Unexpected.*JSON/
+    );
+  });
+
+  test('should throw an error on network error (no response)', async () => {
+    expect.assertions(1);
+    await expect(() =>
+      getJSON('https://score-null.snapshot.org')
+    ).rejects.toThrowError('ENOTFOUND');
+  });
+
+  test('should throw an error on network error (not found)', async () => {
+    expect.assertions(1);
+    await expect(() => getJSON('https://httpstat.us/405')).rejects.toThrowError(
+      '405 Method Not Allowed'
+    );
+  });
+});
+
+describe('ipfsGet', () => {
+  const cid = 'bafkreibatgmdqdxsair3j52zfhtntegshtypq2qbex3fgtorwx34kzippe';
+
+  test('should return a JSON', async () => {
+    expect.assertions(1);
+    expect(await ipfsGet('pineapple.fyi', cid)).toEqual({ name: 'Vitalik' });
+  });
+
+  test('should throw an error on network error (no response)', async () => {
+    expect.assertions(1);
+    await expect(() =>
+      ipfsGet('score-null.snapshot.org', cid)
+    ).rejects.toThrowError('ENOTFOUND');
+  });
+
+  test('should throw an error on network error (not found)', async () => {
+    expect.assertions(1);
+    await expect(() => ipfsGet('httpstat.us/404', cid)).rejects.toThrowError(
+      '404 Not Found'
     );
   });
 });

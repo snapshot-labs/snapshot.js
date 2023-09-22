@@ -181,7 +181,15 @@ export function getUrl(uri, gateway = gateways[0]) {
 
 export async function getJSON(uri, options: any = {}) {
   const url = getUrl(uri, options.gateways);
-  return fetch(url, { timeout: 30e3 }).then((res) => res.json());
+  return fetch(url, {
+    timeout: 30e3,
+    parseResponse: JSON.parse,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...options?.headers
+    }
+  });
 }
 
 export async function ipfsGet(
@@ -190,7 +198,14 @@ export async function ipfsGet(
   protocolType = 'ipfs'
 ) {
   const url = `https://${gateway}/${protocolType}/${ipfsHash}`;
-  return fetch(url, { timeout: 20e3 }).then((res) => res.json());
+  return fetch(url, {
+    timeout: 20e3,
+    parseResponse: JSON.parse,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
 }
 
 export async function sendTransaction(
