@@ -90,14 +90,15 @@ export default class Client {
       timeout: 20e3,
       body: envelop
     };
-    return new Promise((resolve, reject) => {
-      fetch(address, init)
-        .then((res) => {
-          if (res.ok) return resolve(res.json());
-          throw res;
-        })
-        .catch((e) => e.json().then((json) => reject(json)));
-    });
+
+    try {
+      return await fetch(address, init);
+    } catch (e) {
+      const isSequencerError =
+        e.data?.hasOwnProperty('error') &&
+        e.data?.hasOwnProperty('error_description');
+      return Promise.reject(isSequencerError ? e.data : e);
+    }
   }
 
   async space(web3: Web3Provider | Wallet, address: string, message: Space) {
