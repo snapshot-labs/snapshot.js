@@ -233,7 +233,7 @@ export async function getScores(
       method: 'POST',
       headers: scoreApiHeaders,
       timeout: 60e3,
-      body: JSON.stringify({ params })
+      body: { params }
     });
 
     return options.returnValue === 'all'

@@ -88,7 +88,7 @@ export default class Client {
         'Content-Type': 'application/json'
       },
       timeout: 20e3,
-      body: JSON.stringify(envelop)
+      body: envelop
     };
     return new Promise((resolve, reject) => {
       fetch(address, init)
