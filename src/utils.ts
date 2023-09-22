@@ -148,7 +148,8 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
       body: { query: jsonToGraphQLQuery({ query }) }
     };
 
-    return (await fetch(url, init)).data;
+    const body = await fetch(url, init);
+    return body.data;
   } catch (e) {
     return Promise.reject(
       e.data?.error || {
@@ -229,7 +230,7 @@ export async function getScores(
       addresses
     };
 
-    const res = await fetch(scoreApiUrl, {
+    const body = await fetch(scoreApiUrl, {
       method: 'POST',
       headers: scoreApiHeaders,
       timeout: 60e3,
@@ -237,8 +238,8 @@ export async function getScores(
     });
 
     return options.returnValue === 'all'
-      ? res.result
-      : res.result[options.returnValue || 'scores'];
+      ? body.result
+      : body.result[options.returnValue || 'scores'];
   } catch (e) {
     return Promise.reject(
       e.data?.error || {
@@ -280,7 +281,8 @@ export async function getVp(
   };
 
   try {
-    return (await fetch(options.url, init)).result;
+    const body = await fetch(options.url, init);
+    return body.result;
   } catch (e) {
     return Promise.reject(
       e.data?.error || {
@@ -322,7 +324,8 @@ export async function validate(
   };
 
   try {
-    return (await fetch(options.url, init)).result;
+    const body = await fetch(options.url, init);
+    return body.result;
   } catch (e) {
     return Promise.reject(
       e.data?.error || {
