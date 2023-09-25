@@ -150,14 +150,16 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
     responseData = JSON.parse(responseData);
   } catch (e) {
     throw new Error(
-      `Errors found in subgraphRequest: URL: ${url}, Status: ${res.status}, Response: ${responseData}`
+      `Errors found in subgraphRequest: URL: ${url}, Status: ${
+        res.status
+      }, Response: ${responseData.substring(0, 400)}`
     );
   }
   if (responseData.errors) {
     throw new Error(
       `Errors found in subgraphRequest: URL: ${url}, Status: ${
         res.status
-      },  Response: ${JSON.stringify(responseData.errors)}`
+      },  Response: ${JSON.stringify(responseData.errors).substring(0, 400)}`
     );
   }
   const { data } = responseData;

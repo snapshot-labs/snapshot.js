@@ -1918,6 +1918,20 @@
     "start": 3368046,
     "logo": "ipfs://QmSxXjvWng3Diz4YwXDV2VqSPgMyzLYBNfkjJcr7rzkxom"
   },
+  "29548": {
+    "key": "29548",
+    "name": "MCH Verse ",
+    "shortName": "mainnet",
+    "chainId": 29548,
+    "network": "mainnet",
+    "multicall": "0x1d39652386488CE1fE4254E105F5A42a04d43dB2",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.oasys.mycryptoheroes.net"
+    },
+    "start": 27458402,
+    "logo": "ipfs://QmZZnwR1y6cU1sare2TQmwqkNDLXQxD4GdPrmHLmUoPtbU"
+  },
   "32659": {
     "key": "32659",
     "name": "Fusion Mainnet",
