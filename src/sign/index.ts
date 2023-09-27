@@ -128,8 +128,6 @@ export default class Client {
     address: string,
     message: FlagProposal
   ) {
-    if (!message.timestamp)
-      message.timestamp = parseInt((Date.now() / 1e3).toFixed());
     return await this.sign(web3, address, message, flagProposalTypes);
   }
 
