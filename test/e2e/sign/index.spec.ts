@@ -28,22 +28,37 @@ describe('Client', () => {
       );
     });
 
-    it('initializes correctly with given parameters', () => {});
+    test.todo('initializes correctly with given parameters', () => {});
 
     describe('Address Assignment', () => {
-      it('assigns address to this.address when envelop.sig is not "0x" or relayerURL is not provided', () => {});
-      it('assigns address to this.options.relayerURL when envelop.sig is "0x" and relayerURL is provided', () => {});
+      test.todo(
+        'assigns address to this.address when envelop.sig is not "0x" or relayerURL is not provided',
+        () => {}
+      );
+      test.todo(
+        'assigns address to this.options.relayerURL when envelop.sig is "0x" and relayerURL is provided',
+        () => {}
+      );
     });
 
     describe('Fetch Call', () => {
-      it('calls fetch with correct address and init parameters', () => {});
-      it('returns correctly when fetch call is successful', () => {});
-      it('throws an error when fetch call fails', () => {});
+      test.todo(
+        'calls fetch with correct address and init parameters',
+        () => {}
+      );
+      test.todo('returns correctly when fetch call is successful', () => {});
+      test.todo('throws an error when fetch call fails', () => {});
     });
 
     describe('Error Handling', () => {
-      it('throws sequencer error when error object has both error and error_description properties', () => {});
-      it('throws non-sequencer error when error object does not have both error and error_description properties', () => {});
+      test.todo(
+        'throws sequencer error when error object has both error and error_description properties',
+        () => {}
+      );
+      test.todo(
+        'throws non-sequencer error when error object does not have both error and error_description properties',
+        () => {}
+      );
     });
   });
 });
