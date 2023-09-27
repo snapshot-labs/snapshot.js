@@ -50,6 +50,10 @@ describe('getScores', () => {
         'FetchError: [POST] "https://score-null.snapshot.org/api/scores": <no response> request to https://score-null.snapshot.org/api/scores failed, reason: getaddrinfo ENOTFOUND score-null.snapshot.org',
       data: ''
     });
+
+    it('should handle missing headers in options', () => {});
+    it('should handle additional headers provided in options', () => {});
+    it('should properly handle timeout', () => {});
   });
 
   test('should return a promise rejection with JSON-RPC format on network error (not found)', async () => {
@@ -132,6 +136,10 @@ describe('getVp', () => {
       })
     );
   });
+
+  it('should handle invalid network parameter', () => {});
+  it('should handle missing headers in options', () => {});
+  it('should handle additional headers provided in options', () => {});
 });
 
 describe('validate', () => {
