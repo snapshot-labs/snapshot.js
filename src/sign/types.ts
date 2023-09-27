@@ -46,6 +46,7 @@ export interface FlagProposal {
   from: string;
   space: string;
   proposal: string;
+  timestamp?: number;
 }
 
 export interface CancelProposal {
@@ -164,7 +165,8 @@ export const flagProposalTypes = {
   FlagProposal: [
     { name: 'from', type: 'address' },
     { name: 'space', type: 'string' },
-    { name: 'proposal', type: 'string' }
+    { name: 'proposal', type: 'string' },
+    { name: 'timestamp', type: 'uint64' }
   ]
 };
 
