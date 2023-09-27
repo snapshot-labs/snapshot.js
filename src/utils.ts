@@ -19,6 +19,8 @@ import voting from './voting';
 
 interface Options {
   url?: string;
+  timeout?: number;
+  headers?: any;
 }
 
 interface Strategy {
@@ -135,7 +137,7 @@ export async function multicall(
   }
 }
 
-export async function subgraphRequest(url: string, query, options: any = {}) {
+export async function subgraphRequest(url: string, query, options?: Options) {
   try {
     const init = {
       method: 'POST',
@@ -144,24 +146,36 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
         'Content-Type': 'application/json',
         ...options?.headers
       },
-      timeout: 20e3,
+      timeout: options?.timeout || 20e3,
       body: { query: jsonToGraphQLQuery({ query }) }
     };
 
     const body = await fetch(url, init);
+
+    if (body.errors) {
+      return Promise.reject(body);
+    }
+
     return body.data;
   } catch (e) {
     return Promise.reject(
-      e.data?.error || {
-        code: e.status || 0,
-        message: e.statusText || e.toString(),
-        data: e.data || ''
-      }
+      e.data?.errors
+        ? e.data
+        : {
+            errors: [
+              {
+                message: e.statusText || e.toString(),
+                extensions: {
+                  code: e.status || 0
+                }
+              }
+            ]
+          }
     );
   }
 }
 
-export function getUrl(uri, gateway = gateways[0]) {
+export function getUrl(uri: string, gateway = gateways[0]) {
   const ipfsGateway = `https://${gateway}`;
   if (!uri) return null;
   if (
@@ -179,33 +193,40 @@ export function getUrl(uri, gateway = gateways[0]) {
   return uri;
 }
 
-export async function getJSON(uri, options: any = {}) {
-  const url = getUrl(uri, options.gateways);
-  return fetch(url, {
-    timeout: 30e3,
-    parseResponse: JSON.parse,
+export async function getJSON(
+  uri: string,
+  options: Options & { gateways?: string } = {}
+) {
+  const url = getUrl(uri, options.gateways) || '';
+  const body = await fetch(url, {
+    timeout: options.timeout || 30e3,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       ...options?.headers
     }
   });
+
+  return typeof body === 'string' ? JSON.parse(body) : body;
 }
 
 export async function ipfsGet(
   gateway: string,
   ipfsHash: string,
-  protocolType = 'ipfs'
+  protocolType = 'ipfs',
+  options: Options = {}
 ) {
   const url = `https://${gateway}/${protocolType}/${ipfsHash}`;
-  return fetch(url, {
-    timeout: 20e3,
-    parseResponse: JSON.parse,
+  const body = await fetch(url, {
+    timeout: options.timeout || 20e3,
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...options.headers
     }
   });
+
+  return typeof body === 'string' ? JSON.parse(body) : body;
 }
 
 export async function sendTransaction(
@@ -230,10 +251,10 @@ export async function getScores(
   addresses: string[],
   snapshot: number | string = 'latest',
   scoreApiUrl = 'https://score.snapshot.org',
-  options: any = {}
+  options: Options & { returnValue?: string; pathname?: string } = {}
 ) {
   const url = new URL(scoreApiUrl);
-  url.pathname = '/api/scores';
+  url.pathname = options.pathname || '/api/scores';
   scoreApiUrl = url.toString();
 
   try {
@@ -248,7 +269,7 @@ export async function getScores(
     const body = await fetch(scoreApiUrl, {
       method: 'POST',
       headers: scoreApiHeaders,
-      timeout: 60e3,
+      timeout: options.timeout || 60e3,
       body: { params }
     });
 
@@ -273,14 +294,13 @@ export async function getVp(
   snapshot: number | 'latest',
   space: string,
   delegation: boolean,
-  options?: Options
+  options: Options = {}
 ) {
-  if (!options) options = {};
-  if (!options.url) options.url = 'https://score.snapshot.org';
+  const url = options.url || 'https://score.snapshot.org';
   const init = {
     method: 'POST',
     headers: scoreApiHeaders,
-    timeout: 60e3,
+    timeout: options.timeout || 60e3,
     body: {
       jsonrpc: '2.0',
       method: 'get_vp',
@@ -296,7 +316,7 @@ export async function getVp(
   };
 
   try {
-    const body = await fetch(options.url, init);
+    const body = await fetch(url, init);
     return body.result;
   } catch (e) {
     return Promise.reject(
@@ -316,14 +336,13 @@ export async function validate(
   network: string,
   snapshot: number | 'latest',
   params: any,
-  options: any
+  options: Options = {}
 ) {
-  if (!options) options = {};
-  if (!options.url) options.url = 'https://score.snapshot.org';
+  const url = options.url || 'https://score.snapshot.org';
   const init = {
     method: 'POST',
     headers: scoreApiHeaders,
-    timeout: 30e3,
+    timeout: options.timeout || 30e3,
     body: {
       jsonrpc: '2.0',
       method: 'validate',
@@ -339,7 +358,7 @@ export async function validate(
   };
 
   try {
-    const body = await fetch(options.url, init);
+    const body = await fetch(url, init);
     return body.result;
   } catch (e) {
     return Promise.reject(
