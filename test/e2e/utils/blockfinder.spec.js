@@ -72,13 +72,13 @@ describe('Blockfinder', () => {
       test('should throw a graphql-like error on network error (not found)', async () => {
         await expect(
           getSnapshots('1', 17789786, provider, ['5', '137'], {
-            blockFinderUrl: 'http://google.com'
+            blockFinderUrl: 'http://httpstat.us/404'
           })
         ).to.rejects.toEqual({
           errors: [
             {
-              extensions: { code: 405 },
-              message: 'Method Not Allowed'
+              extensions: { code: 404 },
+              message: 'Not Found'
             }
           ]
         });
