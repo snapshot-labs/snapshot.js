@@ -347,9 +347,9 @@ describe('getJSON', () => {
     test('should throw an error on network error (timeout)', async () => {
       expect.assertions(1);
       await expect(() =>
-        getJSON('https://httpstat.us/200?sleep5000', { timeout: 500 })
+        getJSON('https://httpstat.us/200?sleep=5000', { timeout: 500 })
       ).rejects.toThrowError(
-        '[GET] "https://httpstat.us/200?sleep5000": <no response> The operation was aborted.'
+        '[GET] "https://httpstat.us/200?sleep=5000": <no response> The operation was aborted.'
       );
     });
   });
@@ -397,7 +397,7 @@ describe('ipfsGet', () => {
     test('should throw an error on network error (timeout)', async () => {
       expect.assertions(1);
       await expect(() =>
-        ipfsGet('httpstat.us/200?sleep5000', cid, 'ipfs', { timeout: 500 })
+        ipfsGet('httpstat.us/200?sleep=5000', cid, 'ipfs', { timeout: 500 })
       ).rejects.toThrowError('aborted');
     });
   });
