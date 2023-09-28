@@ -397,7 +397,12 @@ describe('ipfsGet', () => {
     test('should throw an error on network error (timeout)', async () => {
       expect.assertions(1);
       await expect(() =>
-        ipfsGet('httpstat.us/200?sleep=5000', cid, 'ipfs', { timeout: 500 })
+        ipfsGet(
+          `httpstat.us/200?sleep=5000&cachebuster=${Date.now()}`,
+          cid,
+          'ipfs',
+          { timeout: 500 }
+        )
       ).rejects.toThrowError('aborted');
     });
   });
