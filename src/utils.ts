@@ -152,6 +152,17 @@ export async function subgraphRequest(url: string, query, options?: Options) {
 
     const body = await fetch(url, init);
 
+    if (typeof body === 'string') {
+      return Promise.reject({
+        errors: [
+          {
+            message: 'Body is not a JSON object',
+            extensions: { code: 'INVALID_JSON' }
+          }
+        ]
+      });
+    }
+
     if (body.errors) {
       return Promise.reject(body);
     }

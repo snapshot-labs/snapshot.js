@@ -1,5 +1,12 @@
 import { test, expect, describe } from 'vitest';
-import { getScores, getVp, validate, getJSON, ipfsGet } from '../../src/utils';
+import {
+  getScores,
+  getVp,
+  validate,
+  getJSON,
+  ipfsGet,
+  subgraphRequest
+} from '../../src/utils';
 
 const SCORE_API_URL = 'https://score.snapshot.org';
 
@@ -63,18 +70,18 @@ describe('getScores', () => {
   });
 
   describe('on error', () => {
-    test('should return the JSON-RPC error from score-api', async () => {
+    test('should return the JSON-RPC error from score-api', () => {
       expect.assertions(1);
-      await expect(getScores('test.eth', [], '1', ['0x0'])).to.rejects.toEqual({
+      expect(getScores('test.eth', [], '1', ['0x0'])).to.rejects.toEqual({
         code: 500,
         message: 'unauthorized',
         data: 'something wrong with the strategies'
       });
     });
 
-    test('should return a JSON-RPC-like error on network error (no response)', async () => {
+    test('should return a JSON-RPC-like error on network error (no response)', () => {
       expect.assertions(1);
-      await expect(
+      expect(
         getScores(...payload, 'https://score-null.snapshot.org')
       ).to.rejects.toEqual({
         code: 0,
@@ -84,9 +91,9 @@ describe('getScores', () => {
       });
     });
 
-    test('should return a JSON-RPC-like error on network error (not found)', async () => {
+    test('should return a JSON-RPC-like error on network error (not found)', () => {
       expect.assertions(1);
-      await expect(
+      expect(
         getScores(...payload, 'https://httpstat.us', { pathname: '404' })
       ).to.rejects.toEqual(
         expect.objectContaining({
@@ -96,9 +103,9 @@ describe('getScores', () => {
       );
     });
 
-    test('should return a JSON-RPC-like error on network error (timeout)', async () => {
+    test('should return a JSON-RPC-like error on network error (timeout)', () => {
       expect.assertions(1);
-      await expect(
+      expect(
         getScores(...payload, 'https://httpstat.us/?sleep=5000', {
           timeout: 500,
           pathname: '200'
@@ -146,9 +153,9 @@ describe('getVp', () => {
   });
 
   describe('on error', () => {
-    test('should return a JSON-RPC error from score-api', async () => {
+    test('should return a JSON-RPC error from score-api', () => {
       expect.assertions(1);
-      await expect(
+      expect(
         getVp('test', network, strategies, s, space, delegation)
       ).to.rejects.toEqual({
         code: 400,
@@ -157,9 +164,9 @@ describe('getVp', () => {
       });
     });
 
-    test('should return a JSON-RPC-like error on network error (no response)', async () => {
+    test('should return a JSON-RPC-like error on network error (no response)', () => {
       expect.assertions(1);
-      await expect(
+      expect(
         getVp(...defaultOptions, {
           url: 'https://score-null.snapshot.org'
         })
@@ -171,9 +178,9 @@ describe('getVp', () => {
       });
     });
 
-    test('should return a JSON-RPC-like error on network error (not found)', async () => {
+    test('should return a JSON-RPC-like error on network error (not found)', () => {
       expect.assertions(1);
-      await expect(
+      expect(
         getVp(...defaultOptions, {
           url: 'https://httpstat.us/404'
         })
@@ -185,9 +192,9 @@ describe('getVp', () => {
       );
     });
 
-    test('should return a JSON-RPC-like error on network error (timeout)', async () => {
+    test('should return a JSON-RPC-like error on network error (timeout)', () => {
       expect.assertions(1);
-      await expect(
+      expect(
         getVp(...defaultOptions, {
           url: 'https://httpstat.us/200?sleep=5000',
           timeout: 500
@@ -227,9 +234,9 @@ describe('validate', () => {
   });
 
   describe('on error', () => {
-    test('should return the JSON-RPC error from score-api', async () => {
+    test('should return the JSON-RPC error from score-api', () => {
       expect.assertions(1);
-      await expect(
+      expect(
         validate(validation, 'test', space, network, 'latest', params)
       ).to.rejects.toEqual({
         code: 400,
@@ -238,9 +245,9 @@ describe('validate', () => {
       });
     });
 
-    test('should return a JSON-RPC-like error on network error (no response)', async () => {
+    test('should return a JSON-RPC-like error on network error (no response)', () => {
       expect.assertions(1);
-      await expect(
+      expect(
         validate(...defaultOptions, {
           url: 'https://score-null.snapshot.org'
         })
@@ -252,9 +259,9 @@ describe('validate', () => {
       });
     });
 
-    test('should return a JSON-RPC-like error on network error (not found)', async () => {
+    test('should return a JSON-RPC-like error on network error (not found)', () => {
       expect.assertions(1);
-      await expect(
+      expect(
         validate(...defaultOptions, {
           url: 'https://httpstat.us/404'
         })
@@ -266,9 +273,9 @@ describe('validate', () => {
       );
     });
 
-    test('should return a JSON-RPC-like error on network error (timeout)', async () => {
+    test('should return a JSON-RPC-like error on network error (timeout)', () => {
       expect.assertions(1);
-      await expect(
+      expect(
         validate(...defaultOptions, {
           url: 'https://httpstat.us/200?sleep=5000',
           timeout: 500
@@ -304,49 +311,49 @@ describe('getJSON', () => {
   });
 
   describe('on error', () => {
-    test('should throw an error when the response is not a JSON file', async () => {
+    test('should throw an error when the response is not a JSON file', () => {
       expect.assertions(1);
-      await expect(() => getJSON('https://snapshot.org')).rejects.toThrowError(
+      expect(() => getJSON('https://snapshot.org')).rejects.toThrowError(
         /Unexpected.*JSON/
       );
     });
 
-    test('should throw an error when the url is an empty string', async () => {
+    test('should throw an error when the url is an empty string', () => {
       expect.assertions(1);
-      await expect(() => getJSON('')).rejects.toThrowError(/Invalid URL/);
+      expect(() => getJSON('')).rejects.toThrowError(/Invalid URL/);
     });
 
-    test('should throw an error when the given argument is not valid CID', async () => {
+    test('should throw an error when the given argument is not valid CID', () => {
       expect.assertions(1);
-      await expect(() => getJSON('test-cid')).rejects.toThrowError(
+      expect(() => getJSON('test-cid')).rejects.toThrowError(
         '500 Internal Server Error'
       );
     });
 
-    test('should throw an error when the url is not valid', async () => {
+    test('should throw an error when the url is not valid', () => {
       expect.assertions(1);
-      await expect(() => getJSON('https:// testurl.com')).rejects.toThrowError(
+      expect(() => getJSON('https:// testurl.com')).rejects.toThrowError(
         /Invalid URL/
       );
     });
 
-    test('should throw an error on network error (no response)', async () => {
+    test('should throw an error on network error (no response)', () => {
       expect.assertions(1);
-      await expect(() =>
+      expect(() =>
         getJSON('https://score-null.snapshot.org')
       ).rejects.toThrowError('ENOTFOUND');
     });
 
-    test('should throw an error on network error (not found)', async () => {
+    test('should throw an error on network error (not found)', () => {
       expect.assertions(1);
-      await expect(() =>
-        getJSON('https://httpstat.us/404')
-      ).rejects.toThrowError('404 Not Found');
+      expect(() => getJSON('https://httpstat.us/404')).rejects.toThrowError(
+        '404 Not Found'
+      );
     });
 
-    test('should throw an error on network error (timeout)', async () => {
+    test('should throw an error on network error (timeout)', () => {
       expect.assertions(1);
-      await expect(() =>
+      expect(() =>
         getJSON('https://httpstat.us/200?sleep=5000', { timeout: 500 })
       ).rejects.toThrowError(
         '[GET] "https://httpstat.us/200?sleep=5000": <no response> The operation was aborted.'
@@ -366,37 +373,37 @@ describe('ipfsGet', () => {
   });
 
   describe('on error', () => {
-    test('should throw an error when the response is not a JSON file', async () => {
+    test('should throw an error when the response is not a JSON file', () => {
       expect.assertions(1);
-      await expect(() => ipfsGet('snapshot.org', cid)).rejects.toThrowError(
+      expect(() => ipfsGet('snapshot.org', cid)).rejects.toThrowError(
         /Unexpected.*JSON/
       );
     });
 
-    test('should throw an error on network error (no response)', async () => {
+    test('should throw an error on network error (no response)', () => {
       expect.assertions(1);
-      await expect(() =>
+      expect(() =>
         ipfsGet('score-null.snapshot.org', cid)
       ).rejects.toThrowError('ENOTFOUND');
     });
 
-    test('should throw an error on network error (not found)', async () => {
+    test('should throw an error on network error (not found)', () => {
       expect.assertions(1);
-      await expect(() => ipfsGet('httpstat.us/404', cid)).rejects.toThrowError(
+      expect(() => ipfsGet('httpstat.us/404', cid)).rejects.toThrowError(
         '404 Not Found'
       );
     });
 
-    test('should throw an error on network error (on invalid protocol argument)', async () => {
+    test('should throw an error on network error (on invalid protocol argument)', () => {
       expect.assertions(1);
-      await expect(() =>
-        ipfsGet('pineapple.fyi', cid, 'test')
-      ).rejects.toThrowError('404 Not Found');
+      expect(() => ipfsGet('pineapple.fyi', cid, 'test')).rejects.toThrowError(
+        '404 Not Found'
+      );
     });
 
-    test('should throw an error on network error (timeout)', async () => {
+    test('should throw an error on network error (timeout)', () => {
       expect.assertions(1);
-      await expect(() =>
+      expect(() =>
         ipfsGet(
           `httpstat.us/200?sleep=5000&cachebuster=${Date.now()}`,
           cid,
@@ -404,6 +411,125 @@ describe('ipfsGet', () => {
           { timeout: 500 }
         )
       ).rejects.toThrowError('aborted');
+    });
+  });
+});
+
+describe('subgraphRequest', () => {
+  const query = {
+    blocks: {
+      __args: {
+        where: {
+          ts: 0,
+          network_in: ['1']
+        }
+      },
+      network: true,
+      number: true
+    }
+  };
+  const HOST = 'https://blockfinder.snapshot.org';
+
+  describe('on success', () => {
+    test('should return a JSON object', async () => {
+      expect.assertions(1);
+      expect(await subgraphRequest(HOST, query)).toEqual({
+        blocks: [{ network: '1', number: 0 }]
+      });
+    });
+  });
+
+  describe('on error', () => {
+    const invalidQuery = {
+      blocks: {
+        __args: {
+          where: {
+            ts: 0,
+            network_in: ['4']
+          }
+        },
+        network: true,
+        number: true
+      }
+    };
+
+    test('should return the error response from subgraph', () => {
+      expect.assertions(1);
+      expect(subgraphRequest(HOST, invalidQuery)).to.rejects.toEqual(
+        expect.objectContaining({
+          errors: [
+            expect.objectContaining({
+              message: 'invalid network',
+              extensions: { code: 'INVALID_NETWORK' }
+            })
+          ]
+        })
+      );
+    });
+
+    test('should return an errors object on not JSON response', () => {
+      expect.assertions(1);
+      expect(
+        subgraphRequest('https://httpstat.us/200', query, {
+          headers: {
+            Accept: 'application/xml',
+            'Content-Type': 'application/xml'
+          }
+        })
+      ).to.rejects.toEqual({
+        errors: [
+          {
+            message: 'Body is not a JSON object',
+            extensions: { code: 'INVALID_JSON' }
+          }
+        ]
+      });
+    });
+
+    test('should return an errors object on network error (no response)', () => {
+      expect.assertions(1);
+      expect(
+        subgraphRequest('https://test-null.snapshot.org', query)
+      ).to.rejects.toEqual({
+        errors: [
+          {
+            extensions: { code: 0 },
+            message:
+              'FetchError: [POST] "https://test-null.snapshot.org": <no response> request to https://test-null.snapshot.org/ failed, reason: getaddrinfo ENOTFOUND test-null.snapshot.org'
+          }
+        ]
+      });
+    });
+
+    test('should return an errors object on network error (not found)', () => {
+      expect.assertions(1);
+      expect(
+        subgraphRequest('https://httpstat.us/404', query)
+      ).to.rejects.toEqual({
+        errors: [
+          {
+            extensions: { code: 404 },
+            message: 'Not Found'
+          }
+        ]
+      });
+    });
+
+    test('should return an errors object on network error (timeout)', () => {
+      expect.assertions(1);
+      expect(
+        subgraphRequest('https://httpstat.us/200?sleep=5000', query, {
+          timeout: 500
+        })
+      ).to.rejects.toEqual({
+        errors: [
+          {
+            extensions: { code: 0 },
+            message:
+              'FetchError: [POST] "https://httpstat.us/200?sleep=5000": <no response> The operation was aborted.'
+          }
+        ]
+      });
     });
   });
 });
