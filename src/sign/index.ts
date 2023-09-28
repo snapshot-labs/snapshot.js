@@ -87,7 +87,7 @@ export default class Client {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      timeout: 20e3,
+      timeout: this.options.timeout || 20e3,
       body: envelop
     };
 
