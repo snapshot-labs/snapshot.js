@@ -420,7 +420,7 @@ describe('subgraphRequest', () => {
     blocks: {
       __args: {
         where: {
-          ts: 0,
+          ts: 1640000000,
           network_in: ['1']
         }
       },
@@ -434,7 +434,7 @@ describe('subgraphRequest', () => {
     test('should return a JSON object', async () => {
       expect.assertions(1);
       expect(await subgraphRequest(HOST, query)).toEqual({
-        blocks: [{ network: '1', number: 0 }]
+        blocks: [{ network: '1', number: 13841761 }]
       });
     });
   });
@@ -444,7 +444,7 @@ describe('subgraphRequest', () => {
       blocks: {
         __args: {
           where: {
-            ts: 0,
+            ts: 1640000000,
             network_in: ['4']
           }
         },
