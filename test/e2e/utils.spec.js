@@ -38,46 +38,66 @@ describe('getScores', () => {
       expect(await getScores(...payload)).toEqual(scoresResponse);
     });
 
-    test('should return the full scores object', async () => {
-      expect.assertions(1);
-      expect(
-        await getScores(...payload, SCORE_API_URL, {
-          returnValue: 'all'
-        })
-      ).toEqual({
-        scores: scoresResponse,
-        state: stateResponse
-      });
-    });
+    test(
+      'should return the full scores object',
+      async () => {
+        expect.assertions(1);
+        expect(
+          await getScores(...payload, SCORE_API_URL, {
+            returnValue: 'all'
+          })
+        ).toEqual({
+          scores: scoresResponse,
+          state: stateResponse
+        });
+      },
+      15e3,
+      3
+    );
 
-    test('should return only the given field', async () => {
-      expect.assertions(1);
-      expect(
-        await getScores(...payload, SCORE_API_URL, {
-          returnValue: 'state'
-        })
-      ).toEqual(stateResponse);
-    });
+    test(
+      'should return only the given field',
+      async () => {
+        expect.assertions(1);
+        expect(
+          await getScores(...payload, SCORE_API_URL, {
+            returnValue: 'state'
+          })
+        ).toEqual(stateResponse);
+      },
+      15e3,
+      3
+    );
 
-    test('should return undefined when the given field does not exist', async () => {
-      expect.assertions(1);
-      expect(
-        await getScores(...payload, SCORE_API_URL, {
-          returnValue: 'test'
-        })
-      ).toEqual(undefined);
-    });
+    test(
+      'should return undefined when the given field does not exist',
+      async () => {
+        expect.assertions(1);
+        expect(
+          await getScores(...payload, SCORE_API_URL, {
+            returnValue: 'test'
+          })
+        ).toEqual(undefined);
+      },
+      15e3,
+      3
+    );
   });
 
   describe('on error', () => {
-    test('should return the JSON-RPC error from score-api', () => {
-      expect.assertions(1);
-      expect(getScores('test.eth', [], '1', ['0x0'])).rejects.toEqual({
-        code: 500,
-        message: 'unauthorized',
-        data: 'something wrong with the strategies'
-      });
-    });
+    test(
+      'should return the JSON-RPC error from score-api',
+      () => {
+        expect.assertions(1);
+        expect(getScores('test.eth', [], '1', ['0x0'])).rejects.toEqual({
+          code: 500,
+          message: 'unauthorized',
+          data: 'something wrong with the strategies'
+        });
+      },
+      15e3,
+      3
+    );
 
     test('should return a JSON-RPC-like error on network error (no response)', () => {
       expect.assertions(1);
@@ -142,27 +162,37 @@ describe('getVp', () => {
   const defaultOptions = [address, network, strategies, s, space, delegation];
 
   describe('on success', () => {
-    test('should return a voting power', async () => {
-      expect.assertions(1);
-      expect(await getVp(...defaultOptions)).toEqual({
-        vp: 10.49214268914954,
-        vp_by_strategy: [10.443718706159482, 0.04842398299005922],
-        vp_state: 'final'
-      });
-    });
+    test(
+      'should return a voting power',
+      async () => {
+        expect.assertions(1);
+        expect(await getVp(...defaultOptions)).toEqual({
+          vp: 10.49214268914954,
+          vp_by_strategy: [10.443718706159482, 0.04842398299005922],
+          vp_state: 'final'
+        });
+      },
+      15e3,
+      3
+    );
   });
 
   describe('on error', () => {
-    test('should return a JSON-RPC error from score-api', () => {
-      expect.assertions(1);
-      expect(
-        getVp('test', network, strategies, s, space, delegation)
-      ).rejects.toEqual({
-        code: 400,
-        message: 'unauthorized',
-        data: 'invalid address'
-      });
-    });
+    test(
+      'should return a JSON-RPC error from score-api',
+      () => {
+        expect.assertions(1);
+        expect(
+          getVp('test', network, strategies, s, space, delegation)
+        ).rejects.toEqual({
+          code: 400,
+          message: 'unauthorized',
+          data: 'invalid address'
+        });
+      },
+      15e3,
+      3
+    );
 
     test('should return a JSON-RPC-like error on network error (no response)', () => {
       expect.assertions(1);
@@ -227,23 +257,33 @@ describe('validate', () => {
   const defaultOptions = [validation, author, space, network, 'latest', params];
 
   describe('on success', () => {
-    test('should return a boolean', async () => {
-      expect.assertions(1);
-      expect(await validate(...defaultOptions)).toEqual(false);
-    });
+    test(
+      'should return a boolean',
+      async () => {
+        expect.assertions(1);
+        expect(await validate(...defaultOptions)).toEqual(false);
+      },
+      15e3,
+      3
+    );
   });
 
   describe('on error', () => {
-    test('should return the JSON-RPC error from score-api', () => {
-      expect.assertions(1);
-      expect(
-        validate(validation, 'test', space, network, 'latest', params)
-      ).rejects.toEqual({
-        code: 400,
-        message: 'unauthorized',
-        data: 'invalid address'
-      });
-    });
+    test(
+      'should return the JSON-RPC error from score-api',
+      () => {
+        expect.assertions(1);
+        expect(
+          validate(validation, 'test', space, network, 'latest', params)
+        ).rejects.toEqual({
+          code: 400,
+          message: 'unauthorized',
+          data: 'invalid address'
+        });
+      },
+      15e3,
+      3
+    );
 
     test('should return a JSON-RPC-like error on network error (no response)', () => {
       expect.assertions(1);
@@ -293,21 +333,31 @@ describe('validate', () => {
 
 describe('getJSON', () => {
   describe('on success', () => {
-    test('should return a JSON object from the specified URL', async () => {
-      expect.assertions(1);
-      expect(await getJSON('https://hub.snapshot.org')).toEqual(
-        expect.objectContaining({ name: 'snapshot-hub' })
-      );
-    });
+    test(
+      'should return a JSON object from the specified URL',
+      async () => {
+        expect.assertions(1);
+        expect(await getJSON('https://hub.snapshot.org')).toEqual(
+          expect.objectContaining({ name: 'snapshot-hub' })
+        );
+      },
+      3e3,
+      3
+    );
 
-    test('should return a JSON object from the specified CID', async () => {
-      expect.assertions(1);
-      expect(
-        await getJSON(
-          'bafkreib5epjzumf3omr7rth5mtcsz4ugcoh3ut4d46hx5xhwm4b3pqr2vi'
-        )
-      ).toEqual(expect.objectContaining({ status: 'OK' }));
-    });
+    test(
+      'should return a JSON object from the specified CID',
+      async () => {
+        expect.assertions(1);
+        expect(
+          await getJSON(
+            'bafkreib5epjzumf3omr7rth5mtcsz4ugcoh3ut4d46hx5xhwm4b3pqr2vi'
+          )
+        ).toEqual(expect.objectContaining({ status: 'OK' }));
+      },
+      15e3,
+      3
+    );
   });
 
   describe('on error', () => {
@@ -366,10 +416,17 @@ describe('ipfsGet', () => {
   const cid = 'bafkreibatgmdqdxsair3j52zfhtntegshtypq2qbex3fgtorwx34kzippe';
 
   describe('on success', () => {
-    test('should return a JSON object', async () => {
-      expect.assertions(1);
-      expect(await ipfsGet('pineapple.fyi', cid)).toEqual({ name: 'Vitalik' });
-    });
+    test(
+      'should return a JSON object',
+      async () => {
+        expect.assertions(1);
+        expect(await ipfsGet('pineapple.fyi', cid)).toEqual({
+          name: 'Vitalik'
+        });
+      },
+      15e3,
+      3
+    );
   });
 
   describe('on error', () => {
@@ -431,12 +488,17 @@ describe('subgraphRequest', () => {
   const HOST = 'https://blockfinder.snapshot.org';
 
   describe('on success', () => {
-    test('should return a JSON object', async () => {
-      expect.assertions(1);
-      expect(await subgraphRequest(HOST, query)).toEqual({
-        blocks: [{ network: '1', number: 13841761 }]
-      });
-    });
+    test(
+      'should return a JSON object',
+      async () => {
+        expect.assertions(1);
+        expect(await subgraphRequest(HOST, query)).toEqual({
+          blocks: [{ network: '1', number: 13841761 }]
+        });
+      },
+      15e3,
+      3
+    );
   });
 
   describe('on error', () => {
@@ -453,19 +515,24 @@ describe('subgraphRequest', () => {
       }
     };
 
-    test('should return the error response from subgraph', () => {
-      expect.assertions(1);
-      expect(subgraphRequest(HOST, invalidQuery)).rejects.toEqual(
-        expect.objectContaining({
-          errors: [
-            expect.objectContaining({
-              message: 'invalid network',
-              extensions: { code: 'INVALID_NETWORK' }
-            })
-          ]
-        })
-      );
-    });
+    test(
+      'should return the error response from subgraph',
+      () => {
+        expect.assertions(1);
+        expect(subgraphRequest(HOST, invalidQuery)).rejects.toEqual(
+          expect.objectContaining({
+            errors: [
+              expect.objectContaining({
+                message: 'invalid network',
+                extensions: { code: 'INVALID_NETWORK' }
+              })
+            ]
+          })
+        );
+      },
+      15e3,
+      3
+    );
 
     test('should return an errors object on not JSON response', () => {
       expect.assertions(1);
