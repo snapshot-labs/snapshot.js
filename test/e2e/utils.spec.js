@@ -72,7 +72,7 @@ describe('getScores', () => {
   describe('on error', () => {
     test('should return the JSON-RPC error from score-api', () => {
       expect.assertions(1);
-      expect(getScores('test.eth', [], '1', ['0x0'])).to.rejects.toEqual({
+      expect(getScores('test.eth', [], '1', ['0x0'])).rejects.toEqual({
         code: 500,
         message: 'unauthorized',
         data: 'something wrong with the strategies'
@@ -83,7 +83,7 @@ describe('getScores', () => {
       expect.assertions(1);
       expect(
         getScores(...payload, 'https://score-null.snapshot.org')
-      ).to.rejects.toEqual({
+      ).rejects.toEqual({
         code: 0,
         message:
           'FetchError: [POST] "https://score-null.snapshot.org/api/scores": <no response> request to https://score-null.snapshot.org/api/scores failed, reason: getaddrinfo ENOTFOUND score-null.snapshot.org',
@@ -95,7 +95,7 @@ describe('getScores', () => {
       expect.assertions(1);
       expect(
         getScores(...payload, 'https://httpstat.us', { pathname: '404' })
-      ).to.rejects.toEqual(
+      ).rejects.toEqual(
         expect.objectContaining({
           code: 404,
           message: 'Not Found'
@@ -110,7 +110,7 @@ describe('getScores', () => {
           timeout: 500,
           pathname: '200'
         })
-      ).to.rejects.toEqual(
+      ).rejects.toEqual(
         expect.objectContaining({
           code: 0,
           message:
@@ -157,7 +157,7 @@ describe('getVp', () => {
       expect.assertions(1);
       expect(
         getVp('test', network, strategies, s, space, delegation)
-      ).to.rejects.toEqual({
+      ).rejects.toEqual({
         code: 400,
         message: 'unauthorized',
         data: 'invalid address'
@@ -170,7 +170,7 @@ describe('getVp', () => {
         getVp(...defaultOptions, {
           url: 'https://score-null.snapshot.org'
         })
-      ).to.rejects.toEqual({
+      ).rejects.toEqual({
         code: 0,
         message:
           'FetchError: [POST] "https://score-null.snapshot.org": <no response> request to https://score-null.snapshot.org/ failed, reason: getaddrinfo ENOTFOUND score-null.snapshot.org',
@@ -184,7 +184,7 @@ describe('getVp', () => {
         getVp(...defaultOptions, {
           url: 'https://httpstat.us/404'
         })
-      ).to.rejects.toEqual(
+      ).rejects.toEqual(
         expect.objectContaining({
           code: 404,
           message: 'Not Found'
@@ -199,7 +199,7 @@ describe('getVp', () => {
           url: 'https://httpstat.us/200?sleep=5000',
           timeout: 500
         })
-      ).to.rejects.toEqual(
+      ).rejects.toEqual(
         expect.objectContaining({
           code: 0,
           message:
@@ -238,7 +238,7 @@ describe('validate', () => {
       expect.assertions(1);
       expect(
         validate(validation, 'test', space, network, 'latest', params)
-      ).to.rejects.toEqual({
+      ).rejects.toEqual({
         code: 400,
         message: 'unauthorized',
         data: 'invalid address'
@@ -251,7 +251,7 @@ describe('validate', () => {
         validate(...defaultOptions, {
           url: 'https://score-null.snapshot.org'
         })
-      ).to.rejects.toEqual({
+      ).rejects.toEqual({
         code: 0,
         message:
           'FetchError: [POST] "https://score-null.snapshot.org": <no response> request to https://score-null.snapshot.org/ failed, reason: getaddrinfo ENOTFOUND score-null.snapshot.org',
@@ -265,7 +265,7 @@ describe('validate', () => {
         validate(...defaultOptions, {
           url: 'https://httpstat.us/404'
         })
-      ).to.rejects.toEqual(
+      ).rejects.toEqual(
         expect.objectContaining({
           code: 404,
           message: 'Not Found'
@@ -280,7 +280,7 @@ describe('validate', () => {
           url: 'https://httpstat.us/200?sleep=5000',
           timeout: 500
         })
-      ).to.rejects.toEqual(
+      ).rejects.toEqual(
         expect.objectContaining({
           code: 0,
           message:
@@ -455,7 +455,7 @@ describe('subgraphRequest', () => {
 
     test('should return the error response from subgraph', () => {
       expect.assertions(1);
-      expect(subgraphRequest(HOST, invalidQuery)).to.rejects.toEqual(
+      expect(subgraphRequest(HOST, invalidQuery)).rejects.toEqual(
         expect.objectContaining({
           errors: [
             expect.objectContaining({
@@ -476,7 +476,7 @@ describe('subgraphRequest', () => {
             'Content-Type': 'application/xml'
           }
         })
-      ).to.rejects.toEqual({
+      ).rejects.toEqual({
         errors: [
           {
             message: 'Body is not a JSON object',
@@ -490,7 +490,7 @@ describe('subgraphRequest', () => {
       expect.assertions(1);
       expect(
         subgraphRequest('https://test-null.snapshot.org', query)
-      ).to.rejects.toEqual({
+      ).rejects.toEqual({
         errors: [
           {
             extensions: { code: 0 },
@@ -503,16 +503,16 @@ describe('subgraphRequest', () => {
 
     test('should return an errors object on network error (not found)', () => {
       expect.assertions(1);
-      expect(
-        subgraphRequest('https://httpstat.us/404', query)
-      ).to.rejects.toEqual({
-        errors: [
-          {
-            extensions: { code: 404 },
-            message: 'Not Found'
-          }
-        ]
-      });
+      expect(subgraphRequest('https://httpstat.us/404', query)).rejects.toEqual(
+        {
+          errors: [
+            {
+              extensions: { code: 404 },
+              message: 'Not Found'
+            }
+          ]
+        }
+      );
     });
 
     test('should return an errors object on network error (timeout)', () => {
@@ -521,7 +521,7 @@ describe('subgraphRequest', () => {
         subgraphRequest('https://httpstat.us/200?sleep=5000', query, {
           timeout: 500
         })
-      ).to.rejects.toEqual({
+      ).rejects.toEqual({
         errors: [
           {
             extensions: { code: 0 },
