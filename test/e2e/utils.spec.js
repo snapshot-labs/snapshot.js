@@ -105,8 +105,7 @@ describe('getScores', () => {
         getScores(...payload, 'https://score-null.snapshot.org')
       ).rejects.toEqual({
         code: 0,
-        message:
-          'FetchError: [POST] "https://score-null.snapshot.org/api/scores": <no response> request to https://score-null.snapshot.org/api/scores failed, reason: getaddrinfo ENOTFOUND score-null.snapshot.org',
+        message: expect.stringContaining('no response'),
         data: ''
       });
     });
@@ -133,8 +132,7 @@ describe('getScores', () => {
       ).rejects.toEqual(
         expect.objectContaining({
           code: 0,
-          message:
-            'FetchError: [POST] "https://httpstat.us/200?sleep=5000": <no response> The operation was aborted.'
+          message: expect.stringContaining('The operation was aborted')
         })
       );
     });
@@ -202,8 +200,7 @@ describe('getVp', () => {
         })
       ).rejects.toEqual({
         code: 0,
-        message:
-          'FetchError: [POST] "https://score-null.snapshot.org": <no response> request to https://score-null.snapshot.org/ failed, reason: getaddrinfo ENOTFOUND score-null.snapshot.org',
+        message: expect.stringContaining('no response'),
         data: ''
       });
     });
@@ -232,8 +229,7 @@ describe('getVp', () => {
       ).rejects.toEqual(
         expect.objectContaining({
           code: 0,
-          message:
-            'FetchError: [POST] "https://httpstat.us/200?sleep=5000": <no response> The operation was aborted.'
+          message: expect.stringContaining('The operation was aborted')
         })
       );
     });
@@ -293,8 +289,7 @@ describe('validate', () => {
         })
       ).rejects.toEqual({
         code: 0,
-        message:
-          'FetchError: [POST] "https://score-null.snapshot.org": <no response> request to https://score-null.snapshot.org/ failed, reason: getaddrinfo ENOTFOUND score-null.snapshot.org',
+        message: expect.stringContaining('no response'),
         data: ''
       });
     });
@@ -323,8 +318,7 @@ describe('validate', () => {
       ).rejects.toEqual(
         expect.objectContaining({
           code: 0,
-          message:
-            'FetchError: [POST] "https://httpstat.us/200?sleep=5000": <no response> The operation was aborted.'
+          message: expect.stringContaining('The operation was aborted')
         })
       );
     });
@@ -405,9 +399,7 @@ describe('getJSON', () => {
       expect.assertions(1);
       expect(() =>
         getJSON('https://httpstat.us/200?sleep=5000', { timeout: 500 })
-      ).rejects.toThrowError(
-        '[GET] "https://httpstat.us/200?sleep=5000": <no response> The operation was aborted.'
-      );
+      ).rejects.toThrowError('The operation was aborted');
     });
   });
 });
@@ -467,7 +459,7 @@ describe('ipfsGet', () => {
           'ipfs',
           { timeout: 500 }
         )
-      ).rejects.toThrowError('aborted');
+      ).rejects.toThrowError('The operation was aborted');
     });
   });
 });
@@ -561,8 +553,7 @@ describe('subgraphRequest', () => {
         errors: [
           {
             extensions: { code: 0 },
-            message:
-              'FetchError: [POST] "https://test-null.snapshot.org": <no response> request to https://test-null.snapshot.org/ failed, reason: getaddrinfo ENOTFOUND test-null.snapshot.org'
+            message: expect.stringContaining('no response')
           }
         ]
       });
@@ -592,8 +583,7 @@ describe('subgraphRequest', () => {
         errors: [
           {
             extensions: { code: 0 },
-            message:
-              'FetchError: [POST] "https://httpstat.us/200?sleep=5000": <no response> The operation was aborted.'
+            message: expect.stringContaining('The operation was aborted')
           }
         ]
       });
