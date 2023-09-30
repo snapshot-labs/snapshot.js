@@ -31,9 +31,9 @@ export interface Proposal {
 
 export interface UpdateProposal {
   proposal: string;
-  from: string;
+  from?: string;
   space: string;
-  timestamp: number;
+  timestamp?: number;
   type: ProposalType;
   title: string;
   body: string;
