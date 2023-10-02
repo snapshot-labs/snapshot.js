@@ -43,7 +43,7 @@ export interface UpdateProposal {
 }
 
 export interface FlagProposal {
-  from: string;
+  from?: string;
   space: string;
   proposal: string;
   timestamp?: number;
@@ -269,28 +269,32 @@ export const voteString2Types = {
 export const followTypes = {
   Follow: [
     { name: 'from', type: 'address' },
-    { name: 'space', type: 'string' }
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' }
   ]
 };
 
 export const unfollowTypes = {
   Unfollow: [
     { name: 'from', type: 'address' },
-    { name: 'space', type: 'string' }
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' }
   ]
 };
 
 export const subscribeTypes = {
   Subscribe: [
     { name: 'from', type: 'address' },
-    { name: 'space', type: 'string' }
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' }
   ]
 };
 
 export const unsubscribeTypes = {
   Unsubscribe: [
     { name: 'from', type: 'address' },
-    { name: 'space', type: 'string' }
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' }
   ]
 };
 
@@ -315,13 +319,15 @@ export const statementTypes = {
 export const aliasTypes = {
   Alias: [
     { name: 'from', type: 'address' },
-    { name: 'alias', type: 'address' }
+    { name: 'alias', type: 'address' },
+    { name: 'timestamp', type: 'uint64' }
   ]
 };
 
 export const deleteSpaceType = {
   DeleteSpace: [
     { name: 'from', type: 'address' },
-    { name: 'space', type: 'string' }
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' }
   ]
 };
