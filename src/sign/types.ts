@@ -43,7 +43,7 @@ export interface UpdateProposal {
 }
 
 export interface FlagProposal {
-  from: string;
+  from?: string;
   space: string;
   proposal: string;
   timestamp?: number;
