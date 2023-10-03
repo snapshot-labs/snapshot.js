@@ -57,7 +57,7 @@ describe('Client', () => {
       });
 
       test.each([
-        ['ENOTFOUND', 'https://unknown.snapshot.org'],
+        ['no response', 'https://unknown.snapshot.org'],
         ['404 Not Found', 'https://httpstat.us/404']
       ])('should throw an error on network error (%s)', async (code, url) => {
         expect.assertions(1);

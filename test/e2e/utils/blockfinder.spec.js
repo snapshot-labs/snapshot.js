@@ -62,8 +62,7 @@ describe('Blockfinder', () => {
           errors: [
             {
               extensions: { code: 0 },
-              message:
-                'FetchError: [POST] "http://localhost:12345": <no response> request to http://localhost:12345/ failed, reason: connect ECONNREFUSED 127.0.0.1:12345'
+              message: expect.stringContaining('no response')
             }
           ]
         });

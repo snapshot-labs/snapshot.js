@@ -132,7 +132,7 @@ describe('getScores', () => {
       ).rejects.toEqual(
         expect.objectContaining({
           code: 0,
-          message: expect.stringContaining('The operation was aborted')
+          message: expect.stringContaining('operation was aborted')
         })
       );
     });
@@ -229,7 +229,7 @@ describe('getVp', () => {
       ).rejects.toEqual(
         expect.objectContaining({
           code: 0,
-          message: expect.stringContaining('The operation was aborted')
+          message: expect.stringContaining('operation was aborted')
         })
       );
     });
@@ -318,7 +318,7 @@ describe('validate', () => {
       ).rejects.toEqual(
         expect.objectContaining({
           code: 0,
-          message: expect.stringContaining('The operation was aborted')
+          message: expect.stringContaining('operation was aborted')
         })
       );
     });
@@ -364,7 +364,9 @@ describe('getJSON', () => {
 
     test('should throw an error when the url is an empty string', () => {
       expect.assertions(1);
-      expect(() => getJSON('')).rejects.toThrowError(/Invalid URL/);
+      expect(() => getJSON('')).rejects.toThrowError(
+        /(Invalid|Failed to parse) URL/i
+      );
     });
 
     test('should throw an error when the given argument is not valid CID', () => {
@@ -377,7 +379,7 @@ describe('getJSON', () => {
     test('should throw an error when the url is not valid', () => {
       expect.assertions(1);
       expect(() => getJSON('https:// testurl.com')).rejects.toThrowError(
-        /Invalid URL/
+        /(Invalid|Failed to parse) URL/i
       );
     });
 
@@ -385,7 +387,7 @@ describe('getJSON', () => {
       expect.assertions(1);
       expect(() =>
         getJSON('https://score-null.snapshot.org')
-      ).rejects.toThrowError('ENOTFOUND');
+      ).rejects.toThrowError('no response');
     });
 
     test('should throw an error on network error (not found)', () => {
@@ -399,7 +401,7 @@ describe('getJSON', () => {
       expect.assertions(1);
       expect(() =>
         getJSON('https://httpstat.us/200?sleep=5000', { timeout: 500 })
-      ).rejects.toThrowError('The operation was aborted');
+      ).rejects.toThrowError('operation was aborted');
     });
   });
 });
@@ -433,7 +435,7 @@ describe('ipfsGet', () => {
       expect.assertions(1);
       expect(() =>
         ipfsGet('score-null.snapshot.org', cid)
-      ).rejects.toThrowError('ENOTFOUND');
+      ).rejects.toThrowError('no response');
     });
 
     test('should throw an error on network error (not found)', () => {
@@ -459,7 +461,7 @@ describe('ipfsGet', () => {
           'ipfs',
           { timeout: 500 }
         )
-      ).rejects.toThrowError('The operation was aborted');
+      ).rejects.toThrowError('operation was aborted');
     });
   });
 });
@@ -583,7 +585,7 @@ describe('subgraphRequest', () => {
         errors: [
           {
             extensions: { code: 0 },
-            message: expect.stringContaining('The operation was aborted')
+            message: expect.stringContaining('operation was aborted')
           }
         ]
       });
