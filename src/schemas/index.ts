@@ -5,6 +5,7 @@ import vote from './vote.json';
 import profile from './profile.json';
 import statement from './statement.json';
 import zodiac from './zodiac.json';
+import alias from './alias.json';
 
 export default {
   space: space.definitions.Space,
@@ -13,5 +14,6 @@ export default {
   vote: vote.definitions.Vote,
   profile: profile.definitions.Profile,
   statement: statement.definitions.Statement,
-  zodiac: zodiac.definitions.Zodiac
+  zodiac: zodiac.definitions.Zodiac,
+  alias: alias.definitions.Alias
 };
