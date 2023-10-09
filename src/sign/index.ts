@@ -1,4 +1,4 @@
-import fetch from 'cross-fetch';
+import { ofetch as fetch } from 'ofetch';
 import { Web3Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
 import { getAddress } from '@ethersproject/address';
@@ -89,16 +89,18 @@ export default class Client {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(envelop)
+      timeout: this.options.timeout || 20e3,
+      body: envelop
     };
-    return new Promise((resolve, reject) => {
-      fetch(address, init)
-        .then((res) => {
-          if (res.ok) return resolve(res.json());
-          throw res;
-        })
-        .catch((e) => e.json().then((json) => reject(json)));
-    });
+
+    try {
+      return await fetch(address, init);
+    } catch (e) {
+      const isSequencerError =
+        e.data?.hasOwnProperty('error') &&
+        e.data?.hasOwnProperty('error_description');
+      return Promise.reject(isSequencerError ? e.data : e);
+    }
   }
 
   async space(web3: Web3Provider | Wallet, address: string, message: Space) {

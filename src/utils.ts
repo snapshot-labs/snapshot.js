@@ -1,4 +1,4 @@
-import fetch from 'cross-fetch';
+import { ofetch as fetch } from 'ofetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { isAddress } from '@ethersproject/address';
@@ -19,6 +19,8 @@ import voting from './voting';
 
 interface Options {
   url?: string;
+  timeout?: number;
+  headers?: any;
 }
 
 interface Strategy {
@@ -135,38 +137,56 @@ export async function multicall(
   }
 }
 
-export async function subgraphRequest(url: string, query, options: any = {}) {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      ...options?.headers
-    },
-    body: JSON.stringify({ query: jsonToGraphQLQuery({ query }) })
-  });
-  let responseData: any = await res.text();
+export async function subgraphRequest(url: string, query, options?: Options) {
   try {
-    responseData = JSON.parse(responseData);
+    const init = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        ...options?.headers
+      },
+      timeout: options?.timeout || 20e3,
+      body: { query: jsonToGraphQLQuery({ query }) }
+    };
+
+    const body = await fetch(url, init);
+
+    if (typeof body === 'string') {
+      return Promise.reject({
+        errors: [
+          {
+            message: 'Body is not a JSON object',
+            extensions: { code: 'INVALID_JSON' }
+          }
+        ]
+      });
+    }
+
+    if (body.errors) {
+      return Promise.reject(body);
+    }
+
+    return body.data;
   } catch (e) {
-    throw new Error(
-      `Errors found in subgraphRequest: URL: ${url}, Status: ${
-        res.status
-      }, Response: ${responseData.substring(0, 400)}`
+    return Promise.reject(
+      e.data?.errors
+        ? e.data
+        : {
+            errors: [
+              {
+                message: e.statusText || e.toString(),
+                extensions: {
+                  code: e.status || 0
+                }
+              }
+            ]
+          }
     );
   }
-  if (responseData.errors) {
-    throw new Error(
-      `Errors found in subgraphRequest: URL: ${url}, Status: ${
-        res.status
-      },  Response: ${JSON.stringify(responseData.errors).substring(0, 400)}`
-    );
-  }
-  const { data } = responseData;
-  return data || {};
 }
 
-export function getUrl(uri, gateway = gateways[0]) {
+export function getUrl(uri: string, gateway = gateways[0]) {
   const ipfsGateway = `https://${gateway}`;
   if (!uri) return null;
   if (
@@ -184,18 +204,40 @@ export function getUrl(uri, gateway = gateways[0]) {
   return uri;
 }
 
-export async function getJSON(uri, options: any = {}) {
-  const url = getUrl(uri, options.gateways);
-  return fetch(url).then((res) => res.json());
+export async function getJSON(
+  uri: string,
+  options: Options & { gateways?: string } = {}
+) {
+  const url = getUrl(uri, options.gateways) || '';
+  const body = await fetch(url, {
+    timeout: options.timeout || 30e3,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...options?.headers
+    }
+  });
+
+  return typeof body === 'string' ? JSON.parse(body) : body;
 }
 
 export async function ipfsGet(
   gateway: string,
   ipfsHash: string,
-  protocolType = 'ipfs'
+  protocolType = 'ipfs',
+  options: Options = {}
 ) {
   const url = `https://${gateway}/${protocolType}/${ipfsHash}`;
-  return fetch(url).then((res) => res.json());
+  const body = await fetch(url, {
+    timeout: options.timeout || 20e3,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...options.headers
+    }
+  });
+
+  return typeof body === 'string' ? JSON.parse(body) : body;
 }
 
 export async function sendTransaction(
@@ -220,10 +262,10 @@ export async function getScores(
   addresses: string[],
   snapshot: number | string = 'latest',
   scoreApiUrl = 'https://score.snapshot.org',
-  options: any = {}
+  options: Options & { returnValue?: string; pathname?: string } = {}
 ) {
   const url = new URL(scoreApiUrl);
-  url.pathname = '/api/scores';
+  url.pathname = options.pathname || '/api/scores';
   scoreApiUrl = url.toString();
 
   try {
@@ -234,25 +276,25 @@ export async function getScores(
       strategies,
       addresses
     };
-    const res = await fetch(scoreApiUrl, {
+
+    const body = await fetch(scoreApiUrl, {
       method: 'POST',
       headers: scoreApiHeaders,
-      body: JSON.stringify({ params })
+      timeout: options.timeout || 60e3,
+      body: { params }
     });
-    const obj = await res.json();
-
-    if (obj.error) {
-      return Promise.reject(obj.error);
-    }
 
     return options.returnValue === 'all'
-      ? obj.result
-      : obj.result[options.returnValue || 'scores'];
+      ? body.result
+      : body.result[options.returnValue || 'scores'];
   } catch (e) {
-    if (e.errno) {
-      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
-    }
-    return Promise.reject(e);
+    return Promise.reject(
+      e.data?.error || {
+        code: e.status || 0,
+        message: e.statusText || e.toString(),
+        data: e.data || ''
+      }
+    );
   }
 }
 
@@ -263,14 +305,14 @@ export async function getVp(
   snapshot: number | 'latest',
   space: string,
   delegation: boolean,
-  options?: Options
+  options: Options = {}
 ) {
-  if (!options) options = {};
-  if (!options.url) options.url = 'https://score.snapshot.org';
+  const url = options.url || 'https://score.snapshot.org';
   const init = {
     method: 'POST',
     headers: scoreApiHeaders,
-    body: JSON.stringify({
+    timeout: options.timeout || 60e3,
+    body: {
       jsonrpc: '2.0',
       method: 'get_vp',
       params: {
@@ -281,19 +323,20 @@ export async function getVp(
         space,
         delegation
       }
-    })
+    }
   };
 
   try {
-    const res = await fetch(options.url, init);
-    const json = await res.json();
-    if (json.error) return Promise.reject(json.error);
-    if (json.result) return json.result;
+    const body = await fetch(url, init);
+    return body.result;
   } catch (e) {
-    if (e.errno) {
-      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
-    }
-    return Promise.reject(e);
+    return Promise.reject(
+      e.data?.error || {
+        code: e.status || 0,
+        message: e.statusText || e.toString(),
+        data: e.data || ''
+      }
+    );
   }
 }
 
@@ -304,14 +347,14 @@ export async function validate(
   network: string,
   snapshot: number | 'latest',
   params: any,
-  options: any
+  options: Options = {}
 ) {
-  if (!options) options = {};
-  if (!options.url) options.url = 'https://score.snapshot.org';
+  const url = options.url || 'https://score.snapshot.org';
   const init = {
     method: 'POST',
     headers: scoreApiHeaders,
-    body: JSON.stringify({
+    timeout: options.timeout || 30e3,
+    body: {
       jsonrpc: '2.0',
       method: 'validate',
       params: {
@@ -322,19 +365,20 @@ export async function validate(
         snapshot,
         params
       }
-    })
+    }
   };
 
   try {
-    const res = await fetch(options.url, init);
-    const json = await res.json();
-    if (json.error) return Promise.reject(json.error);
-    return json.result;
+    const body = await fetch(url, init);
+    return body.result;
   } catch (e) {
-    if (e.errno) {
-      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
-    }
-    return Promise.reject(e);
+    return Promise.reject(
+      e.data?.error || {
+        code: e.status || 0,
+        message: e.statusText || e.toString(),
+        data: e.data || ''
+      }
+    );
   }
 }
 
