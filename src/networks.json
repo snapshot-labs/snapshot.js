@@ -1532,6 +1532,20 @@
     "start": 2607889,
     "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
   },
+  "4337": {
+    "key": "4337",
+    "name": "Beam",
+    "shortName": "Beam",
+    "chainId": 4337,
+    "network": "mainnet",
+    "multicall": "0x4956F15eFdc3dC16645e90Cc356eAFA65fFC65Ec",
+    "rpc": [],
+    "explorer": {
+      "url": "https://subnets.avax.network/beam/"
+    },
+    "start": 0,
+    "logo": "ipfs://https://ipfs.io/ipfs/QmaKRLxXPdeTsLx7MFLS3CJbhpSbResgoeL4fCgHB1mTsF"
+  },
   "4689": {
     "key": "4689",
     "name": "IoTeX Mainnet",
