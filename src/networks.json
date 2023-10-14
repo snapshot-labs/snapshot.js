@@ -1702,10 +1702,10 @@
     "network": "mainnet",
     "multicall": "0x9787792A1020B00fb65191754c3D87c89Bf36444",
     "rpc": [
-      "https://canto.neobase.one"
+      "https://canto.gravitychain.io"
     ],
     "explorer": {
-      "url": "https://evm.explorer.canto.io"
+      "url": "https://tuber.build"
     },
     "start": 1683285,
     "logo": "ipfs://QmVh5XRi7xN4UNw7SNKpEhjF1TsPXJnRyNkB4EuMVTVCB6"
