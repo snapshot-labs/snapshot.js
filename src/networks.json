@@ -1923,6 +1923,21 @@
     "start": 79516,
     "logo": "ipfs://QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
   },
+  "13337": {
+    "key": "13337",
+    "name": "Beam Testnet",
+    "shortName": "testnet",
+    "chainId": 13337,
+    "network": "testnet",
+    "multicall": "0x9BF49b704EE2A095b95c1f2D4EB9010510c41C9E",
+    "rpc": [],
+    "explorer": {
+      "url": "https://subnets-test.avax.network/beam/"
+    },
+    "start": 3,
+    "logo": "ipfs://QmaKRLxXPdeTsLx7MFLS3CJbhpSbResgoeL4fCgHB1mTsF",
+    "testnet": true
+  },
   "16718": {
     "key": "16718",
     "name": "AirDAO Mainnet",
