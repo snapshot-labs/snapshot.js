@@ -680,7 +680,7 @@
   },
   "137": {
     "key": "137",
-    "name": "Polygon Mainnet",
+    "name": "Polygon PoS",
     "shortName": "Polygon",
     "chainId": 137,
     "network": "mainnet",
@@ -699,7 +699,7 @@
       "apiUrl": "https://api.polygonscan.com"
     },
     "start": 9834491,
-    "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
+    "logo": "ipfs://bafkreihgr7zy7vi5kqddybfaezwuhvssg57qluwmyan4qq7l57nr7w7wey"
   },
   "144": {
     "key": "144",
@@ -1254,7 +1254,7 @@
       "url": "https://zkevm.polygonscan.com"
     },
     "start": 57746,
-    "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
+    "logo": "ipfs://bafkreibfiyvhqnme2vbxxfcku7qkxgjpkg6ywdkplxh4oxlkqsbznyorfm"
   },
   "1116": {
     "key": "1116",
@@ -2230,7 +2230,7 @@
   },
   "80001": {
     "key": "80001",
-    "name": "Matic Mumbai",
+    "name": "Polygon Mumbai",
     "chainId": 80001,
     "network": "testnet",
     "testnet": true,
@@ -2247,7 +2247,7 @@
       "apiUrl": "https://api-mumbai.polygonscan.com"
     },
     "start": 12011090,
-    "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
+    "logo": "ipfs://bafkreihgr7zy7vi5kqddybfaezwuhvssg57qluwmyan4qq7l57nr7w7wey"
   },
   "84531": {
     "key": "84531",
