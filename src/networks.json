@@ -747,6 +747,20 @@
     "start": 4720651,
     "logo": "ipfs://bafkreiabhsxuq35pp4kmrbptdeypd6clhcy3ue7ydpppo6onoo4igcjqia"
   },
+  "204": {
+    "key": "204",
+    "name": "opBNB",
+    "shortName": "mainnet",
+    "chainId": 204,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "http://opbnbscan.com/"
+    },
+    "start": 512881,
+    "logo": "ipfs://bafkreibll4la7wqerzs7zwxjne2j7ayynbg2wlenemssoahxxj5rbt6c64"
+  },
   "246": {
     "key": "246",
     "name": "Energy Web Chain",
