@@ -1204,7 +1204,7 @@
       "wss://archive-en.baobab.klaytn.net/ws"
     ],
     "explorer": {
-      "url": "https://baobab.scope.klaytn.com/"
+      "url": "https://baobab.scope.klaytn.com"
     },
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
   },
@@ -1766,7 +1766,7 @@
       "wss://archive-en.cypress.klaytn.net/ws"
     ],
     "explorer": {
-      "url": "https://scope.klaytn.com/"
+      "url": "https://scope.klaytn.com"
     },
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
   },
