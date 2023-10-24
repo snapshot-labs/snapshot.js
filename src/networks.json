@@ -694,7 +694,7 @@
   },
   "137": {
     "key": "137",
-    "name": "Polygon Mainnet",
+    "name": "Polygon PoS",
     "shortName": "Polygon",
     "chainId": 137,
     "network": "mainnet",
@@ -713,7 +713,7 @@
       "apiUrl": "https://api.polygonscan.com"
     },
     "start": 9834491,
-    "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
+    "logo": "ipfs://bafkreihgr7zy7vi5kqddybfaezwuhvssg57qluwmyan4qq7l57nr7w7wey"
   },
   "144": {
     "key": "144",
@@ -731,6 +731,20 @@
     "start": 360030,
     "logo": "ipfs://bafkreid6pm3mic7izp3a6zlfwhhe7etd276bjfsq2xash6a4s2vmcdf65a"
   },
+  "148": {
+    "key": "148",
+    "name": "ShimmerEVM",
+    "shortName": "ShimmerEVM",
+    "chainId": 148,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.evm.shimmer.network/"
+    },
+    "start": 1290,
+    "logo": "ipfs://bafkreib4xhbgbhrwkmizp4d4nz3wzbpyhdm6wpz2v2pbkk7jxsgg3hdt74"
+  },
   "188": {
     "key": "188",
     "name": "Bytom Sidechain",
@@ -746,6 +760,20 @@
     },
     "start": 4720651,
     "logo": "ipfs://bafkreiabhsxuq35pp4kmrbptdeypd6clhcy3ue7ydpppo6onoo4igcjqia"
+  },
+  "204": {
+    "key": "204",
+    "name": "opBNB",
+    "shortName": "mainnet",
+    "chainId": 204,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "http://opbnbscan.com/"
+    },
+    "start": 512881,
+    "logo": "ipfs://bafkreibll4la7wqerzs7zwxjne2j7ayynbg2wlenemssoahxxj5rbt6c64"
   },
   "246": {
     "key": "246",
@@ -1190,7 +1218,7 @@
       "wss://archive-en.baobab.klaytn.net/ws"
     ],
     "explorer": {
-      "url": "https://baobab.scope.klaytn.com/"
+      "url": "https://baobab.scope.klaytn.com"
     },
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
   },
@@ -1241,6 +1269,20 @@
     },
     "start": 451,
     "logo": "ipfs://QmYeskHqrEvWHqeAuqett64LxfH52HUXZi2T9BAMmgKvBF"
+  },
+  "1101": {
+    "key": "1101",
+    "name": "Polygon zkEVM",
+    "shortName": "mainnet",
+    "chainId": 1101,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://zkevm.polygonscan.com"
+    },
+    "start": 57746,
+    "logo": "ipfs://bafkreibfiyvhqnme2vbxxfcku7qkxgjpkg6ywdkplxh4oxlkqsbznyorfm"
   },
   "1116": {
     "key": "1116",
@@ -1532,6 +1574,20 @@
     "start": 2607889,
     "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
   },
+  "4337": {
+    "key": "4337",
+    "name": "Beam",
+    "shortName": "Beam",
+    "chainId": 4337,
+    "network": "mainnet",
+    "multicall": "0x4956F15eFdc3dC16645e90Cc356eAFA65fFC65Ec",
+    "rpc": [],
+    "explorer": {
+      "url": "https://subnets.avax.network/beam/"
+    },
+    "start": 1,
+    "logo": "ipfs://QmaKRLxXPdeTsLx7MFLS3CJbhpSbResgoeL4fCgHB1mTsF"
+  },
   "4689": {
     "key": "4689",
     "name": "IoTeX Mainnet",
@@ -1724,7 +1780,7 @@
       "wss://archive-en.cypress.klaytn.net/ws"
     ],
     "explorer": {
-      "url": "https://scope.klaytn.com/"
+      "url": "https://scope.klaytn.com"
     },
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
   },
@@ -1881,6 +1937,21 @@
     "start": 79516,
     "logo": "ipfs://QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
   },
+  "13337": {
+    "key": "13337",
+    "name": "Beam Testnet",
+    "shortName": "testnet",
+    "chainId": 13337,
+    "network": "testnet",
+    "multicall": "0x9BF49b704EE2A095b95c1f2D4EB9010510c41C9E",
+    "rpc": [],
+    "explorer": {
+      "url": "https://subnets-test.avax.network/beam/"
+    },
+    "start": 3,
+    "logo": "ipfs://QmaKRLxXPdeTsLx7MFLS3CJbhpSbResgoeL4fCgHB1mTsF",
+    "testnet": true
+  },
   "16718": {
     "key": "16718",
     "name": "AirDAO Mainnet",
@@ -1917,6 +1988,20 @@
     },
     "start": 3368046,
     "logo": "ipfs://QmSxXjvWng3Diz4YwXDV2VqSPgMyzLYBNfkjJcr7rzkxom"
+  },
+  "29548": {
+    "key": "29548",
+    "name": "MCH Verse ",
+    "shortName": "mainnet",
+    "chainId": 29548,
+    "network": "mainnet",
+    "multicall": "0x1d39652386488CE1fE4254E105F5A42a04d43dB2",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.oasys.mycryptoheroes.net"
+    },
+    "start": 27458402,
+    "logo": "ipfs://QmZZnwR1y6cU1sare2TQmwqkNDLXQxD4GdPrmHLmUoPtbU"
   },
   "32659": {
     "key": "32659",
@@ -2202,11 +2287,11 @@
   },
   "80001": {
     "key": "80001",
-    "name": "Matic Mumbai",
+    "name": "Polygon Mumbai",
     "chainId": 80001,
     "network": "testnet",
     "testnet": true,
-    "multicall": "0x08411ADd0b5AA8ee47563b146743C13b3556c9Cc",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [
       "https://speedy-nodes-nyc.moralis.io/9e03baabdc27be2a35bdec4a/polygon/mumbai/archive",
       "https://rpc-mumbai.matic.today"
@@ -2219,7 +2304,7 @@
       "apiUrl": "https://api-mumbai.polygonscan.com"
     },
     "start": 12011090,
-    "logo": "ipfs://QmaGokGqgjknfa4xnXKnnwC5ZyXzUjQ7p6KEe4D8G5uFFE"
+    "logo": "ipfs://bafkreihgr7zy7vi5kqddybfaezwuhvssg57qluwmyan4qq7l57nr7w7wey"
   },
   "84531": {
     "key": "84531",
@@ -2334,6 +2419,21 @@
     },
     "start": 751532,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
+  },
+  "245022926": {
+    "key": "245022926",
+    "name": "Neon Devnet",
+    "shortName": "devnet",
+    "chainId": 245022934,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://devnet.neonscan.org/"
+    },
+    "start": 205206112,
+    "logo": "ipfs://QmecRPQGa4bU7tybg1sUQY48Md9rWnmhrT6WW5ueqvhg6P",
+    "testnet": true
   },
   "278611351": {
     "key": "278611351",

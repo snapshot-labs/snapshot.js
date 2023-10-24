@@ -150,14 +150,16 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
     responseData = JSON.parse(responseData);
   } catch (e) {
     throw new Error(
-      `Errors found in subgraphRequest: URL: ${url}, Status: ${res.status}, Response: ${responseData}`
+      `Errors found in subgraphRequest: URL: ${url}, Status: ${
+        res.status
+      }, Response: ${responseData.substring(0, 400)}`
     );
   }
   if (responseData.errors) {
     throw new Error(
       `Errors found in subgraphRequest: URL: ${url}, Status: ${
         res.status
-      },  Response: ${JSON.stringify(responseData.errors)}`
+      },  Response: ${JSON.stringify(responseData.errors).substring(0, 400)}`
     );
   }
   const { data } = responseData;
@@ -238,10 +240,18 @@ export async function getScores(
       body: JSON.stringify({ params })
     });
     const obj = await res.json();
+
+    if (obj.error) {
+      return Promise.reject(obj.error);
+    }
+
     return options.returnValue === 'all'
       ? obj.result
       : obj.result[options.returnValue || 'scores'];
   } catch (e) {
+    if (e.errno) {
+      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
+    }
     return Promise.reject(e);
   }
 }
@@ -273,10 +283,18 @@ export async function getVp(
       }
     })
   };
-  const res = await fetch(options.url, init);
-  const json = await res.json();
-  if (json.error) return Promise.reject(json.error);
-  if (json.result) return json.result;
+
+  try {
+    const res = await fetch(options.url, init);
+    const json = await res.json();
+    if (json.error) return Promise.reject(json.error);
+    if (json.result) return json.result;
+  } catch (e) {
+    if (e.errno) {
+      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
+    }
+    return Promise.reject(e);
+  }
 }
 
 export async function validate(
@@ -306,10 +324,18 @@ export async function validate(
       }
     })
   };
-  const res = await fetch(options.url, init);
-  const json = await res.json();
-  if (json.error) return Promise.reject(json.error);
-  return json.result;
+
+  try {
+    const res = await fetch(options.url, init);
+    const json = await res.json();
+    if (json.error) return Promise.reject(json.error);
+    return json.result;
+  } catch (e) {
+    if (e.errno) {
+      return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
+    }
+    return Promise.reject(e);
+  }
 }
 
 export function validateSchema(schema, data) {
@@ -412,8 +438,7 @@ export async function getDelegatesBySpace(
   snapshot = 'latest',
   options: any = {}
 ) {
-  const subgraphUrl =
-    options.subgraphUrl || SNAPSHOT_SUBGRAPH_URL[network];
+  const subgraphUrl = options.subgraphUrl || SNAPSHOT_SUBGRAPH_URL[network];
   if (!subgraphUrl) {
     return Promise.reject(
       `Delegation subgraph not available for network ${network}`
