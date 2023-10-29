@@ -283,7 +283,7 @@ export async function getVp(
   });
   if (typeof snapshot === 'number' && snapshot < networks[network].start) {
     throw new Error(
-      `Snapshot (${snapshot}) must be greater than network start block (${network[network].start})`
+      `Snapshot (${snapshot}) must be greater than network start block (${networks[network].start})`
     );
   }
 
