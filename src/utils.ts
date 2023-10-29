@@ -271,11 +271,6 @@ export async function getVp(
   if (!isAddress(address) || address === EMPTY_ADDRESS) {
     throw new Error(`Invalid voter address: ${address}`);
   }
-  if (typeof snapshot === 'number' && snapshot < network[network].start) {
-    throw new Error(
-      `Snapshot (${snapshot}) must be greater than network start block (${network[network].start})`
-    );
-  }
   if (!networks[network]) {
     throw new Error(`Invalid network: ${network}`);
   }
@@ -286,6 +281,11 @@ export async function getVp(
       );
     }
   });
+  if (typeof snapshot === 'number' && snapshot < networks[network].start) {
+    throw new Error(
+      `Snapshot (${snapshot}) must be greater than network start block (${network[network].start})`
+    );
+  }
 
   const init = {
     method: 'POST',
