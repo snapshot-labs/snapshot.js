@@ -31,6 +31,7 @@ export const SNAPSHOT_SUBGRAPH_URL = delegationSubgraphs;
 const ENS_RESOLVER_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)'
 ];
+const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 const scoreApiHeaders = {
   Accept: 'application/json',
@@ -222,6 +223,30 @@ export async function getScores(
   scoreApiUrl = 'https://score.snapshot.org',
   options: any = {}
 ) {
+  if (addresses.length === 0) {
+    throw new Error('addresses can not be empty');
+  }
+  for (const address of addresses) {
+    if (!isAddress(address) || address === EMPTY_ADDRESS) {
+      throw new Error(`Invalid address: ${address}`);
+    }
+  }
+  if (!networks[network]) {
+    throw new Error(`Invalid network: ${network}`);
+  }
+  strategies.forEach((strategy) => {
+    if (strategy.network && !networks[strategy.network]) {
+      throw new Error(
+        `Invalid network (${strategy.network}) in strategy ${strategy.name}`
+      );
+    }
+  });
+  if (typeof snapshot === 'number' && snapshot < networks[network].start) {
+    throw new Error(
+      `Snapshot (${snapshot}) must be greater than network start block (${networks[network].start})`
+    );
+  }
+
   const url = new URL(scoreApiUrl);
   url.pathname = '/api/scores';
   scoreApiUrl = url.toString();
