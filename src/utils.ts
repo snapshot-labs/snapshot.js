@@ -306,6 +306,19 @@ export async function validate(
   params: any,
   options: any
 ) {
+  if (!isAddress(author)) {
+    throw new Error(`Invalid author: ${author}`);
+  }
+
+  if (!networks[network]) {
+    throw new Error(`Invalid network: ${network}`);
+  }
+  if (typeof snapshot === 'number' && snapshot < networks[network].start) {
+    throw new Error(
+      `Snapshot (${snapshot}) must be greater than network start block (${networks[network].start})`
+    );
+  }
+
   if (!options) options = {};
   if (!options.url) options.url = 'https://score.snapshot.org';
   const init = {
