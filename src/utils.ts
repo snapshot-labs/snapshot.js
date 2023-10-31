@@ -223,6 +223,9 @@ export async function getScores(
   scoreApiUrl = 'https://score.snapshot.org',
   options: any = {}
 ) {
+  if (!Array.isArray(addresses)) {
+    throw new Error('addresses should be an array of addresses');
+  }
   if (addresses.length === 0) {
     throw new Error('addresses can not be empty');
   }
