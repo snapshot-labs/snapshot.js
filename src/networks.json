@@ -451,7 +451,7 @@
   },
   "75": {
     "key": "75",
-    "name": "Decimal Smart Chain",
+    "name": "Decimal",
     "shortName": "mainnet",
     "chainId": 75,
     "network": "mainnet",
