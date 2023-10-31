@@ -1,4 +1,4 @@
-import { subgraphRequest } from '../utils';
+import { subgraphRequest } from './subgraph';
 
 let cache: Record<string, any> = {};
 let expirationTime = 0;

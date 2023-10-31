@@ -1,17 +1,16 @@
 import fetch from 'cross-fetch';
-import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { isAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
-import { namehash, ensNormalize } from '@ethersproject/hash';
-import { jsonToGraphQLQuery } from 'json-to-graphql-query';
+import { namehash, ensNormalize, _TypedDataEncoder } from '@ethersproject/hash';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
-import Multicaller from './utils/multicaller';
+import Multicaller, { multicall } from './utils/multicaller';
 import { getSnapshots } from './utils/blockfinder';
+import { subgraphRequest } from './utils/subgraph';
 import getProvider from './utils/provider';
 import { signMessage, getBlockNumber } from './utils/web3';
-import { getHash, verify } from './sign/utils';
+import { call } from './utils/call';
 import gateways from './gateways.json';
 import networks from './networks.json';
 import delegationSubgraphs from './delegationSubgraphs.json';
@@ -83,88 +82,6 @@ ajv.addFormat('customUrl', {
     );
   }
 });
-
-export async function call(provider, abi: any[], call: any[], options?) {
-  const contract = new Contract(call[0], abi, provider);
-  try {
-    const params = call[2] || [];
-    return await contract[call[1]](...params, options || {});
-  } catch (e) {
-    return Promise.reject(e);
-  }
-}
-
-export async function multicall(
-  network: string,
-  provider,
-  abi: any[],
-  calls: any[],
-  options?
-) {
-  const multicallAbi = [
-    'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)'
-  ];
-  const multicallAddress =
-    options?.multicallAddress || networks[network].multicall;
-  const multi = new Contract(multicallAddress, multicallAbi, provider);
-  const itf = new Interface(abi);
-  try {
-    const max = options?.limit || 500;
-    if (options?.limit) delete options.limit;
-    const pages = Math.ceil(calls.length / max);
-    const promises: any = [];
-    Array.from(Array(pages)).forEach((x, i) => {
-      const callsInPage = calls.slice(max * i, max * (i + 1));
-      promises.push(
-        multi.aggregate(
-          callsInPage.map((call) => [
-            call[0].toLowerCase(),
-            itf.encodeFunctionData(call[1], call[2])
-          ]),
-          options || {}
-        )
-      );
-    });
-    let results: any = await Promise.all(promises);
-    results = results.reduce((prev: any, [, res]: any) => prev.concat(res), []);
-    return results.map((call, i) =>
-      itf.decodeFunctionResult(calls[i][1], call)
-    );
-  } catch (e) {
-    return Promise.reject(e);
-  }
-}
-
-export async function subgraphRequest(url: string, query, options: any = {}) {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      ...options?.headers
-    },
-    body: JSON.stringify({ query: jsonToGraphQLQuery({ query }) })
-  });
-  let responseData: any = await res.text();
-  try {
-    responseData = JSON.parse(responseData);
-  } catch (e) {
-    throw new Error(
-      `Errors found in subgraphRequest: URL: ${url}, Status: ${
-        res.status
-      }, Response: ${responseData.substring(0, 400)}`
-    );
-  }
-  if (responseData.errors) {
-    throw new Error(
-      `Errors found in subgraphRequest: URL: ${url}, Status: ${
-        res.status
-      },  Response: ${JSON.stringify(responseData.errors).substring(0, 400)}`
-    );
-  }
-  const { data } = responseData;
-  return data || {};
-}
 
 export function getUrl(uri, gateway = gateways[0]) {
   const ipfsGateway = `https://${gateway}`;
@@ -497,6 +414,11 @@ export function getNumberWithOrdinal(n) {
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
+export function getHash(data) {
+  const { domain, types, message } = data;
+  return _TypedDataEncoder.hash(domain, types, message);
+}
+
 export default {
   call,
   multicall,
@@ -523,7 +445,6 @@ export default {
   Multicaller,
   getSnapshots,
   getHash,
-  verify,
   validate,
   SNAPSHOT_SUBGRAPH_URL
 };

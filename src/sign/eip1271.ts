@@ -1,7 +1,7 @@
 import { arrayify } from '@ethersproject/bytes';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import getProvider from '../utils/provider';
-import { call } from '../utils';
+import { call } from '../utils/call';
 
 export async function verifyDefault(
   address: string,
