@@ -230,16 +230,16 @@ export async function getScores(
     return Promise.reject('addresses can not be empty');
   }
   for (const address of addresses) {
-    if (!isAddress(address) || address === EMPTY_ADDRESS) {
+    if (!isValidAddress(address)) {
       return Promise.reject(`Invalid address: ${address}`);
     }
   }
-  if (!networks[network]) {
+  if (!isValidNetwork(network)) {
     return Promise.reject(`Invalid network: ${network}`);
   }
   try {
     strategies.forEach((strategy) => {
-      if (strategy.network && !networks[strategy.network]) {
+      if (strategy.network && !isValidNetwork(strategy.network)) {
         throw new Error(
           `Invalid network (${strategy.network}) in strategy ${strategy.name}`
         );
@@ -248,7 +248,7 @@ export async function getScores(
   } catch (e) {
     return Promise.reject(e);
   }
-  if (typeof snapshot === 'number' && snapshot < networks[network].start) {
+  if (!isValidSnapshot(snapshot, network)) {
     return Promise.reject(
       `Snapshot (${snapshot}) must be greater than network start block (${networks[network].start})`
     );
@@ -527,6 +527,21 @@ export function getNumberWithOrdinal(n) {
   const s = ['th', 'st', 'nd', 'rd'],
     v = n % 100;
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+function isValidNetwork(network: string) {
+  return !!networks[network];
+}
+
+function isValidAddress(address: string) {
+  return isAddress(address) && address !== EMPTY_ADDRESS;
+}
+
+function isValidSnapshot(snapshot: number | string, network: string) {
+  return (
+    (typeof snapshot === 'number' && snapshot >= networks[network].start) ||
+    snapshot === 'latest'
+  );
 }
 
 export default {
