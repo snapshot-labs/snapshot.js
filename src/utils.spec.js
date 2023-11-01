@@ -89,7 +89,7 @@ describe('utils', () => {
       ];
 
       test.each(cases)('throw an error when %s', async (title, args, err) => {
-        await expect(() => _getScores(args)).rejects.toThrowError(err);
+        await expect(_getScores(args)).rejects.toMatch(err);
       });
     });
 

@@ -224,28 +224,32 @@ export async function getScores(
   options: any = {}
 ) {
   if (!Array.isArray(addresses)) {
-    throw new Error('addresses should be an array of addresses');
+    return Promise.reject('addresses should be an array of addresses');
   }
   if (addresses.length === 0) {
-    throw new Error('addresses can not be empty');
+    return Promise.reject('addresses can not be empty');
   }
   for (const address of addresses) {
     if (!isAddress(address) || address === EMPTY_ADDRESS) {
-      throw new Error(`Invalid address: ${address}`);
+      return Promise.reject(`Invalid address: ${address}`);
     }
   }
   if (!networks[network]) {
-    throw new Error(`Invalid network: ${network}`);
+    return Promise.reject(`Invalid network: ${network}`);
   }
-  strategies.forEach((strategy) => {
-    if (strategy.network && !networks[strategy.network]) {
-      throw new Error(
-        `Invalid network (${strategy.network}) in strategy ${strategy.name}`
-      );
-    }
-  });
+  try {
+    strategies.forEach((strategy) => {
+      if (strategy.network && !networks[strategy.network]) {
+        throw new Error(
+          `Invalid network (${strategy.network}) in strategy ${strategy.name}`
+        );
+      }
+    });
+  } catch (e) {
+    return Promise.reject(e);
+  }
   if (typeof snapshot === 'number' && snapshot < networks[network].start) {
-    throw new Error(
+    return Promise.reject(
       `Snapshot (${snapshot}) must be greater than network start block (${networks[network].start})`
     );
   }
