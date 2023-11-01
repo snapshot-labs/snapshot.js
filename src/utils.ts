@@ -307,14 +307,14 @@ export async function validate(
   options: any
 ) {
   if (!isAddress(author)) {
-    throw new Error(`Invalid author: ${author}`);
+    return Promise.reject(`Invalid author: ${author}`);
   }
 
   if (!networks[network]) {
-    throw new Error(`Invalid network: ${network}`);
+    return Promise.reject(`Invalid network: ${network}`);
   }
   if (typeof snapshot === 'number' && snapshot < networks[network].start) {
-    throw new Error(
+    return Promise.reject(
       `Snapshot (${snapshot}) must be greater than network start block (${networks[network].start})`
     );
   }
