@@ -269,20 +269,24 @@ export async function getVp(
   if (!options) options = {};
   if (!options.url) options.url = 'https://score.snapshot.org';
   if (!isAddress(address) || address === EMPTY_ADDRESS) {
-    throw new Error(`Invalid voter address: ${address}`);
+    return Promise.reject(`Invalid voter address: ${address}`);
   }
   if (!networks[network]) {
-    throw new Error(`Invalid network: ${network}`);
+    return Promise.reject(`Invalid network: ${network}`);
   }
-  strategies.forEach((strategy) => {
-    if (strategy.network && !networks[strategy.network]) {
-      throw new Error(
-        `Invalid network (${strategy.network}) in strategy ${strategy.name}`
-      );
-    }
-  });
+  try {
+    strategies.forEach((strategy) => {
+      if (strategy.network && !networks[strategy.network]) {
+        throw new Error(
+          `Invalid network (${strategy.network}) in strategy ${strategy.name}`
+        );
+      }
+    });
+  } catch (e) {
+    return Promise.reject(e);
+  }
   if (typeof snapshot === 'number' && snapshot < networks[network].start) {
-    throw new Error(
+    return Promise.reject(
       `Snapshot (${snapshot}) must be greater than network start block (${networks[network].start})`
     );
   }
