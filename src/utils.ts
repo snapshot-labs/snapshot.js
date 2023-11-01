@@ -268,7 +268,7 @@ export async function getVp(
 ) {
   if (!options) options = {};
   if (!options.url) options.url = 'https://score.snapshot.org';
-  if (!isValidAddress([address])) {
+  if (!isValidAddress(address)) {
     return Promise.reject(`Invalid voter address: ${address}`);
   }
   if (!isValidNetwork(network)) {
@@ -523,13 +523,11 @@ function isValidNetwork(network: string) {
   return !!networks[network];
 }
 
-function isValidAddress(_addresses: string[]) {
-  return _addresses.every(
-    (address) => isAddress(address) && address !== EMPTY_ADDRESS
-  );
+function isValidAddress(address: string) {
+  return isAddress(address) && address !== EMPTY_ADDRESS;
 }
 
-function isValidSnapshot(snapshot: number | 'latest', network: string) {
+function isValidSnapshot(snapshot: number | string, network: string) {
   return (
     (typeof snapshot === 'number' && snapshot >= networks[network].start) ||
     snapshot === 'latest'
