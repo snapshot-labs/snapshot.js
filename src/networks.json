@@ -292,7 +292,7 @@
     "name": "XDC Apothem.network",
     "shortName": "XDC",
     "chainId": 51,
-    "network": "testnet",
+    "network": "xdc",
     "multicall": "0x3b353b02a8b42ee4222ea4be0836629b1f40c8db",
     "rpc": [
       "https://apothemrpc.blocksscan.io"
@@ -835,7 +835,6 @@
     "shortName": "HPB",
     "chainId": 269,
     "network": "mainnet",
-    "testnet": false,
     "multicall": "0x67D0f263aef2F6167FA77353695D75b582Ff4Bca",
     "rpc": [
       "https://hpbnode.com"
@@ -881,6 +880,20 @@
     },
     "start": 74,
     "logo": "ipfs://QmNc7QZFpPDue3Ef4SsuX55RHkqXxUxSyTCpoASeg2hW6d"
+  },
+  "314": {
+    "key": "314",
+    "name": "Filecoin",
+    "shortName": "mainnet",
+    "chainId": 314,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://filfox.io"
+    },
+    "start": 3328594,
+    "logo": "ipfs://bafybeibyvjfmk6aqlfdrczvth55jkmnoadtrch7ht3rdmvqmy2bfxynecm"
   },
   "321": {
     "key": "321",
@@ -1172,6 +1185,7 @@
     "shortName": "pulsechain",
     "chainId": 940,
     "network": "Testnet",
+    "testnet": true,
     "multicall": "0x5e67901C2Dd1915E9Ef49aF39B62C28DF8C2c529",
     "rpc": [
       "https://rpc.testnet.pulsedisco.net"
@@ -1191,6 +1205,7 @@
     "shortName": "pulsechain",
     "chainId": 941,
     "network": "Testnet v2B",
+    "testnet": true,
     "multicall": "0x959a437F1444DaDaC8aF997E71EAF0479c810267",
     "rpc": [
       "https://rpc.testnet.pulsedisco.net"
@@ -1210,6 +1225,7 @@
     "shortName": "Boabab",
     "chainId": 1001,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0x40643B8Aeaaca0b87Ea1A1E596e64a0e14B1d244",
     "rpc": [
       "https://archive-en.baobab.klaytn.net"
@@ -1401,6 +1417,7 @@
     "shortName": "Gobi",
     "chainId": 1663,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0xC743e4910Bdd4e5aBacCA38F74cdA270281C5eef",
     "rpc": [
       "https://gobi-testnet.horizenlabs.io/ethv1"
@@ -1433,7 +1450,6 @@
     "shortName": "cube",
     "chainId": 1818,
     "network": "mainnet",
-    "testnet": false,
     "multicall": "0x28d2ebdb36369db1c51355cdc0898754d1a1c3c5",
     "rpc": [
       "https://http-mainnet-archive.cube.network"
@@ -1672,6 +1688,7 @@
     "name": "Ontology Testnet",
     "chainId": 5851,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0x381445710b5e73d34aF196c53A3D5cDa58EDBf7A",
     "rpc": [
       "https://polaris1.ont.io:10339",
@@ -1723,7 +1740,6 @@
     "shortName": "Shyft",
     "chainId": 7341,
     "network": "mainnet",
-    "testnet": false,
     "multicall": "0xceb10e9133D771cA93c8002Be527A465E85381a2",
     "rpc": [
       "https://rpc.shyft.network"
@@ -1824,7 +1840,6 @@
     "shortName": "Evmos",
     "chainId": 9001,
     "network": "mainnet",
-    "testnet": false,
     "multicall": "0x37763d16f8dBf6F185368E0f256350cAb7E24b26",
     "rpc": [
       "https://eth.bd.evmos.org:8545"
@@ -2190,6 +2205,7 @@
     "shortName": "ThinkiumTest1",
     "chainId": 60001,
     "network": "thinkiumtest1",
+    "testnet": true,
     "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
     "rpc": [
       "https://test1.thinkiumrpc.net"
@@ -2360,6 +2376,7 @@
     "shortName": "Vpioneer",
     "chainId": 666666,
     "network": "testnet",
+    "testnet": true,
     "multicall": "0xb6E748D6632305E1c12D8369CC6B3eF4AA8A3c85",
     "rpc": [
       "https://vpioneer.infragrid.v.network/ethereum/compatible"
