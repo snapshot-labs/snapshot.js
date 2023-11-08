@@ -226,6 +226,20 @@
     "start": 5076543,
     "logo": "ipfs://Qmd7dKnNwHRZ4HRCbCXUbkNV7gP28fGqPdjbHtjRtT9sQF"
   },
+  "75": {
+    "key": "75",
+    "name": "Decimal",
+    "shortName": "mainnet",
+    "chainId": 75,
+    "network": "mainnet",
+    "multicall": "0x949d1A0757803C51F2EfFFEb5472C861A898B8E8",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.decimalchain.com"
+    },
+    "start": 16031065,
+    "logo": "ipfs://bafkreihkdhbce5rkogl63xegaarlirjrvbfarxbtbf5mqme3s5grvbjyxm"
+  },
   "80": {
     "key": "80",
     "name": "GeneChain",
@@ -400,6 +414,20 @@
     },
     "start": 1290,
     "logo": "ipfs://bafkreib4xhbgbhrwkmizp4d4nz3wzbpyhdm6wpz2v2pbkk7jxsgg3hdt74"
+  },
+  "204": {
+    "key": "204",
+    "name": "opBNB",
+    "shortName": "mainnet",
+    "chainId": 204,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "http://opbnbscan.com/"
+    },
+    "start": 512881,
+    "logo": "ipfs://bafkreibll4la7wqerzs7zwxjne2j7ayynbg2wlenemssoahxxj5rbt6c64"
   },
   "246": {
     "key": "246",
@@ -679,6 +707,23 @@
     },
     "logo": "ipfs://QmVH3uyPQDcrPC1DMUWCb7HayMv1oMAiKehuWwP2C2fdgM"
   },
+  "1072": {
+    "key": "1072",
+    "name": "Shimmer EVM Testnet",
+    "shortName": "ShimmerEVM",
+    "chainId": 1072,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0x751d21047C116413895c259f3f305e38C10B7cF6",
+    "rpc": [
+      "https://archive.evm.testnet.shimmer.network/v1/chains/rms1pr75wa5xuepg2hew44vnr28wz5h6n6x99zptk2g68sp2wuu2karywgrztx3/evm"
+    ],
+    "explorer": {
+      "url": "https://explorer.evm.testnet.shimmer.network/"
+    },
+    "start": 10614,
+    "logo": "ipfs://QmYGxmEhV6djksUk97pdE9TmL6DXm9KW8BP7pwUv8pqp8r"
+  },
   "1088": {
     "key": "1088",
     "name": "Metis",
@@ -869,6 +914,20 @@
     "start": 57500,
     "logo": "ipfs://bafkreidg4wpewve5mdxrofneqblydkrjl3oevtgpdf3fk3z3vjqam6ocoe"
   },
+  "4337": {
+    "key": "4337",
+    "name": "Beam",
+    "shortName": "Beam",
+    "chainId": 4337,
+    "network": "mainnet",
+    "multicall": "0x4956F15eFdc3dC16645e90Cc356eAFA65fFC65Ec",
+    "rpc": [],
+    "explorer": {
+      "url": "https://subnets.avax.network/beam/"
+    },
+    "start": 1,
+    "logo": "ipfs://QmaKRLxXPdeTsLx7MFLS3CJbhpSbResgoeL4fCgHB1mTsF"
+  },
   "4689": {
     "key": "4689",
     "name": "IoTeX Mainnet",
@@ -1044,6 +1103,21 @@
     },
     "start": 10523,
     "logo": "ipfs://QmYQp3e52KjkT4bYdAvB6ACEEpXs2D8DozsDitaADRY2Ak"
+  },
+  "13337": {
+    "key": "13337",
+    "name": "Beam Testnet",
+    "shortName": "testnet",
+    "chainId": 13337,
+    "network": "testnet",
+    "multicall": "0x9BF49b704EE2A095b95c1f2D4EB9010510c41C9E",
+    "rpc": [],
+    "explorer": {
+      "url": "https://subnets-test.avax.network/beam/"
+    },
+    "start": 3,
+    "logo": "ipfs://QmaKRLxXPdeTsLx7MFLS3CJbhpSbResgoeL4fCgHB1mTsF",
+    "testnet": true
   },
   "16718": {
     "key": "16718",
@@ -1262,6 +1336,21 @@
     },
     "start": 751532,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
+  },
+  "245022926": {
+    "key": "245022926",
+    "name": "Neon Devnet",
+    "shortName": "devnet",
+    "chainId": 245022934,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://devnet.neonscan.org/"
+    },
+    "start": 205206112,
+    "logo": "ipfs://QmecRPQGa4bU7tybg1sUQY48Md9rWnmhrT6WW5ueqvhg6P",
+    "testnet": true
   },
   "1313161554": {
     "key": "1313161554",
