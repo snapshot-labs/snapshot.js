@@ -242,7 +242,8 @@
               "title": "Delegation type",
               "description": "Specify the type of delegation that you are using",
               "anyOf": [
-                { "const": "compound-governor", "title": "Compound governor" }
+                { "const": "compound-governor", "title": "Compound governor" },
+                { "const": "delegate-registry-v2", "title": "Delegate Registry v2" }
               ]
             },
             "delegationContract": {
