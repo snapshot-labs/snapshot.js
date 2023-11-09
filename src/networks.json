@@ -108,39 +108,6 @@
     "start": 657806,
     "logo": "ipfs://QmfF4kwhGL8QosUXvgq2KWCmavhKBvwD6kbhs7L4p5ZAWb"
   },
-  "14": {
-    "key": "14",
-    "name": "Flare Mainnet",
-    "shortName": "Flare",
-    "chainId": 14,
-    "network": "flare",
-    "multicall": "0x336897CAe2791048DA77EEa2A43BFB96342b9CE1",
-    "rpc": [
-      "https://flare-api.flare.network/ext/C/rpc"
-    ],
-    "explorer": {
-      "url": "https://flare-explorer.flare.network"
-    },
-    "start": 1702000,
-    "logo": "ipfs://QmevAevHxRkK2zVct2Eu6Y7s38YC4SmiAiw9X7473pVtmL"
-  },
-  "16": {
-    "key": "16",
-    "name": "Flare Testnet Coston",
-    "shortName": "Coston",
-    "chainId": 16,
-    "network": "coston",
-    "testnet": true,
-    "multicall": "0xF7aB82e5253F65496e21dF0dacfA6D5e765b4874",
-    "rpc": [
-      "https://coston-api.flare.network/ext/bc/C/rpc"
-    ],
-    "explorer": {
-      "url": "https://coston-explorer.flare.network"
-    },
-    "start": 4782058,
-    "logo": "ipfs://QmW7Ljv2eLQ1poRrhJBaVWJBF1TyfZ8QYxDeELRo6sssrj"
-  },
   "19": {
     "key": "19",
     "name": "Songbird Canary-Network",
@@ -156,23 +123,6 @@
     },
     "start": 21807126,
     "logo": "ipfs://QmXyvnrZY8FUxSULfnKKA99sAEkjAHtvhRx5WeHixgaEdu"
-  },
-  "20": {
-    "key": "20",
-    "name": "Elastos Smart Chain",
-    "shortName": "ESC",
-    "chainId": 20,
-    "network": "mainnet",
-    "multicall": "0x20205D3b6008bea1411bd4CaEA2D923FE231B6E5",
-    "rpc": [
-      "https://rpc.glidefinance.io",
-      "https://escrpc.elaphant.app"
-    ],
-    "explorer": {
-      "url": "https://esc.elastos.io"
-    },
-    "start": 7826070,
-    "logo": "ipfs://Qmd2muU2UHo5WsTxE9EpZZJeatimTT9GD4sEnHQe6i9wiA"
   },
   "25": {
     "key": "25",
@@ -205,53 +155,6 @@
     "start": 2516442,
     "logo": "ipfs://QmXTwpE1SqoNZmyY4c3fYWy6qUgQELsyWKbgJo2Pg6K6V9"
   },
-  "31": {
-    "key": "31",
-    "name": "RSK Testnet",
-    "chainId": 31,
-    "network": "rsk testnet",
-    "testnet": true,
-    "multicall": "0x4eeebb5580769ba6d26bfd07be636300076d1831",
-    "rpc": [
-      "https://public-node.testnet.rsk.co"
-    ],
-    "explorer": {
-      "url": "https://explorer.testnet.rsk.co"
-    },
-    "start": 1002369,
-    "logo": "ipfs://QmbpnJowePd9sDy8hrJv7LsTBkxksuJauw56Y7BqdMdzec"
-  },
-  "36": {
-    "key": "36",
-    "name": "Dxchain Mainnet",
-    "shortName": "DXC",
-    "chainId": 36,
-    "network": "mainnet",
-    "multicall": "0x49186b3b30922F89ca03B5f2bE7FFd8db9d0A761",
-    "rpc": [
-      "https://mainnet.dxchain.com"
-    ],
-    "explorer": {
-      "url": "https://dxscan.io"
-    },
-    "start": 207070,
-    "logo": "ipfs://QmYBup5bWoBfkaHntbcgW8Ji7ncad7f53deJ4Q55z4PNQs"
-  },
-  "44": {
-    "key": "44",
-    "name": "Crab Network",
-    "shortName": "Crab",
-    "chainId": 44,
-    "network": "mainnet",
-    "multicall": "0x4617D470F847Ce166019d19a7944049ebB017400",
-    "rpc": [
-      "https://crab-rpc.darwinia.network"
-    ],
-    "explorer": {
-      "url": "https://crab.subscan.io"
-    },
-    "logo": "ipfs://QmTpySsG7rjLwuZX1Ep4ewGyVAyGrvCRC1oqEvU6oP1huf"
-  },
   "46": {
     "key": "46",
     "name": "Darwinia Network",
@@ -267,43 +170,6 @@
     },
     "start": 141853,
     "logo": "ipfs://bafkreicf55maidhx46pyu3mwsshlr43xbewr6tkckkonh4nesbkp7krwkm"
-  },
-  "50": {
-    "key": "50",
-    "name": "XDC.Network",
-    "shortName": "XDC",
-    "chainId": 50,
-    "network": "mainnet",
-    "multicall": "0xc8160deb19559d93eadb82798ededce696ebcaf5",
-    "rpc": [
-      "https://snapshotrpc.blocksscan.io/",
-      "https://rpc.xinfin.network"
-    ],
-    "ws": [
-      "wss://ws.blocksscan.io"
-    ],
-    "explorer": {
-      "url": "http://xdc.blocksscan.io"
-    },
-    "logo": "ipfs://QmaX3pqjWGg97bR6jjxvTopRkJVxrvwp6VB4jf1Lknq111"
-  },
-  "51": {
-    "key": "51",
-    "name": "XDC Apothem.network",
-    "shortName": "XDC",
-    "chainId": 51,
-    "network": "xdc",
-    "multicall": "0x3b353b02a8b42ee4222ea4be0836629b1f40c8db",
-    "rpc": [
-      "https://apothemrpc.blocksscan.io"
-    ],
-    "ws": [
-      "wss://apothemws.blocksscan.io"
-    ],
-    "explorer": {
-      "url": "http://apothem.blocksscan.io"
-    },
-    "logo": "ipfs://QmaX3pqjWGg97bR6jjxvTopRkJVxrvwp6VB4jf1Lknq111"
   },
   "56": {
     "key": "56",
@@ -326,23 +192,6 @@
     "start": 461230,
     "logo": "ipfs://QmWQaQ4Tv28DwA4DRKjSDJFWY9mZboGvuu77J8nh7kucxv"
   },
-  "58": {
-    "key": "58",
-    "name": "Ontology Mainnet",
-    "chainId": 58,
-    "network": "mainnet",
-    "multicall": "0xce6292279bf688173B269Df080E14407470A9E60",
-    "rpc": [
-      "https://dappnode1.ont.io:10339",
-      "https://dappnode2.ont.io:10339",
-      "https://dappnode3.ont.io:10339",
-      "https://dappnode4.ont.io:10339"
-    ],
-    "explorer": {
-      "url": "https://explorer.ont.io/"
-    },
-    "logo": "ipfs://Qme21sVqfwvrjkZHaeKaBH1F8AKPjbAV7vF7rH6akaLkU1"
-  },
   "61": {
     "key": "61",
     "name": "Ethereum Classic Mainnet",
@@ -357,26 +206,6 @@
       "url": "https://blockscout.com/etc/mainnet"
     },
     "logo": "ipfs://QmVegc28DvA7LjKUFysab81c9BSuN4wQVDQkRXyAtuEBis"
-  },
-  "65": {
-    "key": "65",
-    "name": "OKExChain Testnet",
-    "shortName": "OEC Testnet",
-    "chainId": 65,
-    "network": "oec testnet",
-    "testnet": true,
-    "multicall": "0x04c68A7fB750ca0Ba232105B3b094926a0f77645",
-    "rpc": [
-      "https://exchaintestrpc.okex.org"
-    ],
-    "ws": [
-      "wss://exchaintestws.okex.org:8443"
-    ],
-    "explorer": {
-      "url": "https://www.oklink.com/okexchain-test"
-    },
-    "start": 5320359,
-    "logo": "ipfs://Qmd7dKnNwHRZ4HRCbCXUbkNV7gP28fGqPdjbHtjRtT9sQF"
   },
   "66": {
     "key": "66",
@@ -396,58 +225,6 @@
     },
     "start": 5076543,
     "logo": "ipfs://Qmd7dKnNwHRZ4HRCbCXUbkNV7gP28fGqPdjbHtjRtT9sQF"
-  },
-  "69": {
-    "key": "69",
-    "name": "Optimism Kovan",
-    "chainId": 69,
-    "network": "Optimism testnet",
-    "testnet": true,
-    "multicall": "0x28e9a2329aa6b675ca251a2ccaa7fb029c1e9bfb",
-    "rpc": [
-      "https://opt-kovan.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
-    ],
-    "explorer": {
-      "url": "https://kovan-optimistic.etherscan.io"
-    },
-    "start": 882942,
-    "logo": "ipfs://QmfF4kwhGL8QosUXvgq2KWCmavhKBvwD6kbhs7L4p5ZAWb"
-  },
-  "70": {
-    "key": "70",
-    "name": "Hoo Smart Chain Mainnet",
-    "shortName": "hsc",
-    "chainId": 70,
-    "network": "Mainnet",
-    "multicall": "0xd4b794b89baccb70ef851830099bee4d69f19ebc",
-    "rpc": [
-      "https://http-mainnet2.hoosmartchain.com"
-    ],
-    "ws": [
-      "wss://ws-mainnet2.hoosmartchain.com"
-    ],
-    "explorer": {
-      "url": "https://hooscan.com"
-    },
-    "start": 404118,
-    "logo": "ipfs://QmNhFCVw5GDsu86sGchoRNvQjcr5GL79UJQ3xCHzdFbZYk"
-  },
-  "74": {
-    "key": "74",
-    "name": "IDChain",
-    "shortName": "IDChain",
-    "chainId": 74,
-    "network": "mainnet",
-    "multicall": "0x41d289c966D51342A515A19dE9c27d16079c94E0",
-    "rpc": [
-      "https://idchain.one/archive/rpc/",
-      "https://idchain.songadao.org/rpc"
-    ],
-    "explorer": {
-      "url": "https://explorer.idchain.one"
-    },
-    "start": 10780012,
-    "logo": "ipfs://QmXAKaNsyv6ctuRenYRJuZ1V4kn1eFwkUtjrjzX6jiKTqe"
   },
   "75": {
     "key": "75",
@@ -510,22 +287,6 @@
     "start": 4992871,
     "logo": "ipfs://QmSZvT9w9eUDvV1YVaq3BKKEbubtNVqu1Rin44FuN4wz11"
   },
-  "87": {
-    "key": "87",
-    "name": "Nova Network",
-    "shortName": "Nova",
-    "chainId": 87,
-    "network": "mainnet",
-    "multicall": "0x07f6b55a5dae24ac8011cc2cb815de8316e2b965",
-    "rpc": [
-      "https://dev.rpc.novanetwork.io/"
-    ],
-    "explorer": {
-      "url": "https://explorer.novanetwork.io/"
-    },
-    "start": 1081731,
-    "logo": "ipfs://QmTTamJ55YGQwMboq4aqf3JjTEy5WDtjo4GBRQ5VdsWA6U"
-  },
   "97": {
     "key": "97",
     "name": "Binance Smart Chain Testnet",
@@ -543,22 +304,6 @@
     },
     "start": 3599656,
     "logo": "ipfs://QmWQaQ4Tv28DwA4DRKjSDJFWY9mZboGvuu77J8nh7kucxv"
-  },
-  "99": {
-    "key": "99",
-    "name": "POA Core",
-    "shortName": "POA",
-    "chainId": 99,
-    "network": "mainnet",
-    "multicall": "0x2754BB10580dFc6d8Ce6d6CA2939021A06923394",
-    "rpc": [
-      "https://core.poa.network"
-    ],
-    "explorer": {
-      "url": "https://blockscout.com/poa/core"
-    },
-    "start": 22543252,
-    "logo": "ipfs://QmZNFCQGA7qT4XJnPSH5NNYrqK6aFsfzZ1NzJwp5D4Tdjr"
   },
   "100": {
     "key": "100",
@@ -585,26 +330,6 @@
     "start": 4108192,
     "logo": "ipfs://QmZeiy8Ax4133wzxUQM9ky8z5XFVf6YLFjJMmTWbWVniZR"
   },
-  "106": {
-    "key": "106",
-    "name": "Velas EVM Mainnet",
-    "shortName": "Velas",
-    "chainId": 106,
-    "network": "mainnet",
-    "multicall": "0x597Cc7c49a8e0041d3A43ec8D7dc651b47879108",
-    "rpc": [
-      "https://evmexplorer.velas.com/rpc",
-      "https://explorer.velas.com/rpc"
-    ],
-    "ws": [
-      "wss://api.velas.com"
-    ],
-    "explorer": {
-      "url": "https://evmexplorer.velas.com"
-    },
-    "start": 141800,
-    "logo": "ipfs://QmNXiCXJxEeBd7ZYGYjPSMTSdbDd2nfodLC677gUfk9ku5"
-  },
   "108": {
     "key": "108",
     "name": "Thundercore Mainnet",
@@ -619,42 +344,6 @@
     },
     "start": 94425385,
     "logo": "ipfs://bafkreifc5z5vtvqx2luzgateyvoocwpd2ifv2hwufxdnyl2a767wa6icli"
-  },
-  "111": {
-    "key": "111",
-    "name": "Velas EVM Testnet",
-    "shortName": "Velas Testnet",
-    "chainId": 111,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x55a827538FbF41b7334Dd49001220597898Ad954",
-    "rpc": [
-      "https://evmexplorer.testnet.velas.com/rpc",
-      "https://explorer.testnet.velas.com/rpc"
-    ],
-    "ws": [
-      "wss://api.testnet.velas.com"
-    ],
-    "explorer": {
-      "url": "https://evmexplorer.testnet.velas.com"
-    },
-    "start": 1195129,
-    "logo": "ipfs://QmQFWn7JJLigUPvvp6uKg6EWikx7QeNxQ2vaCngU3Uthho"
-  },
-  "119": {
-    "key": "119",
-    "name": "ENULS Mainnet",
-    "chainId": 119,
-    "network": "mainnet",
-    "multicall": "0xd7d2Aa52f5491cB60ccD85b8c39935BF0baCd142",
-    "rpc": [
-      "https://evmapi.nuls.io/"
-    ],
-    "explorer": {
-      "url": "https://evmscan.nuls.io"
-    },
-    "start": 501318,
-    "logo": "ipfs://QmYz8LK5WkUN8UwqKfWUjnyLuYqQZWihT7J766YXft4TSy"
   },
   "122": {
     "key": "122",
@@ -672,25 +361,6 @@
     },
     "start": 11923459,
     "logo": "ipfs://QmXjWb64nako7voaVEifgdjAbDbswpTY8bghsiHpv8yWtb"
-  },
-  "128": {
-    "key": "128",
-    "name": "Huobi Eco Chain Mainnet",
-    "shortName": "heco",
-    "chainId": 128,
-    "network": "Mainnet",
-    "multicall": "0x37ab26db3df780e7026f3e767f65efb739f48d8e",
-    "rpc": [
-      "https://pub001.hg.network/rpc"
-    ],
-    "ws": [
-      "wss://pub001.hg.network/ws"
-    ],
-    "explorer": {
-      "url": "https://hecoinfo.com"
-    },
-    "start": 403225,
-    "logo": "ipfs://QmSJEdToMvmjqoPvVq7awwdMeYKhXUYZMBiax9yHtFGMSq"
   },
   "137": {
     "key": "137",
@@ -745,22 +415,6 @@
     "start": 1290,
     "logo": "ipfs://bafkreib4xhbgbhrwkmizp4d4nz3wzbpyhdm6wpz2v2pbkk7jxsgg3hdt74"
   },
-  "188": {
-    "key": "188",
-    "name": "Bytom Sidechain",
-    "shortName": "BMC",
-    "chainId": 188,
-    "network": "mainnet",
-    "multicall": "0xDA09528B093246eC70139b657d3B7A3bd5F4C859",
-    "rpc": [
-      "https://mainnet.bmcchain.com/"
-    ],
-    "explorer": {
-      "url": "https://bmc.blockmeta.com/"
-    },
-    "start": 4720651,
-    "logo": "ipfs://bafkreiabhsxuq35pp4kmrbptdeypd6clhcy3ue7ydpppo6onoo4igcjqia"
-  },
   "204": {
     "key": "204",
     "name": "opBNB",
@@ -809,26 +463,6 @@
     "start": 2497732,
     "logo": "ipfs://QmVEgNeQDKnXygeGxfY9FywZpNGQu98ktZtRJ9bToYF6g7"
   },
-  "256": {
-    "key": "256",
-    "name": "Huobi Eco Chain Testnet",
-    "shortName": "heco",
-    "chainId": 256,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0xC33994Eb943c61a8a59a918E2de65e03e4e385E0",
-    "rpc": [
-      "https://http-testnet.hecochain.com"
-    ],
-    "ws": [
-      "wss://ws-testnet.hecochain.com"
-    ],
-    "explorer": {
-      "url": "https://testnet.hecoinfo.com"
-    },
-    "start": 379560,
-    "logo": "ipfs://QmSJEdToMvmjqoPvVq7awwdMeYKhXUYZMBiax9yHtFGMSq"
-  },
   "269": {
     "key": "269",
     "name": "High Performance Blockchain Mainnet",
@@ -864,22 +498,6 @@
     },
     "start": 9012429,
     "logo": "ipfs://bafkreih6y7ri7h667cwxe5miisxghfheiidtbw2747y75stoxt3gp3a2yy"
-  },
-  "288": {
-    "key": "288",
-    "name": "Boba Mainnet",
-    "shortName": "Boba",
-    "chainId": 288,
-    "network": "mainnet",
-    "multicall": "0xfb91c019D9F12A0f9c23B4762fa64A34F8daDb4A",
-    "rpc": [
-      "https://mainnet.boba.network/"
-    ],
-    "explorer": {
-      "url": "https://blockexplorer.boba.network"
-    },
-    "start": 74,
-    "logo": "ipfs://QmNc7QZFpPDue3Ef4SsuX55RHkqXxUxSyTCpoASeg2hW6d"
   },
   "314": {
     "key": "314",
@@ -947,22 +565,6 @@
     "start": 1170016,
     "logo": "ipfs://QmcqGQE4Sk73zXc3e91TUFFefKBVeaNgbxV141XkSNE4xj"
   },
-  "361": {
-    "key": "361",
-    "name": "Theta Mainnet",
-    "shortName": "Theta",
-    "chainId": 361,
-    "network": "mainnet",
-    "multicall": "0xB48BbAD564Ceb6fB30cCea2Af248ccF6398aEab5",
-    "rpc": [
-      "https://eth-rpc-api.thetatoken.org/rpc"
-    ],
-    "explorer": {
-      "url": "https://explorer.thetatoken.org"
-    },
-    "start": 12559216,
-    "logo": "ipfs://QmcMP9s9mUqfT2SCiP75sZgAVVev7H7RQAKiSx9xWEDKwe"
-  },
   "369": {
     "key": "369",
     "name": "Pulsechain Mainnet",
@@ -998,42 +600,6 @@
     "start": 2680605,
     "logo": "ipfs://QmSXLXqyr2H6Ja5XrmznXbWTEvF2gFaL8RXNXgyLmDHjAF"
   },
-  "499": {
-    "key": "499",
-    "name": "Rupaya",
-    "shortName": "RUPX",
-    "chainId": 499,
-    "network": "mainnet",
-    "multicall": "0x7955FF653FfDBf13056FeAe227f655CfF5C194D5",
-    "rpc": [
-      "https://rpc.rupx.io"
-    ],
-    "ws": [
-      "wss://ws.rupx.io"
-    ],
-    "explorer": {
-      "url": "http://scan.rupx.io"
-    },
-    "start": 2762929,
-    "logo": "ipfs://QmXLZyAr6UNFQ4tkNwSyeNByFvzwYpwiNgV5vHuoxn74Rg"
-  },
-  "534": {
-    "key": "534",
-    "name": "Candle",
-    "shortName": "CNDL",
-    "chainId": 534,
-    "network": "mainnet",
-    "multicall": "0x4A21871491adC2C429F9903918C306c97dd295A3",
-    "rpc": [
-      "https://rpc.cndlchain.com",
-      "https://candle-rpc.com"
-    ],
-    "explorer": {
-      "url": "http://candleexplorer.com"
-    },
-    "start": 800000,
-    "logo": "ipfs://Qmbe3ChumXNRfHcLsNBY2APRrGxkFWP68Nb35MaKMRfPye"
-  },
   "592": {
     "key": "592",
     "name": "Astar Network",
@@ -1050,58 +616,6 @@
     },
     "start": 366482,
     "logo": "ipfs://QmZLQVsUqHBDXutu6ywTvcYXDZG2xBstMfHkfJSzUNpZsc"
-  },
-  "595": {
-    "key": "595",
-    "name": "Acala Mandala Testnet",
-    "chainId": 595,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x8ce86f733024c1ccae2224f05c11fd50713d6f81",
-    "rpc": [
-      "https://tc7-eth.aca-dev.network"
-    ],
-    "explorer": {
-      "url": "https://blockscout.mandala.acala.network"
-    },
-    "start": 1335512,
-    "logo": "ipfs://QmY1ZYBUzb46Mto7G1GitQWfaqq6n8Q4WArxFBzhNdLqvg"
-  },
-  "599": {
-    "key": "599",
-    "name": "Metis Testnet",
-    "chainId": 599,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x5A958c159F4AEA990b1195C44624B94dC0825470",
-    "rpc": [
-      "https://goerli.gateway.metisdevops.link"
-    ],
-    "explorer": {
-      "url": "https://goerli.explorer.metisdevops.link/"
-    },
-    "start": 1018715,
-    "logo": "ipfs://QmYeskHqrEvWHqeAuqett64LxfH52HUXZi2T9BAMmgKvBF"
-  },
-  "647": {
-    "key": "647",
-    "name": "SX Network Testnet",
-    "shortName": "647",
-    "chainId": 647,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x750e0f8efD3c3cF41c4D8BB0355d659bCbc75dB9",
-    "rpc": [
-      "https://rpc.toronto.sx.technology"
-    ],
-    "ws": [
-      "wss://rpc.toronto.sx.technology/ws"
-    ],
-    "explorer": {
-      "url": "https://explorer.toronto.sx.technology"
-    },
-    "start": 14441039,
-    "logo": "ipfs://QmSXLXqyr2H6Ja5XrmznXbWTEvF2gFaL8RXNXgyLmDHjAF"
   },
   "813": {
     "key": "813",
@@ -1141,26 +655,6 @@
     "start": 1515906,
     "logo": "ipfs://Qmcc6ZCAGESMzZzoj5LsTVcCo2E35x3Ydk71uPJyov6Mwx"
   },
-  "842": {
-    "key": "842",
-    "name": "Taraxa Testnet",
-    "shortName": "842",
-    "chainId": 842,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x7749051abc57e1105941Ea3Eb2a3F873F300E861",
-    "rpc": [
-      "https://rpc.testnet.taraxa.io"
-    ],
-    "ws": [
-      "wss://ws.testnet.taraxa.io"
-    ],
-    "explorer": {
-      "url": "https://testnet.explorer.taraxa.io"
-    },
-    "start": 1462328,
-    "logo": "ipfs://Qmcc6ZCAGESMzZzoj5LsTVcCo2E35x3Ydk71uPJyov6Mwx"
-  },
   "888": {
     "key": "888",
     "name": "Wanchain",
@@ -1178,46 +672,6 @@
     },
     "start": 11302663,
     "logo": "ipfs://QmewFFN44rkxESFsHG8edaLt1znr62hjvZhGynfXqruzX3"
-  },
-  "940": {
-    "key": "940",
-    "name": "PulseChain Testnet",
-    "shortName": "pulsechain",
-    "chainId": 940,
-    "network": "Testnet",
-    "testnet": true,
-    "multicall": "0x5e67901C2Dd1915E9Ef49aF39B62C28DF8C2c529",
-    "rpc": [
-      "https://rpc.testnet.pulsedisco.net"
-    ],
-    "ws": [
-      "wss://ws.rpc.testnet.pulsedisco.net"
-    ],
-    "explorer": {
-      "url": "https://scan.v2.testnet.pulsechain.com"
-    },
-    "start": 15123138,
-    "logo": "ipfs://QmYqkn8pJUaV9KcEPYEvRPwgbfeozLEvcQ9aEwKNRUL3cR"
-  },
-  "941": {
-    "key": "941",
-    "name": "PulseChain Testnet V2B",
-    "shortName": "pulsechain",
-    "chainId": 941,
-    "network": "Testnet v2B",
-    "testnet": true,
-    "multicall": "0x959a437F1444DaDaC8aF997E71EAF0479c810267",
-    "rpc": [
-      "https://rpc.testnet.pulsedisco.net"
-    ],
-    "ws": [
-      "wss://ws.rpc.testnet.pulsedisco.net"
-    ],
-    "explorer": {
-      "url": "https://scan.v2b.testnet.pulsechain.com"
-    },
-    "start": 14473847,
-    "logo": "ipfs://QmYqkn8pJUaV9KcEPYEvRPwgbfeozLEvcQ9aEwKNRUL3cR"
   },
   "1001": {
     "key": "1001",
@@ -1316,22 +770,6 @@
     "start": 853908,
     "logo": "ipfs://QmVctLQ44vhkwejja9DDjDYUdYgVRBEWs242mhd95SeM5q"
   },
-  "1234": {
-    "key": "1234",
-    "name": "Step Network",
-    "shortName": "stepnetwork",
-    "chainId": 1234,
-    "network": "mainnet",
-    "multicall": "0x176CcFFbAB792Aaa0da7C430FE20a7106d969f66",
-    "rpc": [
-      "https://rpc.step.network"
-    ],
-    "explorer": {
-      "url": "https://stepscan.io"
-    },
-    "start": 22,
-    "logo": "ipfs://QmUj734i8ggjnKhaoA346cA7rEuE5GkV4aDXQ1EKaQWdEF"
-  },
   "1284": {
     "key": "1284",
     "name": "Moonbeam",
@@ -1381,22 +819,6 @@
     "start": 859041,
     "logo": "ipfs://QmeGbNTU2Jqwg8qLTMGW8n8HSi2VdgCncAaeGzLx6gYnD7"
   },
-  "1319": {
-    "key": "1319",
-    "name": "AITDChain Mainnet",
-    "shortName": "AITD",
-    "chainId": 1319,
-    "network": "mainnet",
-    "multicall": "0x16e98974D30263252aa273dC8e3d1d48380845FB",
-    "rpc": [
-      "https://node.aitd.io"
-    ],
-    "explorer": {
-      "url": "http://aitd-explorer-new.aitd.io"
-    },
-    "start": 1893,
-    "logo": "ipfs://QmXbBMMhjTTGAGjmqMpJm3ufFrtdkfEXCFyXYgz7nnZzsy"
-  },
   "1559": {
     "key": "1559",
     "name": "Tenet",
@@ -1428,55 +850,6 @@
     "start": 1,
     "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
   },
-  "1701": {
-    "key": "1701",
-    "name": "Anytype EVM Chain",
-    "shortName": "AnytypeChain",
-    "chainId": 1701,
-    "network": "mainnet",
-    "multicall": "0x4542a07dE7f8A1cEB85aEcBFD0d5338e9886EF49",
-    "rpc": [
-      "https://geth.anytype.io"
-    ],
-    "explorer": {
-      "url": "https://explorer.anytype.io"
-    },
-    "start": 1126886,
-    "logo": "ipfs://QmaARJiAQUn4Z6wG8GLEry3kTeBB3k6RfHzSZU9SPhBgcG"
-  },
-  "1818": {
-    "key": "1818",
-    "name": "Cubechain mainnet",
-    "shortName": "cube",
-    "chainId": 1818,
-    "network": "mainnet",
-    "multicall": "0x28d2ebdb36369db1c51355cdc0898754d1a1c3c5",
-    "rpc": [
-      "https://http-mainnet-archive.cube.network"
-    ],
-    "explorer": {
-      "url": "https://www.cubescan.network"
-    },
-    "start": 0,
-    "logo": "ipfs://QmbENgHTymTUUArX5MZ2XXH69WGenirU3oamkRD448hYdz"
-  },
-  "1819": {
-    "key": "1819",
-    "name": "Cubechain testnet",
-    "shortName": "cube",
-    "chainId": 1819,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x5db2AB28beD8EBDDe5F7202F5a11fF7E78Ad1FB5",
-    "rpc": [
-      "https://http-testnet-archive.cube.network"
-    ],
-    "explorer": {
-      "url": "https://testnet.cubescan.network"
-    },
-    "start": 0,
-    "logo": "ipfs://QmbENgHTymTUUArX5MZ2XXH69WGenirU3oamkRD448hYdz"
-  },
   "2000": {
     "key": "2000",
     "name": "Doge Chain",
@@ -1492,22 +865,6 @@
     },
     "start": 877115,
     "logo": "ipfs://bafkreigovfh3pinsdih777issfgaflwu2yjzroljs2642gbvwikcd3nm4i"
-  },
-  "2020": {
-    "key": "2020",
-    "name": "Public Mint",
-    "shortName": "publicmint",
-    "chainId": 2020,
-    "network": "mainnet",
-    "multicall": "0x8De9F846d72Bd5CE7BC572994E5420d6CB047bF4",
-    "rpc": [
-      "https://rpc.publicmint.io:8545/"
-    ],
-    "explorer": {
-      "url": "https://explorer.publicmint.io"
-    },
-    "start": 19454413,
-    "logo": "ipfs://bafkreihh4y35xgshx7wbf7a2xj35do55f7lj4nhxqxtt5nqoohoojdvkki"
   },
   "2109": {
     "key": "2109",
@@ -1557,39 +914,6 @@
     "start": 57500,
     "logo": "ipfs://bafkreidg4wpewve5mdxrofneqblydkrjl3oevtgpdf3fk3z3vjqam6ocoe"
   },
-  "2611": {
-    "key": "2611",
-    "name": "Redlight Mainnet",
-    "shortName": "REDLC",
-    "chainId": 2611,
-    "network": "mainnet",
-    "multicall": "0x516C7A3F307eCb28F7F88AFfD31F26484c2e1BA2",
-    "rpc": [
-      "https://dataseed2.redlightscan.finance"
-    ],
-    "explorer": {
-      "url": "https://redlightscan.finance/"
-    },
-    "start": 6504228,
-    "logo": "ipfs://QmZDdFjM37M3Zn6aCAuBnRwnWYTzFMg8k2zhKedczwBb58"
-  },
-  "4062": {
-    "key": "4062",
-    "name": "Nahmii N3 Testnet",
-    "shortName": "Nahmii",
-    "chainId": 4062,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x495Da6Fdad384f3FF733f860d63c4F9457D2a0b0",
-    "rpc": [
-      "https://ngeth.testnet.n3.nahmii.io"
-    ],
-    "explorer": {
-      "url": "https://explorer.testnet.n3.nahmii.io/"
-    },
-    "start": 2607889,
-    "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
-  },
   "4337": {
     "key": "4337",
     "name": "Beam",
@@ -1620,23 +944,6 @@
     "start": 11533283,
     "logo": "ipfs://QmNkr1UPcBYbvLp7d7Pk4eF3YCsHpaNkfusKZNtykL2EQC"
   },
-  "4690": {
-    "key": "4690",
-    "name": "IoTeX Testnet",
-    "shortName": "IoTeX",
-    "chainId": 4690,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x30aE8783d26aBE7Fbb9d83549CCb7430AE4A301F",
-    "rpc": [
-      "https://babel-api.testnet.iotex.io"
-    ],
-    "explorer": {
-      "url": "https://testnet.iotexscan.io"
-    },
-    "start": 8821493,
-    "logo": "ipfs://QmNkr1UPcBYbvLp7d7Pk4eF3YCsHpaNkfusKZNtykL2EQC"
-  },
   "5000": {
     "key": "5000",
     "name": "Mantle",
@@ -1652,22 +959,6 @@
     "start": 304717,
     "logo": "ipfs://bafkreidkucwfn4mzo2gtydrt2wogk3je5xpugom67vhi4h4comaxxjzoz4"
   },
-  "5551": {
-    "key": "5551",
-    "name": "Nahmii Mainnet",
-    "shortName": "Nahmii",
-    "chainId": 5551,
-    "network": "mainnet",
-    "multicall": "0x05911151467b9F42eD14f10ddE0c057347Fff714",
-    "rpc": [
-      "https://l2.nahmii.io"
-    ],
-    "explorer": {
-      "url": "https://explorer.nahmii.io"
-    },
-    "start": 4364,
-    "logo": "ipfs://QmPXPCBho3kGLt5rhG9JGkKmzdtLvqZmJqGzzijVCuggWY"
-  },
   "5555": {
     "key": "5555",
     "name": "Chain Verse Mainnet",
@@ -1682,26 +973,6 @@
       "url": "https://explorer.chainverse.info"
     },
     "logo": "ipfs://QmQyJt28h4wN3QHPXUQJQYQqGiFUD77han3zibZPzHbitk"
-  },
-  "5851": {
-    "key": "5851",
-    "name": "Ontology Testnet",
-    "chainId": 5851,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x381445710b5e73d34aF196c53A3D5cDa58EDBf7A",
-    "rpc": [
-      "https://polaris1.ont.io:10339",
-      "https://polaris2.ont.io:10339",
-      "https://polaris3.ont.io:10339",
-      "https://polaris4.ont.io:10339",
-      "https://polaris4.ont.io:10339",
-      "https://polaris5.ont.io:10339"
-    ],
-    "explorer": {
-      "url": "https://explorer.ont.io/testnet"
-    },
-    "logo": "ipfs://Qme21sVqfwvrjkZHaeKaBH1F8AKPjbAV7vF7rH6akaLkU1"
   },
   "6102": {
     "key": "6102",
@@ -1750,38 +1021,6 @@
     "start": 3673983,
     "logo": "ipfs://QmUkFZC2ZmoYPTKf7AHdjwRPZoV2h1MCuHaGM4iu8SNFpi"
   },
-  "7363": {
-    "key": "7363",
-    "name": "DynoChain",
-    "shortName": "DND",
-    "chainId": 7363,
-    "network": "mainnet",
-    "multicall": "0x70F9C674677Cb915042C11fcd4D3418A99aa7A3D",
-    "rpc": [
-      "https://rpc.dynochain.io"
-    ],
-    "explorer": {
-      "url": "https://dynoscan.io"
-    },
-    "start": 30900,
-    "logo": "ipfs://QmNkwQ9uyaNgtu9YZM48VmKqmFceQhCMPLF2vZy7mWvw4L"
-  },
-  "7700": {
-    "key": "7700",
-    "name": "Canto",
-    "shortName": "Canto",
-    "chainId": 7700,
-    "network": "mainnet",
-    "multicall": "0x9787792A1020B00fb65191754c3D87c89Bf36444",
-    "rpc": [
-      "https://canto.neobase.one"
-    ],
-    "explorer": {
-      "url": "https://evm.explorer.canto.io"
-    },
-    "start": 1683285,
-    "logo": "ipfs://QmVh5XRi7xN4UNw7SNKpEhjF1TsPXJnRyNkB4EuMVTVCB6"
-  },
   "8217": {
     "key": "8217",
     "name": "Klaytn Mainnet Cypress",
@@ -1814,26 +1053,6 @@
     "start": 5022,
     "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv"
   },
-  "9000": {
-    "key": "9000",
-    "name": "Evmos Network Testnet",
-    "shortName": "Evmos Testnet",
-    "chainId": 9000,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0xbf84d77eb467c4aaa2988ac070cd119984c0aaa2",
-    "rpc": [
-      "https://eth.bd.evmos.dev:8545"
-    ],
-    "ws": [
-      "wss://eth.bd.evmos.dev:8546"
-    ],
-    "explorer": {
-      "url": "https://testnet.escan.live"
-    },
-    "start": 14929860,
-    "logo": "ipfs://QmVgkQTA8cbYMijWS8AN44xzwAEQvFc2dCpih1qK78ZRQW"
-  },
   "9001": {
     "key": "9001",
     "name": "Evmos Network",
@@ -1852,22 +1071,6 @@
     },
     "start": 13959539,
     "logo": "ipfs://QmVgkQTA8cbYMijWS8AN44xzwAEQvFc2dCpih1qK78ZRQW"
-  },
-  "9052": {
-    "key": "9052",
-    "name": "Acrechain Mainnet",
-    "shortName": "Acrechain",
-    "chainId": 9052,
-    "network": "mainnet",
-    "multicall": "0x6D7ce9f27f188cD042b20742DC95b0C75D5667bB",
-    "rpc": [
-      "https://evm.acrescan.com"
-    ],
-    "explorer": {
-      "url": "https://acrescout.mindheartsoul.org"
-    },
-    "start": 1759024,
-    "logo": "ipfs://QmbA6CE3G81mm4eDEBUezwcq2qdqEh1zEToG3MbJHirxQt"
   },
   "10000": {
     "key": "10000",
@@ -1900,57 +1103,6 @@
     },
     "start": 10523,
     "logo": "ipfs://QmYQp3e52KjkT4bYdAvB6ACEEpXs2D8DozsDitaADRY2Ak"
-  },
-  "11437": {
-    "key": "11437",
-    "name": "Shyft Testnet",
-    "shortName": "Shyft_",
-    "chainId": 11437,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x407159bAA564dA0c3b14D1215d8E2654cEEE73F4",
-    "rpc": [
-      "https://rpc.testnet.shyft.network"
-    ],
-    "explorer": {
-      "url": "https://bx.testnet.shyft.network"
-    },
-    "start": 2446296,
-    "logo": "ipfs://QmUkFZC2ZmoYPTKf7AHdjwRPZoV2h1MCuHaGM4iu8SNFpi"
-  },
-  "12321": {
-    "key": "12321",
-    "name": "Wennect Testnet",
-    "shortName": "Wennect",
-    "testnet": true,
-    "chainId": 12321,
-    "network": "testnet",
-    "multicall": "0x009c55698516Fe3C58105Fe9bBC5A33ECE7A92e4",
-    "rpc": [
-      "https://rpc.testnet.wennect.com"
-    ],
-    "explorer": {
-      "url": "https://explorer.testnet.wennect.com"
-    },
-    "start": 3606569,
-    "logo": "ipfs://bafkreieeo3cetehbkrxjrfzcdb2ym5qgs26cgcw6t633twnuzoqyohqo5m"
-  },
-  "12357": {
-    "key": "12357",
-    "name": "REI Testnet",
-    "shortName": "REI",
-    "chainId": 12357,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x9eE9904815B80C39C1a27294E69a8626EAa7952d",
-    "rpc": [
-      "https://rpc-testnet.rei.network"
-    ],
-    "explorer": {
-      "url": "https://scan-test.rei.network/"
-    },
-    "start": 79516,
-    "logo": "ipfs://QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
   },
   "13337": {
     "key": "13337",
@@ -1985,25 +1137,6 @@
     "start": 22922566,
     "logo": "ipfs://QmSxXjvWng3Diz4YwXDV2VqSPgMyzLYBNfkjJcr7rzkxom"
   },
-  "22040": {
-    "key": "22040",
-    "name": "AirDAO Testnet",
-    "chainId": 22040,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0x18f7BFad831D8ED9E16C4cD50D6041dD453Ca1EF",
-    "rpc": [
-      "https://network-archive.ambrosus-test.io"
-    ],
-    "ws": [
-      "wss://network-archive.ambrosus-test.io/ws"
-    ],
-    "explorer": {
-      "url": "https://testnet.airdao.io/explorer"
-    },
-    "start": 3368046,
-    "logo": "ipfs://QmSxXjvWng3Diz4YwXDV2VqSPgMyzLYBNfkjJcr7rzkxom"
-  },
   "29548": {
     "key": "29548",
     "name": "MCH Verse ",
@@ -2017,23 +1150,6 @@
     },
     "start": 27458402,
     "logo": "ipfs://QmZZnwR1y6cU1sare2TQmwqkNDLXQxD4GdPrmHLmUoPtbU"
-  },
-  "32659": {
-    "key": "32659",
-    "name": "Fusion Mainnet",
-    "chainId": 32659,
-    "network": "mainnet",
-    "multicall": "0xcd11d8666203a4ea1ecd89885dfe1d4e1a088dbb",
-    "rpc": [
-      "https://mainnet-archive.fusionnetwork.io"
-    ],
-    "ws": [
-      "wss://mainnet-archive.fusionnetwork.io"
-    ],
-    "explorer": {
-      "url": "https://fsnscan.com"
-    },
-    "logo": "ipfs://QmRb6YCGdpQTQcdNTnBb5DUixGpjDp1wz6zoADJwQ7hyFq"
   },
   "42161": {
     "key": "42161",
@@ -2086,22 +1202,6 @@
     "start": 6599803,
     "logo": "ipfs://QmS2tVJ7rdJRe1NHXAi2L86yCbUwVVrmB2mHQeNdJxvQti"
   },
-  "42262": {
-    "key": "42262",
-    "name": "Emerald",
-    "shortName": "Emerald",
-    "chainId": 42262,
-    "network": "mainnet",
-    "multicall": "0xBD46A7DCD1fefA63A7746a5762A71635Ee0843A1",
-    "rpc": [
-      "https://emerald.oasis.dev"
-    ],
-    "explorer": {
-      "url": "https://explorer.emerald.oasis.dev"
-    },
-    "start": 176517,
-    "logo": "ipfs://QmQrZjZZyAcQmPXJM2cUh1KaaDeM8Sfcg3HnvZpBj8wTnG"
-  },
   "43113": {
     "key": "43113",
     "name": "Avalanche FUJI Testnet",
@@ -2134,23 +1234,6 @@
     },
     "start": 536483,
     "logo": "ipfs://QmeS75uS7XLR8o8uUzhLRVYPX9vMFf4DXgKxQeCzyy7vM2"
-  },
-  "43288": {
-    "key": "43288",
-    "name": "Boba Avax L2",
-    "shortName": "Boba-Avax",
-    "chainId": 43288,
-    "network": "mainnet",
-    "multicall": "0x352E11Da7C12EA2440b079A335E67ff9219f6FfB",
-    "rpc": [
-      "https://replica.avax.boba.network",
-      "https://avax.boba.network"
-    ],
-    "explorer": {
-      "url": "https://blockexplorer.avax.boba.network/"
-    },
-    "start": 4832,
-    "logo": "ipfs://QmP1iuEynzcghrukQLfw7zh7BJwG3dJSwyZprqD4YHHsFD"
   },
   "47805": {
     "key": "47805",
@@ -2199,108 +1282,6 @@
     "start": 498623,
     "logo": "ipfs://QmSwCnEeLoyMApQd1YfhmGvLt97bH5mLPoabjKqUSuQHHF"
   },
-  "60001": {
-    "key": "60001",
-    "name": "Thinkium Testnet Chain 1",
-    "shortName": "ThinkiumTest1",
-    "chainId": 60001,
-    "network": "thinkiumtest1",
-    "testnet": true,
-    "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
-    "rpc": [
-      "https://test1.thinkiumrpc.net"
-    ],
-    "explorer": {
-      "url": "https://test1.thinkiumscan.net/"
-    },
-    "start": 323327,
-    "logo": "ipfs://QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
-  },
-  "70001": {
-    "key": "70001",
-    "name": "Thinkium Mainnet Chain 1",
-    "shortName": "Thinkium1",
-    "chainId": 70001,
-    "network": "thinkium1",
-    "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
-    "rpc": [
-      "https://proxy1.thinkiumrpc.net"
-    ],
-    "explorer": {
-      "url": "https://chain1.thinkiumscan.net/"
-    },
-    "start": 26677364,
-    "logo": "ipfs://QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
-  },
-  "70002": {
-    "key": "70002",
-    "name": "Thinkium Mainnet Chain 2",
-    "shortName": "Thinkium2",
-    "chainId": 70002,
-    "network": "thinkium2",
-    "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
-    "rpc": [
-      "https://proxy2.thinkiumrpc.net"
-    ],
-    "explorer": {
-      "url": "https://chain2.thinkiumscan.net/"
-    },
-    "start": 22124397,
-    "logo": "ipfs://QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
-  },
-  "70103": {
-    "key": "70103",
-    "name": "Thinkium Mainnet Chain 103",
-    "shortName": "Thinkium103",
-    "chainId": 70103,
-    "network": "thinkium103",
-    "multicall": "0xc49bc485d4f943b287edadbce45eb1a1220ffdfe",
-    "rpc": [
-      "https://proxy103.thinkiumrpc.net"
-    ],
-    "explorer": {
-      "url": "https://chain103.thinkiumscan.net/"
-    },
-    "start": 22090160,
-    "logo": "ipfs://QmRfiNT4tDhyxfpYcjNde4BMPPWEAygYNPdAaS9bra6aFC"
-  },
-  "71401": {
-    "key": "71401",
-    "name": "Godwoken V1 Testnet",
-    "chainId": 71401,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
-    "rpc": [
-      "https://godwoken-testnet-v1.ckbapp.dev"
-    ],
-    "ws": [
-      "wss://godwoken-testnet-v1.ckbapp.dev/ws"
-    ],
-    "explorer": {
-      "url": "https://gw-explorer.nervosdao.community"
-    },
-    "start": 115283,
-    "logo": "ipfs://QmR6Q2CTds6Uwu8Euo7BKvFKAeg1AyVSxWzqCvyquDD7NF"
-  },
-  "71402": {
-    "key": "71402",
-    "name": "Godwoken V1",
-    "chainId": 71402,
-    "network": "mainnet",
-    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
-    "rpc": [
-      "https://v1.mainnet.godwoken.io/rpc"
-    ],
-    "ws": [
-      "wss://v1.mainnet.godwoken.io/ws"
-    ],
-    "explorer": {
-      "url": "https://gwscan.com"
-    },
-    "start": 15034,
-    "logo": "ipfs://QmR6Q2CTds6Uwu8Euo7BKvFKAeg1AyVSxWzqCvyquDD7NF"
-  },
   "80001": {
     "key": "80001",
     "name": "Polygon Mumbai",
@@ -2338,87 +1319,6 @@
     "start": 1151797,
     "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv"
   },
-  "333888": {
-    "key": "333888",
-    "name": "Polis Sparta",
-    "shortName": "Sparta",
-    "chainId": 333888,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0xA4c03972023d5f684d35eF1C541752490975383e",
-    "rpc": [
-      "https://sparta-rpc.polis.tech"
-    ],
-    "explorer": {
-      "url": "https://sparta-explorer.polis.tech"
-    },
-    "logo": "ipfs://QmSiCni2Jn58WN74SyGNY1Aw5mSh9ypEfFULhjKxA7Tbpg"
-  },
-  "333999": {
-    "key": "333999",
-    "name": "Polis Olympus",
-    "shortName": "Olympus",
-    "chainId": 333999,
-    "network": "mainnet",
-    "multicall": "0x34b99C2a4a4620F10ac779c36b8c61F90FD61732",
-    "rpc": [
-      "https://rpc.polis.tech"
-    ],
-    "explorer": {
-      "url": "https://explorer.polis.tech"
-    },
-    "start": 1971,
-    "logo": "ipfs://QmSiCni2Jn58WN74SyGNY1Aw5mSh9ypEfFULhjKxA7Tbpg"
-  },
-  "666666": {
-    "key": "666666",
-    "name": "Vision - Vpioneer Testnet",
-    "shortName": "Vpioneer",
-    "chainId": 666666,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0xb6E748D6632305E1c12D8369CC6B3eF4AA8A3c85",
-    "rpc": [
-      "https://vpioneer.infragrid.v.network/ethereum/compatible"
-    ],
-    "explorer": {
-      "url": "https://visionscan.org"
-    },
-    "start": 3369285,
-    "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
-  },
-  "888888": {
-    "key": "888888",
-    "name": "Vision - Mainnet",
-    "shortName": "Vision",
-    "chainId": 888888,
-    "network": "mainnet",
-    "multicall": "0x7a677A43eb6eEe4AB6c13872Abc04e1bA5CF88eD",
-    "rpc": [
-      "https://infragrid4snapshot.v.network/ethereum/compatible"
-    ],
-    "explorer": {
-      "url": "https://visionscan.org"
-    },
-    "start": 75909,
-    "logo": "ipfs://QmXgGmxDAW2Mheum3WX7Q52Zi9hvE17Zp1pVtZbcVdThh4"
-  },
-  "900000": {
-    "key": "900000",
-    "name": "Posichain Mainnet",
-    "shortName": "PSC",
-    "chainId": 900000,
-    "network": "mainnet",
-    "multicall": "0xbe779BaA9dC15Ef307bdf4dDb35440A0a421a89A",
-    "rpc": [
-      "https://api-a001.s0.posichain.org"
-    ],
-    "explorer": {
-      "url": "https://explorer.posichain.org"
-    },
-    "start": 2560501,
-    "logo": "ipfs://QmXqprM1TPafQFLirQ7dMPMgou1hoUGuCvHYSWU9g8ocv8"
-  },
   "11155111": {
     "key": "11155111",
     "name": "Sepolia",
@@ -2451,22 +1351,6 @@
     "start": 205206112,
     "logo": "ipfs://QmecRPQGa4bU7tybg1sUQY48Md9rWnmhrT6WW5ueqvhg6P",
     "testnet": true
-  },
-  "278611351": {
-    "key": "278611351",
-    "name": "Razor SKALE Chain",
-    "shortName": "RazorSchain",
-    "chainId": 278611351,
-    "network": "mainnet",
-    "multicall": "0x295762C6f27c33cD7ce58fB6667E841E4EA67ef1",
-    "rpc": [
-      "https://mainnet.skalenodes.com/v1/turbulent-unique-scheat"
-    ],
-    "explorer": {
-      "url": "https://turbulent-unique-scheat.explorer.mainnet.skalenodes.com/"
-    },
-    "start": 401478,
-    "logo": "ipfs://QmUdwAZJfyKGZnfPGDsCnNvGu123mdd57kTGj1Y3EWVuWK"
   },
   "1313161554": {
     "key": "1313161554",
@@ -2522,38 +1406,5 @@
     },
     "start": 7521509,
     "logo": "ipfs://QmNnGPr1CNvj12SSGzKARtUHv9FyEfE5nES73U4vBWQSJL"
-  },
-  "11297108109": {
-    "key": "11297108109",
-    "name": "Palm Mainnet",
-    "shortName": "Palm",
-    "chainId": 11297108109,
-    "network": "mainnet",
-    "multicall": "0xfFE2FF36c5b8D948f788a34f867784828aa7415D",
-    "rpc": [
-      "https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b"
-    ],
-    "explorer": {
-      "url": "https://explorer.palm.io"
-    },
-    "start": 1172267,
-    "logo": "ipfs://QmaYQfjLfQpyRWZZZU1BE8X352rXEjNaNeahjvf1aHZrKY"
-  },
-  "11297108099": {
-    "key": "11297108099",
-    "name": "Palm Testnet",
-    "shortName": "Palm",
-    "testnet": true,
-    "chainId": 11297108099,
-    "network": "testnet",
-    "multicall": "0x020D24E0b91Fa18Aade990dCEc7F21dcc8e5d174",
-    "rpc": [
-      "https://palm-testnet.infura.io/v3/e504875614714d3aac7061d4a197b190"
-    ],
-    "explorer": {
-      "url": "https://explorer.palm-uat.xyz/"
-    },
-    "start": 7282345,
-    "logo": "ipfs://QmRHB9TqMdVHY392vYiv8sTJ7VHShkq5FT6nS9fPuUNBf1"
   }
 }
