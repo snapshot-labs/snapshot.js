@@ -15,7 +15,8 @@
             "properties": {
               "network": {
                 "title": "Network",
-                "type": "string"
+                "type": "string",
+                "snapshotNetwork": true
               },
               "multisend": {
                 "title": "Multisend contract address",
