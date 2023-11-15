@@ -16,6 +16,7 @@ import {
   Profile,
   Alias,
   DeleteSpace,
+  ReactivateSpace,
   Statement,
   spaceTypes,
   proposalTypes,
@@ -36,6 +37,7 @@ import {
   profileTypes,
   aliasTypes,
   deleteSpaceType,
+  reactivateSpaceType,
   statementTypes
 } from './types';
 import constants from '../constants.json';
@@ -219,5 +221,13 @@ export default class Client {
     message: DeleteSpace
   ) {
     return await this.sign(web3, address, message, deleteSpaceType);
+  }
+
+  async reactivateSpace(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: ReactivateSpace
+  ) {
+    return await this.sign(web3, address, message, reactivateSpaceType);
   }
 }

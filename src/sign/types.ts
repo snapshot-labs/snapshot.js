@@ -331,3 +331,11 @@ export const deleteSpaceType = {
     { name: 'timestamp', type: 'uint64' }
   ]
 };
+
+export const reactivateSpaceType = {
+  DeleteSpace: [
+    { name: 'from', type: 'address' },
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' }
+  ]
+};
