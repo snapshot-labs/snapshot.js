@@ -119,6 +119,12 @@ export interface DeleteSpace {
   timestamp?: number;
 }
 
+export interface ReactivateSpace {
+  from?: string;
+  space: string;
+  timestamp?: number;
+}
+
 export const spaceTypes = {
   Space: [
     { name: 'from', type: 'address' },
@@ -326,6 +332,14 @@ export const aliasTypes = {
 
 export const deleteSpaceType = {
   DeleteSpace: [
+    { name: 'from', type: 'address' },
+    { name: 'space', type: 'string' },
+    { name: 'timestamp', type: 'uint64' }
+  ]
+};
+
+export const reactivateSpaceType = {
+  ReactivateSpace: [
     { name: 'from', type: 'address' },
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' }
