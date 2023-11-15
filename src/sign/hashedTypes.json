@@ -52,5 +52,6 @@
   "daaf0ff7d3e2ec189cf851228c386c7a4c432076d0ed197864916dd3f656531c": "subscribe",
   "f542edb6f9fe79d0b85554667991352be2fcca85df3dd3c6a6f451d189c7c25d": "unsubscribe",
   "6f6cdd15a1e9e6c4ee544231c4fa7b6c7e5183bc2b37fa4bd1a695f458348ab7": "delete-space",
+  "b8bf63227fd8c2e203a0eee5987c832594ec39d2ba2d197a0b2e1b507dbbdf36": "reactivate-space",
   "1aad7825b991457fca04aae48a2a49d815ada524e10316af0da5522ea48b3df6": "alias"
 }
