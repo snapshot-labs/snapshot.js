@@ -67,7 +67,7 @@ describe('utils', () => {
         [
           'snapshot is smaller than start block',
           { snapshot: 1234 },
-          /snapshot \([0-9]+\) must be greater than network start block/i
+          /snapshot \([0-9]+\) must be 'latest' or greater than network start block/i
         ]
       ];
 
