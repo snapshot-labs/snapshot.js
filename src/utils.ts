@@ -38,7 +38,12 @@ const scoreApiHeaders = {
   'Content-Type': 'application/json'
 };
 
-const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
+const ajv = new Ajv({
+  allErrors: true,
+  allowUnionTypes: true,
+  $data: true,
+  passContext: true
+});
 // @ts-ignore
 addFormats(ajv);
 
@@ -66,6 +71,28 @@ ajv.addFormat('ethValue', {
     } catch {
       return false;
     }
+  }
+});
+
+const networksIds = Object.keys(networks);
+const mainnetNetworkIds = Object.keys(networks).filter(
+  (id) => !networks[id].testnet
+);
+const testnetNetworkIds = Object.keys(networks).filter(
+  (id) => networks[id].testnet
+);
+
+ajv.addKeyword({
+  keyword: 'snapshotNetwork',
+  validate: function (schema, data) {
+    // @ts-ignore
+    const snapshotEnv = this.snapshotEnv || 'default';
+    if (snapshotEnv === 'mainnet') return mainnetNetworkIds.includes(data);
+    if (snapshotEnv === 'testnet') return testnetNetworkIds.includes(data);
+    return networksIds.includes(data);
+  },
+  error: {
+    message: 'must be a valid network used by snapshot'
   }
 });
 
@@ -352,9 +379,15 @@ export async function validate(
   }
 }
 
-export function validateSchema(schema, data) {
+export function validateSchema(
+  schema,
+  data,
+  options = {
+    snapshotEnv: 'default'
+  }
+) {
   const ajvValidate = ajv.compile(schema);
-  const valid = ajvValidate(data);
+  const valid = ajvValidate.call(options, data);
   return valid ? valid : ajvValidate.errors;
 }
 
