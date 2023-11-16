@@ -554,8 +554,8 @@ function isValidAddress(address: string) {
 
 function isValidSnapshot(snapshot: number | string, network: string) {
   return (
-    (typeof snapshot === 'number' && snapshot >= networks[network].start) ||
-    snapshot === 'latest'
+    snapshot === 'latest' ||
+    (typeof snapshot === 'number' && snapshot >= networks[network].start)
   );
 }
 
