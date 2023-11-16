@@ -343,7 +343,7 @@ export async function validate(
   }
   if (!isValidSnapshot(snapshot, network)) {
     return Promise.reject(
-      `Snapshot (${snapshot}) must be greater than network start block (${networks[network].start})`
+      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
     );
   }
 
