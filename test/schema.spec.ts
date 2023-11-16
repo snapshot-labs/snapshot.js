@@ -18,7 +18,7 @@ describe.each([
   { schemaType: 'alias', schema: schemas.alias, example: alias }
 ])(`Run validate for all schemas`, ({ schemaType, schema, example }) => {
   test(`validating schema ${schemaType} should return true`, () => {
-    const isValid = validateSchema(schema, example);
+    const isValid = validateSchema(schema, example, { snapshotEnv: 'mainnet' });
     expect(isValid).toBe(true);
   });
 });
