@@ -250,7 +250,7 @@ export async function getScores(
   }
   if (!isValidSnapshot(snapshot, network)) {
     return Promise.reject(
-      `Snapshot (${snapshot}) must be greater than network start block (${networks[network].start})`
+      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
     );
   }
 
@@ -539,8 +539,8 @@ function isValidAddress(address: string) {
 
 function isValidSnapshot(snapshot: number | string, network: string) {
   return (
-    (typeof snapshot === 'number' && snapshot >= networks[network].start) ||
-    snapshot === 'latest'
+    snapshot === 'latest' ||
+    (typeof snapshot === 'number' && snapshot >= networks[network].start)
   );
 }
 
