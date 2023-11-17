@@ -256,16 +256,22 @@ export async function getScores(
   if (addresses.length === 0) {
     return Promise.reject('addresses can not be empty');
   }
-  if (addresses.some(address => !isValidAddress(address))) {
-    return Promise.reject(`Invalid address: ${address}`);
+  const invalidAddress = addresses.find((address) => !isValidAddress(address));
+  if (invalidAddress) {
+    return Promise.reject(`Invalid address: ${invalidAddress}`);
   }
   if (!isValidNetwork(network)) {
     return Promise.reject(`Invalid network: ${network}`);
   }
-  const invalidStrategy = strategies.find(strategy => strategy.network && !isValidNetwork(strategy.network));
-  
+  const invalidStrategy = strategies.find(
+    (strategy) => strategy.network && !isValidNetwork(strategy.network)
+  );
   if (invalidStrategy) {
-    return Promise.reject(new Error(`Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`));
+    return Promise.reject(
+      new Error(
+        `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
+      )
+    );
   }
   if (!isValidSnapshot(snapshot, network)) {
     return Promise.reject(
