@@ -268,9 +268,7 @@ export async function getScores(
   );
   if (invalidStrategy) {
     return Promise.reject(
-      new Error(
-        `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
-      )
+      `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
     );
   }
   if (!isValidSnapshot(snapshot, network)) {
@@ -336,9 +334,7 @@ export async function getVp(
 
   if (invalidStrategy) {
     return Promise.reject(
-      new Error(
-        `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
-      )
+      `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
     );
   }
   if (!isValidSnapshot(snapshot, network)) {
