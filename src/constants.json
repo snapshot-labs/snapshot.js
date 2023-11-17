@@ -4,7 +4,7 @@
     "sequencer": "https://seq.snapshot.org"
   },
   "testnet": {
-    "hub": "https://testnet.snapshot.org",
+    "hub": "https://testnet.hub.snapshot.org",
     "sequencer": "https://testnet.seq.snapshot.org"
   },
   "local": {
