@@ -303,7 +303,7 @@ export async function getScores(
     return options.returnValue === 'all'
       ? obj.result
       : obj.result[options.returnValue || 'scores'];
-  } catch (e: any) {
+  } catch (e) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
     }
@@ -365,7 +365,7 @@ export async function getVp(
     const json = await res.json();
     if (json.error) return Promise.reject(json.error);
     if (json.result) return json.result;
-  } catch (e: any) {
+  } catch (e) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
     }
@@ -419,7 +419,7 @@ export async function validate(
     const json = await res.json();
     if (json.error) return Promise.reject(json.error);
     return json.result;
-  } catch (e: any) {
+  } catch (e) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
     }
