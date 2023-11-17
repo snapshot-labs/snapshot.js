@@ -251,28 +251,28 @@ export async function getScores(
   options: any = {}
 ) {
   if (!Array.isArray(addresses)) {
-    return Promise.reject('addresses should be an array of addresses');
+    return inputError('addresses should be an array of addresses');
   }
   if (addresses.length === 0) {
-    return Promise.reject('addresses can not be empty');
+    return inputError('addresses can not be empty');
   }
   const invalidAddress = addresses.find((address) => !isValidAddress(address));
   if (invalidAddress) {
-    return Promise.reject(`Invalid address: ${invalidAddress}`);
+    return inputError(`Invalid address: ${invalidAddress}`);
   }
   if (!isValidNetwork(network)) {
-    return Promise.reject(`Invalid network: ${network}`);
+    return inputError(`Invalid network: ${network}`);
   }
   const invalidStrategy = strategies.find(
     (strategy) => strategy.network && !isValidNetwork(strategy.network)
   );
   if (invalidStrategy) {
-    return Promise.reject(
+    return inputError(
       `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
     );
   }
   if (!isValidSnapshot(snapshot, network)) {
-    return Promise.reject(
+    return inputError(
       `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
     );
   }
@@ -323,22 +323,22 @@ export async function getVp(
   if (!options) options = {};
   if (!options.url) options.url = 'https://score.snapshot.org';
   if (!isValidAddress(address)) {
-    return Promise.reject(`Invalid voter address: ${address}`);
+    return inputError(`Invalid voter address: ${address}`);
   }
   if (!isValidNetwork(network)) {
-    return Promise.reject(`Invalid network: ${network}`);
+    return inputError(`Invalid network: ${network}`);
   }
   const invalidStrategy = strategies.find(
     (strategy) => strategy.network && !isValidNetwork(strategy.network)
   );
 
   if (invalidStrategy) {
-    return Promise.reject(
+    return inputError(
       `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
     );
   }
   if (!isValidSnapshot(snapshot, network)) {
-    return Promise.reject(
+    return inputError(
       `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
     );
   }
@@ -383,14 +383,14 @@ export async function validate(
   options: any
 ) {
   if (!isValidAddress(author)) {
-    return Promise.reject(`Invalid author: ${author}`);
+    return inputError(`Invalid author: ${author}`);
   }
 
   if (!isValidNetwork(network)) {
-    return Promise.reject(`Invalid network: ${network}`);
+    return inputError(`Invalid network: ${network}`);
   }
   if (!isValidSnapshot(snapshot, network)) {
-    return Promise.reject(
+    return inputError(
       `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
     );
   }
@@ -605,6 +605,10 @@ function isValidSnapshot(snapshot: number | string, network: string) {
     snapshot === 'latest' ||
     (typeof snapshot === 'number' && snapshot >= networks[network].start)
   );
+}
+
+function inputError(message: string) {
+  return Promise.reject(new Error(message));
 }
 
 export default {
