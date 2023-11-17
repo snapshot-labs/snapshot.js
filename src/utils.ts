@@ -250,6 +250,35 @@ export async function getScores(
   scoreApiUrl = 'https://score.snapshot.org',
   options: any = {}
 ) {
+  if (!Array.isArray(addresses)) {
+    return Promise.reject('addresses should be an array of addresses');
+  }
+  if (addresses.length === 0) {
+    return Promise.reject('addresses can not be empty');
+  }
+  const invalidAddress = addresses.find((address) => !isValidAddress(address));
+  if (invalidAddress) {
+    return Promise.reject(`Invalid address: ${invalidAddress}`);
+  }
+  if (!isValidNetwork(network)) {
+    return Promise.reject(`Invalid network: ${network}`);
+  }
+  const invalidStrategy = strategies.find(
+    (strategy) => strategy.network && !isValidNetwork(strategy.network)
+  );
+  if (invalidStrategy) {
+    return Promise.reject(
+      new Error(
+        `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
+      )
+    );
+  }
+  if (!isValidSnapshot(snapshot, network)) {
+    return Promise.reject(
+      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
+    );
+  }
+
   const url = new URL(scoreApiUrl);
   url.pathname = '/api/scores';
   scoreApiUrl = url.toString();
