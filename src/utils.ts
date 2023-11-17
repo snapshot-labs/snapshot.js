@@ -363,6 +363,19 @@ export async function validate(
   params: any,
   options: any
 ) {
+  if (!isValidAddress(author)) {
+    return Promise.reject(`Invalid author: ${author}`);
+  }
+
+  if (!isValidNetwork(network)) {
+    return Promise.reject(`Invalid network: ${network}`);
+  }
+  if (!isValidSnapshot(snapshot, network)) {
+    return Promise.reject(
+      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
+    );
+  }
+
   if (!options) options = {};
   if (!options.url) options.url = 'https://score.snapshot.org';
   const init = {
