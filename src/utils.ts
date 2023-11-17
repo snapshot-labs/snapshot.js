@@ -256,10 +256,8 @@ export async function getScores(
   if (addresses.length === 0) {
     return Promise.reject('addresses can not be empty');
   }
-  for (const address of addresses) {
-    if (!isValidAddress(address)) {
-      return Promise.reject(`Invalid address: ${address}`);
-    }
+  if (addresses.some(address => !isValidAddress(address))) {
+    return Promise.reject(`Invalid address: ${address}`);
   }
   if (!isValidNetwork(network)) {
     return Promise.reject(`Invalid network: ${network}`);
