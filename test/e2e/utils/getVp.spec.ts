@@ -7,7 +7,7 @@ describe('test getVp', () => {
     await expect(
       getVp(
         '0xA478c2975Ab1Ea89e8196811F51A7B7Ade33eB11',
-        '1319',
+        '1',
         [
           {
             name: 'erc20-balance-of',
