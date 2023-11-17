@@ -268,9 +268,7 @@ export async function getScores(
   );
   if (invalidStrategy) {
     return Promise.reject(
-      new Error(
-        `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
-      )
+      `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
     );
   }
   if (!isValidSnapshot(snapshot, network)) {
@@ -324,6 +322,27 @@ export async function getVp(
 ) {
   if (!options) options = {};
   if (!options.url) options.url = 'https://score.snapshot.org';
+  if (!isValidAddress(address)) {
+    return Promise.reject(`Invalid voter address: ${address}`);
+  }
+  if (!isValidNetwork(network)) {
+    return Promise.reject(`Invalid network: ${network}`);
+  }
+  const invalidStrategy = strategies.find(
+    (strategy) => strategy.network && !isValidNetwork(strategy.network)
+  );
+
+  if (invalidStrategy) {
+    return Promise.reject(
+      `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
+    );
+  }
+  if (!isValidSnapshot(snapshot, network)) {
+    return Promise.reject(
+      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
+    );
+  }
+
   const init = {
     method: 'POST',
     headers: scoreApiHeaders,
