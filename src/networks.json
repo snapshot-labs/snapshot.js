@@ -1080,7 +1080,10 @@
     "network": "mainnet",
     "multicall": "0x1b38EBAd553f218e2962Cb1C0539Abb5d6A37774",
     "rpc": [
-      "https://smartbch.greyh.at/"
+      "https://global.uat.cash",
+      "https://smartbch.fountainhead.cash/mainnet",
+      "https://smartbch.greyh.at",
+      "https://rpc.smartbch.org"
     ],
     "explorer": {
       "url": "https://www.smartscan.cash"
