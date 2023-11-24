@@ -79,6 +79,7 @@
         },
         "network": {
           "type": "string",
+          "snapshotNetwork": true,
           "title": "network",
           "minLength": 1,
           "maxLength": 32
@@ -114,7 +115,8 @@
               "network": {
                 "type": "string",
                 "maxLength": 12,
-                "title": "network"
+                "title": "network",
+                "snapshotNetwork": true
               },
               "params": {
                 "type": "object",
@@ -347,6 +349,7 @@
               },
               "network": {
                 "type": "string",
+                "snapshotNetwork": true,
                 "title": "Network",
                 "maxLength": 12
               }

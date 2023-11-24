@@ -31,13 +31,19 @@ export const SNAPSHOT_SUBGRAPH_URL = delegationSubgraphs;
 const ENS_RESOLVER_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)'
 ];
+const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 const scoreApiHeaders = {
   Accept: 'application/json',
   'Content-Type': 'application/json'
 };
 
-const ajv = new Ajv({ allErrors: true, allowUnionTypes: true, $data: true });
+const ajv = new Ajv({
+  allErrors: true,
+  allowUnionTypes: true,
+  $data: true,
+  passContext: true
+});
 // @ts-ignore
 addFormats(ajv);
 
@@ -65,6 +71,28 @@ ajv.addFormat('ethValue', {
     } catch {
       return false;
     }
+  }
+});
+
+const networksIds = Object.keys(networks);
+const mainnetNetworkIds = Object.keys(networks).filter(
+  (id) => !networks[id].testnet
+);
+const testnetNetworkIds = Object.keys(networks).filter(
+  (id) => networks[id].testnet
+);
+
+ajv.addKeyword({
+  keyword: 'snapshotNetwork',
+  validate: function (schema, data) {
+    // @ts-ignore
+    const snapshotEnv = this.snapshotEnv || 'default';
+    if (snapshotEnv === 'mainnet') return mainnetNetworkIds.includes(data);
+    if (snapshotEnv === 'testnet') return testnetNetworkIds.includes(data);
+    return networksIds.includes(data);
+  },
+  error: {
+    message: 'must be a valid network used by snapshot'
   }
 });
 
@@ -222,6 +250,33 @@ export async function getScores(
   scoreApiUrl = 'https://score.snapshot.org',
   options: any = {}
 ) {
+  if (!Array.isArray(addresses)) {
+    return inputError('addresses should be an array of addresses');
+  }
+  if (addresses.length === 0) {
+    return inputError('addresses can not be empty');
+  }
+  const invalidAddress = addresses.find((address) => !isValidAddress(address));
+  if (invalidAddress) {
+    return inputError(`Invalid address: ${invalidAddress}`);
+  }
+  if (!isValidNetwork(network)) {
+    return inputError(`Invalid network: ${network}`);
+  }
+  const invalidStrategy = strategies.find(
+    (strategy) => strategy.network && !isValidNetwork(strategy.network)
+  );
+  if (invalidStrategy) {
+    return inputError(
+      `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
+    );
+  }
+  if (!isValidSnapshot(snapshot, network)) {
+    return inputError(
+      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
+    );
+  }
+
   const url = new URL(scoreApiUrl);
   url.pathname = '/api/scores';
   scoreApiUrl = url.toString();
@@ -267,6 +322,27 @@ export async function getVp(
 ) {
   if (!options) options = {};
   if (!options.url) options.url = 'https://score.snapshot.org';
+  if (!isValidAddress(address)) {
+    return inputError(`Invalid voter address: ${address}`);
+  }
+  if (!isValidNetwork(network)) {
+    return inputError(`Invalid network: ${network}`);
+  }
+  const invalidStrategy = strategies.find(
+    (strategy) => strategy.network && !isValidNetwork(strategy.network)
+  );
+
+  if (invalidStrategy) {
+    return inputError(
+      `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
+    );
+  }
+  if (!isValidSnapshot(snapshot, network)) {
+    return inputError(
+      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
+    );
+  }
+
   const init = {
     method: 'POST',
     headers: scoreApiHeaders,
@@ -306,6 +382,19 @@ export async function validate(
   params: any,
   options: any
 ) {
+  if (!isValidAddress(author)) {
+    return inputError(`Invalid author: ${author}`);
+  }
+
+  if (!isValidNetwork(network)) {
+    return inputError(`Invalid network: ${network}`);
+  }
+  if (!isValidSnapshot(snapshot, network)) {
+    return inputError(
+      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
+    );
+  }
+
   if (!options) options = {};
   if (!options.url) options.url = 'https://score.snapshot.org';
   const init = {
@@ -338,9 +427,15 @@ export async function validate(
   }
 }
 
-export function validateSchema(schema, data) {
+export function validateSchema(
+  schema,
+  data,
+  options = {
+    snapshotEnv: 'default'
+  }
+) {
   const ajvValidate = ajv.compile(schema);
-  const valid = ajvValidate(data);
+  const valid = ajvValidate.call(options, data);
   return valid ? valid : ajvValidate.errors;
 }
 
@@ -495,6 +590,25 @@ export function getNumberWithOrdinal(n) {
   const s = ['th', 'st', 'nd', 'rd'],
     v = n % 100;
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+function isValidNetwork(network: string) {
+  return !!networks[network];
+}
+
+function isValidAddress(address: string) {
+  return isAddress(address) && address !== EMPTY_ADDRESS;
+}
+
+function isValidSnapshot(snapshot: number | string, network: string) {
+  return (
+    snapshot === 'latest' ||
+    (typeof snapshot === 'number' && snapshot >= networks[network].start)
+  );
+}
+
+function inputError(message: string) {
+  return Promise.reject(new Error(message));
 }
 
 export default {
