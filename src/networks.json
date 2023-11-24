@@ -90,6 +90,7 @@
     "explorer": {
       "url": "https://ubiqscan.io"
     },
+    "start": 0,
     "logo": "ipfs://Qmec3HLoN4QhwZAhw4XTi2aN8Wwmcko5hHN22sHARzb9tw"
   },
   "10": {
@@ -205,6 +206,7 @@
     "explorer": {
       "url": "https://blockscout.com/etc/mainnet"
     },
+    "start": 13307544,
     "logo": "ipfs://QmVegc28DvA7LjKUFysab81c9BSuN4wQVDQkRXyAtuEBis"
   },
   "66": {
@@ -690,6 +692,7 @@
     "explorer": {
       "url": "https://baobab.scope.klaytn.com"
     },
+    "start": 87232478,
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
   },
   "24": {
@@ -705,6 +708,7 @@
     "explorer": {
       "url": "https://explorer.kardiachain.io"
     },
+    "start": 8260245,
     "logo": "ipfs://bafkreig73yfyqzbxydv6e3dbj5nks3f57px2iez7tywayey4rilfhhrr34"
   },
   "1072": {
@@ -972,6 +976,7 @@
     "explorer": {
       "url": "https://explorer.chainverse.info"
     },
+    "start": 6334180,
     "logo": "ipfs://QmQyJt28h4wN3QHPXUQJQYQqGiFUD77han3zibZPzHbitk"
   },
   "6102": {
@@ -1037,6 +1042,7 @@
     "explorer": {
       "url": "https://scope.klaytn.com"
     },
+    "start": 91582357,
     "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
   },
   "8453": {
@@ -1085,6 +1091,7 @@
     "explorer": {
       "url": "https://smartbch-explorer.web.app"
     },
+    "start": 268248,
     "logo": "ipfs://QmWG1p7om4hZ4Yi4uQvDpxg4si7qVYhtppGbcDGrhVFvMd"
   },
   "10243": {
