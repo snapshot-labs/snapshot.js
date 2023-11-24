@@ -58,23 +58,6 @@
     "start": 743550,
     "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
   },
-  "7": {
-    "key": "7",
-    "name": "ThaiChain",
-    "chainId": 7,
-    "network": "mainnet",
-    "multicall": "0xB9cb900E526e7Ad32A2f26f1fF6Dee63350fcDc5",
-    "rpc": [
-      "https://rpc.dome.cloud"
-    ],
-    "ws": [
-      "wss://ws.dome.cloud"
-    ],
-    "explorer": {
-      "url": "https://exp.tch.in.th"
-    },
-    "logo": "ipfs://QmUcNN6ZMFEPLUw5WCknisSgs7nhWC5p992jSSsJVq34Eo"
-  },
   "8": {
     "key": "8",
     "name": "Ubiq Mainnet",
@@ -241,20 +224,6 @@
     },
     "start": 16031065,
     "logo": "ipfs://bafkreihkdhbce5rkogl63xegaarlirjrvbfarxbtbf5mqme3s5grvbjyxm"
-  },
-  "80": {
-    "key": "80",
-    "name": "GeneChain",
-    "chainId": 80,
-    "network": "Mainnet",
-    "multicall": "0x9e6ed491171A0D9089892aA5F14800f9f32038eb",
-    "rpc": [
-      "https://rpc.genechain.io"
-    ],
-    "explorer": {
-      "url": "https://scan.genechain.io"
-    },
-    "logo": "ipfs://QmSV3LTGzE4159zLK4xJVDH5t8iKhY4peh7VAkjefawr2q"
   },
   "81": {
     "key": "81",
