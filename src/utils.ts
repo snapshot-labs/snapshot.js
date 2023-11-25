@@ -78,9 +78,6 @@ const networksIds = Object.keys(networks);
 const mainnetNetworkIds = Object.keys(networks).filter(
   (id) => !networks[id].testnet
 );
-const testnetNetworkIds = Object.keys(networks).filter(
-  (id) => networks[id].testnet
-);
 
 ajv.addKeyword({
   keyword: 'snapshotNetwork',
@@ -88,11 +85,10 @@ ajv.addKeyword({
     // @ts-ignore
     const snapshotEnv = this.snapshotEnv || 'default';
     if (snapshotEnv === 'mainnet') return mainnetNetworkIds.includes(data);
-    if (snapshotEnv === 'testnet') return testnetNetworkIds.includes(data);
     return networksIds.includes(data);
   },
   error: {
-    message: 'must be a valid network used by snapshot'
+    message: 'network not allowed'
   }
 });
 
