@@ -81,8 +81,9 @@ const mainnetNetworkIds = Object.keys(networks).filter(
 
 ajv.addKeyword({
   keyword: 'snapshotNetwork',
-  validate: function (schema, data, options) {
-    const snapshotEnv = options?.snapshotEnv || 'default';
+  validate: function (schema, data) {
+    // @ts-ignore
+    const snapshotEnv = this.snapshotEnv || 'default';
     if (snapshotEnv === 'mainnet') return mainnetNetworkIds.includes(data);
     return networksIds.includes(data);
   },
