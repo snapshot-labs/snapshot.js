@@ -87,7 +87,7 @@ ajv.addKeyword({
     return networksIds.includes(data);
   },
   error: {
-    message: 'testnet not allowed'
+    message: 'network not allowed'
   }
 });
 
