@@ -149,7 +149,7 @@ export default class RankedChoiceVoting {
   }
 
   getScoresTotal(): number {
-    return getScoresMethod(this.votes, this.proposal).reduce((a, b) => a + b);
+    return this.votes.reduce((a, b: any) => a + b.balance, 0);
   }
 
   getChoiceString(): string {
