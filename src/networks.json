@@ -37,7 +37,7 @@
   },
   "5": {
     "key": "5",
-    "name": "Ethereum Testnet Goerli",
+    "name": "Goerli testnet",
     "shortName": "Goerli",
     "chainId": 5,
     "network": "goerli",
