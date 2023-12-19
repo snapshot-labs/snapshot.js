@@ -37,7 +37,7 @@
   },
   "5": {
     "key": "5",
-    "name": "Ethereum Testnet Goerli",
+    "name": "Goerli testnet",
     "shortName": "Goerli",
     "chainId": 5,
     "network": "goerli",
@@ -1297,7 +1297,7 @@
   },
   "11155111": {
     "key": "11155111",
-    "name": "Sepolia",
+    "name": "Sepolia testnet",
     "shortName": "Sepolia",
     "chainId": 11155111,
     "network": "sepolia",
