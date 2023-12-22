@@ -92,6 +92,27 @@ ajv.addKeyword({
   }
 });
 
+ajv.addKeyword({
+  keyword: 'maxLengthWithSpaceType',
+  validate: function validate(schema, data) {
+    // @ts-ignore
+    const spaceType = this.spaceType || 'default';
+    const isValid = data.length <= schema[spaceType];
+    if (!isValid) {
+      // @ts-ignore
+      validate.errors = [
+        {
+          keyword: 'maxLengthWithSpaceType',
+          message: `must NOT have more than ${schema[spaceType]} characters`,
+          params: { limit: schema[spaceType] }
+        }
+      ];
+    }
+    return isValid;
+  },
+  errors: true
+});
+
 // Custom URL format to allow empty string values
 // https://github.com/snapshot-labs/snapshot.js/pull/541/files
 ajv.addFormat('customUrl', {
@@ -423,11 +444,17 @@ export async function validate(
   }
 }
 
+interface validateSchemaOptions {
+  snapshotEnv?: string;
+  spaceType?: string;
+}
+
 export function validateSchema(
   schema,
   data,
-  options = {
-    snapshotEnv: 'default'
+  options: validateSchemaOptions = {
+    snapshotEnv: 'default',
+    spaceType: 'default'
   }
 ) {
   const ajvValidate = ajv.compile(schema);

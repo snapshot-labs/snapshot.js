@@ -16,7 +16,10 @@
           "type": "string",
           "title": "body",
           "minLength": 0,
-          "maxLength": 20000
+          "maxLengthWithSpaceType": {
+            "default": 10000,
+            "turbo": 20000
+          }
         },
         "discussion": {
           "type": "string",
