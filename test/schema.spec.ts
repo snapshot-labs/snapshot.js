@@ -2,6 +2,7 @@ import { test, expect, describe } from 'vitest';
 import { validateSchema } from '../src/utils';
 import space from './examples/space.json';
 import proposal from './examples/proposal.json';
+import spaceTurbo from './examples/space-turbo.json';
 import proposalTurbo from './examples/proposal-turbo.json';
 import vote from './examples/vote.json';
 import profile from './examples/profile.json';
@@ -9,6 +10,7 @@ import statement from './examples/statement.json';
 import alias from './examples/alias.json';
 import schemas from '../src/schemas';
 import proposalMaxLengthWithSpaceTypeError from './examples/proposal-maxLengthWithSpaceType-error.json';
+import spaceMaxItemsWithSpaceTypeError from './examples/space-maxItemsWithSpaceType-error.json';
 
 describe.each([
   { schemaType: 'space', schema: schemas.space, example: space },
@@ -30,7 +32,7 @@ describe.each([
 // Tests for turbo spaces
 
 describe.each([
-  { schemaType: 'space', schema: schemas.space, example: space },
+  { schemaType: 'space', schema: schemas.space, example: spaceTurbo },
   { schemaType: 'proposal', schema: schemas.proposal, example: proposalTurbo }
 ])(`Run validate for turbo spaces`, ({ schemaType, schema, example }) => {
   test(`validating schema ${schemaType} should return true`, () => {
@@ -43,7 +45,12 @@ describe.each([
 });
 
 describe.each([
-  // { schemaType: 'space', schema: schemas.space, example: space },
+  {
+    schemaType: 'space',
+    schema: schemas.space,
+    example: spaceTurbo,
+    error: spaceMaxItemsWithSpaceTypeError
+  },
   {
     schemaType: 'proposal',
     schema: schemas.proposal,
