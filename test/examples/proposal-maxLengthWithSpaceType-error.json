@@ -1,0 +1,11 @@
+[
+  {
+    "instancePath": "/body",
+    "keyword": "maxLengthWithSpaceType",
+    "message": "must NOT have more than 10000 characters",
+    "params": {
+      "limit": 10000
+    },
+    "schemaPath": "#/properties/body/maxLengthWithSpaceType"
+  }
+]
