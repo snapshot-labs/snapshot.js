@@ -134,6 +134,7 @@ ajv.addKeyword({
   errors: true
 });
 
+
 // Custom URL format to allow empty string values
 // https://github.com/snapshot-labs/snapshot.js/pull/541/files
 ajv.addFormat('customUrl', {
