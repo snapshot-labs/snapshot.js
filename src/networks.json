@@ -735,7 +735,7 @@
     "network": "mainnet",
     "multicall": "0x024f0041b76B598c2A0a75004F8447FaF67BD004",
     "rpc": [
-      "https://rpc.coredao.org/"
+      "https://rpcar.coredao.org/"
     ],
     "explorer": {
       "url": "https://scan.coredao.org"
