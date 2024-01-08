@@ -113,6 +113,28 @@ ajv.addKeyword({
   errors: true
 });
 
+ajv.addKeyword({
+  keyword: 'maxItemsWithSpaceType',
+  validate: function validate(schema, data) {
+    // @ts-ignore
+    const spaceType = this.spaceType || 'default';
+    const isValid = data.length <= schema[spaceType];
+    if (!isValid) {
+      // @ts-ignore
+      validate.errors = [
+        {
+          keyword: 'maxItemsWithSpaceType',
+          message: `must NOT have more than ${schema[spaceType]} items`,
+          params: { limit: schema[spaceType] }
+        }
+      ];
+    }
+    return isValid;
+  },
+  errors: true
+});
+
+
 // Custom URL format to allow empty string values
 // https://github.com/snapshot-labs/snapshot.js/pull/541/files
 ajv.addFormat('customUrl', {
