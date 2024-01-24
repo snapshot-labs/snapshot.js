@@ -526,7 +526,7 @@ export async function getSpaceController(
 export async function getDelegatesBySpace(
   network: string,
   space: string,
-  snapshot = 'latest',
+  snapshot: string | number = 'latest',
   options: any = {}
 ) {
   const subgraphUrl = options.subgraphUrl || SNAPSHOT_SUBGRAPH_URL[network];
@@ -538,9 +538,14 @@ export async function getDelegatesBySpace(
   const spaceIn = ['', space];
   if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
 
+  type Delegation = {
+    delegator: string;
+    delegate: string;
+    space: string;
+    timestamp: number;
+  };
   const PAGE_SIZE = 1000;
-  let result = [];
-  let page = 0;
+  let result: Delegation[] = [];
   const params: any = {
     delegations: {
       __args: {
@@ -548,24 +553,47 @@ export async function getDelegatesBySpace(
           space_in: spaceIn
         },
         first: PAGE_SIZE,
-        skip: 0
+        skip: 0,
+        orderBy: 'timestamp',
+        orderDirection: 'asc'
       },
       delegator: true,
       space: true,
-      delegate: true
+      delegate: true,
+      timestamp: true
     }
   };
   if (snapshot !== 'latest') {
     params.delegations.__args.block = { number: snapshot };
   }
 
-  while (true) {
-    params.delegations.__args.skip = page * PAGE_SIZE;
+  const isSameDelegate = (a: Delegation, b: Delegation) => {
+    return (
+      a.delegator === b.delegator &&
+      a.delegate === b.delegate &&
+      a.space === b.space
+    );
+  };
 
-    const pageResult = await subgraphRequest(subgraphUrl, params);
-    const pageDelegations = pageResult.delegations || [];
+  while (true) {
+    const pivot = result[result.length - 1];
+    params.delegations.__args.where.timestamp_gte = pivot?.timestamp || 0;
+
+    let pageDelegations: Delegation[] =
+      (await subgraphRequest(subgraphUrl, params)).delegations || [];
+
+    // Removing duplicates results between pages because of the _gte filter
+    if (pivot) {
+      // List of delegation that can potentially be duplicates in the new page results
+      const pivotDelegations = result.filter((d) => isSameDelegate(d, pivot));
+
+      pageDelegations = pageDelegations.filter(
+        (d) => !pivotDelegations.some((p) => isSameDelegate(p, d))
+      );
+    }
+
     result = result.concat(pageDelegations);
-    page++;
+
     if (pageDelegations.length < PAGE_SIZE) break;
   }
 
