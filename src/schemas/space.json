@@ -103,7 +103,11 @@
         "strategies": {
           "type": "array",
           "minItems": 1,
-          "maxItems": 8,
+          "maxItemsWithSpaceType": {
+            "default": 8,
+            "turbo": 10
+          },
+          "uniqueItems": true,
           "items": {
             "type": "object",
             "properties": {

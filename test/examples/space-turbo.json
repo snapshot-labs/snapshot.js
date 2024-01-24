@@ -1,0 +1,95 @@
+{
+  "name": "Loot Owners",
+  "skin": "indexed",
+  "about": "",
+  "admins": [
+    "0xF296178d553C8Ec21A2fBD2c5dDa8CA9ac905A00"
+  ],
+  "avatar": "https://pbs.twimg.com/profile_images/1431587138202701826/lpgblc4h_400x400.jpg",
+  "github": "lootproject",
+  "symbol": "LOOT",
+  "filters": {
+    "minScore": 1,
+    "onlyMembers": false
+  },
+  "members": [],
+  "network": "1",
+  "plugins": {},
+  "twitter": "lootproject",
+  "strategies": [
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7"
+      }
+    },
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0x0e42acBD23FAee03249DAFF896b78d7e79fBD58E"
+      }
+    },
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+      }
+    },
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0x6c3f90f043a72fa612cbac8115ee7e52bde6e490"
+      }
+    },
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
+      }
+    },
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9"
+      }
+    },
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+      }
+    },
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+      }
+    },
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0xbbbbca6a901c926f240b89eacb641d8aec7aeafd"
+      }
+    },
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f"
+      }
+    }
+  ],
+  "validation": {
+    "name": "basic",
+    "params": {}
+  }
+}
