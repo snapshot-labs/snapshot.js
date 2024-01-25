@@ -14,8 +14,8 @@ import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
 import networks from './networks.json';
-import delegationSubgraphs from './delegationSubgraphs.json';
 import voting from './voting';
+import getDelegatesBySpace, { SNAPSHOT_SUBGRAPH_URL } from './utils/delegation';
 
 interface Options {
   url?: string;
@@ -27,7 +27,6 @@ interface Strategy {
   params: any;
 }
 
-export const SNAPSHOT_SUBGRAPH_URL = delegationSubgraphs;
 const ENS_RESOLVER_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)'
 ];
@@ -523,83 +522,6 @@ export async function getSpaceController(
   return await getEnsOwner(id, network, options);
 }
 
-export async function getDelegatesBySpace(
-  network: string,
-  space: string,
-  snapshot: string | number = 'latest',
-  options: any = {}
-) {
-  const subgraphUrl = options.subgraphUrl || SNAPSHOT_SUBGRAPH_URL[network];
-  if (!subgraphUrl) {
-    return Promise.reject(
-      `Delegation subgraph not available for network ${network}`
-    );
-  }
-  const spaceIn = ['', space];
-  if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
-
-  type Delegation = {
-    delegator: string;
-    delegate: string;
-    space: string;
-    timestamp: number;
-  };
-  const PAGE_SIZE = 1000;
-  let result: Delegation[] = [];
-  const params: any = {
-    delegations: {
-      __args: {
-        where: {
-          space_in: spaceIn
-        },
-        first: PAGE_SIZE,
-        skip: 0,
-        orderBy: 'timestamp',
-        orderDirection: 'asc'
-      },
-      delegator: true,
-      space: true,
-      delegate: true,
-      timestamp: true
-    }
-  };
-  if (snapshot !== 'latest') {
-    params.delegations.__args.block = { number: snapshot };
-  }
-
-  const isSameDelegate = (a: Delegation, b: Delegation) => {
-    return (
-      a.delegator === b.delegator &&
-      a.delegate === b.delegate &&
-      a.space === b.space
-    );
-  };
-
-  while (true) {
-    const pivot = result[result.length - 1];
-    params.delegations.__args.where.timestamp_gte = pivot?.timestamp || 0;
-
-    let pageDelegations: Delegation[] =
-      (await subgraphRequest(subgraphUrl, params)).delegations || [];
-
-    // Removing duplicates results between pages because of the _gte filter
-    if (pivot) {
-      // List of delegation that can potentially be duplicates in the new page results
-      const pivotDelegations = result.filter((d) => isSameDelegate(d, pivot));
-
-      pageDelegations = pageDelegations.filter(
-        (d) => !pivotDelegations.some((p) => isSameDelegate(p, d))
-      );
-    }
-
-    result = result.concat(pageDelegations);
-
-    if (pageDelegations.length < PAGE_SIZE) break;
-  }
-
-  return result;
-}
-
 export function clone(item) {
   return JSON.parse(JSON.stringify(item));
 }
@@ -634,6 +556,8 @@ function isValidSnapshot(snapshot: number | string, network: string) {
 function inputError(message: string) {
   return Promise.reject(new Error(message));
 }
+
+export { getDelegatesBySpace, SNAPSHOT_SUBGRAPH_URL };
 
 export default {
   call,
