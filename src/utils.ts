@@ -336,7 +336,7 @@ export async function getScores(
 
     try {
       json = await res.json();
-    } catch (e: any) {
+    } catch (e) {
       if (!res.ok) {
         return Promise.reject({
           code: res.status,
@@ -353,7 +353,7 @@ export async function getScores(
     return options.returnValue === 'all'
       ? json.result
       : json.result[options.returnValue || 'scores'];
-  } catch (e: any) {
+  } catch (e) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
     }
@@ -416,7 +416,7 @@ export async function getVp(
 
     try {
       json = await res.json();
-    } catch (e: any) {
+    } catch (e) {
       if (!res.ok) {
         return Promise.reject({
           code: res.status,
@@ -428,7 +428,7 @@ export async function getVp(
 
     if (json.error) return Promise.reject(json.error);
     if (json.result) return json.result;
-  } catch (e: any) {
+  } catch (e) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
     }
@@ -483,7 +483,7 @@ export async function validate(
 
     try {
       json = await res.json();
-    } catch (e: any) {
+    } catch (e) {
       if (!res.ok) {
         return Promise.reject({
           code: res.status,
@@ -495,7 +495,7 @@ export async function validate(
 
     if (json.error) return Promise.reject(json.error);
     return json.result;
-  } catch (e: any) {
+  } catch (e) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
     }
