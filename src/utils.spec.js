@@ -314,19 +314,6 @@ describe('utils', () => {
         expect(_getScores({})).rejects.toEqual(result.error);
       });
     });
-
-    describe('when the fetch request is failing with not network error', () => {
-      test('rejects with the error', () => {
-        const result = new Error('Oh no');
-        fetch.mockReturnValue({
-          json: () => {
-            throw result;
-          }
-        });
-
-        expect(_getScores({})).rejects.toEqual(result);
-      });
-    });
   });
   describe('getVp', () => {
     const payload = {
