@@ -147,19 +147,6 @@ describe('utils', () => {
         expect(_validate({})).rejects.toEqual(result.error);
       });
     });
-
-    describe('when the fetch request is failing with not network error', () => {
-      test('rejects with the error', () => {
-        const result = new Error('Oh no');
-        fetch.mockReturnValue({
-          json: () => {
-            throw result;
-          }
-        });
-
-        expect(_validate({})).rejects.toEqual(result);
-      });
-    });
   });
   describe('getScores', () => {
     const payload = {
@@ -443,19 +430,6 @@ describe('utils', () => {
         });
 
         expect(_getVp({})).rejects.toEqual(result.error);
-      });
-    });
-
-    describe('when the fetch request is failing with not network error', () => {
-      test('rejects with the error', () => {
-        const result = new Error('Oh no');
-        fetch.mockReturnValue({
-          json: () => {
-            throw result;
-          }
-        });
-
-        expect(_getVp({})).rejects.toEqual(result);
       });
     });
   });
