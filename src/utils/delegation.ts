@@ -25,7 +25,7 @@ export default async function getDelegatesBySpace(
   }
 
   let result: Delegation[] = [];
-  let skip = 0;
+  const skip = 0;
   const spaceIn = ['', space];
   if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
 
@@ -45,9 +45,7 @@ export default async function getDelegatesBySpace(
       newResults.length === PAGE_SIZE &&
       newResults[0].timestamp === newResults[newResults.length - 1].timestamp
     ) {
-      skip += PAGE_SIZE;
-    } else {
-      skip = 0;
+      throw new Error('Unable to paginate delegation');
     }
 
     if (newResults.length < PAGE_SIZE) break;
