@@ -71,7 +71,7 @@ function isSameDelegation(a: Delegation, b: Delegation): boolean {
   );
 }
 
-function getDelegationsFromTimestamp(results: Delegation[], timestamp: number) {
+function filterDelegationsByTimestamp(results: Delegation[], timestamp: number) {
   return results.filter((r) => r.timestamp === timestamp);
 }
 
