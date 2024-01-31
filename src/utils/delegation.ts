@@ -24,55 +24,59 @@ export default async function getDelegatesBySpace(
     );
   }
 
-  let result: Delegation[] = [];
-  const spaceIn = ['', space];
-  if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
+  let pivot = 0;
+  const result = new Map<string, Delegation>();
+  const spaceIn = buildSpaceIn(space);
 
   while (true) {
     const newResults = await fetchData({
       url: subgraphUrl,
       spaces: spaceIn,
-      pivot: result[result.length - 1]?.timestamp || 0,
+      pivot,
       snapshot
     });
 
-    result = mergeWithoutDuplicates(result, newResults);
-
-    if (
-      newResults.length === PAGE_SIZE &&
-      newResults[0].timestamp === newResults[newResults.length - 1].timestamp
-    ) {
+    if (allDuplicates(newResults)) {
       throw new Error('Unable to paginate delegation');
     }
+
+    newResults.forEach((delegation) => {
+      concatUniqueDelegation(result, delegation);
+      pivot = delegation.timestamp;
+    });
 
     if (newResults.length < PAGE_SIZE) break;
   }
 
-  return result;
+  return [...result.values()];
 }
 
-export function mergeWithoutDuplicates(a: Delegation[], b: Delegation[]) {
-  const pivot = a[a.length - 1];
-  const pivotDelegations = pivot
-    ? getDelegationsFromTimestamp(a, pivot.timestamp)
-    : [];
-
-  return a.concat(
-    b.filter((d) => !pivotDelegations.some((p) => isSameDelegation(p, d)))
-  );
+function delegationKey(delegation: Delegation) {
+  return `${delegation.delegator}-${delegation.delegate}-${delegation.space}`;
 }
 
-function isSameDelegation(a: Delegation, b: Delegation): boolean {
+function allDuplicates(delegations: Delegation[]) {
   return (
-    a.delegator === b.delegator &&
-    a.delegate === b.delegate &&
-    a.space === b.space &&
-    a.timestamp === b.timestamp
+    delegations.length === PAGE_SIZE &&
+    delegations[0].timestamp === delegations[delegations.length - 1].timestamp
   );
 }
 
-function getDelegationsFromTimestamp(results: Delegation[], timestamp: number) {
-  return results.filter((r) => r.timestamp === timestamp);
+function concatUniqueDelegation(
+  result: Map<string, Delegation>,
+  delegation: Delegation
+): void {
+  const key = delegationKey(delegation);
+  if (!result.has(key)) {
+    result.set(key, delegation);
+  }
+}
+
+function buildSpaceIn(space: string) {
+  const spaces = ['', space];
+  if (space.includes('.eth')) spaces.push(space.replace('.eth', ''));
+
+  return spaces;
 }
 
 async function fetchData({

@@ -1,6 +1,5 @@
 import { test, expect, describe } from 'vitest';
 import { getDelegatesBySpace } from '../../../src/utils';
-import { mergeWithoutDuplicates } from '../../../src/utils/delegation';
 import fixtures from '../../examples/delegates.json';
 
 const SPACE = 'stgdao.eth';
@@ -42,29 +41,5 @@ describe('test delegation', () => {
     await expect(
       getDelegatesBySpace('99999', SPACE, BLOCK_NUMBER)
     ).to.rejects.toMatch(/not available/);
-  });
-
-  test('mergeWithoutDuplicates should merge two lists without duplicates', async () => {
-    expect.assertions(1);
-    const listA = [
-      { delegator: '0x1', delegate: '0x2', space: 'space', timestamp: 1 },
-      { delegator: '0x1', delegate: '0x2', space: 'space', timestamp: 2 },
-      { delegator: '0x1', delegate: '0x1', space: 'space', timestamp: 3 },
-      { delegator: '0x1', delegate: '0x2', space: 'space', timestamp: 3 }
-    ];
-    const listB = [
-      { delegator: '0x1', delegate: '0x2', space: 'space', timestamp: 3 },
-      { delegator: '0x1', delegate: '0x3', space: 'space', timestamp: 3 },
-      { delegator: '0x1', delegate: '0x2', space: 'space', timestamp: 4 }
-    ];
-    const result = mergeWithoutDuplicates(listA, listB);
-    expect(result).toEqual([
-      { delegator: '0x1', delegate: '0x2', space: 'space', timestamp: 1 },
-      { delegator: '0x1', delegate: '0x2', space: 'space', timestamp: 2 },
-      { delegator: '0x1', delegate: '0x1', space: 'space', timestamp: 3 },
-      { delegator: '0x1', delegate: '0x2', space: 'space', timestamp: 3 },
-      { delegator: '0x1', delegate: '0x3', space: 'space', timestamp: 3 },
-      { delegator: '0x1', delegate: '0x2', space: 'space', timestamp: 4 }
-    ]);
   });
 });
