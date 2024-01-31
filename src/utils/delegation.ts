@@ -54,7 +54,7 @@ export default async function getDelegatesBySpace(
 export function mergeWithoutDuplicates(a: Delegation[], b: Delegation[]) {
   const pivot = a[a.length - 1];
   const pivotDelegations = pivot
-    ? getDelegationsFromTimestamp(a, pivot.timestamp)
+    ? filterDelegationsByTimestamp(a, pivot.timestamp)
     : [];
 
   return a.concat(
