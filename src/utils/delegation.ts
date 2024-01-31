@@ -25,7 +25,6 @@ export default async function getDelegatesBySpace(
   }
 
   let result: Delegation[] = [];
-  const skip = 0;
   const spaceIn = ['', space];
   if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
 
@@ -33,8 +32,6 @@ export default async function getDelegatesBySpace(
     const newResults = await fetchData({
       url: subgraphUrl,
       spaces: spaceIn,
-      first: PAGE_SIZE,
-      skip,
       pivot: result[result.length - 1]?.timestamp || 0,
       snapshot
     });
@@ -81,15 +78,11 @@ function getDelegationsFromTimestamp(results: Delegation[], timestamp: number) {
 async function fetchData({
   url,
   spaces,
-  first,
-  skip,
   pivot,
   snapshot
 }: {
   url: string;
   spaces: string[];
-  first: number;
-  skip: number;
   pivot: number;
   snapshot: string | number;
 }): Promise<Delegation[]> {
@@ -100,8 +93,8 @@ async function fetchData({
           space_in: spaces,
           timestamp_gte: pivot
         },
-        first,
-        skip,
+        first: PAGE_SIZE,
+        skip: 0,
         orderBy: 'timestamp',
         orderDirection: 'asc'
       },
