@@ -51,15 +51,15 @@ export default async function getDelegatesBySpace(
   return [...result.values()];
 }
 
-function delegationKey(delegation: Delegation) {
-  return `${delegation.delegator}-${delegation.delegate}-${delegation.space}`;
-}
-
 function allDuplicates(delegations: Delegation[]) {
   return (
     delegations.length === PAGE_SIZE &&
     delegations[0].timestamp === delegations[delegations.length - 1].timestamp
   );
+}
+
+function delegationKey(delegation: Delegation) {
+  return `${delegation.delegator}-${delegation.delegate}-${delegation.space}`;
 }
 
 function concatUniqueDelegation(
