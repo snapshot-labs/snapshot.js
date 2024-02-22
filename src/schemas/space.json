@@ -282,11 +282,19 @@
           "properties": {
             "delay": {
               "type": "integer",
-              "minimum": 0
+              "minimum": 0,
+              "maximum": 2592000,
+              "errorMessage": {
+                "maximum": "Delay must be less than 30 days"
+              }
             },
             "period": {
               "type": "integer",
-              "minimum": 0
+              "minimum": 0,
+              "maximum": 31536000,
+              "errorMessage": {
+                "maximum": "Delay must be less than 1 year"
+              }
             },
             "type": {
               "type": "string",
