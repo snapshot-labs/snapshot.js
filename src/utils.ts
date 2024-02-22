@@ -7,6 +7,7 @@ import { namehash, ensNormalize } from '@ethersproject/hash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
+import addErrors from 'ajv-errors';
 import Multicaller from './utils/multicaller';
 import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
@@ -45,6 +46,7 @@ const ajv = new Ajv({
 });
 // @ts-ignore
 addFormats(ajv);
+addErrors(ajv);
 
 ajv.addFormat('address', {
   validate: (value: string) => {

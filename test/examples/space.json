@@ -28,5 +28,9 @@
   "validation": {
     "name": "basic",
     "params": {}
+  },
+  "voting":{
+    "delay": 2592000,
+    "period": 15552000
   }
 }
