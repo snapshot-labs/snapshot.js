@@ -36,7 +36,7 @@ export default async function getDelegatesBySpace(
       snapshot
     });
 
-    if (allDuplicates(newResults)) {
+    if (checkAllDuplicates(newResults)) {
       throw new Error('Unable to paginate delegation');
     }
 
@@ -51,7 +51,7 @@ export default async function getDelegatesBySpace(
   return [...result.values()];
 }
 
-function allDuplicates(delegations: Delegation[]) {
+function checkAllDuplicates(delegations: Delegation[]) {
   return (
     delegations.length === PAGE_SIZE &&
     delegations[0].timestamp === delegations[delegations.length - 1].timestamp
