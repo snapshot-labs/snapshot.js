@@ -14,8 +14,8 @@ import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './sign/utils';
 import gateways from './gateways.json';
 import networks from './networks.json';
-import delegationSubgraphs from './delegationSubgraphs.json';
 import voting from './voting';
+import getDelegatesBySpace, { SNAPSHOT_SUBGRAPH_URL } from './utils/delegation';
 
 interface Options {
   url?: string;
@@ -27,7 +27,6 @@ interface Strategy {
   params: any;
 }
 
-export const SNAPSHOT_SUBGRAPH_URL = delegationSubgraphs;
 const ENS_RESOLVER_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)'
 ];
@@ -572,55 +571,6 @@ export async function getSpaceController(
   return await getEnsOwner(id, network, options);
 }
 
-export async function getDelegatesBySpace(
-  network: string,
-  space: string,
-  snapshot = 'latest',
-  options: any = {}
-) {
-  const subgraphUrl = options.subgraphUrl || SNAPSHOT_SUBGRAPH_URL[network];
-  if (!subgraphUrl) {
-    return Promise.reject(
-      `Delegation subgraph not available for network ${network}`
-    );
-  }
-  const spaceIn = ['', space];
-  if (space.includes('.eth')) spaceIn.push(space.replace('.eth', ''));
-
-  const PAGE_SIZE = 1000;
-  let result = [];
-  let page = 0;
-  const params: any = {
-    delegations: {
-      __args: {
-        where: {
-          space_in: spaceIn
-        },
-        first: PAGE_SIZE,
-        skip: 0
-      },
-      delegator: true,
-      space: true,
-      delegate: true
-    }
-  };
-  if (snapshot !== 'latest') {
-    params.delegations.__args.block = { number: snapshot };
-  }
-
-  while (true) {
-    params.delegations.__args.skip = page * PAGE_SIZE;
-
-    const pageResult = await subgraphRequest(subgraphUrl, params);
-    const pageDelegations = pageResult.delegations || [];
-    result = result.concat(pageDelegations);
-    page++;
-    if (pageDelegations.length < PAGE_SIZE) break;
-  }
-
-  return result;
-}
-
 export function clone(item) {
   return JSON.parse(JSON.stringify(item));
 }
@@ -655,6 +605,8 @@ function isValidSnapshot(snapshot: number | string, network: string) {
 function inputError(message: string) {
   return Promise.reject(new Error(message));
 }
+
+export { getDelegatesBySpace, SNAPSHOT_SUBGRAPH_URL };
 
 export default {
   call,
