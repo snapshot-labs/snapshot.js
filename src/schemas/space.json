@@ -291,9 +291,9 @@
             "period": {
               "type": "integer",
               "minimum": 0,
-              "maximum": 31536000,
+              "maximum": 15811200,
               "errorMessage": {
-                "maximum": "Delay must be less than 1 year"
+                "maximum": "Delay must be less than 183 days"
               }
             },
             "type": {
