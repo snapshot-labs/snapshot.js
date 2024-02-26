@@ -1,7 +1,7 @@
 {
   "1": {
     "key": "1",
-    "name": "Ethereum Mainnet",
+    "name": "Ethereum",
     "chainId": 1,
     "network": "homestead",
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
@@ -60,9 +60,9 @@
   },
   "8": {
     "key": "8",
-    "name": "Ubiq Mainnet",
+    "name": "Ubiq",
     "chainId": 8,
-    "network": "Ubiq mainnet",
+    "network": "Ubiq",
     "multicall": "0x6668750957e4083725926B71C41bDF1434C73262",
     "rpc": [
       "https://rpc.octano.dev"
@@ -78,7 +78,7 @@
   },
   "10": {
     "key": "10",
-    "name": "Optimism Mainnet",
+    "name": "Optimism",
     "chainId": 10,
     "network": "Optimism mainnet",
     "multicall": "0x35A6Cdb2C9AD4a45112df4a04147EB07dFA01aB7",
@@ -126,7 +126,7 @@
   },
   "25": {
     "key": "25",
-    "name": "Cronos Mainnet",
+    "name": "Cronos",
     "shortName": "Cronos",
     "chainId": 25,
     "network": "mainnet",
@@ -142,7 +142,7 @@
   },
   "30": {
     "key": "30",
-    "name": "RSK Mainnet",
+    "name": "RSK",
     "chainId": 30,
     "network": "rsk mainnet",
     "multicall": "0x4eeebb5580769ba6d26bfd07be636300076d1831",
@@ -173,7 +173,7 @@
   },
   "56": {
     "key": "56",
-    "name": "Binance Smart Chain Mainnet",
+    "name": "Binance Smart Chain",
     "shortName": "BSC",
     "chainId": 56,
     "network": "mainnet",
@@ -194,7 +194,7 @@
   },
   "61": {
     "key": "61",
-    "name": "Ethereum Classic Mainnet",
+    "name": "Ethereum Classic",
     "shortName": "Ethereum Classic",
     "chainId": 61,
     "network": "mainnet",
@@ -210,7 +210,7 @@
   },
   "66": {
     "key": "66",
-    "name": "OKExChain Mainnet",
+    "name": "OKExChain",
     "shortName": "OEC Mainnet",
     "chainId": 66,
     "network": "oec mainnet",
@@ -260,7 +260,7 @@
   },
   "82": {
     "key": "82",
-    "name": "Meter Mainnet",
+    "name": "Meter",
     "shortName": "Meter",
     "chainId": 82,
     "network": "mainnet",
@@ -319,7 +319,7 @@
   },
   "108": {
     "key": "108",
-    "name": "Thundercore Mainnet",
+    "name": "Thundercore",
     "chainId": 108,
     "network": "mainnet",
     "multicall": "0x3017086deef56679e267f67f66c4415109b7a97f",
@@ -334,7 +334,7 @@
   },
   "122": {
     "key": "122",
-    "name": "Fuse Mainnet",
+    "name": "Fuse",
     "shortName": "Fuse",
     "chainId": 122,
     "network": "mainnet",
@@ -404,7 +404,7 @@
   },
   "169": {
     "key": "169",
-    "name": "Manta Pacific Mainnet",
+    "name": "Manta Pacific",
     "shortName": "Manta",
     "chainId": 169,
     "network": "mainnet",
@@ -466,7 +466,7 @@
   },
   "269": {
     "key": "269",
-    "name": "High Performance Blockchain Mainnet",
+    "name": "High Performance Blockchain",
     "shortName": "HPB",
     "chainId": 269,
     "network": "mainnet",
@@ -516,7 +516,7 @@
   },
   "321": {
     "key": "321",
-    "name": "KCC Mainnet",
+    "name": "KCC",
     "shortName": "KCC",
     "chainId": 321,
     "network": "mainnet",
@@ -568,7 +568,7 @@
   },
   "369": {
     "key": "369",
-    "name": "Pulsechain Mainnet",
+    "name": "Pulsechain",
     "shortName": "Pulsechain",
     "chainId": 369,
     "network": "mainnet",
@@ -620,7 +620,7 @@
   },
   "813": {
     "key": "813",
-    "name": "Qitmeer Mainnet",
+    "name": "Qitmeer",
     "shortName": "MEER",
     "chainId": 813,
     "network": "mainnet",
@@ -639,7 +639,7 @@
   },
   "841": {
     "key": "841",
-    "name": "Taraxa Mainnet",
+    "name": "Taraxa",
     "shortName": "841",
     "chainId": 841,
     "network": "mainnet",
@@ -743,7 +743,7 @@
   },
   "1116": {
     "key": "1116",
-    "name": "Core Chain Mainnet ",
+    "name": "Core Chain",
     "shortName": "Core",
     "chainId": 1116,
     "network": "mainnet",
@@ -871,7 +871,7 @@
   },
   "2152": {
     "key": "2152",
-    "name": "Findora Mainnet",
+    "name": "Findora",
     "shortName": "Findora",
     "chainId": 2152,
     "network": "mainnet",
@@ -887,7 +887,7 @@
   },
   "2400": {
     "key": "2400",
-    "name": "TCG Verse Mainnet",
+    "name": "TCG Verse",
     "shortName": "TCGV",
     "chainId": 2400,
     "network": "mainnet",
@@ -917,7 +917,7 @@
   },
   "4689": {
     "key": "4689",
-    "name": "IoTeX Mainnet",
+    "name": "IoTeX",
     "shortName": "IoTeX",
     "chainId": 4689,
     "network": "mainnet",
@@ -948,7 +948,7 @@
   },
   "5555": {
     "key": "5555",
-    "name": "Chain Verse Mainnet",
+    "name": "Chain Verse",
     "shortName": "ChainVerse",
     "chainId": 5555,
     "network": "ChainVerse",
@@ -1011,7 +1011,7 @@
   },
   "8217": {
     "key": "8217",
-    "name": "Klaytn Mainnet Cypress",
+    "name": "Klaytn Cypress",
     "shortName": "Cypress",
     "chainId": 8217,
     "network": "mainnet",
@@ -1111,7 +1111,7 @@
   },
   "16718": {
     "key": "16718",
-    "name": "AirDAO Mainnet",
+    "name": "AirDAO",
     "chainId": 16718,
     "network": "mainnet",
     "multicall": "0x25e81aC81A8B03389D78CB45faB78353aB528574",
@@ -1129,7 +1129,7 @@
   },
   "29548": {
     "key": "29548",
-    "name": "MCH Verse ",
+    "name": "MCH Verse",
     "shortName": "mainnet",
     "chainId": 29548,
     "network": "mainnet",
@@ -1176,7 +1176,7 @@
   },
   "42220": {
     "key": "42220",
-    "name": "Celo Mainnet",
+    "name": "Celo",
     "shortName": "Celo",
     "chainId": 42220,
     "network": "mainnet",
@@ -1344,7 +1344,7 @@
   },
   "1313161554": {
     "key": "1313161554",
-    "name": "Aurora Mainnet",
+    "name": "Aurora",
     "shortName": "Aurora",
     "chainId": 1313161554,
     "network": "mainnet",
@@ -1360,7 +1360,7 @@
   },
   "1666600000": {
     "key": "1666600000",
-    "name": "Harmony Mainnet",
+    "name": "Harmony",
     "shortName": "HarmonyMainnet",
     "chainId": 1666600000,
     "network": "mainnet",
