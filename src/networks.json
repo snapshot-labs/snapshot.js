@@ -901,6 +901,20 @@
     "start": 57500,
     "logo": "ipfs://bafkreidg4wpewve5mdxrofneqblydkrjl3oevtgpdf3fk3z3vjqam6ocoe"
   },
+  "4200": {
+    "key": "4200",
+    "name": "Merlin",
+    "shortName": "merlin",
+    "chainId": 4200,
+    "network": "mainnet",
+    "multicall": "0x830E7E548F4D80947a40A7Cf3a2a53166a0C3980",
+    "rpc": [],
+    "explorer": {
+      "url": "https://scan.merlinchain.io"
+    },
+    "start": 589494,
+    "logo": "ipfs://bafkreicew2qv3m756m7xs2nrjezinghps7rlessrqjqetvox74w4hov2xe"
+  },
   "4337": {
     "key": "4337",
     "name": "Beam",
