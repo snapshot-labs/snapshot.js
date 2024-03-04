@@ -1323,6 +1323,21 @@
     "start": 1151797,
     "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv"
   },
+  "686868": {
+    "key": "686868",
+    "name": "Merlin Testnet",
+    "shortName": "merlin",
+    "chainId": 686868,
+    "network": "testnet",
+    "multicall": "0x758BC6321b7c68F4986d62a4D46E83A2DCb58c80",
+    "rpc": [],
+    "explorer": {
+      "url": "https://testnet-scan.merlinchain.io"
+    },
+    "start": 3562021,
+    "logo": "ipfs://bafkreicew2qv3m756m7xs2nrjezinghps7rlessrqjqetvox74w4hov2xe",
+    "testnet": true
+  },
   "11155111": {
     "key": "11155111",
     "name": "Sepolia testnet",
