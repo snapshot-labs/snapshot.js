@@ -33,7 +33,7 @@
       "apiUrl": "https://api.etherscan.io"
     },
     "start": 7929876,
-    "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
+    "logo": "ipfs://bafkreid7ndxh6y2ljw2jhbisodiyrhcy2udvnwqgon5wgells3kh4si5z4"
   },
   "5": {
     "key": "5",
@@ -56,7 +56,7 @@
       "apiUrl": "https://api-goerli.etherscan.io"
     },
     "start": 743550,
-    "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
+    "logo": "ipfs://bafkreid7ndxh6y2ljw2jhbisodiyrhcy2udvnwqgon5wgells3kh4si5z4"
   },
   "8": {
     "key": "8",
@@ -1354,7 +1354,7 @@
       "apiUrl": "https://api-sepolia.etherscan.io"
     },
     "start": 751532,
-    "logo": "ipfs://QmR2UYZczmYa4s8mr9HZHci5AQwyAnwUW7tSUZz7KWF3sA"
+    "logo": "ipfs://bafkreid7ndxh6y2ljw2jhbisodiyrhcy2udvnwqgon5wgells3kh4si5z4"
   },
   "245022926": {
     "key": "245022926",
