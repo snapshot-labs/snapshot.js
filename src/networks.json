@@ -1350,6 +1350,21 @@
     "logo": "ipfs://bafkreicew2qv3m756m7xs2nrjezinghps7rlessrqjqetvox74w4hov2xe",
     "testnet": true
   },
+  "713715": {
+    "key": "713715",
+    "name": "Sei EVM Devnet",
+    "shortName": "devnet",
+    "chainId": 713715,
+    "network": "testnet",
+    "multicall": "0xEe8d287B844959ADe40d718Dc23077ba920e2f07",
+    "rpc": [],
+    "explorer": {
+      "url": "https://seitrace.com"
+    },
+    "start": 1463669,
+    "logo": "ipfs://bafkreiammyt7uztbztqbcqv4bydnczsh2fqmnjf6jxj4xnskzzl6sjrigq",
+    "testnet": true
+  },
   "11155111": {
     "key": "11155111",
     "name": "Sepolia testnet",
