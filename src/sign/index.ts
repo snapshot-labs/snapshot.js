@@ -45,8 +45,8 @@ const VERSION = '0.1.4';
 
 export const domain = {
   name: NAME,
-  version: VERSION,
-  chainId: 1
+  version: VERSION
+  // chainId: 1
 };
 
 export default class Client {
