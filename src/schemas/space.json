@@ -304,6 +304,10 @@
               "type": "number",
               "minimum": 0
             },
+            "quorumType": {
+              "type": "string",
+              "enum": ["optimistic"]
+            },
             "blind": {
               "type": "boolean"
             },
