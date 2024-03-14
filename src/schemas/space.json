@@ -380,6 +380,18 @@
           "items": {
             "type": "string"
           }
+        },
+        "boost": {
+          "type": "object",
+          "properties": {
+            "disabled": {
+              "type": "boolean"
+            },
+            "bribeEnabled": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
         }
       },
       "required": ["name", "network", "symbol", "strategies"],
