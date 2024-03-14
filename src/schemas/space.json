@@ -391,6 +391,7 @@
               "type": "boolean"
             }
           },
+          "required": ["disabled", "bribeEnabled"],
           "additionalProperties": false
         }
       },
