@@ -384,14 +384,14 @@
         "boost": {
           "type": "object",
           "properties": {
-            "disabled": {
+            "enabled": {
               "type": "boolean"
             },
             "bribeEnabled": {
               "type": "boolean"
             }
           },
-          "required": ["disabled", "bribeEnabled"],
+          "required": ["enabled", "bribeEnabled"],
           "additionalProperties": false
         }
       },
