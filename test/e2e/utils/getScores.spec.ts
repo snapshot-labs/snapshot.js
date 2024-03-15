@@ -29,4 +29,22 @@ describe('test getScores', () => {
       data: ''
     });
   });
+
+  test('getScores should return a promise rejection with JSON-RPC format on network error', async () => {
+    expect.assertions(1);
+    await expect(
+      getScores(
+        'test.eth',
+        [],
+        '1',
+        ['0x9e8f6CF284Db7a80646D9d322A37b3dAF461F8DD'],
+        'latest',
+        'https://snapshot.org'
+      )
+    ).to.rejects.toEqual({
+      code: 405,
+      message: 'Method Not Allowed',
+      data: ''
+    });
+  });
 });
