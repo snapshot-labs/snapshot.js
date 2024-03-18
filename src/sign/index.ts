@@ -97,7 +97,7 @@ export default class Client {
           if (res.ok) return resolve(res.json());
           throw res;
         })
-        .catch((e) => e.json().then((json) => reject(json)));
+        .catch((e) => reject(e));
     });
   }
 
