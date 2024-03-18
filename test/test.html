@@ -1,0 +1,39 @@
+<!-- serve -p 9000 -->
+<!-- Go to http://localhost:9000/test/test.html -->
+<script src="../dist/snapshot.min.js"></script>
+<script src="https://cdn.ethers.io/lib/ethers-5.6.umd.min.js" type="text/javascript">
+</script>
+
+
+
+<button id="connectButton">Connect</button>
+<button id="voteButton">Vote</button>
+
+<script>
+  const hub = 'http://localhost:3001'; // or https://testnet.hub.snapshot.org for testnet
+  const client = new snapshot.Client712(hub);
+
+  // Connect to Ethereum wallet
+  document.getElementById("connectButton").addEventListener("click", async () => {
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    console.log('Connected to wallet', await window.ethereum.request({ method: 'eth_accounts' }));
+  });
+
+  // Vote using snapshot.js
+  document.getElementById("voteButton").addEventListener("click", async () => {
+    const web3 = new ethers.providers.Web3Provider(window.ethereum);
+    const [account] = await web3.listAccounts();
+    try {
+      const receipt = await client.vote(web3, account, {
+        space: 'yam.eth',
+        proposal: '0x21ea31e896ec5b5a49a3653e51e787ee834aaf953263144ab936ed756f36609f',
+        type: 'single-choice',
+        choice: 1,
+        reason: 'Choice 1 make lot of sense',
+        app: 'my-app'
+      });
+    } catch (error) {
+      console.log('catched an error', error);
+    }
+  });
+</script>
