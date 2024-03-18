@@ -10,6 +10,7 @@
       "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41"
     ],
     "ensNameWrapper": "0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401",
+    "ensSubgraph": "https://api.thegraph.com/subgraphs/name/ensdomains/ens",
     "rpc": [
       "https://rpc.ankr.com/eth",
       {
@@ -48,6 +49,7 @@
       "0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329"
     ],
     "ensNameWrapper": "0x114D4603199df73e7D157787f8778E21fCd13066",
+    "ensSubgraph": "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli",
     "rpc": [
       "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
     ],
@@ -1376,6 +1378,11 @@
     "rpc": [
       "https://sepolia.infura.io/v3/d26b4fd748814fe994b05899fd89e667"
     ],
+    "ensResolvers": [
+      "0x8FADE66B79cC9f707aB26799354482EB93a5B7dD"
+    ],
+    "ensNameWrapper": "0x0635513f179D50A207757E05759CbD106d7dFcE8",
+    "ensSubgraph": "https://api.studio.thegraph.com/proxy/49574/enssepolia/version/latest",
     "explorer": {
       "url": "https://sepolia.etherscan.io",
       "apiUrl": "https://api-sepolia.etherscan.io"
