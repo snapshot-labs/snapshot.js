@@ -43,7 +43,11 @@ import constants from '../constants.json';
 const NAME = 'snapshot';
 const VERSION = '0.1.4';
 
-export const domain = {
+export const domain: {
+  name: string;
+  version: string;
+  chainId?: number;
+} = {
   name: NAME,
   version: VERSION
   // chainId: 1
@@ -74,8 +78,16 @@ export default class Client {
     message.from = message.from ? getAddress(message.from) : checksumAddress;
     if (!message.timestamp)
       message.timestamp = parseInt((Date.now() / 1e3).toFixed());
-    const data: any = { domain, types, message };
-    const sig = await signer._signTypedData(domain, data.types, message);
+
+    const domainData = {
+      ...domain
+    };
+    // @ts-ignore
+    if (window?.ethereum?.isTrust) {
+      domainData.chainId = (await signer.provider.getNetwork()).chainId;
+    }
+    const data: any = { domain: domainData, types, message };
+    const sig = await signer._signTypedData(domainData, data.types, message);
     return await this.send({ address: checksumAddress, sig, data });
   }
 
