@@ -83,7 +83,7 @@ export default class Client {
       ...domain
     };
     // @ts-ignore
-    if(window?.ethereum?.isTrust) {
+    if (window?.ethereum?.isTrust) {
       domainData.chainId = (await signer.provider.getNetwork()).chainId;
     }
     const data: any = { domain: domainData, types, message };
