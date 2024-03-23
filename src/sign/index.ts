@@ -43,10 +43,10 @@ import constants from '../constants.json';
 const NAME = 'snapshot';
 const VERSION = '0.1.4';
 
-export const domain:{
-  name: string,
-  version: string,
-  chainId?: number
+export const domain: {
+  name: string;
+  version: string;
+  chainId?: number;
 } = {
   name: NAME,
   version: VERSION
