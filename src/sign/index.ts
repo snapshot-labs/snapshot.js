@@ -107,9 +107,11 @@ export default class Client {
       fetch(address, init)
         .then((res) => {
           if (res.ok) return resolve(res.json());
+          if (res.headers.get('content-type')?.includes('application/json'))
+            return res.json().then(reject).catch(reject);
           throw res;
         })
-        .catch((e) => reject(e));
+        .catch(reject);
     });
   }
 
