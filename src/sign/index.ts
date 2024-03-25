@@ -108,7 +108,12 @@ export default class Client {
         .then((res) => {
           if (res.ok) return resolve(res.json());
           if (res.headers.get('content-type')?.includes('application/json'))
-            return res.json().then((e) => reject(e));
+            return res
+              .json()
+              .then((e) => reject(e))
+              .catch((e) => {
+                reject(e);
+              });
           throw res;
         })
         .catch((e) => reject(e));
