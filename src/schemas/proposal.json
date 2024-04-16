@@ -18,7 +18,7 @@
           "minLength": 0,
           "maxLengthWithSpaceType": {
             "default": 10000,
-            "turbo": 20000
+            "turbo": 40000
           }
         },
         "discussion": {

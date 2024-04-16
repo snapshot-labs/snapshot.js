@@ -306,7 +306,7 @@
             },
             "quorumType": {
               "type": "string",
-              "enum": ["optimistic"]
+              "enum": ["rejection"]
             },
             "blind": {
               "type": "boolean"
