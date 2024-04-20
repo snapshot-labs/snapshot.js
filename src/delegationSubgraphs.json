@@ -6,5 +6,6 @@
   "100": "https://subgrapher.snapshot.org/api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-gnosis-chain",
   "137": "https://subgrapher.snapshot.org/api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-polygon",
   "250": "https://subgrapher.snapshot.org/api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-fantom",
-  "42161": "https://subgrapher.snapshot.org/api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-arbitrum"
+  "42161": "https://subgrapher.snapshot.org/api.thegraph.com/subgraphs/name/snapshot-labs/snapshot-arbitrum",
+  "11155111": "https://subgrapher.snapshot.org/gateway-arbitrum.network.thegraph.com/api/0f15b42bdeff7a063a4e1757d7e2f99e/subgraphs/id/2SZVRR6G8txMFtf39aw2aP7BTAawRVwgqHeQXMhr7BRJ"
 }
