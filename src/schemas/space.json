@@ -383,7 +383,8 @@
           "title": "children",
           "items": {
             "type": "string"
-          }
+          },
+          "uniqueItems": true
         },
         "boost": {
           "type": "object",
