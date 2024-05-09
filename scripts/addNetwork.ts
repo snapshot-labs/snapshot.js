@@ -3,7 +3,7 @@ const { getAddress } = require('@ethersproject/address');
 
 if (process.argv.length < 7) {
   console.log(
-    'Usage: ts-node scripts/addNetwork.ts <chainId> <explorer> <multicall> <start> <logo> "<networkName>" <shortName> <testnet (optional)>'
+    'Usage: yarn ts-node scripts/addNetwork.ts <chainId> <explorer> <multicall> <start> <logo> "<networkName>" <shortName> <testnet (optional)>'
   );
   process.exit(1);
 }
