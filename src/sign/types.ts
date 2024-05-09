@@ -71,15 +71,15 @@ export interface Vote {
 
 export interface Follow {
   from?: string;
-  space: string;
   network?: string;
+  space: string;
   timestamp?: number;
 }
 
 export interface Unfollow {
   from?: string;
-  space: string;
   network?: string;
+  space: string;
   timestamp?: number;
 }
 
