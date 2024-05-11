@@ -71,12 +71,14 @@ export interface Vote {
 
 export interface Follow {
   from?: string;
+  network?: string;
   space: string;
   timestamp?: number;
 }
 
 export interface Unfollow {
   from?: string;
+  network?: string;
   space: string;
   timestamp?: number;
 }
@@ -269,6 +271,7 @@ export const voteString2Types = {
 export const followTypes = {
   Follow: [
     { name: 'from', type: 'address' },
+    { name: 'network', type: 'string' },
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' }
   ]
@@ -277,6 +280,7 @@ export const followTypes = {
 export const unfollowTypes = {
   Unfollow: [
     { name: 'from', type: 'address' },
+    { name: 'network', type: 'string' },
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' }
   ]

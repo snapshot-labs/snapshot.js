@@ -48,9 +48,9 @@ yarn test:once
 
 ```bash
 # Format ABI
-ts-node scripts/abi.ts
+yarn ts-node scripts/abi.ts
 # Generate hash for types
-ts-node scripts/generateHashWithTypes.ts
+yarn ts-node scripts/generateHashWithTypes.ts
 ```
 
 ### License
