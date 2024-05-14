@@ -135,7 +135,6 @@ ajv.addKeyword({
   errors: true
 });
 
-
 // Custom URL format to allow empty string values
 // https://github.com/snapshot-labs/snapshot.js/pull/541/files
 ajv.addFormat('customUrl', {
@@ -334,15 +333,27 @@ export async function getScores(
       headers: scoreApiHeaders,
       body: JSON.stringify({ params })
     });
-    const obj = await res.json();
+    let json: Record<string, any> = {};
 
-    if (obj.error) {
-      return Promise.reject(obj.error);
+    try {
+      json = await res.json();
+    } catch (e) {
+      if (!res.ok) {
+        return Promise.reject({
+          code: res.status,
+          message: res.statusText,
+          data: ''
+        });
+      }
+    }
+
+    if (json.error) {
+      return Promise.reject(json.error);
     }
 
     return options.returnValue === 'all'
-      ? obj.result
-      : obj.result[options.returnValue || 'scores'];
+      ? json.result
+      : json.result[options.returnValue || 'scores'];
   } catch (e) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
@@ -402,7 +413,20 @@ export async function getVp(
 
   try {
     const res = await fetch(options.url, init);
-    const json = await res.json();
+    let json: Record<string, any> = {};
+
+    try {
+      json = await res.json();
+    } catch (e) {
+      if (!res.ok) {
+        return Promise.reject({
+          code: res.status,
+          message: res.statusText,
+          data: ''
+        });
+      }
+    }
+
     if (json.error) return Promise.reject(json.error);
     if (json.result) return json.result;
   } catch (e) {
@@ -456,7 +480,20 @@ export async function validate(
 
   try {
     const res = await fetch(options.url, init);
-    const json = await res.json();
+    let json: Record<string, any> = {};
+
+    try {
+      json = await res.json();
+    } catch (e) {
+      if (!res.ok) {
+        return Promise.reject({
+          code: res.status,
+          message: res.statusText,
+          data: ''
+        });
+      }
+    }
+
     if (json.error) return Promise.reject(json.error);
     return json.result;
   } catch (e) {
