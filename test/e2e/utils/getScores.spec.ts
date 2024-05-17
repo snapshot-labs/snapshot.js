@@ -23,9 +23,9 @@ describe('test getScores', () => {
         'https://score-null.snapshot.org'
       )
     ).to.rejects.toEqual({
-      code: 'ECONNRESET',
+      code: 'ENOTFOUND',
       message:
-        'FetchError: request to https://score-null.snapshot.org/api/scores failed, reason: read ECONNRESET',
+        'FetchError: request to https://score-null.snapshot.org/api/scores failed, reason: getaddrinfo ENOTFOUND score-null.snapshot.org',
       data: ''
     });
   });
@@ -41,9 +41,9 @@ describe('test getScores', () => {
         'https://score-null.snapshot.org?apiKey=123'
       )
     ).to.rejects.toEqual({
-      code: 'ECONNRESET',
+      code: 'ENOTFOUND',
       message:
-        'FetchError: request to https://score-null.snapshot.org/api/scores failed, reason: read ECONNRESET',
+        'FetchError: request to https://score-null.snapshot.org/api/scores failed, reason: getaddrinfo ENOTFOUND score-null.snapshot.org',
       data: ''
     });
   });

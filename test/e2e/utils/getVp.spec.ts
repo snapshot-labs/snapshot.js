@@ -51,9 +51,9 @@ describe('test getVp', () => {
         { url: 'https://score-null.snapshot.org' }
       )
     ).to.rejects.toEqual({
-      code: 'ECONNRESET',
+      code: 'ENOTFOUND',
       message:
-        'FetchError: request to https://score-null.snapshot.org/ failed, reason: read ECONNRESET',
+        'FetchError: request to https://score-null.snapshot.org/ failed, reason: getaddrinfo ENOTFOUND score-null.snapshot.org',
       data: ''
     });
   });
