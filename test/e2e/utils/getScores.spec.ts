@@ -23,9 +23,27 @@ describe('test getScores', () => {
         'https://score-null.snapshot.org'
       )
     ).to.rejects.toEqual({
-      code: 'ENOTFOUND',
+      code: 'ECONNRESET',
       message:
-        'FetchError: request to https://score-null.snapshot.org/api/scores failed, reason: getaddrinfo ENOTFOUND score-null.snapshot.org',
+        'FetchError: request to https://score-null.snapshot.org/api/scores failed, reason: read ECONNRESET',
+      data: ''
+    });
+  });
+  test('getScores should not pass API Key if it is passed in URL', async () => {
+    expect.assertions(1);
+    await expect(
+      getScores(
+        'test.eth',
+        [],
+        '1',
+        ['0x9e8f6CF284Db7a80646D9d322A37b3dAF461F8DD'],
+        'latest',
+        'https://score-null.snapshot.org?apiKey=123'
+      )
+    ).to.rejects.toEqual({
+      code: 'ECONNRESET',
+      message:
+        'FetchError: request to https://score-null.snapshot.org/api/scores failed, reason: read ECONNRESET',
       data: ''
     });
   });

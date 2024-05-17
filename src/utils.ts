@@ -20,6 +20,7 @@ import getDelegatesBySpace, { SNAPSHOT_SUBGRAPH_URL } from './utils/delegation';
 
 interface Options {
   url?: string;
+  headers?: any;
 }
 
 interface Strategy {
@@ -36,6 +37,37 @@ const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 const scoreApiHeaders = {
   Accept: 'application/json',
   'Content-Type': 'application/json'
+};
+
+const DEFAULT_SCORE_API_URL = 'https://score.snapshot.org';
+
+const formatScoreAPIUrl = (url = DEFAULT_SCORE_API_URL) => {
+  const scoreURL = new URL(url);
+  const apiKey = scoreURL.searchParams.get('apiKey');
+  let headers: any = { ...scoreApiHeaders };
+  if (apiKey) {
+    scoreURL.searchParams.delete('apiKey');
+    headers = { ...scoreApiHeaders, 'X-API-KEY': apiKey };
+  }
+  return {
+    url: scoreURL.toString(),
+    headers
+  };
+};
+
+const parseScoreAPIResponse = async (res: any) => {
+  let json: any = await res.text();
+  try {
+    json = JSON.parse(json);
+  } catch (e) {
+    return Promise.reject({
+      code: 500,
+      message: 'Failed to parse response from score API',
+      data: json
+    });
+  }
+  if (json.error) return Promise.reject(json.error);
+  return json;
 };
 
 const ajv = new Ajv({
@@ -134,7 +166,6 @@ ajv.addKeyword({
   },
   errors: true
 });
-
 
 // Custom URL format to allow empty string values
 // https://github.com/snapshot-labs/snapshot.js/pull/541/files
@@ -287,7 +318,7 @@ export async function getScores(
   network: string,
   addresses: string[],
   snapshot: number | string = 'latest',
-  scoreApiUrl = 'https://score.snapshot.org',
+  scoreApiUrl = DEFAULT_SCORE_API_URL,
   options: any = {}
 ) {
   if (!Array.isArray(addresses)) {
@@ -317,9 +348,9 @@ export async function getScores(
     );
   }
 
-  const url = new URL(scoreApiUrl);
-  url.pathname = '/api/scores';
-  scoreApiUrl = url.toString();
+  const urlObject = new URL(scoreApiUrl);
+  urlObject.pathname = '/api/scores';
+  const { url, headers } = formatScoreAPIUrl(urlObject.toString());
 
   try {
     const params = {
@@ -329,16 +360,12 @@ export async function getScores(
       strategies,
       addresses
     };
-    const res = await fetch(scoreApiUrl, {
+    const res = await fetch(url, {
       method: 'POST',
-      headers: scoreApiHeaders,
+      headers,
       body: JSON.stringify({ params })
     });
-    const obj = await res.json();
-
-    if (obj.error) {
-      return Promise.reject(obj.error);
-    }
+    const obj = await parseScoreAPIResponse(res);
 
     return options.returnValue === 'all'
       ? obj.result
@@ -360,8 +387,7 @@ export async function getVp(
   delegation: boolean,
   options?: Options
 ) {
-  if (!options) options = {};
-  if (!options.url) options.url = 'https://score.snapshot.org';
+  const { url, headers } = formatScoreAPIUrl(options?.url);
   if (!isValidAddress(address)) {
     return inputError(`Invalid voter address: ${address}`);
   }
@@ -385,7 +411,7 @@ export async function getVp(
 
   const init = {
     method: 'POST',
-    headers: scoreApiHeaders,
+    headers,
     body: JSON.stringify({
       jsonrpc: '2.0',
       method: 'get_vp',
@@ -401,10 +427,9 @@ export async function getVp(
   };
 
   try {
-    const res = await fetch(options.url, init);
-    const json = await res.json();
-    if (json.error) return Promise.reject(json.error);
-    if (json.result) return json.result;
+    const res = await fetch(url, init);
+    const response = await parseScoreAPIResponse(res);
+    return response.result;
   } catch (e) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
@@ -420,7 +445,7 @@ export async function validate(
   network: string,
   snapshot: number | 'latest',
   params: any,
-  options: any
+  options?: Options
 ) {
   if (!isValidAddress(author)) {
     return inputError(`Invalid author: ${author}`);
@@ -436,10 +461,11 @@ export async function validate(
   }
 
   if (!options) options = {};
-  if (!options.url) options.url = 'https://score.snapshot.org';
+  const { url, headers } = formatScoreAPIUrl(options.url);
+
   const init = {
     method: 'POST',
-    headers: scoreApiHeaders,
+    headers,
     body: JSON.stringify({
       jsonrpc: '2.0',
       method: 'validate',
@@ -455,9 +481,8 @@ export async function validate(
   };
 
   try {
-    const res = await fetch(options.url, init);
-    const json = await res.json();
-    if (json.error) return Promise.reject(json.error);
+    const res = await fetch(url, init);
+    const json = await parseScoreAPIResponse(res);
     return json.result;
   } catch (e) {
     if (e.errno) {

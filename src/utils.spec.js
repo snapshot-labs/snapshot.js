@@ -78,13 +78,14 @@ describe('utils', () => {
 
     describe('when passing valid args', () => {
       test('send a JSON-RPC payload to score-api', async () => {
+        const result = { result: 'OK' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result: 'OK' }))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_validate({})).resolves;
         expect(fetch).toHaveBeenCalledWith(
-          'https://score.snapshot.org',
+          'https://score.snapshot.org/',
           expect.objectContaining({
             body: JSON.stringify({
               jsonrpc: '2.0',
@@ -96,13 +97,14 @@ describe('utils', () => {
       });
 
       test('send a POST request with JSON content-type', async () => {
+        const result = { result: 'OK' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result: 'OK' }))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_validate({})).resolves;
         expect(fetch).toHaveBeenCalledWith(
-          'https://score.snapshot.org',
+          'https://score.snapshot.org/',
           expect.objectContaining({
             method: 'POST',
             headers: {
@@ -114,23 +116,28 @@ describe('utils', () => {
       });
 
       test('can customize the score-api url', () => {
+        const result = { result: 'OK' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result: 'OK' }))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(
           _validate({ options: { url: 'https://snapshot.org/?apiKey=xxx' } })
         ).resolves;
         expect(fetch).toHaveBeenCalledWith(
-          'https://snapshot.org/?apiKey=xxx',
-          expect.anything()
+          'https://snapshot.org/',
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              'X-API-KEY': 'xxx'
+            })
+          })
         );
       });
 
       test('returns the JSON-RPC result property', () => {
         const result = { result: 'OK' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve(result))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_validate({})).resolves.toEqual('OK');
@@ -141,7 +148,7 @@ describe('utils', () => {
       test('rejects with the JSON-RPC error object', () => {
         const result = { error: { message: 'Oh no' } };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve(result))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_validate({})).rejects.toEqual(result.error);
@@ -152,7 +159,7 @@ describe('utils', () => {
       test('rejects with the error', () => {
         const result = new Error('Oh no');
         fetch.mockReturnValue({
-          json: () => {
+          text: () => {
             throw result;
           }
         });
@@ -196,7 +203,7 @@ describe('utils', () => {
         network ?? payload.network,
         addresses ?? payload.addresses,
         snapshot ?? payload.snapshot,
-        scoreApiUrl ?? 'https://score.snapshot.org',
+        scoreApiUrl ?? 'https://score.snapshot.org/',
         options ?? {}
       );
     }
@@ -239,8 +246,9 @@ describe('utils', () => {
 
     describe('when passing valid args', () => {
       test('send a JSON-RPC payload to score-api', async () => {
+        const result = { result: 'OK' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result: 'OK' }))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_getScores({})).resolves;
@@ -253,8 +261,9 @@ describe('utils', () => {
       });
 
       test('send a POST request with JSON content-type', async () => {
+        const result = { result: 'OK' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result: 'OK' }))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_getScores({})).resolves;
@@ -270,23 +279,29 @@ describe('utils', () => {
         );
       });
 
-      test('can customize the score-api url', () => {
+      test('can customize the score-api url and if apiKey should be passed in headers', () => {
+        const result = { result: 'OK' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result: 'OK' }))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_getScores({ scoreApiUrl: 'https://snapshot.org/?apiKey=xxx' }))
           .resolves;
         expect(fetch).toHaveBeenCalledWith(
-          'https://snapshot.org/api/scores?apiKey=xxx',
-          expect.anything()
+          'https://snapshot.org/api/scores',
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              'X-API-KEY': 'xxx'
+            })
+          })
         );
       });
 
       test('returns the JSON-RPC result scores property', () => {
         const result = { scores: 'SCORES', other: 'Other' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result }))
+          text: () =>
+            new Promise((resolve) => resolve(JSON.stringify({ result })))
         });
 
         expect(_getScores({})).resolves.toEqual('SCORES');
@@ -295,7 +310,8 @@ describe('utils', () => {
       test('returns the JSON-RPC all properties', () => {
         const result = { scores: 'SCORES', other: 'Other' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result }))
+          text: () =>
+            new Promise((resolve) => resolve(JSON.stringify({ result })))
         });
 
         expect(
@@ -308,7 +324,7 @@ describe('utils', () => {
       test('rejects with the JSON-RPC error object', () => {
         const result = { error: { message: 'Oh no' } };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve(result))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_getScores({})).rejects.toEqual(result.error);
@@ -319,7 +335,7 @@ describe('utils', () => {
       test('rejects with the error', () => {
         const result = new Error('Oh no');
         fetch.mockReturnValue({
-          json: () => {
+          text: () => {
             throw result;
           }
         });
@@ -391,13 +407,14 @@ describe('utils', () => {
 
     describe('when passing valid args', () => {
       test('send a JSON-RPC payload to score-api', async () => {
+        const result = { result: 'OK' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result: 'OK' }))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_getVp({})).resolves;
         expect(fetch).toHaveBeenCalledWith(
-          'https://score.snapshot.org',
+          'https://score.snapshot.org/',
           expect.objectContaining({
             body: JSON.stringify({
               jsonrpc: '2.0',
@@ -409,13 +426,14 @@ describe('utils', () => {
       });
 
       test('send a POST request with JSON content-type', async () => {
+        const result = { result: 'OK' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result: 'OK' }))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_getVp({})).resolves;
         expect(fetch).toHaveBeenCalledWith(
-          'https://score.snapshot.org',
+          'https://score.snapshot.org/',
           expect.objectContaining({
             method: 'POST',
             headers: {
@@ -427,13 +445,14 @@ describe('utils', () => {
       });
 
       test('can customize the score-api url', () => {
+        const result = { result: 'OK' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result: 'OK' }))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_getVp({ options: { url: 'https://snapshot.org' } })).resolves;
         expect(fetch).toHaveBeenCalledWith(
-          'https://snapshot.org',
+          'https://snapshot.org/',
           expect.anything()
         );
       });
@@ -441,7 +460,8 @@ describe('utils', () => {
       test('returns the JSON-RPC result property', () => {
         const result = { data: 'OK' };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve({ result }))
+          text: () =>
+            new Promise((resolve) => resolve(JSON.stringify({ result })))
         });
 
         expect(_getVp({})).resolves.toEqual(result);
@@ -452,7 +472,7 @@ describe('utils', () => {
       test('rejects with the JSON-RPC error object', () => {
         const result = { error: { message: 'Oh no' } };
         fetch.mockReturnValue({
-          json: () => new Promise((resolve) => resolve(result))
+          text: () => new Promise((resolve) => resolve(JSON.stringify(result)))
         });
 
         expect(_getVp({})).rejects.toEqual(result.error);
@@ -463,7 +483,7 @@ describe('utils', () => {
       test('rejects with the error', () => {
         const result = new Error('Oh no');
         fetch.mockReturnValue({
-          json: () => {
+          text: () => {
             throw result;
           }
         });
