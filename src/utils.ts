@@ -41,7 +41,7 @@ const scoreApiHeaders = {
 
 const DEFAULT_SCORE_API_URL = 'https://score.snapshot.org';
 
-const formatScoreAPIUrl = (url = DEFAULT_SCORE_API_URL) => {
+function formatScoreAPIUrl(url = DEFAULT_SCORE_API_URL) {
   const scoreURL = new URL(url);
   const apiKey = scoreURL.searchParams.get('apiKey');
   let headers: any = { ...scoreApiHeaders };
@@ -53,9 +53,9 @@ const formatScoreAPIUrl = (url = DEFAULT_SCORE_API_URL) => {
     url: scoreURL.toString(),
     headers
   };
-};
+}
 
-const parseScoreAPIResponse = async (res: any) => {
+async function parseScoreAPIResponse(res: any) {
   let json: any = await res.text();
   try {
     json = JSON.parse(json);
@@ -68,7 +68,7 @@ const parseScoreAPIResponse = async (res: any) => {
   }
   if (json.error) return Promise.reject(json.error);
   return json;
-};
+}
 
 const ajv = new Ajv({
   allErrors: true,
