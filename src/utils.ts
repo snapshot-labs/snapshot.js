@@ -41,8 +41,14 @@ const scoreApiHeaders = {
 
 const DEFAULT_SCORE_API_URL = 'https://score.snapshot.org';
 
-function formatScoreAPIUrl(url = DEFAULT_SCORE_API_URL) {
+function formatScoreAPIUrl(
+  url = DEFAULT_SCORE_API_URL,
+  options = {
+    path: ''
+  }
+) {
   const scoreURL = new URL(url);
+  if (options.path) scoreURL.pathname = options.path;
   const apiKey = scoreURL.searchParams.get('apiKey');
   let headers: any = { ...scoreApiHeaders };
   if (apiKey) {
@@ -56,18 +62,18 @@ function formatScoreAPIUrl(url = DEFAULT_SCORE_API_URL) {
 }
 
 async function parseScoreAPIResponse(res: any) {
-  let json: any = await res.text();
+  let data: any = await res.text();
   try {
-    json = JSON.parse(json);
+    data = JSON.parse(data);
   } catch (e) {
     return Promise.reject({
-      code: 500,
+      code: res.status || 500,
       message: 'Failed to parse response from score API',
-      data: json
+      data
     });
   }
-  if (json.error) return Promise.reject(json.error);
-  return json;
+  if (data.error) return Promise.reject(data.error);
+  return data;
 }
 
 const ajv = new Ajv({
@@ -350,7 +356,9 @@ export async function getScores(
 
   const urlObject = new URL(scoreApiUrl);
   urlObject.pathname = '/api/scores';
-  const { url, headers } = formatScoreAPIUrl(urlObject.toString());
+  const { url, headers } = formatScoreAPIUrl(scoreApiUrl, {
+    path: '/api/scores'
+  });
 
   try {
     const params = {
@@ -365,11 +373,11 @@ export async function getScores(
       headers,
       body: JSON.stringify({ params })
     });
-    const obj = await parseScoreAPIResponse(res);
+    const response = await parseScoreAPIResponse(res);
 
     return options.returnValue === 'all'
-      ? obj.result
-      : obj.result[options.returnValue || 'scores'];
+      ? response.result
+      : response.result[options.returnValue || 'scores'];
   } catch (e) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
@@ -482,8 +490,8 @@ export async function validate(
 
   try {
     const res = await fetch(url, init);
-    const json = await parseScoreAPIResponse(res);
-    return json.result;
+    const response = await parseScoreAPIResponse(res);
+    return response.result;
   } catch (e) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
