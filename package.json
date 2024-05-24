@@ -1,6 +1,6 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.11.21",
+  "version": "0.11.24",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
@@ -44,6 +44,7 @@
     "rollup-plugin-string": "^3.0.0",
     "rollup-plugin-terser": "^7.0.0",
     "rollup-plugin-typescript2": "^0.27.0",
+    "ts-node": "^10.9.2",
     "typescript": "^3.8.3",
     "vitest": "^0.33.0"
   },

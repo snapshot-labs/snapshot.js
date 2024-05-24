@@ -1139,6 +1139,21 @@
     "start": 3680945,
     "logo": "ipfs://bafkreiepnhfv3hgexddjpyaeemxo3byhtxxit6t4zsponyczee6ddjqxwi"
   },
+  "13473": {
+    "key": "13473",
+    "name": "Immutable zkEVM Testnet",
+    "shortName": "testnet",
+    "chainId": 13473,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.testnet.immutable.com"
+    },
+    "start": 5307209,
+    "logo": "ipfs://bafkreiepnhfv3hgexddjpyaeemxo3byhtxxit6t4zsponyczee6ddjqxwi",
+    "testnet": true
+  },
   "16718": {
     "key": "16718",
     "name": "AirDAO",
