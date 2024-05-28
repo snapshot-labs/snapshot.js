@@ -808,6 +808,20 @@
     "start": 859041,
     "logo": "ipfs://QmeGbNTU2Jqwg8qLTMGW8n8HSi2VdgCncAaeGzLx6gYnD7"
   },
+  "1329": {
+    "key": "1329",
+    "name": "Sei",
+    "shortName": "mainnet",
+    "chainId": 1329,
+    "network": "mainnet",
+    "multicall": "0xe033Bed7cae4114Af84Be1e9F1CA7DEa07Dfe1Cf",
+    "rpc": [],
+    "explorer": {
+      "url": "https://seitrace.com/"
+    },
+    "start": 79164574,
+    "logo": "ipfs://bafkreiammyt7uztbztqbcqv4bydnczsh2fqmnjf6jxj4xnskzzl6sjrigq"
+  },
   "1559": {
     "key": "1559",
     "name": "Tenet",
