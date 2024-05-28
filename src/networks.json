@@ -1433,6 +1433,21 @@
     "start": 751532,
     "logo": "ipfs://bafkreid7ndxh6y2ljw2jhbisodiyrhcy2udvnwqgon5wgells3kh4si5z4"
   },
+  "111557560": {
+    "key": "111557560",
+    "name": "Cyber Testnet",
+    "shortName": "testnet",
+    "chainId": 111557560,
+    "network": "testnet",
+    "multicall": "0xffc391F0018269d4758AEA1a144772E8FB99545E",
+    "rpc": [],
+    "explorer": {
+      "url": "https://testnet.cyberscan.co/"
+    },
+    "start": 304545,
+    "logo": "ipfs://bafkreifm2bbehoqpz4454o7gixnxfi6cgvqlxigqr3f6ipj7l2omtgfgnm",
+    "testnet": true
+  },
   "245022926": {
     "key": "245022926",
     "name": "Neon Devnet",
