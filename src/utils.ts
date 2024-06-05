@@ -89,7 +89,7 @@ addErrors(ajv);
 ajv.addFormat('address', {
   validate: (value: string) => {
     try {
-      return isAddress(value);
+      return /^0x[0-9a-fA-F]{62,64}$/.test(value) || isAddress(value);
     } catch (err) {
       return false;
     }
