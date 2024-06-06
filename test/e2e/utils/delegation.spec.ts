@@ -32,7 +32,7 @@ describe('test delegation', () => {
 
     test('should return an empty array when no results', async () => {
       expect.assertions(1);
-      const results: any = await getDelegatesBySpace(NETWORK, SPACE, 22531439);
+      const results: any = await getDelegatesBySpace(NETWORK, SPACE, 22531440);
 
       expect(results.length).toEqual(0);
     });
