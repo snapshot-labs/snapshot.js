@@ -461,6 +461,21 @@
     "start": 13960096,
     "logo": "ipfs://QmU7f1MyRz8rLELFfypnWZQjGbDGYgZtC9rjw47jYMYrnu"
   },
+  "300": {
+    "key": "300",
+    "name": "zkSync Sepolia Testnet",
+    "shortName": "testnet",
+    "chainId": 300,
+    "network": "testnet",
+    "multicall": "0xF9cda624FBC7e059355ce98a31693d299FACd963",
+    "rpc": [],
+    "explorer": {
+      "url": "https://sepolia.explorer.zksync.dev/"
+    },
+    "start": 2292,
+    "logo": "ipfs://bafkreih6y7ri7h667cwxe5miisxghfheiidtbw2747y75stoxt3gp3a2yy",
+    "testnet": true
+  },
   "314": {
     "key": "314",
     "name": "Filecoin",
