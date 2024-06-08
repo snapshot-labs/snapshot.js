@@ -901,6 +901,21 @@
     "start": 4219343,
     "logo": "ipfs://QmXkneyRB6HbHTHRLCZpZqSsawiyJY7b2kZ2V8ydvKYAgv"
   },
+  "2221": {
+    "key": "2221",
+    "name": "Kava Testnet",
+    "shortName": "testnet",
+    "chainId": 2221,
+    "network": "testnet",
+    "multicall": "0xc7193EFE367DF0C9349a1149F4E95A2A35604262",
+    "rpc": [],
+    "explorer": {
+      "url": "https://testnet.kavascan.com"
+    },
+    "start": 6193104,
+    "logo": "ipfs://bafkreibpfubharx32fjqkqbfdhygwdjb2khxdg6meaasrcxsgvowos26f4",
+    "testnet": true
+  },
   "2400": {
     "key": "2400",
     "name": "TCG Verse",
