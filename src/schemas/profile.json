@@ -21,6 +21,24 @@
           "title": "avatar",
           "format": "customUrl",
           "maxLength": 256
+        },
+        "cover": {
+          "type": "string",
+          "title": "avatar",
+          "format": "customUrl",
+          "maxLength": 256
+        },
+        "twitter": {
+          "type": "string",
+          "title": "twitter",
+          "pattern": "^[A-Za-z0-9_]*$",
+          "maxLength": 15
+        },
+        "github": {
+          "type": "string",
+          "title": "github",
+          "pattern": "^[A-Za-z0-9_-]*$",
+          "maxLength": 39
         }
       },
       "required": [],
