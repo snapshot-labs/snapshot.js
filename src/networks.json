@@ -36,30 +36,6 @@
     "start": 7929876,
     "logo": "ipfs://bafkreid7ndxh6y2ljw2jhbisodiyrhcy2udvnwqgon5wgells3kh4si5z4"
   },
-  "5": {
-    "key": "5",
-    "name": "Goerli testnet",
-    "shortName": "Goerli",
-    "chainId": 5,
-    "network": "goerli",
-    "testnet": true,
-    "multicall": "0x77dca2c955b15e9de4dbbcf1246b4b85b651e50e",
-    "ensResolvers": [
-      "0xd7a4F6473f32aC2Af804B3686AE8F1932bC35750",
-      "0x4B1488B7a6B320d2D721406204aBc3eeAa9AD329"
-    ],
-    "ensNameWrapper": "0x114D4603199df73e7D157787f8778E21fCd13066",
-    "ensSubgraph": "https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli",
-    "rpc": [
-      "https://eth-goerli.alchemyapi.io/v2/v4nqH_J-J3STit45Mm07TxuYexMHQsYZ"
-    ],
-    "explorer": {
-      "url": "https://goerli.etherscan.io",
-      "apiUrl": "https://api-goerli.etherscan.io"
-    },
-    "start": 743550,
-    "logo": "ipfs://bafkreid7ndxh6y2ljw2jhbisodiyrhcy2udvnwqgon5wgells3kh4si5z4"
-  },
   "8": {
     "key": "8",
     "name": "Ubiq",
@@ -485,22 +461,20 @@
     "start": 13960096,
     "logo": "ipfs://QmU7f1MyRz8rLELFfypnWZQjGbDGYgZtC9rjw47jYMYrnu"
   },
-  "280": {
-    "key": "280",
-    "name": "zkSync Era Testnet",
-    "shortName": "zkSync testnet",
-    "chainId": 280,
-    "network": "zkSync alpha testnet",
-    "testnet": true,
-    "multicall": "0xbDAd32d600915cB70576D3d935d49bFf3C9cB0CF",
-    "rpc": [
-      "https://testnet.era.zksync.dev"
-    ],
+  "300": {
+    "key": "300",
+    "name": "zkSync Sepolia Testnet",
+    "shortName": "testnet",
+    "chainId": 300,
+    "network": "testnet",
+    "multicall": "0xF9cda624FBC7e059355ce98a31693d299FACd963",
+    "rpc": [],
     "explorer": {
-      "url": "https://goerli.explorer.zksync.io/"
+      "url": "https://sepolia.explorer.zksync.dev/"
     },
-    "start": 9012429,
-    "logo": "ipfs://bafkreih6y7ri7h667cwxe5miisxghfheiidtbw2747y75stoxt3gp3a2yy"
+    "start": 2292,
+    "logo": "ipfs://bafkreih6y7ri7h667cwxe5miisxghfheiidtbw2747y75stoxt3gp3a2yy",
+    "testnet": true
   },
   "314": {
     "key": "314",
@@ -1342,18 +1316,18 @@
     "start": 62,
     "logo": "ipfs://QmZNkpVgPbuVbDcsi6arwH1om3456FGnwfDqYQJWUfHDEx"
   },
-  "59140": {
-    "key": "59140",
-    "name": "Linea Goerli testnet",
-    "shortName": "linea",
-    "chainId": 59140,
+  "59141": {
+    "key": "59141",
+    "name": "Linea Sepolia",
+    "shortName": "testnet",
+    "chainId": 59141,
     "network": "testnet",
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://goerli.lineascan.build/"
+      "url": "https://sepolia.lineascan.build/"
     },
-    "start": 498623,
+    "start": 227427,
     "logo": "ipfs://bafkreihtyzolub3sejuwc32hpdpjnt7ksowaguni2yuho3kyihhcqrtqce",
     "testnet": true
   },
@@ -1406,21 +1380,20 @@
     "start": 88189,
     "logo": "ipfs://bafkreibfmkjg22cozxppzcoxswj45clvh2rqhxzax57cmmgudbtkf4dkce"
   },
-  "84531": {
-    "key": "84531",
-    "name": "Base Goerli Testnet",
-    "chainId": 84531,
-    "network": "Base",
-    "testnet": true,
-    "multicall": "0x0012989E982C2c473e36418384Ab707C72f2B782",
-    "rpc": [
-      "https://goerli.base.org"
-    ],
+  "84532": {
+    "key": "84532",
+    "name": "Base Sepolia",
+    "shortName": "testnet",
+    "chainId": 84532,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
     "explorer": {
-      "url": "https://goerli.basescan.org/"
+      "url": "https://base-sepolia.blockscout.com/"
     },
-    "start": 1151797,
-    "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv"
+    "start": 1059647,
+    "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv",
+    "testnet": true
   },
   "686868": {
     "key": "686868",
@@ -1474,6 +1447,21 @@
     },
     "start": 751532,
     "logo": "ipfs://bafkreid7ndxh6y2ljw2jhbisodiyrhcy2udvnwqgon5wgells3kh4si5z4"
+  },
+  "11155420": {
+    "key": "11155420",
+    "name": "OP Sepolia",
+    "shortName": "testnet",
+    "chainId": 11155420,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://sepolia-optimism.etherscan.io"
+    },
+    "start": 1620204,
+    "logo": "ipfs://QmfF4kwhGL8QosUXvgq2KWCmavhKBvwD6kbhs7L4p5ZAWb",
+    "testnet": true
   },
   "111557560": {
     "key": "111557560",
