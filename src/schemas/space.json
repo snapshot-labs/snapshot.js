@@ -265,7 +265,7 @@
               "title": "Delegation API",
               "description": "The URL of your delegation API (e.g a subgraph)",
               "examples": [
-                "https://api.thegraph.com/subgraphs/name/arr00/uniswap-governance-v2"
+                "https://subgrapher.snapshot.org/subgraph/arbitrum/FTzC6VrZd8JhJgWfTJnwWgH1Z1dS3GxaosKkRbCqkZAZ"
               ]
             }
           },
