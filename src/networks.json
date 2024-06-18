@@ -10,7 +10,7 @@
       "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41"
     ],
     "ensNameWrapper": "0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401",
-    "ensSubgraph": "https://api.thegraph.com/subgraphs/name/ensdomains/ens",
+    "ensSubgraph": "https://subgrapher.snapshot.org/subgraph/arbitrum/5XqPmWe6gjyrJtFn9cLy237i4cWw2j9HcUJEXsP5qGtH",
     "rpc": [
       "https://rpc.ankr.com/eth",
       {
@@ -781,6 +781,21 @@
     },
     "start": 859041,
     "logo": "ipfs://QmeGbNTU2Jqwg8qLTMGW8n8HSi2VdgCncAaeGzLx6gYnD7"
+  },
+  "1328": {
+    "key": "1328",
+    "name": "Sei atlantic testnet",
+    "shortName": "testnet",
+    "chainId": 1328,
+    "network": "testnet",
+    "multicall": "0xc454132B017b55b427f45078E335549A7124f5f7",
+    "rpc": [],
+    "explorer": {
+      "url": "https://seitrace.com"
+    },
+    "start": 96978658,
+    "logo": "ipfs://bafkreiammyt7uztbztqbcqv4bydnczsh2fqmnjf6jxj4xnskzzl6sjrigq",
+    "testnet": true
   },
   "1329": {
     "key": "1329",
