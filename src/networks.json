@@ -782,6 +782,21 @@
     "start": 859041,
     "logo": "ipfs://QmeGbNTU2Jqwg8qLTMGW8n8HSi2VdgCncAaeGzLx6gYnD7"
   },
+  "1328": {
+    "key": "1328",
+    "name": "Sei atlantic testnet",
+    "shortName": "testnet",
+    "chainId": 1328,
+    "network": "testnet",
+    "multicall": "0xc454132B017b55b427f45078E335549A7124f5f7",
+    "rpc": [],
+    "explorer": {
+      "url": "https://seitrace.com"
+    },
+    "start": 96978658,
+    "logo": "ipfs://bafkreiammyt7uztbztqbcqv4bydnczsh2fqmnjf6jxj4xnskzzl6sjrigq",
+    "testnet": true
+  },
   "1329": {
     "key": "1329",
     "name": "Sei",
