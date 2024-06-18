@@ -107,6 +107,9 @@ export interface Statement {
   space: string;
   about: string;
   statement: string;
+  discourse?: string;
+  status?: string;
+  network?: string;
 }
 
 export interface Alias {
@@ -316,7 +319,10 @@ export const statementTypes = {
     { name: 'timestamp', type: 'uint64' },
     { name: 'space', type: 'string' },
     { name: 'about', type: 'string' },
-    { name: 'statement', type: 'string' }
+    { name: 'statement', type: 'string' },
+    { name: 'discourse', type: 'string' },
+    { name: 'status', type: 'string' },
+    { name: 'network', type: 'string' }
   ]
 };
 
