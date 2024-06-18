@@ -1455,6 +1455,20 @@
     "logo": "ipfs://bafkreiammyt7uztbztqbcqv4bydnczsh2fqmnjf6jxj4xnskzzl6sjrigq",
     "testnet": true
   },
+  "810180": {
+    "key": "810180",
+    "name": "zkLink Nova",
+    "shortName": "zlink",
+    "chainId": 810180,
+    "network": "mainnet",
+    "multicall": "0x825267E0fA5CAe92F98540828a54198dcB3Eaeb5",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.zklink.io"
+    },
+    "start": 146055,
+    "logo": "ipfs://bafkreic6c3iems5235qapyhyrygha7akqrsfact2nok3y2uhljpzxrdu74"
+  },
   "11155111": {
     "key": "11155111",
     "name": "Sepolia testnet",
