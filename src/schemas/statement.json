@@ -37,7 +37,7 @@
           "title": "status"
         }
       },
-      "required": ["about"],
+      "required": [],
       "additionalProperties": false
     }
   }
