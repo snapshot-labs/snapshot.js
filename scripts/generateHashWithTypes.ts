@@ -6,7 +6,9 @@ const types = {
     { name: 'timestamp', type: 'uint64' },
     { name: 'space', type: 'string' },
     { name: 'about', type: 'string' },
-    { name: 'statement', type: 'string' }
+    { name: 'statement', type: 'string' },
+    { name: 'discourse', type: 'string' },
+    { name: 'status', type: 'string' }
   ]
 };
 function sha256(str) {

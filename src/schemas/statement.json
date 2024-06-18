@@ -18,6 +18,17 @@
           "format": "long",
           "title": "Statement",
           "maxLength": 10000
+        },
+        "discourse": {
+          "type": "string",
+          "title": "discourse",
+          "pattern": "^[A-Za-z0-9-_.]*$",
+          "maxLength": 30,
+          "minLength": 3
+        },
+        "status": {
+          "enum": ["active", "inactive"],
+          "title": "status"
         }
       },
       "required": ["about"],
