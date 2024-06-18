@@ -109,6 +109,7 @@ export interface Statement {
   statement: string;
   discourse?: string;
   status?: string;
+  network?: string;
 }
 
 export interface Alias {
@@ -320,7 +321,8 @@ export const statementTypes = {
     { name: 'about', type: 'string' },
     { name: 'statement', type: 'string' },
     { name: 'discourse', type: 'string' },
-    { name: 'status', type: 'string' }
+    { name: 'status', type: 'string' },
+    { name: 'network', type: 'string' }
   ]
 };
 
