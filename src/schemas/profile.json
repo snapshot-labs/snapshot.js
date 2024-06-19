@@ -39,6 +39,18 @@
           "title": "github",
           "pattern": "^[A-Za-z0-9_-]*$",
           "maxLength": 39
+        },
+        "lens": {
+          "type": "string",
+          "title": "lens",
+          "pattern": "^[A-Za-z0-9_]*$",
+          "maxLength": 26
+        },
+        "farcaster": {
+          "type": "string",
+          "title": "farcaster",
+          "pattern": "^[a-z0-9-]*$",
+          "maxLength": 17
         }
       },
       "required": [],
