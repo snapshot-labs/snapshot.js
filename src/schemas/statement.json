@@ -10,7 +10,6 @@
           "type": "string",
           "format": "long",
           "title": "About",
-          "minLength": 1,
           "maxLength": 140
         },
         "statement": {
@@ -23,8 +22,7 @@
           "type": "string",
           "title": "discourse",
           "pattern": "^[A-Za-z0-9-_.]*$",
-          "maxLength": 30,
-          "minLength": 3
+          "maxLength": 30
         },
         "network": {
           "type": "string",
