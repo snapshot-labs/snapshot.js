@@ -31,7 +31,7 @@
           "maxLength": 24
         },
         "status": {
-          "enum": ["active", "inactive"],
+          "enum": ["ACTIVE", "INACTIVE"],
           "title": "status"
         }
       },
