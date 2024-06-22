@@ -27,7 +27,7 @@
         "reason": {
           "type": "string",
           "title": "reason",
-          "maxLength": 140
+          "maxLength": 1000
         },
         "app": {
           "type": "string",
