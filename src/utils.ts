@@ -17,6 +17,7 @@ import gateways from './gateways.json';
 import networks from './networks.json';
 import voting from './voting';
 import getDelegatesBySpace, { SNAPSHOT_SUBGRAPH_URL } from './utils/delegation';
+import { validateAndParseAddress } from 'starknet';
 
 interface Options {
   url?: string;
@@ -648,7 +649,12 @@ function isValidSnapshot(snapshot: number | string, network: string) {
 }
 
 export function isStarknetAddress(address: string): boolean {
-  return /^0x[a-fA-F0-9]{64}$/.test(address);
+  try {
+    validateAndParseAddress(address);
+    return true;
+  } catch (e: any) {
+    return false;
+  }
 }
 
 function inputError(message: string) {

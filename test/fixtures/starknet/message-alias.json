@@ -1,8 +1,8 @@
 {
   "address": "0x2a0a8f3b6097e7a6bd7649deb30715323072a159c0e6b71b689bd245c146cc0",
   "sig": [
-    "0x485e9124663b450fc2c3becfcbb5d06f8468cd3cbbb2e817c09dc958aec4a6c",
-    "0x41ee21079a55e215782b1a3e72149030cd27debb6181354a956420dba4e629d"
+    "0x5c7037cee34582b10e99ed0aa82fb51b823f273fcf7c9aaf5484ba077e4d3f8",
+    "0x5a23927b560fb8d5a01f5b00a9527ce0cd4c06d471cd98fe01554fe1f6b5f68"
   ],
   "data": {
     "domain": {
@@ -47,8 +47,9 @@
     },
     "message": {
       "from": "0x2a0a8f3b6097e7a6bd7649deb30715323072a159c0e6b71b689bd245c146cc0",
-      "timestamp": 1719886896,
-      "alias": "0xc7B261b6f68D2ca353320a0FD652F065A7CcE602"
-    }
+      "timestamp": 1719894647,
+      "alias": "0x968758AAD2833c136eB2509163D400C5B3DD1dF6"
+    },
+    "primaryType": "SetAlias"
   }
 }
