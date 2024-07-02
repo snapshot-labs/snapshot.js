@@ -10,5 +10,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '14.x'
-      - name: Run typecheck script
+      - name: Yarn install
+        run: yarn install --frozen-lockfile
+      - name: Typecheck
         run: yarn typecheck
