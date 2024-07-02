@@ -29,7 +29,7 @@ describe('test getScores', () => {
       data: ''
     });
   });
-  
+
   test('getScores should not pass API Key if it is passed in URL', async () => {
     expect.assertions(1);
     await expect(

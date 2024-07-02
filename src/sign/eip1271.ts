@@ -1,6 +1,6 @@
 import { arrayify } from '@ethersproject/bytes';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
-import getProvider from '../utils/provider';
+import getProvider, { ProviderOptions } from '../utils/provider';
 import { call } from '../utils';
 
 export async function verifyDefault(
@@ -19,8 +19,7 @@ export async function verifyDefault(
       [abi],
       [address, 'isValidSignature', [arrayify(hash), sig]]
     );
-  } catch (e) {
-    // @ts-ignore
+  } catch (e: any) {
     if (e.message.startsWith('missing revert data in call exception')) {
       return false;
     }
@@ -48,7 +47,13 @@ export async function verifyOldVersion(
   return returnValue.toLowerCase() === magicValue.toLowerCase();
 }
 
-export async function verify(address, sig, hash, network = '1', options = {}) {
+export async function verify(
+  address: string,
+  sig: string,
+  hash: string,
+  network = '1',
+  options: ProviderOptions = {}
+) {
   const provider = getProvider(network, options);
   if (await verifyDefault(address, sig, hash, provider)) return true;
   return await verifyOldVersion(address, sig, hash, provider);
