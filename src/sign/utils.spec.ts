@@ -25,5 +25,17 @@ describe('sign/utils', () => {
       test.todo('should return true if the signature is valid');
       test.todo('should throw an error if the signature is invalid');
     });
+
+    test('should throw an error on empty address', () => {
+      expect(
+        verify('', evmMessage.sig, evmMessage.data)
+      ).rejects.toThrowError();
+    });
+
+    test('should throw an error on invalid address', () => {
+      expect(
+        verify('hello-world', evmMessage.sig, evmMessage.data)
+      ).rejects.toThrowError();
+    });
   });
 });

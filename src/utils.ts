@@ -647,6 +647,10 @@ function isValidSnapshot(snapshot: number | string, network: string) {
   );
 }
 
+export function isStarknetAddress(address: string): boolean {
+  return /^0x[a-fA-F0-9]{64}$/.test(address);
+}
+
 function inputError(message: string) {
   return Promise.reject(new Error(message));
 }
@@ -681,5 +685,6 @@ export default {
   getHash,
   verify,
   validate,
+  isStarknetAddress,
   SNAPSHOT_SUBGRAPH_URL
 };
