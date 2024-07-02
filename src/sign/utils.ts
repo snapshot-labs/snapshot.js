@@ -75,8 +75,7 @@ async function verifyStarknetMessage(
     data as Required<SignaturePayload>;
   const provider = new RpcProvider({
     nodeUrl:
-      options?.broviderUrl ??
-      'https://starknet-mainnet.infura.io/v3/46a5dd9727bf48d4a132672d3f376146'
+      options?.broviderUrl ?? 'https://starknet-mainnet.public.blastapi.io'
   });
   const contractAccount = new Contract(snAccountAbi, address, provider);
 
