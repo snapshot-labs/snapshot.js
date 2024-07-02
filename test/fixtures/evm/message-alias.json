@@ -1,0 +1,31 @@
+{
+  "address": "0xf1f09AdC06aAB740AA16004D62Dbd89484d3Be90",
+  "sig": "0x7279205b0d18978bcbf8c1e0930b6bb1417e4da2f83e746e53d61599d84b0160198ab7cd783b4e68c548b57280b76888d5ffba94489e50f7f60c6ebb9bb3f05a1c",
+  "data": {
+    "domain": {
+      "name": "snapshot",
+      "version": "0.1.4"
+    },
+    "types": {
+      "Alias": [
+        {
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "name": "alias",
+          "type": "address"
+        },
+        {
+          "name": "timestamp",
+          "type": "uint64"
+        }
+      ]
+    },
+    "message": {
+      "from": "0xf1f09AdC06aAB740AA16004D62Dbd89484d3Be90",
+      "timestamp": 1719884056,
+      "alias": "0xDD983E11Cf84746f3b7589ee1Dc2081c08c40Cb3"
+    }
+  }
+}

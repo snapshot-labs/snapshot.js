@@ -1,0 +1,54 @@
+{
+  "address": "0x2a0a8f3b6097e7a6bd7649deb30715323072a159c0e6b71b689bd245c146cc0",
+  "sig": [
+    "0x485e9124663b450fc2c3becfcbb5d06f8468cd3cbbb2e817c09dc958aec4a6c",
+    "0x41ee21079a55e215782b1a3e72149030cd27debb6181354a956420dba4e629d"
+  ],
+  "data": {
+    "domain": {
+      "name": "sx-starknet",
+      "version": "0.1.0",
+      "chainId": "0x534e5f5345504f4c4941",
+      "verifyingContract": ""
+    },
+    "types": {
+      "StarkNetDomain": [
+        {
+          "name": "name",
+          "type": "felt252"
+        },
+        {
+          "name": "version",
+          "type": "felt252"
+        },
+        {
+          "name": "chainId",
+          "type": "felt252"
+        },
+        {
+          "name": "verifyingContract",
+          "type": "ContractAddress"
+        }
+      ],
+      "SetAlias": [
+        {
+          "name": "from",
+          "type": "ContractAddress"
+        },
+        {
+          "name": "alias",
+          "type": "string"
+        },
+        {
+          "name": "timestamp",
+          "type": "felt"
+        }
+      ]
+    },
+    "message": {
+      "from": "0x2a0a8f3b6097e7a6bd7649deb30715323072a159c0e6b71b689bd245c146cc0",
+      "timestamp": 1719886896,
+      "alias": "0xc7B261b6f68D2ca353320a0FD652F065A7CcE602"
+    }
+  }
+}
