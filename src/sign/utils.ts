@@ -44,7 +44,7 @@ async function verifyEvmMessage(
   try {
     const recoverAddress = verifyTypedData(domain, types, message, sig);
     if (address === recoverAddress) return true;
-  } catch (e) {}
+  } catch (e: any) {}
 
   return await verifyEIP1271(address, sig, getHash(data), network, options);
 }

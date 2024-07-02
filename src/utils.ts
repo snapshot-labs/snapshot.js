@@ -65,7 +65,7 @@ async function parseScoreAPIResponse(res: any) {
   let data: any = await res.text();
   try {
     data = JSON.parse(data);
-  } catch (e) {
+  } catch (e: any) {
     return Promise.reject({
       code: res.status || 500,
       message: 'Failed to parse response from score API',
@@ -204,7 +204,7 @@ export async function call(provider, abi: any[], call: any[], options?) {
   try {
     const params = call[2] || [];
     return await contract[call[1]](...params, options || {});
-  } catch (e) {
+  } catch (e: any) {
     return Promise.reject(e);
   }
 }
@@ -245,7 +245,7 @@ export async function multicall(
     return results.map((call, i) =>
       itf.decodeFunctionResult(calls[i][1], call)
     );
-  } catch (e) {
+  } catch (e: any) {
     return Promise.reject(e);
   }
 }
@@ -263,7 +263,7 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
   let responseData: any = await res.text();
   try {
     responseData = JSON.parse(responseData);
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(
       `Errors found in subgraphRequest: URL: ${url}, Status: ${
         res.status
@@ -388,7 +388,7 @@ export async function getScores(
     return options.returnValue === 'all'
       ? response.result
       : response.result[options.returnValue || 'scores'];
-  } catch (e) {
+  } catch (e: any) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
     }
@@ -448,7 +448,7 @@ export async function getVp(
     const res = await fetch(url, init);
     const response = await parseScoreAPIResponse(res);
     return response.result;
-  } catch (e) {
+  } catch (e: any) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
     }
@@ -502,7 +502,7 @@ export async function validate(
     const res = await fetch(url, init);
     const response = await parseScoreAPIResponse(res);
     return response.result;
-  } catch (e) {
+  } catch (e: any) {
     if (e.errno) {
       return Promise.reject({ code: e.errno, message: e.toString(), data: '' });
     }
@@ -563,7 +563,7 @@ export async function getSpaceUri(
 ): Promise<string | null> {
   try {
     return await getEnsTextRecord(id, 'snapshot', network, options);
-  } catch (e) {
+  } catch (e: any) {
     console.log(e);
     return null;
   }
