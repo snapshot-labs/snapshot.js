@@ -25,7 +25,10 @@ export default async function verify(
     address
   );
 
-  await contractAccount.isValidSignature(hash, sig);
+  await contractAccount.isValidSignature(hash, [
+    BigInt(sig[0]),
+    BigInt(sig[1])
+  ]);
 
   return true;
 }
