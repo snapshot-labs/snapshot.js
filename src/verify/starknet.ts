@@ -1,5 +1,4 @@
 import { Contract, RpcProvider, typedData } from 'starknet';
-import abi from './starknet-account-abi.json';
 import type { SignaturePayload } from '.';
 import type { ProviderOptions } from '../utils/provider';
 
@@ -9,6 +8,35 @@ const RPC_URLS: Record<NetworkType, string> = {
   SN_MAIN: 'https://starknet-mainnet.public.blastapi.io',
   SN_SEPOLIA: 'https://starknet-sepolia.public.blastapi.io'
 };
+
+const ABI = [
+  {
+    name: 'argent::account::interface::IDeprecatedArgentAccount',
+    type: 'interface',
+    items: [
+      {
+        name: 'isValidSignature',
+        type: 'function',
+        inputs: [
+          {
+            name: 'hash',
+            type: 'core::felt252'
+          },
+          {
+            name: 'signatures',
+            type: 'core::array::Array::<core::felt252>'
+          }
+        ],
+        outputs: [
+          {
+            type: 'core::felt252'
+          }
+        ],
+        state_mutability: 'view'
+      }
+    ]
+  }
+];
 
 function getProvider(network: NetworkType, options: ProviderOptions) {
   if (!RPC_URLS[network]) throw new Error('Invalid network type');
@@ -28,7 +56,7 @@ export default async function verify(
   const { domain, types, primaryType, message } =
     data as Required<SignaturePayload>;
   const contractAccount = new Contract(
-    abi,
+    ABI,
     address,
     getProvider(network, options)
   );
