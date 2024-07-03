@@ -1,5 +1,5 @@
 import { test, expect, describe, vi } from 'vitest';
-import { getHash, verify } from '../sign/utils';
+import { getHash, verify } from '.';
 import evmMessage from '../../test/fixtures/evm/message-alias.json';
 import starknetMessage from '../../test/fixtures/starknet/message-alias.json';
 import * as evmVerification from './evm';

@@ -12,7 +12,7 @@ import Multicaller from './utils/multicaller';
 import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
 import { signMessage, getBlockNumber } from './utils/web3';
-import { getHash, verify } from './sign/utils';
+import { getHash, verify } from './verify';
 import gateways from './gateways.json';
 import networks from './networks.json';
 import voting from './voting';
