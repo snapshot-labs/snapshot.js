@@ -1,9 +1,9 @@
 import { _TypedDataEncoder } from '@ethersproject/hash';
 import { isAddress } from '@ethersproject/address';
-import { ProviderOptions } from '../utils/provider';
 import { isStarknetAddress } from '../utils';
-import verifyStarknetMessage from './starknet';
+import verifyStarknetMessage, { type NetworkType } from './starknet';
 import verifyEvmMessage from './evm';
+import type { ProviderOptions } from '../utils/provider';
 
 export type SignaturePayload = {
   domain: any;
@@ -21,7 +21,7 @@ export async function verify(
   address: string,
   sig: string | string[],
   data: SignaturePayload,
-  network = '1',
+  network: string | NetworkType = '1',
   options: ProviderOptions = {}
 ): Promise<boolean> {
   if (isAddress(address)) {
@@ -33,7 +33,13 @@ export async function verify(
       options
     );
   } else if (isStarknetAddress(address)) {
-    return await verifyStarknetMessage(address, sig as string[], data, options);
+    return await verifyStarknetMessage(
+      address,
+      sig as string[],
+      data,
+      network as NetworkType,
+      options
+    );
   } else {
     throw new Error('Invalid address');
   }

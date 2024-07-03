@@ -3,7 +3,7 @@ import abi from './starknet-account-abi.json';
 import type { SignaturePayload } from '.';
 import type { ProviderOptions } from '../utils/provider';
 
-type NetworkType = 'SN_MAIN' | 'SN_SEPOLIA';
+export type NetworkType = 'SN_MAIN' | 'SN_SEPOLIA';
 
 const RPC_URLS: Record<NetworkType, string> = {
   SN_MAIN: 'https://starknet-mainnet.public.blastapi.io',
