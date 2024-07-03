@@ -649,6 +649,8 @@ function isValidSnapshot(snapshot: number | string, network: string) {
 }
 
 export function isStarknetAddress(address: string): boolean {
+  if (!address) return false;
+
   try {
     validateAndParseAddress(address);
     return true;
