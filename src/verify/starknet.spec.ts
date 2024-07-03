@@ -5,8 +5,24 @@ import verify from './starknet';
 describe('verify/starknet', () => {
   test('should return true if the signature is valid', () => {
     expect(
-      verify(starknetMessage.address, starknetMessage.sig, starknetMessage.data)
+      verify(
+        starknetMessage.address,
+        starknetMessage.sig,
+        starknetMessage.data,
+        'SN_SEPOLIA'
+      )
     ).resolves.toBe(true);
+  });
+
+  test('should throw an error if message is on wrong network', () => {
+    expect(
+      verify(
+        starknetMessage.address,
+        starknetMessage.sig,
+        starknetMessage.data,
+        'SN_MAIN'
+      )
+    ).rejects.toThrowError();
   });
 
   test('should throw an error if the signature is invalid', () => {
