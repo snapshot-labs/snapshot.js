@@ -3,6 +3,14 @@ import abi from './starknet-account-abi.json';
 import type { SignaturePayload } from '.';
 import type { ProviderOptions } from '../utils/provider';
 
+const DEFAULT_STARKNET_RPC = 'https://starknet-mainnet.public.blastapi.io';
+
+function getProvider(options: ProviderOptions) {
+  return new RpcProvider({
+    nodeUrl: options?.broviderUrl ?? DEFAULT_STARKNET_RPC
+  });
+}
+
 export default async function verify(
   address: string,
   sig: string[],
@@ -11,12 +19,7 @@ export default async function verify(
 ): Promise<boolean> {
   const { domain, types, primaryType, message } =
     data as Required<SignaturePayload>;
-  const provider = new RpcProvider({
-    nodeUrl:
-      options?.broviderUrl ?? 'https://starknet-mainnet.public.blastapi.io'
-  });
-  const contractAccount = new Contract(abi, address, provider);
-
+  const contractAccount = new Contract(abi, address, getProvider(options));
   const hash = typedData.getMessageHash(
     { types, primaryType, domain, message },
     address
