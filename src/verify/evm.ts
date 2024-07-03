@@ -1,9 +1,37 @@
+import { verifyTypedData } from '@ethersproject/wallet';
 import { arrayify } from '@ethersproject/bytes';
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
+import { getHash, SignaturePayload } from '.';
 import getProvider, { ProviderOptions } from '../utils/provider';
 import { call } from '../utils';
 
-export async function verifyDefault(
+function isSameAddress(a: string, b: string) {
+  return a.toLowerCase() === b.toLowerCase();
+}
+
+export default async function verify(
+  address: string,
+  sig: string,
+  data: SignaturePayload,
+  network = '1',
+  options: ProviderOptions = {}
+): Promise<boolean> {
+  const { domain, types, message } = data;
+
+  try {
+    const recoverAddress = verifyTypedData(domain, types, message, sig);
+    if (isSameAddress(address, recoverAddress)) return true;
+  } catch (e: any) {}
+
+  const provider = getProvider(network, options);
+  const hash = getHash(data);
+
+  if (await verifyDefault(address, sig, hash, provider)) return true;
+
+  return await verifyOldVersion(address, sig, hash, provider);
+}
+
+async function verifyDefault(
   address: string,
   sig: string,
   hash: string,
@@ -26,10 +54,10 @@ export async function verifyDefault(
     throw e;
   }
 
-  return returnValue.toLowerCase() === magicValue.toLowerCase();
+  return isSameAddress(returnValue, magicValue);
 }
 
-export async function verifyOldVersion(
+async function verifyOldVersion(
   address: string,
   sig: string,
   hash: string,
@@ -44,17 +72,5 @@ export async function verifyOldVersion(
     [abi],
     [address, 'isValidSignature', [arrayify(hash), sig]]
   );
-  return returnValue.toLowerCase() === magicValue.toLowerCase();
-}
-
-export async function verify(
-  address: string,
-  sig: string,
-  hash: string,
-  network = '1',
-  options: ProviderOptions = {}
-) {
-  const provider = getProvider(network, options);
-  if (await verifyDefault(address, sig, hash, provider)) return true;
-  return await verifyOldVersion(address, sig, hash, provider);
+  return isSameAddress(returnValue, magicValue);
 }
