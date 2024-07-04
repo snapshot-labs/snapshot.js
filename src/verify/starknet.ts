@@ -39,7 +39,7 @@ const ABI = [
 ];
 
 function getProvider(network: NetworkType, options: ProviderOptions) {
-  if (!RPC_URLS[network]) throw new Error('Invalid network type');
+  if (!RPC_URLS[network]) throw new Error('Invalid network');
 
   return new RpcProvider({
     nodeUrl: options?.broviderUrl ?? RPC_URLS[network]
