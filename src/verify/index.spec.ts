@@ -1,5 +1,5 @@
 import { test, expect, describe, vi } from 'vitest';
-import { verify } from '.';
+import { verify, getHash } from '.';
 import evmMessage from '../../test/fixtures/evm/message-alias.json';
 import starknetMessage from '../../test/fixtures/starknet/message-alias.json';
 import * as evmVerification from './evm';
@@ -10,7 +10,28 @@ const starknetVerificationMock = vi.spyOn(starknetVerification, 'default');
 evmVerificationMock.mockImplementation(() => Promise.resolve(true));
 starknetVerificationMock.mockImplementation(() => Promise.resolve(true));
 
+const evmGetHashMock = vi.spyOn(evmVerification, 'getHash');
+const starknetGetHashMock = vi.spyOn(starknetVerification, 'getHash');
+evmGetHashMock.mockImplementation(() => '');
+starknetGetHashMock.mockImplementation(() => '');
+
 describe('sign/utils', () => {
+  describe('getHash', () => {
+    test('should return an EVM hash on EVM address', () => {
+      expect.assertions(1);
+      getHash(evmMessage.data, evmMessage.address);
+
+      expect(evmGetHashMock).toHaveBeenCalled();
+    });
+
+    test('should return a Starknet hash on starknet address', () => {
+      expect.assertions(1);
+      getHash(starknetMessage.data, starknetMessage.address);
+
+      expect(starknetGetHashMock).toHaveBeenCalled();
+    });
+  });
+
   describe('verify', () => {
     test('should call EVM verification on EVM address', async () => {
       expect.assertions(1);
