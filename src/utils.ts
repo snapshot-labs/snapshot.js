@@ -661,7 +661,7 @@ function isStarknetAddress(address: string): boolean {
 
 function getFormattedAddress(
   address: string,
-  format: ['evm', 'starknet']
+  format: string[] = ['evm', 'starknet']
 ): string {
   if (format.includes('evm') && isAddress(address)) return getAddress(address);
   if (format.includes('starknet') && isStarknetAddress(address))
