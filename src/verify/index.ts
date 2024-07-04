@@ -1,4 +1,3 @@
-import { isAddress } from '@ethersproject/address';
 import utils from '../utils';
 import verifyStarknetMessage, {
   type NetworkType,
@@ -29,7 +28,7 @@ export async function verify(
   network = '1',
   options: ProviderOptions = {}
 ): Promise<boolean> {
-  if (isAddress(address)) {
+  if (utils.isEvmAddress(address)) {
     return await verifyEvmMessage(
       address,
       sig as string,
