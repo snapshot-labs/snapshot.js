@@ -701,7 +701,7 @@ export default {
   verify,
   validate,
   isStarknetAddress,
-  isEvmAddress: isValidAddress,
+  isEvmAddress: isAddress,
   getFormattedAddress,
   SNAPSHOT_SUBGRAPH_URL
 };
