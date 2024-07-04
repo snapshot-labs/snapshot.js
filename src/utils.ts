@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
-import { isAddress } from '@ethersproject/address';
+import { getAddress, isAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
 import { namehash, ensNormalize } from '@ethersproject/hash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
@@ -648,7 +648,7 @@ function isValidSnapshot(snapshot: number | string, network: string) {
   );
 }
 
-export function isStarknetAddress(address: string): boolean {
+function isStarknetAddress(address: string): boolean {
   if (!address) return false;
 
   try {
@@ -657,6 +657,13 @@ export function isStarknetAddress(address: string): boolean {
   } catch (e: any) {
     return false;
   }
+}
+
+function getFormattedAddress(address: string): string {
+  if (isAddress(address)) return getAddress(address);
+  if (isStarknetAddress(address)) return validateAndParseAddress(address);
+
+  throw new Error(`Invalid address: ${address}`);
 }
 
 function inputError(message: string) {
@@ -694,5 +701,6 @@ export default {
   verify,
   validate,
   isStarknetAddress,
+  getFormattedAddress,
   SNAPSHOT_SUBGRAPH_URL
 };

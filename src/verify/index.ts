@@ -1,5 +1,5 @@
 import { isAddress } from '@ethersproject/address';
-import { isStarknetAddress } from '../utils';
+import utils from '../utils';
 import verifyStarknetMessage, {
   type NetworkType,
   getHash as getStarknetHash
@@ -37,7 +37,7 @@ export async function verify(
       network,
       options
     );
-  } else if (isStarknetAddress(address)) {
+  } else if (utils.isStarknetAddress(address)) {
     return await verifyStarknetMessage(
       address,
       sig as string[],
