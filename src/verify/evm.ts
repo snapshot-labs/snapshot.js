@@ -1,12 +1,18 @@
 import { verifyTypedData } from '@ethersproject/wallet';
+import { _TypedDataEncoder } from '@ethersproject/hash';
 import { arrayify } from '@ethersproject/bytes';
 import getProvider, { type ProviderOptions } from '../utils/provider';
-import utils, { call } from '../utils';
+import { call } from '../utils';
 import type { SignaturePayload } from '.';
 import type { StaticJsonRpcProvider } from '@ethersproject/providers';
 
 function isSameAddress(a: string, b: string) {
   return a.toLowerCase() === b.toLowerCase();
+}
+
+export function getHash(data: SignaturePayload): string {
+  const { domain, types, message } = data;
+  return _TypedDataEncoder.hash(domain, types, message);
 }
 
 export default async function verify(
@@ -24,7 +30,7 @@ export default async function verify(
   } catch (e: any) {}
 
   const provider = getProvider(network, options);
-  const hash = utils.getHash(data);
+  const hash = getHash(data);
 
   if (await verifyDefault(address, sig, hash, provider)) return true;
 

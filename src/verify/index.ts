@@ -1,8 +1,10 @@
-import { _TypedDataEncoder } from '@ethersproject/hash';
 import { isAddress } from '@ethersproject/address';
 import { isStarknetAddress } from '../utils';
-import verifyStarknetMessage, { type NetworkType } from './starknet';
-import verifyEvmMessage from './evm';
+import verifyStarknetMessage, {
+  type NetworkType,
+  getHash as getStarknetHash
+} from './starknet';
+import verifyEvmMessage, { getHash as getEvmHash } from './evm';
 import type { ProviderOptions } from '../utils/provider';
 
 export type SignaturePayload = {
@@ -12,9 +14,12 @@ export type SignaturePayload = {
   message: any;
 };
 
-export function getHash(data: SignaturePayload): string {
-  const { domain, types, message } = data;
-  return _TypedDataEncoder.hash(domain, types, message);
+export function getHash(data: SignaturePayload, address?: string): string {
+  if (data.primaryType && address) {
+    return getStarknetHash(data, address);
+  }
+
+  return getEvmHash(data);
 }
 
 export async function verify(

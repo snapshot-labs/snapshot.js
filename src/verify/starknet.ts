@@ -46,6 +46,16 @@ function getProvider(network: NetworkType, options: ProviderOptions) {
   });
 }
 
+export function getHash(data: SignaturePayload, address: string): string {
+  const { domain, types, primaryType, message } =
+    data as Required<SignaturePayload>;
+
+  return typedData.getMessageHash(
+    { types, primaryType, domain, message },
+    address
+  );
+}
+
 export default async function verify(
   address: string,
   sig: string[],
@@ -53,19 +63,16 @@ export default async function verify(
   network: NetworkType = 'SN_MAIN',
   options: ProviderOptions = {}
 ): Promise<boolean> {
-  const { domain, types, primaryType, message } =
-    data as Required<SignaturePayload>;
   const contractAccount = new Contract(
     ABI,
     address,
     getProvider(network, options)
   );
-  const hash = typedData.getMessageHash(
-    { types, primaryType, domain, message },
-    address
-  );
 
-  await contractAccount.isValidSignature(hash, [sig[0], sig[1]]);
+  await contractAccount.isValidSignature(getHash(data, address), [
+    sig[0],
+    sig[1]
+  ]);
 
   return true;
 }
