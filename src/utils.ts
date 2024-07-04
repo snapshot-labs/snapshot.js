@@ -659,9 +659,13 @@ function isStarknetAddress(address: string): boolean {
   }
 }
 
-function getFormattedAddress(address: string): string {
-  if (isAddress(address)) return getAddress(address);
-  if (isStarknetAddress(address)) return validateAndParseAddress(address);
+function getFormattedAddress(
+  address: string,
+  format: ['evm', 'starknet']
+): string {
+  if (format.includes('evm') && isAddress(address)) return getAddress(address);
+  if (format.includes('starknet') && isStarknetAddress(address))
+    return validateAndParseAddress(address);
 
   throw new Error(`Invalid address: ${address}`);
 }
