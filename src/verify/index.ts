@@ -26,7 +26,7 @@ export async function verify(
   address: string,
   sig: string | string[],
   data: SignaturePayload,
-  network: string | NetworkType = '1',
+  network = '1',
   options: ProviderOptions = {}
 ): Promise<boolean> {
   if (isAddress(address)) {
