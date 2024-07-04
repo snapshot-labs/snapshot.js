@@ -91,7 +91,7 @@ ajv.addFormat('address', {
   validate: (value: string) => {
     try {
       return isAddress(value);
-    } catch (err) {
+    } catch (e: any) {
       return false;
     }
   }
@@ -101,7 +101,7 @@ ajv.addFormat('evmOrStarknetAddress', {
   validate: (value: string) => {
     try {
       return isAddress(value) || isStarknetAddress(value);
-    } catch (err) {
+    } catch (e: any) {
       return false;
     }
   }
@@ -701,6 +701,7 @@ export default {
   verify,
   validate,
   isStarknetAddress,
+  isEvmAddress: isValidAddress,
   getFormattedAddress,
   SNAPSHOT_SUBGRAPH_URL
 };
