@@ -97,10 +97,10 @@ ajv.addFormat('address', {
   }
 });
 
-ajv.addFormat('evmOrStarknetAddress', {
+ajv.addFormat('starknetAddress', {
   validate: (value: string) => {
     try {
-      return isAddress(value) || isStarknetAddress(value);
+      return isStarknetAddress(value);
     } catch (e: any) {
       return false;
     }
