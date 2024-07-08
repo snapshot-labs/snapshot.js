@@ -1,8 +1,4 @@
-import {
-  Contract,
-  RpcProvider,
-  typedData
-} from 'starknet';
+import { Contract, RpcProvider, typedData } from 'starknet';
 import type { SignaturePayload } from '.';
 import type { ProviderOptions } from '../utils/provider';
 
