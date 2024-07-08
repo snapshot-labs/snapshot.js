@@ -2,10 +2,11 @@ import snapshot from '../../../src/';
 import { Wallet } from '@ethersproject/wallet';
 import { test, expect, describe } from 'vitest';
 import { verify } from '../../../src/verify';
+import constants from '../../../src/constants.json';
 
 describe('verify', () => {
   test('should verify a signed message', async () => {
-    const client = new snapshot.Client712();
+    const client = new snapshot.Client712(constants.testnet.sequencer);
     const wallet = Wallet.createRandom();
     const message = {
       from: wallet.address,
