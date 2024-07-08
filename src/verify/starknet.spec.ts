@@ -10,6 +10,13 @@ describe('verify/starknet', () => {
         '0x2513fb25c2147469748ec099bf849a21dde6c9b7cfb6b86af431b5e898309bd'
       );
     });
+
+    test('should return a different by address', () => {
+      const hash = getHash(starknetMessage.data, '0x0');
+      expect(hash).not.toBe(
+        '0x2513fb25c2147469748ec099bf849a21dde6c9b7cfb6b86af431b5e898309bd'
+      );
+    });
   });
 
   describe('verify()', () => {
