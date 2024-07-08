@@ -1,4 +1,4 @@
-import utils from '../utils';
+import { isEvmAddress, isStarknetAddress } from '../utils';
 import verifyStarknetMessage, {
   type NetworkType,
   getHash as getStarknetHash
@@ -30,7 +30,7 @@ export async function verify(
   network = '1',
   options: ProviderOptions = {}
 ): Promise<boolean> {
-  if (utils.isEvmAddress(address)) {
+  if (isEvmAddress(address)) {
     return await verifyEvmMessage(
       address,
       sig as string,
@@ -38,7 +38,7 @@ export async function verify(
       network,
       options
     );
-  } else if (utils.isStarknetAddress(address)) {
+  } else if (isStarknetAddress(address)) {
     return await verifyStarknetMessage(
       address,
       sig as string[],

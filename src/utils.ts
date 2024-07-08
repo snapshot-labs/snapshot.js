@@ -659,6 +659,10 @@ export function isStarknetAddress(address: string): boolean {
   }
 }
 
+export function isEvmAddress(address: string): boolean {
+  return isAddress(address);
+}
+
 export function getFormattedAddress(
   address: string,
   format: string[] = ['evm', 'starknet']
@@ -705,7 +709,7 @@ export default {
   verify,
   validate,
   isStarknetAddress,
-  isEvmAddress: isAddress,
+  isEvmAddress,
   getFormattedAddress,
   SNAPSHOT_SUBGRAPH_URL
 };
