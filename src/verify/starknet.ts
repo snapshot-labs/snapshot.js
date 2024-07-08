@@ -1,4 +1,10 @@
-import { Contract, RpcProvider, typedData } from 'starknet';
+import {
+  Contract,
+  RpcProvider,
+  StarkNetDomain,
+  StarkNetType,
+  typedData
+} from 'starknet';
 import type { SignaturePayload } from '.';
 import type { ProviderOptions } from '../utils/provider';
 
@@ -47,8 +53,17 @@ function getProvider(network: NetworkType, options: ProviderOptions) {
 }
 
 export function getHash(data: SignaturePayload, address: string): string {
-  const { domain, types, primaryType, message } =
-    data as Required<SignaturePayload>;
+  const {
+    domain,
+    types,
+    primaryType,
+    message
+  }: {
+    domain: StarkNetDomain;
+    types: Record<string, StarkNetType[]>;
+    primaryType: string;
+    message: Record<string, any>;
+  } = data as Required<SignaturePayload>;
 
   return typedData.getMessageHash(
     { types, primaryType, domain, message },

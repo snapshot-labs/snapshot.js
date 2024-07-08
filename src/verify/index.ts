@@ -5,10 +5,12 @@ import verifyStarknetMessage, {
 } from './starknet';
 import verifyEvmMessage, { getHash as getEvmHash } from './evm';
 import type { ProviderOptions } from '../utils/provider';
+import type { StarkNetType } from 'starknet';
+import type { TypedDataField } from '@ethersproject/abstract-signer';
 
 export type SignaturePayload = {
   domain: Record<string, string>;
-  types: Record<string, string>[];
+  types: Record<string, StarkNetType[] | TypedDataField[]>;
   primaryType?: string;
   message: Record<string, any>;
 };
