@@ -7,10 +7,10 @@ import verifyEvmMessage, { getHash as getEvmHash } from './evm';
 import type { ProviderOptions } from '../utils/provider';
 
 export type SignaturePayload = {
-  domain: any;
-  types: any;
+  domain: Record<string, string>;
+  types: Record<string, string>[];
   primaryType?: string;
-  message: any;
+  message: Record<string, any>;
 };
 
 export function getHash(data: SignaturePayload, address?: string): string {
