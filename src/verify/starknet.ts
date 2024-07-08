@@ -1,8 +1,6 @@
 import {
   Contract,
   RpcProvider,
-  StarkNetDomain,
-  StarkNetType,
   typedData
 } from 'starknet';
 import type { SignaturePayload } from '.';
