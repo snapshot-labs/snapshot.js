@@ -6,7 +6,7 @@ import { call } from '../utils';
 import type { SignaturePayload } from '.';
 import type { StaticJsonRpcProvider } from '@ethersproject/providers';
 
-function isSameAddress(a: string, b: string) {
+function isEqual(a: string, b: string): boolean {
   return a.toLowerCase() === b.toLowerCase();
 }
 
@@ -26,7 +26,7 @@ export default async function verify(
 
   try {
     const recoverAddress = verifyTypedData(domain, types, message, sig);
-    if (isSameAddress(address, recoverAddress)) return true;
+    if (isEqual(address, recoverAddress)) return true;
   } catch (e: any) {}
 
   const provider = getProvider(network, options);
@@ -42,8 +42,8 @@ async function verifyDefault(
   sig: string,
   hash: string,
   provider: StaticJsonRpcProvider
-) {
-  let returnValue;
+): Promise<boolean> {
+  let returnValue: string;
   const magicValue = '0x1626ba7e';
   const abi =
     'function isValidSignature(bytes32 _hash, bytes memory _signature) public view returns (bytes4 magicValue)';
@@ -60,7 +60,7 @@ async function verifyDefault(
     throw e;
   }
 
-  return isSameAddress(returnValue, magicValue);
+  return isEqual(returnValue, magicValue);
 }
 
 async function verifyOldVersion(
@@ -68,7 +68,7 @@ async function verifyOldVersion(
   sig: string,
   hash: string,
   provider: StaticJsonRpcProvider
-) {
+): Promise<boolean> {
   const magicValue = '0x20c13b0b';
   const abi =
     'function isValidSignature(bytes _hash, bytes memory _signature) public view returns (bytes4 magicValue)';
@@ -78,5 +78,5 @@ async function verifyOldVersion(
     [abi],
     [address, 'isValidSignature', [arrayify(hash), sig]]
   );
-  return isSameAddress(returnValue, magicValue);
+  return isEqual(returnValue, magicValue);
 }
