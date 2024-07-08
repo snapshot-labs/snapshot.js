@@ -648,7 +648,7 @@ function isValidSnapshot(snapshot: number | string, network: string) {
   );
 }
 
-function isStarknetAddress(address: string): boolean {
+export function isStarknetAddress(address: string): boolean {
   if (!address) return false;
 
   try {
@@ -659,7 +659,7 @@ function isStarknetAddress(address: string): boolean {
   }
 }
 
-function getFormattedAddress(
+export function getFormattedAddress(
   address: string,
   format: string[] = ['evm', 'starknet']
 ): string {
