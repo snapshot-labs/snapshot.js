@@ -667,7 +667,7 @@ export function getFormattedAddress(
   address: string,
   format: string[] = ['evm', 'starknet']
 ): string {
-  if (format.includes('evm') && isAddress(address)) return getAddress(address);
+  if (format.includes('evm') && isEvmAddress(address)) return getAddress(address);
   if (format.includes('starknet') && isStarknetAddress(address))
     return validateAndParseAddress(address);
 
