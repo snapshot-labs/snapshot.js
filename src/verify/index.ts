@@ -1,7 +1,8 @@
-import { isEvmAddress, isStarknetAddress } from '../utils';
+import { isEvmAddress } from '../utils';
 import verifyStarknetMessage, {
   type NetworkType,
-  getHash as getStarknetHash
+  getHash as getStarknetHash,
+  isStarknetMessage
 } from './starknet';
 import verifyEvmMessage, { getHash as getEvmHash } from './evm';
 import type { ProviderOptions } from '../utils/provider';
@@ -16,9 +17,7 @@ export type SignaturePayload = {
 };
 
 export function getHash(data: SignaturePayload, address?: string): string {
-  if (data.primaryType && address) {
-    return getStarknetHash(data, address);
-  }
+  if (isStarknetMessage(data)) return getStarknetHash(data, address as string);
 
   return getEvmHash(data);
 }
@@ -30,15 +29,7 @@ export async function verify(
   network = '1',
   options: ProviderOptions = {}
 ): Promise<boolean> {
-  if (isEvmAddress(address)) {
-    return await verifyEvmMessage(
-      address,
-      sig as string,
-      data,
-      network,
-      options
-    );
-  } else if (isStarknetAddress(address)) {
+  if (isStarknetMessage(data)) {
     return await verifyStarknetMessage(
       address,
       sig as string[],
@@ -46,7 +37,15 @@ export async function verify(
       network as NetworkType,
       options
     );
+  } else if (isEvmAddress(address)) {
+    return await verifyEvmMessage(
+      address,
+      sig as string,
+      data,
+      network,
+      options
+    );
   } else {
-    throw new Error('Invalid address');
+    throw new Error('Invalid payload');
   }
 }

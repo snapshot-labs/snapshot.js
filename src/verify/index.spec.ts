@@ -24,9 +24,16 @@ describe('sign/utils', () => {
       expect(evmGetHashMock).toHaveBeenCalled();
     });
 
-    test('should return a Starknet hash on starknet address', () => {
+    test('should return a Starknet hash on starknet payload and starknet address', () => {
       expect.assertions(1);
       getHash(starknetMessage.data, starknetMessage.address);
+
+      expect(starknetGetHashMock).toHaveBeenCalled();
+    });
+
+    test('should return a Starknet hash on starknet payload and EVM address', () => {
+      expect.assertions(1);
+      getHash(starknetMessage.data, evmMessage.address);
 
       expect(starknetGetHashMock).toHaveBeenCalled();
     });
@@ -40,10 +47,21 @@ describe('sign/utils', () => {
       expect(evmVerificationMock).toHaveBeenCalled();
     });
 
-    test('should call Starknet verification on Starknet address', async () => {
+    test('should call Starknet verification on Starknet payload', async () => {
       expect.assertions(1);
       await verify(
         starknetMessage.address,
+        starknetMessage.sig,
+        starknetMessage.data
+      );
+
+      expect(starknetVerificationMock).toHaveBeenCalled();
+    });
+
+    test('should call Starknet verification on Starknet payload and EVM message', async () => {
+      expect.assertions(1);
+      await verify(
+        evmMessage.address,
         starknetMessage.sig,
         starknetMessage.data
       );

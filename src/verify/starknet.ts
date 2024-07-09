@@ -46,6 +46,10 @@ function getProvider(network: NetworkType, options: ProviderOptions) {
   });
 }
 
+export function isStarknetMessage(data: SignaturePayload): boolean {
+  return !!data.primaryType && !!data.types.StarkNetDomain;
+}
+
 export function getHash(data: SignaturePayload, address: string): string {
   const { domain, types, primaryType, message } =
     data as Required<SignaturePayload>;
