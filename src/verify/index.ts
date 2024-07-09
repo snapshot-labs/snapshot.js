@@ -1,13 +1,9 @@
-import { isEvmAddress } from '../utils';
-import verifyStarknetMessage, {
-  type NetworkType,
-  getHash as getStarknetHash,
-  isStarknetMessage
-} from './starknet';
-import verifyEvmMessage, { getHash as getEvmHash } from './evm';
-import type { ProviderOptions } from '../utils/provider';
+import * as starknet from './starknet';
+import * as evm from './evm';
+import { isEvmAddress, isStarknetAddress } from '../utils';
 import type { StarkNetType } from 'starknet';
 import type { TypedDataField } from '@ethersproject/abstract-signer';
+import type { ProviderOptions } from '../utils/provider';
 
 export type SignaturePayload = {
   domain: Record<string, string>;
@@ -17,9 +13,9 @@ export type SignaturePayload = {
 };
 
 export function getHash(data: SignaturePayload, address?: string): string {
-  if (isStarknetMessage(data)) return getStarknetHash(data, address as string);
+  const networkType = starknet.isStarknetMessage(data) ? starknet : evm;
 
-  return getEvmHash(data);
+  return networkType.getHash(data, address as string);
 }
 
 export async function verify(
@@ -29,23 +25,17 @@ export async function verify(
   network = '1',
   options: ProviderOptions = {}
 ): Promise<boolean> {
-  if (isStarknetMessage(data)) {
-    return await verifyStarknetMessage(
-      address,
-      sig as string[],
-      data,
-      network as NetworkType,
-      options
-    );
-  } else if (isEvmAddress(address)) {
-    return await verifyEvmMessage(
-      address,
-      sig as string,
-      data,
-      network,
-      options
-    );
-  } else {
-    throw new Error('Invalid payload');
+  if (!isStarknetAddress(address) && !isEvmAddress(address)) {
+    throw new Error('Invalid address');
   }
+
+  const networkType = starknet.isStarknetMessage(data) ? starknet : evm;
+
+  return await networkType.default(
+    address,
+    sig as any,
+    data,
+    network as any,
+    options
+  );
 }
