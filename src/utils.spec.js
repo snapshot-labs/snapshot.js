@@ -496,7 +496,7 @@ describe('utils', () => {
   describe('getFormattedAddress', () => {
     test('returns a checksummed EVM address', () => {
       const address = '0x91fd2c8d24767db4ece7069aa27832ffaf8590f3';
-      expect(getFormattedAddress(address, ['evm'])).toEqual(
+      expect(getFormattedAddress(address, 'evm')).toEqual(
         '0x91FD2c8d24767db4Ece7069AA27832ffaf8590f3'
       );
     });
@@ -504,27 +504,27 @@ describe('utils', () => {
     test('returns a padded and lowercased starknet address', () => {
       const address =
         '0x2a0a8f3b6097e7a6bd7649deb30715323072a159c0e6b71b689bd245c146cc0';
-      expect(getFormattedAddress(address, ['starknet'])).toEqual(
+      expect(getFormattedAddress(address, 'starknet')).toEqual(
         '0x02a0a8f3b6097e7a6bd7649deb30715323072a159c0e6b71b689bd245c146cc0'
       );
     });
 
     test('returns an EVM address as starknet address', () => {
       const address = '0x91FD2c8d24767db4Ece7069AA27832ffaf8590f3';
-      expect(getFormattedAddress(address, ['starknet'])).toEqual(
+      expect(getFormattedAddress(address, 'starknet')).toEqual(
         '0x00000000000000000000000091fd2c8d24767db4ece7069aa27832ffaf8590f3'
       );
     });
 
     test('throws an error when the address is not a starknet address', () => {
       const address = 'hello';
-      expect(() => getFormattedAddress(address, ['starknet'])).toThrow();
+      expect(() => getFormattedAddress(address, 'starknet')).toThrow();
     });
 
     test('throws an error when the address is not an EVM address', () => {
       const address =
         '0x2a0a8f3b6097e7a6bd7649deb30715323072a159c0e6b71b689bd245c146cc0';
-      expect(() => getFormattedAddress(address, ['evm'])).toThrow();
+      expect(() => getFormattedAddress(address, 'evm')).toThrow();
     });
   });
 });

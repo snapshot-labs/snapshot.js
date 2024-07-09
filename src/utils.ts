@@ -665,10 +665,10 @@ export function isEvmAddress(address: string): boolean {
 
 export function getFormattedAddress(
   address: string,
-  format: string[] = ['evm', 'starknet']
+  format: 'evm' | 'starknet'
 ): string {
-  if (format.includes('evm') && isAddress(address)) return getAddress(address);
-  if (format.includes('starknet') && isStarknetAddress(address))
+  if (format === 'evm' && isEvmAddress(address)) return getAddress(address);
+  if (format === 'starknet' && isStarknetAddress(address))
     return validateAndParseAddress(address);
 
   throw new Error(`Invalid address: ${address}`);
