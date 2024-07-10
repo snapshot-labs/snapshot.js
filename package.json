@@ -6,7 +6,7 @@
   "main": "dist/snapshot.cjs.js",
   "module": "dist/snapshot.esm.js",
   "browser": "dist/snapshot.min.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "dependencies": {
     "@ensdomains/eth-ens-namehash": "^2.0.15",
     "@ethersproject/abi": "^5.6.4",
@@ -60,7 +60,7 @@
     "prepublishOnly": "yarn build"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "files": [
     "dist",
