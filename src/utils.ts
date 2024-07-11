@@ -29,8 +29,10 @@ interface Strategy {
   params: any;
 }
 
-const ENS_RESOLVER_ABI = [
-  'function text(bytes32 node, string calldata key) external view returns (string memory)'
+const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
+const ENS_ABI = [
+  'function text(bytes32 node, string calldata key) external view returns (string memory)',
+  'function resolver(bytes32 node) view returns (address)' // ENS registry ABI
 ];
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -535,25 +537,34 @@ export async function getEnsTextRecord(
   options: any = {}
 ) {
   const {
-    ensResolvers: ensResolversOpt,
+    ensResolvers = networks[network]?.ensResolvers ||
+      networks['1'].ensResolvers,
     broviderUrl,
     ...multicallOptions
   } = options;
-  const ensResolvers =
-    ensResolversOpt ||
-    networks[network].ensResolvers ||
-    networks['1'].ensResolvers;
+
   const ensHash = namehash(ensNormalize(ens));
   const provider = getProvider(network, { broviderUrl });
 
-  const result = await multicall(
+  const calls = [
+    [ENS_REGISTRY, 'resolver', [ensHash]], // Query for resolver from registry
+    ...ensResolvers.map((address: string) => [
+      address,
+      'text',
+      [ensHash, record]
+    ]) // Query for text record from each resolver
+  ];
+
+  const [[resolverAddress], ...textRecords]: string[][] = await multicall(
     network,
     provider,
-    ENS_RESOLVER_ABI,
-    ensResolvers.map((address: any) => [address, 'text', [ensHash, record]]),
+    ENS_ABI,
+    calls,
     multicallOptions
   );
-  return result.flat().find((r: string) => r) || '';
+
+  const resolverIndex = ensResolvers.indexOf(resolverAddress);
+  return resolverIndex !== -1 ? textRecords[resolverIndex]?.[0] : null;
 }
 
 export async function getSpaceUri(
@@ -574,10 +585,9 @@ export async function getEnsOwner(
   network = '1',
   options: any = {}
 ): Promise<string | null> {
-  const registryAddress = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
   const provider = getProvider(network, options);
   const ensRegistry = new Contract(
-    registryAddress,
+    ENS_REGISTRY,
     ['function owner(bytes32) view returns (address)'],
     provider
   );
