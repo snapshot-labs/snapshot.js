@@ -12,7 +12,6 @@ import schemas from '../src/schemas';
 import proposalMaxLengthWithSpaceTypeError from './examples/proposal-maxLengthWithSpaceType-error.json';
 import spaceMaxItemsWithSpaceTypeError from './examples/space-maxItemsWithSpaceType-error.json';
 
-
 describe.each([
   { schemaType: 'space', schema: schemas.space, example: space },
   { schemaType: 'proposal', schema: schemas.proposal, example: proposal },
