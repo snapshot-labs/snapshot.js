@@ -537,7 +537,7 @@ export async function getEnsTextRecord(
   options: any = {}
 ) {
   const {
-    ensResolvers: ensResolversOpt = networks[network]?.ensResolvers ||
+    ensResolvers = networks[network]?.ensResolvers ||
       networks['1'].ensResolvers,
     broviderUrl,
     ...multicallOptions
@@ -548,7 +548,7 @@ export async function getEnsTextRecord(
 
   const calls = [
     [ENS_REGISTRY, 'resolver', [ensHash]], // Query for resolver from registry
-    ...ensResolversOpt.map((address: string) => [
+    ...ensResolvers.map((address: string) => [
       address,
       'text',
       [ensHash, record]
@@ -563,7 +563,7 @@ export async function getEnsTextRecord(
     multicallOptions
   );
 
-  const resolverIndex = ensResolversOpt.indexOf(resolverAddress);
+  const resolverIndex = ensResolvers.indexOf(resolverAddress);
   return resolverIndex !== -1 ? textRecords[resolverIndex]?.[0] : null;
 }
 
