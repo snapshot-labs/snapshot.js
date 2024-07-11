@@ -45,7 +45,7 @@
     "rollup-plugin-terser": "^7.0.0",
     "rollup-plugin-typescript2": "^0.27.0",
     "ts-node": "^10.9.2",
-    "typescript": "^3.8.3",
+    "typescript": "^5.0.0",
     "vitest": "^0.33.0"
   },
   "scripts": {
@@ -55,6 +55,7 @@
     "test:once": "vitest run",
     "dev": "rollup -c -w",
     "lint": "eslint . --ext .ts --fix",
+    "typecheck": "tsc --noEmit",
     "prepublishOnly": "yarn build"
   },
   "engines": {
