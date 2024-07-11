@@ -6,12 +6,13 @@
     "module": "es6",
     "noImplicitAny": false,
     "outDir": "./dist",
-    "target": "es5",
+    "target": "es6",
     "lib": ["es2018", "dom", "esnext"],
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*"

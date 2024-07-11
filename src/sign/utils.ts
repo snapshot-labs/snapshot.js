@@ -18,7 +18,7 @@ export async function verify(address, sig, data, network = '1', options = {}) {
     const recoverAddress = verifyTypedData(domain, types, message, sig);
     // console.log('Recover address', recoverAddress);
     if (address === recoverAddress) return true;
-  } catch (e) {
+  } catch (e: any) {
     // console.log('Could not recoverAddress:' + e.message);
   }
 
