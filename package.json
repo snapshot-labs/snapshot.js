@@ -54,7 +54,8 @@
     "test": "vitest",
     "test:once": "vitest run",
     "dev": "rollup -c -w",
-    "lint": "eslint . --ext .ts --fix",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "yarn lint --fix",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "yarn build"
   },
