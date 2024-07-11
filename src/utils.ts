@@ -585,10 +585,9 @@ export async function getEnsOwner(
   network = '1',
   options: any = {}
 ): Promise<string | null> {
-  const registryAddress = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
   const provider = getProvider(network, options);
   const ensRegistry = new Contract(
-    registryAddress,
+    ENS_REGISTRY,
     ['function owner(bytes32) view returns (address)'],
     provider
   );
