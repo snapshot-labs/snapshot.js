@@ -19,7 +19,7 @@ export async function verifyDefault(
       [abi],
       [address, 'isValidSignature', [arrayify(hash), sig]]
     );
-  } catch (e) {
+  } catch (e: any) {
     // @ts-ignore
     if (e.message.startsWith('missing revert data in call exception')) {
       return false;

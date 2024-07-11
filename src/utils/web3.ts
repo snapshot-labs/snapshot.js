@@ -9,7 +9,7 @@ export async function getBlockNumber(provider) {
   try {
     const blockNumber: any = await provider.getBlockNumber();
     return parseInt(blockNumber);
-  } catch (e) {
+  } catch (e: any) {
     return Promise.reject();
   }
 }
