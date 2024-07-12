@@ -151,7 +151,7 @@
   },
   "56": {
     "key": "56",
-    "name": "Binance Smart Chain",
+    "name": "BNB Smart Chain",
     "shortName": "BSC",
     "chainId": 56,
     "network": "mainnet",
@@ -254,7 +254,7 @@
   },
   "97": {
     "key": "97",
-    "name": "Binance Smart Chain Testnet",
+    "name": "BNB Smart Chain Testnet",
     "shortName": "BSC Testnet",
     "chainId": 97,
     "network": "testnet",
