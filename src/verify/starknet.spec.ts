@@ -1,6 +1,7 @@
 import { test, expect, describe } from 'vitest';
 import starknetMessage from '../../test/fixtures/starknet/message-alias.json';
 import verify, { getHash } from './starknet';
+import { validateAndParseAddress } from 'starknet';
 
 describe('verify/starknet', () => {
   describe('getHash()', () => {
@@ -24,6 +25,17 @@ describe('verify/starknet', () => {
       expect(
         verify(
           starknetMessage.address,
+          starknetMessage.sig,
+          starknetMessage.data,
+          'SN_SEPOLIA'
+        )
+      ).resolves.toBe(true);
+    });
+
+    test('should return true if the signature is valid with a padded address', () => {
+      expect(
+        verify(
+          validateAndParseAddress(starknetMessage.address),
           starknetMessage.sig,
           starknetMessage.data,
           'SN_SEPOLIA'

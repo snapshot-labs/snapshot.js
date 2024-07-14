@@ -90,7 +90,7 @@ addErrors(ajv);
 ajv.addFormat('address', {
   validate: (value: string) => {
     try {
-      return isAddress(value);
+      return value === getAddress(value);
     } catch (e: any) {
       return false;
     }
@@ -100,7 +100,7 @@ ajv.addFormat('address', {
 ajv.addFormat('starknetAddress', {
   validate: (value: string) => {
     try {
-      return isStarknetAddress(value);
+      return validateAndParseAddress(value) === value;
     } catch (e: any) {
       return false;
     }
