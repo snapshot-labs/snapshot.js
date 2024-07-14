@@ -1,6 +1,6 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.12.0-beta.4",
+  "version": "0.12.0-beta.5",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
@@ -46,7 +46,7 @@
     "rollup-plugin-terser": "^7.0.0",
     "rollup-plugin-typescript2": "^0.27.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5",
+    "typescript": "^5.0.0",
     "vitest": "^0.33.0"
   },
   "scripts": {
@@ -55,7 +55,8 @@
     "test": "vitest",
     "test:once": "vitest run",
     "dev": "rollup -c -w",
-    "lint": "eslint . --ext .ts --fix",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "yarn lint --fix",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "yarn build"
   },
