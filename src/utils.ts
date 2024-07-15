@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
-import { isAddress } from '@ethersproject/address';
+import { getAddress, isAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
 import { namehash, ensNormalize } from '@ethersproject/hash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
@@ -12,11 +12,12 @@ import Multicaller from './utils/multicaller';
 import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
 import { signMessage, getBlockNumber } from './utils/web3';
-import { getHash, verify } from './sign/utils';
+import { getHash, verify } from './verify';
 import gateways from './gateways.json';
 import networks from './networks.json';
 import voting from './voting';
 import getDelegatesBySpace, { SNAPSHOT_SUBGRAPH_URL } from './utils/delegation';
+import { validateAndParseAddress } from 'starknet';
 
 interface Options {
   url?: string;
@@ -91,18 +92,18 @@ addErrors(ajv);
 ajv.addFormat('address', {
   validate: (value: string) => {
     try {
-      return isAddress(value);
-    } catch (err) {
+      return value === getAddress(value);
+    } catch (e: any) {
       return false;
     }
   }
 });
 
-ajv.addFormat('evmOrStarknetAddress', {
+ajv.addFormat('starknetAddress', {
   validate: (value: string) => {
     try {
-      return isAddress(value) || /^0x[0-9a-fA-F]{62,64}$/.test(value);
-    } catch (err) {
+      return validateAndParseAddress(value) === value;
+    } catch (e: any) {
       return false;
     }
   }
@@ -657,6 +658,32 @@ function isValidSnapshot(snapshot: number | string, network: string) {
   );
 }
 
+export function isStarknetAddress(address: string): boolean {
+  if (!address) return false;
+
+  try {
+    validateAndParseAddress(address);
+    return true;
+  } catch (e: any) {
+    return false;
+  }
+}
+
+export function isEvmAddress(address: string): boolean {
+  return isAddress(address);
+}
+
+export function getFormattedAddress(
+  address: string,
+  format: 'evm' | 'starknet'
+): string {
+  if (format === 'evm' && isEvmAddress(address)) return getAddress(address);
+  if (format === 'starknet' && isStarknetAddress(address))
+    return validateAndParseAddress(address);
+
+  throw new Error(`Invalid address: ${address}`);
+}
+
 function inputError(message: string) {
   return Promise.reject(new Error(message));
 }
@@ -691,5 +718,8 @@ export default {
   getHash,
   verify,
   validate,
+  isStarknetAddress,
+  isEvmAddress,
+  getFormattedAddress,
   SNAPSHOT_SUBGRAPH_URL
 };

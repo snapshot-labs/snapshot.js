@@ -6,9 +6,15 @@ import {
 const providers = {};
 const batchedProviders = {};
 
+export type ProviderOptions = {
+  broviderUrl?: string;
+};
+
+const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org';
+
 export default function getProvider(
   network,
-  { broviderUrl = 'https://rpc.snapshot.org' } = {}
+  { broviderUrl = DEFAULT_BROVIDER_URL }: ProviderOptions = {}
 ) {
   const url = `${broviderUrl}/${network}`;
   if (!providers[network])
@@ -25,7 +31,7 @@ export default function getProvider(
 
 export function getBatchedProvider(
   network,
-  { broviderUrl = 'https://rpc.snapshot.org' } = {}
+  { broviderUrl = DEFAULT_BROVIDER_URL }: ProviderOptions = {}
 ) {
   const url = `${broviderUrl}/${network}`;
   if (!batchedProviders[network])
