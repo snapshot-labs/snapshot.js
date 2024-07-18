@@ -57,10 +57,10 @@ export default class Client {
   readonly address: string;
   readonly options: any;
 
-  constructor(address: string = constants.livenet.sequencer, options = {}) {
+  constructor(address: string = constants.mainnet.sequencer, options = {}) {
     address = address.replace(
-      constants.livenet.hub,
-      constants.livenet.sequencer
+      constants.mainnet.hub,
+      constants.mainnet.sequencer
     );
     address = address.replace(
       constants.testnet.hub,

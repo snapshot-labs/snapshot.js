@@ -1,5 +1,5 @@
 {
-  "livenet": {
+  "mainnet": {
     "hub": "https://hub.snapshot.org",
     "sequencer": "https://seq.snapshot.org"
   },
