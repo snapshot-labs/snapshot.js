@@ -6,7 +6,7 @@ import type { TypedDataField } from '@ethersproject/abstract-signer';
 import type { ProviderOptions } from '../utils/provider';
 
 export type SignaturePayload = {
-  domain: Record<string, string>;
+  domain: Record<string, string | number>;
   types: Record<string, StarkNetType[] | TypedDataField[]>;
   primaryType?: string;
   message: Record<string, any>;
