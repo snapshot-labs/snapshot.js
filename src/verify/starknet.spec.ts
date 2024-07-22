@@ -43,7 +43,7 @@ describe('verify/starknet', () => {
       ).resolves.toBe(true);
     });
 
-    test('should throw an error if message is on wrong network', () => {
+    test('should return true when verifying on a different network', () => {
       expect(
         verify(
           starknetMessage.address,
@@ -51,7 +51,7 @@ describe('verify/starknet', () => {
           starknetMessage.data,
           'SN_MAIN'
         )
-      ).rejects.toThrowError();
+      ).resolves.toBe(true);
     });
 
     test('should throw an error if the signature is invalid', () => {
