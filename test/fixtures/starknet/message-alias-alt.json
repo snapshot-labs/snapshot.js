@@ -2,8 +2,8 @@
   "address": "0x008cf64fc19a22c94c4d751ebd39ff897dbe2c8646b2900d646558e293b0a2e5",
   "sig": [
     "0x1",
-    "0x7aa8a7abcde2cc41d3dd11f929131a6244e901cad7f11ad620bc7eb3181cb54",
-    "0x67a33d8fb1a638445f1e42eadcc3eb93d3d2ad394130268c163824521503962"
+    "0xa0f72077d0b928be15ddfc21c481af27a9c79d7b67e049bb97a9919cb9218e",
+    "0x895bcbd404d7374850219753d98a397c962985ffa3f36d5bd06aab41a01709"
   ],
   "data": {
     "domain": {
@@ -48,8 +48,8 @@
     },
     "message": {
       "from": "0x008cf64fc19a22c94c4d751ebd39ff897dbe2c8646b2900d646558e293b0a2e5",
-      "timestamp": 1721834014,
-      "alias": "0x2d6e1Cb5E7f169B784e1bF5C4363c070AD767e68"
+      "timestamp": 1721836843,
+      "alias": "0x6ceddb030f3ef6dBD04B8b3691CaB101ECe226f6"
     },
     "primaryType": "SetAlias"
   }
