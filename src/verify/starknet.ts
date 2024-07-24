@@ -73,10 +73,7 @@ export default async function verify(
     getProvider(network, options)
   );
 
-  await contractAccount.isValidSignature(getHash(data, address), [
-    sig[0],
-    sig[1]
-  ]);
+  await contractAccount.isValidSignature(getHash(data, address), sig.slice(-2));
 
   return true;
 }
