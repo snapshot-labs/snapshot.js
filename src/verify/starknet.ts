@@ -76,7 +76,7 @@ export default async function verify(
     );
 
     if (sig.length < 2) {
-      throw new Error('Invalid signature');
+      throw new Error('Invalid signature format');
     }
 
     const result = await contractAccount.is_valid_signature(
