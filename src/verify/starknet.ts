@@ -1,4 +1,5 @@
 import { Contract, RpcProvider, typedData } from 'starknet';
+import { BigNumber } from '@ethersproject/bignumber';
 import type { SignaturePayload } from '.';
 import type { ProviderOptions } from '../utils/provider';
 
@@ -74,12 +75,12 @@ export default async function verify(
       getProvider(network, options)
     );
 
-    await contractAccount.is_valid_signature(
+    const result = await contractAccount.is_valid_signature(
       getHash(data, address),
       sig.slice(-2)
     );
 
-    return true;
+    return BigNumber.from(result).eq(BigNumber.from('370462705988'));
   } catch (e: any) {
     if (e.message.includes('Contract not found')) {
       throw new Error('Contract not deployed');

@@ -70,5 +70,16 @@ describe('verify/starknet', () => {
         )
       ).rejects.toThrowError('Contract not deployed');
     });
+
+    test('should return false when the message is not valid', () => {
+      expect(
+        verify(
+          starknetMessage.address,
+          ['1', '2'],
+          starknetMessage.data,
+          'SN_MAIN'
+        )
+      ).resolves.toBe(false);
+    });
   });
 });
