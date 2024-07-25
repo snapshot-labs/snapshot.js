@@ -3,6 +3,7 @@ import starknetMessage from '../../test/fixtures/starknet/message-alias.json';
 import starknetMessageRsv from '../../test/fixtures/starknet/message-alias-rsv.json';
 import verify, { getHash } from './starknet';
 import { validateAndParseAddress } from 'starknet';
+import { clone } from '../utils';
 
 describe('verify/starknet', () => {
   describe('getHash()', () => {
@@ -83,7 +84,7 @@ describe('verify/starknet', () => {
     });
 
     test('should return false when the signature is not valid', () => {
-      const data = structuredClone(starknetMessage.data);
+      const data = clone(starknetMessage.data);
       data.message.timestamp = 1234;
 
       expect(
