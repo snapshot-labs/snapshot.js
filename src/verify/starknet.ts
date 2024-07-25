@@ -75,6 +75,10 @@ export default async function verify(
       getProvider(network, options)
     );
 
+    if (sig.length < 2) {
+      throw new Error('Invalid signature');
+    }
+
     const result = await contractAccount.is_valid_signature(
       getHash(data, address),
       sig.slice(-2)

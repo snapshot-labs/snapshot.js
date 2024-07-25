@@ -71,7 +71,7 @@ describe('verify/starknet', () => {
       ).rejects.toThrowError('Contract not deployed');
     });
 
-    test('should return false when the message is not valid', () => {
+    test('should return false when the signature is not valid', () => {
       expect(
         verify(
           starknetMessage.address,
@@ -80,6 +80,12 @@ describe('verify/starknet', () => {
           'SN_MAIN'
         )
       ).resolves.toBe(false);
+    });
+
+    test('should throw an error on wrong signature length', () => {
+      expect(
+        verify(starknetMessage.address, ['1'], starknetMessage.data, 'SN_MAIN')
+      ).rejects.toThrowError('Invalid signature');
     });
   });
 });
