@@ -1,6 +1,6 @@
 import { test, expect, describe } from 'vitest';
 import starknetMessage from '../../test/fixtures/starknet/message-alias.json';
-import starknetMessageAlt from '../../test/fixtures/starknet/message-alias-alt.json';
+import starknetMessageRsv from '../../test/fixtures/starknet/message-alias-rsv.json';
 import verify, { getHash } from './starknet';
 import { validateAndParseAddress } from 'starknet';
 
@@ -24,11 +24,11 @@ describe('verify/starknet', () => {
   describe('verify()', () => {
     describe.each([
       ['2', starknetMessage],
-      ['3', starknetMessageAlt]
+      ['3', starknetMessageRsv]
     ])('with a %s items signature', (title, message) => {
       test('should return true if the signature is valid', () => {
         expect(
-          verify(message.address, message.sig, message.data, 'SN_SEPOLIA')
+          verify(message.address, message.sig, message.data, 'SN_MAIN')
         ).resolves.toBe(true);
       });
 
@@ -38,14 +38,14 @@ describe('verify/starknet', () => {
             validateAndParseAddress(message.address),
             message.sig,
             message.data,
-            'SN_SEPOLIA'
+            'SN_MAIN'
           )
         ).resolves.toBe(true);
       });
 
       test('should return true when verifying on a different network', () => {
         expect(
-          verify(message.address, message.sig, message.data, 'SN_MAIN')
+          verify(message.address, message.sig, message.data, 'SN_SEPOLIA')
         ).resolves.toBe(true);
       });
 

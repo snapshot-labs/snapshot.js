@@ -11,11 +11,11 @@ const RPC_URLS: Record<NetworkType, string> = {
 
 const ABI = [
   {
-    name: 'argent::account::interface::IDeprecatedArgentAccount',
+    name: 'argent::common::account::IAccount',
     type: 'interface',
     items: [
       {
-        name: 'isValidSignature',
+        name: 'is_valid_signature',
         type: 'function',
         inputs: [
           {
@@ -23,7 +23,7 @@ const ABI = [
             type: 'core::felt252'
           },
           {
-            name: 'signatures',
+            name: 'signature',
             type: 'core::array::Array::<core::felt252>'
           }
         ],
@@ -73,7 +73,10 @@ export default async function verify(
     getProvider(network, options)
   );
 
-  await contractAccount.isValidSignature(getHash(data, address), sig.slice(-2));
+  await contractAccount.is_valid_signature(
+    getHash(data, address),
+    sig.slice(-2)
+  );
 
   return true;
 }
