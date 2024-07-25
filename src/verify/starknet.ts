@@ -67,16 +67,24 @@ export default async function verify(
   network: NetworkType = 'SN_MAIN',
   options: ProviderOptions = {}
 ): Promise<boolean> {
-  const contractAccount = new Contract(
-    ABI,
-    address,
-    getProvider(network, options)
-  );
+  try {
+    const contractAccount = new Contract(
+      ABI,
+      address,
+      getProvider(network, options)
+    );
 
-  await contractAccount.is_valid_signature(
-    getHash(data, address),
-    sig.slice(-2)
-  );
+    await contractAccount.is_valid_signature(
+      getHash(data, address),
+      sig.slice(-2)
+    );
 
-  return true;
+    return true;
+  } catch (e: any) {
+    if (e.message.includes('Contract not found')) {
+      throw new Error('Contract not deployed');
+    }
+
+    throw e;
+  }
 }

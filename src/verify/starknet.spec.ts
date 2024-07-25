@@ -59,5 +59,16 @@ describe('verify/starknet', () => {
         ).rejects.toThrow();
       });
     });
+
+    test('should throw an error when the contract is not deployed', () => {
+      expect(
+        verify(
+          '0x07f71118e351c02f6EC7099C8CDf93AED66CEd8406E94631cC91637f7D7F203A',
+          starknetMessage.sig,
+          starknetMessage.data,
+          'SN_MAIN'
+        )
+      ).rejects.toThrowError('Contract not deployed');
+    });
   });
 });
