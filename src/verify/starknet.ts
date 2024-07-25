@@ -68,16 +68,16 @@ export default async function verify(
   network: NetworkType = 'SN_MAIN',
   options: ProviderOptions = {}
 ): Promise<boolean> {
+  if (sig.length < 2) {
+    throw new Error('Invalid signature format');
+  }
+
   try {
     const contractAccount = new Contract(
       ABI,
       address,
       getProvider(network, options)
     );
-
-    if (sig.length < 2) {
-      throw new Error('Invalid signature');
-    }
 
     const result = await contractAccount.is_valid_signature(
       getHash(data, address),
@@ -90,6 +90,6 @@ export default async function verify(
       throw new Error('Contract not deployed');
     }
 
-    throw e;
+    return false;
   }
 }

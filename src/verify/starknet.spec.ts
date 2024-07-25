@@ -82,10 +82,30 @@ describe('verify/starknet', () => {
       ).resolves.toBe(false);
     });
 
+    test('should return false when the payload has been tempered', () => {
+      const data = structuredClone(starknetMessage.data);
+      data.message.timestamp = 1234;
+
+      expect(
+        verify(starknetMessage.address, starknetMessage.sig, data, 'SN_MAIN')
+      ).resolves.toBe(false);
+    });
+
+    test('should return false when the payload format is not valid', () => {
+      expect(
+        verify(
+          starknetMessage.address,
+          starknetMessage.sig,
+          { test: 'hello' },
+          'SN_MAIN'
+        )
+      ).resolves.toBe(false);
+    });
+
     test('should throw an error on wrong signature length', () => {
       expect(
         verify(starknetMessage.address, ['1'], starknetMessage.data, 'SN_MAIN')
-      ).rejects.toThrowError('Invalid signature');
+      ).rejects.toThrowError('Invalid signature format');
     });
   });
 });
