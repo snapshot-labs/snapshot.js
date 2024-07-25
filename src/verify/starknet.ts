@@ -1,4 +1,5 @@
 import { Contract, RpcProvider, typedData } from 'starknet';
+import { BigNumber } from '@ethersproject/bignumber';
 import type { SignaturePayload } from '.';
 import type { ProviderOptions } from '../utils/provider';
 
@@ -11,11 +12,11 @@ const RPC_URLS: Record<NetworkType, string> = {
 
 const ABI = [
   {
-    name: 'argent::account::interface::IDeprecatedArgentAccount',
+    name: 'argent::common::account::IAccount',
     type: 'interface',
     items: [
       {
-        name: 'isValidSignature',
+        name: 'is_valid_signature',
         type: 'function',
         inputs: [
           {
@@ -23,7 +24,7 @@ const ABI = [
             type: 'core::felt252'
           },
           {
-            name: 'signatures',
+            name: 'signature',
             type: 'core::array::Array::<core::felt252>'
           }
         ],
@@ -67,16 +68,28 @@ export default async function verify(
   network: NetworkType = 'SN_MAIN',
   options: ProviderOptions = {}
 ): Promise<boolean> {
-  const contractAccount = new Contract(
-    ABI,
-    address,
-    getProvider(network, options)
-  );
+  try {
+    const contractAccount = new Contract(
+      ABI,
+      address,
+      getProvider(network, options)
+    );
 
-  await contractAccount.isValidSignature(getHash(data, address), [
-    sig[0],
-    sig[1]
-  ]);
+    if (sig.length < 2) {
+      throw new Error('Invalid signature format');
+    }
 
-  return true;
+    const result = await contractAccount.is_valid_signature(
+      getHash(data, address),
+      sig.slice(-2)
+    );
+
+    return BigNumber.from(result).eq(BigNumber.from('370462705988'));
+  } catch (e: any) {
+    if (e.message.includes('Contract not found')) {
+      throw new Error('Contract not deployed');
+    }
+
+    throw e;
+  }
 }
