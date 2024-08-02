@@ -155,7 +155,7 @@ ajv.addKeyword({
       validate.errors = [
         {
           keyword: 'maxLengthWithSpaceType',
-          message: `must NOT have more than ${schema[spaceType]} characters`,
+          message: `must not have more than ${schema[spaceType]}`,
           params: { limit: schema[spaceType] }
         }
       ];

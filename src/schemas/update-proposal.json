@@ -35,7 +35,10 @@
           "type": "array",
           "title": "choices",
           "minItems": 1,
-          "maxItems": 500
+          "maxLengthWithSpaceType": {
+            "default": 500,
+            "turbo": 1000
+          }
         },
         "type": {
           "enum": [
