@@ -12,6 +12,7 @@ import schemas from '../src/schemas';
 import proposalMaxLengthWithSpaceTypeError from './examples/proposal-maxLengthWithSpaceType-error.json';
 import spaceMaxItemsWithSpaceTypeError from './examples/space-maxItemsWithSpaceType-error.json';
 
+// Tests for default spaces
 describe.each([
   { schemaType: 'space', schema: schemas.space, example: space },
   { schemaType: 'proposal', schema: schemas.proposal, example: proposal },
@@ -30,7 +31,6 @@ describe.each([
 });
 
 // Tests for turbo spaces
-
 describe.each([
   { schemaType: 'space', schema: schemas.space, example: spaceTurbo },
   { schemaType: 'proposal', schema: schemas.proposal, example: proposalTurbo }
@@ -44,6 +44,7 @@ describe.each([
   });
 });
 
+// tests for default schema with turbo example, should fail
 describe.each([
   {
     schemaType: 'space',
