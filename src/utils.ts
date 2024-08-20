@@ -255,7 +255,7 @@ export async function multicall(
 
 export async function subgraphRequest(url: string, query, options: any = {}) {
   const body: Record<string, any> = { query: jsonToGraphQLQuery({ query }) };
-  if (body) body.variables = options.variables;
+  if (options.variables) body.variables = options.variables;
   const res = await fetch(url, {
     method: 'POST',
     headers: {
