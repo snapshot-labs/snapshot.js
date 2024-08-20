@@ -155,7 +155,7 @@ ajv.addKeyword({
       validate.errors = [
         {
           keyword: 'maxLengthWithSpaceType',
-          message: `must NOT have more than ${schema[spaceType]} characters`,
+          message: `must not have more than ${schema[spaceType]}`,
           params: { limit: schema[spaceType] }
         }
       ];
@@ -546,7 +546,14 @@ export async function getEnsTextRecord(
     ...multicallOptions
   } = options;
 
-  const ensHash = namehash(ensNormalize(ens));
+  let ensHash: string;
+
+  try {
+    ensHash = namehash(ensNormalize(ens));
+  } catch (e: any) {
+    return null;
+  }
+
   const provider = getProvider(network, { broviderUrl });
 
   const calls = [
@@ -594,9 +601,17 @@ export async function getEnsOwner(
     ['function owner(bytes32) view returns (address)'],
     provider
   );
+
+  let ensHash: string;
+
+  try {
+    ensHash = namehash(ensNormalize(ens));
+  } catch (e: any) {
+    return null;
+  }
+
   const ensNameWrapper =
     options.ensNameWrapper || networks[network].ensNameWrapper;
-  const ensHash = namehash(ensNormalize(ens));
   let owner = await ensRegistry.owner(ensHash);
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
   if (owner === ensNameWrapper) {

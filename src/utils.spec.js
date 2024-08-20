@@ -5,7 +5,9 @@ import {
   validateSchema,
   getScores,
   getVp,
-  getFormattedAddress
+  getFormattedAddress,
+  getEnsOwner,
+  getEnsTextRecord
 } from './utils';
 
 vi.mock('cross-fetch', async () => {
@@ -609,6 +611,20 @@ describe('utils', () => {
         address: ''
       });
       expect(result).not.toBe(true);
+    });
+  });
+
+  describe('getEnsOwner', () => {
+    test('should return null when the ENS is not valid', () => {
+      // special hidden characters after the k
+      expect(getEnsOwner('elonmusk‍‍.eth')).resolves.toBe(null);
+    });
+  });
+
+  describe('getEnsTextRecord', () => {
+    test('should return null when the ENS is not valid', () => {
+      // special hidden characters after the k
+      expect(getEnsTextRecord('elonmusk‍‍.eth')).resolves.toBe(null);
     });
   });
 });
