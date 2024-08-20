@@ -254,6 +254,8 @@ export async function multicall(
 }
 
 export async function subgraphRequest(url: string, query, options: any = {}) {
+  const body: Record<string, any> = { query: jsonToGraphQLQuery({ query }) };
+  if (body) body.variables = options.variables;
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -261,7 +263,7 @@ export async function subgraphRequest(url: string, query, options: any = {}) {
       'Content-Type': 'application/json',
       ...options?.headers
     },
-    body: JSON.stringify({ query: jsonToGraphQLQuery({ query }) })
+    body: JSON.stringify(body)
   });
   let responseData: any = await res.text();
   try {
