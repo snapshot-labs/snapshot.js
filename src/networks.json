@@ -442,6 +442,20 @@
     "start": 2497732,
     "logo": "ipfs://QmVEgNeQDKnXygeGxfY9FywZpNGQu98ktZtRJ9bToYF6g7"
   },
+  "252": {
+    "key": "252",
+    "name": "Fraxtal",
+    "shortName": "mainnet",
+    "chainId": 252,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://fraxscan.com"
+    },
+    "start": 1,
+    "logo": "ipfs://bafkreieflj4wq6tx7k5kq47z3xnsrdrn2xgm4bxa3uovrnndcb2vqqwlyu"
+  },
   "269": {
     "key": "269",
     "name": "High Performance Blockchain",
@@ -1455,6 +1469,20 @@
     "logo": "ipfs://bafkreiammyt7uztbztqbcqv4bydnczsh2fqmnjf6jxj4xnskzzl6sjrigq",
     "testnet": true
   },
+  "810180": {
+    "key": "810180",
+    "name": "zkLink Nova",
+    "shortName": "zlink",
+    "chainId": 810180,
+    "network": "mainnet",
+    "multicall": "0x825267E0fA5CAe92F98540828a54198dcB3Eaeb5",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.zklink.io"
+    },
+    "start": 146055,
+    "logo": "ipfs://bafkreic6c3iems5235qapyhyrygha7akqrsfact2nok3y2uhljpzxrdu74"
+  },
   "810181": {
     "key": "810181",
     "name": "zkLink Nova Sepolia",
@@ -1469,20 +1497,6 @@
     "start": 43723,
     "logo": "ipfs://bafkreic6c3iems5235qapyhyrygha7akqrsfact2nok3y2uhljpzxrdu74",
     "testnet": true
-  },
-  "810180": {
-    "key": "810180",
-    "name": "zkLink Nova",
-    "shortName": "zlink",
-    "chainId": 810180,
-    "network": "mainnet",
-    "multicall": "0x825267E0fA5CAe92F98540828a54198dcB3Eaeb5",
-    "rpc": [],
-    "explorer": {
-      "url": "https://explorer.zklink.io"
-    },
-    "start": 146055,
-    "logo": "ipfs://bafkreic6c3iems5235qapyhyrygha7akqrsfact2nok3y2uhljpzxrdu74"
   },
   "11155111": {
     "key": "11155111",
