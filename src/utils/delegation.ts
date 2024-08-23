@@ -13,7 +13,7 @@ type Delegation = {
 
 export default async function getDelegatesBySpace(
   network: string,
-  space: string,
+  space: string | null,
   snapshot: string | number = 'latest',
   options: any = {}
 ) {
@@ -26,7 +26,7 @@ export default async function getDelegatesBySpace(
 
   let pivot = 0;
   const result = new Map<string, Delegation>();
-  const spaceIn = buildSpaceIn(space);
+  const spaceIn = space ? buildSpaceIn(space) : null;
 
   while (true) {
     const newResults = await fetchData({
@@ -86,7 +86,7 @@ async function fetchData({
   snapshot
 }: {
   url: string;
-  spaces: string[];
+  spaces: string[] | null;
   pivot: number;
   snapshot: string | number;
 }): Promise<Delegation[]> {
@@ -94,7 +94,6 @@ async function fetchData({
     delegations: {
       __args: {
         where: {
-          space_in: spaces,
           timestamp_gte: pivot
         },
         first: PAGE_SIZE,
@@ -111,6 +110,10 @@ async function fetchData({
 
   if (snapshot !== 'latest') {
     params.delegations.__args.block = { number: snapshot };
+  }
+
+  if (spaces !== null) {
+    params.delegations.__args.where.space_in = spaces;
   }
 
   return (await subgraphRequest(url, params)).delegations || [];
