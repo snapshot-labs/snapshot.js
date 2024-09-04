@@ -1261,6 +1261,20 @@
     "start": 27458402,
     "logo": "ipfs://QmZZnwR1y6cU1sare2TQmwqkNDLXQxD4GdPrmHLmUoPtbU"
   },
+  "33111": {
+    "key": "33111",
+    "name": "Curtis",
+    "shortName": "apechain",
+    "chainId": 33111,
+    "network": "mainnet",
+    "multicall": "0xc454132B017b55b427f45078E335549A7124f5f7",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.curtis.apechain.com"
+    },
+    "start": 6661339,
+    "logo": "ipfs://bafkreicljxttjq2xkgfwwpii5xegirgq2ctrnsjnzelxudjj33qzq65apu"
+  },
   "42161": {
     "key": "42161",
     "name": "Arbitrum One",
