@@ -40,7 +40,13 @@
         "avatar": {
           "type": "string",
           "title": "avatar",
-          "format": "uri",
+          "format": "customUrl",
+          "maxLength": 256
+        },
+        "cover": {
+          "type": "string",
+          "title": "avatar",
+          "format": "customUrl",
           "maxLength": 256
         },
         "location": {
