@@ -345,6 +345,7 @@
         "treasuries": {
           "type": "array",
           "maxItems": 10,
+          "uniqueItems": true,
           "items": {
             "type": "object",
             "properties": {
