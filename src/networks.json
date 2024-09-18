@@ -1557,7 +1557,7 @@
       "0x8FADE66B79cC9f707aB26799354482EB93a5B7dD"
     ],
     "ensNameWrapper": "0x0635513f179D50A207757E05759CbD106d7dFcE8",
-    "ensSubgraph": "https://api.studio.thegraph.com/proxy/49574/enssepolia/version/latest",
+    "ensSubgraph": "https://subgrapher.snapshot.org/subgraph/arbitrum/DmMXLtMZnGbQXASJ7p1jfzLUbBYnYUD9zNBTxpkjHYXV",
     "explorer": {
       "url": "https://sepolia.etherscan.io",
       "apiUrl": "https://api-sepolia.etherscan.io"
