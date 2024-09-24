@@ -103,6 +103,10 @@
         },
         "domain": {
           "type": "string",
+          "allOf": [
+            { "format": "hostname" },
+            { "format": "lowercase" }
+          ],
           "title": "domain",
           "maxLength": 64
         },
