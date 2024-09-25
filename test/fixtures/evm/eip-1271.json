@@ -1,0 +1,85 @@
+{
+  "address": "0x052cbB9395b350b15540537Fb7E1b434A2701958",
+  "sig": "0x",
+  "hash": "0x5bb1dabff7dd20555101d712b36de6f60728d6ebb9cb96f96c4d5ec8a9b77391",
+  "data": {
+    "types": {
+      "Proposal": [
+        {
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "name": "space",
+          "type": "string"
+        },
+        {
+          "name": "timestamp",
+          "type": "uint64"
+        },
+        {
+          "name": "type",
+          "type": "string"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "body",
+          "type": "string"
+        },
+        {
+          "name": "discussion",
+          "type": "string"
+        },
+        {
+          "name": "choices",
+          "type": "string[]"
+        },
+        {
+          "name": "start",
+          "type": "uint64"
+        },
+        {
+          "name": "end",
+          "type": "uint64"
+        },
+        {
+          "name": "snapshot",
+          "type": "uint64"
+        },
+        {
+          "name": "plugins",
+          "type": "string"
+        },
+        {
+          "name": "app",
+          "type": "string"
+        }
+      ]
+    },
+    "domain": {
+      "name": "snapshot",
+      "version": "0.1.4"
+    },
+    "message": {
+      "app": "snapshot",
+      "end": 1724545965,
+      "body": "### Abstract\n\nThis proposal aims to put an end date for the JPEG to JPGD migration program. All JPEG token after the migration end date won’t be able to be migrated. The proposed end date for the migration is *October 30th 2024.*\n\n### Background\n\nThere is currently ~16 billion JPEG that has not yet been migrated to JPGD. \n\nIn order to consolidate liquidity, we suggest to amend PIP-80 “Migrate $JPEG to $JPEGD,” and set an end date to the migration of JPEG tokens to JPGD tokens.\n\nEffective *October 30th 2024*, holders of JPEG token will no longer have the ability to migrate their tokens and receive JPGD.\n\n### Specification\n\nEffective *October 30th 2024*, JPEG token will no longer have the ability to be migrated to JPGD.",
+      "from": "0x052cbB9395b350b15540537Fb7E1b434A2701958",
+      "type": "single-choice",
+      "space": "jpeg’d.eth",
+      "start": 1724286765,
+      "title": "PIP-92 - End JPEG to JPGD Token Migration",
+      "choices": [
+        "yes, end JPEG to JPGD migration ",
+        "no, keep JPEG to JPGD migration"
+      ],
+      "plugins": "{}",
+      "snapshot": 20579390,
+      "timestamp": 1724272365,
+      "discussion": ""
+    }
+  }
+}
