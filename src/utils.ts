@@ -120,7 +120,7 @@ ajv.addFormat('lowercase', {
 ajv.addFormat('color', {
   validate: (value: string) => {
     if (!value) return false;
-    return !!value.match(/^#[0-9a-fA-F]{6}$/);
+    return !!value.match(/^#[0-9A-F]{6}$/);
   }
 });
 
