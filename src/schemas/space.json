@@ -393,6 +393,41 @@
             "additionalProperties": false
           }
         },
+        "labels": {
+          "type": "array",
+          "maxItems": 100,
+          "uniqueItems": true,
+          "items":{
+            "type": "object",
+            "properties": {
+              "id":{
+                "type": "string",
+                "title": "Id",
+                "minLength": 1,
+                "maxLength": 8
+              },
+              "name": {
+                "type": "string",
+                "title": "Name",
+                "minLength": 1,
+                "maxLength": 32
+              },
+              "description": {
+                "type": "string",
+                "title": "Description",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "color": {
+                "type": "string",
+                "title": "Color",
+                "format": "color"
+              }
+            },
+            "required": ["id", "name", "description", "color"],
+            "additionalProperties": false
+          }
+        },
         "parent": {
           "type": "string",
           "title": "parent"

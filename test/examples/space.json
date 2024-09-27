@@ -30,9 +30,23 @@
     "name": "basic",
     "params": {}
   },
-  "voting":{
+  "voting": {
     "delay": 2592000,
     "period": 15552000,
     "quorum": 100
-  }
+  },
+  "labels": [
+    {
+        "id": "4b6a8c88",
+        "name": "Test 1",
+        "description": "Test Description 1",
+        "color": "#48CB0D"
+    },
+    {
+        "id": "893b2f3",
+        "name": "Test 2",
+        "description": "Test Description 2",
+        "color": "#FBE54E"
+    }
+  ]
 }
