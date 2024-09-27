@@ -117,6 +117,13 @@ ajv.addFormat('lowercase', {
   validate: (value: string) => value === value.toLowerCase()
 });
 
+ajv.addFormat('color', {
+  validate: (value: string) => {
+    if (!value) return false;
+    return !!value.match(/^#[0-9a-fA-F]{6}$/);
+  }
+});
+
 ajv.addFormat('ethValue', {
   validate: (value: string) => {
     if (!value.match(/^([0-9]|[1-9][0-9]+)(\.[0-9]+)?$/)) return false;
