@@ -1280,14 +1280,15 @@
     "name": "Curtis",
     "shortName": "apechain",
     "chainId": 33111,
-    "network": "mainnet",
+    "network": "testnet",
     "multicall": "0xc454132B017b55b427f45078E335549A7124f5f7",
     "rpc": [],
     "explorer": {
       "url": "https://explorer.curtis.apechain.com"
     },
     "start": 6661339,
-    "logo": "ipfs://bafkreicljxttjq2xkgfwwpii5xegirgq2ctrnsjnzelxudjj33qzq65apu"
+    "logo": "ipfs://bafkreicljxttjq2xkgfwwpii5xegirgq2ctrnsjnzelxudjj33qzq65apu",
+    "testnet": true
   },
   "33139": {
     "key": "33139",
