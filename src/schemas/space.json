@@ -395,7 +395,7 @@
         },
         "labels": {
           "type": "array",
-          "maxItems": 100,
+          "maxItems": 10,
           "uniqueItems": true,
           "items":{
             "type": "object",
