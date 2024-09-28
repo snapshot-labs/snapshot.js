@@ -415,7 +415,6 @@
               "description": {
                 "type": "string",
                 "title": "Description",
-                "minLength": 1,
                 "maxLength": 100
               },
               "color": {
@@ -424,7 +423,7 @@
                 "format": "color"
               }
             },
-            "required": ["id", "name", "description", "color"],
+            "required": ["id", "name", "color"],
             "additionalProperties": false
           }
         },
