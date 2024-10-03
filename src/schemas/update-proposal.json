@@ -40,6 +40,14 @@
             "turbo": 1000
           }
         },
+        "labels": {
+          "type": "array",
+          "title": "labels",
+          "maxItems": 10,
+          "items": {
+            "type": "string"
+          }
+        },
         "type": {
           "enum": [
             "single-choice",
