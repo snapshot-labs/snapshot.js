@@ -8,7 +8,6 @@ function sha256(str) {
   return createHash('sha256').update(str).digest('hex');
 }
 describe('sign types', () => {
-  console.log(types);
   Object.keys(types).forEach((key) => {
     test(`hashed type should contain with type ${key}`, () => {
       const hash = sha256(JSON.stringify(types[key]));
