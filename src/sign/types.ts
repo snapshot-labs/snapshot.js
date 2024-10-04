@@ -22,6 +22,7 @@ export interface Proposal {
   body: string;
   discussion: string;
   choices: string[];
+  labels?: string[];
   start: number;
   end: number;
   snapshot: number;
@@ -39,6 +40,7 @@ export interface UpdateProposal {
   body: string;
   discussion: string;
   choices: string[];
+  labels?: string[];
   plugins: string;
 }
 
@@ -143,6 +145,7 @@ export const proposalTypes = {
     { name: 'body', type: 'string' },
     { name: 'discussion', type: 'string' },
     { name: 'choices', type: 'string[]' },
+    { name: 'labels', type: 'string[]' },
     { name: 'start', type: 'uint64' },
     { name: 'end', type: 'uint64' },
     { name: 'snapshot', type: 'uint64' },
@@ -162,6 +165,7 @@ export const updateProposalTypes = {
     { name: 'body', type: 'string' },
     { name: 'discussion', type: 'string' },
     { name: 'choices', type: 'string[]' },
+    { name: 'labels', type: 'string[]' },
     { name: 'plugins', type: 'string' }
   ]
 };

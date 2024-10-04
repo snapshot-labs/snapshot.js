@@ -36,6 +36,18 @@
             "turbo": 1000
           }
         },
+        "labels": {
+          "type": "array",
+          "title": "labels",
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8,
+            "pattern": "^[a-zA-Z0-9]+$"
+          }
+        },
         "type": {
           "type": "string",
           "enum": [
