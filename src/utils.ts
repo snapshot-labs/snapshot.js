@@ -99,6 +99,17 @@ ajv.addFormat('address', {
   }
 });
 
+ajv.addFormat('evmAddress', {
+  validate: (value: string) => {
+    try {
+      getAddress(value);
+      return true;
+    } catch (e: any) {
+      return false;
+    }
+  }
+});
+
 ajv.addFormat('starknetAddress', {
   validate: (value: string) => {
     try {

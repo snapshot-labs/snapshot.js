@@ -147,9 +147,7 @@
           "maxItems": 100,
           "items": {
             "type": "string",
-            "pattern": "^0x[a-fA-F0-9]{40}$",
-            "minLength": 42,
-            "maxLength": 42
+            "format": "evmAddress"
           },
           "title": "members",
           "uniqueItems": true
@@ -159,9 +157,7 @@
           "maxItems": 100,
           "items": {
             "type": "string",
-            "pattern": "^0x[a-fA-F0-9]{40}$",
-            "minLength": 42,
-            "maxLength": 42
+            "format": "evmAddress"
           },
           "title": "admins",
           "uniqueItems": true
@@ -171,9 +167,7 @@
           "maxItems": 100,
           "items": {
             "type": "string",
-            "pattern": "^0x[a-fA-F0-9]{40}$",
-            "minLength": 42,
-            "maxLength": 42
+            "format": "evmAddress"
           },
           "title": "moderators",
           "uniqueItems": true
@@ -264,7 +258,7 @@
             },
             "delegationContract": {
               "type": "string",
-              "format": "address",
+              "format": "evmAddress",
               "title": "Contract address",
               "description": "The address of your delegation contract",
               "examples": ["0x3901D0fDe202aF1427216b79f5243f8A022d68cf"]
@@ -379,7 +373,7 @@
                 "title": "Contract address",
                 "examples": ["e.g. 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"],
                 "anyOf": [
-                  { "format": "address" },
+                  { "format": "evmAddress" },
                   { "format": "starknetAddress" }
                 ]
               },
