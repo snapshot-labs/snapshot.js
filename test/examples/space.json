@@ -35,6 +35,23 @@
     "period": 15552000,
     "quorum": 100
   },
+  "treasuries": [
+    {
+      "name": "EVM treasury with checksummed address",
+      "address": "0xF296178d553C8Ec21A2fBD2c5dDa8CA9ac905A00",
+      "network": "1"
+    },
+    {
+      "name": "EVM treasury with lowercase address",
+      "address": "0xf296178d553c8ec21a2fbd2c5dda8ca9ac905a00",
+      "network": "1"
+    },
+    {
+      "name": "Starknet treasury",
+      "address": "0x05702362b68a350c1cae8f2a529d74fdbb502369ddcebfadac7e91da37636947",
+      "network": "1"
+    }
+  ],
   "labels": [
     {
         "id": "4b6a8c88",
