@@ -3,6 +3,7 @@ import { validateSchema } from '../src/utils';
 import space from './examples/space.json';
 import proposal from './examples/proposal.json';
 import spaceTurbo from './examples/space-turbo.json';
+import spaceStarknetDelegation from './examples/space-starknet-delegation.json';
 import proposalTurbo from './examples/proposal-turbo.json';
 import vote from './examples/vote.json';
 import profile from './examples/profile.json';
@@ -15,6 +16,11 @@ import spaceMaxItemsWithSpaceTypeError from './examples/space-maxItemsWithSpaceT
 // Tests for default spaces
 describe.each([
   { schemaType: 'space', schema: schemas.space, example: space },
+  {
+    schemaType: 'space',
+    schema: schemas.space,
+    example: spaceStarknetDelegation
+  },
   { schemaType: 'proposal', schema: schemas.proposal, example: proposal },
   { schemaType: 'vote', schema: schemas.vote, example: vote },
   { schemaType: 'profile', schema: schemas.profile, example: profile },
