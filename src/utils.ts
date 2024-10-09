@@ -36,6 +36,7 @@ const ENS_ABI = [
   'function resolver(bytes32 node) view returns (address)' // ENS registry ABI
 ];
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
+const STARKNET_NETWORKS = ['0x534e5f4d41494e', '0x534e5f5345504f4c4941'];
 
 const scoreApiHeaders = {
   Accept: 'application/json',
@@ -160,6 +161,16 @@ ajv.addKeyword({
     const snapshotEnv = this.snapshotEnv || 'default';
     if (snapshotEnv === 'mainnet') return mainnetNetworkIds.includes(data);
     return networksIds.includes(data);
+  },
+  error: {
+    message: 'network not allowed'
+  }
+});
+
+ajv.addKeyword({
+  keyword: 'starknetNetwork',
+  validate: function (schema, data) {
+    return STARKNET_NETWORKS.includes(data);
   },
   error: {
     message: 'network not allowed'

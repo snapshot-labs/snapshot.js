@@ -1,0 +1,44 @@
+{
+  "name": "Loot Owners",
+  "skin": "indexed",
+  "about": "",
+  "admins": [
+    "0xF296178d553C8Ec21A2fBD2c5dDa8CA9ac905A00"
+  ],
+  "avatar": "https://pbs.twimg.com/profile_images/1431587138202701826/lpgblc4h_400x400.jpg",
+  "github": "lootproject",
+  "symbol": "LOOT",
+  "filters": {
+    "minScore": 1,
+    "onlyMembers": false
+  },
+  "members": [],
+  "network": "1",
+  "plugins": {},
+  "twitter": "lootproject",
+  "domain": "vote.lootproject.abc",
+  "strategies": [
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7"
+      }
+    }
+  ],
+  "delegationPortal":{
+    "delegationType": "compound-governor",
+    "delegationContract": "0x05702362b68a350c1cae8f2a529d74fdbb502369ddcebfadac7e91da37636947",
+    "delegationNetwork": "0x534e5f4d41494e",
+    "delegationApi": "https://snapshot.org"
+  },
+  "validation": {
+    "name": "basic",
+    "params": {}
+  },
+  "voting": {
+    "delay": 2592000,
+    "period": 15552000,
+    "quorum": 100
+  }
+}
