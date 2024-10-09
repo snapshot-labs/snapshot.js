@@ -264,7 +264,8 @@
               "anyOf": [
                 { "format": "evmAddress" },
                 { "format": "starknetAddress" }
-              ]
+              ],
+              "errorMessage": "Must be a valid EVM of Starknet address"
             },
             "delegationNetwork": {
               "type": "string",
@@ -379,7 +380,8 @@
                 "anyOf": [
                   { "format": "evmAddress" },
                   { "format": "starknetAddress" }
-                ]
+                ],
+                "errorMessage": "Must be a valid EVM of Starknet address"
               },
               "network": {
                 "type": "string",
