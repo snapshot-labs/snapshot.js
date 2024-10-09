@@ -103,10 +103,7 @@
         },
         "domain": {
           "type": "string",
-          "allOf": [
-            { "format": "hostname" },
-            { "format": "lowercase" }
-          ],
+          "allOf": [{ "format": "hostname" }, { "format": "lowercase" }],
           "title": "domain",
           "maxLength": 64
         },
@@ -258,10 +255,13 @@
             },
             "delegationContract": {
               "type": "string",
-              "format": "evmAddress",
               "title": "Contract address",
               "description": "The address of your delegation contract",
-              "examples": ["0x3901D0fDe202aF1427216b79f5243f8A022d68cf"]
+              "examples": ["0x3901D0fDe202aF1427216b79f5243f8A022d68cf"],
+              "anyOf": [
+                { "format": "evmAddress" },
+                { "format": "starknetAddress" }
+              ]
             },
             "delegationNetwork": {
               "type": "string",
@@ -392,10 +392,10 @@
           "type": "array",
           "maxItems": 10,
           "uniqueItems": true,
-          "items":{
+          "items": {
             "type": "object",
             "properties": {
-              "id":{
+              "id": {
                 "type": "string",
                 "title": "Id",
                 "minLength": 1,

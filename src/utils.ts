@@ -148,8 +148,20 @@ ajv.addFormat('ethValue', {
   }
 });
 
-const networksIds = Object.keys(networks);
-const mainnetNetworkIds = Object.keys(networks).filter(
+const networksWithStarknet = {
+  ...networks,
+  '0x534e5f4d41494e': {
+    name: 'Starknet',
+    testnet: false
+  },
+  '0x534e5f5345504f4c4941': {
+    name: 'Starknet Sepolia',
+    testnet: true
+  }
+};
+
+const networksIds = Object.keys(networksWithStarknet);
+const mainnetNetworkIds = Object.keys(networksWithStarknet).filter(
   (id) => !networks[id].testnet
 );
 
