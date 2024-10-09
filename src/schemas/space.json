@@ -274,7 +274,8 @@
               "anyOf": [
                 { "snapshotNetwork": true },
                 { "starknetNetwork": true }
-              ]
+              ],
+              "errorMessage": "Must be a valid network"
             },
             "delegationApi": {
               "type": "string",
@@ -389,7 +390,8 @@
                 "anyOf": [
                 { "snapshotNetwork": true },
                 { "starknetNetwork": true }
-              ]
+              ],
+              "errorMessage": "Must be a valid network"
               }
             },
             "required": ["name", "address", "network"],
