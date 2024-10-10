@@ -264,7 +264,8 @@
               "anyOf": [
                 { "format": "evmAddress" },
                 { "format": "starknetAddress" }
-              ]
+              ],
+              "errorMessage": "Must be a valid EVM of Starknet address"
             },
             "delegationNetwork": {
               "type": "string",
@@ -273,7 +274,8 @@
               "anyOf": [
                 { "snapshotNetwork": true },
                 { "starknetNetwork": true }
-              ]
+              ],
+              "errorMessage": "Must be a valid network"
             },
             "delegationApi": {
               "type": "string",
@@ -379,7 +381,8 @@
                 "anyOf": [
                   { "format": "evmAddress" },
                   { "format": "starknetAddress" }
-                ]
+                ],
+                "errorMessage": "Must be a valid EVM of Starknet address"
               },
               "network": {
                 "type": "string",
@@ -387,7 +390,8 @@
                 "anyOf": [
                 { "snapshotNetwork": true },
                 { "starknetNetwork": true }
-              ]
+              ],
+              "errorMessage": "Must be a valid network"
               }
             },
             "required": ["name", "address", "network"],
