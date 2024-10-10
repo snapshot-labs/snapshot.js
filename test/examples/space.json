@@ -50,11 +50,6 @@
       "name": "Mainnet Starknet treasury",
       "address": "0x05702362b68a350c1cae8f2a529d74fdbb502369ddcebfadac7e91da37636947",
       "network": "0x534e5f4d41494e"
-    },
-    {
-      "name": "Sepolia Starknet treasury",
-      "address": "0x05702362b68a350c1cae8f2a529d74fdbb502369ddcebfadac7e91da37636947",
-      "network": "0x534e5f5345504f4c4941"
     }
   ],
   "labels": [

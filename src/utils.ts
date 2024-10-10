@@ -36,7 +36,16 @@ const ENS_ABI = [
   'function resolver(bytes32 node) view returns (address)' // ENS registry ABI
 ];
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
-const STARKNET_NETWORKS = ['0x534e5f4d41494e', '0x534e5f5345504f4c4941'];
+const STARKNET_NETWORKS = {
+  '0x534e5f4d41494e': {
+    name: 'Starknet',
+    testnet: false
+  },
+  '0x534e5f5345504f4c4941': {
+    name: 'Starknet Sepolia',
+    testnet: true
+  }
+};
 
 const scoreApiHeaders = {
   Accept: 'application/json',
@@ -170,7 +179,15 @@ ajv.addKeyword({
 ajv.addKeyword({
   keyword: 'starknetNetwork',
   validate: function (schema, data) {
-    return STARKNET_NETWORKS.includes(data);
+    // @ts-ignore
+    const snapshotEnv = this.snapshotEnv || 'default';
+    if (snapshotEnv === 'mainnet') {
+      return Object.keys(STARKNET_NETWORKS)
+        .filter((id) => !STARKNET_NETWORKS[id].testnet)
+        .includes(data);
+    }
+
+    return Object.keys(STARKNET_NETWORKS).includes(data);
   },
   error: {
     message: 'network not allowed'
