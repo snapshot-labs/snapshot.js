@@ -1,0 +1,134 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Partial ranking 1`] = `
+[
+  4,
+  6,
+  2,
+  0,
+]
+`;
+
+exports[`getScores 1`] = `
+[
+  5,
+  5,
+  2,
+  0,
+]
+`;
+
+exports[`getScores 2`] = `
+[
+  5,
+  5,
+  2,
+  0,
+]
+`;
+
+exports[`getScores 3`] = `
+[
+  5,
+  5,
+  2,
+  0,
+]
+`;
+
+exports[`getScores 4`] = `
+[
+  5,
+  5,
+  2,
+  0,
+]
+`;
+
+exports[`getScoresByStrategy 1`] = `
+[
+  [
+    5,
+  ],
+  [
+    5,
+  ],
+  [
+    2,
+  ],
+  [
+    0,
+  ],
+]
+`;
+
+exports[`getScoresByStrategy 2`] = `
+[
+  [
+    5,
+  ],
+  [
+    5,
+  ],
+  [
+    2,
+  ],
+  [
+    0,
+  ],
+]
+`;
+
+exports[`getScoresByStrategy 3`] = `
+[
+  [
+    5,
+    5,
+    5,
+  ],
+  [
+    5,
+    5,
+    5,
+  ],
+  [
+    2,
+    2,
+    2,
+  ],
+  [
+    0,
+    0,
+    0,
+  ],
+]
+`;
+
+exports[`getScoresByStrategy 4`] = `
+[
+  [
+    5,
+    5,
+    5,
+  ],
+  [
+    5,
+    5,
+    5,
+  ],
+  [
+    2,
+    2,
+    2,
+  ],
+  [
+    0,
+    0,
+    0,
+  ],
+]
+`;
+
+exports[`getScoresTotal 1`] = `4`;
+
+exports[`getScoresTotal 2`] = `12`;
