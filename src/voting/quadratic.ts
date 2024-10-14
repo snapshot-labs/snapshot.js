@@ -1,4 +1,4 @@
-import { QuadraticVote, QuadraticChoice, Strategy } from './types';
+import { QuadraticVote, ChoiceMap, Strategy } from './types';
 
 export function calcPercentageOfSum(
   part: number,
@@ -34,13 +34,13 @@ export default class QuadraticVoting {
   proposal: { choices: string[] };
   votes: QuadraticVote[];
   strategies: Strategy[];
-  selected: QuadraticChoice;
+  selected: ChoiceMap;
 
   constructor(
     proposal: { choices: string[] },
     votes: QuadraticVote[],
     strategies: Strategy[],
-    selected: QuadraticChoice
+    selected: ChoiceMap
   ) {
     this.proposal = proposal;
     this.votes = votes;
@@ -49,7 +49,7 @@ export default class QuadraticVoting {
   }
 
   static isValidChoice(
-    voteChoice: QuadraticChoice,
+    voteChoice: ChoiceMap,
     proposalChoices: string[]
   ): boolean {
     return (

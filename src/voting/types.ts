@@ -10,8 +10,7 @@ interface BaseVote<TChoice> {
   scores: number[];
 }
 
-type ChoiceMap = { [key: string]: number };
-
+export type ChoiceMap = { [key: string]: number };
 export type SingleChoiceVote = BaseVote<number>;
 export type ApprovalVote = BaseVote<number[]>;
 export type RankedChoiceVote = BaseVote<number[]>;
