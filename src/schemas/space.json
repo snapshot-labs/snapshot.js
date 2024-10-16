@@ -284,7 +284,7 @@
               ]
             }
           },
-          "required": ["delegationType", "delegationNetwork", "delegationApi", "delegationContract"],
+          "required": ["delegationType", "delegationApi", "delegationContract"],
           "additionalProperties": false
         },
         "allowAlias": {
