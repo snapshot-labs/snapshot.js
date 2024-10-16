@@ -252,6 +252,13 @@ ajv.addFormat('customUrl', {
   }
 });
 
+ajv.addFormat('domain', {
+  validate: (value: string) => {
+    if (!value) return false;
+    return !!value.match(/^(https:\/\/)?([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/);
+  }
+});
+
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
   try {

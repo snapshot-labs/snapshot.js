@@ -103,12 +103,9 @@
         },
         "domain": {
           "type": "string",
-          "allOf": [
-            { "format": "hostname" },
-            { "format": "lowercase" }
-          ],
           "title": "domain",
-          "maxLength": 64
+          "maxLength": 64,
+          "format": "domain"
         },
         "strategies": {
           "type": "array",
