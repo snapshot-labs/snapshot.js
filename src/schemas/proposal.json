@@ -83,7 +83,7 @@
         "app": {
           "type": "string",
           "title": "app",
-          "maxLength": 24
+          "maxLength": 128
         }
       },
       "required": ["name", "body", "choices", "snapshot", "start", "end"],
