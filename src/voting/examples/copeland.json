@@ -1,0 +1,32 @@
+{
+  "proposal": {
+    "choices": ["Alice", "Bob", "Carol", "David"]
+  },
+  "strategies": [{ "name": "ticket", "network": "1", "params": {} }],
+  "scores": [2.5, 2, 0.5, 1],
+  "scoresByStrategy": [[2.5], [2], [0.5], [1]],
+  "scoresTotal": 4,
+  "selectedChoice": [1, 2],
+  "votes": [
+    {
+      "choice": [1, 2, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1, 3, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [1, 3, 2, 4],
+      "balance": 1,
+      "scores": [1]
+    },
+    {
+      "choice": [2, 1],
+      "balance": 1,
+      "scores": [1]
+    }
+  ]
+}

@@ -4,36 +4,15 @@ export interface Strategy {
   params: Record<string, unknown>;
 }
 
-export interface SingleChoiceVote {
-  choice: number;
+interface BaseVote<TChoice> {
+  choice: TChoice;
   balance: number;
   scores: number[];
 }
 
-export interface ApprovalVote {
-  choice: number[];
-  balance: number;
-  scores: number[];
-}
-
-export interface RankedChoiceVote {
-  choice: number[];
-  balance: number;
-  scores: number[];
-}
-
-export interface QuadraticChoice {
-  [key: string]: number;
-}
-
-export interface QuadraticVote {
-  choice: QuadraticChoice;
-  balance: number;
-  scores: number[];
-}
-
-export interface WeightedVote {
-  choice: { [key: string]: number };
-  balance: number;
-  scores: number[];
-}
+export type ChoiceMap = { [key: string]: number };
+export type SingleChoiceVote = BaseVote<number>;
+export type ApprovalVote = BaseVote<number[]>;
+export type RankedChoiceVote = BaseVote<number[]>;
+export type QuadraticVote = BaseVote<ChoiceMap>;
+export type WeightedVote = BaseVote<ChoiceMap>;
