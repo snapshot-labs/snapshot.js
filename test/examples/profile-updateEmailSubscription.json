@@ -1,0 +1,8 @@
+{
+  "name": "Vitalik",
+  "avatar": "ipfs://NnVTdgcFciJUoxqgsNe9Hy2R7rgvEb5jDu5Pa5mmEG3UghbubTf2M78jUXbKLqKM",
+  "about": "This is my about info",
+  "emailSubscription": {
+    "subscriptions": ["summary", "newProposal"]
+  }
+}
