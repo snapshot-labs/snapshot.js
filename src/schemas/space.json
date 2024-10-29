@@ -324,9 +324,6 @@
               "type": "string",
               "enum": ["rejection"]
             },
-            "blind": {
-              "type": "boolean"
-            },
             "hideAbstain": {
               "type": "boolean"
             },
@@ -335,7 +332,7 @@
             },
             "privacy": {
               "type": "string",
-              "enum": ["", "shutter"]
+              "enum": ["", "shutter", "author-selection"]
             }
           },
           "additionalProperties": false
