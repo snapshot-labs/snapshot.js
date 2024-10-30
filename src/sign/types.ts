@@ -167,7 +167,8 @@ export const updateProposalTypes = {
     { name: 'discussion', type: 'string' },
     { name: 'choices', type: 'string[]' },
     { name: 'labels', type: 'string[]' },
-    { name: 'plugins', type: 'string' }
+    { name: 'plugins', type: 'string' },
+    { name: 'privacy', type: 'string' }
   ]
 };
 
