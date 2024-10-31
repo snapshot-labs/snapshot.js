@@ -34,7 +34,7 @@
     "delay": 2592000,
     "period": 15552000,
     "quorum": 100,
-    "privacy": "author-selection"
+    "privacy": "any"
   },
   "treasuries": [
     {
