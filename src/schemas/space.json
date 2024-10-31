@@ -332,7 +332,7 @@
             },
             "privacy": {
               "type": "string",
-              "enum": ["", "shutter", "author-selection"]
+              "enum": ["", "shutter", "any"]
             }
           },
           "additionalProperties": false
