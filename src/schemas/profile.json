@@ -52,23 +52,11 @@
           "pattern": "^[a-z0-9-]*$",
           "maxLength": 17
         },
-        "emailSubscription": {
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "string",
-              "title": "email",
-              "maxLength": 256
-            },
-            "subscriptions": {
-              "type": "array",
-              "title": "subscriptions",
-              "uniqueItems": true,
-              "items": { "type": "string" }
-            }
-          },
-          "required": [],
-          "additionalProperties": false
+        "emailSubscriptions": {
+          "type": "array",
+          "title": "email subscriptions",
+          "uniqueItems": true,
+          "items": { "type": "string" }
         }
       },
       "required": [],
