@@ -1,4 +1,5 @@
 {
   "type": "email",
-  "value": "my-email@snapshot.org"
+  "value": "my-email@snapshot.org",
+  "metadata": "['summary', 'newProposal']"
 }

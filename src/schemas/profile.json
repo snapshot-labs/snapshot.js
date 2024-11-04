@@ -51,12 +51,6 @@
           "title": "farcaster",
           "pattern": "^[a-z0-9-]*$",
           "maxLength": 17
-        },
-        "emailSubscriptions": {
-          "type": "array",
-          "title": "email subscriptions",
-          "uniqueItems": true,
-          "items": { "type": "string" }
         }
       },
       "required": [],

@@ -14,6 +14,10 @@
           "type": "string",
           "title": "value",
           "maxLength": 256
+        },
+        "metadata": {
+          "type": "string",
+          "title": "metadata"
         }
       },
       "required": ["type", "value"],

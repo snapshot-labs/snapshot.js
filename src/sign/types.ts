@@ -351,6 +351,7 @@ export const subscriptionTypes = {
     { name: 'from', type: 'address' },
     { name: 'type', type: 'string' },
     { name: 'value', type: 'string' },
+    { name: 'metadata', type: 'string' },
     { name: 'timestamp', type: 'uint64' }
   ]
 };

@@ -7,7 +7,6 @@ import spaceStarknetDelegation from './examples/space-starknet-delegation.json';
 import proposalTurbo from './examples/proposal-turbo.json';
 import vote from './examples/vote.json';
 import profile from './examples/profile.json';
-import profileUpdateEmailSubscription from './examples/profile-updateEmailSubscription.json';
 import subscription from './examples/subscription.json';
 import statement from './examples/statement.json';
 import alias from './examples/alias.json';
@@ -26,11 +25,6 @@ describe.each([
   { schemaType: 'proposal', schema: schemas.proposal, example: proposal },
   { schemaType: 'vote', schema: schemas.vote, example: vote },
   { schemaType: 'profile', schema: schemas.profile, example: profile },
-  {
-    schemaType: 'profile',
-    schema: schemas.profile,
-    example: profileUpdateEmailSubscription
-  },
   {
     schemaType: 'subscription',
     schema: schemas.subscription,
