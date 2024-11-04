@@ -345,3 +345,12 @@ export const deleteSpaceType = {
     { name: 'timestamp', type: 'uint64' }
   ]
 };
+
+export const subscriptionTypes = {
+  Subscription: [
+    { name: 'from', type: 'address' },
+    { name: 'type', type: 'string' },
+    { name: 'value', type: 'string' },
+    { name: 'timestamp', type: 'uint64' }
+  ]
+};

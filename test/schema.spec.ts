@@ -8,6 +8,7 @@ import proposalTurbo from './examples/proposal-turbo.json';
 import vote from './examples/vote.json';
 import profile from './examples/profile.json';
 import profileUpdateEmailSubscription from './examples/profile-updateEmailSubscription.json';
+import subscription from './examples/subscription.json';
 import statement from './examples/statement.json';
 import alias from './examples/alias.json';
 import schemas from '../src/schemas';
@@ -29,6 +30,11 @@ describe.each([
     schemaType: 'profile',
     schema: schemas.profile,
     example: profileUpdateEmailSubscription
+  },
+  {
+    schemaType: 'subscription',
+    schema: schemas.subscription,
+    example: subscription
   },
   { schemaType: 'statement', schema: schemas.statement, example: statement },
   { schemaType: 'zodiac', schema: schemas.zodiac, example: space },
