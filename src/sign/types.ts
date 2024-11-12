@@ -126,6 +126,13 @@ export interface DeleteSpace {
   timestamp?: number;
 }
 
+export interface DeleteSubscription {
+  from?: string;
+  type: string;
+  value: string;
+  timestamp?: number;
+}
+
 export const spaceTypes = {
   Space: [
     { name: 'from', type: 'address' },
