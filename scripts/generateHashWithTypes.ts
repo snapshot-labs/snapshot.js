@@ -1,12 +1,11 @@
 const { createHash } = require('crypto');
 
 const types = {
-  Statement: [
+  Unsubscription: [
     { name: 'from', type: 'address' },
-    { name: 'timestamp', type: 'uint64' },
-    { name: 'space', type: 'string' },
-    { name: 'about', type: 'string' },
-    { name: 'statement', type: 'string' }
+    { name: 'type', type: 'string' },
+    { name: 'value', type: 'string' },
+    { name: 'timestamp', type: 'uint64' }
   ]
 };
 function sha256(str) {

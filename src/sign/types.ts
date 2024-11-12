@@ -355,3 +355,12 @@ export const subscriptionTypes = {
     { name: 'timestamp', type: 'uint64' }
   ]
 };
+
+export const unsubscriptionTypes = {
+  Unsubscription: [
+    { name: 'from', type: 'address' },
+    { name: 'type', type: 'string' },
+    { name: 'value', type: 'string' },
+    { name: 'timestamp', type: 'uint64' }
+  ]
+};
