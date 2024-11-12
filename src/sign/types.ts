@@ -356,8 +356,8 @@ export const subscriptionTypes = {
   ]
 };
 
-export const unsubscriptionTypes = {
-  Unsubscription: [
+export const deleteSubscriptionTypes = {
+  DeleteSubscription: [
     { name: 'from', type: 'address' },
     { name: 'type', type: 'string' },
     { name: 'value', type: 'string' },

@@ -1,7 +1,7 @@
 const { createHash } = require('crypto');
 
 const types = {
-  Unsubscription: [
+  DeleteSubscription: [
     { name: 'from', type: 'address' },
     { name: 'type', type: 'string' },
     { name: 'value', type: 'string' },

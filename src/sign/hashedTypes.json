@@ -64,5 +64,5 @@
   "d56782e3b50ac86c25ae292923da8c367e3c9e8e7ea9d8baa435051fe2f430fa": "proposal",
   "df10a7eeabe19301d6018be8b6c5d13231320d7ece64d021043fa172b64f3796": "update-proposal",
   "499ff7269df478dede66b3c0b96a0b90286c479b4013b423ac7cf8628a94e6db": "subscription",
-  "07332dd26824595cc95dcb5c2f13173c57c23944b328220ce46de163f0e94191": "unsubscription"
+  "da79044f9b55496aed0fa5fdb25aff50b07f59fde4d22e02ab5da9d65da546e1": "delete-subscription"
 }
