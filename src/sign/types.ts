@@ -126,6 +126,14 @@ export interface DeleteSpace {
   timestamp?: number;
 }
 
+export interface subscription {
+  from?: string;
+  type: string;
+  value: string;
+  metadata: string;
+  timestamp?: number;
+}
+
 export interface DeleteSubscription {
   from?: string;
   type: string;
