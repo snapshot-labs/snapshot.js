@@ -16,6 +16,7 @@ import {
   Profile,
   Alias,
   DeleteSpace,
+  Subscription,
   DeleteSubscription,
   Statement,
   spaceTypes,
@@ -38,6 +39,7 @@ import {
   aliasTypes,
   deleteSpaceType,
   statementTypes,
+  subscriptionTypes,
   deleteSubscriptionTypes
 } from './types';
 import constants from '../constants.json';
@@ -235,6 +237,14 @@ export default class Client {
     message: DeleteSpace
   ) {
     return await this.sign(web3, address, message, deleteSpaceType);
+  }
+
+  async subscription(
+    web3: Web3Provider | Wallet,
+    address: string,
+    message: Subscription
+  ) {
+    return await this.sign(web3, address, message, subscriptionTypes);
   }
 
   async deleteSubscription(

@@ -126,7 +126,7 @@ export interface DeleteSpace {
   timestamp?: number;
 }
 
-export interface subscription {
+export interface Subscription {
   from?: string;
   type: string;
   value: string;
