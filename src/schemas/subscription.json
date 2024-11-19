@@ -12,6 +12,7 @@
         },
         "value": {
           "type": "string",
+          "format": "email",
           "title": "value",
           "maxLength": 256
         },
