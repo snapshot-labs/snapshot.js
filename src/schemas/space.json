@@ -335,7 +335,7 @@
             },
             "privacy": {
               "type": "string",
-              "enum": ["", "shutter", "any"]
+              "enum": ["", "shutter"]
             }
           },
           "additionalProperties": false

@@ -66,10 +66,6 @@
         "metadata": {
           "type": "object",
           "title": "metadata"
-        },
-        "privacy": {
-          "type": "string",
-          "enum": ["", "shutter"]
         }
       },
       "required": ["proposal", "name", "body", "discussion", "choices", "type", "metadata"],

@@ -150,7 +150,6 @@ export const proposalTypes = {
     { name: 'end', type: 'uint64' },
     { name: 'snapshot', type: 'uint64' },
     { name: 'plugins', type: 'string' },
-    { name: 'privacy', type: 'string' },
     { name: 'app', type: 'string' }
   ]
 };
@@ -167,8 +166,7 @@ export const updateProposalTypes = {
     { name: 'discussion', type: 'string' },
     { name: 'choices', type: 'string[]' },
     { name: 'labels', type: 'string[]' },
-    { name: 'plugins', type: 'string' },
-    { name: 'privacy', type: 'string' }
+    { name: 'plugins', type: 'string' }
   ]
 };
 

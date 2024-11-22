@@ -33,8 +33,7 @@
   "voting": {
     "delay": 2592000,
     "period": 15552000,
-    "quorum": 100,
-    "privacy": "any"
+    "quorum": 100
   },
   "treasuries": [
     {
