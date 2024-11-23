@@ -128,8 +128,8 @@ export interface DeleteSpace {
 
 export interface EmailSubscription {
   from?: string;
-  email: string;
-  subscriptions: string[];
+  email?: string;
+  subscriptions?: string[];
   timestamp?: number;
 }
 
