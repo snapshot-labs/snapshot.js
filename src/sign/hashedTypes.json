@@ -63,6 +63,6 @@
   "4288d50b713081aae77d60d596d75864bff7acf7791a00183401e58658ee9da5": "statement",
   "d56782e3b50ac86c25ae292923da8c367e3c9e8e7ea9d8baa435051fe2f430fa": "proposal",
   "df10a7eeabe19301d6018be8b6c5d13231320d7ece64d021043fa172b64f3796": "update-proposal",
-  "499ff7269df478dede66b3c0b96a0b90286c479b4013b423ac7cf8628a94e6db": "subscription",
-  "da79044f9b55496aed0fa5fdb25aff50b07f59fde4d22e02ab5da9d65da546e1": "delete-subscription"
+  "e3bd9bf9665e4dd5be252408e6d7c9e9a4572897153171a31e39e11641162003": "email-subscription",
+  "339bef62ba146350b9dfdcf04203c2b3c7f19effd1d8804954a8189645112394": "delete-email-subscription"
 }

@@ -126,18 +126,15 @@ export interface DeleteSpace {
   timestamp?: number;
 }
 
-export interface Subscription {
+export interface EmailSubscription {
   from?: string;
-  type: string;
-  value: string;
-  metadata: string;
+  email: string;
+  subscriptions: string[];
   timestamp?: number;
 }
 
-export interface DeleteSubscription {
+export interface DeleteEmailSubscription {
   from?: string;
-  type: string;
-  value: string;
   timestamp?: number;
 }
 
@@ -361,21 +358,18 @@ export const deleteSpaceType = {
   ]
 };
 
-export const subscriptionTypes = {
-  Subscription: [
+export const emailSubscriptionTypes = {
+  EmailSubscription: [
     { name: 'from', type: 'address' },
-    { name: 'type', type: 'string' },
-    { name: 'value', type: 'string' },
-    { name: 'metadata', type: 'string' },
+    { name: 'email', type: 'string' },
+    { name: 'subscriptions', type: 'string[]' },
     { name: 'timestamp', type: 'uint64' }
   ]
 };
 
-export const deleteSubscriptionTypes = {
-  DeleteSubscription: [
+export const deleteEmailSubscriptionTypes = {
+  DeleteEmailSubscription: [
     { name: 'from', type: 'address' },
-    { name: 'type', type: 'string' },
-    { name: 'value', type: 'string' },
     { name: 'timestamp', type: 'uint64' }
   ]
 };
