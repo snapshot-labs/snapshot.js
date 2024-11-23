@@ -3,6 +3,7 @@ import proposal from './proposal.json';
 import updateProposal from './update-proposal.json';
 import vote from './vote.json';
 import profile from './profile.json';
+import emailSubscription from './email-subscription.json';
 import statement from './statement.json';
 import zodiac from './zodiac.json';
 import alias from './alias.json';
@@ -13,6 +14,7 @@ export default {
   updateProposal: updateProposal.definitions.UpdateProposal,
   vote: vote.definitions.Vote,
   profile: profile.definitions.Profile,
+  emailSubscription: emailSubscription.definitions.EmailSubscription,
   statement: statement.definitions.Statement,
   zodiac: zodiac.definitions.Zodiac,
   alias: alias.definitions.Alias
