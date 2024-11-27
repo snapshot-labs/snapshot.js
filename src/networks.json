@@ -825,6 +825,20 @@
     "start": 79164574,
     "logo": "ipfs://bafkreiammyt7uztbztqbcqv4bydnczsh2fqmnjf6jxj4xnskzzl6sjrigq"
   },
+  "1480": {
+    "key": "1480",
+    "name": "Vana",
+    "shortName": "mainnet",
+    "chainId": 1480,
+    "network": "mainnet",
+    "multicall": "0xD8d2dFca27E8797fd779F8547166A2d3B29d360E",
+    "rpc": [],
+    "explorer": {
+      "url": "https://islander.vanascan.io/"
+    },
+    "start": 716763,
+    "logo": "ipfs://bafkreibotel3dmc5og5rf3tpt7l74awkene7x6q3oxtwhptt4y4rpa7vsa"
+  },
   "1559": {
     "key": "1559",
     "name": "Tenet",
