@@ -21,6 +21,7 @@ export interface Proposal {
   title: string;
   body: string;
   discussion: string;
+  privacy?: string;
   choices: string[];
   labels?: string[];
   start: number;
@@ -39,6 +40,7 @@ export interface UpdateProposal {
   title: string;
   body: string;
   discussion: string;
+  privacy?: string;
   choices: string[];
   labels?: string[];
   plugins: string;
