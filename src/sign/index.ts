@@ -126,6 +126,7 @@ export default class Client {
   ) {
     if (!message.discussion) message.discussion = '';
     if (!message.app) message.app = '';
+    if (!message.privacy) message.privacy = '';
     return await this.sign(web3, address, message, proposalTypes);
   }
 
@@ -134,6 +135,7 @@ export default class Client {
     address: string,
     message: UpdateProposal
   ) {
+    if (!message.privacy) message.privacy = '';
     return await this.sign(web3, address, message, updateProposalTypes);
   }
 
