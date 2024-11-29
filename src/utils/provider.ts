@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import {
   JsonRpcBatchProvider,
   StaticJsonRpcProvider
@@ -10,7 +11,7 @@ export type ProviderOptions = {
   broviderUrl?: string;
 };
 
-const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org';
+const DEFAULT_BROVIDER_URL = process.env.BROVIDER_URL || 'https://rpc.snapshot.org';
 
 export default function getProvider(
   network,
