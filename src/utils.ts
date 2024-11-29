@@ -10,7 +10,7 @@ import addFormats from 'ajv-formats';
 import addErrors from 'ajv-errors';
 import Multicaller from './utils/multicaller';
 import { getSnapshots } from './utils/blockfinder';
-import getProvider from './utils/provider';
+import getProvider, { setBroviderUrl } from './utils/provider';
 import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './verify';
 import gateways from './gateways.json';
@@ -786,6 +786,7 @@ export default {
   sleep,
   getNumberWithOrdinal,
   voting,
+  setBroviderUrl,
   getProvider,
   signMessage,
   getBlockNumber,

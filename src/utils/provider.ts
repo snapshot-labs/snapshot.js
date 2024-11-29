@@ -10,7 +10,10 @@ export type ProviderOptions = {
   broviderUrl?: string;
 };
 
-const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org';
+let DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org';
+export function setBroviderUrl(broviderUrl: string) {
+  DEFAULT_BROVIDER_URL = broviderUrl;
+}
 
 export default function getProvider(
   network,
