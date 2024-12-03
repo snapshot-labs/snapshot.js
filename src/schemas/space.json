@@ -107,7 +107,7 @@
           "maxLength": 64,
           "format": "domain"
         },
-        "discussionLink": {
+        "discussions": {
           "type": "string",
           "format": "uri",
           "title": "Discussion link",

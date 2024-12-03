@@ -16,7 +16,7 @@
   "network": "1",
   "plugins": {},
   "twitter": "lootproject",
-  "discussionLink": "https://discuss.ens.domains/",
+  "discussions": "https://discuss.ens.domains/",
   "discourseCategory": 28,
   "domain": "vote.lootproject.abc",
   "strategies": [
