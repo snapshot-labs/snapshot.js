@@ -110,7 +110,7 @@
         "discussions": {
           "type": "string",
           "format": "uri",
-          "title": "Discussion link",
+          "title": "Discussions link",
           "maxLength": 256
         },
         "discourseCategory": {
