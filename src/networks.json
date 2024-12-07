@@ -394,6 +394,21 @@
     "start": 1290,
     "logo": "ipfs://bafkreib4xhbgbhrwkmizp4d4nz3wzbpyhdm6wpz2v2pbkk7jxsgg3hdt74"
   },
+  "157": {
+    "key": "157",
+    "name": "Shibarium Puppynet Testnet",
+    "shortName": "testnet",
+    "chainId": 157,
+    "network": "testnet",
+    "multicall": "0xA4029b74FBA366c926eDFA7Dd10B21C621170a4c",
+    "rpc": [],
+    "explorer": {
+      "url": "https://puppyscan.shib.io/"
+    },
+    "start": 3035769,
+    "logo": "ipfs://bafkreig57igai5phg4icywc5yoockd52jo3hlvbkyi6wiufrmu4p2lmenm",
+    "testnet": true
+  },
   "169": {
     "key": "169",
     "name": "Manta Pacific",
