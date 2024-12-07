@@ -310,6 +310,20 @@
     "start": 94425385,
     "logo": "ipfs://bafkreifc5z5vtvqx2luzgateyvoocwpd2ifv2hwufxdnyl2a767wa6icli"
   },
+  "109": {
+    "key": "109",
+    "name": "Shibarium",
+    "shortName": "mainnet",
+    "chainId": 109,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://shibariumscan.io"
+    },
+    "start": 3485946,
+    "logo": "ipfs://bafkreig57igai5phg4icywc5yoockd52jo3hlvbkyi6wiufrmu4p2lmenm"
+  },
   "122": {
     "key": "122",
     "name": "Fuse",
@@ -1270,6 +1284,21 @@
     },
     "start": 5307209,
     "logo": "ipfs://bafkreiepnhfv3hgexddjpyaeemxo3byhtxxit6t4zsponyczee6ddjqxwi",
+    "testnet": true
+  },
+  "14800": {
+    "key": "14800",
+    "name": "Vana Moksha Testnet",
+    "shortName": "testnet",
+    "chainId": 14800,
+    "network": "testnet",
+    "multicall": "0xD8d2dFca27E8797fd779F8547166A2d3B29d360E",
+    "rpc": [],
+    "explorer": {
+      "url": "https://moksha.vanascan.io"
+    },
+    "start": 732283,
+    "logo": "ipfs://bafkreibotel3dmc5og5rf3tpt7l74awkene7x6q3oxtwhptt4y4rpa7vsa",
     "testnet": true
   },
   "16718": {
