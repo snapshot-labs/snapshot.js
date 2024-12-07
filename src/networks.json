@@ -1271,6 +1271,21 @@
     "logo": "ipfs://bafkreiepnhfv3hgexddjpyaeemxo3byhtxxit6t4zsponyczee6ddjqxwi",
     "testnet": true
   },
+  "14800": {
+    "key": "14800",
+    "name": "Vana Moksha Testnet",
+    "shortName": "testnet",
+    "chainId": 14800,
+    "network": "testnet",
+    "multicall": "0xD8d2dFca27E8797fd779F8547166A2d3B29d360E",
+    "rpc": [],
+    "explorer": {
+      "url": "https://moksha.vanascan.io"
+    },
+    "start": 732283,
+    "logo": "ipfs://bafkreibotel3dmc5og5rf3tpt7l74awkene7x6q3oxtwhptt4y4rpa7vsa",
+    "testnet": true
+  },
   "16718": {
     "key": "16718",
     "name": "AirDAO",
