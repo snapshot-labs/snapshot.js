@@ -107,6 +107,17 @@
           "maxLength": 64,
           "format": "domain"
         },
+        "discussions": {
+          "type": "string",
+          "format": "uri",
+          "title": "Discussions link",
+          "maxLength": 256
+        },
+        "discourseCategory": {
+          "type": "integer",
+          "minimum": 1,
+          "title": "Discourse category"
+        },
         "strategies": {
           "type": "array",
           "minItems": 1,
