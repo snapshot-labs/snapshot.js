@@ -380,6 +380,20 @@
     "start": 360030,
     "logo": "ipfs://bafkreid6pm3mic7izp3a6zlfwhhe7etd276bjfsq2xash6a4s2vmcdf65a"
   },
+  "146": {
+    "key": "146",
+    "name": "Sonic",
+    "shortName": "mainner",
+    "chainId": 146,
+    "network": "mainnet",
+    "multicall": "0x05f32B3cC3888453ff71B01135B34FF8e41263F2",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.soniclabs.com"
+    },
+    "start": 60,
+    "logo": "ipfs://bafkreic5fffatwy2gzf6y5iymje6ijii43tz4wlxl35da36guurhibjx44"
+  },
   "148": {
     "key": "148",
     "name": "ShimmerEVM",
