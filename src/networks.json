@@ -467,24 +467,6 @@
     "start": 12086501,
     "logo": "ipfs://Qmai7AGHgs8NpeGeXgbMZz7pS2i4kw44qubCJYGrZW2f3a"
   },
-  "250": {
-    "key": "250",
-    "name": "Fantom Opera",
-    "shortName": "fantom",
-    "chainId": 250,
-    "network": "Mainnet",
-    "multicall": "0x7f6A10218264a22B4309F3896745687E712962a0",
-    "rpc": [
-      "https://rpc.ankr.com/fantom",
-      "https://rpc.ftm.tools",
-      "https://rpcapi.fantom.network"
-    ],
-    "explorer": {
-      "url": "https://ftmscan.com"
-    },
-    "start": 2497732,
-    "logo": "ipfs://QmVEgNeQDKnXygeGxfY9FywZpNGQu98ktZtRJ9bToYF6g7"
-  },
   "252": {
     "key": "252",
     "name": "Fraxtal",
