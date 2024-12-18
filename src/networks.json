@@ -709,23 +709,23 @@
   },
   "1001": {
     "key": "1001",
-    "name": "Klaytn Baobab Testnet",
-    "shortName": "Boabab",
+    "name": "Kaia Kairos Testnet",
+    "shortName": "kaia-kairos",
     "chainId": 1001,
     "network": "testnet",
     "testnet": true,
     "multicall": "0x40643B8Aeaaca0b87Ea1A1E596e64a0e14B1d244",
     "rpc": [
-      "https://archive-en.baobab.klaytn.net"
+      "https://archive-en-kairos.node.kaia.io"
     ],
     "ws": [
-      "wss://archive-en.baobab.klaytn.net/ws"
+      "wss://archive-en-kairos.node.kaia.io/ws"
     ],
     "explorer": {
-      "url": "https://baobab.scope.klaytn.com"
+      "url": "https://kairos.kaiascan.com"
     },
     "start": 87232478,
-    "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+    "logo": "ipfs://bafkreifm6l67f4blcv7qwuszalwoxzptt5ad2f3t472lytr3d2hmi626ju"
   },
   "1072": {
     "key": "1072",
@@ -1173,22 +1173,22 @@
   },
   "8217": {
     "key": "8217",
-    "name": "Klaytn Cypress",
-    "shortName": "Cypress",
+    "name": "Kaia Mainnet",
+    "shortName": "kaia-mainnet",
     "chainId": 8217,
     "network": "mainnet",
     "multicall": "0x5f5f0d1b9ff8b3dcace308e39b13b203354906e9",
     "rpc": [
-      "https://archive-en.cypress.klaytn.net"
+      "https://archive-en.node.kaia.io"
     ],
     "ws": [
-      "wss://archive-en.cypress.klaytn.net/ws"
+      "wss://archive-en.node.kaia.io/ws"
     ],
     "explorer": {
-      "url": "https://scope.klaytn.com"
+      "url": "https://kaiascan.com"
     },
     "start": 91582357,
-    "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+    "logo": "ipfs://bafkreifm6l67f4blcv7qwuszalwoxzptt5ad2f3t472lytr3d2hmi626ju"
   },
   "8453": {
     "key": "8453",
