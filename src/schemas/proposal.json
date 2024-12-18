@@ -83,7 +83,7 @@
         "app": {
           "type": "string",
           "title": "app",
-          "maxLength": 128
+          "maxLength": 24
         },
         "privacy": {
           "type": "string",
