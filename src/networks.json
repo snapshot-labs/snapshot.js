@@ -1252,6 +1252,21 @@
     "start": 13959539,
     "logo": "ipfs://bafkreif4obrdoiretpozdd56seziywc6clha7wwkbldng3ovry2bpzly34"
   },
+  "9990": {
+    "key": "9990",
+    "name": "Agung testnet",
+    "shortName": "testnet",
+    "chainId": 9990,
+    "network": "testnet",
+    "multicall": "0xc454132B017b55b427f45078E335549A7124f5f7",
+    "rpc": [],
+    "explorer": {
+      "url": "https://agung-testnet.subscan.io/"
+    },
+    "start": 2031789,
+    "logo": "ipfs://bafkreidqkleori7pmilesz4t52iebebaqf3oflzmoz646qfuaznanb3sgm",
+    "testnet": true
+  },
   "10000": {
     "key": "10000",
     "name": "smartBCH",
