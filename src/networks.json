@@ -1258,7 +1258,7 @@
     "shortName": "testnet",
     "chainId": 9990,
     "network": "testnet",
-    "multicall": "0xc454132b017b55b427f45078e335549a7124f5f7",
+    "multicall": "0xc454132B017b55b427f45078E335549A7124f5f7",
     "rpc": [],
     "explorer": {
       "url": "https://agung-testnet.subscan.io/"
