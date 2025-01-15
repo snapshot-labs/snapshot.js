@@ -1035,6 +1035,20 @@
     "logo": "ipfs://bafkreieflj4wq6tx7k5kq47z3xnsrdrn2xgm4bxa3uovrnndcb2vqqwlyu",
     "testnet": true
   },
+  "3338": {
+    "key": "3338",
+    "name": "peaq",
+    "shortName": "mainnet",
+    "chainId": 3338,
+    "network": "mainnet",
+    "multicall": "0xc454132B017b55b427f45078E335549A7124f5f7",
+    "rpc": [],
+    "explorer": {
+      "url": "https://peaq.subscan.io/"
+    },
+    "start": 3525964,
+    "logo": "ipfs://bafkreidqkleori7pmilesz4t52iebebaqf3oflzmoz646qfuaznanb3sgm"
+  },
   "4200": {
     "key": "4200",
     "name": "Merlin",
