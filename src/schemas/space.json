@@ -467,7 +467,7 @@
           "additionalProperties": false
         }
       },
-      "required": ["name", "network", "symbol", "strategies"],
+      "required": ["name", "network", "strategies"],
       "additionalProperties": false
     }
   }
