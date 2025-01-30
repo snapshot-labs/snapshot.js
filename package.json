@@ -1,6 +1,6 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.12.32",
+  "version": "0.12.44",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
@@ -24,7 +24,7 @@
     "cross-fetch": "^3.1.6",
     "json-to-graphql-query": "^2.2.4",
     "lodash.set": "^4.3.2",
-    "starknet": "^5.24.3"
+    "starknet": "^5.19.3"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^18.1.0",

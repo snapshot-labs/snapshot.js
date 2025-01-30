@@ -27,7 +27,7 @@ const network = {
   multicall,
   rpc: [],
   explorer: {
-    url: explorer
+    url: explorer.replace(/\/$/, '')
   },
   start: parseInt(start, 10),
   logo: `ipfs://${logo}`

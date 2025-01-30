@@ -16,6 +16,8 @@
   "network": "1",
   "plugins": {},
   "twitter": "lootproject",
+  "discussions": "https://discuss.ens.domains/",
+  "discourseCategory": 28,
   "domain": "vote.lootproject.abc",
   "strategies": [
     {
@@ -33,7 +35,8 @@
   "voting": {
     "delay": 2592000,
     "period": 15552000,
-    "quorum": 100
+    "quorum": 100,
+    "privacy": "any"
   },
   "treasuries": [
     {

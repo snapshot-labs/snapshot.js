@@ -83,7 +83,11 @@
         "app": {
           "type": "string",
           "title": "app",
-          "maxLength": 128
+          "maxLength": 24
+        },
+        "privacy": {
+          "type": "string",
+          "enum": ["", "shutter"]
         }
       },
       "required": ["name", "body", "choices", "snapshot", "start", "end"],

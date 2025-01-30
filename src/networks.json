@@ -310,6 +310,20 @@
     "start": 94425385,
     "logo": "ipfs://bafkreifc5z5vtvqx2luzgateyvoocwpd2ifv2hwufxdnyl2a767wa6icli"
   },
+  "109": {
+    "key": "109",
+    "name": "Shibarium",
+    "shortName": "mainnet",
+    "chainId": 109,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://shibariumscan.io"
+    },
+    "start": 3485946,
+    "logo": "ipfs://bafkreig57igai5phg4icywc5yoockd52jo3hlvbkyi6wiufrmu4p2lmenm"
+  },
   "122": {
     "key": "122",
     "name": "Fuse",
@@ -366,6 +380,20 @@
     "start": 360030,
     "logo": "ipfs://bafkreid6pm3mic7izp3a6zlfwhhe7etd276bjfsq2xash6a4s2vmcdf65a"
   },
+  "146": {
+    "key": "146",
+    "name": "Sonic",
+    "shortName": "mainnet",
+    "chainId": 146,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.soniclabs.com"
+    },
+    "start": 60,
+    "logo": "ipfs://bafkreic5fffatwy2gzf6y5iymje6ijii43tz4wlxl35da36guurhibjx44"
+  },
   "148": {
     "key": "148",
     "name": "ShimmerEVM",
@@ -375,10 +403,25 @@
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://explorer.evm.shimmer.network/"
+      "url": "https://explorer.evm.shimmer.network"
     },
     "start": 1290,
     "logo": "ipfs://bafkreib4xhbgbhrwkmizp4d4nz3wzbpyhdm6wpz2v2pbkk7jxsgg3hdt74"
+  },
+  "157": {
+    "key": "157",
+    "name": "Shibarium Puppynet Testnet",
+    "shortName": "testnet",
+    "chainId": 157,
+    "network": "testnet",
+    "multicall": "0xA4029b74FBA366c926eDFA7Dd10B21C621170a4c",
+    "rpc": [],
+    "explorer": {
+      "url": "https://puppyscan.shib.io"
+    },
+    "start": 3035769,
+    "logo": "ipfs://bafkreig57igai5phg4icywc5yoockd52jo3hlvbkyi6wiufrmu4p2lmenm",
+    "testnet": true
   },
   "169": {
     "key": "169",
@@ -403,7 +446,7 @@
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "http://opbnbscan.com/"
+      "url": "http://opbnbscan.com"
     },
     "start": 512881,
     "logo": "ipfs://bafkreibll4la7wqerzs7zwxjne2j7ayynbg2wlenemssoahxxj5rbt6c64"
@@ -484,7 +527,7 @@
     "multicall": "0xF9cda624FBC7e059355ce98a31693d299FACd963",
     "rpc": [],
     "explorer": {
-      "url": "https://sepolia.explorer.zksync.dev/"
+      "url": "https://sepolia.explorer.zksync.dev"
     },
     "start": 2292,
     "logo": "ipfs://bafkreih6y7ri7h667cwxe5miisxghfheiidtbw2747y75stoxt3gp3a2yy",
@@ -534,7 +577,7 @@
       "https://mainnet.era.zksync.io"
     ],
     "explorer": {
-      "url": "https://explorer.zksync.io/"
+      "url": "https://explorer.zksync.io"
     },
     "start": 3908235,
     "logo": "ipfs://bafkreih6y7ri7h667cwxe5miisxghfheiidtbw2747y75stoxt3gp3a2yy"
@@ -567,7 +610,7 @@
       "https://rpc.pulsechain.com"
     ],
     "explorer": {
-      "url": "https://scan.pulsechain.com/"
+      "url": "https://scan.pulsechain.com"
     },
     "start": 17657774,
     "logo": "ipfs://QmWUsiEWdejtHZ9B9981TYXn7Ds8C7fkB1S4h5rP3kCCZR"
@@ -666,23 +709,23 @@
   },
   "1001": {
     "key": "1001",
-    "name": "Klaytn Baobab Testnet",
-    "shortName": "Boabab",
+    "name": "Kaia Kairos Testnet",
+    "shortName": "kaia-kairos",
     "chainId": 1001,
     "network": "testnet",
     "testnet": true,
     "multicall": "0x40643B8Aeaaca0b87Ea1A1E596e64a0e14B1d244",
     "rpc": [
-      "https://archive-en.baobab.klaytn.net"
+      "https://archive-en-kairos.node.kaia.io"
     ],
     "ws": [
-      "wss://archive-en.baobab.klaytn.net/ws"
+      "wss://archive-en-kairos.node.kaia.io/ws"
     ],
     "explorer": {
-      "url": "https://baobab.scope.klaytn.com"
+      "url": "https://kairos.kaiascan.com"
     },
     "start": 87232478,
-    "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+    "logo": "ipfs://bafkreifm6l67f4blcv7qwuszalwoxzptt5ad2f3t472lytr3d2hmi626ju"
   },
   "1072": {
     "key": "1072",
@@ -696,7 +739,7 @@
       "https://archive.evm.testnet.shimmer.network/v1/chains/rms1pr75wa5xuepg2hew44vnr28wz5h6n6x99zptk2g68sp2wuu2karywgrztx3/evm"
     ],
     "explorer": {
-      "url": "https://explorer.evm.testnet.shimmer.network/"
+      "url": "https://explorer.evm.testnet.shimmer.network"
     },
     "start": 10614,
     "logo": "ipfs://bafkreihtwfwrue7klzedwx4rqlk6agklz4lbbk7owsyw6xzn6c2m4t5tgy"
@@ -758,7 +801,7 @@
       "https://rpc.api.moonbeam.network"
     ],
     "explorer": {
-      "url": "https://moonscan.io/"
+      "url": "https://moonscan.io"
     },
     "start": 171135,
     "logo": "ipfs://QmWKTEK2pj5sBBbHnMHQbWgw6euVdBrk2Ligpi2chrWASk"
@@ -820,10 +863,24 @@
     "multicall": "0xe033Bed7cae4114Af84Be1e9F1CA7DEa07Dfe1Cf",
     "rpc": [],
     "explorer": {
-      "url": "https://seitrace.com/"
+      "url": "https://seitrace.com"
     },
     "start": 79164574,
     "logo": "ipfs://bafkreiammyt7uztbztqbcqv4bydnczsh2fqmnjf6jxj4xnskzzl6sjrigq"
+  },
+  "1480": {
+    "key": "1480",
+    "name": "Vana",
+    "shortName": "mainnet",
+    "chainId": 1480,
+    "network": "mainnet",
+    "multicall": "0xD8d2dFca27E8797fd779F8547166A2d3B29d360E",
+    "rpc": [],
+    "explorer": {
+      "url": "https://islander.vanascan.io"
+    },
+    "start": 716763,
+    "logo": "ipfs://bafkreibotel3dmc5og5rf3tpt7l74awkene7x6q3oxtwhptt4y4rpa7vsa"
   },
   "1559": {
     "key": "1559",
@@ -942,7 +999,7 @@
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://kavascan.com/"
+      "url": "https://kavascan.com"
     },
     "start": 3661165,
     "logo": "ipfs://bafkreibpfubharx32fjqkqbfdhygwdjb2khxdg6meaasrcxsgvowos26f4"
@@ -972,11 +1029,25 @@
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://holesky.fraxscan.com/"
+      "url": "https://holesky.fraxscan.com"
     },
     "start": 1,
     "logo": "ipfs://bafkreieflj4wq6tx7k5kq47z3xnsrdrn2xgm4bxa3uovrnndcb2vqqwlyu",
     "testnet": true
+  },
+  "3338": {
+    "key": "3338",
+    "name": "peaq",
+    "shortName": "mainnet",
+    "chainId": 3338,
+    "network": "mainnet",
+    "multicall": "0xc454132B017b55b427f45078E335549A7124f5f7",
+    "rpc": [],
+    "explorer": {
+      "url": "https://peaq.subscan.io"
+    },
+    "start": 3525964,
+    "logo": "ipfs://bafkreidqkleori7pmilesz4t52iebebaqf3oflzmoz646qfuaznanb3sgm"
   },
   "4200": {
     "key": "4200",
@@ -1001,7 +1072,7 @@
     "multicall": "0x4956F15eFdc3dC16645e90Cc356eAFA65fFC65Ec",
     "rpc": [],
     "explorer": {
-      "url": "https://subnets.avax.network/beam/"
+      "url": "https://subnets.avax.network/beam"
     },
     "start": 1,
     "logo": "ipfs://QmaKRLxXPdeTsLx7MFLS3CJbhpSbResgoeL4fCgHB1mTsF"
@@ -1052,6 +1123,21 @@
     },
     "start": 6334180,
     "logo": "ipfs://QmQyJt28h4wN3QHPXUQJQYQqGiFUD77han3zibZPzHbitk"
+  },
+  "5611": {
+    "key": "5611",
+    "name": "opBNB Testnet",
+    "shortName": "testnet",
+    "chainId": 5611,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://opbnb-testnet.bscscan.com"
+    },
+    "start": 3705108,
+    "logo": "ipfs://bafkreibll4la7wqerzs7zwxjne2j7ayynbg2wlenemssoahxxj5rbt6c64",
+    "testnet": true
   },
   "6102": {
     "key": "6102",
@@ -1116,22 +1202,22 @@
   },
   "8217": {
     "key": "8217",
-    "name": "Klaytn Cypress",
-    "shortName": "Cypress",
+    "name": "Kaia Mainnet",
+    "shortName": "kaia-mainnet",
     "chainId": 8217,
     "network": "mainnet",
     "multicall": "0x5f5f0d1b9ff8b3dcace308e39b13b203354906e9",
     "rpc": [
-      "https://archive-en.cypress.klaytn.net"
+      "https://archive-en.node.kaia.io"
     ],
     "ws": [
-      "wss://archive-en.cypress.klaytn.net/ws"
+      "wss://archive-en.node.kaia.io/ws"
     ],
     "explorer": {
-      "url": "https://scope.klaytn.com"
+      "url": "https://kaiascan.com"
     },
     "start": 91582357,
-    "logo": "ipfs://QmYACyZcidcFtMo4Uf9H6ZKUxTP2TQPjGzNjcUjqYa64dt"
+    "logo": "ipfs://bafkreifm6l67f4blcv7qwuszalwoxzptt5ad2f3t472lytr3d2hmi626ju"
   },
   "8453": {
     "key": "8453",
@@ -1142,7 +1228,7 @@
     "multicall": "0xca11bde05977b3631167028862be2a173976ca11",
     "rpc": [],
     "explorer": {
-      "url": "https://basescan.org/"
+      "url": "https://basescan.org"
     },
     "start": 5022,
     "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv"
@@ -1165,6 +1251,21 @@
     },
     "start": 13959539,
     "logo": "ipfs://bafkreif4obrdoiretpozdd56seziywc6clha7wwkbldng3ovry2bpzly34"
+  },
+  "9990": {
+    "key": "9990",
+    "name": "Agung testnet",
+    "shortName": "testnet",
+    "chainId": 9990,
+    "network": "testnet",
+    "multicall": "0xc454132B017b55b427f45078E335549A7124f5f7",
+    "rpc": [],
+    "explorer": {
+      "url": "https://agung-testnet.subscan.io"
+    },
+    "start": 2031789,
+    "logo": "ipfs://bafkreidqkleori7pmilesz4t52iebebaqf3oflzmoz646qfuaznanb3sgm",
+    "testnet": true
   },
   "10000": {
     "key": "10000",
@@ -1208,7 +1309,7 @@
     "multicall": "0x9BF49b704EE2A095b95c1f2D4EB9010510c41C9E",
     "rpc": [],
     "explorer": {
-      "url": "https://subnets-test.avax.network/beam/"
+      "url": "https://subnets-test.avax.network/beam"
     },
     "start": 3,
     "logo": "ipfs://QmaKRLxXPdeTsLx7MFLS3CJbhpSbResgoeL4fCgHB1mTsF",
@@ -1241,6 +1342,21 @@
     },
     "start": 5307209,
     "logo": "ipfs://bafkreiepnhfv3hgexddjpyaeemxo3byhtxxit6t4zsponyczee6ddjqxwi",
+    "testnet": true
+  },
+  "14800": {
+    "key": "14800",
+    "name": "Vana Moksha Testnet",
+    "shortName": "testnet",
+    "chainId": 14800,
+    "network": "testnet",
+    "multicall": "0xD8d2dFca27E8797fd779F8547166A2d3B29d360E",
+    "rpc": [],
+    "explorer": {
+      "url": "https://moksha.vanascan.io"
+    },
+    "start": 732283,
+    "logo": "ipfs://bafkreibotel3dmc5og5rf3tpt7l74awkene7x6q3oxtwhptt4y4rpa7vsa",
     "testnet": true
   },
   "16718": {
@@ -1299,7 +1415,7 @@
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://apechain.calderaexplorer.xyz/"
+      "url": "https://apechain.calderaexplorer.xyz"
     },
     "start": 20889,
     "logo": "ipfs://bafkreielbgcox2jsw3g6pqulqb7pyjgx7czjt6ahnibihaij6lozoy53w4"
@@ -1332,7 +1448,7 @@
       "https://arbitrum-nova.public.blastapi.io"
     ],
     "explorer": {
-      "url": "https://nova.arbiscan.io/"
+      "url": "https://nova.arbiscan.io"
     },
     "start": 6006607,
     "logo": "ipfs://bafkreie5xsqt3mrrwu7v32qpmmctibhzhgxf4emfzzddsdhdlfsa7fmplu"
@@ -1398,7 +1514,7 @@
       "https://rpc.rei.network"
     ],
     "explorer": {
-      "url": "https://scan.rei.network/"
+      "url": "https://scan.rei.network"
     },
     "start": 1715902,
     "logo": "ipfs://QmTogMDLmDgJjDjUKDHDuc2KVTVDbXf8bXJLFiVe8PRxgo"
@@ -1413,10 +1529,25 @@
       "https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc"
     ],
     "explorer": {
-      "url": "https://subnets.avax.network/defi-kingdoms/"
+      "url": "https://subnets.avax.network/defi-kingdoms"
     },
     "start": 62,
     "logo": "ipfs://QmZNkpVgPbuVbDcsi6arwH1om3456FGnwfDqYQJWUfHDEx"
+  },
+  "57054": {
+    "key": "57054",
+    "name": "Sonic Blaze Testnet",
+    "shortName": "testnet",
+    "chainId": 57054,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://testnet.sonicscan.org"
+    },
+    "start": 60,
+    "logo": "ipfs://bafkreic5fffatwy2gzf6y5iymje6ijii43tz4wlxl35da36guurhibjx44",
+    "testnet": true
   },
   "59141": {
     "key": "59141",
@@ -1427,7 +1558,7 @@
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://sepolia.lineascan.build/"
+      "url": "https://sepolia.lineascan.build"
     },
     "start": 227427,
     "logo": "ipfs://bafkreihtyzolub3sejuwc32hpdpjnt7ksowaguni2yuho3kyihhcqrtqce",
@@ -1442,7 +1573,7 @@
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://lineascan.build/"
+      "url": "https://lineascan.build"
     },
     "start": 42,
     "logo": "ipfs://bafkreihtyzolub3sejuwc32hpdpjnt7ksowaguni2yuho3kyihhcqrtqce"
@@ -1477,7 +1608,7 @@
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://amoy.polygonscan.com/"
+      "url": "https://amoy.polygonscan.com"
     },
     "start": 3127388,
     "logo": "ipfs://bafkreibfiyvhqnme2vbxxfcku7qkxgjpkg6ywdkplxh4oxlkqsbznyorfm",
@@ -1506,7 +1637,7 @@
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://base-sepolia.blockscout.com/"
+      "url": "https://base-sepolia.blockscout.com"
     },
     "start": 1059647,
     "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv",
@@ -1565,7 +1696,7 @@
     "multicall": "0x97148F8fDdd9A1620f72EC1Bb2932916623d9da5",
     "rpc": [],
     "explorer": {
-      "url": "https://sepolia.explorer.zklink.io/"
+      "url": "https://sepolia.explorer.zklink.io"
     },
     "start": 43723,
     "logo": "ipfs://bafkreic6c3iems5235qapyhyrygha7akqrsfact2nok3y2uhljpzxrdu74",
@@ -1618,7 +1749,7 @@
     "multicall": "0xffc391F0018269d4758AEA1a144772E8FB99545E",
     "rpc": [],
     "explorer": {
-      "url": "https://testnet.cyberscan.co/"
+      "url": "https://testnet.cyberscan.co"
     },
     "start": 304545,
     "logo": "ipfs://bafkreifm2bbehoqpz4454o7gixnxfi6cgvqlxigqr3f6ipj7l2omtgfgnm",
@@ -1648,7 +1779,7 @@
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://devnet.neonscan.org/"
+      "url": "https://devnet.neonscan.org"
     },
     "start": 205206112,
     "logo": "ipfs://QmecRPQGa4bU7tybg1sUQY48Md9rWnmhrT6WW5ueqvhg6P",
