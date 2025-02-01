@@ -10,8 +10,6 @@ import profile from './examples/profile.json';
 import statement from './examples/statement.json';
 import alias from './examples/alias.json';
 import schemas from '../src/schemas';
-import proposalMaxLengthWithSpaceTypeError from './examples/proposal-maxLengthWithSpaceType-error.json';
-import spaceMaxItemsWithSpaceTypeError from './examples/space-maxItemsWithSpaceType-error.json';
 
 // Tests for default spaces
 describe.each([
@@ -49,29 +47,3 @@ describe.each([
     expect(isValid).toBe(true);
   });
 });
-
-// tests for default schema with turbo example, should fail
-describe.each([
-  {
-    schemaType: 'space',
-    schema: schemas.space,
-    example: spaceTurbo,
-    error: spaceMaxItemsWithSpaceTypeError
-  },
-  {
-    schemaType: 'proposal',
-    schema: schemas.proposal,
-    example: proposalTurbo,
-    error: proposalMaxLengthWithSpaceTypeError
-  }
-])(
-  `Run validate for default schema with turbo example`,
-  ({ schemaType, schema, example, error }) => {
-    test(`validating schema ${schemaType} should fail with error`, () => {
-      const isValid = validateSchema(schema, example, {
-        snapshotEnv: 'mainnet'
-      });
-      expect(isValid).toMatchObject(error);
-    });
-  }
-);

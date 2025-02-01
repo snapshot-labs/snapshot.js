@@ -19,11 +19,7 @@
         "body": {
           "type": "string",
           "title": "body",
-          "minLength": 0,
-          "maxLengthWithSpaceType": {
-            "default": 10000,
-            "turbo": 20000
-          }
+          "minLength": 0
         },
         "discussion": {
           "type": "string",
@@ -34,11 +30,7 @@
         "choices": {
           "type": "array",
           "title": "choices",
-          "minItems": 1,
-          "maxLengthWithSpaceType": {
-            "default": 500,
-            "turbo": 1000
-          }
+          "minItems": 1
         },
         "labels": {
           "type": "array",
