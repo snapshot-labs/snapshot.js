@@ -93,7 +93,6 @@
         "symbol": {
           "type": "string",
           "title": "symbol",
-          "minLength": 1,
           "maxLength": 16
         },
         "skin": {
