@@ -476,7 +476,7 @@
           "required": ["enabled", "bribeEnabled"],
           "additionalProperties": false
         },
-        "colors": {
+        "skinParams": {
           "type": "object",
           "properties": {
             "bg_color": {
