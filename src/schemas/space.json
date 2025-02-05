@@ -470,6 +470,54 @@
           },
           "required": ["enabled", "bribeEnabled"],
           "additionalProperties": false
+        },
+        "skinSettings": {
+          "type": "object",
+          "properties": {
+            "bg_color": {
+              "type": "string",
+              "format": "color"
+            },
+            "link_color": {
+              "type": "string",
+              "format": "color"
+            },
+            "text_color": {
+              "type": "string",
+              "format": "color"
+            },
+            "content_color": {
+              "type": "string",
+              "format": "color"
+            },
+            "border_color" : {
+              "type": "string",
+              "format": "color"
+            },
+            "heading_color" : {
+              "type": "string",
+             "format": "color"
+            },
+            "primary_color": {
+              "type": "string",
+              "format": "color"
+            },
+            "header_color": {
+              "type": "string",
+              "format": "color"
+            },
+            "theme": {
+              "type": "string",
+              "enum": ["light", "dark"]
+            },
+            "logo": {
+              "type": "string",
+              "title": "logo",
+              "format": "customUrl",
+              "maxLength": 256
+            }
+          },
+          "additionalProperties": false
         }
       },
       "required": ["name", "network", "strategies"],
