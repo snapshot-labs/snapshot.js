@@ -513,6 +513,12 @@
             "theme": {
               "type": "string",
               "enum": ["light", "dark"]
+            },
+            "logo": {
+              "type": "string",
+              "title": "logo",
+              "format": "customUrl",
+              "maxLength": 256
             }
           },
           "additionalProperties": false
