@@ -9,7 +9,6 @@
         "name": {
           "type": "string",
           "title": "name",
-          "minLength": 1,
           "maxLength": 32
         },
         "private": {
@@ -520,7 +519,7 @@
           "additionalProperties": false
         }
       },
-      "required": ["name", "network", "strategies"],
+      "required": ["network", "strategies"],
       "additionalProperties": false
     }
   }
