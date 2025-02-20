@@ -1049,6 +1049,25 @@
     "start": 3525964,
     "logo": "ipfs://bafkreidqkleori7pmilesz4t52iebebaqf3oflzmoz646qfuaznanb3sgm"
   },
+  "4162": {
+    "key": "4162",
+    "name": "SX Rollup",
+    "shortName": "SXR",
+    "chainId": 4162,
+    "network": "mainnet",
+    "multicall": "0x0bf69D86597181af32820dfEB30dea20263040Bb",
+    "rpc": [
+      "https://rpc-rollup.sx.technology"
+    ],
+    "ws": [
+      "wss://ws-rollup.sx.technology"
+    ],
+    "explorer": {
+      "url": "https://explorerl2.sx.technology/"
+    },
+    "start": 2854215,
+    "logo": "ipfs://QmSXLXqyr2H6Ja5XrmznXbWTEvF2gFaL8RXNXgyLmDHjAF"
+  },
   "4200": {
     "key": "4200",
     "name": "Merlin",
