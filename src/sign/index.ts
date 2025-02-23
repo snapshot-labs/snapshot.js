@@ -124,6 +124,7 @@ export default class Client {
     address: string,
     message: Proposal
   ) {
+    if (!message.labels) message.labels = [];
     if (!message.discussion) message.discussion = '';
     if (!message.app) message.app = '';
     if (!message.privacy) message.privacy = '';
