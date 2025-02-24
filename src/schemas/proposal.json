@@ -47,6 +47,7 @@
             "approval",
             "ranked-choice",
             "quadratic",
+            "copeland",
             "weighted",
             "custom",
             "basic"
