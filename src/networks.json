@@ -56,9 +56,9 @@
   },
   "10": {
     "key": "10",
-    "name": "Optimism",
+    "name": "OP Mainnet",
     "chainId": 10,
-    "network": "Optimism mainnet",
+    "network": "OP Mainnet",
     "multicall": "0x35A6Cdb2C9AD4a45112df4a04147EB07dFA01aB7",
     "rpc": [
       "https://opt-mainnet.g.alchemy.com/v2/JzmIL4Q3jBj7it2duxLFeuCa9Wobmm7D"
@@ -68,7 +68,7 @@
       "apiUrl": "https://api-optimistic.etherscan.io"
     },
     "start": 657806,
-    "logo": "ipfs://QmfF4kwhGL8QosUXvgq2KWCmavhKBvwD6kbhs7L4p5ZAWb"
+    "logo": "ipfs://bafkreifu2remiqfpsb4hgisbwb3qxedrzpwsea7ik4el45znjcf56xf2ku"
   },
   "19": {
     "key": "19",
