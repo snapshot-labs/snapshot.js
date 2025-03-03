@@ -57,37 +57,64 @@ export default class CopelandVoting {
     const pairwiseComparisons = Array.from({ length: choicesCount }, () =>
       Array(choicesCount).fill(0)
     );
+    const totalVotingPower = this.getScoresTotal();
 
     // Calculate pairwise comparisons
     for (const vote of validVotes) {
-      for (let i = 0; i < vote.choice.length; i++) {
-        for (let j = i + 1; j < vote.choice.length; j++) {
-          const winner = vote.choice[i] - 1;
-          const loser = vote.choice[j] - 1;
-          pairwiseComparisons[winner][loser] += vote.balance;
-          pairwiseComparisons[loser][winner] -= vote.balance;
+      for (
+        let currentRank = 0;
+        currentRank < vote.choice.length;
+        currentRank++
+      ) {
+        for (
+          let nextRank = currentRank + 1;
+          nextRank < vote.choice.length;
+          nextRank++
+        ) {
+          const preferredChoice = vote.choice[currentRank] - 1;
+          const lowerChoice = vote.choice[nextRank] - 1;
+          pairwiseComparisons[preferredChoice][lowerChoice] += vote.balance;
+          pairwiseComparisons[lowerChoice][preferredChoice] -= vote.balance;
         }
       }
     }
 
     // Calculate Copeland scores
     const scores = Array(choicesCount).fill(0);
-    for (let i = 0; i < choicesCount; i++) {
-      for (let j = 0; j < choicesCount; j++) {
-        if (i !== j) {
-          if (pairwiseComparisons[i][j] > 0) {
-            scores[i]++;
-          } else if (pairwiseComparisons[i][j] < 0) {
-            scores[j]++;
+    let totalCopelandScore = 0;
+
+    for (let choiceIndex = 0; choiceIndex < choicesCount; choiceIndex++) {
+      for (
+        let opponentIndex = 0;
+        opponentIndex < choicesCount;
+        opponentIndex++
+      ) {
+        if (choiceIndex !== opponentIndex) {
+          const comparison = pairwiseComparisons[choiceIndex][opponentIndex];
+          if (comparison > 0) {
+            scores[choiceIndex]++;
+          } else if (comparison < 0) {
+            scores[opponentIndex]++;
           } else {
-            scores[i] += 0.5;
-            scores[j] += 0.5;
+            scores[choiceIndex] += 0.5;
+            scores[opponentIndex] += 0.5;
           }
         }
       }
     }
 
-    return scores;
+    // Calculate total Copeland score for normalization
+    totalCopelandScore = scores.reduce((sum, score) => sum + score, 0);
+
+    // Normalize scores to distribute voting power
+    if (totalCopelandScore > 0) {
+      return scores.map(
+        (score) => (score / totalCopelandScore) * totalVotingPower
+      );
+    }
+
+    // If no clear winners, distribute power equally
+    return scores.map(() => totalVotingPower / choicesCount);
   }
 
   // Calculates the Copeland scores for each choice, broken down by strategy
@@ -99,15 +126,37 @@ export default class CopelandVoting {
       Array.from({ length: choicesCount }, () => Array(strategiesCount).fill(0))
     );
 
+    // Calculate total voting power per strategy
+    const strategyTotals = Array(strategiesCount).fill(0);
+    for (const vote of validVotes) {
+      for (let i = 0; i < strategiesCount; i++) {
+        strategyTotals[i] += vote.scores[i];
+      }
+    }
+
     // Calculate pairwise comparisons for each strategy
     for (const vote of validVotes) {
-      for (let i = 0; i < vote.choice.length; i++) {
-        for (let j = i + 1; j < vote.choice.length; j++) {
-          const winner = vote.choice[i] - 1;
-          const loser = vote.choice[j] - 1;
-          for (let s = 0; s < strategiesCount; s++) {
-            pairwiseComparisons[winner][loser][s] += vote.scores[s];
-            pairwiseComparisons[loser][winner][s] -= vote.scores[s];
+      for (
+        let currentRank = 0;
+        currentRank < vote.choice.length;
+        currentRank++
+      ) {
+        for (
+          let nextRank = currentRank + 1;
+          nextRank < vote.choice.length;
+          nextRank++
+        ) {
+          const preferredChoice = vote.choice[currentRank] - 1;
+          const lowerChoice = vote.choice[nextRank] - 1;
+          for (
+            let strategyIndex = 0;
+            strategyIndex < strategiesCount;
+            strategyIndex++
+          ) {
+            pairwiseComparisons[preferredChoice][lowerChoice][strategyIndex] +=
+              vote.scores[strategyIndex];
+            pairwiseComparisons[lowerChoice][preferredChoice][strategyIndex] -=
+              vote.scores[strategyIndex];
           }
         }
       }
@@ -118,24 +167,66 @@ export default class CopelandVoting {
       Array(strategiesCount).fill(0)
     );
 
-    for (let i = 0; i < choicesCount; i++) {
-      for (let j = 0; j < choicesCount; j++) {
-        if (i !== j) {
-          for (let s = 0; s < strategiesCount; s++) {
-            if (pairwiseComparisons[i][j][s] > 0) {
-              scores[i][s]++;
-            } else if (pairwiseComparisons[i][j][s] < 0) {
-              scores[j][s]++;
+    for (let choiceIndex = 0; choiceIndex < choicesCount; choiceIndex++) {
+      for (
+        let opponentIndex = 0;
+        opponentIndex < choicesCount;
+        opponentIndex++
+      ) {
+        if (choiceIndex !== opponentIndex) {
+          for (
+            let strategyIndex = 0;
+            strategyIndex < strategiesCount;
+            strategyIndex++
+          ) {
+            const comparison =
+              pairwiseComparisons[choiceIndex][opponentIndex][strategyIndex];
+            if (comparison > 0) {
+              scores[choiceIndex][strategyIndex]++;
+            } else if (comparison < 0) {
+              scores[opponentIndex][strategyIndex]++;
             } else {
-              scores[i][s] += 0.5;
-              scores[j][s] += 0.5;
+              scores[choiceIndex][strategyIndex] += 0.5;
+              scores[opponentIndex][strategyIndex] += 0.5;
             }
           }
         }
       }
     }
 
-    return scores;
+    // Normalize scores by strategy to distribute voting power
+    const normalizedScores = Array.from({ length: choicesCount }, () =>
+      Array(strategiesCount).fill(0)
+    );
+
+    for (
+      let strategyIndex = 0;
+      strategyIndex < strategiesCount;
+      strategyIndex++
+    ) {
+      // Calculate total Copeland score for this strategy
+      let totalCopelandScore = 0;
+      for (let choiceIndex = 0; choiceIndex < choicesCount; choiceIndex++) {
+        totalCopelandScore += scores[choiceIndex][strategyIndex];
+      }
+
+      // Normalize scores to distribute voting power for this strategy
+      if (totalCopelandScore > 0) {
+        for (let choiceIndex = 0; choiceIndex < choicesCount; choiceIndex++) {
+          normalizedScores[choiceIndex][strategyIndex] =
+            (scores[choiceIndex][strategyIndex] / totalCopelandScore) *
+            strategyTotals[strategyIndex];
+        }
+      } else if (strategyTotals[strategyIndex] > 0) {
+        // If no clear winners, distribute power equally for this strategy
+        for (let choiceIndex = 0; choiceIndex < choicesCount; choiceIndex++) {
+          normalizedScores[choiceIndex][strategyIndex] =
+            strategyTotals[strategyIndex] / choicesCount;
+        }
+      }
+    }
+
+    return normalizedScores;
   }
 
   // Calculates the total score (sum of all valid vote balances)
