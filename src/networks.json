@@ -1049,6 +1049,20 @@
     "start": 3525964,
     "logo": "ipfs://bafkreidqkleori7pmilesz4t52iebebaqf3oflzmoz646qfuaznanb3sgm"
   },
+  "4162": {
+    "key": "4162",
+    "name": "SX Rollup",
+    "shortName": "mainnet",
+    "chainId": 4162,
+    "network": "mainnet",
+    "multicall": "0x46997eb05F6A6A0bD5C140ABed09Cb02CA36b98c",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorerl2.sx.technology"
+    },
+    "start": 1847483,
+    "logo": "ipfs://bafkreibjkjx7evbw74e3sx65dtmcdr4g2rrbcorb2ivd6jz6yh6on6ozw4"
+  },
   "4200": {
     "key": "4200",
     "name": "Merlin",
