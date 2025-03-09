@@ -29,7 +29,7 @@ export default class CopelandVoting {
     if (
       !Array.isArray(voteChoice) ||
       voteChoice.length === 0 ||
-      voteChoice.length > proposalChoices.length ||
+      voteChoice.length != proposalChoices.length ||
       new Set(voteChoice).size !== voteChoice.length
     ) {
       return false;
