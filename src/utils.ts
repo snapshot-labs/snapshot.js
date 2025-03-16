@@ -30,6 +30,8 @@ interface Strategy {
   params: any;
 }
 
+type DomainType = 'ens' | 'other-tld' | 'subdomain';
+
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
 const ENS_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)',
@@ -218,6 +220,42 @@ ajv.addFormat('domain', {
     );
   }
 });
+
+function getDomainType(domain: string): DomainType {
+  if (domain.endsWith('.eth')) return 'ens';
+
+  const tokens = domain.split('.');
+
+  if (tokens.length === 2) return 'other-tld';
+  else if (tokens.length > 2) return 'subdomain';
+  else throw new Error('Invalid domain');
+}
+
+// see https://docs.ens.domains/registry/dns#gasless-import
+async function getDNSOwner(domain: string): Promise<string> {
+  const response = await fetch(
+    `https://cloudflare-dns.com/dns-query?name=${domain}&type=TXT`,
+    {
+      headers: {
+        accept: 'application/dns-json'
+      }
+    }
+  );
+
+  const data = await response.json();
+  if (data.Status === 3) return EMPTY_ADDRESS;
+  if (data.Status !== 0) throw new Error('Failed to fetch DNS Owner');
+
+  const ownerRecord = data.Answer?.find((record: any) =>
+    record.data.includes('ENS1')
+  );
+
+  if (!ownerRecord) return EMPTY_ADDRESS;
+
+  return getAddress(
+    ownerRecord.data.replace(new RegExp('"', 'g'), '').split(' ').pop()
+  );
+}
 
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
@@ -612,6 +650,8 @@ export async function getEnsOwner(
   network = '1',
   options: any = {}
 ): Promise<string | null> {
+  const domainType = getDomainType(ens);
+
   const provider = getProvider(network, options);
   const ensRegistry = new Contract(
     ENS_REGISTRY,
@@ -639,6 +679,11 @@ export async function getEnsOwner(
     );
     owner = await ensNameWrapperContract.ownerOf(ensHash);
   }
+
+  if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
+    owner = await getDNSOwner(ens);
+  }
+
   return owner;
 }
 
