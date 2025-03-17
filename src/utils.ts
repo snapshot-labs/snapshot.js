@@ -684,6 +684,10 @@ export async function getEnsOwner(
     owner = await getDNSOwner(ens);
   }
 
+  if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
+    owner = await provider.resolveName(ens);
+  }
+
   return owner;
 }
 
