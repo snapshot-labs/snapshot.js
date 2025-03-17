@@ -222,12 +222,13 @@ ajv.addFormat('domain', {
 });
 
 function getDomainType(domain: string): DomainType {
-  if (domain.endsWith('.eth')) return 'ens';
+  const isEns = domain.endsWith('.eth');
 
   const tokens = domain.split('.');
 
-  if (tokens.length === 2) return 'other-tld';
+  if (tokens.length === 2 && !isEns) return 'other-tld';
   else if (tokens.length > 2) return 'subdomain';
+  else if (isEns) return 'ens';
   else throw new Error('Invalid domain');
 }
 
