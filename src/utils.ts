@@ -650,7 +650,7 @@ export async function getEnsOwner(
   ens: string,
   network = '1',
   options: any = {}
-): Promise<string | null> {
+): Promise<string> {
   const domainType = getDomainType(ens);
 
   const provider = getProvider(network, options);
@@ -665,7 +665,7 @@ export async function getEnsOwner(
   try {
     ensHash = namehash(ensNormalize(ens));
   } catch (e: any) {
-    return null;
+    return EMPTY_ADDRESS;
   }
 
   const ensNameWrapper =
@@ -696,7 +696,7 @@ export async function getSpaceController(
   id: string,
   network = '1',
   options: any = {}
-): Promise<string | null> {
+): Promise<string> {
   const spaceUri = await getSpaceUri(id, network, options);
   if (spaceUri) {
     let isUriAddress = isAddress(spaceUri);
