@@ -30,7 +30,7 @@ interface Strategy {
   params: any;
 }
 
-type DomainType = 'ens' | 'other-tld' | 'subdomain';
+type DomainType = 'ens' | 'tld' | 'other-tld' | 'subdomain';
 
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
 const ENS_ABI = [
@@ -226,7 +226,8 @@ function getDomainType(domain: string): DomainType {
 
   const tokens = domain.split('.');
 
-  if (tokens.length === 2 && !isEns) return 'other-tld';
+  if (tokens.length === 1) return 'tld';
+  else if (tokens.length === 2 && !isEns) return 'other-tld';
   else if (tokens.length > 2) return 'subdomain';
   else if (isEns) return 'ens';
   else throw new Error('Invalid domain');
