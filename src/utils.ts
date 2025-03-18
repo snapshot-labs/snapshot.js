@@ -688,7 +688,16 @@ export async function getEnsOwner(
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
-    owner = await provider.resolveName(ens);
+    try {
+      owner = await provider.resolveName(ens);
+    } catch (e: any) {
+      // mute error from coinbase, when the subdomain is not found
+      // most other resolvers just return an empty address
+      if (!e.message.includes('response not found during CCIP fetch')) {
+        throw e;
+      }
+      owner = EMPTY_ADDRESS;
+    }
   }
 
   return owner || EMPTY_ADDRESS;
