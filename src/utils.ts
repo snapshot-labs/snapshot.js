@@ -689,7 +689,7 @@ export async function getEnsOwner(
     owner = await provider.resolveName(ens);
   }
 
-  return owner;
+  return owner || EMPTY_ADDRESS;
 }
 
 export async function getSpaceController(
