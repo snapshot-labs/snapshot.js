@@ -653,8 +653,11 @@ export async function getEnsOwner(
   network = '1',
   options: any = {}
 ): Promise<string> {
-  const domainType = getDomainType(ens);
+  if (!networks[network]?.ensResolvers?.length) {
+    throw new Error('Network not supported');
+  }
 
+  const domainType = getDomainType(ens);
   const provider = getProvider(network, options);
   const ensRegistry = new Contract(
     ENS_REGISTRY,
