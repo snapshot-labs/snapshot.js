@@ -652,8 +652,14 @@ describe('utils', () => {
       );
     });
 
-    test('return an empty address when no result from offchain resolver', () => {
+    test('return an empty address when no result from offchain resolver on mainnet', () => {
       expect(getEnsOwner('notfounddomain.uni.eth')).resolves.toBe(
+        EMPTY_ADDRESS
+      );
+    });
+
+    test('return an empty address when no result from offchain resolver on testnet', () => {
+      expect(getEnsOwner('notfounddomain.uni.eth', '11155111')).resolves.toBe(
         EMPTY_ADDRESS
       );
     });
