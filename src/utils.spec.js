@@ -10,6 +10,8 @@ import {
   getEnsTextRecord
 } from './utils';
 
+const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 vi.mock('cross-fetch', async () => {
   const actual = await vi.importActual('cross-fetch');
 
@@ -617,7 +619,43 @@ describe('utils', () => {
   describe('getEnsOwner', () => {
     test('should return null when the ENS is not valid', () => {
       // special hidden characters after the k
-      expect(getEnsOwner('elonmusk‍‍.eth')).resolves.toBe(null);
+      expect(getEnsOwner('elonmusk‍‍.eth')).resolves.toBe(EMPTY_ADDRESS);
+    });
+
+    test('throw an error when the network is not supported', () => {
+      expect(getEnsOwner('shot.eth', '100')).rejects.toThrow(
+        'Network not supported'
+      );
+    });
+
+    test('return an address for mainnet', () => {
+      expect(getEnsOwner('shot.eth', '1')).resolves.toBe(
+        '0x8C28Cf33d9Fd3D0293f963b1cd27e3FF422B425c'
+      );
+    });
+
+    test('return an address for sepolia', () => {
+      expect(getEnsOwner('snapshot.eth', '11155111')).resolves.toBe(
+        '0x8C28Cf33d9Fd3D0293f963b1cd27e3FF422B425c'
+      );
+    });
+
+    test('return an address for offchain coinbase resolver', () => {
+      expect(getEnsOwner('lucemans.cb.id')).resolves.toBe(
+        '0x4e7abb71BEe38011c54c30D0130c0c71Da09222b'
+      );
+    });
+
+    test('return an address for offchain uniswap resolver', () => {
+      expect(getEnsOwner('lucemans.uni.eth')).resolves.toBe(
+        '0x225f137127d9067788314bc7fcc1f36746a3c3B5'
+      );
+    });
+
+    test('return an empty address when no result from offchain resolver', () => {
+      expect(getEnsOwner('notfounddomain.uni.eth')).resolves.toBe(
+        EMPTY_ADDRESS
+      );
     });
   });
 
