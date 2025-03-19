@@ -687,7 +687,12 @@ export async function getEnsOwner(
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
-    owner = await getDNSOwner(ens);
+    const resolvedAddress = await provider.resolveName(ens);
+
+    // Filter out domains with valid TXT records, but not imported
+    if (resolvedAddress) {
+      owner = await getDNSOwner(ens);
+    }
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
