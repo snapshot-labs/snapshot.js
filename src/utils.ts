@@ -699,16 +699,15 @@ export async function getEnsOwner(
     try {
       owner = await provider.resolveName(ens);
     } catch (e: any) {
-      // mute error from coinbase, when the subdomain is not found
-      // most other resolvers just return an empty address
-      const coinbaseError = e.message.includes(
-        'response not found during CCIP fetch'
-      );
-      // mute error from missing offchain resolver on sepolia
-      const sepoliaMissingResolverError =
-        e.message.includes('UNSUPPORTED_OPERATION') && network === '11155111';
+      const mutedErrors = [
+        // mute error from coinbase, when the subdomain is not found
+        // most other resolvers just return an empty address
+        'response not found during CCIP fetch',
+        // mute error from missing offchain resolver (mostly for sepolia)
+        'UNSUPPORTED_OPERATION'
+      ];
 
-      if (!coinbaseError && !sepoliaMissingResolverError) {
+      if (mutedErrors.every((error) => !e.message.includes(error))) {
         throw e;
       }
       owner = EMPTY_ADDRESS;
