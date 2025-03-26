@@ -32,6 +32,13 @@ interface Strategy {
 
 type DomainType = 'ens' | 'tld' | 'other-tld' | 'subdomain';
 
+const MUTED_ERRORS = [
+  // mute error from coinbase, when the subdomain is not found
+  // most other resolvers just return an empty address
+  'response not found during CCIP fetch',
+  // mute error from missing offchain resolver (mostly for sepolia)
+  'UNSUPPORTED_OPERATION'
+];
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
 const ENS_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)',
