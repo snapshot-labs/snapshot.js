@@ -10,6 +10,8 @@ import {
   getEnsTextRecord
 } from './utils';
 
+const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 vi.mock('cross-fetch', async () => {
   const actual = await vi.importActual('cross-fetch');
 
@@ -617,7 +619,13 @@ describe('utils', () => {
   describe('getEnsOwner', () => {
     test('should return null when the ENS is not valid', () => {
       // special hidden characters after the k
-      expect(getEnsOwner('elonmusk‍‍.eth')).resolves.toBe(null);
+      expect(getEnsOwner('elonmusk‍‍.eth')).resolves.toBe(EMPTY_ADDRESS);
+    });
+
+    test('throw an error when the network is not supported', () => {
+      expect(getEnsOwner('shot.eth', '100')).rejects.toThrow(
+        'Network not supported'
+      );
     });
   });
 

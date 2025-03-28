@@ -30,6 +30,15 @@ interface Strategy {
   params: any;
 }
 
+type DomainType = 'ens' | 'tld' | 'other-tld' | 'subdomain';
+
+const MUTED_ERRORS = [
+  // mute error from coinbase, when the subdomain is not found
+  // most other resolvers just return an empty address
+  'response not found during CCIP fetch',
+  // mute error from missing offchain resolver (mostly for sepolia)
+  'UNSUPPORTED_OPERATION'
+];
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
 const ENS_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)',
@@ -218,6 +227,45 @@ ajv.addFormat('domain', {
     );
   }
 });
+
+function getDomainType(domain: string): DomainType {
+  const isEns = domain.endsWith('.eth');
+
+  const tokens = domain.split('.');
+
+  if (tokens.length === 1) return 'tld';
+  else if (tokens.length === 2 && !isEns) return 'other-tld';
+  else if (tokens.length > 2) return 'subdomain';
+  else if (isEns) return 'ens';
+  else throw new Error('Invalid domain');
+}
+
+// see https://docs.ens.domains/registry/dns#gasless-import
+async function getDNSOwner(domain: string): Promise<string> {
+  const response = await fetch(
+    `https://cloudflare-dns.com/dns-query?name=${domain}&type=TXT`,
+    {
+      headers: {
+        accept: 'application/dns-json'
+      }
+    }
+  );
+
+  const data = await response.json();
+  // Error list: https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-6
+  if (data.Status === 3) return EMPTY_ADDRESS;
+  if (data.Status !== 0) throw new Error('Failed to fetch DNS Owner');
+
+  const ownerRecord = data.Answer?.find((record: any) =>
+    record.data.includes('ENS1')
+  );
+
+  if (!ownerRecord) return EMPTY_ADDRESS;
+
+  return getAddress(
+    ownerRecord.data.replace(new RegExp('"', 'g'), '').split(' ').pop()
+  );
+}
 
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
@@ -611,7 +659,12 @@ export async function getEnsOwner(
   ens: string,
   network = '1',
   options: any = {}
-): Promise<string | null> {
+): Promise<string> {
+  if (!networks[network]?.ensResolvers?.length) {
+    throw new Error('Network not supported');
+  }
+
+  const domainType = getDomainType(ens);
   const provider = getProvider(network, options);
   const ensRegistry = new Contract(
     ENS_REGISTRY,
@@ -624,7 +677,7 @@ export async function getEnsOwner(
   try {
     ensHash = namehash(ensNormalize(ens));
   } catch (e: any) {
-    return null;
+    return EMPTY_ADDRESS;
   }
 
   const ensNameWrapper =
@@ -639,14 +692,35 @@ export async function getEnsOwner(
     );
     owner = await ensNameWrapperContract.ownerOf(ensHash);
   }
-  return owner;
+
+  if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
+    const resolvedAddress = await provider.resolveName(ens);
+
+    // Filter out domains with valid TXT records, but not imported
+    if (resolvedAddress) {
+      owner = await getDNSOwner(ens);
+    }
+  }
+
+  if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
+    try {
+      owner = await provider.resolveName(ens);
+    } catch (e: any) {
+      if (MUTED_ERRORS.every((error) => !e.message.includes(error))) {
+        throw e;
+      }
+      owner = EMPTY_ADDRESS;
+    }
+  }
+
+  return owner || EMPTY_ADDRESS;
 }
 
 export async function getSpaceController(
   id: string,
   network = '1',
   options: any = {}
-): Promise<string | null> {
+): Promise<string> {
   const spaceUri = await getSpaceUri(id, network, options);
   if (spaceUri) {
     let isUriAddress = isAddress(spaceUri);
