@@ -518,6 +518,21 @@
     "start": 13960096,
     "logo": "ipfs://QmU7f1MyRz8rLELFfypnWZQjGbDGYgZtC9rjw47jYMYrnu"
   },
+  "296": {
+    "key": "296",
+    "name": "Hedera Testnet",
+    "shortName": "testnet",
+    "chainId": 296,
+    "network": "testnet",
+    "multicall": "0xADE3166b0afA89b2CDB64870D70ADeD330Eab015",
+    "rpc": [],
+    "explorer": {
+      "url": "https://hashscan.io/testnet"
+    },
+    "start": 17561901,
+    "logo": "ipfs://bafkreia5gpitwgo4sspvvtwqcxosq2krrqo5dbrnvylgibvmypzotfmbuu",
+    "testnet": true
+  },
   "300": {
     "key": "300",
     "name": "zkSync Sepolia Testnet",
