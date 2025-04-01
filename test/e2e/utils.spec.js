@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { getEnsOwner } from '../../src/utils';
+import { getEnsOwner, getShibariumNameOwner } from '../../src/utils';
 
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -70,6 +70,26 @@ describe('utils', () => {
 
       test('return an empty address for unclaimed domain', () => {
         expect(getEnsOwner('google.com')).resolves.toBe(EMPTY_ADDRESS);
+      });
+    });
+
+    describe('shibarium resolver', () => {
+      test('return an empty address for unrecognized extension', () => {
+        expect(getShibariumNameOwner('invalid.domain', '109')).resolves.toBe(
+          EMPTY_ADDRESS
+        );
+      });
+
+      test('return the name owner on mainnet', () => {
+        expect(getShibariumNameOwner('boorger.shib', '109')).resolves.toBe(
+          '0x220bc93D88C0aF11f1159eA89a885d5ADd3A7Cf6'
+        );
+      });
+
+      test('return the name owner on testnet', () => {
+        expect(
+          getShibariumNameOwner('systematize752253.shib', '157')
+        ).resolves.toBe('0xc4B06a671831CdD66fdA1A287263103103DEC80D');
       });
     });
   });

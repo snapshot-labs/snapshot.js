@@ -716,9 +716,9 @@ export async function getEnsOwner(
   return owner || EMPTY_ADDRESS;
 }
 
-export async function getSpaceController(
+async function getEnsSpaceController(
   id: string,
-  network = '1',
+  network: string,
   options: any = {}
 ): Promise<string> {
   const spaceUri = await getSpaceUri(id, network, options);
@@ -733,6 +733,39 @@ export async function getSpaceController(
     if (isUriAddress) return address;
   }
   return await getEnsOwner(id, network, options);
+}
+
+export async function getShibariumNameOwner(
+  id: string,
+  network: string
+): Promise<string> {
+  if (!id.endsWith('.shib')) {
+    return EMPTY_ADDRESS;
+  }
+
+  const response = await fetch(
+    `https://bens.services.blockscout.com/api/v1/${network}/domains:lookup?name=${id}&only_active=true`,
+    {
+      headers: { 'Content-Type': 'application/json' }
+    }
+  );
+  const data = await response.json();
+
+  return data.items[0]?.owner?.hash || EMPTY_ADDRESS;
+}
+
+export async function getSpaceController(
+  id: string,
+  network = '1',
+  options: any = {}
+): Promise<string> {
+  if (['1', '11155111'].includes(network)) {
+    return getEnsSpaceController(id, network, options);
+  } else if (['109', '157'].includes(network)) {
+    return getShibariumNameOwner(id, network);
+  }
+
+  throw new Error(`Network not supported: ${network}`);
 }
 
 export function clone(item) {
