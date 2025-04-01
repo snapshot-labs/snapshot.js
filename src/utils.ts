@@ -749,6 +749,11 @@ export async function getShibariumNameOwner(
       headers: { 'Content-Type': 'application/json' }
     }
   );
+  if (!response.ok) {
+    throw new Error(
+      `Shibarium API error: [${response.status}] ${response.statusText}`
+    );
+  }
   const data = await response.json();
 
   return data.items[0]?.owner?.hash || EMPTY_ADDRESS;
