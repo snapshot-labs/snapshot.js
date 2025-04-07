@@ -47,10 +47,12 @@ export const domain: {
   name: string;
   version: string;
   chainId?: number;
+  verifyingContract: string;
 } = {
   name: NAME,
-  version: VERSION
+  version: VERSION,
   // chainId: 1
+  verifyingContract: '0x0000000000000000000000000000000000000000'
 };
 
 export default class Client {
