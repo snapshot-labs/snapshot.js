@@ -743,20 +743,20 @@ export async function getShibariumNameOwner(
     return EMPTY_ADDRESS;
   }
 
-  const response = await fetch(
-    `https://bens.services.blockscout.com/api/v1/${network}/domains:lookup?name=${id}&only_active=true`,
-    {
-      headers: { 'Content-Type': 'application/json' }
-    }
-  );
-  if (!response.ok) {
-    throw new Error(
-      `Shibarium API error: [${response.status}] ${response.statusText}`
-    );
-  }
-  const data = await response.json();
+  const response = await fetch('https://stamp.fyi', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      method: 'get_owner',
+      params: id,
+      network
+    })
+  });
 
-  return data.items[0]?.owner?.hash || EMPTY_ADDRESS;
+  const data = await response.json();
+  return data.result;
 }
 
 export async function getSpaceController(
