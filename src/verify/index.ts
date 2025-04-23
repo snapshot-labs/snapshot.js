@@ -1,13 +1,13 @@
 import * as starknet from './starknet';
 import * as evm from './evm';
 import { isEvmAddress, isStarknetAddress } from '../utils';
-import type { StarkNetType } from 'starknet';
+import type { StarknetType } from 'starknet';
 import type { TypedDataField } from '@ethersproject/abstract-signer';
 import type { ProviderOptions } from '../utils/provider';
 
 export type SignaturePayload = {
   domain: Record<string, string | number>;
-  types: Record<string, StarkNetType[] | TypedDataField[]>;
+  types: Record<string, StarknetType[] | TypedDataField[]>;
   primaryType?: string;
   message: Record<string, any>;
 };
