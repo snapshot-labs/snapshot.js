@@ -19,7 +19,7 @@ npm i @snapshot-labs/snapshot.js
 You can create an index.html file and include Snapshot.js with:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@snapshot-labs/snapshot.js"></script>
+<script src="https://cdn.jsdelivr.net/@snapshot-labs/snapshot.js"></script>
 ```
 
 ### Development
