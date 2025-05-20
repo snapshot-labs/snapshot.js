@@ -794,7 +794,10 @@ function isValidNetwork(network: string) {
 }
 
 function isValidAddress(address: string) {
-  return isAddress(address) && address !== EMPTY_ADDRESS;
+  return (
+    (isAddress(address) || isStarknetAddress(address)) &&
+    address !== EMPTY_ADDRESS
+  );
 }
 
 function isValidSnapshot(snapshot: number | string, network: string) {
