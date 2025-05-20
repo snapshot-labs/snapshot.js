@@ -795,8 +795,8 @@ function isValidNetwork(network: string) {
 
 function isValidAddress(address: string) {
   return (
-    (isAddress(address) || isStarknetAddress(address)) &&
-    address !== EMPTY_ADDRESS
+    address !== EMPTY_ADDRESS &&
+    (isAddress(address) || isStarknetAddress(address))
   );
 }
 
