@@ -317,7 +317,10 @@
     "chainId": 109,
     "network": "mainnet",
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
-    "rpc": [],
+    "rpc": [
+            "https://www.shibrpc.com",
+            "https://rpc.shibrpc.com"
+          ],
     "explorer": {
       "url": "https://shibariumscan.io"
     },
@@ -415,7 +418,7 @@
     "chainId": 157,
     "network": "testnet",
     "multicall": "0xA4029b74FBA366c926eDFA7Dd10B21C621170a4c",
-    "rpc": [],
+    "rpc": ["https://puppynet.shibrpc.com"],
     "explorer": {
       "url": "https://puppyscan.shib.io"
     },
