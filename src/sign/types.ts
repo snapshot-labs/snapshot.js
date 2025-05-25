@@ -139,7 +139,7 @@ export const spaceTypes = {
 
 export const proposalTypes = {
   Proposal: [
-    { name: 'from', type: 'address' },
+    { name: 'from', type: 'string' },
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'type', type: 'string' },
@@ -185,7 +185,7 @@ export const flagProposalTypes = {
 
 export const cancelProposalTypes = {
   CancelProposal: [
-    { name: 'from', type: 'address' },
+    { name: 'from', type: 'string' },
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' }
@@ -203,7 +203,7 @@ export const cancelProposal2Types = {
 
 export const voteTypes = {
   Vote: [
-    { name: 'from', type: 'address' },
+    { name: 'from', type: 'string' },
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
@@ -216,7 +216,7 @@ export const voteTypes = {
 
 export const voteArrayTypes = {
   Vote: [
-    { name: 'from', type: 'address' },
+    { name: 'from', type: 'string' },
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
@@ -229,7 +229,7 @@ export const voteArrayTypes = {
 
 export const voteStringTypes = {
   Vote: [
-    { name: 'from', type: 'address' },
+    { name: 'from', type: 'string' },
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
