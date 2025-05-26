@@ -132,7 +132,9 @@ ajv.addFormat('evmAddress', {
 ajv.addFormat('starknetAddress', {
   validate: (value: string) => {
     try {
-      return validateAndParseAddress(value) === value;
+      return (
+        validateAndParseAddress(value).toLowerCase() === value.toLowerCase()
+      );
     } catch (e: any) {
       return false;
     }
