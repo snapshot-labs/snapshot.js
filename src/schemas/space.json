@@ -85,7 +85,11 @@
         },
         "network": {
           "type": "string",
-          "snapshotNetwork": true,
+          "anyOf": [
+            { "snapshotNetwork": true },
+            { "starknetNetwork": true }
+          ],
+          "errorMessage": "Must be a valid network",
           "title": "network",
           "minLength": 1,
           "maxLength": 32
@@ -133,7 +137,11 @@
                 "type": "string",
                 "maxLength": 12,
                 "title": "network",
-                "snapshotNetwork": true
+                "anyOf": [
+                  { "snapshotNetwork": true },
+                  { "starknetNetwork": true }
+                ],
+                "errorMessage": "Must be a valid network"
               },
               "params": {
                 "type": "object",
