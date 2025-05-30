@@ -274,11 +274,7 @@
               "type": "string",
               "title": "Delegation network",
               "description": "The network of your delegation contract",
-              "anyOf": [
-                { "snapshotNetwork": true },
-                { "starknetNetwork": true }
-              ],
-              "errorMessage": "Must be a valid network"
+              "snapshotNetwork": true
             },
             "delegationApi": {
               "type": "string",
@@ -400,11 +396,7 @@
               "network": {
                 "type": "string",
                 "title": "Network",
-                "anyOf": [
-                { "snapshotNetwork": true },
-                { "starknetNetwork": true }
-              ],
-              "errorMessage": "Must be a valid network"
+                "snapshotNetwork": true
               }
             },
             "required": ["name", "address", "network"],
