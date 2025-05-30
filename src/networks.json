@@ -1972,7 +1972,7 @@
     "logo": "ipfs://QmNnGPr1CNvj12SSGzKARtUHv9FyEfE5nES73U4vBWQSJL"
   },
   "0x534e5f4d41494e": {
-    "key": "0x534e5f4d41494e",
+    "key": "sn",
     "name": "Starknet",
     "shortName": "Starknet",
     "chainId": "0x534e5f4d41494e",
@@ -1985,7 +1985,7 @@
     "logo": "ipfs://bafkreihbjafyh7eud7r6e5743esaamifcttsvbspfwcrfoc5ykodjdi67m"
   },
   "0x534e5f5345504f4c4941": {
-    "key": "0x534e5f5345504f4c4941",
+    "key": "sn-sep",
     "name": "Starknet Testnet",
     "shortName": "testnet",
     "chainId": "0x534e5f5345504f4c4941",

@@ -157,8 +157,8 @@ ajv.addFormat('ethValue', {
   }
 });
 
-const networksIds = Object.keys(networks);
-const mainnetNetworkIds = Object.keys(networks).filter(
+const networksChainIds = Object.keys(networks);
+const mainnetNetworkChainIds = Object.keys(networks).filter(
   (id) => !networks[id].testnet
 );
 
@@ -167,8 +167,8 @@ ajv.addKeyword({
   validate: function (schema, data) {
     // @ts-ignore
     const snapshotEnv = this.snapshotEnv || 'default';
-    if (snapshotEnv === 'mainnet') return mainnetNetworkIds.includes(data);
-    return networksIds.includes(data);
+    if (snapshotEnv === 'mainnet') return mainnetNetworkChainIds.includes(data);
+    return networksChainIds.includes(data);
   },
   error: {
     message: 'network not allowed'

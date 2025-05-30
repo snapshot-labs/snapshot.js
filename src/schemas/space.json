@@ -87,8 +87,7 @@
           "type": "string",
           "snapshotNetwork": true,
           "title": "network",
-          "minLength": 1,
-          "maxLength": 32
+          "minLength": 1
         },
         "symbol": {
           "type": "string",
@@ -131,7 +130,6 @@
               },
               "network": {
                 "type": "string",
-                "maxLength": 12,
                 "title": "network",
                 "snapshotNetwork": true
               },
