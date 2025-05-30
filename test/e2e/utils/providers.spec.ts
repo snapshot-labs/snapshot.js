@@ -12,6 +12,14 @@ describe('test providers', () => {
     );
   });
 
+  test('should accept a network param as number', async () => {
+    expect(getProvider(1).getNetwork()).resolves.toEqual(
+      expect.objectContaining({
+        chainId: 1
+      })
+    );
+  });
+
   test('should return a batch provider for EVM networks', async () => {
     const provider = getBatchedProvider('1');
     const requests = [provider.getNetwork(), provider.getBlockNumber()];

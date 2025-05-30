@@ -20,20 +20,22 @@ const STARKNET_NETWORKS = {
 };
 
 export default function getProvider(
-  network: string,
+  network: string | number,
   options: ProviderOptions = {}
 ) {
-  if (providers[network]) {
-    return providers[network];
+  const stringNetwork = String(network);
+
+  if (providers[stringNetwork]) {
+    return providers[stringNetwork];
   }
 
-  if (Object.keys(STARKNET_NETWORKS).includes(network)) {
-    providers[network] = getStarknetProvider(network, options);
+  if (Object.keys(STARKNET_NETWORKS).includes(stringNetwork)) {
+    providers[stringNetwork] = getStarknetProvider(stringNetwork, options);
   } else {
-    providers[network] = getEvmProvider(network, options);
+    providers[stringNetwork] = getEvmProvider(stringNetwork, options);
   }
 
-  return providers[network];
+  return providers[stringNetwork];
 }
 
 export function getEvmProvider(
@@ -63,20 +65,28 @@ function getStarknetProvider(
 }
 
 export function getBatchedProvider(
-  network: string,
+  network: string | number,
   options: ProviderOptions = {}
 ) {
-  if (batchedProviders[network]) {
-    return batchedProviders[network];
+  const stringNetwork = String(network);
+
+  if (batchedProviders[stringNetwork]) {
+    return batchedProviders[stringNetwork];
   }
 
-  if (Object.keys(STARKNET_NETWORKS).includes(network)) {
-    batchedProviders[network] = getStarknetBatchedProvider(network, options);
+  if (Object.keys(STARKNET_NETWORKS).includes(stringNetwork)) {
+    batchedProviders[stringNetwork] = getStarknetBatchedProvider(
+      stringNetwork,
+      options
+    );
   } else {
-    batchedProviders[network] = getEvmBatchedProvider(network, options);
+    batchedProviders[stringNetwork] = getEvmBatchedProvider(
+      stringNetwork,
+      options
+    );
   }
 
-  return batchedProviders[network];
+  return batchedProviders[stringNetwork];
 }
 
 function getEvmBatchedProvider(
