@@ -132,6 +132,8 @@ ajv.addFormat('evmAddress', {
 ajv.addFormat('starknetAddress', {
   validate: (value: string) => {
     try {
+      // Accept both checksum and lowercase addresses
+      // but need to always be padded
       return (
         validateAndParseAddress(value).toLowerCase() === value.toLowerCase()
       );
