@@ -16,7 +16,7 @@
   "network": "0x534e5f4d41494e",
   "plugins": {},
   "twitter": "lootproject",
-  "domain": "https://vote.lootproject.abc",
+  "domain": "vote.lootproject.abc",
   "strategies": [
     {
       "name": "erc721",
