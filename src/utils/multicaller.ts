@@ -2,27 +2,29 @@ import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import set from 'lodash.set';
 import { multicall } from '../utils';
 
+type Path = string | string[];
+
 export default class Multicaller {
   public network: string;
   public provider: StaticJsonRpcProvider;
   public abi: any[];
   public options: any = {};
   public calls: any[] = [];
-  public paths: any[] = [];
+  public paths: Path[] = [];
 
   constructor(
     network: string,
     provider: StaticJsonRpcProvider,
     abi: any[],
-    options?
+    options: any = {}
   ) {
     this.network = network;
     this.provider = provider;
     this.abi = abi;
-    this.options = options || {};
+    this.options = options;
   }
 
-  call(path, address, fn, params?): Multicaller {
+  call(path: Path, address: string, fn: string, params?: any[]): Multicaller {
     this.calls.push([address, fn, params]);
     this.paths.push(path);
     return this;
@@ -37,7 +39,9 @@ export default class Multicaller {
       this.calls,
       this.options
     );
-    result.forEach((r, i) => set(obj, this.paths[i], r.length > 1 ? r : r[0]));
+    result.forEach((r: any, i: number) =>
+      set(obj, this.paths[i], r.length > 1 ? r : r[0])
+    );
     this.calls = [];
     this.paths = [];
     return obj;
