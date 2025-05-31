@@ -266,6 +266,7 @@ export async function multicall(
   try {
     const max = options?.limit || 500;
     if (options?.limit) delete options.limit;
+    if (options?.multicallAddress) delete options.multicallAddress;
     const pages = Math.ceil(calls.length / max);
     const promises: any = [];
     Array.from(Array(pages)).forEach((x, i) => {
