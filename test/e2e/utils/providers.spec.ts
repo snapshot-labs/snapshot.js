@@ -30,6 +30,12 @@ describe('test providers', () => {
         'Network 0x123 is not supported'
       );
     });
+
+    test('should cache providers efficiently', () => {
+      const provider1 = getProvider('1');
+      const provider2 = getProvider('1');
+      expect(provider1).toBe(provider2); // Same instance
+    });
   });
 
   describe('getBatchedProvider', () => {
@@ -61,5 +67,11 @@ describe('test providers', () => {
         'Network 0x123 is not supported'
       );
     });
+  });
+
+  test('should cache providers efficiently', () => {
+    const provider1 = getBatchedProvider('1');
+    const provider2 = getBatchedProvider('1');
+    expect(provider1).toBe(provider2); // Same instance
   });
 });
