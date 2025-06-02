@@ -1,6 +1,6 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import set from 'lodash.set';
-import { multicall } from '../utils';
+import multicall from './';
 
 type Path = string | string[];
 

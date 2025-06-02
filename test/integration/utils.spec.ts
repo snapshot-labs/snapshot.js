@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { multicall } from '../../src/utils';
+import utils from '../../src/utils';
 import getProvider from '../../src/utils/provider';
 
 describe('utils', () => {
@@ -29,7 +29,12 @@ describe('utils', () => {
           [daiAddress, 'decimals', []]
         ];
 
-        const results = await multicall(network, provider, erc20Abi, calls);
+        const results = await utils.multicall(
+          network,
+          provider,
+          erc20Abi,
+          calls
+        );
 
         expect(results).toHaveLength(6);
         expect(results[0][0]).toBe('USD Coin');
@@ -58,7 +63,12 @@ describe('utils', () => {
           [address]
         ]);
 
-        const results = await multicall(network, provider, erc20Abi, calls);
+        const results = await utils.multicall(
+          network,
+          provider,
+          erc20Abi,
+          calls
+        );
 
         expect(results).toHaveLength(3);
         results.forEach((result) => {
@@ -90,7 +100,7 @@ describe('utils', () => {
           [ensRegistryAddress, 'resolver', [ensNameHash]]
         ];
 
-        const results = await multicall(network, provider, ensAbi, calls);
+        const results = await utils.multicall(network, provider, ensAbi, calls);
 
         expect(results).toHaveLength(4);
         results.forEach((result) => {
@@ -109,9 +119,15 @@ describe('utils', () => {
         // Create 600 calls to test pagination (default limit is 500)
         const calls = Array(600).fill([usdcAddress, 'decimals', []]);
 
-        const results = await multicall(network, provider, erc20Abi, calls, {
-          limit: 300 // Custom limit
-        });
+        const results = await utils.multicall(
+          network,
+          provider,
+          erc20Abi,
+          calls,
+          {
+            limit: 300 // Custom limit
+          }
+        );
 
         expect(results).toHaveLength(600);
         results.forEach((result) => {
@@ -126,9 +142,15 @@ describe('utils', () => {
         const calls = [[usdcAddress, 'symbol', []]];
 
         // Use the same multicall address (should work the same)
-        const results = await multicall(network, provider, erc20Abi, calls, {
-          multicallAddress: '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441'
-        });
+        const results = await utils.multicall(
+          network,
+          provider,
+          erc20Abi,
+          calls,
+          {
+            multicallAddress: '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441'
+          }
+        );
 
         expect(results).toHaveLength(1);
         expect(typeof results[0][0]).toBe('string');
@@ -145,7 +167,7 @@ describe('utils', () => {
         const calls = [[usdcAddress, 'nonExistentFunction', []]];
 
         await expect(
-          multicall(network, provider, invalidAbi, calls)
+          utils.multicall(network, provider, invalidAbi, calls)
         ).rejects.toThrow();
       }, 10000);
 
@@ -156,7 +178,7 @@ describe('utils', () => {
         const calls = [[invalidAddress, 'symbol', []]];
 
         await expect(
-          multicall(network, provider, erc20Abi, calls)
+          utils.multicall(network, provider, erc20Abi, calls)
         ).rejects.toThrow();
       }, 10000);
     });
@@ -178,7 +200,7 @@ describe('utils', () => {
           [usdcPolygonAddress, 'symbol', []]
         ];
 
-        const results = await multicall(
+        const results = await utils.multicall(
           polygonNetwork,
           polygonProvider,
           erc20Abi,

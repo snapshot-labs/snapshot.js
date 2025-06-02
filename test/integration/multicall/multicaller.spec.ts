@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import Multicaller from '../../../src/utils/multicaller';
+import Multicaller from '../../../src/multicall/multicaller';
 import getProvider from '../../../src/utils/provider';
 
 describe('Multicaller integration tests', () => {
