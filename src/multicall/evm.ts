@@ -1,5 +1,12 @@
-import { Interface } from '@ethersproject/abi';
+import {
+  Fragment,
+  FunctionFragment,
+  Interface,
+  JsonFragment
+} from '@ethersproject/abi';
+import { Signer } from '@ethersproject/abstract-signer';
 import { Contract } from '@ethersproject/contracts';
+import { Provider } from '@ethersproject/providers';
 
 const multicallAbi = [
   'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)'
@@ -7,9 +14,9 @@ const multicallAbi = [
 
 export default async function multicall(
   address: string,
-  provider,
-  abi: any[],
-  calls: any[],
+  provider: Signer | Provider,
+  abi: string | (Fragment | JsonFragment | string)[],
+  calls: [string, FunctionFragment | string, any[]][],
   limit: number,
   options = {}
 ) {
@@ -30,7 +37,7 @@ export default async function multicall(
         )
       );
     });
-    let results: any = await Promise.all(promises);
+    let results: any[] = await Promise.all(promises);
     results = results.reduce((prev: any, [, res]: any) => prev.concat(res), []);
     return results.map((call, i) =>
       itf.decodeFunctionResult(calls[i][1], call)

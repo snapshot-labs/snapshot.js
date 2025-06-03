@@ -564,13 +564,13 @@ export async function getEnsTextRecord(
     ]) // Query for text record from each resolver
   ];
 
-  const [[resolverAddress], ...textRecords]: string[][] = await multicall(
+  const [[resolverAddress], ...textRecords] = (await multicall(
     network,
     provider,
     ENS_ABI,
     calls,
     multicallOptions
-  );
+  )) as string[][];
 
   const resolverIndex = ensResolvers.indexOf(resolverAddress);
   return resolverIndex !== -1 ? textRecords[resolverIndex]?.[0] : null;
