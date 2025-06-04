@@ -1,12 +1,13 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import set from 'lodash.set';
 import multicall from './';
+import { RpcProvider } from 'starknet';
 
 type Path = string | string[];
 
 export default class Multicaller {
   public network: string;
-  public provider: StaticJsonRpcProvider;
+  public provider: StaticJsonRpcProvider | RpcProvider;
   public abi: any[];
   public options: any = {};
   public calls: any[] = [];
@@ -14,7 +15,7 @@ export default class Multicaller {
 
   constructor(
     network: string,
-    provider: StaticJsonRpcProvider,
+    provider: StaticJsonRpcProvider | RpcProvider,
     abi: any[],
     options: any = {}
   ) {
