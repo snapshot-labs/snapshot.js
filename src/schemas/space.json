@@ -150,7 +150,11 @@
           "maxItems": 100,
           "items": {
             "type": "string",
-            "format": "evmAddress"
+            "anyOf": [
+              { "format": "evmAddress" },
+              { "format": "starknetAddress" }
+            ],
+            "errorMessage": "Must be a valid address"
           },
           "title": "members",
           "uniqueItems": true
@@ -160,7 +164,11 @@
           "maxItems": 100,
           "items": {
             "type": "string",
-            "format": "evmAddress"
+            "anyOf": [
+              { "format": "evmAddress" },
+              { "format": "starknetAddress" }
+            ],
+            "errorMessage": "Must be a valid address"
           },
           "title": "admins",
           "uniqueItems": true
@@ -170,7 +178,11 @@
           "maxItems": 100,
           "items": {
             "type": "string",
-            "format": "evmAddress"
+            "anyOf": [
+              { "format": "evmAddress" },
+              { "format": "starknetAddress" }
+            ],
+            "errorMessage": "Must be a valid address"
           },
           "title": "moderators",
           "uniqueItems": true
