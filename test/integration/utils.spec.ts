@@ -112,7 +112,7 @@ describe('utils', () => {
         }, 10000);
       });
 
-      describe('pagination and limits', () => {
+      describe('when passing options', () => {
         it('should handle large number of calls with pagination', async () => {
           // Create 600 calls to test pagination (default limit is 500)
           const calls = Array(600).fill([usdcAddress, 'decimals', []]);
@@ -149,6 +149,29 @@ describe('utils', () => {
 
           expect(results).toHaveLength(1);
           expect(typeof results[0][0]).toBe('string');
+        }, 10000);
+
+        it('should return data for a specific block number', async () => {
+          const calls = [
+            [
+              usdcAddress,
+              'balanceOf',
+              ['0xF977814e90dA44bFA03b6295A0616a897441aceC'] // Binance: Hot Wallet 20
+            ]
+          ];
+
+          const results = await utils.multicall(
+            network,
+            provider,
+            erc20Abi,
+            calls,
+            {
+              blockTag: 22321426
+            }
+          );
+
+          expect(results).toHaveLength(1);
+          expect(Number(results[0][0])).toBe(1241685967233000);
         }, 10000);
       });
 
@@ -332,7 +355,7 @@ describe('utils', () => {
       }, 10000);
     });
 
-    describe('pagination and limits', () => {
+    describe('when passing options', () => {
       it('should handle large number of calls with pagination', async () => {
         // Create 600 calls to test pagination (default limit is 500)
         const calls = Array(600).fill([usdcAddress, 'decimals', []]);
@@ -370,6 +393,32 @@ describe('utils', () => {
 
         expect(results).toHaveLength(1);
         expect(results[0][0]).toBe('USDC');
+      }, 10000);
+
+      it('should return data for a specific block number', async () => {
+        const calls = [
+          [
+            '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d', // Starknet Token
+            'balanceOf',
+            [
+              '0x01176a1bd84444c89232ec27754698e5d2e7e1a7f1539f12027f28b23ec9f3d8'
+            ] // Starknet Sequencer
+          ]
+        ];
+
+        const providerWithBlock = getProvider(network, {
+          block: 1460688
+        });
+
+        const results = await utils.multicall(
+          network,
+          providerWithBlock,
+          erc20Abi,
+          calls
+        );
+
+        expect(results).toHaveLength(1);
+        expect(Number(results[0][0])).toBe(2.606408359262167e23);
       }, 10000);
     });
 

@@ -5,64 +5,119 @@ import {
 import { RpcProvider } from 'starknet';
 import networks from '../networks.json';
 
-const providers = {};
-const batchedProviders = {};
+export interface ProviderOptions {
+  readonly broviderUrl?: string;
+  readonly timeout?: number;
+  readonly block?: 'latest' | number;
+}
 
-export type ProviderOptions = {
-  broviderUrl?: string;
-  timeout?: number;
+type ProviderInstance =
+  | JsonRpcBatchProvider
+  | StaticJsonRpcProvider
+  | RpcProvider;
+
+type ProviderType = 'evm' | 'starknet' | 'evmBatched' | 'starknetBatched';
+
+const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org' as const;
+const DEFAULT_TIMEOUT = 25000 as const;
+const DEFAULT_BLOCK = 'latest' as const;
+const STARKNET_BROVIDER_KEYS: string[] = ['sn', 'sn-sep'] as const;
+
+const providerMemo = new Map<string, ProviderInstance>();
+const batchedProviderMemo = new Map<string, ProviderInstance>();
+
+const providerFnMap: Record<
+  ProviderType,
+  (networkId: string, options: Required<ProviderOptions>) => ProviderInstance
+> = {
+  evm: getEvmProvider,
+  starknet: getStarknetProvider,
+  evmBatched: getEvmBatchedProvider,
+  starknetBatched: getStarknetBatchedProvider
 };
 
-const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org';
-const DEFAULT_TIMEOUT = 25000;
-const STARKNET_CHAIN_IDS = ['0x534e5f4d41494e', '0x534e5f5345504f4c4941'];
+function normalizeOptions(
+  options: ProviderOptions = {}
+): Required<ProviderOptions> {
+  return {
+    broviderUrl: options.broviderUrl ?? DEFAULT_BROVIDER_URL,
+    timeout: options.timeout ?? DEFAULT_TIMEOUT,
+    block: options.block ?? DEFAULT_BLOCK
+  };
+}
+
+function getBroviderNetworkId(network: string | number): string {
+  const config = networks[network];
+  if (!config) {
+    throw new Error(`Network '${network}' is not supported`);
+  }
+  return String(config.key);
+}
+
+function getProviderType(networkId: string, batched: boolean): ProviderType {
+  const isStarknet = STARKNET_BROVIDER_KEYS.includes(networkId);
+  return `${isStarknet ? 'starknet' : 'evm'}${
+    batched ? 'Batched' : ''
+  }` as ProviderType;
+}
+
+function createMemoKey(
+  networkId: string,
+  options: Required<ProviderOptions>
+): string {
+  return `${networkId}:${options.broviderUrl}:${options.timeout}:${options.block}`;
+}
+
+function getMemoizedProvider(
+  memo: Map<string, ProviderInstance>,
+  network: string | number,
+  options: ProviderOptions = {},
+  batched = false
+): ProviderInstance {
+  const networkId = getBroviderNetworkId(network);
+  const normalizedOptions = normalizeOptions(options);
+  const memoKey = createMemoKey(networkId, normalizedOptions);
+
+  const memoized = memo.get(memoKey);
+  if (memoized) {
+    return memoized;
+  }
+
+  const providerType = getProviderType(networkId, batched);
+  const provider = providerFnMap[providerType](networkId, normalizedOptions);
+
+  memo.set(memoKey, provider);
+  return provider;
+}
 
 export default function getProvider(
   network: string | number,
   options: ProviderOptions = {}
 ) {
-  const chainId = networks[network] ? String(networks[network].chainId) : null;
-
-  if (!chainId) {
-    throw new Error(`Network ${network} is not supported`);
-  }
-
-  if (providers[chainId]) {
-    return providers[chainId];
-  }
-
-  if (STARKNET_CHAIN_IDS.includes(chainId)) {
-    providers[chainId] = getStarknetProvider(chainId, options);
-  } else {
-    providers[chainId] = getEvmProvider(chainId, options);
-  }
-
-  return providers[chainId];
+  return getMemoizedProvider(providerMemo, network, options);
 }
 
-export function getEvmProvider(
-  network: string,
-  {
-    broviderUrl = DEFAULT_BROVIDER_URL,
-    timeout = DEFAULT_TIMEOUT
-  }: ProviderOptions = {}
-) {
+function getEvmProvider(
+  networkId: string,
+  options: Required<ProviderOptions>
+): StaticJsonRpcProvider {
   return new StaticJsonRpcProvider(
     {
-      url: `${broviderUrl}/${network}`,
-      timeout,
+      url: `${options.broviderUrl}/${networkId}`,
+      timeout: options.timeout,
       allowGzip: true
     },
-    Number(network)
+    Number(networkId)
   );
 }
 
 function getStarknetProvider(
-  network: string,
-  { broviderUrl = DEFAULT_BROVIDER_URL }: ProviderOptions = {}
-) {
+  networkKey: string,
+  options: Required<ProviderOptions>
+): RpcProvider {
   return new RpcProvider({
-    nodeUrl: `${broviderUrl}/${networks[network].key}`
+    nodeUrl: `${options.broviderUrl}/${networkKey}`,
+    blockIdentifier: options.block
   });
 }
 
@@ -70,45 +125,27 @@ export function getBatchedProvider(
   network: string | number,
   options: ProviderOptions = {}
 ) {
-  const chainId = networks[network] ? String(networks[network].chainId) : null;
-
-  if (!chainId) {
-    throw new Error(`Network ${network} is not supported`);
-  }
-
-  if (batchedProviders[chainId]) {
-    return batchedProviders[chainId];
-  }
-
-  if (STARKNET_CHAIN_IDS.includes(chainId)) {
-    batchedProviders[chainId] = getStarknetBatchedProvider(chainId, options);
-  } else {
-    batchedProviders[chainId] = getEvmBatchedProvider(chainId, options);
-  }
-
-  return batchedProviders[chainId];
+  return getMemoizedProvider(batchedProviderMemo, network, options, true);
 }
 
 function getEvmBatchedProvider(
-  network: string,
-  {
-    broviderUrl = DEFAULT_BROVIDER_URL,
-    timeout = DEFAULT_TIMEOUT
-  }: ProviderOptions = {}
-) {
+  networkId: string,
+  options: Required<ProviderOptions>
+): JsonRpcBatchProvider {
   return new JsonRpcBatchProvider({
-    url: `${broviderUrl}/${network}`,
-    timeout,
+    url: `${options.broviderUrl}/${networkId}`,
+    timeout: options.timeout,
     allowGzip: true
   });
 }
 
 function getStarknetBatchedProvider(
-  network: string,
-  { broviderUrl = DEFAULT_BROVIDER_URL }: ProviderOptions = {}
-) {
+  networkKey: string,
+  options: Required<ProviderOptions>
+): RpcProvider {
   return new RpcProvider({
-    nodeUrl: `${broviderUrl}/${networks[network].key}`,
-    batch: 0
+    nodeUrl: `${options.broviderUrl}/${networkKey}`,
+    batch: 0,
+    blockIdentifier: options.block
   });
 }

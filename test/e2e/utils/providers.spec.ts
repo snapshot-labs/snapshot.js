@@ -1,10 +1,17 @@
 import { describe, expect, test } from 'vitest';
 import getProvider, { getBatchedProvider } from '../../../src/utils/provider';
+import {
+  JsonRpcBatchProvider,
+  StaticJsonRpcProvider
+} from '@ethersproject/providers';
+import { RpcProvider } from 'starknet';
 
 describe('test providers', () => {
   describe('getProvider', () => {
     test('should return a provider for EVM networks', async () => {
-      expect(getProvider('1').getNetwork()).resolves.toEqual(
+      expect(
+        (getProvider('1') as StaticJsonRpcProvider).getNetwork()
+      ).resolves.toEqual(
         expect.objectContaining({
           chainId: 1
         })
@@ -12,7 +19,9 @@ describe('test providers', () => {
     });
 
     test('should accept a network param as number', async () => {
-      expect(getProvider(1).getNetwork()).resolves.toEqual(
+      expect(
+        (getProvider(1) as StaticJsonRpcProvider).getNetwork()
+      ).resolves.toEqual(
         expect.objectContaining({
           chainId: 1
         })
@@ -20,14 +29,14 @@ describe('test providers', () => {
     });
 
     test('should return a provider for Starknet networks', async () => {
-      expect(getProvider('0x534e5f4d41494e').getChainId()).resolves.toEqual(
-        '0x534e5f4d41494e'
-      );
+      expect(
+        (getProvider('0x534e5f4d41494e') as RpcProvider).getChainId()
+      ).resolves.toEqual('0x534e5f4d41494e');
     });
 
     test('should throw an error for unsupported networks', () => {
       expect(() => getProvider('0x123')).toThrowError(
-        'Network 0x123 is not supported'
+        "Network '0x123' is not supported"
       );
     });
 
@@ -40,7 +49,7 @@ describe('test providers', () => {
 
   describe('getBatchedProvider', () => {
     test('should return a batch provider for EVM networks', async () => {
-      const provider = getBatchedProvider('1');
+      const provider = getBatchedProvider('1') as JsonRpcBatchProvider;
       const requests = [provider.getNetwork(), provider.getBlockNumber()];
 
       expect(Promise.all(requests)).resolves.toEqual(
@@ -54,7 +63,7 @@ describe('test providers', () => {
     });
 
     test('should return a batch provider for starknet networks', async () => {
-      const provider = getBatchedProvider('0x534e5f4d41494e');
+      const provider = getBatchedProvider('0x534e5f4d41494e') as RpcProvider;
       const requests = [provider.getChainId(), provider.getBlockNumber()];
 
       expect(Promise.all(requests)).resolves.toEqual(
@@ -64,7 +73,7 @@ describe('test providers', () => {
 
     test('should throw an error for unsupported networks', () => {
       expect(() => getBatchedProvider('0x123')).toThrowError(
-        'Network 0x123 is not supported'
+        "Network '0x123' is not supported"
       );
     });
   });
