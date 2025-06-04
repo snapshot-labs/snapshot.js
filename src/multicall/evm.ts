@@ -19,7 +19,7 @@ export default async function multicall(
   calls: [string, FunctionFragment | string, any[]][],
   limit: number,
   options = {}
-) {
+): Promise<any> {
   const multi = new Contract(address, multicallAbi, provider);
   const itf = new Interface(abi);
   try {

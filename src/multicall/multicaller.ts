@@ -3,7 +3,7 @@ import set from 'lodash.set';
 import multicall from './';
 import { RpcProvider } from 'starknet';
 
-type Path = string | string[];
+type Path = string | number | number[] | string[];
 
 export default class Multicaller {
   public network: string;
