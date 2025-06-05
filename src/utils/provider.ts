@@ -68,12 +68,13 @@ function createMemoKey(
   return `${networkId}:${options.broviderUrl}:${options.timeout}:${options.block}`;
 }
 
+// return loose `any` type to avoid typecheck issues on package consumers
 function getMemoizedProvider(
   memo: Map<string, ProviderInstance>,
   network: string | number,
   options: ProviderOptions = {},
   batched = false
-): ProviderInstance {
+): any {
   const networkId = getBroviderNetworkId(network);
   const normalizedOptions = normalizeOptions(options);
   const memoKey = createMemoKey(networkId, normalizedOptions);
