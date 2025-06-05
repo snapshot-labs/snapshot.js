@@ -147,7 +147,6 @@ describe('test providers', () => {
       expect(provider1).toBe(provider3);
     });
 
-
     test('should handle Starknet provider memoization', () => {
       const provider1 = getProvider('0x534e5f4d41494e');
       const provider2 = getProvider('0x534e5f4d41494e', {});
