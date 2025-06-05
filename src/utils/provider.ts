@@ -8,7 +8,6 @@ import networks from '../networks.json';
 export interface ProviderOptions {
   readonly broviderUrl?: string;
   readonly timeout?: number;
-  readonly block?: 'latest' | number;
 }
 
 type ProviderInstance =
@@ -20,7 +19,6 @@ type ProviderType = 'evm' | 'starknet' | 'evmBatched' | 'starknetBatched';
 
 const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org' as const;
 const DEFAULT_TIMEOUT = 25000 as const;
-const DEFAULT_BLOCK = 'latest' as const;
 const STARKNET_BROVIDER_KEYS: string[] = ['sn', 'sn-sep'] as const;
 
 const providerMemo = new Map<string, ProviderInstance>();
@@ -41,8 +39,7 @@ function normalizeOptions(
 ): Required<ProviderOptions> {
   return {
     broviderUrl: options.broviderUrl || DEFAULT_BROVIDER_URL,
-    timeout: options.timeout ?? DEFAULT_TIMEOUT,
-    block: options.block ?? DEFAULT_BLOCK
+    timeout: options.timeout ?? DEFAULT_TIMEOUT
   };
 }
 
@@ -65,7 +62,7 @@ function createMemoKey(
   networkId: string,
   options: Required<ProviderOptions>
 ): string {
-  return `${networkId}:${options.broviderUrl}:${options.timeout}:${options.block}`;
+  return `${networkId}:${options.broviderUrl}:${options.timeout}`;
 }
 
 // return loose `any` type to avoid typecheck issues on package consumers
@@ -117,8 +114,7 @@ function getStarknetProvider(
   options: Required<ProviderOptions>
 ): RpcProvider {
   return new RpcProvider({
-    nodeUrl: `${options.broviderUrl}/${networkKey}`,
-    blockIdentifier: options.block
+    nodeUrl: `${options.broviderUrl}/${networkKey}`
   });
 }
 
@@ -146,7 +142,6 @@ function getStarknetBatchedProvider(
 ): RpcProvider {
   return new RpcProvider({
     nodeUrl: `${options.broviderUrl}/${networkKey}`,
-    batch: 0,
-    blockIdentifier: options.block
+    batch: 0
   });
 }

@@ -45,11 +45,9 @@ describe('test providers', () => {
       const provider1 = getProvider('1');
       const provider2 = getProvider('1', { timeout: 30000 });
       const provider3 = getProvider('1', { broviderUrl: 'https://custom.rpc' });
-      const provider4 = getProvider('1', { block: 'latest' });
 
       expect(provider1).not.toBe(provider2);
       expect(provider1).not.toBe(provider3);
-      expect(provider1).toBe(provider4); // Same options (block: 'latest' is default)
       expect(provider2).not.toBe(provider3);
     });
 
@@ -142,28 +140,19 @@ describe('test providers', () => {
       const provider2 = getProvider('1', {});
       const provider3 = getProvider('1', {
         broviderUrl: 'https://rpc.snapshot.org',
-        timeout: 25000,
-        block: 'latest'
+        timeout: 25000
       });
 
       expect(provider1).toBe(provider2);
       expect(provider1).toBe(provider3);
     });
 
-    test('should create different instances for different block identifiers', () => {
-      const provider1 = getProvider('1', { block: 'latest' });
-      const provider2 = getProvider('1', { block: 12345 });
-
-      expect(provider1).not.toBe(provider2);
-    });
 
     test('should handle Starknet provider memoization', () => {
       const provider1 = getProvider('0x534e5f4d41494e');
-      const provider2 = getProvider('0x534e5f4d41494e', { block: 'latest' });
-      const provider3 = getProvider('0x534e5f4d41494e', { block: 12345 });
+      const provider2 = getProvider('0x534e5f4d41494e', {});
 
       expect(provider1).toBe(provider2);
-      expect(provider1).not.toBe(provider3);
     });
 
     test('should memoize across EVM and Starknet provider types', () => {
@@ -180,12 +169,10 @@ describe('test providers', () => {
     test('should handle nullish values in options correctly', () => {
       const provider1 = getProvider('1', { timeout: undefined });
       const provider2 = getProvider('1', { broviderUrl: null as any });
-      const provider3 = getProvider('1', { block: undefined });
-      const provider4 = getProvider('1');
+      const provider3 = getProvider('1');
 
-      expect(provider1).toBe(provider4);
-      expect(provider2).toBe(provider4);
-      expect(provider3).toBe(provider4);
+      expect(provider1).toBe(provider3);
+      expect(provider2).toBe(provider3);
     });
   });
 
