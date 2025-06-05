@@ -59,7 +59,7 @@ function parseStarknetResult(rawResult: string[], functionAbi: any): any {
 }
 
 /**
- * Partitions the responses from a Starknet multicall into individual call results.j
+ * Partitions the responses from a Starknet multicall into individual call results.
  * Each response starts with its length, followed by the actual response data.
  * @param responses - The array of responses from the Starknet multicall.
  * @returns An array of arrays, where each inner array contains the response data for a single call.
