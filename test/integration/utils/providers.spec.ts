@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import getProvider, { getBatchedProvider } from '../../../src/utils/provider';
 import { RpcProvider } from 'starknet';
 

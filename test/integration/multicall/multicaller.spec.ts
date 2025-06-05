@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import Multicaller from '../../../src/multicall/multicaller';
 import getProvider from '../../../src/utils/provider';
 
-describe('Multicaller integration tests', () => {
+describe('Multicaller', () => {
   const network = '1'; // Ethereum mainnet
   const provider = getProvider(network);
 
