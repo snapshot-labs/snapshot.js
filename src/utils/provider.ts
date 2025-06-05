@@ -40,7 +40,7 @@ function normalizeOptions(
   options: ProviderOptions = {}
 ): Required<ProviderOptions> {
   return {
-    broviderUrl: options.broviderUrl ?? DEFAULT_BROVIDER_URL,
+    broviderUrl: options.broviderUrl || DEFAULT_BROVIDER_URL,
     timeout: options.timeout ?? DEFAULT_TIMEOUT,
     block: options.block ?? DEFAULT_BLOCK
   };
