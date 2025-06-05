@@ -1,7 +1,7 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import set from 'lodash.set';
-import multicall from './';
 import { RpcProvider } from 'starknet';
+import multicall from './';
 
 type Path = string | number | number[] | string[];
 
