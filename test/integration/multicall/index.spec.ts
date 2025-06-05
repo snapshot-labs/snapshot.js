@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import getProvider from '../../../src/utils/provider';
 import multicall from '../../../src/multicall';
+import { Contract } from 'starknet';
 
 describe('multicall()', () => {
   describe('on EVM networks', () => {
@@ -346,19 +347,20 @@ describe('on Starknet', () => {
         ]
       ];
 
-      const providerWithBlock = getProvider(network, {
-        block: 1460688
-      });
+      const providerWithBlock = getProvider(network);
 
       const results = await multicall(
         network,
         providerWithBlock,
         erc20Abi,
-        calls
+        calls,
+        {
+          blockTag: 1463817
+        }
       );
 
       expect(results).toHaveLength(1);
-      expect(Number(results[0][0])).toBe(2.606408359262167e23);
+      expect(Number(results[0][0])).toBe(2.675921030513109e23);
     }, 10000);
   });
 
