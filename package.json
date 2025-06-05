@@ -8,7 +8,6 @@
   "browser": "dist/snapshot.min.js",
   "types": "dist/src/index.d.ts",
   "dependencies": {
-    "@argent/x-multicall": "^7.1.0",
     "@ensdomains/eth-ens-namehash": "^2.0.15",
     "@ethersproject/abi": "^5.6.4",
     "@ethersproject/address": "^5.6.1",
@@ -25,7 +24,7 @@
     "cross-fetch": "^3.1.6",
     "json-to-graphql-query": "^2.2.4",
     "lodash.set": "^4.3.2",
-    "starknet": "6.15.0"
+    "starknet": "^6.11.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^18.1.0",
