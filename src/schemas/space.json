@@ -78,6 +78,10 @@
           "pattern": "^[A-Za-z0-9_-]*$",
           "maxLength": 39
         },
+        "farcaster": {
+          "type": "string",
+          "title": "farcaster"
+        },
         "email": {
           "type": "string",
           "title": "email",
