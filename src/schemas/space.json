@@ -80,9 +80,7 @@
         },
         "farcaster": {
           "type": "string",
-          "title": "farcaster",
-          "pattern": "^[a-z0-9][a-z0-9-]*$",
-          "maxLength": 16
+          "title": "farcaster"
         },
         "email": {
           "type": "string",
