@@ -31,8 +31,16 @@ function parseStarknetResult(rawResult: string[], functionAbi: any): any {
           return rawValue;
         }
 
+      // Unsigned integers
       case 'core::integer::u8':
+      case 'core::integer::u16':
+      case 'core::integer::u32':
+      case 'core::integer::u64':
         return parseInt(rawValue, 16);
+
+      case 'core::integer::u128':
+      case 'core::integer::usize':
+        return BigInt(rawValue).toString();
 
       case 'core::integer::u256':
         return uint256.uint256ToBN({
@@ -40,13 +48,29 @@ function parseStarknetResult(rawResult: string[], functionAbi: any): any {
           high: rawResult[1] || '0x0'
         });
 
-      case 'core::integer::u128':
-        return parseInt(rawValue, 16).toString();
-
-      case 'core::integer::u64':
-      case 'core::integer::u32':
-      case 'core::integer::u16':
+      // Signed integers
+      case 'core::integer::i8':
+      case 'core::integer::i16':
+      case 'core::integer::i32':
+      case 'core::integer::i64':
         return parseInt(rawValue, 16);
+
+      case 'core::integer::i128':
+        return BigInt(rawValue).toString();
+
+      // Boolean type
+      case 'core::bool':
+        return rawValue === '0x1' || rawValue === '0x01';
+
+      // Address types
+      case 'core::starknet::contract_address::ContractAddress':
+      case 'core::starknet::class_hash::ClassHash':
+      case 'core::starknet::storage_access::StorageAddress':
+        return rawValue;
+
+      // Byte array
+      case 'core::bytes_31::bytes31':
+        return rawValue;
 
       default:
         // Return raw value for unknown types
