@@ -272,7 +272,8 @@
               "description": "Specify the type of delegation that you are using",
               "anyOf": [
                 { "const": "compound-governor", "title": "Compound governor" },
-                { "const": "split-delegation", "title": "Split Delegation" }
+                { "const": "split-delegation", "title": "Split Delegation" },
+                { "const": "apechain-delegate-registry", "title": "ApeChain Delegate Registry" }
               ]
             },
             "delegationContract": {
