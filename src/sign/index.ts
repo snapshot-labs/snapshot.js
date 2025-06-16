@@ -74,7 +74,7 @@ export default class Client {
   async sign(web3: Web3Provider | Wallet, address: string, message, types) {
     // @ts-ignore
     const signer = web3?.getSigner ? web3.getSigner() : web3;
-    const checksumAddress = getFormattedAddress(address);
+    const checksumAddress = getFormattedAddress(address, 'evm');
     message.from = message.from
       ? getFormattedAddress(message.from, 'evm')
       : checksumAddress;
