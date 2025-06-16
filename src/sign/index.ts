@@ -76,7 +76,7 @@ export default class Client {
     const signer = web3?.getSigner ? web3.getSigner() : web3;
     const checksumAddress = getFormattedAddress(address);
     message.from = message.from
-      ? getFormattedAddress(message.from)
+      ? getFormattedAddress(message.from, 'evm')
       : checksumAddress;
     if (!message.timestamp)
       message.timestamp = parseInt((Date.now() / 1e3).toFixed());
