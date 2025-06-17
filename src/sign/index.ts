@@ -1,7 +1,6 @@
 import fetch from 'cross-fetch';
 import { Web3Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
-import { getAddress } from '@ethersproject/address';
 import {
   Space,
   Proposal,
@@ -39,6 +38,7 @@ import {
   statementTypes
 } from './types';
 import constants from '../constants.json';
+import { getFormattedAddress } from '../utils';
 
 const NAME = 'snapshot';
 const VERSION = '0.1.4';
@@ -74,8 +74,10 @@ export default class Client {
   async sign(web3: Web3Provider | Wallet, address: string, message, types) {
     // @ts-ignore
     const signer = web3?.getSigner ? web3.getSigner() : web3;
-    const checksumAddress = getAddress(address);
-    message.from = message.from ? getAddress(message.from) : checksumAddress;
+    const checksumAddress = getFormattedAddress(address, 'evm');
+    message.from = message.from
+      ? getFormattedAddress(message.from)
+      : checksumAddress;
     if (!message.timestamp)
       message.timestamp = parseInt((Date.now() / 1e3).toFixed());
 
