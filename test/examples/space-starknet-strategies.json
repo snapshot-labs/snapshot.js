@@ -1,0 +1,72 @@
+{
+  "name": "Loot Owners",
+  "skin": "indexed",
+  "about": "",
+  "admins": [
+    "0xF296178d553C8Ec21A2fBD2c5dDa8CA9ac905A00"
+  ],
+  "avatar": "https://pbs.twimg.com/profile_images/1431587138202701826/lpgblc4h_400x400.jpg",
+  "github": "lootproject",
+  "symbol": "LOOT",
+  "filters": {
+    "minScore": 1,
+    "onlyMembers": false
+  },
+  "members": [],
+  "network": "1",
+  "plugins": {},
+  "twitter": "lootproject",
+  "discussions": "https://discuss.ens.domains/",
+  "discourseCategory": 28,
+  "domain": "vote.lootproject.abc",
+  "strategies": [
+    {
+      "name": "erc721",
+      "params": {
+        "symbol": "LOOT",
+        "address": "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7"
+      },
+      "network": "0x534e5f4d41494e"
+    }
+  ],
+  "validation": {
+    "name": "basic",
+    "params": {}
+  },
+  "voting": {
+    "delay": 2592000,
+    "period": 15552000,
+    "quorum": 100,
+    "privacy": "any"
+  },
+  "treasuries": [
+    {
+      "name": "EVM treasury with checksummed address",
+      "address": "0xF296178d553C8Ec21A2fBD2c5dDa8CA9ac905A00",
+      "network": "1"
+    },
+    {
+      "name": "EVM treasury with lowercase address",
+      "address": "0xf296178d553c8ec21a2fbd2c5dda8ca9ac905a00",
+      "network": "1"
+    },
+    {
+      "name": "Mainnet Starknet treasury",
+      "address": "0x05702362b68a350c1cae8f2a529d74fdbb502369ddcebfadac7e91da37636947",
+      "network": "0x534e5f4d41494e"
+    }
+  ],
+  "labels": [
+    {
+        "id": "4b6a8c88",
+        "name": "Test 1",
+        "description": "Test Description 1",
+        "color": "#48CB0D"
+    },
+    {
+        "id": "893b2f3",
+        "name": "Test 2",
+        "color": "#FBE54E"
+    }
+  ]
+}
