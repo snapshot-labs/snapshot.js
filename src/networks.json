@@ -1982,7 +1982,7 @@
       "url": "https://starkscan.co"
     },
     "rpc": [],
-    "start": 0,
+    "start": 8446,
     "logo": "ipfs://bafkreihbjafyh7eud7r6e5743esaamifcttsvbspfwcrfoc5ykodjdi67m"
   },
   "0x534e5f5345504f4c4941": {
@@ -1997,7 +1997,7 @@
       "url": "https://sepolia.starkscan.co"
     },
     "rpc": [],
-    "start": 0,
+    "start": 7,
     "logo": "ipfs://bafkreihbjafyh7eud7r6e5743esaamifcttsvbspfwcrfoc5ykodjdi67m"
   }
 }
