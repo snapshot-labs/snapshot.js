@@ -758,10 +758,15 @@ export function isEvmAddress(address: string): boolean {
 
 export function getFormattedAddress(
   address: string,
-  format: 'evm' | 'starknet'
+  format?: 'evm' | 'starknet'
 ): string {
-  if (format === 'evm' && isEvmAddress(address)) return getAddress(address);
-  if (format === 'starknet' && isStarknetAddress(address))
+  // Consider non-evm addresses as Starknet by default
+  // as there's no other way to differentiate them
+  const addressType = format ?? (isEvmAddress(address) ? 'evm' : 'starknet');
+
+  if (addressType === 'evm' && isEvmAddress(address))
+    return getAddress(address);
+  if (addressType === 'starknet' && isStarknetAddress(address))
     return validateAndParseAddress(address);
 
   throw new Error(`Invalid address: ${address}`);
