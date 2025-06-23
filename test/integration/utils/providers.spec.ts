@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import getProvider, { getBatchedProvider } from '../../../src/utils/provider';
+import getProvider from '../../../src/utils/provider';
 import { RpcProvider } from 'starknet';
 
 describe('test providers', () => {
@@ -72,65 +72,6 @@ describe('test providers', () => {
       expect(ethProvider).not.toBe(bscProvider);
       expect(ethProvider).not.toBe(starknetProvider);
       expect(bscProvider).not.toBe(starknetProvider);
-    });
-  });
-
-  describe('getBatchedProvider', () => {
-    test('should return a batch provider for EVM networks', async () => {
-      const provider = getBatchedProvider('1');
-      const requests = [provider.getNetwork(), provider.getBlockNumber()];
-
-      expect(Promise.all(requests)).resolves.toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            chainId: 1
-          }),
-          expect.any(Number)
-        ])
-      );
-    });
-
-    test('should return a batch provider for starknet networks', async () => {
-      const provider = getBatchedProvider('0x534e5f4d41494e');
-      const requests = [provider.getChainId(), provider.getBlockNumber()];
-
-      expect(Promise.all(requests)).resolves.toEqual(
-        expect.arrayContaining(['0x534e5f4d41494e', expect.any(Number)])
-      );
-    });
-
-    test('should throw an error for unsupported networks', () => {
-      expect(() => getBatchedProvider('0x123')).toThrowError(
-        "Network '0x123' is not supported"
-      );
-    });
-
-    test('should memoize batched providers with same network and options', () => {
-      const provider1 = getBatchedProvider('1');
-      const provider2 = getBatchedProvider('1');
-      const provider3 = getBatchedProvider(1);
-
-      expect(provider1).toBe(provider2);
-      expect(provider1).toBe(provider3);
-    });
-
-    test('should create different instances for different options', () => {
-      const provider1 = getBatchedProvider('1');
-      const provider2 = getBatchedProvider('1', { timeout: 30000 });
-      const provider3 = getBatchedProvider('1', {
-        broviderUrl: 'https://custom.rpc'
-      });
-
-      expect(provider1).not.toBe(provider2);
-      expect(provider1).not.toBe(provider3);
-      expect(provider2).not.toBe(provider3);
-    });
-
-    test('should have separate memo from regular providers', () => {
-      const regularProvider = getProvider('1');
-      const batchedProvider = getBatchedProvider('1');
-
-      expect(regularProvider).not.toBe(batchedProvider);
     });
   });
 
@@ -212,20 +153,14 @@ describe('test providers', () => {
   describe('provider type consistency', () => {
     test('should return correct provider types for EVM networks', () => {
       const evmProvider = getProvider('1');
-      const batchedEvmProvider = getBatchedProvider('1');
 
       expect(evmProvider.constructor.name).toMatch(/StaticJsonRpcProvider/);
-      expect(batchedEvmProvider.constructor.name).toMatch(
-        /JsonRpcBatchProvider/
-      );
     });
 
     test('should return correct provider types for Starknet networks', () => {
       const starknetProvider = getProvider('0x534e5f4d41494e');
-      const batchedStarknetProvider = getBatchedProvider('0x534e5f4d41494e');
 
       expect(starknetProvider).toBeInstanceOf(RpcProvider);
-      expect(batchedStarknetProvider).toBeInstanceOf(RpcProvider);
     });
 
     test('should preserve provider configuration in memoized instances', () => {
