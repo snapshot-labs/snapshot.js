@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import getProvider from '../../../src/utils/provider';
-import multicall from '../../../src/multicall';
+import { multicall } from '../../../src/multicall';
 
 describe('multicall()', () => {
   describe('on EVM networks', () => {
