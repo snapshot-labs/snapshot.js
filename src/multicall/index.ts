@@ -1,6 +1,7 @@
 import { constants } from 'starknet';
 import multicallEvm from './evm';
 import multicallStarknet from './starknet';
+import Multicaller from './multicaller';
 import networks from '../networks.json';
 
 type NetworkId = keyof typeof networks;
@@ -15,7 +16,7 @@ const MULTICALLS_FN = {
   starknet: multicallStarknet
 } as const;
 
-export default async function multicall(
+async function multicall(
   network: string,
   provider,
   abi: any[],
@@ -47,3 +48,5 @@ export default async function multicall(
     multicallOptions
   );
 }
+
+export { multicall, Multicaller };

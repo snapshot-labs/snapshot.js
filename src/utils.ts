@@ -7,7 +7,6 @@ import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import addErrors from 'ajv-errors';
-import Multicaller from './multicall/multicaller';
 import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
 import { signMessage, getBlockNumber } from './utils/web3';
@@ -17,7 +16,7 @@ import networks from './networks.json';
 import voting from './voting';
 import getDelegatesBySpace, { SNAPSHOT_SUBGRAPH_URL } from './utils/delegation';
 import { validateAndParseAddress } from 'starknet';
-import multicall from './multicall';
+import { multicall, Multicaller } from './multicall';
 
 interface Options {
   url?: string;
