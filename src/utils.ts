@@ -839,7 +839,7 @@ export function getFormattedAddress(
   if (addressType === 'starknet' && isStarknetAddress(address))
     return validateAndParseAddress(address);
 
-  throw new Error(`Invalid address: ${address}`);
+  throw new Error(`Invalid ${addressType} address: ${address}`);
 }
 
 function inputError(message: string) {

@@ -525,7 +525,7 @@ describe('utils', () => {
             '0X91FD2C8D24767DB4ECE7069AA27832FFAF8590F3';
           expect(() =>
             getFormattedAddress(uppercaseHexPrefix, 'evm')
-          ).toThrow();
+          ).toThrow('Invalid evm address: 0X91FD2C8D24767DB4ECE7069AA27832FFAF8590F3');
         });
 
         test('throws error when forcing EVM parsing on invalid mixed case address', () => {
@@ -533,13 +533,13 @@ describe('utils', () => {
             '0x91Fd2C8d24767Db4eCe7069aA27832FfaF8590F3';
           expect(() =>
             getFormattedAddress(invalidMixedCaseAddress, 'evm')
-          ).toThrow();
+          ).toThrow('Invalid evm address: 0x91Fd2C8d24767Db4eCe7069aA27832FfaF8590F3');
         });
 
         test('throws an error when the address is not an EVM address', () => {
           const address =
             '0x2a0a8f3b6097e7a6bd7649deb30715323072a159c0e6b71b689bd245c146cc0';
-          expect(() => getFormattedAddress(address, 'evm')).toThrow();
+          expect(() => getFormattedAddress(address, 'evm')).toThrow('Invalid evm address: 0x2a0a8f3b6097e7a6bd7649deb30715323072a159c0e6b71b689bd245c146cc0');
         });
       });
 
@@ -584,7 +584,7 @@ describe('utils', () => {
 
         test('throws an error when the address is not a starknet address', () => {
           const address = 'hello';
-          expect(() => getFormattedAddress(address, 'starknet')).toThrow();
+          expect(() => getFormattedAddress(address, 'starknet')).toThrow('Invalid starknet address: hello');
         });
       });
     });
@@ -665,7 +665,7 @@ describe('utils', () => {
       describe('Error cases', () => {
         test('throws an error when the input is not address-like', () => {
           const address = 'hello';
-          expect(() => getFormattedAddress(address)).toThrow();
+          expect(() => getFormattedAddress(address)).toThrow('Invalid starknet address: hello');
         });
       });
     });
