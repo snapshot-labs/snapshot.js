@@ -830,7 +830,6 @@ export function getFormattedAddress(
   address: string,
   format?: 'evm' | 'starknet'
 ): string {
-  // Check if address is a string and starts with 0x or 0X using regex
   if (typeof address !== 'string' || !/^0[xX]/.test(address)) {
     throw new Error(`Invalid address: ${address}`);
   }
