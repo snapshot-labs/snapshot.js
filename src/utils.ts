@@ -1,5 +1,4 @@
 import fetch from 'cross-fetch';
-import { Interface } from '@ethersproject/abi';
 import { Contract } from '@ethersproject/contracts';
 import { getAddress, isAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
@@ -8,7 +7,6 @@ import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import addErrors from 'ajv-errors';
-import Multicaller from './utils/multicaller';
 import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
 import { signMessage, getBlockNumber } from './utils/web3';
@@ -18,6 +16,7 @@ import networks from './networks.json';
 import voting from './voting';
 import getDelegatesBySpace, { SNAPSHOT_SUBGRAPH_URL } from './utils/delegation';
 import { validateAndParseAddress } from 'starknet';
+import { multicall, Multicaller } from './multicall';
 
 interface Options {
   url?: string;
@@ -45,16 +44,6 @@ const ENS_ABI = [
   'function resolver(bytes32 node) view returns (address)' // ENS registry ABI
 ];
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
-const STARKNET_NETWORKS = {
-  '0x534e5f4d41494e': {
-    name: 'Starknet',
-    testnet: false
-  },
-  '0x534e5f5345504f4c4941': {
-    name: 'Starknet Sepolia',
-    testnet: true
-  }
-};
 
 const scoreApiHeaders = {
   Accept: 'application/json',
@@ -189,24 +178,6 @@ ajv.addKeyword({
   }
 });
 
-ajv.addKeyword({
-  keyword: 'starknetNetwork',
-  validate: function (schema, data) {
-    // @ts-ignore
-    const snapshotEnv = this.snapshotEnv || 'default';
-    if (snapshotEnv === 'mainnet') {
-      return Object.keys(STARKNET_NETWORKS)
-        .filter((id) => !STARKNET_NETWORKS[id].testnet)
-        .includes(data);
-    }
-
-    return Object.keys(STARKNET_NETWORKS).includes(data);
-  },
-  error: {
-    message: 'network not allowed'
-  }
-});
-
 // Custom URL format to allow empty string values
 // https://github.com/snapshot-labs/snapshot.js/pull/541/files
 ajv.addFormat('customUrl', {
@@ -280,48 +251,6 @@ export async function call(provider, abi: any[], call: any[], options?) {
     return Promise.reject(e);
   }
 }
-
-export async function multicall(
-  network: string,
-  provider,
-  abi: any[],
-  calls: any[],
-  options?
-) {
-  const multicallAbi = [
-    'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)'
-  ];
-  const multicallAddress =
-    options?.multicallAddress || networks[network].multicall;
-  const multi = new Contract(multicallAddress, multicallAbi, provider);
-  const itf = new Interface(abi);
-  try {
-    const max = options?.limit || 500;
-    if (options?.limit) delete options.limit;
-    const pages = Math.ceil(calls.length / max);
-    const promises: any = [];
-    Array.from(Array(pages)).forEach((x, i) => {
-      const callsInPage = calls.slice(max * i, max * (i + 1));
-      promises.push(
-        multi.aggregate(
-          callsInPage.map((call) => [
-            call[0].toLowerCase(),
-            itf.encodeFunctionData(call[1], call[2])
-          ]),
-          options || {}
-        )
-      );
-    });
-    let results: any = await Promise.all(promises);
-    results = results.reduce((prev: any, [, res]: any) => prev.concat(res), []);
-    return results.map((call, i) =>
-      itf.decodeFunctionResult(calls[i][1], call)
-    );
-  } catch (e: any) {
-    return Promise.reject(e);
-  }
-}
-
 export async function subgraphRequest(url: string, query, options: any = {}) {
   const body: Record<string, any> = { query: jsonToGraphQLQuery({ query }) };
   if (options.variables) body.variables = options.variables;
@@ -634,13 +563,13 @@ export async function getEnsTextRecord(
     ]) // Query for text record from each resolver
   ];
 
-  const [[resolverAddress], ...textRecords]: string[][] = await multicall(
+  const [[resolverAddress], ...textRecords] = (await multicall(
     network,
     provider,
     ENS_ABI,
     calls,
     multicallOptions
-  );
+  )) as string[][];
 
   const resolverIndex = ensResolvers.indexOf(resolverAddress);
   return resolverIndex !== -1 ? textRecords[resolverIndex]?.[0] : null;
