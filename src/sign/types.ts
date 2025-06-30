@@ -176,7 +176,7 @@ export const updateProposalTypes = {
 
 export const flagProposalTypes = {
   FlagProposal: [
-    { name: 'from', type: 'address' },
+    { name: 'from', type: 'string' },
     { name: 'space', type: 'string' },
     { name: 'proposal', type: 'string' },
     { name: 'timestamp', type: 'uint64' }
