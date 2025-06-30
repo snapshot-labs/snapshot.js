@@ -1,13 +1,14 @@
-import { Contract, RpcProvider, typedData } from 'starknet';
+import { Contract, RpcProvider, typedData, constants } from 'starknet';
 import { BigNumber } from '@ethersproject/bignumber';
+import networks from '../networks.json';
 import type { SignaturePayload } from '.';
 import type { ProviderOptions } from '../utils/provider';
 
 export type NetworkType = 'SN_MAIN' | 'SN_SEPOLIA';
 
 const RPC_URLS: Record<NetworkType, string> = {
-  SN_MAIN: 'https://starknet-mainnet.public.blastapi.io',
-  SN_SEPOLIA: 'https://starknet-sepolia.public.blastapi.io'
+  SN_MAIN: networks[constants.StarknetChainId.SN_MAIN]?.rpc?.[0],
+  SN_SEPOLIA: networks[constants.StarknetChainId.SN_SEPOLIA]?.rpc?.[0]
 };
 
 const ABI = [
