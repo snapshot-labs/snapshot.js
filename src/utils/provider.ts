@@ -13,7 +13,6 @@ type ProviderType = 'evm' | 'starknet';
 
 const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org' as const;
 const DEFAULT_TIMEOUT = 25000 as const;
-const STARKNET_BROVIDER_KEYS: string[] = ['sn', 'sn-sep'] as const;
 
 const providerMemo = new Map<string, ProviderInstance>();
 
@@ -42,9 +41,8 @@ function getBroviderNetworkId(network: string | number): string {
   return String(config.key);
 }
 
-function getProviderType(networkId: string): ProviderType {
-  const isStarknet = STARKNET_BROVIDER_KEYS.includes(networkId);
-  return isStarknet ? 'starknet' : 'evm';
+function getProviderType(network: string | number): ProviderType {
+  return networks[network]?.starknet ? 'starknet' : 'evm';
 }
 
 function createMemoKey(
@@ -68,7 +66,7 @@ export default function getProvider(
     return memoized;
   }
 
-  const providerType = getProviderType(networkId);
+  const providerType = getProviderType(network);
   const provider = providerFnMap[providerType](networkId, normalizedOptions);
 
   providerMemo.set(memoKey, provider);

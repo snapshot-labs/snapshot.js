@@ -1,15 +1,7 @@
-import { constants } from 'starknet';
 import multicallEvm from './evm';
 import multicallStarknet from './starknet';
 import Multicaller from './multicaller';
 import networks from '../networks.json';
-
-type NetworkId = keyof typeof networks;
-
-const STARKNET_CHAIN_IDS: NetworkId[] = [
-  constants.StarknetChainId.SN_MAIN,
-  constants.StarknetChainId.SN_SEPOLIA
-] as const;
 
 const MULTICALLS_FN = {
   evm: multicallEvm,
@@ -35,9 +27,7 @@ async function multicall(
   delete multicallOptions.limit;
   delete multicallOptions.multicallAddress;
 
-  const protocol = STARKNET_CHAIN_IDS.includes(network as NetworkId)
-    ? 'starknet'
-    : 'evm';
+  const protocol = networks[network]?.starknet ? 'starknet' : 'evm';
 
   return MULTICALLS_FN[protocol](
     address,
