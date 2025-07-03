@@ -38,7 +38,7 @@ function getBroviderNetworkId(network: string | number): string {
   if (!config) {
     throw new Error(`Network '${network}' is not supported`);
   }
-  return config.broviderId || network;
+  return config.broviderId || String(network);
 }
 
 function getProviderType(network: string | number): ProviderType {
