@@ -1972,12 +1972,13 @@
     "logo": "ipfs://QmNnGPr1CNvj12SSGzKARtUHv9FyEfE5nES73U4vBWQSJL"
   },
   "0x534e5f4d41494e": {
-    "key": "sn",
+    "key": "0x534e5f4d41494e",
     "name": "Starknet",
     "shortName": "Starknet",
     "chainId": "0x534e5f4d41494e",
     "network": "mainnet",
     "starknet": true,
+    "broviderId": "sn",
     "multicall": "0x05754af3760f3356da99aea5c3ec39ccac7783d925a19666ebbeca58ff0087f4",
     "explorer": {
       "url": "https://starkscan.co"
@@ -1987,12 +1988,13 @@
     "logo": "ipfs://bafkreihbjafyh7eud7r6e5743esaamifcttsvbspfwcrfoc5ykodjdi67m"
   },
   "0x534e5f5345504f4c4941": {
-    "key": "sn-sep",
-    "name": "Starknet Testnet",
+    "key": "0x534e5f5345504f4c4941",
+    "name": "Starknet Sepolia",
     "shortName": "testnet",
     "chainId": "0x534e5f5345504f4c4941",
     "network": "testnet",
     "starknet": true,
+    "broviderId": "sn-sep",
     "testnet": true,
     "multicall": "0x05754af3760f3356da99aea5c3ec39ccac7783d925a19666ebbeca58ff0087f4",
     "explorer": {
