@@ -419,6 +419,8 @@ export async function getVp(
     (strategy) => strategy.network && !isValidNetwork(strategy.network)
   );
 
+  console.log('invalidStrategy', invalidStrategy);
+
   if (invalidStrategy) {
     return inputError(
       `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
@@ -692,6 +694,36 @@ export async function getShibariumNameOwner(
   return data.result;
 }
 
+export async function getSonicNameOwner(
+  id: string,
+  network: string
+): Promise<string> {
+  if (!id.endsWith('.sonic')) {
+    return Promise.resolve(EMPTY_ADDRESS);
+  }
+
+  const abi = [
+    'function ownerOf(uint256 tokenId) external view returns (address address)'
+  ];
+
+  try {
+    const hash = namehash(ensNormalize(id));
+    const tokenId = BigInt(hash).toString();
+    const provider = getProvider(network);
+
+    return await call(
+      provider,
+      abi,
+      ['0xde1dadcf11a7447c3d093e97fdbd513f488ce3b4', 'ownerOf', [tokenId]],
+      {
+        blockTag: 'latest'
+      }
+    );
+  } catch (e: any) {
+    return EMPTY_ADDRESS;
+  }
+}
+
 export async function getSpaceController(
   id: string,
   network = '1',
@@ -701,6 +733,8 @@ export async function getSpaceController(
     return getEnsSpaceController(id, network, options);
   } else if (['109', '157'].includes(network)) {
     return getShibariumNameOwner(id, network);
+  } else if (['146'].includes(network)) {
+    return getSonicNameOwner(id, network);
   }
 
   throw new Error(`Network not supported: ${network}`);
