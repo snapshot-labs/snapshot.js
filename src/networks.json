@@ -518,6 +518,20 @@
     "start": 13960096,
     "logo": "ipfs://QmU7f1MyRz8rLELFfypnWZQjGbDGYgZtC9rjw47jYMYrnu"
   },
+  "291": {
+    "key": "291",
+    "name": "Orderly",
+    "shortName": "mainnet",
+    "chainId": 291,
+    "network": "mainnet",
+    "multicall": "0x73e524d811263a145026113219F13f9133966b6b",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.orderly.network"
+    },
+    "start": 22457562,
+    "logo": "ipfs://bafkreibo62xtgkpam6nm34mau26gn65jlw6npb5odw4ylcd6dkwocea5ni"
+  },
   "296": {
     "key": "296",
     "name": "Hedera Testnet",
@@ -1983,7 +1997,9 @@
     "explorer": {
       "url": "https://starkscan.co"
     },
-    "rpc": ["https://starknet-mainnet.public.blastapi.io"],
+    "rpc": [
+      "https://starknet-mainnet.public.blastapi.io"
+    ],
     "start": 8446,
     "logo": "ipfs://bafkreihbjafyh7eud7r6e5743esaamifcttsvbspfwcrfoc5ykodjdi67m"
   },
@@ -2000,7 +2016,9 @@
     "explorer": {
       "url": "https://sepolia.starkscan.co"
     },
-    "rpc": ["https://starknet-sepolia.public.blastapi.io"],
+    "rpc": [
+      "https://starknet-sepolia.public.blastapi.io"
+    ],
     "start": 7,
     "logo": "ipfs://bafkreihbjafyh7eud7r6e5743esaamifcttsvbspfwcrfoc5ykodjdi67m"
   }
