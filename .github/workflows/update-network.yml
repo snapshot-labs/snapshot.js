@@ -77,11 +77,20 @@ jobs:
         with:
           issue-number: ${{ steps.cpr.outputs.pull-request-number }}
           body: |
-            MySQL commands to run:
+            MySQL commands to run on the hub DB and also the testnet DB:
 
             ```sql
             insert into
               `networks` (`id`, `name`, `premium`, `testnet`)
             values
               ('${{ inputs.chainid }}', '${{ inputs.networkname }}', 1, ${{ inputs.testnet == 'true' && 1 || 0 }});
+            ```
+
+            Also, run this on brovider DB to add a new RPC node and make it default for network:
+
+            ```sql
+            insert into
+              "public"."nodes" ("main", "network", "provider", "url")
+            values
+              (1, '${{ inputs.chainid }}', 0, 'PASTE_URL_HERE');
             ```
