@@ -1,5 +1,9 @@
 import { describe, test, expect } from 'vitest';
-import { getEnsOwner, getShibariumNameOwner } from '../../src/utils';
+import {
+  getEnsOwner,
+  getShibariumNameOwner,
+  getSonicNameOwner
+} from '../../src/utils';
 
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -90,6 +94,26 @@ describe('utils', () => {
         expect(
           getShibariumNameOwner('systematize752253.shib', '157')
         ).resolves.toBe('0xc4B06a671831CdD66fdA1A287263103103DEC80D');
+      });
+    });
+
+    describe('sonic resolver', () => {
+      test('return an empty address for unrecognized extension', () => {
+        expect(getSonicNameOwner('invalid.domain', '146')).resolves.toBe(
+          EMPTY_ADDRESS
+        );
+      });
+
+      test('return an empty address for un-existing domain', () => {
+        expect(
+          getSonicNameOwner('snapshot-not-exist.sonic', '146')
+        ).resolves.toBe(EMPTY_ADDRESS);
+      });
+
+      test('return the name owner on sonic mainnet', () => {
+        expect(getSonicNameOwner('boorger.sonic', '146')).resolves.toBe(
+          '0x17Af7086649580ab880060c92F46fc931AB3588B'
+        );
       });
     });
   });
