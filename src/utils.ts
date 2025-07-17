@@ -50,7 +50,7 @@ const UD_MAPPING = {
   }
 };
 const UD_REGISTRY_ABI = [
-  'function ownerOf(uint256 tokenId) external view returns (address address)'
+  'function ownerOf(uint256 tokenId) view returns (address owner)'
 ];
 const ENS_CHAIN_IDS = ['1', '11155111'];
 const SHIBARIUM_CHAIN_IDS = ['109', '157'];
