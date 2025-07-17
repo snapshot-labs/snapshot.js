@@ -2,7 +2,7 @@ import { describe, test, expect } from 'vitest';
 import {
   getEnsOwner,
   getShibariumNameOwner,
-  getSonicNameOwner
+  getUDNameOwner
 } from '../../src/utils';
 
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -99,20 +99,20 @@ describe('utils', () => {
 
     describe('sonic resolver', () => {
       test('return an empty address for unrecognized extension', () => {
-        expect(getSonicNameOwner('invalid.domain', '146')).resolves.toBe(
+        expect(getUDNameOwner('invalid.domain', '146')).resolves.toBe(
           EMPTY_ADDRESS
         );
       });
 
       test('return an empty address for un-existing domain', () => {
-        expect(
-          getSonicNameOwner('snapshot-not-exist.sonic', '146')
-        ).resolves.toBe(EMPTY_ADDRESS);
+        expect(getUDNameOwner('snapshot-not-exist.sonic', '146')).resolves.toBe(
+          EMPTY_ADDRESS
+        );
       });
 
       test('return the name owner on sonic mainnet', () => {
-        expect(getSonicNameOwner('boorger.sonic', '146')).resolves.toBe(
-          '0x17Af7086649580ab880060c92F46fc931AB3588B'
+        expect(getUDNameOwner('boorger.sonic', '146')).resolves.toBe(
+          '0x220bc93D88C0aF11f1159eA89a885d5ADd3A7Cf6'
         );
       });
     });

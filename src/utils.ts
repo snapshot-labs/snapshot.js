@@ -43,14 +43,17 @@ const ENS_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)',
   'function resolver(bytes32 node) view returns (address)' // ENS registry ABI
 ];
-const SONIC_ABI = [
-  'function ownerOf(uint256 tokenId) external view returns (address address)'
+const UD_MAPPING = {
+  '146': {
+    tlds: ['.sonic'],
+    registryContract: '0xde1dadcf11a7447c3d093e97fdbd513f488ce3b4'
+  }
+};
+const UD_REGISTRY_ABI = [
+  'function ownerOf(uint256 tokenId) view returns (address owner)'
 ];
-const SONIC_CONTRACT_ADDRESS = '0xde1dadcf11a7447c3d093e97fdbd513f488ce3b4';
 const ENS_CHAIN_IDS = ['1', '11155111'];
 const SHIBARIUM_CHAIN_IDS = ['109', '157'];
-const SONIC_CHAIN_IDS = ['146'];
-const SONIC_TLD = '.sonic';
 const SHIBARIUM_TLD = '.shib';
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -701,23 +704,24 @@ export async function getShibariumNameOwner(
   return data.result;
 }
 
-export async function getSonicNameOwner(
+export async function getUDNameOwner(
   id: string,
   network: string
 ): Promise<string> {
-  if (!id.endsWith(SONIC_TLD)) {
+  const tlds = UD_MAPPING[network]?.tlds || [];
+  if (!tlds.some((tld: string) => id.endsWith(tld))) {
     return Promise.resolve(EMPTY_ADDRESS);
   }
 
   try {
     const hash = namehash(ensNormalize(id));
-    const tokenId = BigInt(hash).toString();
+    const tokenId = BigInt(hash);
     const provider = getProvider(network);
 
     return await call(
       provider,
-      SONIC_ABI,
-      [SONIC_CONTRACT_ADDRESS, 'ownerOf', [tokenId]],
+      UD_REGISTRY_ABI,
+      [UD_MAPPING[network].registryContract, 'ownerOf', [tokenId]],
       {
         blockTag: 'latest'
       }
@@ -736,8 +740,8 @@ export async function getSpaceController(
     return getEnsSpaceController(id, network, options);
   } else if (SHIBARIUM_CHAIN_IDS.includes(network)) {
     return getShibariumNameOwner(id, network);
-  } else if (SONIC_CHAIN_IDS.includes(network)) {
-    return getSonicNameOwner(id, network);
+  } else if (UD_MAPPING[String(network)]) {
+    return getUDNameOwner(id, network);
   }
 
   throw new Error(`Network not supported: ${network}`);
