@@ -1,4 +1,4 @@
-import fetch from 'cross-fetch';
+import crossFetch from 'cross-fetch';
 import { Contract } from '@ethersproject/contracts';
 import { getAddress, isAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
@@ -314,9 +314,76 @@ export function getUrl(uri, gateway = gateways[0]) {
   return uri;
 }
 
+interface FetchOptions extends RequestInit {
+  timeout?: number;
+}
+
+/**
+ * Enhanced fetch with timeout support - drop-in replacement for native fetch
+ *
+ * @param url - The URL to fetch
+ * @param options - Fetch options with optional timeout
+ * @param options.timeout - Request timeout in milliseconds (default: 30000ms). Set to 0 to disable timeout.
+ *
+ * @returns Promise that resolves to the Response object
+ *
+ * @throws {Error} Throws timeout error if request exceeds the specified timeout duration
+ *
+ * @example
+ * ```typescript
+ * // Uses default 30s timeout
+ * const response = await fetch('https://api.example.com/data');
+ *
+ * // Custom 5s timeout
+ * const response = await fetch('https://api.example.com/data', { timeout: 5000 });
+ *
+ * // Disable timeout
+ * const response = await fetch('https://api.example.com/data', { timeout: 0 });
+ *
+ * // With additional fetch options
+ * const response = await fetch('https://api.example.com/data', {
+ *   timeout: 10000,
+ *   method: 'POST',
+ *   headers: { 'Content-Type': 'application/json' },
+ *   body: JSON.stringify({ key: 'value' })
+ * });
+ * ```
+ */
+export async function fetch(
+  url: string,
+  options: FetchOptions = {}
+): Promise<Response> {
+  const { timeout = 30000, ...fetchOptions } = options;
+
+  if (timeout > 0) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    try {
+      const response = await crossFetch(url, {
+        ...fetchOptions,
+        signal: controller.signal
+      });
+      return response;
+    } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        throw new Error(`Request timeout after ${timeout}ms`);
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { signal, ...cleanFetchOptions } = fetchOptions;
+  return crossFetch(url, cleanFetchOptions);
+}
+
 export async function getJSON(uri, options: any = {}) {
   const url = getUrl(uri, options.gateways);
-  return fetch(url).then((res) => res.json());
+  const response = await fetch(url, options);
+  return response.json();
 }
 
 export async function ipfsGet(
@@ -823,6 +890,7 @@ export { getDelegatesBySpace, SNAPSHOT_SUBGRAPH_URL };
 export default {
   call,
   multicall,
+  fetch,
   subgraphRequest,
   ipfsGet,
   getUrl,

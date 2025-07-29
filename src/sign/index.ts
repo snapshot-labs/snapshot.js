@@ -1,4 +1,4 @@
-import fetch from 'cross-fetch';
+import { fetch } from '../utils';
 import { Web3Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
 import {
