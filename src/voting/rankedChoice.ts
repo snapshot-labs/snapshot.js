@@ -143,7 +143,7 @@ export default class RankedChoiceVoting {
       this.strategies.map((strategy, sI) => {
         return finalRound
           .filter((res) => Number(res[0]) === i + 1)
-          .reduce((a, b) => a + b[1][1][sI], 0);
+          .reduce((a, b) => a + b[1][1][sI] || 0, 0);
       })
     );
   }
