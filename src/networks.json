@@ -408,6 +408,20 @@
     "start": 1290,
     "logo": "ipfs://bafkreib4xhbgbhrwkmizp4d4nz3wzbpyhdm6wpz2v2pbkk7jxsgg3hdt74"
   },
+  "151": {
+    "key": "151",
+    "name": "Redbelly",
+    "shortName": "mainnet",
+    "chainId": 151,
+    "network": "mainnet",
+    "multicall": "0xEe43BBcC6340038130681F98d855E416F7F728e9",
+    "rpc": [],
+    "explorer": {
+      "url": "https://redbelly.routescan.io"
+    },
+    "start": 1908395,
+    "logo": "ipfs://bafkreie5mdk5shaebcec6zs5dc4722u2tn7oxvkksjy62kkjdzgnvmad7q"
+  },
   "157": {
     "key": "157",
     "name": "Shibarium Puppynet Testnet",
