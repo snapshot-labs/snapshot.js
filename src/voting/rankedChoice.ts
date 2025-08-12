@@ -236,10 +236,8 @@ export default class RankedChoiceVoting {
    */
   getChoiceString(): string {
     return this.selected
-      .map((choice) => {
-        if (this.proposal.choices[choice - 1])
-          return this.proposal.choices[choice - 1];
-      })
+      .map((choice) => this.proposal.choices[choice - 1])
+      .filter(Boolean)
       .map((el, i) => `(${getNumberWithOrdinal(i + 1)}) ${el}`)
       .join(', ');
   }
