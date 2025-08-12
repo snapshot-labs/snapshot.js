@@ -86,7 +86,7 @@ function irv(
  * // Candidate 2 wins with 150 total voting power (60+50+40 from 3 strategies)
  * // Candidate 1 has 120 total voting power (70+30+20 from 3 strategies)
  */
-function getFinalRound(
+export function getFinalRound(
   votes: RankedChoiceVote[]
 ): [string, [number, number[]]][] {
   const rounds = irv(

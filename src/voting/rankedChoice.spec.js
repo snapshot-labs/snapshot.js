@@ -1,5 +1,5 @@
-import { test, expect } from 'vitest';
-import RankedChoiceVoting from './rankedChoice';
+import { test, expect, describe } from 'vitest';
+import RankedChoiceVoting, { getFinalRound } from './rankedChoice';
 import example from './examples/rankedChoice.json';
 
 const TEST_CHOICES = ['Alice', 'Bob', 'Carol', 'David'];
@@ -155,6 +155,37 @@ test.each(getScoresByStrategyTests)(
   }
 );
 
+test('getScoresByStrategy should handle empty scores array from getFinalRound', () => {
+  // Using same votes as majority winner test where some choices have no first-place votes
+  const votes = [
+    { choice: [1, 2, 3, 4], balance: 100, scores: [100] }, // First: Alice
+    { choice: [1, 3, 2, 4], balance: 200, scores: [200] }, // First: Alice
+    { choice: [1, 4, 2, 3], balance: 150, scores: [150] }, // First: Alice
+    { choice: [2, 1, 3, 4], balance: 50, scores: [50] } // First: Bob
+  ];
+
+  const proposal = { choices: TEST_CHOICES };
+  const strategies = [{ name: 'ticket', network: 1, params: {} }];
+
+  const ranked = new RankedChoiceVoting(
+    proposal,
+    votes,
+    strategies,
+    example.selectedChoice
+  );
+
+  // This should not throw an error when reduce encounters empty scores arrays
+  const result = ranked.getScoresByStrategy();
+
+  // Expected: Alice gets all her votes (450), Bob gets his (50), Carol and David get 0
+  expect(result).toEqual([
+    [450], // Alice: 100 + 200 + 150
+    [50], // Bob: 50
+    [0], // Carol: no first-place votes
+    [0] // David: no first-place votes
+  ]);
+});
+
 const getScoresTotalTests = [
   [example.proposal, example.votes, example.strategies, example.scoresTotal],
   [
@@ -201,45 +232,127 @@ test.each([
   expect(ranked.getChoiceString()).toEqual(expected);
 });
 
-const isValidChoiceTests = [
-  // Valid cases
-  [[1, 2, 3, 4], TEST_CHOICES, true], // All choices in order
-  [[4, 3, 2, 1], TEST_CHOICES, true], // All choices reverse order
-  [[2, 1, 4, 3], TEST_CHOICES, true], // All choices mixed order
-
-  // Invalid: not an array
-  ['not-array', TEST_CHOICES, false],
-  [null, TEST_CHOICES, false],
-  [undefined, TEST_CHOICES, false],
-
-  // Invalid: empty array
-  [[], TEST_CHOICES, false],
-
-  // Invalid: out of range indices
-  [[1, 5], TEST_CHOICES, false], // Index 5 doesn't exist
-  [[0, 1, 2, 3, 4], TEST_CHOICES, false], // Index 0 is invalid (1-indexed)
-  [[-1, 1, 2, 3], TEST_CHOICES, false], // Negative index
-  [[100], TEST_CHOICES, false], // Very high invalid index
-
-  // Invalid: duplicate choices
-  [[1, 1, 2, 3], TEST_CHOICES, false], // Duplicate 1
-  [[1, 2, 2, 3], TEST_CHOICES, false], // Duplicate 2
-  [[1, 1], ['Alice', 'Bob'], false], // Duplicate in partial
-
-  // Invalid: partial selection (not all choices selected)
-  [[1], TEST_CHOICES, false], // Only 1 of 4 choices
-  [[1, 2], TEST_CHOICES, false], // Only 2 of 4 choices
-
-  // Edge cases
-  [[1], ['Alice'], true], // Single choice valid - only case where partial is valid
-  [[], [], false] // Empty choices and empty vote (still invalid due to empty array check)
-];
-
-test.each(isValidChoiceTests)(
-  'isValidChoice %s %s -> %s',
-  (voteChoice, proposalChoices, expected) => {
+describe('isValidChoice', () => {
+  test.each([
+    [[1, 2, 3, 4], TEST_CHOICES],
+    [[4, 3, 2, 1], TEST_CHOICES],
+    [[2, 1, 4, 3], TEST_CHOICES],
+    [[1], ['Alice']]
+  ])('should accept valid ranked choice: %s', (voteChoice, proposalChoices) => {
     expect(RankedChoiceVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
-      expected
+      true
     );
-  }
-);
+  });
+
+  test.each([
+    ['not-array', TEST_CHOICES],
+    [null, TEST_CHOICES],
+    [undefined, TEST_CHOICES]
+  ])('should reject non-array input: %s', (voteChoice, proposalChoices) => {
+    expect(RankedChoiceVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
+      false
+    );
+  });
+
+  test.each([
+    [[], TEST_CHOICES],
+    [[], []]
+  ])('should reject empty choice array: %s', (voteChoice, proposalChoices) => {
+    expect(RankedChoiceVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
+      false
+    );
+  });
+
+  test.each([
+    [[1, 5], TEST_CHOICES],
+    [[0, 1, 2, 3, 4], TEST_CHOICES],
+    [[-1, 1, 2, 3], TEST_CHOICES],
+    [[100], TEST_CHOICES]
+  ])(
+    'should reject out-of-range indices: %s',
+    (voteChoice, proposalChoices) => {
+      expect(
+        RankedChoiceVoting.isValidChoice(voteChoice, proposalChoices)
+      ).toBe(false);
+    }
+  );
+
+  test.each([
+    [[1, 1, 2, 3], TEST_CHOICES],
+    [[1, 2, 2, 3], TEST_CHOICES],
+    [
+      [1, 1],
+      ['Alice', 'Bob']
+    ]
+  ])('should reject duplicate choices: %s', (voteChoice, proposalChoices) => {
+    expect(RankedChoiceVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
+      false
+    );
+  });
+
+  test.each([
+    [[1], TEST_CHOICES],
+    [[1, 2], TEST_CHOICES]
+  ])(
+    'should reject incomplete ranking when multiple choices available: %s',
+    (voteChoice, proposalChoices) => {
+      expect(
+        RankedChoiceVoting.isValidChoice(voteChoice, proposalChoices)
+      ).toBe(false);
+    }
+  );
+});
+
+describe('getFinalRound', () => {
+  test('should execute instant runoff voting with multiple elimination rounds', () => {
+    const votes = [
+      { choice: [1, 2, 3, 4], balance: 100, scores: [100] }, // First: Alice
+      { choice: [2, 1, 3, 4], balance: 200, scores: [200] }, // First: Bob
+      { choice: [3, 1, 2, 4], balance: 150, scores: [150] }, // First: Carol
+      { choice: [4, 1, 2, 3], balance: 50, scores: [50] } // First: David
+    ];
+
+    const result = getFinalRound(votes);
+
+    expect(result).toEqual([
+      ['2', [350, [350]]], // Bob wins with 350 total (200+150 after IRV)
+      ['3', [150, [150]]] // Carol second with 150
+    ]);
+  });
+
+  test('should handle choices with no first-place votes', () => {
+    const votes = [
+      { choice: [1, 2, 3, 4], balance: 100, scores: [100] }, // First: Alice
+      { choice: [1, 3, 2, 4], balance: 200, scores: [200] }, // First: Alice
+      { choice: [2, 1, 3, 4], balance: 150, scores: [150] }, // First: Bob
+      { choice: [2, 3, 1, 4], balance: 300, scores: [300] } // First: Bob
+    ];
+
+    const result = getFinalRound(votes);
+
+    expect(result).toEqual([
+      ['2', [450, [450]]], // Bob wins with 450 (150+300)
+      ['1', [300, [300]]], // Alice second with 300 (100+200)
+      ['3', [0, []]], // Carol has no first place votes - empty scores array (our fix)
+      ['4', [0, []]] // David has no first place votes - empty scores array (our fix)
+    ]);
+  });
+
+  test('should declare winner in first round when candidate has majority', () => {
+    const votes = [
+      { choice: [1, 2, 3, 4], balance: 100, scores: [100] }, // First: Alice
+      { choice: [1, 3, 2, 4], balance: 200, scores: [200] }, // First: Alice
+      { choice: [1, 4, 2, 3], balance: 150, scores: [150] }, // First: Alice
+      { choice: [2, 1, 3, 4], balance: 50, scores: [50] } // First: Bob
+    ];
+
+    const result = getFinalRound(votes);
+
+    expect(result).toEqual([
+      ['1', [450, [450]]], // Alice wins with majority in round 1 (100+200+150)
+      ['2', [50, [50]]], // Bob gets remaining votes
+      ['3', [0, []]], // Carol has no first place votes
+      ['4', [0, []]] // David has no first place votes
+    ]);
+  });
+});
