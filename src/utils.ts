@@ -484,7 +484,7 @@ export async function getVp(
   strategies: Strategy[],
   snapshot: number | 'latest',
   space: string,
-  delegation: false, // @deprecated - kept for backward compatibility, no longer sent to API
+  delegation: false, // @deprecated - kept for backward compatibility for integrators using this function, no longer sent to API
   options?: Options
 ) {
   const { url, headers } = formatScoreAPIUrl(options?.url);
@@ -521,7 +521,6 @@ export async function getVp(
         strategies,
         snapshot,
         space
-        // delegation parameter removed - no longer sent to API
       }
     })
   };
