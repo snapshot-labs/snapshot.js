@@ -372,7 +372,6 @@ describe('utils', () => {
       ],
       snapshot: 7929876,
       space: 'test.eth',
-      delegation: false,
       options: undefined
     };
 
@@ -383,7 +382,7 @@ describe('utils', () => {
         strategies ?? payload.strategies,
         snapshot ?? payload.snapshot,
         'test.eth' ?? payload.space,
-        false ?? payload.delegation,
+        false,
         options ?? payload.options
       );
     }
