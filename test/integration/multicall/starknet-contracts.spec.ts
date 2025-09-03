@@ -2,8 +2,8 @@
 // npm test -- --run test/integration/multicall/starknet-contracts.spec.ts
 
 import { describe, it, expect } from 'vitest';
-import { RpcProvider } from 'starknet';
 import multicall from '../../../src/multicall/starknet';
+import getProvider from '../../../src/utils/provider';
 
 describe('Starknet Contract Reader Integration', () => {
   // Contract addresses
@@ -25,9 +25,7 @@ describe('Starknet Contract Reader Integration', () => {
     '0x00d3b910d8c528bf0216866053c3821ac6c97983dc096bff642e9a3549210ee7';
 
   // Initialize provider
-  const provider = new RpcProvider({
-    nodeUrl: 'https://starknet-mainnet.public.blastapi.io/rpc/v0_7'
-  });
+  const provider = getProvider('0x534e5f4d41494e');
 
   /**
    * Format contract response data with proper JSON formatting
