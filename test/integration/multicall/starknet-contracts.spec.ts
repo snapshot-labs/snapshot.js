@@ -30,18 +30,12 @@ describe('Starknet Contract Reader Integration', () => {
   /**
    * Format contract response data with proper JSON formatting
    */
-  function formatOutput(title: string, data: any): void {
-    console.log(`\n${'='.repeat(60)}`);
-    console.log(`${title}`);
-    console.log(`${'='.repeat(60)}`);
-
+  function formatOutput(data: any): void {
     if (typeof data === 'object' && data !== null) {
       console.log(JSON.stringify(data, null, 2));
     } else {
       console.log(data);
     }
-
-    console.log(`${'='.repeat(60)}\n`);
   }
 
   /**
@@ -91,28 +85,18 @@ describe('Starknet Contract Reader Integration', () => {
       outputs: [
         { type: 'core::starknet::contract_address::ContractAddress' }, // reward_address
         { type: 'core::starknet::contract_address::ContractAddress' }, // operational_address
-        { type: 'core::integer::u64' }, // unstake_time
-        { type: 'core::integer::u8' }, // amount_own
-        { type: 'core::integer::u256' }, // amount_delegated
+        { type: 'core::integer::u256' }, // unstake_time (u256)
+        { type: 'core::integer::u256' }, // amount_own
         { type: 'core::integer::u256' }, // unclaimed_rewards_own
-        { type: 'core::integer::u64' }, // commission
+        { type: 'core::integer::u8' }, // pool_info variant (0x0 = None, 0x1 = Some)
         { type: 'core::starknet::contract_address::ContractAddress' }, // pool_contract
-        { type: 'core::integer::u256' }, // unclaimed_rewards_delegated
-        { type: 'core::integer::u64' } // switch_pool_time
+        { type: 'core::integer::u256' }, // pool amount
+        { type: 'core::integer::u64' } // pool commission
       ]
     }
   ];
 
   it('should call identify, get_pool_member_info_v1, and get_staker_info_v1 using multicall', async () => {
-    console.log('\n🚀 Starting Starknet Contract Reader with Multicall...\n');
-    console.log('📊 Contract Information:');
-    console.log(`   • Multicall Contract:      ${MULTICALL_ADDRESS}`);
-    console.log(`   • Staking Delegation Pool: ${STAKING_DELEGATION_POOL}`);
-    console.log(`   • Starknet Staking:        ${STARKNET_STAKING}`);
-    console.log(`   • Pool Member Address:     ${POOL_MEMBER_ADDRESS}`);
-    console.log(`   • Staker Address:          ${STAKER_ADDRESS}\n`);
-
-    // Prepare multicall calls
     const calls = [
       // Call 1: identify() on Staking Delegation Pool
       [STAKING_DELEGATION_POOL, 'identify', []],
@@ -128,107 +112,102 @@ describe('Starknet Contract Reader Integration', () => {
       [STARKNET_STAKING, 'get_staker_info_v1', [STAKER_ADDRESS]]
     ];
 
-    // Execute multicall
-    console.log('🔄 Executing multicall...\n');
     const results = await multicall(
       MULTICALL_ADDRESS,
       provider,
       contractAbi,
       calls,
-      10 // batch limit
+      10,
+      { blockTag: 1980732 }
     );
 
-    // Validate that we got results
     expect(results).toBeDefined();
     expect(results).toHaveLength(3);
 
-    // Process results
     const [identifyResult, poolMemberInfoResult, stakerInfoResult] = results;
 
-    // Validate identify result
     expect(identifyResult).toBeDefined();
     expect(identifyResult.length).toBeGreaterThan(0);
 
-    // Format identify result
     const identityString = convertHexToString(identifyResult[0]);
-    formatOutput('🔍 STAKING DELEGATION POOL - IDENTIFY', {
+    formatOutput({
       contract: STAKING_DELEGATION_POOL,
       function: 'identify()',
       raw_response: identifyResult[0],
       decoded_response: identityString,
       timestamp: new Date().toISOString()
     });
+    expect(identifyResult[0]).toBeDefined();
+    expect(identifyResult[0]).toBe('Staking Delegation Pool');
 
-    // Validate pool member info result
-    expect(poolMemberInfoResult).toBeDefined();
-    expect(poolMemberInfoResult.length).toBeGreaterThanOrEqual(6);
-
-    // Format pool member info result
-    formatOutput('👥 STAKING DELEGATION POOL - MEMBER INFO', {
+    const poolMemberInfoResponse = {
+      reward_address: poolMemberInfoResult[1] || '0x0',
+      amount: poolMemberInfoResult[2]?.toString() || '0x0',
+      unclaimed_rewards: poolMemberInfoResult[3]?.toString() || '0x0',
+      commission: poolMemberInfoResult[4]?.toString() || '0x0',
+      unpool_amount: poolMemberInfoResult[5]?.toString() || '0x0',
+      unpool_time: poolMemberInfoResult[6] || '0x0'
+    };
+    formatOutput({
       contract: STAKING_DELEGATION_POOL,
       function: 'get_pool_member_info_v1(member_address)',
       input: {
         member_address: POOL_MEMBER_ADDRESS
       },
-      response: {
-        reward_address: poolMemberInfoResult[0] || '0x0',
-        amount: poolMemberInfoResult[1]?.toString() || '0x0',
-        unclaimed_rewards: poolMemberInfoResult[2]?.toString() || '0x0',
-        commission: poolMemberInfoResult[3]?.toString() || '0x0',
-        unpool_amount: poolMemberInfoResult[4]?.toString() || '0x0',
-        unpool_time: poolMemberInfoResult[5] || 0,
-        status: poolMemberInfoResult[6] || 0
-      },
+      response: poolMemberInfoResponse,
       timestamp: new Date().toISOString()
     });
 
-    // Validate staker info result
-    expect(stakerInfoResult).toBeDefined();
-    expect(stakerInfoResult.length).toBeGreaterThanOrEqual(5);
+    expect(poolMemberInfoResponse).toBeDefined();
+    expect(poolMemberInfoResponse).toMatchObject({
+      reward_address:
+        '0x1c6a9f1f3f97a0a3b176fac97b69c3cd21ba31a522fca111b0e49e46975a048',
+      amount: '0x29fa8220372487cb4e1',
+      unclaimed_rewards: '0x41a4db19d798c5601b',
+      commission: '0x0',
+      unpool_amount: '0x0',
+      unpool_time: '0x1'
+    });
+
+    const stakerInfoResponse = {
+      reward_address: stakerInfoResult[1] || '0x0',
+      operational_address: stakerInfoResult[2] || '0x0',
+      unstake_time: stakerInfoResult[3]?.toString() || '0x0',
+      amount_own: stakerInfoResult[4]?.toString() || '0x0',
+      unclaimed_rewards_own: stakerInfoResult[5]?.toString() || '0x0',
+      pool_info: {
+        pool_contract: stakerInfoResult[7],
+        amount: stakerInfoResult[8]?.toString() || '0x0',
+        commission: stakerInfoResult[9] || '0x0'
+      }
+    };
 
     // Format staker info result
-    formatOutput('🏛️  STARKNET STAKING - STAKER INFO', {
+    formatOutput({
       contract: STARKNET_STAKING,
       function: 'get_staker_info_v1(staker_address)',
       input: {
         staker_address: STAKER_ADDRESS
       },
-      response: {
-        staker_address: STAKER_ADDRESS,
-        reward_address: stakerInfoResult[0] || '0x0',
-        operational_address: stakerInfoResult[1] || '0x0',
-        unstake_time: stakerInfoResult[2] || 0,
-        amount_own: stakerInfoResult[3] || 0,
-        amount_delegated: stakerInfoResult[4]?.toString() || '0x0',
-        unclaimed_rewards_own: stakerInfoResult[5]?.toString() || '0x0',
-        commission: stakerInfoResult[6] || 0,
-        pool_contract: stakerInfoResult[7] || '0x0',
-        unclaimed_rewards_delegated: stakerInfoResult[8]?.toString() || '0x0',
-        switch_pool_time: stakerInfoResult[9] || 0
-      },
+      response: stakerInfoResponse,
       timestamp: new Date().toISOString()
     });
 
-    // Summary
-    console.log('\n📋 EXECUTION SUMMARY');
-    console.log('='.repeat(60));
-    console.log(`✅ identify(): ${identifyResult ? 'SUCCESS' : 'FAILED'}`);
-    console.log(
-      `✅ get_pool_member_info_v1(): ${
-        poolMemberInfoResult ? 'SUCCESS' : 'FAILED'
-      }`
-    );
-    console.log(
-      `✅ get_staker_info_v1(): ${stakerInfoResult ? 'SUCCESS' : 'FAILED'}`
-    );
-    console.log('='.repeat(60));
-    console.log(
-      '\n🎉 All contract calls completed successfully via multicall!'
-    );
-
-    // Final assertions
-    expect(identityString).toBe('Staking Delegation Pool');
-    expect(poolMemberInfoResult[0]).toBeDefined(); // reward_address exists
-    expect(stakerInfoResult[0]).toBeDefined(); // reward_address exists
-  }, 30000); // 30 second timeout for network calls
+    expect(stakerInfoResponse).toBeDefined();
+    expect(stakerInfoResponse).toStrictEqual({
+      reward_address:
+        '0xd3b910d8c528bf0216866053c3821ac6c97983dc096bff642e9a3549210ee7',
+      operational_address:
+        '0x6012516a3ae0e8e8367abdb1db76ba56f7cb221aa3c1e4c02f52ab9d4d1ebc6',
+      unstake_time: '0x1',
+      amount_own: '0x175a7be10a64c27440000',
+      unclaimed_rewards_own: '0x24bbe83f0dac46c56c50',
+      pool_info: {
+        pool_contract:
+          '0x2cb02c72e8a0975e69e88298443e984d965a49eab38f5bdde1f5072daa09cfe',
+        amount: '0x4054bc140aecf17b7b7c48',
+        commission: '0x0'
+      }
+    });
+  }, 30000);
 });
