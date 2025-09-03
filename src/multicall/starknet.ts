@@ -21,12 +21,12 @@ function parseStarknetResult(rawResult: string[], functionAbi: any): any {
   const outputs = functionAbi.outputs;
   const results: any[] = [];
   let rawIndex = 0; // Track position in rawResult array
-  
+
   try {
     for (let outputIndex = 0; outputIndex < outputs.length; outputIndex++) {
       const output = outputs[outputIndex];
       const rawValue = rawResult[rawIndex];
-      
+
       switch (output.type) {
         case 'core::felt252':
           try {
@@ -87,7 +87,7 @@ function parseStarknetResult(rawResult: string[], functionAbi: any): any {
           rawIndex++;
       }
     }
-    return results.length === 1 ? results[0] : results;
+    return results;
   } catch {
     return rawResult;
   }
@@ -161,8 +161,6 @@ export default async function multicall(
     const functionAbi = abi.find((item) => item.name === functionName);
 
     const parsedResult = parseStarknetResult(result, functionAbi);
-    // If parseStarknetResult returns an array (multiple outputs), return it as is
-    // If it returns a single value, wrap it in an array to match expected format
-    return Array.isArray(parsedResult) ? parsedResult : [parsedResult];
+    return parsedResult;
   });
 }
