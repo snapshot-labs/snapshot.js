@@ -17,67 +17,78 @@ function parseStarknetResult(rawResult: string[], functionAbi: any): any {
     return rawResult;
   }
 
-  const output = functionAbi.outputs[0];
-  const rawValue = rawResult[0];
-
+  // Parse each output according to its type
+  const outputs = functionAbi.outputs;
+  const results: any[] = [];
+  let rawIndex = 0; // Track position in rawResult array
+  
   try {
-    switch (output.type) {
-      case 'core::felt252':
-        // Try to decode as shortString (for name, symbol)
-        try {
-          return shortString.decodeShortString(rawValue);
-        } catch {
-          // If shortString decode fails, return as hex
-          return rawValue;
-        }
-
-      // Unsigned integers
-      case 'core::integer::u8':
-      case 'core::integer::u16':
-      case 'core::integer::u32':
-      case 'core::integer::u64':
-        return parseInt(rawValue, 16);
-
-      case 'core::integer::u128':
-      case 'core::integer::usize':
-        return BigInt(rawValue).toString();
-
-      case 'core::integer::u256':
-        return uint256.uint256ToBN({
-          low: rawValue,
-          high: rawResult[1] || '0x0'
-        });
-
-      // Signed integers
-      case 'core::integer::i8':
-      case 'core::integer::i16':
-      case 'core::integer::i32':
-      case 'core::integer::i64':
-        return parseInt(rawValue, 16);
-
-      case 'core::integer::i128':
-        return BigInt(rawValue).toString();
-
-      // Boolean type
-      case 'core::bool':
-        return rawValue === '0x1' || rawValue === '0x01';
-
-      // Address types
-      case 'core::starknet::contract_address::ContractAddress':
-      case 'core::starknet::class_hash::ClassHash':
-      case 'core::starknet::storage_access::StorageAddress':
-        return rawValue;
-
-      // Byte array
-      case 'core::bytes_31::bytes31':
-        return rawValue;
-
-      default:
-        // Return raw value for unknown types
-        return rawValue;
+    for (let outputIndex = 0; outputIndex < outputs.length; outputIndex++) {
+      const output = outputs[outputIndex];
+      const rawValue = rawResult[rawIndex];
+      
+      switch (output.type) {
+        case 'core::felt252':
+          try {
+            results.push(shortString.decodeShortString(rawValue));
+          } catch {
+            results.push(rawValue);
+          }
+          rawIndex++;
+          break;
+        case 'core::integer::u8':
+        case 'core::integer::u16':
+        case 'core::integer::u32':
+        case 'core::integer::u64':
+          results.push(parseInt(rawValue, 16));
+          rawIndex++;
+          break;
+        case 'core::integer::u128':
+        case 'core::integer::usize':
+          results.push(BigInt(rawValue).toString());
+          rawIndex++;
+          break;
+        case 'core::integer::u256':
+          results.push(
+            uint256.uint256ToBN({
+              low: rawValue,
+              high: rawResult[rawIndex + 1] || '0x0'
+            })
+          );
+          rawIndex += 2; // u256 uses two slots
+          break;
+        case 'core::integer::i8':
+        case 'core::integer::i16':
+        case 'core::integer::i32':
+        case 'core::integer::i64':
+          results.push(parseInt(rawValue, 16));
+          rawIndex++;
+          break;
+        case 'core::integer::i128':
+          results.push(BigInt(rawValue).toString());
+          rawIndex++;
+          break;
+        case 'core::bool':
+          results.push(rawValue === '0x1' || rawValue === '0x01');
+          rawIndex++;
+          break;
+        case 'core::starknet::contract_address::ContractAddress':
+        case 'core::starknet::class_hash::ClassHash':
+        case 'core::starknet::storage_access::StorageAddress':
+          results.push(rawValue);
+          rawIndex++;
+          break;
+        case 'core::bytes_31::bytes31':
+          results.push(rawValue);
+          rawIndex++;
+          break;
+        default:
+          results.push(rawValue);
+          rawIndex++;
+      }
     }
+    return results.length === 1 ? results[0] : results;
   } catch {
-    // Fallback to raw result if parsing fails
     return rawResult;
   }
 }
@@ -149,6 +160,9 @@ export default async function multicall(
     const [, functionName] = calls[index];
     const functionAbi = abi.find((item) => item.name === functionName);
 
-    return [parseStarknetResult(result, functionAbi)];
+    const parsedResult = parseStarknetResult(result, functionAbi);
+    // If parseStarknetResult returns an array (multiple outputs), return it as is
+    // If it returns a single value, wrap it in an array to match expected format
+    return Array.isArray(parsedResult) ? parsedResult : [parsedResult];
   });
 }
