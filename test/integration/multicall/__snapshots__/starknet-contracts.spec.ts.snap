@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Starknet multicall > should return responses from different contract calls 1`] = `
+[
+  [
+    "Staking Delegation Pool",
+  ],
+  [
+    "0x0",
+    "0x1c6a9f1f3f97a0a3b176fac97b69c3cd21ba31a522fca111b0e49e46975a048",
+    "0x29fa8220372487cb4e1",
+    "0x41a4db19d798c5601b",
+    "0x0",
+    "0x0",
+    "0x1",
+  ],
+  [
+    "0x0",
+    "0xd3b910d8c528bf0216866053c3821ac6c97983dc096bff642e9a3549210ee7",
+    "0x6012516a3ae0e8e8367abdb1db76ba56f7cb221aa3c1e4c02f52ab9d4d1ebc6",
+    "0x1",
+    "0x175a7be10a64c27440000",
+    "0x24bbe83f0dac46c56c50",
+    "0x0",
+    "0x2cb02c72e8a0975e69e88298443e984d965a49eab38f5bdde1f5072daa09cfe",
+    "0x4054bc140aecf17b7b7c48",
+    "0x0",
+  ],
+]
+`;
