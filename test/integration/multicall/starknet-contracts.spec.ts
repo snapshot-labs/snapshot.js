@@ -5,7 +5,7 @@ import { describe, it, expect } from 'vitest';
 import multicall from '../../../src/multicall/starknet';
 import getProvider from '../../../src/utils/provider';
 
-describe('Starknet Contract Reader Integration', () => {
+describe('Starknet multicall', () => {
   // Contract addresses
   const STAKING_DELEGATION_POOL =
     '0x02cb02c72e8a0975e69e88298443e984d965a49eab38f5bdde1f5072daa09cfe';
