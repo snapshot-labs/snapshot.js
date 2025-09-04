@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Starknet Contract Reader Integration > should call identify, get_pool_member_info_v1, and get_staker_info_v1 using multicall 1`] = `
+exports[`Starknet multicall > should return responses from different contract calls 1`] = `
 [
   [
     "Staking Delegation Pool",
