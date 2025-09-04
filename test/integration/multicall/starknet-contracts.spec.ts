@@ -28,39 +28,6 @@ describe('Starknet multicall', () => {
   const provider = getProvider('0x534e5f4d41494e');
 
   /**
-   * Format contract response data with proper JSON formatting
-   */
-  function formatOutput(data: any): void {
-    if (typeof data === 'object' && data !== null) {
-      console.log(JSON.stringify(data, null, 2));
-    } else {
-      console.log(data);
-    }
-  }
-
-  /**
-   * Convert hex response to readable format
-   */
-  function convertHexToString(hexValue: string): string {
-    if (typeof hexValue === 'string' && hexValue.startsWith('0x')) {
-      try {
-        const hex = hexValue.slice(2);
-        let str = '';
-        for (let i = 0; i < hex.length; i += 2) {
-          const charCode = parseInt(hex.substr(i, 2), 16);
-          if (charCode > 0) {
-            str += String.fromCharCode(charCode);
-          }
-        }
-        return str || hexValue;
-      } catch (e) {
-        return hexValue;
-      }
-    }
-    return hexValue;
-  }
-
-  /**
    * Contract ABI definitions for the functions we're calling
    */
   const contractAbi = [
