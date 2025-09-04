@@ -63,7 +63,7 @@ describe('Starknet multicall', () => {
     }
   ];
 
-  it('should call identify, get_pool_member_info_v1, and get_staker_info_v1 using multicall', async () => {
+  it('should return responses from different contract calls', async () => {
     const calls = [
       // Call 1: identify() on Staking Delegation Pool
       [STAKING_DELEGATION_POOL, 'identify', []],
