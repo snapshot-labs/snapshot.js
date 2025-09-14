@@ -62,6 +62,21 @@ export function getHash(data: SignaturePayload, address: string): string {
   );
 }
 
+/**
+ * Processes a StarkNet signature array and returns the appropriate signature format
+ * for contract verification.
+ * Returns the r ands values for each signature in the array.
+ *
+ * Handles the following cases:
+ * - 2-item array: Standard signature, returns as-is.
+ * - 3-item array: Some wallets (e.g., Braavos) may return a 3-item array; returns the last two items.
+ * - Multi-signer array: For multisig accounts, the array may contain multiple signatures;
+ *   this function extracts the relevant signature pairs.
+ *
+ * @param {string[]} sig - The signature array to process. Must have at least 2 items.
+ * @returns {string[]} The processed signature array suitable for contract verification.
+ * @throws {Error} If the signature array has fewer than 2 items.
+ */
 function getSignatureArray(sig: string[]): string[] {
   if (sig.length < 2) {
     throw new Error('Invalid signature format');
