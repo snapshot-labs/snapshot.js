@@ -62,6 +62,23 @@ export function getHash(data: SignaturePayload, address: string): string {
   );
 }
 
+function getSignatureArray(sig: string[]): string[] {
+  if (sig.length < 2) {
+    throw new Error('Invalid signature format');
+  }
+
+  if (sig.length <= 3) {
+    return sig.slice(-2);
+  }
+
+  const results: string[] = [];
+  for (let i = 1; i < sig.length; i += 4) {
+    results.push(sig[i + 2], sig[i + 3]);
+  }
+
+  return results;
+}
+
 export default async function verify(
   address: string,
   sig: string[],
@@ -76,13 +93,9 @@ export default async function verify(
       getProvider(network, options)
     );
 
-    if (sig.length < 2) {
-      throw new Error('Invalid signature format');
-    }
-
     const result = await contractAccount.is_valid_signature(
       getHash(data, address),
-      sig.slice(-2)
+      getSignatureArray(sig)
     );
 
     return BigNumber.from(result).eq(BigNumber.from('370462705988'));
