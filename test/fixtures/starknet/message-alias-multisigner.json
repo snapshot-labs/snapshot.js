@@ -1,0 +1,39 @@
+{
+  "address": "0x03c56e9437c23bbfce260b1e6ae45eee4cf808cfef4b5e767d1a2a5e152a71df",
+  "sig": [
+    "0x2",
+    "0x0",
+    "0xec31c589d1f36a04d2855cc464ce048bb925430653f146c3d5edc31282405d",
+    "0x696d12a9efa31910453a7cc3d051318636b1a8f20c9f6c499f53203cc9d5a76",
+    "0x7824808635967515f03ed2d204fe0fe9095d4029679e863cf48febee7a2f23",
+    "0x0",
+    "0x424fd8e0158c9d744ca6c22e7c48a1b46914a98e0e2fc6e78e69a7d5a7b84b4",
+    "0x3bb91f654cf18927e17c040642dd8503b0e5783a2633bb1e6badbae20226f2f",
+    "0x625d001a648a0891a93fbc5f4447f08b14cfb011e373801598d8f9d45175b31"
+  ],
+  "data": {
+    "domain": {
+      "name": "sx-starknet",
+      "version": "0.1.0",
+      "chainId": "0x534e5f4d41494e"
+    },
+    "types": {
+      "StarkNetDomain": [
+        { "name": "name", "type": "felt" },
+        { "name": "version", "type": "felt" },
+        { "name": "chainId", "type": "felt" }
+      ],
+      "SetAlias": [
+        { "name": "from", "type": "felt" },
+        { "name": "alias", "type": "felt" },
+        { "name": "timestamp", "type": "felt" }
+      ]
+    },
+    "message": {
+      "alias": "0xFeDaBaEDB4DCa1536AD3A791C3666FAc0BE2B9DB",
+      "from": "0x03c56e9437c23bbfce260b1e6ae45eee4cf808cfef4b5e767d1a2a5e152a71df",
+      "timestamp": 1757857885
+    },
+    "primaryType": "SetAlias"
+  }
+}

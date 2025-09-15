@@ -1,6 +1,7 @@
 import { test, expect, describe } from 'vitest';
 import starknetMessage from '../../test/fixtures/starknet/message-alias.json';
 import starknetMessageRsv from '../../test/fixtures/starknet/message-alias-rsv.json';
+import starknetMessageMultisigner from '../../test/fixtures/starknet/message-alias-multisigner.json';
 import verify, { getHash } from './starknet';
 import { validateAndParseAddress } from 'starknet';
 import { clone } from '../utils';
@@ -24,9 +25,10 @@ describe('verify/starknet', () => {
 
   describe('verify()', () => {
     describe.each([
-      ['2', starknetMessage],
-      ['3', starknetMessageRsv]
-    ])('with a %s items signature', (title, message) => {
+      ['2 items', starknetMessage, false],
+      ['3 items', starknetMessageRsv, false],
+      ['multiple signers', starknetMessageMultisigner, true]
+    ])('with a %s signature', (title, message, multisign) => {
       test('should return true if the signature is valid', () => {
         expect(
           verify(message.address, message.sig, message.data, 'SN_MAIN')
@@ -44,11 +46,19 @@ describe('verify/starknet', () => {
         ).resolves.toBe(true);
       });
 
-      test('should return true when verifying on a different network', () => {
-        expect(
-          verify(message.address, message.sig, message.data, 'SN_SEPOLIA')
-        ).resolves.toBe(true);
-      });
+      if (multisign) {
+        test('should throw an error when verifying on a different network', () => {
+          expect(
+            verify(message.address, message.sig, message.data, 'SN_SEPOLIA')
+          ).rejects.toThrowError();
+        });
+      } else {
+        test('should return true when verifying on a different network', () => {
+          expect(
+            verify(message.address, message.sig, message.data, 'SN_SEPOLIA')
+          ).resolves.toBe(true);
+        });
+      }
 
       test('should throw an error if the signature is invalid', () => {
         expect(
