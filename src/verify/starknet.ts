@@ -1,7 +1,7 @@
 import { RpcProvider, typedData, constants, TypedData } from 'starknet';
 import networks from '../networks.json';
 import type { ProviderOptions } from '../utils/provider';
-import { SignaturePayload } from '.';
+import type { SignaturePayload } from '.';
 
 export type NetworkType = 'SN_MAIN' | 'SN_SEPOLIA';
 
