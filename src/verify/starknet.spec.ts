@@ -1,7 +1,8 @@
 import { test, expect, describe } from 'vitest';
 import starknetMessage from '../../test/fixtures/starknet/message-alias.json';
-import starknetMessageRsv from '../../test/fixtures/starknet/message-alias-rsv.json';
-import starknetMessageMultisigner from '../../test/fixtures/starknet/message-alias-multisigner.json';
+import starknetMessageBraavos from '../../test/fixtures/starknet/message-alias-braavos.json';
+import starknetMessageArgentXGuardian from '../../test/fixtures/starknet/message-alias-argent-x-guardian.json';
+import starknetMessageArgentXStandard from '../../test/fixtures/starknet/message-alias-argent-x-standard.json';
 import verify, { getHash } from './starknet';
 import { validateAndParseAddress } from 'starknet';
 import { clone } from '../utils';
@@ -25,9 +26,14 @@ describe('verify/starknet', () => {
 
   describe('verify()', () => {
     describe.each([
-      ['2 items', starknetMessage, false],
-      ['3 items', starknetMessageRsv, false],
-      ['multiple signers', starknetMessageMultisigner, true]
+      ['2 items (legacy)', starknetMessage, false],
+      ['Braavos', starknetMessageBraavos, false],
+      [
+        'Argent X account with guardian/Argent X Mobile/Argent Web',
+        starknetMessageArgentXGuardian,
+        true
+      ],
+      ['Argent X standard account', starknetMessageArgentXStandard]
     ])('with a %s signature', (title, message, multisign) => {
       test('should return true if the signature is valid', () => {
         expect(

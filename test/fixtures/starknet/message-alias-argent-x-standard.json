@@ -1,0 +1,35 @@
+{
+  "address": "0x02a0a8f3b6097e7a6bd7649deb30715323072a159c0e6b71b689bd245c146cc0",
+  "sig": [
+    "0x1",
+    "0x0",
+    "0x63ff788b6ee579bf9e5d62a6d6d7afc55b97738b1acc66a8b0aa90cc667846c",
+    "0x6b3f165e57e468bc4717d959da94cd87eb45b69e6ad52560f30e074ab5f4527",
+    "0x502b5a9defdf465a45079fca7f1b279699e93ce457c4333feb23e95769f1e2a"
+  ],
+  "data": {
+    "domain": {
+      "name": "sx-starknet",
+      "version": "0.1.0",
+      "chainId": "0x534e5f4d41494e"
+    },
+    "types": {
+      "StarkNetDomain": [
+        { "name": "name", "type": "felt" },
+        { "name": "version", "type": "felt" },
+        { "name": "chainId", "type": "felt" }
+      ],
+      "SetAlias": [
+        { "name": "from", "type": "felt" },
+        { "name": "alias", "type": "felt" },
+        { "name": "timestamp", "type": "felt" }
+      ]
+    },
+    "message": {
+      "alias": "0xe424921CEa28a0852B81757542E1Ff0aA87806EE",
+      "from": "0x02a0a8f3b6097e7a6bd7649deb30715323072a159c0e6b71b689bd245c146cc0",
+      "timestamp": 1758049460
+    },
+    "primaryType": "SetAlias"
+  }
+}
