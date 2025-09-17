@@ -1,7 +1,9 @@
 import { test, expect, describe } from 'vitest';
 import starknetMessage from '../../test/fixtures/starknet/message-alias.json';
-import starknetMessageRsv from '../../test/fixtures/starknet/message-alias-rsv.json';
-import starknetMessageMultisigner from '../../test/fixtures/starknet/message-alias-multisigner.json';
+import starknetMessageBraavos from '../../test/fixtures/starknet/message-alias-braavos.json';
+import starknetMessageArgentXGuardian from '../../test/fixtures/starknet/message-alias-argent-x-guardian.json';
+import starknetMessageArgentXStandard from '../../test/fixtures/starknet/message-alias-argent-x-standard.json';
+import starknetMessageArgentXMultisig from '../../test/fixtures/starknet/message-alias-argent-x-multisig.json';
 import verify, { getHash } from './starknet';
 import { validateAndParseAddress } from 'starknet';
 import { clone } from '../utils';
@@ -25,10 +27,16 @@ describe('verify/starknet', () => {
 
   describe('verify()', () => {
     describe.each([
-      ['2 items', starknetMessage, false],
-      ['3 items', starknetMessageRsv, false],
-      ['multiple signers', starknetMessageMultisigner, true]
-    ])('with a %s signature', (title, message, multisign) => {
+      ['2 items (legacy)', starknetMessage, false],
+      ['Braavos', starknetMessageBraavos, false],
+      ['Argent X standard account', starknetMessageArgentXStandard],
+      [
+        'Argent X account with guardian/Argent X Mobile/Argent Web',
+        starknetMessageArgentXGuardian,
+        true
+      ],
+      ['Argent X multisig account', starknetMessageArgentXMultisig, true]
+    ])('with a %s signature', (_, message, multisign = false) => {
       test('should return true if the signature is valid', () => {
         expect(
           verify(message.address, message.sig, message.data, 'SN_MAIN')
@@ -102,10 +110,10 @@ describe('verify/starknet', () => {
       ).resolves.toBe(false);
     });
 
-    test('should throw an error on wrong signature length', () => {
+    test('should return false when the signature is not valid', () => {
       expect(
         verify(starknetMessage.address, ['1'], starknetMessage.data, 'SN_MAIN')
-      ).rejects.toThrowError('Invalid signature format');
+      ).resolves.toBe(false);
     });
   });
 });
