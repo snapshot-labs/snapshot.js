@@ -1786,6 +1786,21 @@
     "start": 9727,
     "logo": "ipfs://bafkreihbmy3rqlammea35nniemipxrwcgitzkiahs6nlrfjunnvgfnakp4"
   },
+  "88817": {
+    "key": "88817",
+    "name": "Unit Zero testnet",
+    "shortName": "testnet",
+    "chainId": 88817,
+    "network": "testnet",
+    "multicall": "0x017181efb3bDB325C17800799b33Ae80B395024c",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer-testnet.unit0.dev"
+    },
+    "start": 3973744,
+    "logo": "ipfs://bafkreihbmy3rqlammea35nniemipxrwcgitzkiahs6nlrfjunnvgfnakp4",
+    "testnet": true
+  },
   "314159": {
     "key": "314159",
     "name": "Filecoin Calibration Testnet",
