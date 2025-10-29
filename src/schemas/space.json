@@ -271,7 +271,10 @@
               "anyOf": [
                 { "const": "compound-governor", "title": "Compound governor" },
                 { "const": "split-delegation", "title": "Split Delegation" },
-                { "const": "apechain-delegate-registry", "title": "ApeChain Delegate Registry" }
+                {
+                  "const": "apechain-delegate-registry",
+                  "title": "ApeChain Delegate Registry"
+                }
               ]
             },
             "delegationContract": {
@@ -422,10 +425,10 @@
           "type": "array",
           "maxItems": 10,
           "uniqueItems": true,
-          "items":{
+          "items": {
             "type": "object",
             "properties": {
-              "id":{
+              "id": {
                 "type": "string",
                 "title": "Id",
                 "minLength": 1,
@@ -497,13 +500,13 @@
               "type": "string",
               "format": "color"
             },
-            "border_color" : {
+            "border_color": {
               "type": "string",
               "format": "color"
             },
-            "heading_color" : {
+            "heading_color": {
               "type": "string",
-             "format": "color"
+              "format": "color"
             },
             "primary_color": {
               "type": "string",
