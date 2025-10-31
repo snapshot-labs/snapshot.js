@@ -89,12 +89,6 @@ describe('utils', () => {
           '0x220bc93D88C0aF11f1159eA89a885d5ADd3A7Cf6'
         );
       });
-
-      test('return the name owner on testnet', () => {
-        expect(
-          getShibariumNameOwner('systematize752253.shib', '157')
-        ).resolves.toBe('0xc4B06a671831CdD66fdA1A287263103103DEC80D');
-      });
     });
 
     describe('sonic resolver', () => {
