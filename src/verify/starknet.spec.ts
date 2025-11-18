@@ -39,7 +39,7 @@ describe('verify/starknet', () => {
     ])('with a %s signature', (_, message, multisign = false) => {
       test('should return true if the signature is valid', () => {
         expect(
-          verify(message.address, message.sig, message.data, 'SN_MAIN')
+          verify(message.address, message.sig, message.data, '0x534e5f4d41494e')
         ).resolves.toBe(true);
       });
 
@@ -49,7 +49,7 @@ describe('verify/starknet', () => {
             validateAndParseAddress(message.address),
             message.sig,
             message.data,
-            'SN_MAIN'
+            '0x534e5f4d41494e'
           )
         ).resolves.toBe(true);
       });
@@ -57,13 +57,23 @@ describe('verify/starknet', () => {
       if (multisign) {
         test('should throw an error when verifying on a different network', () => {
           expect(
-            verify(message.address, message.sig, message.data, 'SN_SEPOLIA')
+            verify(
+              message.address,
+              message.sig,
+              message.data,
+              '0x534e5f5345504f4c4941'
+            )
           ).rejects.toThrowError();
         });
       } else {
         test('should return true when verifying on a different network', () => {
           expect(
-            verify(message.address, message.sig, message.data, 'SN_SEPOLIA')
+            verify(
+              message.address,
+              message.sig,
+              message.data,
+              '0x534e5f5345504f4c4941'
+            )
           ).resolves.toBe(true);
         });
       }
@@ -85,7 +95,7 @@ describe('verify/starknet', () => {
           '0x07f71118e351c02f6EC7099C8CDf93AED66CEd8406E94631cC91637f7D7F203A',
           starknetMessage.sig,
           starknetMessage.data,
-          'SN_MAIN'
+          '0x534e5f4d41494e'
         )
       ).rejects.toThrowError('Contract not deployed');
     });
@@ -96,7 +106,7 @@ describe('verify/starknet', () => {
           starknetMessage.address,
           ['1', '2'],
           starknetMessage.data,
-          'SN_MAIN'
+          '0x534e5f4d41494e'
         )
       ).resolves.toBe(false);
     });
@@ -106,13 +116,23 @@ describe('verify/starknet', () => {
       data.message.timestamp = 1234;
 
       expect(
-        verify(starknetMessage.address, starknetMessage.sig, data, 'SN_MAIN')
+        verify(
+          starknetMessage.address,
+          starknetMessage.sig,
+          data,
+          '0x534e5f4d41494e'
+        )
       ).resolves.toBe(false);
     });
 
     test('should return false when the signature is not valid', () => {
       expect(
-        verify(starknetMessage.address, ['1'], starknetMessage.data, 'SN_MAIN')
+        verify(
+          starknetMessage.address,
+          ['1'],
+          starknetMessage.data,
+          '0x534e5f4d41494e'
+        )
       ).resolves.toBe(false);
     });
   });

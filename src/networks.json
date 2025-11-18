@@ -2026,9 +2026,7 @@
     "explorer": {
       "url": "https://starkscan.co"
     },
-    "rpc": [
-      "https://starknet-mainnet.public.blastapi.io"
-    ],
+    "rpc": [],
     "start": 8446,
     "logo": "ipfs://bafkreihbjafyh7eud7r6e5743esaamifcttsvbspfwcrfoc5ykodjdi67m"
   },
@@ -2045,9 +2043,7 @@
     "explorer": {
       "url": "https://sepolia.starkscan.co"
     },
-    "rpc": [
-      "https://starknet-sepolia.public.blastapi.io"
-    ],
+    "rpc": [],
     "start": 7,
     "logo": "ipfs://bafkreihbjafyh7eud7r6e5743esaamifcttsvbspfwcrfoc5ykodjdi67m"
   }
