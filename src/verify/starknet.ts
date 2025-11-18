@@ -1,22 +1,7 @@
-import { RpcProvider, typedData, constants, TypedData } from 'starknet';
-import networks from '../networks.json';
+import { typedData, TypedData } from 'starknet';
 import type { ProviderOptions } from '../utils/provider';
 import type { SignaturePayload } from '.';
-
-export type NetworkType = 'SN_MAIN' | 'SN_SEPOLIA';
-
-const RPC_URLS: Record<NetworkType, string> = {
-  SN_MAIN: networks[constants.StarknetChainId.SN_MAIN]?.rpc?.[0],
-  SN_SEPOLIA: networks[constants.StarknetChainId.SN_SEPOLIA]?.rpc?.[0]
-};
-
-function getProvider(network: NetworkType, options: ProviderOptions) {
-  if (!RPC_URLS[network]) throw new Error('Invalid network');
-
-  return new RpcProvider({
-    nodeUrl: options?.broviderUrl ?? RPC_URLS[network]
-  });
-}
+import getProvider from '../utils/provider';
 
 export function isStarknetMessage(data: SignaturePayload): boolean {
   return !!data.primaryType && !!data.types.StarkNetDomain;
@@ -36,7 +21,7 @@ export default async function verify(
   address: string,
   sig: string[],
   data: SignaturePayload,
-  network: NetworkType = 'SN_MAIN',
+  network = '0x534e5f4d41494e',
   options: ProviderOptions = {}
 ): Promise<boolean> {
   try {
