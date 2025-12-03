@@ -197,7 +197,7 @@ export const cancelProposal2Types = {
     { name: 'from', type: 'string' },
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
-    { name: 'proposal', type: 'bytes32' }
+    { name: 'proposal', type: 'string' }
   ]
 };
 
