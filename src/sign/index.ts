@@ -25,9 +25,6 @@ import {
   voteTypes,
   voteArrayTypes,
   voteStringTypes,
-  vote2Types,
-  voteArray2Types,
-  voteString2Types,
   followTypes,
   subscribeTypes,
   unfollowTypes,
@@ -169,15 +166,14 @@ export default class Client {
     if (!message.reason) message.reason = '';
     if (!message.app) message.app = '';
     if (!message.metadata) message.metadata = '{}';
-    const type2 = message.proposal.startsWith('0x');
-    let type = type2 ? vote2Types : voteTypes;
+    let type = voteTypes;
     if (['approval', 'ranked-choice'].includes(message.type))
-      type = type2 ? voteArray2Types : voteArrayTypes;
+      type = voteArrayTypes;
     if (!isShutter && ['quadratic', 'weighted'].includes(message.type)) {
-      type = type2 ? voteString2Types : voteStringTypes;
+      type = voteStringTypes;
       message.choice = JSON.stringify(message.choice);
     }
-    if (isShutter) type = type2 ? voteString2Types : voteStringTypes;
+    if (isShutter) type = voteStringTypes;
     delete message.privacy;
     // @ts-ignore
     delete message.type;

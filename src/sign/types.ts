@@ -197,7 +197,7 @@ export const cancelProposal2Types = {
     { name: 'from', type: 'string' },
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
-    { name: 'proposal', type: 'bytes32' }
+    { name: 'proposal', type: 'string' }
   ]
 };
 
@@ -233,45 +233,6 @@ export const voteStringTypes = {
     { name: 'space', type: 'string' },
     { name: 'timestamp', type: 'uint64' },
     { name: 'proposal', type: 'string' },
-    { name: 'choice', type: 'string' },
-    { name: 'reason', type: 'string' },
-    { name: 'app', type: 'string' },
-    { name: 'metadata', type: 'string' }
-  ]
-};
-
-export const vote2Types = {
-  Vote: [
-    { name: 'from', type: 'string' },
-    { name: 'space', type: 'string' },
-    { name: 'timestamp', type: 'uint64' },
-    { name: 'proposal', type: 'bytes32' },
-    { name: 'choice', type: 'uint32' },
-    { name: 'reason', type: 'string' },
-    { name: 'app', type: 'string' },
-    { name: 'metadata', type: 'string' }
-  ]
-};
-
-export const voteArray2Types = {
-  Vote: [
-    { name: 'from', type: 'string' },
-    { name: 'space', type: 'string' },
-    { name: 'timestamp', type: 'uint64' },
-    { name: 'proposal', type: 'bytes32' },
-    { name: 'choice', type: 'uint32[]' },
-    { name: 'reason', type: 'string' },
-    { name: 'app', type: 'string' },
-    { name: 'metadata', type: 'string' }
-  ]
-};
-
-export const voteString2Types = {
-  Vote: [
-    { name: 'from', type: 'string' },
-    { name: 'space', type: 'string' },
-    { name: 'timestamp', type: 'uint64' },
-    { name: 'proposal', type: 'bytes32' },
     { name: 'choice', type: 'string' },
     { name: 'reason', type: 'string' },
     { name: 'app', type: 'string' },
