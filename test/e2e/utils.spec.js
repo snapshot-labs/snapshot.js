@@ -2,12 +2,20 @@ import { describe, test, expect } from 'vitest';
 import {
   getEnsOwner,
   getShibariumNameOwner,
-  getUDNameOwner
+  getUDNameOwner,
+  getSpaceController
 } from '../../src/utils';
 
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 describe('utils', () => {
+  describe('getSpaceController', () => {
+    test('return the controller address for mainnet', () => {
+      expect(getSpaceController('psydao.eth', '1')).resolves.toBe(
+        '0xF42b0Ec6ef1939EdEdBC369A3E660A276Afc88BD'
+      );
+    });
+  });
   describe('getEnsOwner', () => {
     describe('onchain resolver', () => {
       test('return an address for mainnet', () => {
