@@ -734,14 +734,12 @@ async function getEnsSpaceController(
 ): Promise<string> {
   const spaceUri = await getSpaceUri(id, network, options);
   if (spaceUri) {
-    let isUriAddress = isAddress(spaceUri);
-    if (isUriAddress) return spaceUri;
+    if (isAddress(spaceUri)) return getAddress(spaceUri);
 
     const uriParts = spaceUri.split('/');
     const position = uriParts.includes('testnet') ? 5 : 4;
     const address = uriParts[position];
-    isUriAddress = isAddress(address);
-    if (isUriAddress) return address;
+    if (isAddress(address)) return getAddress(address);
   }
   return await getEnsOwner(id, network, options);
 }
