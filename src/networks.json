@@ -341,6 +341,22 @@
     "start": 11923459,
     "logo": "ipfs://QmXjWb64nako7voaVEifgdjAbDbswpTY8bghsiHpv8yWtb"
   },
+  "133": {
+    "key": "133",
+    "name": "HashKey Testnet", 
+    "shortName": "HSK Test", 
+    "chainId": 133,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11", 
+    "rpc": [
+      "https://hashkeychain-testnet.alt.technology"
+    ],
+    "explorer": {
+      "url": "https://hashkeychain-testnet-explorer.alt.technology"
+    },
+    "start": 11020000,
+    "logo": "ipfs://bafkreialgshpzwrcvmz7g2x4bgpxeeq6zz6dkrxbanzyvi3e5hybx4gafm"
+  },
   "137": {
     "key": "137",
     "name": "Polygon PoS",
@@ -450,6 +466,22 @@
     },
     "start": 332890,
     "logo": "ipfs://bafkreibbrwgwdcfh755dqh4ndta6tja77qbaa36bfv4pstub6prhhore7a"
+  },
+  "177": {
+    "key": "177",
+    "name": "HashKey Mainnet",
+    "shortName": "Hashkey",
+    "chainId": 177,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [
+      "https://mainnet.hsk.xyz"
+    ],
+    "explorer": {
+      "url": "https://hashkey.blockscout.com"
+    },
+    "start": 5440000,
+    "logo": "ipfs://bafkreialgshpzwrcvmz7g2x4bgpxeeq6zz6dkrxbanzyvi3e5hybx4gafm"
   },
   "204": {
     "key": "204",
