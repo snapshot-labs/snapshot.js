@@ -59,3 +59,35 @@ describe.each([
     expect(isValid).toBe(true);
   });
 });
+
+// Test for blank choices validation
+describe('Proposal validation - blank choices', () => {
+  test('should reject proposal with empty string choice', () => {
+    const invalidProposal = {
+      ...proposal,
+      choices: ['Valid choice', '', 'Another choice']
+    };
+    const result = validateSchema(schemas.proposal, invalidProposal);
+    expect(result).not.toBe(true);
+    expect(Array.isArray(result)).toBe(true);
+  });
+
+  test('should reject proposal with whitespace-only choice', () => {
+    const invalidProposal = {
+      ...proposal,
+      choices: ['Valid choice', '   ', 'Another choice']
+    };
+    const result = validateSchema(schemas.proposal, invalidProposal);
+    expect(result).not.toBe(true);
+    expect(Array.isArray(result)).toBe(true);
+  });
+
+  test('should accept proposal with all valid choices', () => {
+    const validProposal = {
+      ...proposal,
+      choices: ['Yes', 'No', 'Abstain']
+    };
+    const result = validateSchema(schemas.proposal, validProposal);
+    expect(result).toBe(true);
+  });
+});

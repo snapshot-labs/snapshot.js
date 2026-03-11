@@ -1,0 +1,13 @@
+{
+  "name": "Test proposal with blank choices",
+  "body": "This proposal has some blank choices that should be rejected",
+  "choices": [
+    "Valid choice",
+    "",
+    "Another valid choice",
+    "  "
+  ],
+  "start": 1619884800,
+  "end": 1620316800,
+  "snapshot": 12345167
+}

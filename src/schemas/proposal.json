@@ -30,7 +30,13 @@
           "items": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 256
+            "maxLength": 256,
+            "pattern": "^(?!\\s*$).+"
+          },
+          "errorMessage": {
+            "items": {
+              "pattern": "Choice cannot be blank or contain only whitespace"
+            }
           }
         },
         "labels": {
