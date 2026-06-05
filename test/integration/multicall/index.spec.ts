@@ -259,8 +259,8 @@ describe('on Starknet', () => {
   // Well-known token addresses
   const usdcAddress =
     '0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8'; // USDC
-  const starknetAddress =
-    '0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d'; // Starknet
+  const wbtcAddress =
+    '0x03fe2b97c1fd336e750087d68b9b867997fd64a2661ff3ca5a7c771641e8e7ac'; // WBTC
 
   describe('ERC20 token calls', () => {
     it('should get token information for multiple tokens', async () => {
@@ -268,9 +268,9 @@ describe('on Starknet', () => {
         [usdcAddress, 'name', []],
         [usdcAddress, 'symbol', []],
         [usdcAddress, 'decimals', []],
-        [starknetAddress, 'name', []],
-        [starknetAddress, 'symbol', []],
-        [starknetAddress, 'decimals', []]
+        [wbtcAddress, 'name', []],
+        [wbtcAddress, 'symbol', []],
+        [wbtcAddress, 'decimals', []]
       ];
 
       const results = await multicall(network, provider, erc20Abi, calls);
@@ -279,9 +279,9 @@ describe('on Starknet', () => {
       expect(results[0][0]).toBe('USD Coin');
       expect(results[1][0]).toBe('USDC');
       expect(results[2][0]).toBe(6);
-      expect(results[3][0]).toBe('Starknet Token');
-      expect(results[4][0]).toBe('STRK');
-      expect(results[5][0]).toBe(18);
+      expect(results[3][0]).toBe('Wrapped BTC');
+      expect(results[4][0]).toBe('WBTC');
+      expect(results[5][0]).toBe(8);
     }, 10000);
 
     it('should handle balance queries for multiple addresses', async () => {
