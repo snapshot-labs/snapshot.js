@@ -1,6 +1,8 @@
 name: Typecheck
 
-on: [push]
+on:
+  push:
+  pull_request:
 
 jobs:
   typecheck:
