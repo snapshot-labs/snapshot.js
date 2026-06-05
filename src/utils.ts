@@ -615,12 +615,7 @@ export async function getEnsTextRecord(
   network = '1',
   options: any = {}
 ) {
-  const {
-    ensResolvers = networks[network]?.ensResolvers ||
-      networks['1'].ensResolvers,
-    broviderUrl,
-    ...multicallOptions
-  } = options;
+  const { broviderUrl } = options;
 
   let ensHash: string;
 
@@ -632,25 +627,23 @@ export async function getEnsTextRecord(
 
   const provider = getProvider(network, { broviderUrl });
 
-  const calls = [
-    [ENS_REGISTRY, 'resolver', [ensHash]], // Query for resolver from registry
-    ...ensResolvers.map((address: string) => [
-      address,
+  const resolverAddress: string = await call(provider, ENS_ABI, [
+    ENS_REGISTRY,
+    'resolver',
+    [ensHash]
+  ]);
+
+  if (!resolverAddress || resolverAddress === EMPTY_ADDRESS) return null;
+
+  try {
+    return await call(provider, ENS_ABI, [
+      resolverAddress,
       'text',
       [ensHash, record]
-    ]) // Query for text record from each resolver
-  ];
-
-  const [[resolverAddress], ...textRecords] = (await multicall(
-    network,
-    provider,
-    ENS_ABI,
-    calls,
-    multicallOptions
-  )) as string[][];
-
-  const resolverIndex = ensResolvers.indexOf(resolverAddress);
-  return resolverIndex !== -1 ? textRecords[resolverIndex]?.[0] : null;
+    ]);
+  } catch (e: any) {
+    return null;
+  }
 }
 
 export async function getSpaceUri(
