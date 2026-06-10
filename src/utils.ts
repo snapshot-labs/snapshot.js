@@ -2,7 +2,8 @@ import crossFetch from 'cross-fetch';
 import { Contract } from '@ethersproject/contracts';
 import { getAddress, isAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
-import { namehash, ensNormalize } from '@ethersproject/hash';
+import { namehash, ensNormalize, dnsEncode } from '@ethersproject/hash';
+import { Interface } from '@ethersproject/abi';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
@@ -42,6 +43,20 @@ const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
 const ENS_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)',
   'function resolver(bytes32 node) view returns (address)' // ENS registry ABI
+];
+// ENSIP-10 (EIP-2544) Universal Resolver. resolve(name, data) walks the
+// resolver chain (allowlist + public + wildcard + offchain), so it handles
+// names a direct resolver.text() call cannot (e.g. wildcard/CCIP).
+// Canonical ENS deployments per chain id.
+const ENS_UNIVERSAL_RESOLVERS: Record<string, string> = {
+  '1': '0xce01f8eee7E479C928F8919abD53E553a36CeF67', // mainnet
+  '11155111': '0xc8Af999e38273D658BE1b921b88A9Ddf005769cC' // sepolia
+};
+const ENS_UNIVERSAL_RESOLVER_ABI = [
+  'function resolve(bytes name, bytes data) view returns (bytes, address)'
+];
+const ENS_TEXT_RESOLVER_ABI = [
+  'function text(bytes32 node, string key) view returns (string)'
 ];
 const UD_MAPPING = {
   '146': {
@@ -615,12 +630,7 @@ export async function getEnsTextRecord(
   network = '1',
   options: any = {}
 ) {
-  const {
-    ensResolvers = networks[network]?.ensResolvers ||
-      networks['1'].ensResolvers,
-    broviderUrl,
-    ...multicallOptions
-  } = options;
+  const { broviderUrl } = options;
 
   let ensHash: string;
 
@@ -632,25 +642,47 @@ export async function getEnsTextRecord(
 
   const provider = getProvider(network, { broviderUrl });
 
-  const calls = [
-    [ENS_REGISTRY, 'resolver', [ensHash]], // Query for resolver from registry
-    ...ensResolvers.map((address: string) => [
-      address,
+  const universalResolver = ENS_UNIVERSAL_RESOLVERS[network];
+
+  // Preferred path: ENSIP-10 (EIP-2544) Universal Resolver. A single
+  // resolve(name, data) call walks the resolver chain and handles allowlist,
+  // public, wildcard and offchain (CCIP) resolvers in one canonical call.
+  if (universalResolver) {
+    try {
+      const textInterface = new Interface(ENS_TEXT_RESOLVER_ABI);
+      const data = textInterface.encodeFunctionData('text', [ensHash, record]);
+      const [result] = await call(provider, ENS_UNIVERSAL_RESOLVER_ABI, [
+        universalResolver,
+        'resolve',
+        [dnsEncode(ens), data]
+      ]);
+      if (!result || result === '0x') return null;
+      const [value] = textInterface.decodeFunctionResult('text', result);
+      return value || null;
+    } catch (e: any) {
+      return null;
+    }
+  }
+
+  // Fallback for chains without a known Universal Resolver: read the resolver
+  // from the registry and call text() directly (resolver-agnostic, #1203).
+  const resolverAddress: string = await call(provider, ENS_ABI, [
+    ENS_REGISTRY,
+    'resolver',
+    [ensHash]
+  ]);
+
+  if (!resolverAddress || resolverAddress === EMPTY_ADDRESS) return null;
+
+  try {
+    return await call(provider, ENS_ABI, [
+      resolverAddress,
       'text',
       [ensHash, record]
-    ]) // Query for text record from each resolver
-  ];
-
-  const [[resolverAddress], ...textRecords] = (await multicall(
-    network,
-    provider,
-    ENS_ABI,
-    calls,
-    multicallOptions
-  )) as string[][];
-
-  const resolverIndex = ensResolvers.indexOf(resolverAddress);
-  return resolverIndex !== -1 ? textRecords[resolverIndex]?.[0] : null;
+    ]);
+  } catch (e: any) {
+    return null;
+  }
 }
 
 export async function getSpaceUri(
