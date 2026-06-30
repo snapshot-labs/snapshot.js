@@ -865,5 +865,17 @@ describe('utils', () => {
       // special hidden characters after the k
       expect(getEnsTextRecord('elonmusk‍‍.eth')).resolves.toBe(null);
     });
+
+    test('should resolve a text record via the ENSIP-10 Universal Resolver', async () => {
+      // ens.eth has a public resolver; the Universal Resolver path must read it
+      const avatar = await getEnsTextRecord('ens.eth', 'avatar');
+      expect(typeof avatar).toBe('string');
+      expect(avatar.length).toBeGreaterThan(0);
+    });
+
+    test('should return null for an unset text record', () => {
+      // vitalik.eth has no "snapshot" record set
+      expect(getEnsTextRecord('vitalik.eth', 'snapshot')).resolves.toBe(null);
+    });
   });
 });
