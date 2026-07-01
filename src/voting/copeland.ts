@@ -57,6 +57,9 @@ export default class CopelandVoting {
     const pairwiseComparisons = Array.from({ length: choicesCount }, () =>
       Array(choicesCount).fill(0)
     );
+    // Total voting power in favour of each choice across all its head-to-head
+    // matchups, used to compute Average Support as a tiebreaker.
+    const supportFor = Array(choicesCount).fill(0);
     const totalVotingPower = this.getScoresTotal();
 
     // Calculate pairwise comparisons
@@ -75,6 +78,7 @@ export default class CopelandVoting {
           const lowerChoice = vote.choice[nextRank] - 1;
           pairwiseComparisons[preferredChoice][lowerChoice] += vote.balance;
           pairwiseComparisons[lowerChoice][preferredChoice] -= vote.balance;
+          supportFor[preferredChoice] += vote.balance;
         }
       }
     }
@@ -100,6 +104,26 @@ export default class CopelandVoting {
             scores[opponentIndex] += 0.5;
           }
         }
+      }
+    }
+
+    // Break ties by Average Support: the voting power a choice received across
+    // its matchups, averaged over the number of matchups and normalized to
+    // [0, 1). The victory scores above are whole numbers (each matchup is
+    // counted from both sides, so a win adds 2 and a pairwise tie adds 1), so
+    // choices with different numbers of pairwise victories differ by at least 1.
+    //
+    // The 0.5 factor is a tiebreak weight, not an outcome weight: any factor in
+    // (0, 1) produces the same ranking, since choices are ordered by victories
+    // first and average support only settles exact ties. 0.5 caps the bonus at
+    // half of that minimum gap of 1, so it can never overturn a victory, and it
+    // mirrors the 0.5 half-point Copeland already assigns to a pairwise tie.
+    const matchupsPerChoice = choicesCount - 1;
+    if (totalVotingPower > 0 && matchupsPerChoice > 0) {
+      for (let choiceIndex = 0; choiceIndex < choicesCount; choiceIndex++) {
+        const averageSupport =
+          supportFor[choiceIndex] / (matchupsPerChoice * totalVotingPower);
+        scores[choiceIndex] += 0.5 * averageSupport;
       }
     }
 
