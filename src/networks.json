@@ -1447,7 +1447,7 @@
     "explorer": {
       "url": "https://horizen.calderaexplorer.xyz"
     },
-    "start": 1,
+    "start": 0,
     "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
   },
   "29548": {
@@ -1876,7 +1876,7 @@
     "explorer": {
       "url": "https://horizen-testnet.explorer.caldera.xyz"
     },
-    "start": 1,
+    "start": 0,
     "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
   },
   "11155111": {
