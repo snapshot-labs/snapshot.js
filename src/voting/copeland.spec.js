@@ -1,6 +1,8 @@
-import { test, expect } from 'vitest';
+import { test, expect, describe } from 'vitest';
 import CopelandVoting from './copeland';
 import example from './examples/copeland.json';
+
+const TEST_CHOICES = ['Alice', 'Bob', 'Carol', 'David'];
 
 // Helper function to create a more complex example with multiple strategies
 const example2 = () => {
@@ -183,23 +185,115 @@ test.each([
   expect(copeland.getChoiceString()).toBe(expected);
 });
 
-// Test case for partial ranking
-test('Partial ranking', () => {
-  const partialVotes = [
-    ...example.votes,
-    {
-      choice: [2, 1],
-      balance: 1,
-      scores: [1]
-    }
+// Partial ballots must be rejected: Copeland requires a full ranking of every
+// choice. Adding a partial ballot must not change the outcome, because the
+// partial vote is filtered out by getValidVotes().
+test('Partial ballots are rejected (filtered out)', () => {
+  const fullPermutationVotes = [
+    { choice: [1, 2, 3, 4], balance: 1, scores: [1] },
+    { choice: [2, 1, 3, 4], balance: 1, scores: [1] },
+    { choice: [1, 3, 2, 4], balance: 1, scores: [1] }
   ];
-  const copeland = new CopelandVoting(
+
+  const baseline = new CopelandVoting(
     example.proposal,
-    partialVotes,
+    fullPermutationVotes,
     example.strategies,
     example.selectedChoice
   );
-  expect(copeland.getScores()).toMatchSnapshot();
+
+  const withPartial = new CopelandVoting(
+    example.proposal,
+    [...fullPermutationVotes, { choice: [2, 1], balance: 1, scores: [1] }],
+    example.strategies,
+    example.selectedChoice
+  );
+
+  // The partial ballot is ignored, so scores and totals are unchanged.
+  expect(withPartial.getValidVotes()).toHaveLength(fullPermutationVotes.length);
+  expect(withPartial.getScores()).toEqual(baseline.getScores());
+  expect(withPartial.getScoresTotal()).toBe(baseline.getScoresTotal());
+});
+
+describe('isValidChoice', () => {
+  test.each([
+    [[1, 2, 3, 4], TEST_CHOICES],
+    [[4, 3, 2, 1], TEST_CHOICES],
+    [[2, 1, 4, 3], TEST_CHOICES],
+    [[1], ['Alice']]
+  ])(
+    'should accept a full permutation of all choices: %s',
+    (voteChoice, proposalChoices) => {
+      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
+        true
+      );
+    }
+  );
+
+  test.each([
+    [[1], TEST_CHOICES],
+    [[2, 1], TEST_CHOICES],
+    [[1, 2, 3], TEST_CHOICES]
+  ])(
+    'should reject partial ballots (not all choices ranked): %s',
+    (voteChoice, proposalChoices) => {
+      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
+        false
+      );
+    }
+  );
+
+  test.each([
+    [[1, 1, 2, 3], TEST_CHOICES],
+    [[1, 2, 2, 3], TEST_CHOICES],
+    [[2, 1, 1, 3], TEST_CHOICES]
+  ])(
+    'should reject duplicate choices: %s',
+    (voteChoice, proposalChoices) => {
+      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
+        false
+      );
+    }
+  );
+
+  test.each([
+    [[0, 1, 2, 3], TEST_CHOICES],
+    [[1, 2, 3, 5], TEST_CHOICES],
+    [[-1, 1, 2, 3], TEST_CHOICES],
+    [[1, 2, 3, 100], TEST_CHOICES]
+  ])(
+    'should reject out-of-range indices: %s',
+    (voteChoice, proposalChoices) => {
+      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
+        false
+      );
+    }
+  );
+
+  test.each([
+    [[], TEST_CHOICES],
+    [[], []]
+  ])(
+    'should reject empty choice array: %s',
+    (voteChoice, proposalChoices) => {
+      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
+        false
+      );
+    }
+  );
+
+  test.each([
+    ['not-array', TEST_CHOICES],
+    [null, TEST_CHOICES],
+    [undefined, TEST_CHOICES]
+  ])(
+    'should reject non-array input: %s',
+    (voteChoice, proposalChoices) => {
+      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
+        false
+      );
+    }
+  );
 });
 
 test('getScores with mixed voting powers', () => {
