@@ -218,6 +218,24 @@ test('getScores with mixed voting powers', () => {
   expect(scores.reduce((a, b) => a + b)).toBeCloseTo(1002501.5, 5);
 });
 
+
+test('getScores only applies average support inside tied Copeland groups', () => {
+  const proposal = {
+    choices: ['Alice', 'Bob', 'Carol']
+  };
+  const votes = [
+    { choice: [1, 2, 3], balance: 1000000.75, scores: [1000000.75] },
+    { choice: [2, 3, 1], balance: 0.25, scores: [0.25] },
+    { choice: [3, 1, 2], balance: 2500.5, scores: [2500.5] }
+  ];
+  const copeland = new CopelandVoting(proposal, votes, example.strategies, [1]);
+  const scores = copeland.getScores();
+
+  expect(scores[0]).toBeCloseTo(668334.3333333333, 5);
+  expect(scores[1]).toBeCloseTo(334167.1666666666, 5);
+  expect(scores[2]).toBe(0);
+});
+
 test('getScores with 0 votes', () => {
   const proposal = {
     choices: ['Alice', 'Bob', 'Carol']

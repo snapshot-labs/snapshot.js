@@ -107,23 +107,39 @@ export default class CopelandVoting {
       }
     }
 
-    // Break ties by Average Support: the voting power a choice received across
-    // its matchups, averaged over the number of matchups and normalized to
-    // [0, 1). The victory scores above are whole numbers (each matchup is
-    // counted from both sides, so a win adds 2 and a pairwise tie adds 1), so
-    // choices with different numbers of pairwise victories differ by at least 1.
-    //
-    // The 0.5 factor is a tiebreak weight, not an outcome weight: any factor in
-    // (0, 1) produces the same ranking, since choices are ordered by victories
-    // first and average support only settles exact ties. 0.5 caps the bonus at
-    // half of that minimum gap of 1, so it can never overturn a victory, and it
-    // mirrors the 0.5 half-point Copeland already assigns to a pairwise tie.
+    // Break ties by Average Support only within groups that have the same
+    // Copeland score. The total score for each tied group is preserved so the
+    // tiebreak does not change candidates with unique Copeland scores or move
+    // voting power between unrelated score groups.
     const matchupsPerChoice = choicesCount - 1;
     if (totalVotingPower > 0 && matchupsPerChoice > 0) {
+      const tiedGroups = new Map<number, number[]>();
+
       for (let choiceIndex = 0; choiceIndex < choicesCount; choiceIndex++) {
-        const averageSupport =
-          supportFor[choiceIndex] / (matchupsPerChoice * totalVotingPower);
-        scores[choiceIndex] += 0.5 * averageSupport;
+        const group = tiedGroups.get(scores[choiceIndex]) || [];
+        group.push(choiceIndex);
+        tiedGroups.set(scores[choiceIndex], group);
+      }
+
+      for (const group of tiedGroups.values()) {
+        if (group.length < 2) continue;
+
+        const groupScoreTotal = group.reduce(
+          (sum, choiceIndex) => sum + scores[choiceIndex],
+          0
+        );
+        if (groupScoreTotal === 0) continue;
+
+        const weights = group.map((choiceIndex) =>
+          scores[choiceIndex] +
+          supportFor[choiceIndex] / (matchupsPerChoice * totalVotingPower)
+        );
+        const weightsTotal = weights.reduce((sum, weight) => sum + weight, 0);
+
+        group.forEach((choiceIndex, index) => {
+          scores[choiceIndex] =
+            (weights[index] / weightsTotal) * groupScoreTotal;
+        });
       }
     }
 
