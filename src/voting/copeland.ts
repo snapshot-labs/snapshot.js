@@ -109,9 +109,11 @@ export default class CopelandVoting {
 
     // Break ties by Average Support: the voting power a choice received across
     // its matchups, averaged over the number of matchups and normalized to
-    // [0, 1). The victory scores above are whole numbers (each matchup is
-    // counted from both sides, so a win adds 2 and a pairwise tie adds 1), so
-    // choices with different numbers of pairwise victories differ by at least 1.
+    // [0, 1] (it reaches exactly 1 when every voter ranks the choice above all
+    // others on a full ballot). The victory scores above are whole numbers
+    // (each matchup is counted from both sides, so a win adds 2 and a pairwise
+    // tie adds 1), so choices with different numbers of pairwise victories
+    // differ by at least 1.
     //
     // The 0.5 factor is a tiebreak weight, not an outcome weight: any factor in
     // (0, 1) produces the same ranking, since choices are ordered by victories
