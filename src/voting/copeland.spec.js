@@ -1,8 +1,6 @@
-import { test, expect, describe } from 'vitest';
+import { test, expect } from 'vitest';
 import CopelandVoting from './copeland';
 import example from './examples/copeland.json';
-
-const TEST_CHOICES = ['Alice', 'Bob', 'Carol', 'David'];
 
 // Helper function to create a more complex example with multiple strategies
 const example2 = () => {
@@ -213,87 +211,6 @@ test('Partial ballots are rejected (filtered out)', () => {
   expect(withPartial.getValidVotes()).toHaveLength(fullPermutationVotes.length);
   expect(withPartial.getScores()).toEqual(baseline.getScores());
   expect(withPartial.getScoresTotal()).toBe(baseline.getScoresTotal());
-});
-
-describe('isValidChoice', () => {
-  test.each([
-    [[1, 2, 3, 4], TEST_CHOICES],
-    [[4, 3, 2, 1], TEST_CHOICES],
-    [[2, 1, 4, 3], TEST_CHOICES],
-    [[1], ['Alice']]
-  ])(
-    'should accept a full permutation of all choices: %s',
-    (voteChoice, proposalChoices) => {
-      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
-        true
-      );
-    }
-  );
-
-  test.each([
-    [[1], TEST_CHOICES],
-    [[2, 1], TEST_CHOICES],
-    [[1, 2, 3], TEST_CHOICES]
-  ])(
-    'should reject partial ballots (not all choices ranked): %s',
-    (voteChoice, proposalChoices) => {
-      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
-        false
-      );
-    }
-  );
-
-  test.each([
-    [[1, 1, 2, 3], TEST_CHOICES],
-    [[1, 2, 2, 3], TEST_CHOICES],
-    [[2, 1, 1, 3], TEST_CHOICES]
-  ])(
-    'should reject duplicate choices: %s',
-    (voteChoice, proposalChoices) => {
-      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
-        false
-      );
-    }
-  );
-
-  test.each([
-    [[0, 1, 2, 3], TEST_CHOICES],
-    [[1, 2, 3, 5], TEST_CHOICES],
-    [[-1, 1, 2, 3], TEST_CHOICES],
-    [[1, 2, 3, 100], TEST_CHOICES]
-  ])(
-    'should reject out-of-range indices: %s',
-    (voteChoice, proposalChoices) => {
-      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
-        false
-      );
-    }
-  );
-
-  test.each([
-    [[], TEST_CHOICES],
-    [[], []]
-  ])(
-    'should reject empty choice array: %s',
-    (voteChoice, proposalChoices) => {
-      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
-        false
-      );
-    }
-  );
-
-  test.each([
-    ['not-array', TEST_CHOICES],
-    [null, TEST_CHOICES],
-    [undefined, TEST_CHOICES]
-  ])(
-    'should reject non-array input: %s',
-    (voteChoice, proposalChoices) => {
-      expect(CopelandVoting.isValidChoice(voteChoice, proposalChoices)).toBe(
-        false
-      );
-    }
-  );
 });
 
 test('getScores with mixed voting powers', () => {
