@@ -1,7 +1,7 @@
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
 import commonjs from '@rollup/plugin-commonjs';
-import globals from 'rollup-plugin-node-globals';
+import inject from '@rollup/plugin-inject';
 import builtins from 'rollup-plugin-node-builtins';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import filesize from 'rollup-plugin-filesize';
@@ -17,14 +17,24 @@ export default [
   {
     input,
     context: 'window',
-    output: [{ name, file: pkg.browser, format: 'umd' }],
+    output: [
+      {
+        name,
+        file: pkg.browser,
+        format: 'umd',
+        intro:
+          'var global = typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}'
+      }
+    ],
     plugins: [
       json(),
       builtins(),
       typescript({ clean: true }),
       nodeResolve({ preferBuiltins: true, browser: true }),
       commonjs(),
-      globals(),
+      inject({
+        Buffer: ['buffer', 'Buffer']
+      }),
       terser(),
       filesize(),
       string({

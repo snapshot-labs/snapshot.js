@@ -1,6 +1,9 @@
 import { test, expect, describe } from 'vitest';
 import starknetMessage from '../../test/fixtures/starknet/message-alias.json';
-import starknetMessageRsv from '../../test/fixtures/starknet/message-alias-rsv.json';
+import starknetMessageBraavos from '../../test/fixtures/starknet/message-alias-braavos.json';
+import starknetMessageArgentXGuardian from '../../test/fixtures/starknet/message-alias-argent-x-guardian.json';
+import starknetMessageArgentXStandard from '../../test/fixtures/starknet/message-alias-argent-x-standard.json';
+import starknetMessageArgentXMultisig from '../../test/fixtures/starknet/message-alias-argent-x-multisig.json';
 import verify, { getHash } from './starknet';
 import { validateAndParseAddress } from 'starknet';
 import { clone } from '../utils';
@@ -24,12 +27,19 @@ describe('verify/starknet', () => {
 
   describe('verify()', () => {
     describe.each([
-      ['2', starknetMessage],
-      ['3', starknetMessageRsv]
-    ])('with a %s items signature', (title, message) => {
+      ['2 items (legacy)', starknetMessage, false],
+      ['Braavos', starknetMessageBraavos, false],
+      ['Argent X standard account', starknetMessageArgentXStandard],
+      [
+        'Argent X account with guardian/Argent X Mobile/Argent Web',
+        starknetMessageArgentXGuardian,
+        true
+      ],
+      ['Argent X multisig account', starknetMessageArgentXMultisig, true]
+    ])('with a %s signature', (_, message, multisign = false) => {
       test('should return true if the signature is valid', () => {
         expect(
-          verify(message.address, message.sig, message.data, 'SN_MAIN')
+          verify(message.address, message.sig, message.data, '0x534e5f4d41494e')
         ).resolves.toBe(true);
       });
 
@@ -39,16 +49,34 @@ describe('verify/starknet', () => {
             validateAndParseAddress(message.address),
             message.sig,
             message.data,
-            'SN_MAIN'
+            '0x534e5f4d41494e'
           )
         ).resolves.toBe(true);
       });
 
-      test('should return true when verifying on a different network', () => {
-        expect(
-          verify(message.address, message.sig, message.data, 'SN_SEPOLIA')
-        ).resolves.toBe(true);
-      });
+      if (multisign) {
+        test('should throw an error when verifying on a different network', () => {
+          expect(
+            verify(
+              message.address,
+              message.sig,
+              message.data,
+              '0x534e5f5345504f4c4941'
+            )
+          ).rejects.toThrowError();
+        });
+      } else {
+        test('should return true when verifying on a different network', () => {
+          expect(
+            verify(
+              message.address,
+              message.sig,
+              message.data,
+              '0x534e5f5345504f4c4941'
+            )
+          ).resolves.toBe(true);
+        });
+      }
 
       test('should throw an error if the signature is invalid', () => {
         expect(
@@ -67,7 +95,7 @@ describe('verify/starknet', () => {
           '0x07f71118e351c02f6EC7099C8CDf93AED66CEd8406E94631cC91637f7D7F203A',
           starknetMessage.sig,
           starknetMessage.data,
-          'SN_MAIN'
+          '0x534e5f4d41494e'
         )
       ).rejects.toThrowError('Contract not deployed');
     });
@@ -78,7 +106,7 @@ describe('verify/starknet', () => {
           starknetMessage.address,
           ['1', '2'],
           starknetMessage.data,
-          'SN_MAIN'
+          '0x534e5f4d41494e'
         )
       ).resolves.toBe(false);
     });
@@ -88,14 +116,24 @@ describe('verify/starknet', () => {
       data.message.timestamp = 1234;
 
       expect(
-        verify(starknetMessage.address, starknetMessage.sig, data, 'SN_MAIN')
+        verify(
+          starknetMessage.address,
+          starknetMessage.sig,
+          data,
+          '0x534e5f4d41494e'
+        )
       ).resolves.toBe(false);
     });
 
-    test('should throw an error on wrong signature length', () => {
+    test('should return false when the signature is not valid', () => {
       expect(
-        verify(starknetMessage.address, ['1'], starknetMessage.data, 'SN_MAIN')
-      ).rejects.toThrowError('Invalid signature format');
+        verify(
+          starknetMessage.address,
+          ['1'],
+          starknetMessage.data,
+          '0x534e5f4d41494e'
+        )
+      ).resolves.toBe(false);
     });
   });
 });

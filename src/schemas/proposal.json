@@ -26,7 +26,12 @@
         "choices": {
           "type": "array",
           "title": "choices",
-          "minItems": 1
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
         },
         "labels": {
           "type": "array",

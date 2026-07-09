@@ -78,6 +78,10 @@
           "pattern": "^[A-Za-z0-9_-]*$",
           "maxLength": 39
         },
+        "farcaster": {
+          "type": "string",
+          "title": "farcaster"
+        },
         "email": {
           "type": "string",
           "title": "email",
@@ -87,8 +91,7 @@
           "type": "string",
           "snapshotNetwork": true,
           "title": "network",
-          "minLength": 1,
-          "maxLength": 32
+          "minLength": 1
         },
         "symbol": {
           "type": "string",
@@ -131,7 +134,6 @@
               },
               "network": {
                 "type": "string",
-                "maxLength": 12,
                 "title": "network",
                 "snapshotNetwork": true
               },
@@ -150,7 +152,11 @@
           "maxItems": 100,
           "items": {
             "type": "string",
-            "format": "evmAddress"
+            "anyOf": [
+              { "type": "string", "format": "evmAddress" },
+              { "type": "string", "format": "starknetAddress" }
+            ],
+            "errorMessage": "Must be a valid address"
           },
           "title": "members",
           "uniqueItems": true
@@ -160,7 +166,11 @@
           "maxItems": 100,
           "items": {
             "type": "string",
-            "format": "evmAddress"
+            "anyOf": [
+              { "type": "string", "format": "evmAddress" },
+              { "type": "string", "format": "starknetAddress" }
+            ],
+            "errorMessage": "Must be a valid address"
           },
           "title": "admins",
           "uniqueItems": true
@@ -170,7 +180,11 @@
           "maxItems": 100,
           "items": {
             "type": "string",
-            "format": "evmAddress"
+            "anyOf": [
+              { "type": "string", "format": "evmAddress" },
+              { "type": "string", "format": "starknetAddress" }
+            ],
+            "errorMessage": "Must be a valid address"
           },
           "title": "moderators",
           "uniqueItems": true
@@ -256,7 +270,11 @@
               "description": "Specify the type of delegation that you are using",
               "anyOf": [
                 { "const": "compound-governor", "title": "Compound governor" },
-                { "const": "split-delegation", "title": "Split Delegation" }
+                { "const": "split-delegation", "title": "Split Delegation" },
+                {
+                  "const": "apechain-delegate-registry",
+                  "title": "ApeChain Delegate Registry"
+                }
               ]
             },
             "delegationContract": {
@@ -265,8 +283,8 @@
               "description": "The address of your delegation contract",
               "examples": ["0x3901D0fDe202aF1427216b79f5243f8A022d68cf"],
               "anyOf": [
-                { "format": "evmAddress" },
-                { "format": "starknetAddress" }
+                { "type": "string", "format": "evmAddress" },
+                { "type": "string", "format": "starknetAddress" }
               ],
               "errorMessage": "Must be a valid EVM of Starknet address"
             },
@@ -274,11 +292,7 @@
               "type": "string",
               "title": "Delegation network",
               "description": "The network of your delegation contract",
-              "anyOf": [
-                { "snapshotNetwork": true },
-                { "starknetNetwork": true }
-              ],
-              "errorMessage": "Must be a valid network"
+              "snapshotNetwork": true
             },
             "delegationApi": {
               "type": "string",
@@ -313,9 +327,9 @@
             "period": {
               "type": "integer",
               "minimum": 0,
-              "maximum": 15552000,
+              "maximum": 31622400,
               "errorMessage": {
-                "maximum": "Delay must be less than 180 days"
+                "maximum": "Delay must be less than a year"
               }
             },
             "type": {
@@ -392,19 +406,15 @@
                 "title": "Contract address",
                 "examples": ["e.g. 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"],
                 "anyOf": [
-                  { "format": "evmAddress" },
-                  { "format": "starknetAddress" }
+                  { "type": "string", "format": "evmAddress" },
+                  { "type": "string", "format": "starknetAddress" }
                 ],
                 "errorMessage": "Must be a valid EVM of Starknet address"
               },
               "network": {
                 "type": "string",
                 "title": "Network",
-                "anyOf": [
-                { "snapshotNetwork": true },
-                { "starknetNetwork": true }
-              ],
-              "errorMessage": "Must be a valid network"
+                "snapshotNetwork": true
               }
             },
             "required": ["name", "address", "network"],
@@ -415,10 +425,10 @@
           "type": "array",
           "maxItems": 10,
           "uniqueItems": true,
-          "items":{
+          "items": {
             "type": "object",
             "properties": {
-              "id":{
+              "id": {
                 "type": "string",
                 "title": "Id",
                 "minLength": 1,
@@ -490,13 +500,13 @@
               "type": "string",
               "format": "color"
             },
-            "border_color" : {
+            "border_color": {
               "type": "string",
               "format": "color"
             },
-            "heading_color" : {
+            "heading_color": {
               "type": "string",
-             "format": "color"
+              "format": "color"
             },
             "primary_color": {
               "type": "string",

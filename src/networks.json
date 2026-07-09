@@ -7,7 +7,8 @@
     "multicall": "0xeefba1e63905ef1d7acba5a8513c70307c1ce441",
     "ensResolvers": [
       "0x231b0Ee14048e9dCcD1d247744d114a4EB5E8E63",
-      "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41"
+      "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
+      "0xF29100983E058B709F3D539b0c765937B804AC15"
     ],
     "ensNameWrapper": "0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401",
     "ensSubgraph": "https://subgrapher.snapshot.org/subgraph/arbitrum/5XqPmWe6gjyrJtFn9cLy237i4cWw2j9HcUJEXsP5qGtH",
@@ -176,12 +177,12 @@
     "shortName": "Ethereum Classic",
     "chainId": 61,
     "network": "mainnet",
-    "multicall": "0x51be3a92C56ae7E207C5b5Fd87F7798Ce82C1AC2",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [
-      "https://www.ethercluster.com/etc"
+      "https://etc.rivet.link"
     ],
     "explorer": {
-      "url": "https://blockscout.com/etc/mainnet"
+      "url": "https://etc.blockscout.com"
     },
     "start": 13307544,
     "logo": "ipfs://QmVegc28DvA7LjKUFysab81c9BSuN4wQVDQkRXyAtuEBis"
@@ -408,6 +409,20 @@
     "start": 1290,
     "logo": "ipfs://bafkreib4xhbgbhrwkmizp4d4nz3wzbpyhdm6wpz2v2pbkk7jxsgg3hdt74"
   },
+  "151": {
+    "key": "151",
+    "name": "Redbelly",
+    "shortName": "mainnet",
+    "chainId": 151,
+    "network": "mainnet",
+    "multicall": "0xEe43BBcC6340038130681F98d855E416F7F728e9",
+    "rpc": [],
+    "explorer": {
+      "url": "https://redbelly.routescan.io"
+    },
+    "start": 1908395,
+    "logo": "ipfs://bafkreie5mdk5shaebcec6zs5dc4722u2tn7oxvkksjy62kkjdzgnvmad7q"
+  },
   "157": {
     "key": "157",
     "name": "Shibarium Puppynet Testnet",
@@ -517,6 +532,35 @@
     },
     "start": 13960096,
     "logo": "ipfs://QmU7f1MyRz8rLELFfypnWZQjGbDGYgZtC9rjw47jYMYrnu"
+  },
+  "291": {
+    "key": "291",
+    "name": "Orderly",
+    "shortName": "mainnet",
+    "chainId": 291,
+    "network": "mainnet",
+    "multicall": "0x73e524d811263a145026113219F13f9133966b6b",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.orderly.network"
+    },
+    "start": 22457562,
+    "logo": "ipfs://bafkreibo62xtgkpam6nm34mau26gn65jlw6npb5odw4ylcd6dkwocea5ni"
+  },
+  "296": {
+    "key": "296",
+    "name": "Hedera Testnet",
+    "shortName": "testnet",
+    "chainId": 296,
+    "network": "testnet",
+    "multicall": "0xADE3166b0afA89b2CDB64870D70ADeD330Eab015",
+    "rpc": [],
+    "explorer": {
+      "url": "https://hashscan.io/testnet"
+    },
+    "start": 17561901,
+    "logo": "ipfs://bafkreia5gpitwgo4sspvvtwqcxosq2krrqo5dbrnvylgibvmypzotfmbuu",
+    "testnet": true
   },
   "300": {
     "key": "300",
@@ -839,6 +883,21 @@
     "start": 859041,
     "logo": "ipfs://QmeGbNTU2Jqwg8qLTMGW8n8HSi2VdgCncAaeGzLx6gYnD7"
   },
+  "1315": {
+    "key": "1315",
+    "name": "Story Aeneid Testnet",
+    "shortName": "testnet",
+    "chainId": 1315,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://aeneid.storyscan.io"
+    },
+    "start": 1792,
+    "logo": "ipfs://bafkreiaicdywqkmej6htv4e4lnq5fzajb3qfoxslkrbf5byvqc2aalxcne",
+    "testnet": true
+  },
   "1328": {
     "key": "1328",
     "name": "Sei atlantic testnet",
@@ -882,6 +941,20 @@
     "start": 716763,
     "logo": "ipfs://bafkreibotel3dmc5og5rf3tpt7l74awkene7x6q3oxtwhptt4y4rpa7vsa"
   },
+  "1514": {
+    "key": "1514",
+    "name": "Story",
+    "shortName": "mainnet",
+    "chainId": 1514,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://www.storyscan.io"
+    },
+    "start": 340998,
+    "logo": "ipfs://bafkreiaicdywqkmej6htv4e4lnq5fzajb3qfoxslkrbf5byvqc2aalxcne"
+  },
   "1559": {
     "key": "1559",
     "name": "Tenet",
@@ -895,23 +968,6 @@
     },
     "start": 944415,
     "logo": "ipfs://Qmc1gqjWTzNo4pyFSGtQuCu7kRSZZBUVybtTjHn2nNEEPA"
-  },
-  "1663": {
-    "key": "1663",
-    "name": "Horizen Gobi Testnet",
-    "shortName": "Gobi",
-    "chainId": 1663,
-    "network": "testnet",
-    "testnet": true,
-    "multicall": "0xC743e4910Bdd4e5aBacCA38F74cdA270281C5eef",
-    "rpc": [
-      "https://gobi-testnet.horizenlabs.io/ethv1"
-    ],
-    "explorer": {
-      "url": "https://gobi-explorer.horizen.io"
-    },
-    "start": 1,
-    "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
   },
   "2000": {
     "key": "2000",
@@ -960,20 +1016,6 @@
     },
     "start": 4219343,
     "logo": "ipfs://QmXkneyRB6HbHTHRLCZpZqSsawiyJY7b2kZ2V8ydvKYAgv"
-  },
-  "2192": {
-    "key": "2192",
-    "name": "SnaxChain",
-    "shortName": "mainnet",
-    "chainId": 2192,
-    "network": "mainnet",
-    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
-    "rpc": [],
-    "explorer": {
-      "url": "https://explorer.snaxchain.io"
-    },
-    "start": 1554893,
-    "logo": "ipfs://bafkreibzz757piho2llzkbiszpvalf5k5hpmxcwhvrmgp7vpz2vp4vj7ly"
   },
   "2221": {
     "key": "2221",
@@ -1170,19 +1212,20 @@
     "start": 370457,
     "logo": "ipfs://QmWkhZYhReYyaa5pQXj32hEGxoRcBqarFMcfQScELmjYQj"
   },
-  "7332": {
-    "key": "7332",
-    "name": "Horizen EON",
-    "shortName": "EON",
-    "chainId": 7332,
-    "network": "mainnet",
-    "multicall": "0xC743e4910Bdd4e5aBacCA38F74cdA270281C5eef",
+  "6900": {
+    "key": "6900",
+    "name": "Animechain Testnet",
+    "shortName": "testnet",
+    "chainId": 6900,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://eon-explorer.horizenlabs.io"
+      "url": "https://explorer-animechain-testnet-i8yja6a1a0.t.conduit.xyz"
     },
-    "start": 85108,
-    "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
+    "start": 1666749,
+    "logo": "ipfs://bafkreihm7dy6jzkd3nh6mokq4vshuzwkoeyjmbb3qkskn77rt5iufn7egi",
+    "testnet": true
   },
   "7341": {
     "key": "7341",
@@ -1245,7 +1288,7 @@
       "url": "https://basescan.org"
     },
     "start": 5022,
-    "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv"
+    "logo": "ipfs://bafkreid4ek4gnj6ccxl3yubwj2wr3d5t6dqelvvh4hv5wo5eldkqs725ri"
   },
   "9001": {
     "key": "9001",
@@ -1391,6 +1434,22 @@
     "start": 22922566,
     "logo": "ipfs://QmSxXjvWng3Diz4YwXDV2VqSPgMyzLYBNfkjJcr7rzkxom"
   },
+  "26514": {
+    "key": "26514",
+    "name": "Horizen Mainnet",
+    "shortName": "horizen",
+    "chainId": 26514,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [
+      "https://horizen.calderachain.xyz/http"
+    ],
+    "explorer": {
+      "url": "https://horizen.calderaexplorer.xyz"
+    },
+    "start": 0,
+    "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
+  },
   "29548": {
     "key": "29548",
     "name": "MCH Verse",
@@ -1414,7 +1473,7 @@
     "multicall": "0xc454132B017b55b427f45078E335549A7124f5f7",
     "rpc": [],
     "explorer": {
-      "url": "https://explorer.curtis.apechain.com"
+      "url": "https://curtis.apescan.io"
     },
     "start": 6661339,
     "logo": "ipfs://bafkreicljxttjq2xkgfwwpii5xegirgq2ctrnsjnzelxudjj33qzq65apu",
@@ -1429,7 +1488,7 @@
     "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
     "rpc": [],
     "explorer": {
-      "url": "https://apechain.calderaexplorer.xyz"
+      "url": "https://apescan.io"
     },
     "start": 20889,
     "logo": "ipfs://bafkreielbgcox2jsw3g6pqulqb7pyjgx7czjt6ahnibihaij6lozoy53w4"
@@ -1480,10 +1539,10 @@
       "https://celo-mainnet--rpc.datahub.figment.io/apikey/e892a66dc36e4d2d98a5d6406d609796/"
     ],
     "explorer": {
-      "url": "https://explorer.celo.org"
+      "url": "https://celoscan.io"
     },
     "start": 6599803,
-    "logo": "ipfs://QmS2tVJ7rdJRe1NHXAi2L86yCbUwVVrmB2mHQeNdJxvQti"
+    "logo": "ipfs://bafkreidvcofeczigbjr7ddapgdugwso6v2l4iolfxys7qg6kfvu2uduyva"
   },
   "43113": {
     "key": "43113",
@@ -1606,6 +1665,20 @@
     "start": 42,
     "logo": "ipfs://bafkreihtyzolub3sejuwc32hpdpjnt7ksowaguni2yuho3kyihhcqrtqce"
   },
+  "69000": {
+    "key": "69000",
+    "name": "Animechain",
+    "shortName": "mainnet",
+    "chainId": 69000,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer-animechain-39xf6m45e3.t.conduit.xyz"
+    },
+    "start": 23482,
+    "logo": "ipfs://bafkreihm7dy6jzkd3nh6mokq4vshuzwkoeyjmbb3qkskn77rt5iufn7egi"
+  },
   "80001": {
     "key": "80001",
     "name": "Polygon Mumbai",
@@ -1668,7 +1741,51 @@
       "url": "https://base-sepolia.blockscout.com"
     },
     "start": 1059647,
-    "logo": "ipfs://QmaxRoHpxZd8PqccAynherrMznMufG6sdmHZLihkECXmZv",
+    "logo": "ipfs://bafkreid4ek4gnj6ccxl3yubwj2wr3d5t6dqelvvh4hv5wo5eldkqs725ri",
+    "testnet": true
+  },
+  "88811": {
+    "key": "88811",
+    "name": "Unit Zero",
+    "shortName": "mainnet",
+    "chainId": 88811,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.unit0.dev"
+    },
+    "start": 9727,
+    "logo": "ipfs://bafkreihbmy3rqlammea35nniemipxrwcgitzkiahs6nlrfjunnvgfnakp4"
+  },
+  "88817": {
+    "key": "88817",
+    "name": "Unit Zero testnet",
+    "shortName": "testnet",
+    "chainId": 88817,
+    "network": "testnet",
+    "multicall": "0x017181efb3bDB325C17800799b33Ae80B395024c",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer-testnet.unit0.dev"
+    },
+    "start": 3973744,
+    "logo": "ipfs://bafkreihbmy3rqlammea35nniemipxrwcgitzkiahs6nlrfjunnvgfnakp4",
+    "testnet": true
+  },
+  "314159": {
+    "key": "314159",
+    "name": "Filecoin Calibration Testnet",
+    "shortName": "testnet",
+    "chainId": 314159,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://calibration.filscan.io/en"
+    },
+    "start": 1446201,
+    "logo": "ipfs://bafkreiffbopdjior7li3nlemzko7rjua6wd2hfh2vhdbenqbv4tfsbnzwu",
     "testnet": true
   },
   "686868": {
@@ -1745,6 +1862,23 @@
     "logo": "ipfs://bafkreic6c3iems5235qapyhyrygha7akqrsfact2nok3y2uhljpzxrdu74",
     "testnet": true
   },
+  "2651420": {
+    "key": "2651420",
+    "name": "Horizen Testnet",
+    "shortName": "horizen-testnet",
+    "chainId": 2651420,
+    "network": "testnet",
+    "testnet": true,
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [
+      "https://horizen-testnet.rpc.caldera.xyz/http"
+    ],
+    "explorer": {
+      "url": "https://horizen-testnet.explorer.caldera.xyz"
+    },
+    "start": 0,
+    "logo": "ipfs://QmUYQdsnkUoiDiQ3WaWrtH7fsc5yQDC7kZJCHmC2qWPTPt"
+  },
   "11155111": {
     "key": "11155111",
     "name": "Sepolia testnet",
@@ -1760,7 +1894,7 @@
       "0x8FADE66B79cC9f707aB26799354482EB93a5B7dD"
     ],
     "ensNameWrapper": "0x0635513f179D50A207757E05759CbD106d7dFcE8",
-    "ensSubgraph": "https://subgrapher.snapshot.org/subgraph/arbitrum/DmMXLtMZnGbQXASJ7p1jfzLUbBYnYUD9zNBTxpkjHYXV",
+    "ensSubgraph": "https://subgrapher.snapshot.org/subgraph/arbitrum/CA5t8ep58QKXBdLrjJHaREETHpCsy63kro9Eem6zBQAD",
     "explorer": {
       "url": "https://sepolia.etherscan.io",
       "apiUrl": "https://api-sepolia.etherscan.io"
@@ -1882,5 +2016,38 @@
     },
     "start": 7521509,
     "logo": "ipfs://QmNnGPr1CNvj12SSGzKARtUHv9FyEfE5nES73U4vBWQSJL"
+  },
+  "0x534e5f4d41494e": {
+    "key": "0x534e5f4d41494e",
+    "name": "Starknet",
+    "shortName": "Starknet",
+    "chainId": "0x534e5f4d41494e",
+    "network": "mainnet",
+    "starknet": true,
+    "broviderId": "sn",
+    "multicall": "0x05754af3760f3356da99aea5c3ec39ccac7783d925a19666ebbeca58ff0087f4",
+    "explorer": {
+      "url": "https://voyager.online"
+    },
+    "rpc": [],
+    "start": 8446,
+    "logo": "ipfs://bafkreihbjafyh7eud7r6e5743esaamifcttsvbspfwcrfoc5ykodjdi67m"
+  },
+  "0x534e5f5345504f4c4941": {
+    "key": "0x534e5f5345504f4c4941",
+    "name": "Starknet Sepolia",
+    "shortName": "testnet",
+    "chainId": "0x534e5f5345504f4c4941",
+    "network": "testnet",
+    "starknet": true,
+    "broviderId": "sn-sep",
+    "testnet": true,
+    "multicall": "0x05754af3760f3356da99aea5c3ec39ccac7783d925a19666ebbeca58ff0087f4",
+    "explorer": {
+      "url": "https://sepolia.voyager.online"
+    },
+    "rpc": [],
+    "start": 7,
+    "logo": "ipfs://bafkreihbjafyh7eud7r6e5743esaamifcttsvbspfwcrfoc5ykodjdi67m"
   }
 }

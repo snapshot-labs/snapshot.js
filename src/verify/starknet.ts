@@ -1,51 +1,7 @@
-import { Contract, RpcProvider, typedData } from 'starknet';
-import { BigNumber } from '@ethersproject/bignumber';
-import type { SignaturePayload } from '.';
+import { typedData, TypedData } from 'starknet';
 import type { ProviderOptions } from '../utils/provider';
-
-export type NetworkType = 'SN_MAIN' | 'SN_SEPOLIA';
-
-const RPC_URLS: Record<NetworkType, string> = {
-  SN_MAIN: 'https://starknet-mainnet.public.blastapi.io',
-  SN_SEPOLIA: 'https://starknet-sepolia.public.blastapi.io'
-};
-
-const ABI = [
-  {
-    name: 'argent::common::account::IAccount',
-    type: 'interface',
-    items: [
-      {
-        name: 'is_valid_signature',
-        type: 'function',
-        inputs: [
-          {
-            name: 'hash',
-            type: 'core::felt252'
-          },
-          {
-            name: 'signature',
-            type: 'core::array::Array::<core::felt252>'
-          }
-        ],
-        outputs: [
-          {
-            type: 'core::felt252'
-          }
-        ],
-        state_mutability: 'view'
-      }
-    ]
-  }
-];
-
-function getProvider(network: NetworkType, options: ProviderOptions) {
-  if (!RPC_URLS[network]) throw new Error('Invalid network');
-
-  return new RpcProvider({
-    nodeUrl: options?.broviderUrl ?? RPC_URLS[network]
-  });
-}
+import type { SignaturePayload } from '.';
+import getProvider from '../utils/provider';
 
 export function isStarknetMessage(data: SignaturePayload): boolean {
   return !!data.primaryType && !!data.types.StarkNetDomain;
@@ -65,26 +21,17 @@ export default async function verify(
   address: string,
   sig: string[],
   data: SignaturePayload,
-  network: NetworkType = 'SN_MAIN',
+  network = '0x534e5f4d41494e',
   options: ProviderOptions = {}
 ): Promise<boolean> {
   try {
-    const contractAccount = new Contract(
-      ABI,
-      address,
-      getProvider(network, options)
-    );
+    const provider = getProvider(network, options);
 
-    if (sig.length < 2) {
-      throw new Error('Invalid signature format');
-    }
+    // Check if the contract is deployed
+    // Will throw on non-deployed contract
+    await provider.getClassAt(address);
 
-    const result = await contractAccount.is_valid_signature(
-      getHash(data, address),
-      sig.slice(-2)
-    );
-
-    return BigNumber.from(result).eq(BigNumber.from('370462705988'));
+    return provider.verifyMessageInStarknet(data as TypedData, sig, address);
   } catch (e: any) {
     if (e.message.includes('Contract not found')) {
       throw new Error('Contract not deployed');

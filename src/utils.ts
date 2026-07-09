@@ -1,5 +1,4 @@
-import fetch from 'cross-fetch';
-import { Interface } from '@ethersproject/abi';
+import crossFetch from 'cross-fetch';
 import { Contract } from '@ethersproject/contracts';
 import { getAddress, isAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
@@ -8,7 +7,6 @@ import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import addErrors from 'ajv-errors';
-import Multicaller from './utils/multicaller';
 import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
 import { signMessage, getBlockNumber } from './utils/web3';
@@ -18,6 +16,7 @@ import networks from './networks.json';
 import voting from './voting';
 import getDelegatesBySpace, { SNAPSHOT_SUBGRAPH_URL } from './utils/delegation';
 import { validateAndParseAddress } from 'starknet';
+import { multicall, Multicaller } from './multicall';
 
 interface Options {
   url?: string;
@@ -30,22 +29,33 @@ interface Strategy {
   params: any;
 }
 
+type DomainType = 'ens' | 'tld' | 'other-tld' | 'subdomain';
+
+const MUTED_ERRORS = [
+  // mute error from coinbase, when the subdomain is not found
+  // most other resolvers just return an empty address
+  'response not found during CCIP fetch',
+  // mute error from missing offchain resolver (mostly for sepolia)
+  'UNSUPPORTED_OPERATION'
+];
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
 const ENS_ABI = [
   'function text(bytes32 node, string calldata key) external view returns (string memory)',
   'function resolver(bytes32 node) view returns (address)' // ENS registry ABI
 ];
-const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
-const STARKNET_NETWORKS = {
-  '0x534e5f4d41494e': {
-    name: 'Starknet',
-    testnet: false
-  },
-  '0x534e5f5345504f4c4941': {
-    name: 'Starknet Sepolia',
-    testnet: true
+const UD_MAPPING = {
+  '146': {
+    tlds: ['.sonic'],
+    registryContract: '0xde1dadcf11a7447c3d093e97fdbd513f488ce3b4'
   }
 };
+const UD_REGISTRY_ABI = [
+  'function ownerOf(uint256 tokenId) view returns (address owner)'
+];
+const ENS_CHAIN_IDS = ['1', '11155111'];
+const SHIBARIUM_CHAIN_IDS = ['109', '157'];
+const SHIBARIUM_TLD = '.shib';
+const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 const scoreApiHeaders = {
   Accept: 'application/json',
@@ -123,7 +133,11 @@ ajv.addFormat('evmAddress', {
 ajv.addFormat('starknetAddress', {
   validate: (value: string) => {
     try {
-      return validateAndParseAddress(value) === value;
+      // Accept both checksum and lowercase addresses
+      // but need to always be padded
+      return (
+        validateAndParseAddress(value).toLowerCase() === value.toLowerCase()
+      );
     } catch (e: any) {
       return false;
     }
@@ -176,24 +190,6 @@ ajv.addKeyword({
   }
 });
 
-ajv.addKeyword({
-  keyword: 'starknetNetwork',
-  validate: function (schema, data) {
-    // @ts-ignore
-    const snapshotEnv = this.snapshotEnv || 'default';
-    if (snapshotEnv === 'mainnet') {
-      return Object.keys(STARKNET_NETWORKS)
-        .filter((id) => !STARKNET_NETWORKS[id].testnet)
-        .includes(data);
-    }
-
-    return Object.keys(STARKNET_NETWORKS).includes(data);
-  },
-  error: {
-    message: 'network not allowed'
-  }
-});
-
 // Custom URL format to allow empty string values
 // https://github.com/snapshot-labs/snapshot.js/pull/541/files
 ajv.addFormat('customUrl', {
@@ -219,6 +215,45 @@ ajv.addFormat('domain', {
   }
 });
 
+function getDomainType(domain: string): DomainType {
+  const isEns = domain.endsWith('.eth');
+
+  const tokens = domain.split('.');
+
+  if (tokens.length === 1) return 'tld';
+  else if (tokens.length === 2 && !isEns) return 'other-tld';
+  else if (tokens.length > 2) return 'subdomain';
+  else if (isEns) return 'ens';
+  else throw new Error('Invalid domain');
+}
+
+// see https://docs.ens.domains/registry/dns#gasless-import
+async function getDNSOwner(domain: string): Promise<string> {
+  const response = await fetch(
+    `https://cloudflare-dns.com/dns-query?name=${domain}&type=TXT`,
+    {
+      headers: {
+        accept: 'application/dns-json'
+      }
+    }
+  );
+
+  const data = await response.json();
+  // Error list: https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-6
+  if (data.Status === 3) return EMPTY_ADDRESS;
+  if (data.Status !== 0) throw new Error('Failed to fetch DNS Owner');
+
+  const ownerRecord = data.Answer?.find((record: any) =>
+    record.data.includes('ENS1')
+  );
+
+  if (!ownerRecord) return EMPTY_ADDRESS;
+
+  return getAddress(
+    ownerRecord.data.replace(new RegExp('"', 'g'), '').split(' ').pop()
+  );
+}
+
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
   try {
@@ -228,48 +263,6 @@ export async function call(provider, abi: any[], call: any[], options?) {
     return Promise.reject(e);
   }
 }
-
-export async function multicall(
-  network: string,
-  provider,
-  abi: any[],
-  calls: any[],
-  options?
-) {
-  const multicallAbi = [
-    'function aggregate(tuple(address target, bytes callData)[] calls) view returns (uint256 blockNumber, bytes[] returnData)'
-  ];
-  const multicallAddress =
-    options?.multicallAddress || networks[network].multicall;
-  const multi = new Contract(multicallAddress, multicallAbi, provider);
-  const itf = new Interface(abi);
-  try {
-    const max = options?.limit || 500;
-    if (options?.limit) delete options.limit;
-    const pages = Math.ceil(calls.length / max);
-    const promises: any = [];
-    Array.from(Array(pages)).forEach((x, i) => {
-      const callsInPage = calls.slice(max * i, max * (i + 1));
-      promises.push(
-        multi.aggregate(
-          callsInPage.map((call) => [
-            call[0].toLowerCase(),
-            itf.encodeFunctionData(call[1], call[2])
-          ]),
-          options || {}
-        )
-      );
-    });
-    let results: any = await Promise.all(promises);
-    results = results.reduce((prev: any, [, res]: any) => prev.concat(res), []);
-    return results.map((call, i) =>
-      itf.decodeFunctionResult(calls[i][1], call)
-    );
-  } catch (e: any) {
-    return Promise.reject(e);
-  }
-}
-
 export async function subgraphRequest(url: string, query, options: any = {}) {
   const body: Record<string, any> = { query: jsonToGraphQLQuery({ query }) };
   if (options.variables) body.variables = options.variables;
@@ -321,9 +314,76 @@ export function getUrl(uri, gateway = gateways[0]) {
   return uri;
 }
 
+interface FetchOptions extends RequestInit {
+  timeout?: number;
+}
+
+/**
+ * Enhanced fetch with timeout support - drop-in replacement for native fetch
+ *
+ * @param url - The URL to fetch
+ * @param options - Fetch options with optional timeout
+ * @param options.timeout - Request timeout in milliseconds (default: 30000ms). Set to 0 to disable timeout.
+ *
+ * @returns Promise that resolves to the Response object
+ *
+ * @throws {Error} Throws timeout error if request exceeds the specified timeout duration
+ *
+ * @example
+ * ```typescript
+ * // Uses default 30s timeout
+ * const response = await fetch('https://api.example.com/data');
+ *
+ * // Custom 5s timeout
+ * const response = await fetch('https://api.example.com/data', { timeout: 5000 });
+ *
+ * // Disable timeout
+ * const response = await fetch('https://api.example.com/data', { timeout: 0 });
+ *
+ * // With additional fetch options
+ * const response = await fetch('https://api.example.com/data', {
+ *   timeout: 10000,
+ *   method: 'POST',
+ *   headers: { 'Content-Type': 'application/json' },
+ *   body: JSON.stringify({ key: 'value' })
+ * });
+ * ```
+ */
+export async function fetch(
+  url: string,
+  options: FetchOptions = {}
+): Promise<Response> {
+  const { timeout = 30000, ...fetchOptions } = options;
+
+  if (timeout > 0) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    try {
+      const response = await crossFetch(url, {
+        ...fetchOptions,
+        signal: controller.signal
+      });
+      return response;
+    } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        throw new Error(`Request timeout after ${timeout}ms`);
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { signal, ...cleanFetchOptions } = fetchOptions;
+  return crossFetch(url, cleanFetchOptions);
+}
+
 export async function getJSON(uri, options: any = {}) {
   const url = getUrl(uri, options.gateways);
-  return fetch(url).then((res) => res.json());
+  const response = await fetch(url, options);
+  return response.json();
 }
 
 export async function ipfsGet(
@@ -424,7 +484,7 @@ export async function getVp(
   strategies: Strategy[],
   snapshot: number | 'latest',
   space: string,
-  delegation: boolean,
+  delegation: false, // @deprecated - kept for backward compatibility for integrators using this function, no longer sent to API
   options?: Options
 ) {
   const { url, headers } = formatScoreAPIUrl(options?.url);
@@ -460,8 +520,7 @@ export async function getVp(
         network,
         strategies,
         snapshot,
-        space,
-        delegation
+        space
       }
     })
   };
@@ -582,13 +641,13 @@ export async function getEnsTextRecord(
     ]) // Query for text record from each resolver
   ];
 
-  const [[resolverAddress], ...textRecords]: string[][] = await multicall(
+  const [[resolverAddress], ...textRecords] = (await multicall(
     network,
     provider,
     ENS_ABI,
     calls,
     multicallOptions
-  );
+  )) as string[][];
 
   const resolverIndex = ensResolvers.indexOf(resolverAddress);
   return resolverIndex !== -1 ? textRecords[resolverIndex]?.[0] : null;
@@ -611,7 +670,12 @@ export async function getEnsOwner(
   ens: string,
   network = '1',
   options: any = {}
-): Promise<string | null> {
+): Promise<string> {
+  if (!networks[network]?.ensResolvers?.length) {
+    throw new Error('Network not supported');
+  }
+
+  const domainType = getDomainType(ens);
   const provider = getProvider(network, options);
   const ensRegistry = new Contract(
     ENS_REGISTRY,
@@ -624,7 +688,7 @@ export async function getEnsOwner(
   try {
     ensHash = namehash(ensNormalize(ens));
   } catch (e: any) {
-    return null;
+    return EMPTY_ADDRESS;
   }
 
   const ensNameWrapper =
@@ -639,26 +703,112 @@ export async function getEnsOwner(
     );
     owner = await ensNameWrapperContract.ownerOf(ensHash);
   }
-  return owner;
+
+  if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
+    const resolvedAddress = await provider.resolveName(ens);
+
+    // Filter out domains with valid TXT records, but not imported
+    if (resolvedAddress) {
+      owner = await getDNSOwner(ens);
+    }
+  }
+
+  if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
+    try {
+      owner = await provider.resolveName(ens);
+    } catch (e: any) {
+      if (MUTED_ERRORS.every((error) => !e.message.includes(error))) {
+        throw e;
+      }
+      owner = EMPTY_ADDRESS;
+    }
+  }
+
+  return owner || EMPTY_ADDRESS;
+}
+
+async function getEnsSpaceController(
+  id: string,
+  network: string,
+  options: any = {}
+): Promise<string> {
+  const spaceUri = await getSpaceUri(id, network, options);
+  if (spaceUri) {
+    if (isAddress(spaceUri)) return getAddress(spaceUri);
+
+    const uriParts = spaceUri.split('/');
+    const position = uriParts.includes('testnet') ? 5 : 4;
+    const address = uriParts[position];
+    if (isAddress(address)) return getAddress(address);
+  }
+  return await getEnsOwner(id, network, options);
+}
+
+export async function getShibariumNameOwner(
+  id: string,
+  network: string
+): Promise<string> {
+  if (!id.endsWith(SHIBARIUM_TLD)) {
+    return EMPTY_ADDRESS;
+  }
+
+  const response = await fetch('https://stamp.fyi', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      method: 'get_owner',
+      params: id,
+      network
+    })
+  });
+
+  const data = await response.json();
+  return data.result;
+}
+
+export async function getUDNameOwner(
+  id: string,
+  network: string
+): Promise<string> {
+  const tlds = UD_MAPPING[network]?.tlds || [];
+  if (!tlds.some((tld: string) => id.endsWith(tld))) {
+    return Promise.resolve(EMPTY_ADDRESS);
+  }
+
+  try {
+    const hash = namehash(ensNormalize(id));
+    const tokenId = BigInt(hash);
+    const provider = getProvider(network);
+
+    return await call(
+      provider,
+      UD_REGISTRY_ABI,
+      [UD_MAPPING[network].registryContract, 'ownerOf', [tokenId]],
+      {
+        blockTag: 'latest'
+      }
+    );
+  } catch (e: any) {
+    return EMPTY_ADDRESS;
+  }
 }
 
 export async function getSpaceController(
   id: string,
   network = '1',
   options: any = {}
-): Promise<string | null> {
-  const spaceUri = await getSpaceUri(id, network, options);
-  if (spaceUri) {
-    let isUriAddress = isAddress(spaceUri);
-    if (isUriAddress) return spaceUri;
-
-    const uriParts = spaceUri.split('/');
-    const position = uriParts.includes('testnet') ? 5 : 4;
-    const address = uriParts[position];
-    isUriAddress = isAddress(address);
-    if (isUriAddress) return address;
+): Promise<string> {
+  if (ENS_CHAIN_IDS.includes(network)) {
+    return getEnsSpaceController(id, network, options);
+  } else if (SHIBARIUM_CHAIN_IDS.includes(network)) {
+    return getShibariumNameOwner(id, network);
+  } else if (UD_MAPPING[String(network)]) {
+    return getUDNameOwner(id, network);
   }
-  return await getEnsOwner(id, network, options);
+
+  throw new Error(`Network not supported: ${network}`);
 }
 
 export function clone(item) {
@@ -682,7 +832,10 @@ function isValidNetwork(network: string) {
 }
 
 function isValidAddress(address: string) {
-  return isAddress(address) && address !== EMPTY_ADDRESS;
+  return (
+    address !== EMPTY_ADDRESS &&
+    (isAddress(address) || isStarknetAddress(address))
+  );
 }
 
 function isValidSnapshot(snapshot: number | string, network: string) {
@@ -709,13 +862,20 @@ export function isEvmAddress(address: string): boolean {
 
 export function getFormattedAddress(
   address: string,
-  format: 'evm' | 'starknet'
+  format?: 'evm' | 'starknet'
 ): string {
-  if (format === 'evm' && isEvmAddress(address)) return getAddress(address);
-  if (format === 'starknet' && isStarknetAddress(address))
+  if (typeof address !== 'string' || !/^0[xX]/.test(address)) {
+    throw new Error(`Invalid address: ${address}`);
+  }
+
+  const addressType = format ?? (address.length === 42 ? 'evm' : 'starknet');
+
+  if (addressType === 'evm' && isEvmAddress(address))
+    return getAddress(address);
+  if (addressType === 'starknet' && isStarknetAddress(address))
     return validateAndParseAddress(address);
 
-  throw new Error(`Invalid address: ${address}`);
+  throw new Error(`Invalid ${addressType} address: ${address}`);
 }
 
 function inputError(message: string) {
@@ -727,6 +887,7 @@ export { getDelegatesBySpace, SNAPSHOT_SUBGRAPH_URL };
 export default {
   call,
   multicall,
+  fetch,
   subgraphRequest,
   ipfsGet,
   getUrl,

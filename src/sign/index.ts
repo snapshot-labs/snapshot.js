@@ -1,7 +1,6 @@
-import fetch from 'cross-fetch';
+import { fetch } from '../utils';
 import { Web3Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
-import { getAddress } from '@ethersproject/address';
 import {
   Space,
   Proposal,
@@ -26,9 +25,6 @@ import {
   voteTypes,
   voteArrayTypes,
   voteStringTypes,
-  vote2Types,
-  voteArray2Types,
-  voteString2Types,
   followTypes,
   subscribeTypes,
   unfollowTypes,
@@ -39,6 +35,7 @@ import {
   statementTypes
 } from './types';
 import constants from '../constants.json';
+import { getFormattedAddress } from '../utils';
 
 const NAME = 'snapshot';
 const VERSION = '0.1.4';
@@ -74,8 +71,10 @@ export default class Client {
   async sign(web3: Web3Provider | Wallet, address: string, message, types) {
     // @ts-ignore
     const signer = web3?.getSigner ? web3.getSigner() : web3;
-    const checksumAddress = getAddress(address);
-    message.from = message.from ? getAddress(message.from) : checksumAddress;
+    const checksumAddress = getFormattedAddress(address, 'evm');
+    message.from = message.from
+      ? getFormattedAddress(message.from)
+      : checksumAddress;
     if (!message.timestamp)
       message.timestamp = parseInt((Date.now() / 1e3).toFixed());
 
@@ -167,15 +166,14 @@ export default class Client {
     if (!message.reason) message.reason = '';
     if (!message.app) message.app = '';
     if (!message.metadata) message.metadata = '{}';
-    const type2 = message.proposal.startsWith('0x');
-    let type = type2 ? vote2Types : voteTypes;
+    let type = voteTypes;
     if (['approval', 'ranked-choice'].includes(message.type))
-      type = type2 ? voteArray2Types : voteArrayTypes;
+      type = voteArrayTypes;
     if (!isShutter && ['quadratic', 'weighted'].includes(message.type)) {
-      type = type2 ? voteString2Types : voteStringTypes;
+      type = voteStringTypes;
       message.choice = JSON.stringify(message.choice);
     }
-    if (isShutter) type = type2 ? voteString2Types : voteStringTypes;
+    if (isShutter) type = voteStringTypes;
     delete message.privacy;
     // @ts-ignore
     delete message.type;

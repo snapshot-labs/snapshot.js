@@ -19,5 +19,5 @@ describe('verify', () => {
     expect(verify(payload.address, payload.sig, payload.data)).resolves.toBe(
       true
     );
-  });
+  }, 15000);
 });
