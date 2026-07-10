@@ -21,7 +21,10 @@ export default class CopelandVoting {
   }
 
   // Validates if a vote choice is valid for the given proposal
-  // Allows partial ranking (not all choices need to be ranked)
+  // Requires a full ranking: every choice must be ranked exactly once
+  // (a full permutation of all proposal choices). Partial ballots are
+  // rejected because Copeland assigns "no opinion" semantics to unranked
+  // choices, which makes bullet/partial voting meaningless and gameable.
   static isValidChoice(
     voteChoice: number[],
     proposalChoices: string[]
@@ -29,7 +32,7 @@ export default class CopelandVoting {
     if (
       !Array.isArray(voteChoice) ||
       voteChoice.length === 0 ||
-      voteChoice.length > proposalChoices.length ||
+      voteChoice.length != proposalChoices.length ||
       new Set(voteChoice).size !== voteChoice.length
     ) {
       return false;

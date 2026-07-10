@@ -183,23 +183,34 @@ test.each([
   expect(copeland.getChoiceString()).toBe(expected);
 });
 
-// Test case for partial ranking
-test('Partial ranking', () => {
-  const partialVotes = [
-    ...example.votes,
-    {
-      choice: [2, 1],
-      balance: 1,
-      scores: [1]
-    }
+// Partial ballots must be rejected: Copeland requires a full ranking of every
+// choice. Adding a partial ballot must not change the outcome, because the
+// partial vote is filtered out by getValidVotes().
+test('Partial ballots are rejected (filtered out)', () => {
+  const fullPermutationVotes = [
+    { choice: [1, 2, 3, 4], balance: 1, scores: [1] },
+    { choice: [2, 1, 3, 4], balance: 1, scores: [1] },
+    { choice: [1, 3, 2, 4], balance: 1, scores: [1] }
   ];
-  const copeland = new CopelandVoting(
+
+  const baseline = new CopelandVoting(
     example.proposal,
-    partialVotes,
+    fullPermutationVotes,
     example.strategies,
     example.selectedChoice
   );
-  expect(copeland.getScores()).toMatchSnapshot();
+
+  const withPartial = new CopelandVoting(
+    example.proposal,
+    [...fullPermutationVotes, { choice: [2, 1], balance: 1, scores: [1] }],
+    example.strategies,
+    example.selectedChoice
+  );
+
+  // The partial ballot is ignored, so scores and totals are unchanged.
+  expect(withPartial.getValidVotes()).toHaveLength(fullPermutationVotes.length);
+  expect(withPartial.getScores()).toEqual(baseline.getScores());
+  expect(withPartial.getScoresTotal()).toBe(baseline.getScoresTotal());
 });
 
 test('getScores with mixed voting powers', () => {
