@@ -161,6 +161,13 @@ export default class CopelandVoting {
       }
     }
 
+    // Voting power in favour of each choice across its matchups, per strategy,
+    // used to compute the Average Support tiebreak per strategy column (mirrors
+    // supportFor in getScores).
+    const supportFor = Array.from({ length: choicesCount }, () =>
+      Array(strategiesCount).fill(0)
+    );
+
     // Calculate pairwise comparisons for each strategy
     for (const vote of validVotes) {
       for (
@@ -183,6 +190,8 @@ export default class CopelandVoting {
             pairwiseComparisons[preferredChoice][lowerChoice][strategyIndex] +=
               vote.scores[strategyIndex];
             pairwiseComparisons[lowerChoice][preferredChoice][strategyIndex] -=
+              vote.scores[strategyIndex];
+            supportFor[preferredChoice][strategyIndex] +=
               vote.scores[strategyIndex];
           }
         }
@@ -217,6 +226,26 @@ export default class CopelandVoting {
               scores[opponentIndex][strategyIndex] += 0.5;
             }
           }
+        }
+      }
+    }
+
+    // Break ties by Average Support per strategy column, applying the same
+    // 0.5 * averageSupport bonus as getScores so that, per choice, the strategy
+    // columns sum back to the headline getScores value.
+    const matchupsPerChoice = choicesCount - 1;
+    if (matchupsPerChoice > 0) {
+      for (
+        let strategyIndex = 0;
+        strategyIndex < strategiesCount;
+        strategyIndex++
+      ) {
+        if (strategyTotals[strategyIndex] <= 0) continue;
+        for (let choiceIndex = 0; choiceIndex < choicesCount; choiceIndex++) {
+          const averageSupport =
+            supportFor[choiceIndex][strategyIndex] /
+            (matchupsPerChoice * strategyTotals[strategyIndex]);
+          scores[choiceIndex][strategyIndex] += 0.5 * averageSupport;
         }
       }
     }

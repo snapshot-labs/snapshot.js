@@ -279,3 +279,44 @@ test('getScores breaks victory ties by average support', () => {
   expect(swappedScores[1]).toBeGreaterThan(swappedScores[0]); // now Bob leads
   expect(swappedScores[0]).toBeGreaterThan(swappedScores[2]); // Alice over Carol
 });
+
+test('getScoresByStrategy columns sum to getScores per choice', () => {
+  const proposal = {
+    choices: ['Alice', 'Bob', 'Carol']
+  };
+  const strategies = [
+    { name: 's1', network: '1', params: {} },
+    { name: 's2', network: '1', params: {} }
+  ];
+  // Alice and Bob tie on victories, so the average-support bonus is active. Each
+  // ballot's voting power is split 70/30 across the two strategies, so neither
+  // strategy flips a pairwise sign and the columns decompose the headline
+  // exactly. Without the same bonus in getScoresByStrategy the rows would not
+  // add up (e.g. a Condorcet loser would show all-zero columns under a nonzero
+  // headline).
+  const votes = [40, 40, 30, 30].map((balance, index) => ({
+    choice: [
+      [1, 2, 3],
+      [2, 1, 3],
+      [1, 3, 2],
+      [3, 2, 1]
+    ][index],
+    balance,
+    scores: [balance * 0.7, balance * 0.3]
+  }));
+  const copeland = new CopelandVoting(proposal, votes, strategies, [1]);
+  const scores = copeland.getScores();
+  const scoresByStrategy = copeland.getScoresByStrategy();
+
+  scores.forEach((headline, choiceIndex) => {
+    const rowSum = scoresByStrategy[choiceIndex].reduce(
+      (sum, cell) => sum + cell,
+      0
+    );
+    expect(rowSum).toBeCloseTo(headline, 8);
+  });
+
+  // The tiebreak is actually engaged: Alice and Bob tie on victories but Alice
+  // carries more support, so her headline is higher and her columns follow.
+  expect(scores[0]).toBeGreaterThan(scores[1]);
+});
