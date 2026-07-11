@@ -280,7 +280,7 @@ test('getScores breaks victory ties by average support', () => {
   expect(swappedScores[0]).toBeGreaterThan(swappedScores[2]); // Alice over Carol
 });
 
-test('getScoresByStrategy columns sum to getScores per choice', () => {
+test('getScoresByStrategy columns sum to getScores when strategies are proportional', () => {
   const proposal = {
     choices: ['Alice', 'Bob', 'Carol']
   };
@@ -319,4 +319,46 @@ test('getScoresByStrategy columns sum to getScores per choice', () => {
   // The tiebreak is actually engaged: Alice and Bob tie on victories but Alice
   // carries more support, so her headline is higher and her columns follow.
   expect(scores[0]).toBeGreaterThan(scores[1]);
+});
+
+test('getScoresByStrategy columns diverge from getScores when strategies are not sign-collinear', () => {
+  const proposal = {
+    choices: ['Alice', 'Bob', 'Carol']
+  };
+  const strategies = [
+    { name: 's1', network: '1', params: {} },
+    { name: 's2', network: '1', params: {} }
+  ];
+  // Alice sweeps first on every ballot, while Bob and Bob-vs-Carol nets to a tie,
+  // so the headline is [40, 10, 10] and the average-support bonus is engaged for
+  // the Bob/Carol tie. But s1 sees only the B>C ballot and s2 the C>B ballots, so
+  // the strategies flip the Bob/Carol pairwise sign relative to the total. That
+  // nonlinearity means the per-strategy columns do NOT sum back to the headline.
+  const votes = [
+    { choice: [1, 2, 3], balance: 10, scores: [0, 10] },
+    { choice: [1, 2, 3], balance: 20, scores: [20, 0] },
+    { choice: [1, 3, 2], balance: 30, scores: [0, 30] }
+  ];
+  const copeland = new CopelandVoting(proposal, votes, strategies, [1]);
+  const scores = copeland.getScores();
+  const scoresByStrategy = copeland.getScoresByStrategy();
+  const total = copeland.getScoresTotal();
+
+  const rowSums = scoresByStrategy.map((row) =>
+    row.reduce((sum, cell) => sum + cell, 0)
+  );
+
+  // The divergence is real: at least one choice's columns do not sum to its
+  // headline (this is inherent Copeland nonlinearity across strategies, not a bug).
+  const diverges = scores.some(
+    (headline, i) => Math.abs(rowSums[i] - headline) > 1e-6
+  );
+  expect(diverges).toBe(true);
+
+  // Totals are still preserved on both views: headline and per-strategy columns
+  // each redistribute exactly the total voting power.
+  const headlineTotal = scores.reduce((sum, s) => sum + s, 0);
+  const strategyGrandTotal = rowSums.reduce((sum, s) => sum + s, 0);
+  expect(headlineTotal).toBeCloseTo(total, 8);
+  expect(strategyGrandTotal).toBeCloseTo(total, 8);
 });

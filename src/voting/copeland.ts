@@ -230,9 +230,10 @@ export default class CopelandVoting {
       }
     }
 
-    // Break ties by Average Support per strategy column, applying the same
-    // 0.5 * averageSupport bonus as getScores so that, per choice, the strategy
-    // columns sum back to the headline getScores value.
+    // Break ties by Average Support per strategy column, mirroring the getScores
+    // bonus. The columns sum back to the headline getScores value only when
+    // strategies are sign-collinear (none flips a pairwise sign vs the total);
+    // Copeland is otherwise nonlinear across strategies.
     const matchupsPerChoice = choicesCount - 1;
     if (matchupsPerChoice > 0) {
       for (
