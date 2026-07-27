@@ -3,6 +3,8 @@ import { Contract } from '@ethersproject/contracts';
 import { getAddress, isAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
 import { namehash, ensNormalize } from '@ethersproject/hash';
+import { Interface } from '@ethersproject/abi';
+import { hexlify, concat } from '@ethersproject/bytes';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
@@ -39,10 +41,23 @@ const MUTED_ERRORS = [
   'UNSUPPORTED_OPERATION'
 ];
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
-const ENS_ABI = [
-  'function text(bytes32 node, string calldata key) external view returns (string memory)',
-  'function resolver(bytes32 node) view returns (address)' // ENS registry ABI
+const UNIVERSAL_RESOLVER_ADDRESS =
+  '0xeEeEEEeE14D718C2B47D9923Deab1335E144EeEe';
+const UNIVERSAL_RESOLVER_ABI = [
+  'error ResolverNotFound(bytes name)',
+  'error ResolverNotContract(bytes name, address resolver)',
+  'error UnsupportedResolverProfile(bytes4 selector)',
+  'error ResolverError(bytes errorData)',
+  'error ReverseAddressMismatch(string primary, bytes primaryAddress)',
+  'error HttpError(uint16 status, string message)',
+  'function resolve(bytes name, bytes data) view returns (bytes result, address resolver)',
+  'function findOwner(bytes name) view returns (address owner)'
 ];
+const RESOLVER_ABI = [
+  'function text(bytes32 node, string key) view returns (string)',
+  'function addr(bytes32 node) view returns (address)'
+];
+const resolverInterface = new Interface(RESOLVER_ABI);
 const UD_MAPPING = {
   '146': {
     tlds: ['.sonic'],
@@ -225,6 +240,43 @@ function getDomainType(domain: string): DomainType {
   else if (tokens.length > 2) return 'subdomain';
   else if (isEns) return 'ens';
   else throw new Error('Invalid domain');
+}
+
+function dnsEncodeName(name: string): string {
+  const normalized = ensNormalize(name);
+  const labels = normalized.split('.');
+  const encodedLabels = labels.map((label) => {
+    if (!label.length || label.length > 63) {
+      throw new Error(`Invalid ENS label: ${label}`);
+    }
+    const labelBytes = new TextEncoder().encode(label);
+    return concat([Uint8Array.from([labelBytes.length]), labelBytes]);
+  });
+  return hexlify(concat([...encodedLabels, new Uint8Array([0])]));
+}
+
+function getUniversalResolverAddress(network: string, options: any = {}) {
+  return (
+    options.ensUniversalResolver ||
+    networks[network]?.ensUniversalResolver ||
+    UNIVERSAL_RESOLVER_ADDRESS
+  );
+}
+
+async function unwrapNameWrapperOwner(
+  owner: string,
+  ensHash: string,
+  ensNameWrapper: string,
+  provider: any
+): Promise<string> {
+  if (owner !== ensNameWrapper) return owner;
+
+  const ensNameWrapperContract = new Contract(
+    ensNameWrapper,
+    ['function ownerOf(uint256) view returns (address)'],
+    provider
+  );
+  return ensNameWrapperContract.ownerOf(ensHash);
 }
 
 // see https://docs.ens.domains/registry/dns#gasless-import
@@ -615,42 +667,38 @@ export async function getEnsTextRecord(
   network = '1',
   options: any = {}
 ) {
-  const {
-    ensResolvers = networks[network]?.ensResolvers ||
-      networks['1'].ensResolvers,
-    broviderUrl,
-    ...multicallOptions
-  } = options;
+  const { broviderUrl } = options;
 
   let ensHash: string;
+  let dnsEncodedName: string;
 
   try {
-    ensHash = namehash(ensNormalize(ens));
+    const normalized = ensNormalize(ens);
+    ensHash = namehash(normalized);
+    dnsEncodedName = dnsEncodeName(normalized);
   } catch (e: any) {
     return null;
   }
 
   const provider = getProvider(network, { broviderUrl });
+  const universalResolver = new Contract(
+    getUniversalResolverAddress(network, options),
+    UNIVERSAL_RESOLVER_ABI,
+    provider
+  );
 
-  const calls = [
-    [ENS_REGISTRY, 'resolver', [ensHash]], // Query for resolver from registry
-    ...ensResolvers.map((address: string) => [
-      address,
-      'text',
-      [ensHash, record]
-    ]) // Query for text record from each resolver
-  ];
-
-  const [[resolverAddress], ...textRecords] = (await multicall(
-    network,
-    provider,
-    ENS_ABI,
-    calls,
-    multicallOptions
-  )) as string[][];
-
-  const resolverIndex = ensResolvers.indexOf(resolverAddress);
-  return resolverIndex !== -1 ? textRecords[resolverIndex]?.[0] : null;
+  try {
+    const data = resolverInterface.encodeFunctionData('text', [
+      ensHash,
+      record
+    ]);
+    const [result] = await universalResolver.resolve(dnsEncodedName, data, {
+      ccipReadEnabled: true
+    });
+    return resolverInterface.decodeFunctionResult('text', result)[0];
+  } catch (e: any) {
+    return null;
+  }
 }
 
 export async function getSpaceUri(
@@ -671,7 +719,7 @@ export async function getEnsOwner(
   network = '1',
   options: any = {}
 ): Promise<string> {
-  if (!networks[network]?.ensResolvers?.length) {
+  if (!networks[network]?.ensUniversalResolver) {
     throw new Error('Network not supported');
   }
 
@@ -684,24 +732,47 @@ export async function getEnsOwner(
   );
 
   let ensHash: string;
+  let dnsEncodedName: string;
 
   try {
-    ensHash = namehash(ensNormalize(ens));
+    const normalized = ensNormalize(ens);
+    ensHash = namehash(normalized);
+    dnsEncodedName = dnsEncodeName(normalized);
   } catch (e: any) {
     return EMPTY_ADDRESS;
   }
 
   const ensNameWrapper =
     options.ensNameWrapper || networks[network].ensNameWrapper;
-  let owner = await ensRegistry.owner(ensHash);
-  // If owner is the ENSNameWrapper contract, resolve the owner of the name
-  if (owner === ensNameWrapper) {
-    const ensNameWrapperContract = new Contract(
+  const universalResolver = new Contract(
+    getUniversalResolverAddress(network, options),
+    UNIVERSAL_RESOLVER_ABI,
+    provider
+  );
+
+  let owner = EMPTY_ADDRESS;
+
+  // Prefer Universal Resolver findOwner (ENSv2); fall back when unavailable
+  try {
+    owner = await universalResolver.findOwner(dnsEncodedName);
+    owner = await unwrapNameWrapperOwner(
+      owner,
+      ensHash,
       ensNameWrapper,
-      ['function ownerOf(uint256) view returns (address)'],
       provider
     );
-    owner = await ensNameWrapperContract.ownerOf(ensHash);
+  } catch (e: any) {
+    owner = EMPTY_ADDRESS;
+  }
+
+  if (!owner || owner === EMPTY_ADDRESS) {
+    owner = await ensRegistry.owner(ensHash);
+    owner = await unwrapNameWrapperOwner(
+      owner,
+      ensHash,
+      ensNameWrapper,
+      provider
+    );
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
