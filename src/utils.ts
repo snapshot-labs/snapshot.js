@@ -239,13 +239,18 @@ function dnsEncodeName(name: string): Hex {
   const normalized = normalize(name);
   const labels = normalized.split('.');
   const encodedLabels = labels.map((label) => {
-    if (!label.length || label.length > 63) {
+    // DNS limits are in bytes, not characters
+    const labelBytes = stringToBytes(label);
+    if (!labelBytes.length || labelBytes.length > 63) {
       throw new Error(`Invalid ENS label: ${label}`);
     }
-    const labelBytes = stringToBytes(label);
     return concat([Uint8Array.from([labelBytes.length]), labelBytes]);
   });
-  return toHex(concat([...encodedLabels, new Uint8Array([0])]));
+  const encoded = concat([...encodedLabels, new Uint8Array([0])]);
+  if (encoded.length > 255) {
+    throw new Error(`DNS-encoded name exceeds 255 bytes: ${name}`);
+  }
+  return toHex(encoded);
 }
 
 function getUniversalResolverAddress(
@@ -265,7 +270,8 @@ async function unwrapNameWrapperOwner(
   ensNameWrapper: string,
   client: PublicClient
 ): Promise<string> {
-  if (owner !== ensNameWrapper) return owner;
+  if (!ensNameWrapper || owner.toLowerCase() !== ensNameWrapper.toLowerCase())
+    return owner;
 
   return await client.readContract({
     address: ensNameWrapper as Address,
@@ -663,8 +669,6 @@ export async function getEnsTextRecord(
   network = '1',
   options: any = {}
 ) {
-  const { broviderUrl } = options;
-
   let normalized: string;
 
   try {
@@ -674,7 +678,7 @@ export async function getEnsTextRecord(
     return null;
   }
 
-  const client = getViemClient(network, { broviderUrl });
+  const client = getViemClient(network, options);
 
   try {
     return await client.getEnsText({
@@ -779,15 +783,14 @@ export async function getEnsOwner(
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
-    try {
-      owner =
-        (await client.getEnsAddress({
-          name: normalized,
-          universalResolverAddress
-        })) || EMPTY_ADDRESS;
-    } catch (e: any) {
-      owner = EMPTY_ADDRESS;
-    }
+    // viem returns null for unresolvable names (non-strict mode), so only
+    // genuine transport/RPC failures throw — let those propagate instead of
+    // silently reporting the name as unowned
+    owner =
+      (await client.getEnsAddress({
+        name: normalized,
+        universalResolverAddress
+      })) || EMPTY_ADDRESS;
   }
 
   return owner || EMPTY_ADDRESS;
