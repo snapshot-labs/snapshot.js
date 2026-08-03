@@ -1,5 +1,18 @@
 import { num, RpcProvider, shortString, transaction, uint256 } from 'starknet';
 
+function decodeFelt252(rawValue: string): string {
+  try {
+    const decoded = shortString.decodeShortString(rawValue);
+
+    return num.toBigInt(shortString.encodeShortString(decoded)) ===
+      num.toBigInt(rawValue)
+      ? decoded
+      : rawValue;
+  } catch {
+    return rawValue;
+  }
+}
+
 /**
  * Parses the raw result from a Starknet function call based on its ABI.
  * It handles different types like felt252, u8, u256, etc., and decodes them accordingly.
@@ -29,13 +42,21 @@ function parseStarknetResult(rawResult: string[], functionAbi: any): any {
 
       switch (output.type) {
         case 'core::felt252':
-          try {
-            results.push(shortString.decodeShortString(rawValue));
-          } catch {
-            results.push(rawValue);
-          }
+          results.push(decodeFelt252(rawValue));
           rawIndex++;
           break;
+        case 'core::array::Span::<core::felt252>':
+        case 'core::array::Array::<core::felt252>': {
+          const length = Number(num.toBigInt(rawValue));
+
+          results.push(
+            rawResult
+              .slice(rawIndex + 1, rawIndex + 1 + length)
+              .map((item) => decodeFelt252(item))
+          );
+          rawIndex += 1 + length;
+          break;
+        }
         case 'core::integer::u8':
         case 'core::integer::u16':
         case 'core::integer::u32':
