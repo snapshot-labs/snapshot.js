@@ -47,6 +47,16 @@ function parseStarknetResult(rawResult: string[], functionAbi: any): any {
           break;
         case 'core::array::Span::<core::felt252>':
         case 'core::array::Array::<core::felt252>': {
+          if (rawValue === undefined) {
+            // The response ran out before this output. Degrade like every
+            // other case does rather than throwing out of the loop, which
+            // would discard the outputs already parsed. Not `[]`, which a
+            // caller cannot tell from a genuinely empty span.
+            results.push(undefined);
+            rawIndex++;
+            break;
+          }
+
           const length = Number(num.toBigInt(rawValue));
 
           // Span items are opaque: only the caller knows whether they hold

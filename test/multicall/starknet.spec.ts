@@ -113,6 +113,29 @@ describe('multicall/starknet', () => {
       expect(result).toEqual([['0xb5b47279a7f0c', '0x15d246f6c1b']]);
     });
 
+    it('leaves the span slot empty rather than discarding the outputs already parsed', async () => {
+      const result = await parse(
+        [
+          {
+            name: 'get_owner_and_domain',
+            outputs: [
+              { type: 'core::starknet::contract_address::ContractAddress' },
+              { type: 'core::integer::u8' },
+              { type: 'core::bool' },
+              { type: 'core::array::Span::<core::felt252>' }
+            ]
+          }
+        ],
+        'get_owner_and_domain',
+        ['0xabc', '0x5', '0x1']
+      );
+
+      // `undefined`, not `[]`: a caller cannot tell an empty span from a
+      // missing one, and an empty span is a real answer here (an address
+      // with no domain).
+      expect(result).toStrictEqual(['0xabc', 5, true, undefined]);
+    });
+
     it('returns the raw felts instead of throwing when the length felt is not a number', async () => {
       const result = await parse(abi, 'address_to_domain', [
         'not-a-felt',
