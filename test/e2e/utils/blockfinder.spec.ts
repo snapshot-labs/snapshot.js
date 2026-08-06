@@ -12,7 +12,7 @@ describe('Test block finder', () => {
       '137': 45609596,
       '11155111': 3979201
     });
-  });
+  }, 30000);
   test('getSnapshots should return all latest if snapshot is latest', async () => {
     expect(
       await getSnapshots('1', 'latest', provider, ['11155111', '137'])
@@ -20,5 +20,5 @@ describe('Test block finder', () => {
       '137': 'latest',
       '11155111': 'latest'
     });
-  });
+  }, 30000);
 });
