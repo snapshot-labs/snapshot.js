@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { parse } from './starknet-stub';
 
-describe('multicall/starknet', () => {
+describe('multicall/starknet decoding', () => {
   describe('parsing felt252 outputs', () => {
     const abi = [
       {
