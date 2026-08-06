@@ -49,11 +49,9 @@ function parseStarknetResult(rawResult: string[], functionAbi: any): any {
         case 'core::array::Array::<core::felt252>': {
           const length = Number(num.toBigInt(rawValue));
 
-          results.push(
-            rawResult
-              .slice(rawIndex + 1, rawIndex + 1 + length)
-              .map((item) => decodeFelt252(item))
-          );
+          // Span items are opaque: only the caller knows whether they hold
+          // text, so they are returned as raw felts.
+          results.push(rawResult.slice(rawIndex + 1, rawIndex + 1 + length));
           rawIndex += 1 + length;
           break;
         }

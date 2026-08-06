@@ -47,7 +47,7 @@ describe('multicall/starknet', () => {
         ['0x2', '0x55534420436f696e', '0xb5b47279a7f0c']
       );
 
-      expect(result).toEqual([['USD Coin', '0xb5b47279a7f0c']]);
+      expect(result).toEqual([['0x55534420436f696e', '0xb5b47279a7f0c']]);
     });
 
     it('keeps parsing the outputs that follow a span', async () => {

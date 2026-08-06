@@ -30,7 +30,7 @@ describe('multicall/starknet', () => {
   });
 
   describe('parsing felt252 items inside a sequence', () => {
-    it('decodes each item of a Span on its own', async () => {
+    it('leaves every item of a Span raw, including one that holds a short string', async () => {
       const result = await parse(
         [
           {
@@ -42,10 +42,12 @@ describe('multicall/starknet', () => {
         ['0x3', '0x55534420436f696e', '0x5553444', '0xb5b47279a7f0c']
       );
 
-      expect(result).toEqual([['USD Coin', '0x5553444', '0xb5b47279a7f0c']]);
+      expect(result).toEqual([
+        ['0x55534420436f696e', '0x5553444', '0xb5b47279a7f0c']
+      ]);
     });
 
-    it('decodes each item of an Array on its own', async () => {
+    it('leaves every item of an Array raw, including one that holds a short string', async () => {
       const result = await parse(
         [
           {
@@ -57,7 +59,29 @@ describe('multicall/starknet', () => {
         ['0x3', '0xb5b47279a7f0c', '0x737461726b', '0x5553444']
       );
 
-      expect(result).toEqual([['0xb5b47279a7f0c', 'stark', '0x5553444']]);
+      expect(result).toEqual([
+        ['0xb5b47279a7f0c', '0x737461726b', '0x5553444']
+      ]);
+    });
+
+    it('keeps a span item convertible back to a felt when every byte is printable', async () => {
+      // 0x204d4e is the starknet.id encoding of abwab.stark. Decoding it as a
+      // short string gives ' MN', which BigInt() cannot read back.
+      const result = await parse(
+        [
+          {
+            name: 'address_to_domain',
+            outputs: [{ type: 'core::array::Span::<core::felt252>' }]
+          }
+        ],
+        'address_to_domain',
+        ['0x1', '0x204d4e']
+      );
+
+      expect(result).toEqual([['0x204d4e']]);
+      expect((result as string[][])[0].map(BigInt)).toEqual([
+        BigInt('0x204d4e')
+      ]);
     });
   });
 });
