@@ -136,6 +136,28 @@ describe('multicall/starknet', () => {
       expect(result).toStrictEqual(['0xabc', 5, true, undefined]);
     });
 
+    it('leaves a missing felt252 slot undefined', async () => {
+      // The parity the span guard above is measured against. It rests on
+      // `decodeFelt252(undefined)` falling through its `catch`, which is not
+      // obvious from the helper and which a later change to it could quietly
+      // break. Passes on master too, deliberately.
+      const result = await parse(
+        [
+          {
+            name: 'get_owner_and_name',
+            outputs: [
+              { type: 'core::starknet::contract_address::ContractAddress' },
+              { type: 'core::felt252' }
+            ]
+          }
+        ],
+        'get_owner_and_name',
+        ['0xabc']
+      );
+
+      expect(result).toStrictEqual(['0xabc', undefined]);
+    });
+
     it('returns the raw felts instead of throwing when the length felt is not a number', async () => {
       const result = await parse(abi, 'address_to_domain', [
         'not-a-felt',
