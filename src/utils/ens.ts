@@ -3,6 +3,7 @@ import { getAddress } from '@ethersproject/address';
 import { namehash, ensNormalize } from '@ethersproject/hash';
 import getProvider from './provider';
 import { multicall } from '../multicall';
+import { fetch } from '../utils';
 import networks from '../networks.json';
 
 type DomainType = 'ens' | 'tld' | 'other-tld' | 'subdomain';
