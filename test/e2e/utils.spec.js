@@ -5,10 +5,26 @@ import {
   getUDNameOwner,
   getSpaceController
 } from '../../src/utils';
+import { getViemClient } from '../../src/utils/provider';
 
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
+const ENS_UNIVERSAL_RESOLVER = '0xeEeEEEeE14D718C2B47D9923Deab1335E144EeEe';
 
 describe('utils', () => {
+  // See https://docs.ens.domains/web/ensv2-readiness/
+  // 0x1111...1111 would mean resolution bypasses the Universal Resolver
+  describe('ENSv2 readiness', () => {
+    test('resolve names through the Universal Resolver', async () => {
+      const client = getViemClient('1');
+      await expect(
+        client.getEnsAddress({
+          name: 'ur.integration-tests.eth',
+          universalResolverAddress: ENS_UNIVERSAL_RESOLVER
+        })
+      ).resolves.toBe('0x2222222222222222222222222222222222222222');
+    });
+  });
+
   describe('getSpaceController', () => {
     test('return the controller address for mainnet', async () => {
       await expect(getSpaceController('psydao.eth', '1')).resolves.toBe(

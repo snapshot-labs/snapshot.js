@@ -1,5 +1,6 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { RpcProvider } from 'starknet';
+import { createPublicClient, http, PublicClient } from 'viem';
 import networks from '../networks.json';
 
 export interface ProviderOptions {
@@ -71,6 +72,31 @@ export default function getProvider(
 
   providerMemo.set(memoKey, provider);
   return provider;
+}
+
+const viemClientMemo = new Map<string, PublicClient>();
+
+export function getViemClient(
+  network: string | number,
+  options: ProviderOptions = {}
+): PublicClient {
+  const networkId = getBroviderNetworkId(network);
+  const normalizedOptions = normalizeOptions(options);
+  const memoKey = createMemoKey(networkId, normalizedOptions);
+
+  const memoized = viemClientMemo.get(memoKey);
+  if (memoized) {
+    return memoized;
+  }
+
+  const client = createPublicClient({
+    transport: http(`${normalizedOptions.broviderUrl}/${networkId}`, {
+      timeout: normalizedOptions.timeout
+    })
+  });
+
+  viemClientMemo.set(memoKey, client);
+  return client;
 }
 
 function getEvmProvider(

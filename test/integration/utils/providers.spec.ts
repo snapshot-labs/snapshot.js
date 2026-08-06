@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import getProvider from '../../../src/utils/provider';
+import getProvider, { getViemClient } from '../../../src/utils/provider';
 import { RpcProvider } from 'starknet';
 
 describe('test providers', () => {
@@ -72,6 +72,36 @@ describe('test providers', () => {
       expect(ethProvider).not.toBe(bscProvider);
       expect(ethProvider).not.toBe(starknetProvider);
       expect(bscProvider).not.toBe(starknetProvider);
+    });
+  });
+
+  describe('getViemClient()', () => {
+    test('should return a client for EVM networks', async () => {
+      expect(getViemClient('1').getChainId()).resolves.toBe(1);
+    });
+
+    test('should accept a network param as number', async () => {
+      expect(getViemClient(1).getChainId()).resolves.toBe(1);
+    });
+
+    test('should throw an error for unsupported networks', () => {
+      expect(() => getViemClient('0x123')).toThrowError(
+        "Network '0x123' is not supported"
+      );
+    });
+
+    test('should create different instances for different options', () => {
+      const client1 = getViemClient('1');
+      const client2 = getViemClient('1', { timeout: 30000 });
+      const client3 = getViemClient('1', { broviderUrl: 'https://custom.rpc' });
+
+      expect(client1).not.toBe(client2);
+      expect(client1).not.toBe(client3);
+      expect(client2).not.toBe(client3);
+    });
+
+    test('should create separate instances for different networks', () => {
+      expect(getViemClient('1')).not.toBe(getViemClient('56'));
     });
   });
 
