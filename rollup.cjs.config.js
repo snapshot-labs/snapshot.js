@@ -4,7 +4,10 @@ import { string } from 'rollup-plugin-string';
 import pkg from './package.json';
 
 const input = 'src/index.ts';
-const external = [...Object.keys(pkg.dependencies || {})];
+const dependencies = [...Object.keys(pkg.dependencies || {})];
+// match subpath imports too (e.g. viem/ens)
+const external = (id) =>
+  dependencies.some((dep) => id === dep || id.startsWith(`${dep}/`));
 
 export default [
   {
