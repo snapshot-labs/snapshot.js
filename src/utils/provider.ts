@@ -80,6 +80,10 @@ export function getViemClient(
   network: string | number,
   options: ProviderOptions = {}
 ): PublicClient {
+  if (getProviderType(network) !== 'evm') {
+    throw new Error(`Network '${network}' is not supported`);
+  }
+
   const networkId = getBroviderNetworkId(network);
   const normalizedOptions = normalizeOptions(options);
   const memoKey = createMemoKey(networkId, normalizedOptions);

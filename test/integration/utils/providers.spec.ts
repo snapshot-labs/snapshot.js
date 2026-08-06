@@ -90,6 +90,21 @@ describe('test providers', () => {
       );
     });
 
+    test('should throw an error for non-EVM networks', () => {
+      expect(() => getViemClient('0x534e5f4d41494e')).toThrowError(
+        "Network '0x534e5f4d41494e' is not supported"
+      );
+    });
+
+    test('should memoize clients with same network and options', () => {
+      const client1 = getViemClient('1');
+      const client2 = getViemClient('1');
+      const client3 = getViemClient(1); // Different type but same network
+
+      expect(client1).toBe(client2);
+      expect(client1).toBe(client3);
+    });
+
     test('should create different instances for different options', () => {
       const client1 = getViemClient('1');
       const client2 = getViemClient('1', { timeout: 30000 });
