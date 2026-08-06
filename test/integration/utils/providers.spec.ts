@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import getProvider, { getViemClient } from '../../../src/utils/provider';
+import getProvider from '../../../src/utils/provider';
+import { getViemClient } from '../../../src/utils/viem';
 import { RpcProvider } from 'starknet';
 
 describe('test providers', () => {

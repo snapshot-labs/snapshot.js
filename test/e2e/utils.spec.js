@@ -5,7 +5,7 @@ import {
   getUDNameOwner,
   getSpaceController
 } from '../../src/utils';
-import { getViemClient } from '../../src/utils/provider';
+import { getViemClient } from '../../src/utils/viem';
 
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 const ENS_UNIVERSAL_RESOLVER = '0xeEeEEEeE14D718C2B47D9923Deab1335E144EeEe';

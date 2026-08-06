@@ -1,6 +1,5 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
 import { RpcProvider } from 'starknet';
-import { createPublicClient, http, PublicClient } from 'viem';
 import networks from '../networks.json';
 
 export interface ProviderOptions {
@@ -10,7 +9,7 @@ export interface ProviderOptions {
 
 type ProviderInstance = StaticJsonRpcProvider | RpcProvider;
 
-type ProviderType = 'evm' | 'starknet';
+export type ProviderType = 'evm' | 'starknet';
 
 const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org' as const;
 const DEFAULT_TIMEOUT = 25000 as const;
@@ -25,7 +24,7 @@ const providerFnMap: Record<
   starknet: getStarknetProvider
 };
 
-function normalizeOptions(
+export function normalizeOptions(
   options: ProviderOptions = {}
 ): Required<ProviderOptions> {
   return {
@@ -34,7 +33,7 @@ function normalizeOptions(
   };
 }
 
-function getBroviderNetworkId(network: string | number): string {
+export function getBroviderNetworkId(network: string | number): string {
   const config = networks[network];
   if (!config) {
     throw new Error(`Network '${network}' is not supported`);
@@ -42,11 +41,11 @@ function getBroviderNetworkId(network: string | number): string {
   return config.broviderId || String(network);
 }
 
-function getProviderType(network: string | number): ProviderType {
+export function getProviderType(network: string | number): ProviderType {
   return networks[network]?.starknet ? 'starknet' : 'evm';
 }
 
-function createMemoKey(
+export function createMemoKey(
   networkId: string,
   options: Required<ProviderOptions>
 ): string {
@@ -72,35 +71,6 @@ export default function getProvider(
 
   providerMemo.set(memoKey, provider);
   return provider;
-}
-
-const viemClientMemo = new Map<string, PublicClient>();
-
-export function getViemClient(
-  network: string | number,
-  options: ProviderOptions = {}
-): PublicClient {
-  if (getProviderType(network) !== 'evm') {
-    throw new Error(`Network '${network}' is not supported`);
-  }
-
-  const networkId = getBroviderNetworkId(network);
-  const normalizedOptions = normalizeOptions(options);
-  const memoKey = createMemoKey(networkId, normalizedOptions);
-
-  const memoized = viemClientMemo.get(memoKey);
-  if (memoized) {
-    return memoized;
-  }
-
-  const client = createPublicClient({
-    transport: http(`${normalizedOptions.broviderUrl}/${networkId}`, {
-      timeout: normalizedOptions.timeout
-    })
-  });
-
-  viemClientMemo.set(memoKey, client);
-  return client;
 }
 
 function getEvmProvider(
