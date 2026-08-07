@@ -1,5 +1,6 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
-import { RpcProvider } from 'starknet';
+import crossFetch from 'cross-fetch';
+import { LibraryError, RpcProvider, RpcProviderOptions } from 'starknet';
 import networks from '../networks.json';
 
 export interface ProviderOptions {
@@ -87,11 +88,56 @@ function getEvmProvider(
   );
 }
 
+type BaseFetch = NonNullable<RpcProviderOptions['baseFetch']>;
+
+// starknet.js v6 has no timeout option, and its RpcChannel calls `baseFetch`
+// with no signal of its own, so bounding the fetch is the only way to bound a
+// request. Without this a node that accepts the connection but never answers
+// hangs until the runtime's own ceiling (~300s on undici), and a hang is not
+// contained by a caller's try/catch the way a throw is.
+//
+// AbortController + setTimeout rather than `AbortSignal.timeout`, which needs
+// Safari 16 / Firefox 100: this is what the `fetch` helper in ../utils already
+// does, so the browser bundle keeps the floor it has today. That helper cannot
+// be reused here, ../utils imports this module.
+export function withTimeout(baseFetch: BaseFetch, timeout: number): BaseFetch {
+  if (timeout <= 0) return baseFetch;
+
+  return async (url, init) => {
+    const controller = new AbortController();
+    let timedOut = false;
+    const timer = setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+    }, timeout);
+
+    try {
+      return await baseFetch(url, { ...init, signal: controller.signal });
+    } catch (e) {
+      if (!timedOut) throw e;
+
+      // RpcChannel#errorHandler re-throws anything that is not a LibraryError
+      // as a bare `Error(message)`, which drops own properties, so `code` only
+      // survives on a LibraryError. `TIMEOUT` is the code ethers puts on the
+      // EVM provider's timeout, so both providers now fail the same way.
+      throw Object.assign(
+        new LibraryError(`Request timeout after ${timeout}ms`),
+        {
+          code: 'TIMEOUT'
+        }
+      );
+    } finally {
+      clearTimeout(timer);
+    }
+  };
+}
+
 function getStarknetProvider(
   networkKey: string,
   options: Required<ProviderOptions>
 ): RpcProvider {
   return new RpcProvider({
-    nodeUrl: `${options.broviderUrl}/${networkKey}`
+    nodeUrl: `${options.broviderUrl}/${networkKey}`,
+    baseFetch: withTimeout(crossFetch, options.timeout)
   });
 }

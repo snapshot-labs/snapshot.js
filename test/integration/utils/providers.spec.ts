@@ -1,7 +1,11 @@
-import { describe, expect, test } from 'vitest';
-import getProvider from '../../../src/utils/provider';
+import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
+import { AddressInfo, createServer, Server, Socket } from 'net';
+import getProvider, { withTimeout } from '../../../src/utils/provider';
 import { getViemClient } from '../../../src/utils/viem';
 import { RpcProvider } from 'starknet';
+
+const STARKNET_NETWORK = '0x534e5f4d41494e';
+const DEFAULT_TIMEOUT = 25000;
 
 describe('test providers', () => {
   describe('getProvider()', () => {
@@ -223,5 +227,114 @@ describe('test providers', () => {
       expect(provider1.connection.timeout).toBe(15000);
       expect(provider1.connection.url).toContain('custom.snapshot.org');
     });
+  });
+});
+
+describe('Starknet provider timeout', () => {
+  // Accepts the connection and then never answers. This is the failure mode
+  // that matters: a refused connection fails fast on its own, a hung node does
+  // not, and starknet.js has no timeout of its own to fall back on.
+  let server: Server;
+  let sockets: Socket[] = [];
+  let broviderUrl: string;
+
+  beforeAll(async () => {
+    server = createServer((socket) => sockets.push(socket));
+    await new Promise<void>((resolve) =>
+      server.listen(0, '127.0.0.1', () => resolve())
+    );
+    broviderUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+  });
+
+  afterAll(async () => {
+    sockets.forEach((socket) => socket.destroy());
+    sockets = [];
+    await new Promise<void>((resolve) => server.close(() => resolve()));
+  });
+
+  test('rejects a hung request instead of hanging', async () => {
+    const provider = getProvider(STARKNET_NETWORK, {
+      broviderUrl,
+      timeout: 300
+    });
+    const start = Date.now();
+
+    await expect(provider.getSpecVersion()).rejects.toThrow(
+      'Request timeout after 300ms'
+    );
+
+    const elapsed = Date.now() - start;
+    expect(elapsed).toBeGreaterThanOrEqual(300);
+    expect(elapsed).toBeLessThan(3000);
+  });
+
+  test('rejects with the same error code as the EVM provider', async () => {
+    const provider = getProvider(STARKNET_NETWORK, {
+      broviderUrl,
+      timeout: 400
+    });
+
+    await expect(provider.getSpecVersion()).rejects.toMatchObject({
+      code: 'TIMEOUT'
+    });
+  });
+
+  test('applies the default timeout when none is passed', async () => {
+    // Fake only the timers this uses, so the pending socket is untouched and
+    // the suite does not sit here for the full 25s.
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+
+    try {
+      const provider = getProvider(STARKNET_NETWORK, { broviderUrl });
+      const assertion = expect(provider.getSpecVersion()).rejects.toThrow(
+        `Request timeout after ${DEFAULT_TIMEOUT}ms`
+      );
+
+      await vi.advanceTimersByTimeAsync(DEFAULT_TIMEOUT);
+      await assertion;
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+});
+
+describe('withTimeout()', () => {
+  const response = new Response('{}');
+
+  test('calls the wrapped fetch and preserves its init', async () => {
+    const baseFetch = vi.fn().mockResolvedValue(response);
+    const init = { method: 'POST', body: '{}', headers: { a: 'b' } };
+
+    await expect(
+      withTimeout(baseFetch, 1000)('https://rpc.test', init)
+    ).resolves.toBe(response);
+    expect(baseFetch).toHaveBeenCalledWith(
+      'https://rpc.test',
+      expect.objectContaining({ ...init, signal: expect.any(AbortSignal) })
+    );
+  });
+
+  test('returns the wrapped fetch untouched when the timeout is disabled', () => {
+    const baseFetch = vi.fn();
+
+    expect(withTimeout(baseFetch, 0)).toBe(baseFetch);
+  });
+
+  test('clears its timer so a resolved request holds nothing open', async () => {
+    const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
+    const baseFetch = vi.fn().mockResolvedValue(response);
+
+    await withTimeout(baseFetch, 1000)('https://rpc.test', {});
+
+    expect(clearTimeoutSpy).toHaveBeenCalled();
+    clearTimeoutSpy.mockRestore();
+  });
+
+  test('does not rewrite an error that is not its own timeout', async () => {
+    const baseFetch = vi.fn().mockRejectedValue(new Error('network down'));
+
+    await expect(
+      withTimeout(baseFetch, 1000)('https://rpc.test', {})
+    ).rejects.toThrow('network down');
   });
 });
