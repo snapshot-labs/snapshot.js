@@ -111,6 +111,15 @@ export function withTimeout(baseFetch: BaseFetch, timeout: number): BaseFetch {
       controller.abort();
     }, timeout);
 
+    // Compose with a caller's signal rather than replacing it, so an abort from
+    // above still cancels the request at once and arrives with its own reason
+    // instead of being held until the timeout. An engine that predates
+    // `abort(reason)` ignores the argument and still aborts.
+    const callerSignal = init?.signal;
+    const abortFromCaller = () => controller.abort(callerSignal?.reason);
+    if (callerSignal?.aborted) abortFromCaller();
+    else callerSignal?.addEventListener('abort', abortFromCaller);
+
     try {
       return await baseFetch(url, { ...init, signal: controller.signal });
     } catch (e) {
@@ -128,6 +137,7 @@ export function withTimeout(baseFetch: BaseFetch, timeout: number): BaseFetch {
       );
     } finally {
       clearTimeout(timer);
+      callerSignal?.removeEventListener('abort', abortFromCaller);
     }
   };
 }

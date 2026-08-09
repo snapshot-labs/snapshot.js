@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { AddressInfo, createServer, Server, Socket } from 'net';
+import crossFetch from 'cross-fetch';
 import getProvider, { withTimeout } from '../../../src/utils/provider';
 import { getViemClient } from '../../../src/utils/viem';
 import { RpcProvider } from 'starknet';
@@ -279,6 +280,22 @@ describe('Starknet provider timeout', () => {
     });
   });
 
+  test('lets a caller abort cancel a hung request before the timeout', async () => {
+    // The fetch we actually ship, against the same hung node: an abort from
+    // above has to reach the socket rather than sit behind the 5s timeout.
+    const caller = new AbortController();
+    const start = Date.now();
+    const request = withTimeout(crossFetch, 5000)(broviderUrl, {
+      method: 'POST',
+      body: '{}',
+      signal: caller.signal
+    });
+    setTimeout(() => caller.abort(), 50);
+
+    await expect(request).rejects.toMatchObject({ name: 'AbortError' });
+    expect(Date.now() - start).toBeLessThan(1000);
+  });
+
   test('applies the default timeout when none is passed', async () => {
     // Fake only the timers this uses, so the pending socket is untouched and
     // the suite does not sit here for the full 25s.
@@ -336,5 +353,57 @@ describe('withTimeout()', () => {
     await expect(
       withTimeout(baseFetch, 1000)('https://rpc.test', {})
     ).rejects.toThrow('network down');
+  });
+
+  // A fetch that settles only on an abort of the signal it was handed, up front
+  // or later, as a real fetch does. These fail if the caller's signal is
+  // dropped instead of composed.
+  const signalRespectingFetch = () =>
+    vi.fn((_url: any, init: RequestInit = {}) => {
+      const { signal } = init;
+      return new Promise<Response>((_resolve, reject) => {
+        if (signal?.aborted) return reject(signal.reason);
+        signal?.addEventListener('abort', () => reject(signal.reason));
+      });
+    });
+
+  test('rejects on a caller abort with the caller reason, not a timeout', async () => {
+    const caller = new AbortController();
+    const reason = new Error('caller gave up');
+    const request = withTimeout(signalRespectingFetch(), 30000)(
+      'https://rpc.test',
+      { signal: caller.signal }
+    );
+
+    caller.abort(reason);
+
+    await expect(request).rejects.toBe(reason);
+  });
+
+  test('aborts at once when the caller signal is already aborted', async () => {
+    const caller = new AbortController();
+    const reason = new Error('caller gave up first');
+    caller.abort(reason);
+
+    await expect(
+      withTimeout(signalRespectingFetch(), 30000)('https://rpc.test', {
+        signal: caller.signal
+      })
+    ).rejects.toBe(reason);
+  });
+
+  test('stops listening on the caller signal once the request settles', async () => {
+    const caller = new AbortController();
+    const removeEventListener = vi.spyOn(caller.signal, 'removeEventListener');
+    const baseFetch = vi.fn().mockResolvedValue(response);
+
+    await withTimeout(baseFetch, 1000)('https://rpc.test', {
+      signal: caller.signal
+    });
+
+    expect(removeEventListener).toHaveBeenCalledWith(
+      'abort',
+      expect.any(Function)
+    );
   });
 });
