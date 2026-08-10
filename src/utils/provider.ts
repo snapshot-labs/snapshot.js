@@ -98,34 +98,54 @@ export function withTimeout(baseFetch: BaseFetch, timeout: number): BaseFetch {
 
   return async (url, init) => {
     const controller = new AbortController();
+    const callerSignal = init?.signal;
+    const abortFromCaller = () => controller.abort(callerSignal?.reason);
     let timedOut = false;
+
+    const cleanup = () => {
+      clearTimeout(timer);
+      callerSignal?.removeEventListener('abort', abortFromCaller);
+    };
+    // Cleans up after itself: nothing else will if the body is never read.
     const timer = setTimeout(() => {
       timedOut = true;
       controller.abort();
+      cleanup();
     }, timeout);
 
-    const callerSignal = init?.signal;
-    const abortFromCaller = () => controller.abort(callerSignal?.reason);
+    // LibraryError specifically: RpcChannel#errorHandler re-throws anything
+    // else as a bare `Error(message)`, which would drop `code`.
+    const timeoutError = () =>
+      Object.assign(new LibraryError(`Request timeout after ${timeout}ms`), {
+        code: 'TIMEOUT'
+      });
+
     if (callerSignal?.aborted) abortFromCaller();
     else callerSignal?.addEventListener('abort', abortFromCaller);
 
+    let response: Response;
     try {
-      return await baseFetch(url, { ...init, signal: controller.signal });
+      response = await baseFetch(url, { ...init, signal: controller.signal });
     } catch (e) {
-      if (!timedOut) throw e;
-
-      // LibraryError specifically: RpcChannel#errorHandler re-throws anything
-      // else as a bare `Error(message)`, which would drop `code`.
-      throw Object.assign(
-        new LibraryError(`Request timeout after ${timeout}ms`),
-        {
-          code: 'TIMEOUT'
-        }
-      );
-    } finally {
-      clearTimeout(timer);
-      callerSignal?.removeEventListener('abort', abortFromCaller);
+      cleanup();
+      throw timedOut ? timeoutError() : e;
     }
+
+    // Resolving only means the headers arrived: RpcChannel reads the body
+    // afterwards with its own `.json()`, and node-fetch bounds neither the
+    // body stream nor the parse. Hold the deadline until that settles.
+    const json = response.json.bind(response);
+    response.json = async () => {
+      try {
+        return await json();
+      } catch (e) {
+        throw timedOut ? timeoutError() : e;
+      } finally {
+        cleanup();
+      }
+    };
+
+    return response;
   };
 }
 

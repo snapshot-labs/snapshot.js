@@ -235,21 +235,42 @@ describe('Starknet provider timeout', () => {
   // Accepts the connection and never answers; a refused connection would fail
   // fast on its own.
   let server: Server;
+  // Answers with complete headers and then never sends the body, the way a
+  // hung proxy that has already relayed upstream headers does.
+  let headersOnlyServer: Server;
   let sockets: Socket[] = [];
   let broviderUrl: string;
+  let headersOnlyUrl: string;
 
-  beforeAll(async () => {
-    server = createServer((socket) => sockets.push(socket));
+  const listen = async (server: Server): Promise<string> => {
     await new Promise<void>((resolve) =>
       server.listen(0, '127.0.0.1', () => resolve())
     );
-    broviderUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+    return `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+  };
+
+  beforeAll(async () => {
+    server = createServer((socket) => sockets.push(socket));
+    headersOnlyServer = createServer((socket) => {
+      sockets.push(socket);
+      socket.on('data', () =>
+        socket.write(
+          'HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: 24\r\n\r\n'
+        )
+      );
+    });
+    broviderUrl = await listen(server);
+    headersOnlyUrl = await listen(headersOnlyServer);
   });
 
   afterAll(async () => {
     sockets.forEach((socket) => socket.destroy());
     sockets = [];
-    await new Promise<void>((resolve) => server.close(() => resolve()));
+    await Promise.all(
+      [server, headersOnlyServer].map(
+        (s) => new Promise<void>((resolve) => s.close(() => resolve()))
+      )
+    );
   });
 
   test('rejects a hung request instead of hanging', async () => {
@@ -262,6 +283,23 @@ describe('Starknet provider timeout', () => {
     await expect(provider.getSpecVersion()).rejects.toThrow(
       'Request timeout after 300ms'
     );
+
+    const elapsed = Date.now() - start;
+    expect(elapsed).toBeGreaterThanOrEqual(300);
+    expect(elapsed).toBeLessThan(3000);
+  });
+
+  test('rejects when the body stalls after the headers arrive', async () => {
+    const provider = getProvider(STARKNET_NETWORK, {
+      broviderUrl: headersOnlyUrl,
+      timeout: 300
+    });
+    const start = Date.now();
+
+    await expect(provider.getSpecVersion()).rejects.toMatchObject({
+      message: 'Request timeout after 300ms',
+      code: 'TIMEOUT'
+    });
 
     const elapsed = Date.now() - start;
     expect(elapsed).toBeGreaterThanOrEqual(300);
@@ -311,9 +349,12 @@ describe('Starknet provider timeout', () => {
 });
 
 describe('withTimeout()', () => {
-  const response = new Response('{}');
+  // A fresh one per test: the deadline now clears when the body is read, so
+  // these tests consume it.
+  const jsonResponse = () => new Response('{}');
 
   test('calls the wrapped fetch and preserves its init', async () => {
+    const response = jsonResponse();
     const baseFetch = vi.fn().mockResolvedValue(response);
     const init = { method: 'POST', body: '{}', headers: { a: 'b' } };
 
@@ -332,14 +373,37 @@ describe('withTimeout()', () => {
     expect(withTimeout(baseFetch, 0)).toBe(baseFetch);
   });
 
-  test('clears its timer so a resolved request holds nothing open', async () => {
+  test('clears its timer so a read request holds nothing open', async () => {
     const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
-    const baseFetch = vi.fn().mockResolvedValue(response);
+    const baseFetch = vi.fn().mockResolvedValue(jsonResponse());
 
-    await withTimeout(baseFetch, 1000)('https://rpc.test', {});
+    const response = await withTimeout(baseFetch, 1000)('https://rpc.test', {});
+    expect(clearTimeoutSpy).not.toHaveBeenCalled();
+    await response.json();
 
     expect(clearTimeoutSpy).toHaveBeenCalled();
     clearTimeoutSpy.mockRestore();
+  });
+
+  test('maps a timeout during the body read, not just the headers', async () => {
+    // Stands in for node-fetch, whose body stream errors on the abort.
+    const baseFetch = vi.fn((_url: any, init: RequestInit = {}) =>
+      Promise.resolve({
+        json: () =>
+          new Promise((_resolve, reject) =>
+            init.signal?.addEventListener('abort', () =>
+              reject(init.signal?.reason)
+            )
+          )
+      } as unknown as Response)
+    );
+
+    const response = await withTimeout(baseFetch, 50)('https://rpc.test', {});
+
+    await expect(response.json()).rejects.toMatchObject({
+      message: 'Request timeout after 50ms',
+      code: 'TIMEOUT'
+    });
   });
 
   test('does not rewrite an error that is not its own timeout', async () => {
@@ -387,11 +451,12 @@ describe('withTimeout()', () => {
   test('stops listening on the caller signal once the request settles', async () => {
     const caller = new AbortController();
     const removeEventListener = vi.spyOn(caller.signal, 'removeEventListener');
-    const baseFetch = vi.fn().mockResolvedValue(response);
+    const baseFetch = vi.fn().mockResolvedValue(jsonResponse());
 
-    await withTimeout(baseFetch, 1000)('https://rpc.test', {
+    const response = await withTimeout(baseFetch, 1000)('https://rpc.test', {
       signal: caller.signal
     });
+    await response.json();
 
     expect(removeEventListener).toHaveBeenCalledWith(
       'abort',
