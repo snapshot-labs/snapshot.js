@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { AddressInfo, createServer, Server, Socket } from 'net';
-import { withTimeout } from '../../../src/utils/fetch';
+import { BODY_READERS, withTimeout } from '../../../src/utils/fetch';
 
 describe('withTimeout()', () => {
   // A fresh one per test: the deadline clears when the body is read, so these
@@ -121,7 +121,7 @@ describe('withTimeout()', () => {
   // The primitive advertises a plain `FetchLike`, so a caller is free to read
   // the body with any of these; the deadline and the error have to be the same
   // whichever one it picks.
-  test.each(['json', 'text', 'arrayBuffer', 'blob', 'formData'])(
+  test.each(BODY_READERS)(
     'maps the timeout for a caller reading the body with .%s()',
     async (reader) => {
       const timeoutError = () =>
