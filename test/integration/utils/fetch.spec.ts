@@ -118,6 +118,24 @@ describe('withTimeout()', () => {
     });
   });
 
+  // Derived from the runtime rather than from BODY_READERS, because the matrix
+  // below cannot see a reader the list forgot: `bytes` escaped the deadline
+  // that way. Everything on `Response.prototype` reads the body except these.
+  const NON_READERS = ['constructor', 'clone'];
+  const runtimeBodyReaders = Object.entries(
+    Object.getOwnPropertyDescriptors(Response.prototype)
+  )
+    .filter(
+      ([name, { value }]) =>
+        typeof value === 'function' && !NON_READERS.includes(name)
+    )
+    .map(([name]) => name);
+
+  test('covers every body reader the runtime exposes', () => {
+    expect(runtimeBodyReaders.length).toBeGreaterThan(0);
+    expect(BODY_READERS).toEqual(expect.arrayContaining(runtimeBodyReaders));
+  });
+
   // The primitive advertises a plain `FetchLike`, so a caller is free to read
   // the body with any of these; the deadline and the error have to be the same
   // whichever one it picks.
