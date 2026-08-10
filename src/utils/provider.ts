@@ -155,6 +155,10 @@ function getStarknetProvider(
 ): RpcProvider {
   return new RpcProvider({
     nodeUrl: `${options.broviderUrl}/${networkKey}`,
-    baseFetch: withTimeout(crossFetch, options.timeout)
+    // `undefined` leaves starknet its own transport (`baseFetch ?? ponyfill`):
+    // with no timeout to add, swapping in crossFetch would only cost the
+    // caller a transport and the ceiling that comes with the stock one.
+    baseFetch:
+      options.timeout > 0 ? withTimeout(crossFetch, options.timeout) : undefined
   });
 }

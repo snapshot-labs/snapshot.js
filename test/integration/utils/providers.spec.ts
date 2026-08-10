@@ -306,6 +306,13 @@ describe('Starknet provider timeout', () => {
     expect(elapsed).toBeLessThan(3000);
   });
 
+  test('leaves starknet its own transport when the timeout is disabled', () => {
+    const provider = getProvider(STARKNET_NETWORK, { broviderUrl, timeout: 0 });
+    const stock = new RpcProvider({ nodeUrl: broviderUrl }) as any;
+
+    expect(provider.channel.baseFetch).toBe(stock.channel.baseFetch);
+  });
+
   test('rejects with the same error code as the EVM provider', async () => {
     const provider = getProvider(STARKNET_NETWORK, {
       broviderUrl,
