@@ -358,23 +358,12 @@ describe('Starknet provider timeout', () => {
       broviderUrl,
       timeout: 400
     });
+    const request = provider.getSpecVersion();
 
-    await expect(provider.getSpecVersion()).rejects.toMatchObject({
-      code: 'TIMEOUT'
-    });
-  });
-
-  // A plain Error would come back out of RpcChannel#errorHandler stripped of
-  // `code`, so the class is what keeps the assertion above true.
-  test('rejects with a LibraryError, the only class that keeps the code', async () => {
-    const provider = getProvider(STARKNET_NETWORK, {
-      broviderUrl,
-      timeout: 400
-    });
-
-    await expect(provider.getSpecVersion()).rejects.toBeInstanceOf(
-      LibraryError
-    );
+    // A plain Error would come back out of RpcChannel#errorHandler stripped of
+    // `code`, so the class is what keeps the code assertion true.
+    await expect(request).rejects.toBeInstanceOf(LibraryError);
+    await expect(request).rejects.toMatchObject({ code: 'TIMEOUT' });
   });
 
   test('applies the default timeout when none is passed', async () => {
