@@ -101,7 +101,9 @@ type BaseFetch = NonNullable<RpcProviderOptions['baseFetch']>;
 // Not `AbortSignal.timeout`: it would raise the browser bundle's floor to
 // Safari 16.
 export function withTimeout(baseFetch: BaseFetch, timeout: number): BaseFetch {
-  // Without this, `setTimeout(..., 0)` aborts every request on the next tick.
+  // getStarknetProvider never calls in at 0, so this is the export's own
+  // precondition rather than a live path: without it, `setTimeout(..., 0)`
+  // would abort every request on the next tick.
   if (timeout <= 0) return baseFetch;
 
   return async (url, init) => {
