@@ -14,13 +14,15 @@ const defaultTimeoutError = (timeout: number) =>
 
 // Every body reader a `Response` may carry, patched only where it exists:
 // node-fetch 2 ships no `formData`, and a hand-rolled test double has only
-// the reader it needs.
-export const BODY_READERS: readonly (keyof Response)[] = [
+// the reader it needs. `bytes` is spelled out because TypeScript's DOM lib
+// does not carry it yet, though Node 22 does.
+export const BODY_READERS: readonly (keyof Response | 'bytes')[] = [
   'json',
   'text',
   'arrayBuffer',
   'blob',
-  'formData'
+  'formData',
+  'bytes'
 ];
 
 // Not `AbortSignal.timeout`: it would raise the browser bundle's floor to
