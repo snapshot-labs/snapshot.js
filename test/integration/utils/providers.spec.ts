@@ -232,9 +232,8 @@ describe('test providers', () => {
 });
 
 describe('Starknet provider timeout', () => {
-  // Accepts the connection and then never answers. This is the failure mode
-  // that matters: a refused connection fails fast on its own, a hung node does
-  // not, and starknet.js has no timeout of its own to fall back on.
+  // Accepts the connection and never answers; a refused connection would fail
+  // fast on its own.
   let server: Server;
   let sockets: Socket[] = [];
   let broviderUrl: string;
@@ -281,8 +280,6 @@ describe('Starknet provider timeout', () => {
   });
 
   test('lets a caller abort cancel a hung request before the timeout', async () => {
-    // The fetch we actually ship, against the same hung node: an abort from
-    // above has to reach the socket rather than sit behind the 5s timeout.
     const caller = new AbortController();
     const start = Date.now();
     const request = withTimeout(crossFetch, 5000)(broviderUrl, {
@@ -297,8 +294,6 @@ describe('Starknet provider timeout', () => {
   });
 
   test('applies the default timeout when none is passed', async () => {
-    // Fake only the timers this uses, so the pending socket is untouched and
-    // the suite does not sit here for the full 25s.
     vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
 
     try {
@@ -355,9 +350,6 @@ describe('withTimeout()', () => {
     ).rejects.toThrow('network down');
   });
 
-  // A fetch that settles only on an abort of the signal it was handed, up front
-  // or later, as a real fetch does. These fail if the caller's signal is
-  // dropped instead of composed.
   const signalRespectingFetch = () =>
     vi.fn((_url: any, init: RequestInit = {}) => {
       const { signal } = init;
