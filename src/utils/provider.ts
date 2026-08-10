@@ -28,9 +28,17 @@ const providerFnMap: Record<
 export function normalizeOptions(
   options: ProviderOptions = {}
 ): Required<ProviderOptions> {
+  const { timeout } = options;
+
   return {
     broviderUrl: options.broviderUrl || DEFAULT_BROVIDER_URL,
-    timeout: options.timeout ?? DEFAULT_TIMEOUT
+    // Not `??`: it passes `NaN` through (`Number()` of an unset env var), and
+    // `setTimeout(..., NaN)` fires on the next tick, aborting every request.
+    // Here rather than in `withTimeout`: ethers needs the same normalization.
+    timeout:
+      typeof timeout === 'number' && Number.isFinite(timeout) && timeout >= 0
+        ? timeout
+        : DEFAULT_TIMEOUT
   };
 }
 

@@ -1,7 +1,10 @@
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { AddressInfo, createServer, Server, Socket } from 'net';
 import crossFetch from 'cross-fetch';
-import getProvider, { withTimeout } from '../../../src/utils/provider';
+import getProvider, {
+  normalizeOptions,
+  withTimeout
+} from '../../../src/utils/provider';
 import { getViemClient } from '../../../src/utils/viem';
 import { RpcProvider } from 'starknet';
 
@@ -469,5 +472,18 @@ describe('withTimeout()', () => {
       'abort',
       expect.any(Function)
     );
+  });
+});
+
+describe('normalizeOptions()', () => {
+  test.each([
+    [undefined, DEFAULT_TIMEOUT],
+    [NaN, DEFAULT_TIMEOUT],
+    [Infinity, DEFAULT_TIMEOUT],
+    [-100, DEFAULT_TIMEOUT],
+    [0, 0],
+    [30000, 30000]
+  ])('normalizes a timeout of %s to %s', (timeout, expected) => {
+    expect(normalizeOptions({ timeout }).timeout).toBe(expected);
   });
 });
