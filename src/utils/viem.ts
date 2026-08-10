@@ -7,9 +7,9 @@ import {
   normalizeOptions
 } from './provider';
 
-// Kept out of ./provider on purpose: that module is loaded from the package
-// entry point, and a top-level viem import there would make every consumer
-// eagerly initialize viem (see the dist entry assertions in
+// Kept out of ./provider so non-ENS consumers of getProvider never pull in
+// viem; since ENS resolution routes through viem, the package entry points
+// do import it eagerly (asserted in
 // test/integration/utils/dist-entry.spec.ts)
 const viemClientMemo = new Map<string, PublicClient>();
 

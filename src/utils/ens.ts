@@ -1,8 +1,8 @@
 import { Contract } from '@ethersproject/contracts';
 import { getAddress } from '@ethersproject/address';
-import { namehash, ensNormalize } from '@ethersproject/hash';
+import { namehash, normalize } from 'viem/ens';
 import getProvider from './provider';
-import { multicall } from '../multicall';
+import { getViemClient } from './viem';
 import { fetch } from '../utils';
 import networks from '../networks.json';
 
@@ -16,10 +16,6 @@ const MUTED_ERRORS = [
   'UNSUPPORTED_OPERATION'
 ];
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
-const ENS_ABI = [
-  'function text(bytes32 node, string calldata key) external view returns (string memory)',
-  'function resolver(bytes32 node) view returns (address)' // ENS registry ABI
-];
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 function getDomainType(domain: string): DomainType {
@@ -67,42 +63,30 @@ export async function getEnsTextRecord(
   network = '1',
   options: any = {}
 ) {
-  const {
-    ensResolvers = networks[network]?.ensResolvers ||
-      networks['1'].ensResolvers,
-    broviderUrl,
-    ...multicallOptions
-  } = options;
-
-  let ensHash: string;
+  let normalized: string;
 
   try {
-    ensHash = namehash(ensNormalize(ens));
+    normalized = normalize(ens);
   } catch (e: any) {
     return null;
   }
 
-  const provider = getProvider(network, { broviderUrl });
+  const universalResolverAddress = networks[network]?.ensUniversalResolver;
 
-  const calls = [
-    [ENS_REGISTRY, 'resolver', [ensHash]], // Query for resolver from registry
-    ...ensResolvers.map((address: string) => [
-      address,
-      'text',
-      [ensHash, record]
-    ]) // Query for text record from each resolver
-  ];
+  if (!universalResolverAddress) {
+    throw new Error('Network not supported');
+  }
 
-  const [[resolverAddress], ...textRecords] = (await multicall(
-    network,
-    provider,
-    ENS_ABI,
-    calls,
-    multicallOptions
-  )) as string[][];
+  const client = getViemClient(network, options);
 
-  const resolverIndex = ensResolvers.indexOf(resolverAddress);
-  return resolverIndex !== -1 ? textRecords[resolverIndex]?.[0] : null;
+  // viem returns null for unresolvable names and resolver-level failures
+  // (including CCIP gateway errors, matching the previous behavior where
+  // offchain records were unreadable); RPC transport failures still throw
+  return await client.getEnsText({
+    name: normalized,
+    key: record,
+    universalResolverAddress
+  });
 }
 
 export async function getEnsOwner(
@@ -125,7 +109,7 @@ export async function getEnsOwner(
   let ensHash: string;
 
   try {
-    ensHash = namehash(ensNormalize(ens));
+    ensHash = namehash(normalize(ens));
   } catch (e: any) {
     return EMPTY_ADDRESS;
   }
