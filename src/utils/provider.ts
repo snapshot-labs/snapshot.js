@@ -13,7 +13,7 @@ type ProviderInstance = StaticJsonRpcProvider | RpcProvider;
 export type ProviderType = 'evm' | 'starknet';
 
 const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org' as const;
-const DEFAULT_TIMEOUT = 25000 as const;
+export const DEFAULT_TIMEOUT = 25000 as const;
 
 const providerMemo = new Map<string, ProviderInstance>();
 

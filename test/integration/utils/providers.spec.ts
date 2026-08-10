@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { AddressInfo, createServer, Server, Socket } from 'net';
 import crossFetch from 'cross-fetch';
 import getProvider, {
+  DEFAULT_TIMEOUT,
   normalizeOptions,
   withTimeout
 } from '../../../src/utils/provider';
@@ -9,7 +10,6 @@ import { getViemClient } from '../../../src/utils/viem';
 import { RpcProvider } from 'starknet';
 
 const STARKNET_NETWORK = '0x534e5f4d41494e';
-const DEFAULT_TIMEOUT = 25000;
 
 describe('test providers', () => {
   describe('getProvider()', () => {
