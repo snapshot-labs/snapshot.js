@@ -4,8 +4,8 @@ export type FetchLike = (
 ) => Promise<Response>;
 
 export interface WithTimeoutOptions {
-  // For callers whose stack constrains the error type, e.g. starknet's
-  // RpcChannel. The default is a plain `Error`.
+  // For callers whose stack constrains the error type. The default is a
+  // plain `Error`.
   timeoutError?: (timeout: number) => Error;
 }
 
@@ -15,7 +15,13 @@ const defaultTimeoutError = (timeout: number) =>
 // Every body reader a `Response` may carry, patched only where it exists:
 // node-fetch 2 ships no `formData`, and a hand-rolled test double has only
 // the reader it needs.
-const BODY_READERS = ['json', 'text', 'arrayBuffer', 'blob', 'formData'];
+export const BODY_READERS: readonly (keyof Response)[] = [
+  'json',
+  'text',
+  'arrayBuffer',
+  'blob',
+  'formData'
+];
 
 // Not `AbortSignal.timeout`: it would raise the browser bundle's floor to
 // Safari 16.
