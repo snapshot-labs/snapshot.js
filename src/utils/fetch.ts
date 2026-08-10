@@ -19,7 +19,9 @@ export function withTimeout(
   timeout: number,
   { timeoutError = defaultTimeoutError }: WithTimeoutOptions = {}
 ): FetchLike {
-  // Without this, `setTimeout(..., 0)` aborts every request on the next tick.
+  // A precondition of the primitive, not a live path: the only caller in this
+  // repo gates the install above 0. Without it, `setTimeout(..., 0)` would
+  // abort every request on the next tick.
   if (timeout <= 0) return fetchFn;
 
   return async (url, init) => {
