@@ -479,7 +479,10 @@ describe('normalizeOptions()', () => {
     [Infinity, DEFAULT_TIMEOUT],
     [-100, DEFAULT_TIMEOUT],
     [0, 0],
-    [30000, 30000]
+    [30000, 30000],
+    // Above this Node clamps the setTimeout delay to ~1ms.
+    [2_147_483_648, 2_147_483_647],
+    [3e9, 2_147_483_647]
   ])('normalizes a timeout of %s to %s', (timeout, expected) => {
     expect(normalizeOptions({ timeout }).timeout).toBe(expected);
   });

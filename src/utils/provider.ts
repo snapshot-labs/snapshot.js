@@ -36,7 +36,9 @@ export function normalizeOptions(
     // `setTimeout(..., NaN)` fires on the next tick, aborting every request.
     timeout:
       typeof timeout === 'number' && Number.isFinite(timeout) && timeout >= 0
-        ? timeout
+        ? // setTimeout's delay is a 32-bit signed int; above this Node
+          // silently clamps it to ~1ms instead of the requested duration.
+          Math.min(timeout, 2_147_483_647)
         : DEFAULT_TIMEOUT
   };
 }
