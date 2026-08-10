@@ -1,6 +1,5 @@
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { AddressInfo, createServer, Server, Socket } from 'net';
-import crossFetch from 'cross-fetch';
 import getProvider, {
   DEFAULT_TIMEOUT,
   normalizeOptions,
@@ -314,6 +313,38 @@ describe('Starknet provider timeout', () => {
     expect(provider.channel.baseFetch).toBe(stock.channel.baseFetch);
   });
 
+  // cross-fetch's Node entry is node-fetch 2, which sets `Connection: close`
+  // whenever no agent is passed, so it reuses no connection to the brovider.
+  test('does not close the connection after every request', async () => {
+    const requests: string[] = [];
+    const open: Socket[] = [];
+    const rpcServer = createServer((socket) => {
+      open.push(socket);
+      socket.on('data', (chunk) => {
+        requests.push(chunk.toString());
+        const body = '{"jsonrpc":"2.0","id":1,"result":"0.8.1"}';
+        socket.write(
+          'HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n' +
+            `Content-Length: ${Buffer.byteLength(body)}\r\n\r\n${body}`
+        );
+      });
+    });
+    const rpcUrl = await listen(rpcServer);
+
+    try {
+      const provider = getProvider(STARKNET_NETWORK, {
+        broviderUrl: rpcUrl,
+        timeout: 1000
+      });
+
+      await expect(provider.getSpecVersion()).resolves.toBe('0.8.1');
+      expect(requests.join('')).not.toMatch(/^connection:\s*close/im);
+    } finally {
+      open.forEach((socket) => socket.destroy());
+      await new Promise<void>((resolve) => rpcServer.close(() => resolve()));
+    }
+  });
+
   test('rejects with the same error code as the EVM provider', async () => {
     const provider = getProvider(STARKNET_NETWORK, {
       broviderUrl,
@@ -328,7 +359,7 @@ describe('Starknet provider timeout', () => {
   test('lets a caller abort cancel a hung request before the timeout', async () => {
     const caller = new AbortController();
     const start = Date.now();
-    const request = withTimeout(crossFetch, 5000)(broviderUrl, {
+    const request = withTimeout(fetch.bind(globalThis), 5000)(broviderUrl, {
       method: 'POST',
       body: '{}',
       signal: caller.signal

@@ -1,5 +1,4 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
-import crossFetch from 'cross-fetch';
 import { LibraryError, RpcProvider, RpcProviderOptions } from 'starknet';
 import networks from '../networks.json';
 
@@ -146,8 +145,8 @@ export function withTimeout(baseFetch: BaseFetch, timeout: number): BaseFetch {
       throw timedOut ? timeoutError() : e;
     }
 
-    // Resolving only means the headers arrived, and node-fetch bounds neither
-    // the body stream nor the parse. Hold the deadline over RpcChannel's read.
+    // Resolving only means the headers arrived; nothing bounds the body stream
+    // or the parse that follow. Hold the deadline over RpcChannel's read.
     const json = response.json.bind(response);
     response.json = async () => {
       try {
@@ -170,8 +169,14 @@ function getStarknetProvider(
   return new RpcProvider({
     nodeUrl: `${options.broviderUrl}/${networkKey}`,
     // At 0 there is no deadline to add, so leave starknet its own transport
-    // (`baseFetch ?? ponyfill`) rather than swap in crossFetch for nothing.
+    // (`baseFetch ?? ponyfill`) rather than swap the transport for nothing.
+    // Native `fetch`, bound like starknet's own browser default: the package
+    // floor has it everywhere (Node >= 18, evergreen browsers), and
+    // cross-fetch would downgrade it — node-fetch 2 on Node (losing
+    // connection reuse), an XHR ponyfill in the bundled browser build.
     baseFetch:
-      options.timeout > 0 ? withTimeout(crossFetch, options.timeout) : undefined
+      options.timeout > 0
+        ? withTimeout(fetch.bind(globalThis), options.timeout)
+        : undefined
   });
 }
