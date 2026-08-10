@@ -2,11 +2,10 @@ import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { AddressInfo, createServer, Server, Socket } from 'net';
 import getProvider, {
   DEFAULT_TIMEOUT,
-  normalizeOptions,
-  withTimeout
+  normalizeOptions
 } from '../../../src/utils/provider';
 import { getViemClient } from '../../../src/utils/viem';
-import { RpcProvider } from 'starknet';
+import { LibraryError, RpcProvider } from 'starknet';
 
 const STARKNET_NETWORK = '0x534e5f4d41494e';
 
@@ -356,18 +355,17 @@ describe('Starknet provider timeout', () => {
     });
   });
 
-  test('lets a caller abort cancel a hung request before the timeout', async () => {
-    const caller = new AbortController();
-    const start = Date.now();
-    const request = withTimeout(fetch.bind(globalThis), 5000)(broviderUrl, {
-      method: 'POST',
-      body: '{}',
-      signal: caller.signal
+  // A plain Error would come back out of RpcChannel#errorHandler stripped of
+  // `code`, so the class is what keeps the assertion above true.
+  test('rejects with a LibraryError, the only class that keeps the code', async () => {
+    const provider = getProvider(STARKNET_NETWORK, {
+      broviderUrl,
+      timeout: 400
     });
-    setTimeout(() => caller.abort(), 50);
 
-    await expect(request).rejects.toMatchObject({ name: 'AbortError' });
-    expect(Date.now() - start).toBeLessThan(1000);
+    await expect(provider.getSpecVersion()).rejects.toBeInstanceOf(
+      LibraryError
+    );
   });
 
   test('applies the default timeout when none is passed', async () => {
@@ -384,133 +382,6 @@ describe('Starknet provider timeout', () => {
     } finally {
       vi.useRealTimers();
     }
-  });
-});
-
-describe('withTimeout()', () => {
-  // A factory, not a shared const: reading the body clears the deadline.
-  const jsonResponse = () => new Response('{}');
-
-  test('calls the wrapped fetch and preserves its init', async () => {
-    const response = jsonResponse();
-    const baseFetch = vi.fn().mockResolvedValue(response);
-    const init = { method: 'POST', body: '{}', headers: { a: 'b' } };
-
-    await expect(
-      withTimeout(baseFetch, 1000)('https://rpc.test', init)
-    ).resolves.toBe(response);
-    expect(baseFetch).toHaveBeenCalledWith(
-      'https://rpc.test',
-      expect.objectContaining({ ...init, signal: expect.any(AbortSignal) })
-    );
-  });
-
-  test('returns the wrapped fetch untouched when the timeout is disabled', () => {
-    const baseFetch = vi.fn();
-
-    expect(withTimeout(baseFetch, 0)).toBe(baseFetch);
-  });
-
-  test('clears its timer so a read request holds nothing open', async () => {
-    const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
-    const baseFetch = vi.fn().mockResolvedValue(jsonResponse());
-
-    const response = await withTimeout(baseFetch, 1000)('https://rpc.test', {});
-    expect(clearTimeoutSpy).not.toHaveBeenCalled();
-    await response.json();
-
-    expect(clearTimeoutSpy).toHaveBeenCalled();
-    clearTimeoutSpy.mockRestore();
-  });
-
-  test('unrefs its timer so an unread body holds nothing open', async () => {
-    const setTimeoutSpy = vi.spyOn(globalThis, 'setTimeout');
-    const baseFetch = vi.fn().mockResolvedValue(jsonResponse());
-
-    // Resolve the response and never read the body: cleanup() cannot run.
-    await withTimeout(baseFetch, 1000)('https://rpc.test', {});
-
-    expect(setTimeoutSpy.mock.results[0].value.hasRef()).toBe(false);
-    setTimeoutSpy.mockRestore();
-  });
-
-  test('maps a timeout during the body read, not just the headers', async () => {
-    // Stands in for node-fetch, whose body stream errors on the abort.
-    const baseFetch = vi.fn((_url: any, init: RequestInit = {}) =>
-      Promise.resolve({
-        json: () =>
-          new Promise((_resolve, reject) =>
-            init.signal?.addEventListener('abort', () =>
-              reject(init.signal?.reason)
-            )
-          )
-      } as unknown as Response)
-    );
-
-    const response = await withTimeout(baseFetch, 50)('https://rpc.test', {});
-
-    await expect(response.json()).rejects.toMatchObject({
-      message: 'Request timeout after 50ms',
-      code: 'TIMEOUT'
-    });
-  });
-
-  test('does not rewrite an error that is not its own timeout', async () => {
-    const baseFetch = vi.fn().mockRejectedValue(new Error('network down'));
-
-    await expect(
-      withTimeout(baseFetch, 1000)('https://rpc.test', {})
-    ).rejects.toThrow('network down');
-  });
-
-  const signalRespectingFetch = () =>
-    vi.fn((_url: any, init: RequestInit = {}) => {
-      const { signal } = init;
-      return new Promise<Response>((_resolve, reject) => {
-        if (signal?.aborted) return reject(signal.reason);
-        signal?.addEventListener('abort', () => reject(signal.reason));
-      });
-    });
-
-  test('rejects on a caller abort with the caller reason, not a timeout', async () => {
-    const caller = new AbortController();
-    const reason = new Error('caller gave up');
-    const request = withTimeout(signalRespectingFetch(), 30000)(
-      'https://rpc.test',
-      { signal: caller.signal }
-    );
-
-    caller.abort(reason);
-
-    await expect(request).rejects.toBe(reason);
-  });
-
-  test('aborts at once when the caller signal is already aborted', async () => {
-    const caller = new AbortController();
-    const reason = new Error('caller gave up first');
-    caller.abort(reason);
-
-    await expect(
-      withTimeout(signalRespectingFetch(), 30000)('https://rpc.test', {
-        signal: caller.signal
-      })
-    ).rejects.toBe(reason);
-  });
-
-  test('stops listening on the caller signal once the request settles', async () => {
-    const caller = new AbortController();
-    const removeEventListener = vi.spyOn(caller.signal, 'removeEventListener');
-    const baseFetch = vi.fn().mockResolvedValue(jsonResponse());
-
-    const response = await withTimeout(baseFetch, 1000)('https://rpc.test', {
-      signal: caller.signal
-    });
-    await response.json();
-
-    expect(removeEventListener).toHaveBeenCalledWith(
-      'abort',
-      expect.any(Function)
-    );
   });
 });
 

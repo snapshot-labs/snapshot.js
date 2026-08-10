@@ -1,5 +1,6 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
-import { LibraryError, RpcProvider, RpcProviderOptions } from 'starknet';
+import { LibraryError, RpcProvider } from 'starknet';
+import { withTimeout } from './fetch';
 import networks from '../networks.json';
 
 export interface ProviderOptions {
@@ -96,71 +97,13 @@ function getEvmProvider(
   );
 }
 
-type BaseFetch = NonNullable<RpcProviderOptions['baseFetch']>;
-
-// Not `AbortSignal.timeout`: it would raise the browser bundle's floor to
-// Safari 16.
-export function withTimeout(baseFetch: BaseFetch, timeout: number): BaseFetch {
-  // getStarknetProvider never calls in at 0, so this is the export's own
-  // precondition rather than a live path: without it, `setTimeout(..., 0)`
-  // would abort every request on the next tick.
-  if (timeout <= 0) return baseFetch;
-
-  return async (url, init) => {
-    const controller = new AbortController();
-    const callerSignal = init?.signal;
-    const abortFromCaller = () => controller.abort(callerSignal?.reason);
-    let timedOut = false;
-
-    const cleanup = () => {
-      clearTimeout(timer);
-      callerSignal?.removeEventListener('abort', abortFromCaller);
-    };
-    // Cleans up after itself: nothing else will if the body is never read.
-    const timer = setTimeout(() => {
-      timedOut = true;
-      controller.abort();
-      cleanup();
-    }, timeout);
-    // Node-only: browser timers are numbers with no `unref`. Without this,
-    // an unread response body holds the event loop open for the full
-    // timeout even though the request already finished.
-    if (typeof timer === 'object' && 'unref' in timer) timer.unref();
-
-    // LibraryError specifically: RpcChannel#errorHandler re-throws anything
-    // else as a bare `Error(message)`, which would drop `code`.
-    const timeoutError = () =>
-      Object.assign(new LibraryError(`Request timeout after ${timeout}ms`), {
-        code: 'TIMEOUT'
-      });
-
-    if (callerSignal?.aborted) abortFromCaller();
-    else callerSignal?.addEventListener('abort', abortFromCaller);
-
-    let response: Response;
-    try {
-      response = await baseFetch(url, { ...init, signal: controller.signal });
-    } catch (e) {
-      cleanup();
-      throw timedOut ? timeoutError() : e;
-    }
-
-    // Resolving only means the headers arrived; nothing bounds the body stream
-    // or the parse that follow. Hold the deadline over RpcChannel's read.
-    const json = response.json.bind(response);
-    response.json = async () => {
-      try {
-        return await json();
-      } catch (e) {
-        throw timedOut ? timeoutError() : e;
-      } finally {
-        cleanup();
-      }
-    };
-
-    return response;
-  };
-}
+// LibraryError specifically: RpcChannel#errorHandler re-throws anything else
+// as a bare `Error(message)`, which would drop `code`. Nothing outside this
+// call site needs it, so it stays out of the primitive.
+const starknetTimeoutError = (timeout: number) =>
+  Object.assign(new LibraryError(`Request timeout after ${timeout}ms`), {
+    code: 'TIMEOUT'
+  });
 
 function getStarknetProvider(
   networkKey: string,
@@ -176,7 +119,9 @@ function getStarknetProvider(
     // connection reuse), an XHR ponyfill in the bundled browser build.
     baseFetch:
       options.timeout > 0
-        ? withTimeout(fetch.bind(globalThis), options.timeout)
+        ? withTimeout(fetch.bind(globalThis), options.timeout, {
+            timeoutError: starknetTimeoutError
+          })
         : undefined
   });
 }
