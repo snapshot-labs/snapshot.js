@@ -16,18 +16,21 @@ describe('withTimeout()', () => {
       });
     });
 
-  // Stands in for node-fetch, whose body stream errors on the abort.
-  const stallingBodyFetch = () =>
-    vi.fn((_url: any, init: RequestInit = {}) =>
-      Promise.resolve({
-        json: () =>
-          new Promise((_resolve, reject) =>
-            init.signal?.addEventListener('abort', () =>
-              reject(init.signal?.reason)
-            )
+  // Stands in for a real transport, whose body stream errors on the abort.
+  const stallingBodyFetch = (readers = ['json']) =>
+    vi.fn((_url: any, init: RequestInit = {}) => {
+      const stall = () =>
+        new Promise((_resolve, reject) =>
+          init.signal?.addEventListener('abort', () =>
+            reject(init.signal?.reason)
           )
-      } as unknown as Response)
-    );
+        );
+      return Promise.resolve(
+        Object.fromEntries(
+          readers.map((name) => [name, stall])
+        ) as unknown as Response
+      );
+    });
 
   test('calls the wrapped fetch and preserves its init', async () => {
     const response = jsonResponse();
@@ -113,6 +116,37 @@ describe('withTimeout()', () => {
       message: 'gone',
       code: 'TIMEOUT'
     });
+  });
+
+  // The primitive advertises a plain `FetchLike`, so a caller is free to read
+  // the body with any of these; the deadline and the error have to be the same
+  // whichever one it picks.
+  test.each(['json', 'text', 'arrayBuffer', 'blob', 'formData'])(
+    'maps the timeout for a caller reading the body with .%s()',
+    async (reader) => {
+      const timeoutError = () =>
+        Object.assign(new Error('gone'), { code: 'TIMEOUT' });
+      const response = await withTimeout(stallingBodyFetch([reader]), 50, {
+        timeoutError
+      })('https://rpc.test', {});
+
+      await expect((response as any)[reader]()).rejects.toMatchObject({
+        message: 'gone',
+        code: 'TIMEOUT'
+      });
+    }
+  );
+
+  test('clears its timer for a caller reading the body with .text()', async () => {
+    const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
+    const baseFetch = vi.fn().mockResolvedValue(new Response('hello'));
+
+    const response = await withTimeout(baseFetch, 1000)('https://rpc.test', {});
+    expect(clearTimeoutSpy).not.toHaveBeenCalled();
+    await response.text();
+
+    expect(clearTimeoutSpy).toHaveBeenCalled();
+    clearTimeoutSpy.mockRestore();
   });
 
   test('does not rewrite an error that is not its own timeout', async () => {
@@ -205,7 +239,10 @@ describe('withTimeout() over a real socket', () => {
     const start = Date.now();
 
     await expect(
-      withTimeout(fetch.bind(globalThis), 300)(url, { method: 'POST', body: '{}' })
+      withTimeout(fetch.bind(globalThis), 300)(url, {
+        method: 'POST',
+        body: '{}'
+      })
     ).rejects.toThrow('Request timeout after 300ms');
 
     const elapsed = Date.now() - start;
