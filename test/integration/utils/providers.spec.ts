@@ -235,11 +235,9 @@ describe('test providers', () => {
 });
 
 describe('Starknet provider timeout', () => {
-  // Accepts the connection and never answers; a refused connection would fail
-  // fast on its own.
+  // Not a refused connection: that one fails fast on its own.
   let server: Server;
-  // Answers with complete headers and then never sends the body, the way a
-  // hung proxy that has already relayed upstream headers does.
+  // A proxy that wedges after it has relayed the upstream headers.
   let headersOnlyServer: Server;
   let sockets: Socket[] = [];
   let broviderUrl: string;
@@ -359,8 +357,7 @@ describe('Starknet provider timeout', () => {
 });
 
 describe('withTimeout()', () => {
-  // A fresh one per test: the deadline now clears when the body is read, so
-  // these tests consume it.
+  // A factory, not a shared const: reading the body clears the deadline.
   const jsonResponse = () => new Response('{}');
 
   test('calls the wrapped fetch and preserves its init', async () => {

@@ -34,7 +34,6 @@ export function normalizeOptions(
     broviderUrl: options.broviderUrl || DEFAULT_BROVIDER_URL,
     // Not `??`: it passes `NaN` through (`Number()` of an unset env var), and
     // `setTimeout(..., NaN)` fires on the next tick, aborting every request.
-    // Here rather than in `withTimeout`: ethers needs the same normalization.
     timeout:
       typeof timeout === 'number' && Number.isFinite(timeout) && timeout >= 0
         ? timeout
@@ -141,9 +140,8 @@ export function withTimeout(baseFetch: BaseFetch, timeout: number): BaseFetch {
       throw timedOut ? timeoutError() : e;
     }
 
-    // Resolving only means the headers arrived: RpcChannel reads the body
-    // afterwards with its own `.json()`, and node-fetch bounds neither the
-    // body stream nor the parse. Hold the deadline until that settles.
+    // Resolving only means the headers arrived, and node-fetch bounds neither
+    // the body stream nor the parse. Hold the deadline over RpcChannel's read.
     const json = response.json.bind(response);
     response.json = async () => {
       try {
@@ -165,9 +163,8 @@ function getStarknetProvider(
 ): RpcProvider {
   return new RpcProvider({
     nodeUrl: `${options.broviderUrl}/${networkKey}`,
-    // `undefined` leaves starknet its own transport (`baseFetch ?? ponyfill`):
-    // with no timeout to add, swapping in crossFetch would only cost the
-    // caller a transport and the ceiling that comes with the stock one.
+    // At 0 there is no deadline to add, so leave starknet its own transport
+    // (`baseFetch ?? ponyfill`) rather than swap in crossFetch for nothing.
     baseFetch:
       options.timeout > 0 ? withTimeout(crossFetch, options.timeout) : undefined
   });
