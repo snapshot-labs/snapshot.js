@@ -249,10 +249,19 @@ describe('Starknet provider timeout', () => {
   };
 
   beforeAll(async () => {
-    server = createServer((socket) => sockets.push(socket));
-    headersOnlyServer = createServer((socket) => {
+    // The deadline aborts mid-request, so an RST is expected; an unhandled
+    // 'error' on a socket takes the worker down rather than failing a test.
+    const accept = (socket: Socket) => {
+      socket.on('error', () => {
+        /* expected */
+      });
       sockets.push(socket);
-      socket.on('data', () =>
+      return socket;
+    };
+
+    server = createServer(accept);
+    headersOnlyServer = createServer((socket) => {
+      accept(socket).on('data', () =>
         socket.write(
           'HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: 24\r\n\r\n'
         )

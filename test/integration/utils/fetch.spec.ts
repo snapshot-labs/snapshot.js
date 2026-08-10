@@ -222,7 +222,15 @@ describe('withTimeout() over a real socket', () => {
   let url: string;
 
   beforeAll(async () => {
-    server = createServer((socket) => sockets.push(socket));
+    // A caller abort ends the request mid-flight, so an RST is expected; an
+    // unhandled 'error' on a socket takes the worker down rather than
+    // failing a test.
+    server = createServer((socket) => {
+      socket.on('error', () => {
+        /* expected */
+      });
+      sockets.push(socket);
+    });
     await new Promise<void>((resolve) =>
       server.listen(0, '127.0.0.1', () => resolve())
     );
