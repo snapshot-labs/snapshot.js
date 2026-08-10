@@ -123,6 +123,10 @@ export function withTimeout(baseFetch: BaseFetch, timeout: number): BaseFetch {
       controller.abort();
       cleanup();
     }, timeout);
+    // Node-only: browser timers are numbers with no `unref`. Without this,
+    // an unread response body holds the event loop open for the full
+    // timeout even though the request already finished.
+    if (typeof timer === 'object' && 'unref' in timer) timer.unref();
 
     // LibraryError specifically: RpcChannel#errorHandler re-throws anything
     // else as a bare `Error(message)`, which would drop `code`.

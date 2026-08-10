@@ -392,6 +392,17 @@ describe('withTimeout()', () => {
     clearTimeoutSpy.mockRestore();
   });
 
+  test('unrefs its timer so an unread body holds nothing open', async () => {
+    const setTimeoutSpy = vi.spyOn(globalThis, 'setTimeout');
+    const baseFetch = vi.fn().mockResolvedValue(jsonResponse());
+
+    // Resolve the response and never read the body: cleanup() cannot run.
+    await withTimeout(baseFetch, 1000)('https://rpc.test', {});
+
+    expect(setTimeoutSpy.mock.results[0].value.hasRef()).toBe(false);
+    setTimeoutSpy.mockRestore();
+  });
+
   test('maps a timeout during the body read, not just the headers', async () => {
     // Stands in for node-fetch, whose body stream errors on the abort.
     const baseFetch = vi.fn((_url: any, init: RequestInit = {}) =>
