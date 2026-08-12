@@ -1,6 +1,6 @@
 {
   "name": "@snapshot-labs/snapshot.js",
-  "version": "0.14.22",
+  "version": "0.15.1",
   "repository": "snapshot-labs/snapshot.js",
   "license": "MIT",
   "main": "dist/snapshot.cjs.js",
@@ -8,7 +8,6 @@
   "browser": "dist/snapshot.min.js",
   "types": "dist/src/index.d.ts",
   "dependencies": {
-    "@ensdomains/eth-ens-namehash": "^2.0.15",
     "@ethersproject/abi": "^5.6.4",
     "@ethersproject/address": "^5.6.1",
     "@ethersproject/bignumber": "^5.7.0",
@@ -24,7 +23,8 @@
     "cross-fetch": "^3.1.6",
     "json-to-graphql-query": "^2.2.4",
     "lodash.set": "^4.3.2",
-    "starknet": "^6.11.0"
+    "starknet": "^6.11.0",
+    "viem": "^2.55.11"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^18.1.0",
@@ -62,7 +62,7 @@
     "prepublishOnly": "yarn build"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "files": [
     "dist",

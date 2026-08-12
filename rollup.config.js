@@ -11,7 +11,10 @@ import pkg from './package.json';
 
 const name = 'snapshot';
 const input = 'src/index.ts';
-const external = [...Object.keys(pkg.dependencies || {})];
+const dependencies = [...Object.keys(pkg.dependencies || {})];
+// match subpath imports too (e.g. viem/ens)
+const external = (id) =>
+  dependencies.some((dep) => id === dep || id.startsWith(`${dep}/`));
 
 export default [
   {
@@ -22,6 +25,9 @@ export default [
         name,
         file: pkg.browser,
         format: 'umd',
+        // viem uses dynamic import() internally (CCIP-Read module), which
+        // rollup would otherwise code-split — unsupported in UMD bundles
+        inlineDynamicImports: true,
         intro:
           'var global = typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {}'
       }

@@ -9,6 +9,7 @@ import addFormats from 'ajv-formats';
 import addErrors from 'ajv-errors';
 import { getSnapshots } from './utils/blockfinder';
 import getProvider from './utils/provider';
+import { getEnsTextRecord, getEnsOwner } from './utils/ens';
 import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './verify';
 import gateways from './gateways.json';
@@ -29,20 +30,6 @@ interface Strategy {
   params: any;
 }
 
-type DomainType = 'ens' | 'tld' | 'other-tld' | 'subdomain';
-
-const MUTED_ERRORS = [
-  // mute error from coinbase, when the subdomain is not found
-  // most other resolvers just return an empty address
-  'response not found during CCIP fetch',
-  // mute error from missing offchain resolver (mostly for sepolia)
-  'UNSUPPORTED_OPERATION'
-];
-const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
-const ENS_ABI = [
-  'function text(bytes32 node, string calldata key) external view returns (string memory)',
-  'function resolver(bytes32 node) view returns (address)' // ENS registry ABI
-];
 const UD_MAPPING = {
   '146': {
     tlds: ['.sonic'],
@@ -214,46 +201,6 @@ ajv.addFormat('domain', {
     );
   }
 });
-
-function getDomainType(domain: string): DomainType {
-  const isEns = domain.endsWith('.eth');
-
-  const tokens = domain.split('.');
-
-  if (tokens.length === 1) return 'tld';
-  else if (tokens.length === 2 && !isEns) return 'other-tld';
-  else if (tokens.length > 2) return 'subdomain';
-  else if (isEns) return 'ens';
-  else throw new Error('Invalid domain');
-}
-
-// see https://docs.ens.domains/registry/dns#gasless-import
-async function getDNSOwner(domain: string): Promise<string> {
-  const response = await fetch(
-    `https://cloudflare-dns.com/dns-query?name=${domain}&type=TXT`,
-    {
-      headers: {
-        accept: 'application/dns-json'
-      }
-    }
-  );
-
-  const data = await response.json();
-  // Error list: https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-6
-  if (data.Status === 3) return EMPTY_ADDRESS;
-  if (data.Status !== 0) throw new Error('Failed to fetch DNS Owner');
-
-  const ownerRecord = data.Answer?.find((record: any) =>
-    record.data.includes('ENS1')
-  );
-
-  if (!ownerRecord) return EMPTY_ADDRESS;
-
-  return getAddress(
-    ownerRecord.data.replace(new RegExp('"', 'g'), '').split(' ').pop()
-  );
-}
-
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
   try {
@@ -609,49 +556,7 @@ export function validateSchema(
   return valid ? valid : ajvValidate.errors;
 }
 
-export async function getEnsTextRecord(
-  ens: string,
-  record: string,
-  network = '1',
-  options: any = {}
-) {
-  const {
-    ensResolvers = networks[network]?.ensResolvers ||
-      networks['1'].ensResolvers,
-    broviderUrl,
-    ...multicallOptions
-  } = options;
-
-  let ensHash: string;
-
-  try {
-    ensHash = namehash(ensNormalize(ens));
-  } catch (e: any) {
-    return null;
-  }
-
-  const provider = getProvider(network, { broviderUrl });
-
-  const calls = [
-    [ENS_REGISTRY, 'resolver', [ensHash]], // Query for resolver from registry
-    ...ensResolvers.map((address: string) => [
-      address,
-      'text',
-      [ensHash, record]
-    ]) // Query for text record from each resolver
-  ];
-
-  const [[resolverAddress], ...textRecords] = (await multicall(
-    network,
-    provider,
-    ENS_ABI,
-    calls,
-    multicallOptions
-  )) as string[][];
-
-  const resolverIndex = ensResolvers.indexOf(resolverAddress);
-  return resolverIndex !== -1 ? textRecords[resolverIndex]?.[0] : null;
-}
+export { getEnsTextRecord, getEnsOwner };
 
 export async function getSpaceUri(
   id: string,
@@ -664,67 +569,6 @@ export async function getSpaceUri(
     console.log(e);
     return null;
   }
-}
-
-export async function getEnsOwner(
-  ens: string,
-  network = '1',
-  options: any = {}
-): Promise<string> {
-  if (!networks[network]?.ensResolvers?.length) {
-    throw new Error('Network not supported');
-  }
-
-  const domainType = getDomainType(ens);
-  const provider = getProvider(network, options);
-  const ensRegistry = new Contract(
-    ENS_REGISTRY,
-    ['function owner(bytes32) view returns (address)'],
-    provider
-  );
-
-  let ensHash: string;
-
-  try {
-    ensHash = namehash(ensNormalize(ens));
-  } catch (e: any) {
-    return EMPTY_ADDRESS;
-  }
-
-  const ensNameWrapper =
-    options.ensNameWrapper || networks[network].ensNameWrapper;
-  let owner = await ensRegistry.owner(ensHash);
-  // If owner is the ENSNameWrapper contract, resolve the owner of the name
-  if (owner === ensNameWrapper) {
-    const ensNameWrapperContract = new Contract(
-      ensNameWrapper,
-      ['function ownerOf(uint256) view returns (address)'],
-      provider
-    );
-    owner = await ensNameWrapperContract.ownerOf(ensHash);
-  }
-
-  if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
-    const resolvedAddress = await provider.resolveName(ens);
-
-    // Filter out domains with valid TXT records, but not imported
-    if (resolvedAddress) {
-      owner = await getDNSOwner(ens);
-    }
-  }
-
-  if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
-    try {
-      owner = await provider.resolveName(ens);
-    } catch (e: any) {
-      if (MUTED_ERRORS.every((error) => !e.message.includes(error))) {
-        throw e;
-      }
-      owner = EMPTY_ADDRESS;
-    }
-  }
-
-  return owner || EMPTY_ADDRESS;
 }
 
 async function getEnsSpaceController(

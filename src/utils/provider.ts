@@ -9,7 +9,7 @@ export interface ProviderOptions {
 
 type ProviderInstance = StaticJsonRpcProvider | RpcProvider;
 
-type ProviderType = 'evm' | 'starknet';
+export type ProviderType = 'evm' | 'starknet';
 
 const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org' as const;
 const DEFAULT_TIMEOUT = 25000 as const;
@@ -24,7 +24,7 @@ const providerFnMap: Record<
   starknet: getStarknetProvider
 };
 
-function normalizeOptions(
+export function normalizeOptions(
   options: ProviderOptions = {}
 ): Required<ProviderOptions> {
   return {
@@ -33,7 +33,7 @@ function normalizeOptions(
   };
 }
 
-function getBroviderNetworkId(network: string | number): string {
+export function getBroviderNetworkId(network: string | number): string {
   const config = networks[network];
   if (!config) {
     throw new Error(`Network '${network}' is not supported`);
@@ -41,11 +41,11 @@ function getBroviderNetworkId(network: string | number): string {
   return config.broviderId || String(network);
 }
 
-function getProviderType(network: string | number): ProviderType {
+export function getProviderType(network: string | number): ProviderType {
   return networks[network]?.starknet ? 'starknet' : 'evm';
 }
 
-function createMemoKey(
+export function createMemoKey(
   networkId: string,
   options: Required<ProviderOptions>
 ): string {
