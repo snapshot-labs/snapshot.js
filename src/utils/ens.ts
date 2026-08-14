@@ -1,8 +1,9 @@
 import { Contract } from '@ethersproject/contracts';
 import { getAddress } from '@ethersproject/address';
-import { namehash, ensNormalize } from '@ethersproject/hash';
+import { ensNormalize } from '@ethersproject/hash';
+import { namehash } from 'viem/ens';
 import getProvider from './provider';
-import { multicall } from '../multicall';
+import { getViemClient } from './viem';
 import { fetch } from '../utils';
 import networks from '../networks.json';
 
@@ -16,10 +17,6 @@ const MUTED_ERRORS = [
   'UNSUPPORTED_OPERATION'
 ];
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
-const ENS_ABI = [
-  'function text(bytes32 node, string calldata key) external view returns (string memory)',
-  'function resolver(bytes32 node) view returns (address)' // ENS registry ABI
-];
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 function getDomainType(domain: string): DomainType {
@@ -67,42 +64,33 @@ export async function getEnsTextRecord(
   network = '1',
   options: any = {}
 ) {
-  const {
-    ensResolvers = networks[network]?.ensResolvers ||
-      networks['1'].ensResolvers,
-    broviderUrl,
-    ...multicallOptions
-  } = options;
+  let normalized: string;
 
-  let ensHash: string;
-
+  // ensNormalize rather than viem's normalize: they ship different revisions
+  // of the ENSIP-15 tables, and viem rejects names of existing spaces
   try {
-    ensHash = namehash(ensNormalize(ens));
+    normalized = ensNormalize(ens);
   } catch (e: any) {
     return null;
   }
 
-  const provider = getProvider(network, { broviderUrl });
+  const universalResolverAddress = networks[network]?.ensUniversalResolver;
 
-  const calls = [
-    [ENS_REGISTRY, 'resolver', [ensHash]], // Query for resolver from registry
-    ...ensResolvers.map((address: string) => [
-      address,
-      'text',
-      [ensHash, record]
-    ]) // Query for text record from each resolver
-  ];
+  if (!universalResolverAddress) {
+    throw new Error('Network not supported');
+  }
 
-  const [[resolverAddress], ...textRecords] = (await multicall(
-    network,
-    provider,
-    ENS_ABI,
-    calls,
-    multicallOptions
-  )) as string[][];
+  const client = getViemClient(network, options);
 
-  const resolverIndex = ensResolvers.indexOf(resolverAddress);
-  return resolverIndex !== -1 ? textRecords[resolverIndex]?.[0] : null;
+  // unresolvable names and resolver-level failures resolve to null;
+  // transport failures throw instead of reading as "no record"
+  return await client.getEnsText({
+    name: normalized,
+    key: record,
+    universalResolverAddress,
+    blockNumber: options.blockNumber,
+    blockTag: options.blockTag
+  });
 }
 
 export async function getEnsOwner(

@@ -1,6 +1,7 @@
 import { describe, test, expect } from 'vitest';
 import {
   getEnsOwner,
+  getEnsTextRecord,
   getShibariumNameOwner,
   getUDNameOwner,
   getSpaceController
@@ -25,10 +26,120 @@ describe('utils', () => {
     });
   });
 
+  describe('getEnsTextRecord', () => {
+    test('return a text record through the Universal Resolver', async () => {
+      await expect(getEnsTextRecord('ens.eth', 'avatar', '1')).resolves.toMatch(
+        /^https?:\/\//
+      );
+    });
+
+    test('return the snapshot record as legacy space uri', async () => {
+      await expect(getEnsTextRecord('ens.eth', 'snapshot', '1')).resolves.toBe(
+        'ipns://storage.snapshot.page/registry/0xb6E040C9ECAaE172a89bD561c5F73e1C48d28cd9/ens.eth'
+      );
+    });
+
+    test('return the snapshot record', async () => {
+      await expect(
+        getEnsTextRecord('fabien.eth', 'snapshot', '1')
+      ).resolves.toBe(
+        'ipns://storage.snapshot.page/registry/0xeF8305E140ac520225DAf050e2f71d5fBcC543e7/fabien.eth'
+      );
+    });
+
+    test('return the snapshot record as address', async () => {
+      await expect(
+        getEnsTextRecord('stakedao.eth', 'snapshot', '1')
+      ).resolves.toBe('0xB0552b6860CE5C0202976Db056b5e3Cc4f9CC765');
+    });
+
+    test('forward block overrides to the resolver call', async () => {
+      // the Universal Resolver is not deployed at this block, so a forwarded
+      // blockNumber must fail where an ignored one would read latest
+      await expect(
+        getEnsTextRecord('ens.eth', 'snapshot', '1', {
+          blockNumber: 10000000n
+        })
+      ).rejects.toThrow();
+    });
+
+    test('return null for an unset record', async () => {
+      await expect(
+        getEnsTextRecord('vitalik.eth', 'snapshot', '1')
+      ).resolves.toBe(null);
+    });
+
+    test('return null for an unset record on testnet', async () => {
+      await expect(
+        getEnsTextRecord('ens.eth', 'snapshot', '11155111')
+      ).resolves.toBe(null);
+    });
+
+    test('reject for unsupported networks', async () => {
+      await expect(
+        getEnsTextRecord('fabien.eth', 'snapshot', '100')
+      ).rejects.toThrow('Network not supported');
+    });
+  });
+
   describe('getSpaceController', () => {
     test('return the controller address for mainnet', async () => {
       await expect(getSpaceController('psydao.eth', '1')).resolves.toBe(
         '0xF42b0Ec6ef1939EdEdBC369A3E660A276Afc88BD'
+      );
+    });
+
+    test('return the controller from a snapshot record address', async () => {
+      await expect(getSpaceController('stakedao.eth', '1')).resolves.toBe(
+        '0xB0552b6860CE5C0202976Db056b5e3Cc4f9CC765'
+      );
+    });
+
+    test('return the controller from a legacy space uri', async () => {
+      await expect(getSpaceController('ens.eth', '1')).resolves.toBe(
+        '0xb6E040C9ECAaE172a89bD561c5F73e1C48d28cd9'
+      );
+    });
+
+    test('return the controller for aave.eth', async () => {
+      await expect(getSpaceController('aave.eth', '1')).resolves.toBe(
+        '0x60C8dC4762b217b4A00FF1824111077f331B1FbF'
+      );
+    });
+
+    test('fall back to the name owner on testnet', async () => {
+      await expect(getSpaceController('ens.eth', '11155111')).resolves.toBe(
+        '0x179A862703a4adfb29896552DF9e307980D19285'
+      );
+    });
+
+    test('fall back to the name owner on testnet for bob.eth', async () => {
+      await expect(getSpaceController('bob.eth', '11155111')).resolves.toBe(
+        '0x179A862703a4adfb29896552DF9e307980D19285'
+      );
+    });
+
+    test('return an empty address on testnet for an unowned name', async () => {
+      await expect(getSpaceController('test123.eth', '11155111')).resolves.toBe(
+        EMPTY_ADDRESS
+      );
+    });
+
+    test('return an empty address on testnet for a non-existent name', async () => {
+      await expect(
+        getSpaceController('snapshotdoesnotexist123.eth', '11155111')
+      ).resolves.toBe(EMPTY_ADDRESS);
+    });
+
+    test('resolve a live testnet space controller', async () => {
+      await expect(getSpaceController('boorger.eth', '11155111')).resolves.toBe(
+        '0x220bc93D88C0aF11f1159eA89a885d5ADd3A7Cf6'
+      );
+    });
+
+    test('resolve another live testnet space controller', async () => {
+      await expect(getSpaceController('demodao.eth', '11155111')).resolves.toBe(
+        '0x51c3b2EC4B010e57058891AF2b068E0b0F96d07b'
       );
     });
   });
