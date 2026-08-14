@@ -1,6 +1,6 @@
 import { getAddress } from '@ethersproject/address';
 import { ensNormalize } from '@ethersproject/hash';
-import { parseAbi, HttpRequestError } from 'viem';
+import { parseAbi, ContractFunctionRevertedError } from 'viem';
 import { namehash } from 'viem/ens';
 import type { Address, Hex } from 'viem';
 import { getViemClient } from './viem';
@@ -28,6 +28,38 @@ function getDomainType(domain: string): DomainType {
   else if (tokens.length > 2) return 'subdomain';
   else if (isEns) return 'ens';
   else throw new Error('Invalid domain');
+}
+
+// strict mode so gateway/infra failures throw; only reverts that mean the
+// name does not resolve (or a gateway 404) read as "no address"
+async function getEnsAddressStrict(
+  client: ReturnType<typeof getViemClient>,
+  name: string,
+  universalResolverAddress: Address
+): Promise<string | null> {
+  try {
+    return await client.getEnsAddress({
+      name,
+      universalResolverAddress,
+      strict: true
+    });
+  } catch (e: any) {
+    const revert =
+      typeof e?.walk === 'function'
+        ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
+        : undefined;
+    const errorName = (revert as any)?.data?.errorName;
+    if (
+      errorName === 'ResolverNotFound' ||
+      errorName === 'ResolverNotContract' ||
+      errorName === 'ResolverError' ||
+      errorName === 'UnsupportedResolverProfile' ||
+      (errorName === 'HttpError' && (revert as any)?.data?.args?.[0] === 404)
+    ) {
+      return null;
+    }
+    throw e;
+  }
 }
 
 // see https://docs.ens.domains/registry/dns#gasless-import
@@ -134,10 +166,11 @@ export async function getEnsOwner(
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
-    const resolvedAddress = await client.getEnsAddress({
-      name: normalized,
+    const resolvedAddress = await getEnsAddressStrict(
+      client,
+      normalized,
       universalResolverAddress
-    });
+    );
 
     // Filter out domains with valid TXT records, but not imported
     if (resolvedAddress) {
@@ -146,21 +179,12 @@ export async function getEnsOwner(
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
-    // a CCIP gateway 404 means the name does not exist; anything else throws
-    try {
-      owner =
-        (await client.getEnsAddress({
-          name: normalized,
-          universalResolverAddress
-        })) || EMPTY_ADDRESS;
-    } catch (e: any) {
-      const httpError =
-        typeof e?.walk === 'function'
-          ? e.walk((err: any) => err instanceof HttpRequestError)
-          : undefined;
-      if (!httpError || httpError.status !== 404) throw e;
-      owner = EMPTY_ADDRESS;
-    }
+    owner =
+      (await getEnsAddressStrict(
+        client,
+        normalized,
+        universalResolverAddress
+      )) || EMPTY_ADDRESS;
   }
 
   return owner || EMPTY_ADDRESS;
