@@ -1,22 +1,21 @@
-import { Contract } from '@ethersproject/contracts';
 import { getAddress } from '@ethersproject/address';
 import { ensNormalize } from '@ethersproject/hash';
+import { parseAbi, HttpRequestError } from 'viem';
 import { namehash } from 'viem/ens';
-import getProvider from './provider';
+import type { Address, Hex } from 'viem';
 import { getViemClient } from './viem';
 import { fetch } from '../utils';
 import networks from '../networks.json';
 
 type DomainType = 'ens' | 'tld' | 'other-tld' | 'subdomain';
 
-const MUTED_ERRORS = [
-  // mute error from coinbase, when the subdomain is not found
-  // most other resolvers just return an empty address
-  'response not found during CCIP fetch',
-  // mute error from missing offchain resolver (mostly for sepolia)
-  'UNSUPPORTED_OPERATION'
-];
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
+const ENS_REGISTRY_ABI = parseAbi([
+  'function owner(bytes32 node) view returns (address)'
+]);
+const NAME_WRAPPER_ABI = parseAbi([
+  'function ownerOf(uint256 id) view returns (address)'
+]);
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 function getDomainType(domain: string): DomainType {
@@ -103,36 +102,42 @@ export async function getEnsOwner(
   }
 
   const domainType = getDomainType(ens);
-  const provider = getProvider(network, options);
-  const ensRegistry = new Contract(
-    ENS_REGISTRY,
-    ['function owner(bytes32) view returns (address)'],
-    provider
-  );
+  const client = getViemClient(network, options);
+  const universalResolverAddress = networks[network]?.ensUniversalResolver;
 
-  let ensHash: string;
+  let normalized: string;
+  let ensHash: Hex;
 
   try {
-    ensHash = namehash(ensNormalize(ens));
+    normalized = ensNormalize(ens);
+    ensHash = namehash(normalized);
   } catch (e: any) {
     return EMPTY_ADDRESS;
   }
 
   const ensNameWrapper =
     options.ensNameWrapper || networks[network].ensNameWrapper;
-  let owner = await ensRegistry.owner(ensHash);
+  let owner: string = await client.readContract({
+    address: ENS_REGISTRY,
+    abi: ENS_REGISTRY_ABI,
+    functionName: 'owner',
+    args: [ensHash]
+  });
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
   if (owner === ensNameWrapper) {
-    const ensNameWrapperContract = new Contract(
-      ensNameWrapper,
-      ['function ownerOf(uint256) view returns (address)'],
-      provider
-    );
-    owner = await ensNameWrapperContract.ownerOf(ensHash);
+    owner = await client.readContract({
+      address: ensNameWrapper as Address,
+      abi: NAME_WRAPPER_ABI,
+      functionName: 'ownerOf',
+      args: [BigInt(ensHash)]
+    });
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
-    const resolvedAddress = await provider.resolveName(ens);
+    const resolvedAddress = await client.getEnsAddress({
+      name: normalized,
+      universalResolverAddress
+    });
 
     // Filter out domains with valid TXT records, but not imported
     if (resolvedAddress) {
@@ -141,12 +146,19 @@ export async function getEnsOwner(
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
+    // a CCIP gateway 404 means the name does not exist; anything else throws
     try {
-      owner = await provider.resolveName(ens);
+      owner =
+        (await client.getEnsAddress({
+          name: normalized,
+          universalResolverAddress
+        })) || EMPTY_ADDRESS;
     } catch (e: any) {
-      if (MUTED_ERRORS.every((error) => !e.message.includes(error))) {
-        throw e;
-      }
+      const httpError =
+        typeof e?.walk === 'function'
+          ? e.walk((err: any) => err instanceof HttpRequestError)
+          : undefined;
+      if (!httpError || httpError.status !== 404) throw e;
       owner = EMPTY_ADDRESS;
     }
   }
