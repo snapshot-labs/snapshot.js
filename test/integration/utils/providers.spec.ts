@@ -1,7 +1,13 @@
-import { describe, expect, test } from 'vitest';
-import getProvider from '../../../src/utils/provider';
+import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
+import { AddressInfo, createServer, Server, Socket } from 'net';
+import getProvider, {
+  DEFAULT_TIMEOUT,
+  normalizeOptions
+} from '../../../src/utils/provider';
 import { getViemClient } from '../../../src/utils/viem';
-import { RpcProvider } from 'starknet';
+import { LibraryError, RpcProvider } from 'starknet';
+
+const STARKNET_NETWORK = '0x534e5f4d41494e';
 
 describe('test providers', () => {
   describe('getProvider()', () => {
@@ -223,5 +229,172 @@ describe('test providers', () => {
       expect(provider1.connection.timeout).toBe(15000);
       expect(provider1.connection.url).toContain('custom.snapshot.org');
     });
+  });
+});
+
+describe('Starknet provider timeout', () => {
+  // Not a refused connection: that one fails fast on its own.
+  let server: Server;
+  // A proxy that wedges after it has relayed the upstream headers.
+  let headersOnlyServer: Server;
+  let sockets: Socket[] = [];
+  let broviderUrl: string;
+  let headersOnlyUrl: string;
+
+  const listen = async (server: Server): Promise<string> => {
+    await new Promise<void>((resolve) =>
+      server.listen(0, '127.0.0.1', () => resolve())
+    );
+    return `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+  };
+
+  beforeAll(async () => {
+    // The deadline aborts mid-request, so an RST is expected; an unhandled
+    // 'error' on a socket takes the worker down rather than failing a test.
+    const accept = (socket: Socket) => {
+      socket.on('error', () => {
+        /* expected */
+      });
+      sockets.push(socket);
+      return socket;
+    };
+
+    server = createServer(accept);
+    headersOnlyServer = createServer((socket) => {
+      accept(socket).on('data', () =>
+        socket.write(
+          'HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: 24\r\n\r\n'
+        )
+      );
+    });
+    broviderUrl = await listen(server);
+    headersOnlyUrl = await listen(headersOnlyServer);
+  });
+
+  afterAll(async () => {
+    sockets.forEach((socket) => socket.destroy());
+    sockets = [];
+    await Promise.all(
+      [server, headersOnlyServer].map(
+        (s) => new Promise<void>((resolve) => s.close(() => resolve()))
+      )
+    );
+  });
+
+  test('rejects a hung request instead of hanging', async () => {
+    const provider = getProvider(STARKNET_NETWORK, {
+      broviderUrl,
+      timeout: 300
+    });
+    const start = Date.now();
+
+    await expect(provider.getSpecVersion()).rejects.toThrow(
+      'Request timeout after 300ms'
+    );
+
+    const elapsed = Date.now() - start;
+    expect(elapsed).toBeGreaterThanOrEqual(300);
+    expect(elapsed).toBeLessThan(3000);
+  });
+
+  test('rejects when the body stalls after the headers arrive', async () => {
+    const provider = getProvider(STARKNET_NETWORK, {
+      broviderUrl: headersOnlyUrl,
+      timeout: 300
+    });
+    const start = Date.now();
+
+    await expect(provider.getSpecVersion()).rejects.toMatchObject({
+      message: 'Request timeout after 300ms',
+      code: 'TIMEOUT'
+    });
+
+    const elapsed = Date.now() - start;
+    expect(elapsed).toBeGreaterThanOrEqual(300);
+    expect(elapsed).toBeLessThan(3000);
+  });
+
+  test('leaves starknet its own transport when the timeout is disabled', () => {
+    const provider = getProvider(STARKNET_NETWORK, { broviderUrl, timeout: 0 });
+    const stock = new RpcProvider({ nodeUrl: broviderUrl }) as any;
+
+    expect(provider.channel.baseFetch).toBe(stock.channel.baseFetch);
+  });
+
+  // cross-fetch's Node entry is node-fetch 2, which sets `Connection: close`
+  // whenever no agent is passed, so it reuses no connection to the brovider.
+  test('does not close the connection after every request', async () => {
+    const requests: string[] = [];
+    const open: Socket[] = [];
+    const rpcServer = createServer((socket) => {
+      open.push(socket);
+      socket.on('data', (chunk) => {
+        requests.push(chunk.toString());
+        const body = '{"jsonrpc":"2.0","id":1,"result":"0.8.1"}';
+        socket.write(
+          'HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n' +
+            `Content-Length: ${Buffer.byteLength(body)}\r\n\r\n${body}`
+        );
+      });
+    });
+    const rpcUrl = await listen(rpcServer);
+
+    try {
+      const provider = getProvider(STARKNET_NETWORK, {
+        broviderUrl: rpcUrl,
+        timeout: 1000
+      });
+
+      await expect(provider.getSpecVersion()).resolves.toBe('0.8.1');
+      expect(requests.join('')).not.toMatch(/^connection:\s*close/im);
+    } finally {
+      open.forEach((socket) => socket.destroy());
+      await new Promise<void>((resolve) => rpcServer.close(() => resolve()));
+    }
+  });
+
+  test('rejects with the same error code as the EVM provider', async () => {
+    const provider = getProvider(STARKNET_NETWORK, {
+      broviderUrl,
+      timeout: 400
+    });
+    const request = provider.getSpecVersion();
+
+    // A plain Error would come back out of RpcChannel#errorHandler stripped of
+    // `code`, so the class is what keeps the code assertion true.
+    await expect(request).rejects.toBeInstanceOf(LibraryError);
+    await expect(request).rejects.toMatchObject({ code: 'TIMEOUT' });
+  });
+
+  test('applies the default timeout when none is passed', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+
+    try {
+      const provider = getProvider(STARKNET_NETWORK, { broviderUrl });
+      const assertion = expect(provider.getSpecVersion()).rejects.toThrow(
+        `Request timeout after ${DEFAULT_TIMEOUT}ms`
+      );
+
+      await vi.advanceTimersByTimeAsync(DEFAULT_TIMEOUT);
+      await assertion;
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+});
+
+describe('normalizeOptions()', () => {
+  test.each([
+    [undefined, DEFAULT_TIMEOUT],
+    [NaN, DEFAULT_TIMEOUT],
+    [Infinity, DEFAULT_TIMEOUT],
+    [-100, DEFAULT_TIMEOUT],
+    [0, 0],
+    [30000, 30000],
+    // Above this Node clamps the setTimeout delay to ~1ms.
+    [2_147_483_648, 2_147_483_647],
+    [3e9, 2_147_483_647]
+  ])('normalizes a timeout of %s to %s', (timeout, expected) => {
+    expect(normalizeOptions({ timeout }).timeout).toBe(expected);
   });
 });
