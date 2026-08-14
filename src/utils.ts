@@ -2,15 +2,14 @@ import crossFetch from 'cross-fetch';
 import { Contract } from '@ethersproject/contracts';
 import { getAddress, isAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
-import { parseAbi, concat, stringToBytes, toHex } from 'viem';
-import { namehash, normalize } from 'viem/ens';
-import type { Address, Hex, PublicClient } from 'viem';
+import { namehash, ensNormalize } from '@ethersproject/hash';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import addErrors from 'ajv-errors';
 import { getSnapshots } from './utils/blockfinder';
-import getProvider, { getViemClient } from './utils/provider';
+import getProvider from './utils/provider';
+import { getEnsTextRecord, getEnsOwner } from './utils/ens';
 import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './verify';
 import gateways from './gateways.json';
@@ -31,26 +30,6 @@ interface Strategy {
   params: any;
 }
 
-type DomainType = 'ens' | 'tld' | 'other-tld' | 'subdomain';
-
-const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
-const UNIVERSAL_RESOLVER_ADDRESS = '0xeEeEEEeE14D718C2B47D9923Deab1335E144EeEe';
-const UNIVERSAL_RESOLVER_ABI = parseAbi([
-  'error ResolverNotFound(bytes name)',
-  'error ResolverNotContract(bytes name, address resolver)',
-  'error UnsupportedResolverProfile(bytes4 selector)',
-  'error ResolverError(bytes errorData)',
-  'error ReverseAddressMismatch(string primary, bytes primaryAddress)',
-  'error HttpError(uint16 status, string message)',
-  'function resolve(bytes name, bytes data) view returns (bytes result, address resolver)',
-  'function findOwner(bytes name) view returns (address owner)'
-]);
-const ENS_REGISTRY_ABI = parseAbi([
-  'function owner(bytes32 node) view returns (address)'
-]);
-const NAME_WRAPPER_ABI = parseAbi([
-  'function ownerOf(uint256 id) view returns (address)'
-]);
 const UD_MAPPING = {
   '146': {
     tlds: ['.sonic'],
@@ -222,92 +201,6 @@ ajv.addFormat('domain', {
     );
   }
 });
-
-function getDomainType(domain: string): DomainType {
-  const isEns = domain.endsWith('.eth');
-
-  const tokens = domain.split('.');
-
-  if (tokens.length === 1) return 'tld';
-  else if (tokens.length === 2 && !isEns) return 'other-tld';
-  else if (tokens.length > 2) return 'subdomain';
-  else if (isEns) return 'ens';
-  else throw new Error('Invalid domain');
-}
-
-function dnsEncodeName(name: string): Hex {
-  const normalized = normalize(name);
-  const labels = normalized.split('.');
-  const encodedLabels = labels.map((label) => {
-    // DNS limits are in bytes, not characters
-    const labelBytes = stringToBytes(label);
-    if (!labelBytes.length || labelBytes.length > 63) {
-      throw new Error(`Invalid ENS label: ${label}`);
-    }
-    return concat([Uint8Array.from([labelBytes.length]), labelBytes]);
-  });
-  const encoded = concat([...encodedLabels, new Uint8Array([0])]);
-  if (encoded.length > 255) {
-    throw new Error(`DNS-encoded name exceeds 255 bytes: ${name}`);
-  }
-  return toHex(encoded);
-}
-
-function getUniversalResolverAddress(
-  network: string,
-  options: any = {}
-): Address {
-  return (
-    options.ensUniversalResolver ||
-    networks[network]?.ensUniversalResolver ||
-    UNIVERSAL_RESOLVER_ADDRESS
-  );
-}
-
-async function unwrapNameWrapperOwner(
-  owner: string,
-  ensHash: Hex,
-  ensNameWrapper: string,
-  client: PublicClient
-): Promise<string> {
-  if (!ensNameWrapper || owner.toLowerCase() !== ensNameWrapper.toLowerCase())
-    return owner;
-
-  return await client.readContract({
-    address: ensNameWrapper as Address,
-    abi: NAME_WRAPPER_ABI,
-    functionName: 'ownerOf',
-    args: [BigInt(ensHash)]
-  });
-}
-
-// see https://docs.ens.domains/registry/dns#gasless-import
-async function getDNSOwner(domain: string): Promise<string> {
-  const response = await fetch(
-    `https://cloudflare-dns.com/dns-query?name=${domain}&type=TXT`,
-    {
-      headers: {
-        accept: 'application/dns-json'
-      }
-    }
-  );
-
-  const data = await response.json();
-  // Error list: https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-6
-  if (data.Status === 3) return EMPTY_ADDRESS;
-  if (data.Status !== 0) throw new Error('Failed to fetch DNS Owner');
-
-  const ownerRecord = data.Answer?.find((record: any) =>
-    record.data.includes('ENS1')
-  );
-
-  if (!ownerRecord) return EMPTY_ADDRESS;
-
-  return getAddress(
-    ownerRecord.data.replace(new RegExp('"', 'g'), '').split(' ').pop()
-  );
-}
-
 export async function call(provider, abi: any[], call: any[], options?) {
   const contract = new Contract(call[0], abi, provider);
   try {
@@ -663,33 +556,7 @@ export function validateSchema(
   return valid ? valid : ajvValidate.errors;
 }
 
-export async function getEnsTextRecord(
-  ens: string,
-  record: string,
-  network = '1',
-  options: any = {}
-) {
-  let normalized: string;
-
-  try {
-    normalized = normalize(ens);
-    dnsEncodeName(normalized);
-  } catch (e: any) {
-    return null;
-  }
-
-  const client = getViemClient(network, options);
-
-  try {
-    return await client.getEnsText({
-      name: normalized,
-      key: record,
-      universalResolverAddress: getUniversalResolverAddress(network, options)
-    });
-  } catch (e: any) {
-    return null;
-  }
-}
+export { getEnsTextRecord, getEnsOwner };
 
 export async function getSpaceUri(
   id: string,
@@ -702,98 +569,6 @@ export async function getSpaceUri(
     console.log(e);
     return null;
   }
-}
-
-export async function getEnsOwner(
-  ens: string,
-  network = '1',
-  options: any = {}
-): Promise<string> {
-  if (!networks[network]?.ensUniversalResolver) {
-    throw new Error('Network not supported');
-  }
-
-  const domainType = getDomainType(ens);
-  const client = getViemClient(network, options);
-
-  let normalized: string;
-  let ensHash: Hex;
-  let dnsEncodedName: Hex;
-
-  try {
-    normalized = normalize(ens);
-    ensHash = namehash(normalized);
-    dnsEncodedName = dnsEncodeName(normalized);
-  } catch (e: any) {
-    return EMPTY_ADDRESS;
-  }
-
-  const ensNameWrapper =
-    options.ensNameWrapper || networks[network].ensNameWrapper;
-  const universalResolverAddress = getUniversalResolverAddress(
-    network,
-    options
-  );
-
-  let owner: string = EMPTY_ADDRESS;
-
-  // Prefer Universal Resolver findOwner (ENSv2); fall back when unavailable
-  try {
-    owner = await client.readContract({
-      address: universalResolverAddress,
-      abi: UNIVERSAL_RESOLVER_ABI,
-      functionName: 'findOwner',
-      args: [dnsEncodedName]
-    });
-    owner = await unwrapNameWrapperOwner(
-      owner,
-      ensHash,
-      ensNameWrapper,
-      client
-    );
-  } catch (e: any) {
-    owner = EMPTY_ADDRESS;
-  }
-
-  if (!owner || owner === EMPTY_ADDRESS) {
-    owner = await client.readContract({
-      address: ENS_REGISTRY,
-      abi: ENS_REGISTRY_ABI,
-      functionName: 'owner',
-      args: [ensHash]
-    });
-    owner = await unwrapNameWrapperOwner(
-      owner,
-      ensHash,
-      ensNameWrapper,
-      client
-    );
-  }
-
-  if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
-    const resolvedAddress = await client.getEnsAddress({
-      name: normalized,
-      universalResolverAddress
-    });
-
-    // Filter out domains with valid TXT records, but not imported
-    if (resolvedAddress) {
-      owner = await getDNSOwner(ens);
-    }
-  }
-
-  if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
-    // viem returns null for unresolvable names (non-strict mode), so only
-    // genuine transport/RPC failures throw — let those propagate instead of
-    // silently reporting the name as unowned
-    owner =
-      (await client.getEnsAddress({
-        name: normalized,
-        universalResolverAddress
-      })) || EMPTY_ADDRESS;
-  }
-
-  return owner || EMPTY_ADDRESS;
 }
 
 async function getEnsSpaceController(
@@ -847,7 +622,7 @@ export async function getUDNameOwner(
   }
 
   try {
-    const hash = namehash(normalize(id));
+    const hash = namehash(ensNormalize(id));
     const tokenId = BigInt(hash);
     const provider = getProvider(network);
 

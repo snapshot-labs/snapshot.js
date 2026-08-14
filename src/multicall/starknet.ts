@@ -1,6 +1,50 @@
 import { num, RpcProvider, shortString, transaction, uint256 } from 'starknet';
 
 /**
+ * Re-encodes a decoded short string to the felt it came from.
+ *
+ * `shortString.encodeShortString` is not a faithful inverse of
+ * `decodeShortString`: it builds the hex with `charCodeAt(0).toString(16)` and
+ * no zero padding, so every byte below `0x10` comes back one hex digit short.
+ * `0x55534409436f696e` ("USD\tCoin") re-encodes as `0x5553449436f696e`.
+ *
+ * The `0x7f` bound is the one `encodeShortString` enforces through `isASCII`,
+ * and it is load bearing rather than incidental: a felt holding a byte above
+ * `0x7f` decodes to mojibake that `BigInt()` cannot read back, so it has to
+ * stay a raw felt. Returns `undefined` when the string cannot be a felt's
+ * bytes, which is a rejection rather than a value.
+ */
+function encodeShortStringPadded(value: string): string | undefined {
+  if (value.length === 0) return undefined;
+
+  let hex = '';
+
+  for (let index = 0; index < value.length; index++) {
+    const code = value.charCodeAt(index);
+
+    if (code > 0x7f) return undefined;
+
+    hex += code.toString(16).padStart(2, '0');
+  }
+
+  return `0x${hex}`;
+}
+
+function decodeFelt252(rawValue: string): string {
+  try {
+    const decoded = shortString.decodeShortString(rawValue);
+    const reEncoded = encodeShortStringPadded(decoded);
+
+    return reEncoded !== undefined &&
+      num.toBigInt(reEncoded) === num.toBigInt(rawValue)
+      ? decoded
+      : rawValue;
+  } catch {
+    return rawValue;
+  }
+}
+
+/**
  * Parses the raw result from a Starknet function call based on its ABI.
  * It handles different types like felt252, u8, u256, etc., and decodes them accordingly.
  * @param rawResult - The raw result from the Starknet function call.
@@ -29,13 +73,29 @@ function parseStarknetResult(rawResult: string[], functionAbi: any): any {
 
       switch (output.type) {
         case 'core::felt252':
-          try {
-            results.push(shortString.decodeShortString(rawValue));
-          } catch {
-            results.push(rawValue);
-          }
+          results.push(decodeFelt252(rawValue));
           rawIndex++;
           break;
+        case 'core::array::Span::<core::felt252>':
+        case 'core::array::Array::<core::felt252>': {
+          if (rawValue === undefined) {
+            // The response ran out before this output. Degrade like every
+            // other case does rather than throwing out of the loop, which
+            // would discard the outputs already parsed. Not `[]`, which a
+            // caller cannot tell from a genuinely empty span.
+            results.push(undefined);
+            rawIndex++;
+            break;
+          }
+
+          const length = Number(num.toBigInt(rawValue));
+
+          // Span items are opaque: only the caller knows whether they hold
+          // text, so they are returned as raw felts.
+          results.push(rawResult.slice(rawIndex + 1, rawIndex + 1 + length));
+          rawIndex += 1 + length;
+          break;
+        }
         case 'core::integer::u8':
         case 'core::integer::u16':
         case 'core::integer::u32':
