@@ -1,6 +1,7 @@
 import { Contract } from '@ethersproject/contracts';
 import { getAddress } from '@ethersproject/address';
-import { namehash, normalize } from 'viem/ens';
+import { ensNormalize } from '@ethersproject/hash';
+import { namehash } from 'viem/ens';
 import getProvider from './provider';
 import { getViemClient } from './viem';
 import { fetch } from '../utils';
@@ -65,8 +66,10 @@ export async function getEnsTextRecord(
 ) {
   let normalized: string;
 
+  // ensNormalize rather than viem's normalize: they ship different revisions
+  // of the ENSIP-15 tables, and viem rejects names of existing spaces
   try {
-    normalized = normalize(ens);
+    normalized = ensNormalize(ens);
   } catch (e: any) {
     return null;
   }
@@ -110,7 +113,7 @@ export async function getEnsOwner(
   let ensHash: string;
 
   try {
-    ensHash = namehash(normalize(ens));
+    ensHash = namehash(ensNormalize(ens));
   } catch (e: any) {
     return EMPTY_ADDRESS;
   }

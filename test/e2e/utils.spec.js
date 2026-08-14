@@ -54,11 +54,13 @@ describe('utils', () => {
     });
 
     test('forward block overrides to the resolver call', async () => {
+      // the Universal Resolver is not deployed at this block, so a forwarded
+      // blockNumber must fail where an ignored one would read latest
       await expect(
-        getEnsTextRecord('stakedao.eth', 'snapshot', '1', {
-          blockTag: 'latest'
+        getEnsTextRecord('ens.eth', 'snapshot', '1', {
+          blockNumber: 10000000n
         })
-      ).resolves.toBe('0xB0552b6860CE5C0202976Db056b5e3Cc4f9CC765');
+      ).rejects.toThrow();
     });
 
     test('return null for an unset record', async () => {
