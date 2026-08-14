@@ -1,22 +1,37 @@
-import { Contract } from '@ethersproject/contracts';
 import { getAddress } from '@ethersproject/address';
 import { ensNormalize } from '@ethersproject/hash';
+import {
+  concat,
+  parseAbi,
+  stringToBytes,
+  toHex,
+  HttpRequestError,
+  InvalidAddressError
+} from 'viem';
 import { namehash } from 'viem/ens';
-import getProvider from './provider';
+import type { Address, Hex, PublicClient } from 'viem';
 import { getViemClient } from './viem';
 import { fetch } from '../utils';
 import networks from '../networks.json';
 
 type DomainType = 'ens' | 'tld' | 'other-tld' | 'subdomain';
 
-const MUTED_ERRORS = [
-  // mute error from coinbase, when the subdomain is not found
-  // most other resolvers just return an empty address
-  'response not found during CCIP fetch',
-  // mute error from missing offchain resolver (mostly for sepolia)
-  'UNSUPPORTED_OPERATION'
-];
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
+const ENS_REGISTRY_ABI = parseAbi([
+  'function owner(bytes32 node) view returns (address)'
+]);
+const NAME_WRAPPER_ABI = parseAbi([
+  'function ownerOf(uint256 id) view returns (address)'
+]);
+const UNIVERSAL_RESOLVER_ABI = parseAbi([
+  'error ResolverNotFound(bytes name)',
+  'error ResolverNotContract(bytes name, address resolver)',
+  'error UnsupportedResolverProfile(bytes4 selector)',
+  'error ResolverError(bytes errorData)',
+  'error ReverseAddressMismatch(string primary, bytes primaryAddress)',
+  'error HttpError(uint16 status, string message)',
+  'function findOwner(bytes name) view returns (address owner)'
+]);
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 function getDomainType(domain: string): DomainType {
@@ -29,6 +44,41 @@ function getDomainType(domain: string): DomainType {
   else if (tokens.length > 2) return 'subdomain';
   else if (isEns) return 'ens';
   else throw new Error('Invalid domain');
+}
+
+// takes an already-normalized name; DNS wire format per RFC 1035
+function dnsEncodeName(name: string): Hex {
+  const labels = name.split('.');
+  const encodedLabels = labels.map((label) => {
+    // DNS limits are in bytes, not characters
+    const labelBytes = stringToBytes(label);
+    if (!labelBytes.length || labelBytes.length > 63) {
+      throw new Error(`Invalid ENS label: ${label}`);
+    }
+    return concat([Uint8Array.from([labelBytes.length]), labelBytes]);
+  });
+  const encoded = concat([...encodedLabels, new Uint8Array([0])]);
+  if (encoded.length > 255) {
+    throw new Error(`DNS-encoded name exceeds 255 bytes: ${name}`);
+  }
+  return toHex(encoded);
+}
+
+async function unwrapNameWrapperOwner(
+  owner: string,
+  ensHash: Hex,
+  ensNameWrapper: string,
+  client: PublicClient
+): Promise<string> {
+  if (!ensNameWrapper || owner.toLowerCase() !== ensNameWrapper.toLowerCase())
+    return owner;
+
+  return await client.readContract({
+    address: ensNameWrapper as Address,
+    abi: NAME_WRAPPER_ABI,
+    functionName: 'ownerOf',
+    args: [BigInt(ensHash)]
+  });
 }
 
 // see https://docs.ens.domains/registry/dns#gasless-import
@@ -98,41 +148,72 @@ export async function getEnsOwner(
   network = '1',
   options: any = {}
 ): Promise<string> {
-  if (!networks[network]?.ensResolvers?.length) {
+  const universalResolverAddress = networks[network]?.ensUniversalResolver;
+
+  if (!universalResolverAddress) {
     throw new Error('Network not supported');
   }
 
   const domainType = getDomainType(ens);
-  const provider = getProvider(network, options);
-  const ensRegistry = new Contract(
-    ENS_REGISTRY,
-    ['function owner(bytes32) view returns (address)'],
-    provider
-  );
+  const client = getViemClient(network, options);
 
-  let ensHash: string;
+  let normalized: string;
+  let ensHash: Hex;
+  let dnsEncodedName: Hex;
 
   try {
-    ensHash = namehash(ensNormalize(ens));
+    normalized = ensNormalize(ens);
+    ensHash = namehash(normalized);
+    dnsEncodedName = dnsEncodeName(normalized);
   } catch (e: any) {
     return EMPTY_ADDRESS;
   }
 
   const ensNameWrapper =
     options.ensNameWrapper || networks[network].ensNameWrapper;
-  let owner = await ensRegistry.owner(ensHash);
-  // If owner is the ENSNameWrapper contract, resolve the owner of the name
-  if (owner === ensNameWrapper) {
-    const ensNameWrapperContract = new Contract(
-      ensNameWrapper,
-      ['function ownerOf(uint256) view returns (address)'],
-      provider
-    );
-    owner = await ensNameWrapperContract.ownerOf(ensHash);
+
+  let owner: string = EMPTY_ADDRESS;
+
+  // findOwner is ENSv2-only and reverts on deployments that predate it
+  // (e.g. mainnet), which must fall back to the registry — but transport
+  // failures must surface, not read as "unowned"
+  try {
+    owner = await client.readContract({
+      address: universalResolverAddress,
+      abi: UNIVERSAL_RESOLVER_ABI,
+      functionName: 'findOwner',
+      args: [dnsEncodedName]
+    });
+  } catch (e: any) {
+    if (
+      typeof e?.walk !== 'function' ||
+      e.walk(
+        (err: any) =>
+          err instanceof HttpRequestError || err instanceof InvalidAddressError
+      )
+    ) {
+      throw e;
+    }
+    owner = EMPTY_ADDRESS;
   }
 
+  if (!owner || owner === EMPTY_ADDRESS) {
+    owner = await client.readContract({
+      address: ENS_REGISTRY,
+      abi: ENS_REGISTRY_ABI,
+      functionName: 'owner',
+      args: [ensHash]
+    });
+  }
+
+  // If owner is the ENSNameWrapper contract, resolve the owner of the name
+  owner = await unwrapNameWrapperOwner(owner, ensHash, ensNameWrapper, client);
+
   if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
-    const resolvedAddress = await provider.resolveName(ens);
+    const resolvedAddress = await client.getEnsAddress({
+      name: normalized,
+      universalResolverAddress
+    });
 
     // Filter out domains with valid TXT records, but not imported
     if (resolvedAddress) {
@@ -141,12 +222,20 @@ export async function getEnsOwner(
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
+    // a CCIP gateway 404 means the offchain name does not exist, matching
+    // the previously muted CCIP errors — anything else must propagate
     try {
-      owner = await provider.resolveName(ens);
+      owner =
+        (await client.getEnsAddress({
+          name: normalized,
+          universalResolverAddress
+        })) || EMPTY_ADDRESS;
     } catch (e: any) {
-      if (MUTED_ERRORS.every((error) => !e.message.includes(error))) {
-        throw e;
-      }
+      const httpError =
+        typeof e?.walk === 'function'
+          ? e.walk((err: any) => err instanceof HttpRequestError)
+          : undefined;
+      if (!httpError || httpError.status !== 404) throw e;
       owner = EMPTY_ADDRESS;
     }
   }

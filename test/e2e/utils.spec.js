@@ -119,9 +119,9 @@ describe('utils', () => {
       );
     });
 
-    test('return an empty address on testnet for an unowned name', async () => {
+    test('resolve an ENSv2 name owner on testnet via findOwner', async () => {
       await expect(getSpaceController('test123.eth', '11155111')).resolves.toBe(
-        EMPTY_ADDRESS
+        '0x1208a26FAa0F4AC65B42098419EB4dAA5e580AC6'
       );
     });
 
