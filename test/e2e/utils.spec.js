@@ -53,6 +53,14 @@ describe('utils', () => {
       ).resolves.toBe('0xB0552b6860CE5C0202976Db056b5e3Cc4f9CC765');
     });
 
+    test('forward block overrides to the resolver call', async () => {
+      await expect(
+        getEnsTextRecord('stakedao.eth', 'snapshot', '1', {
+          blockTag: 'latest'
+        })
+      ).resolves.toBe('0xB0552b6860CE5C0202976Db056b5e3Cc4f9CC765');
+    });
+
     test('return null for an unset record', async () => {
       await expect(
         getEnsTextRecord('vitalik.eth', 'snapshot', '1')

@@ -79,13 +79,14 @@ export async function getEnsTextRecord(
 
   const client = getViemClient(network, options);
 
-  // viem returns null for unresolvable names and resolver-level failures
-  // (including CCIP gateway errors, matching the previous behavior where
-  // offchain records were unreadable); RPC transport failures still throw
+  // unresolvable names and resolver-level failures resolve to null;
+  // transport failures throw instead of reading as "no record"
   return await client.getEnsText({
     name: normalized,
     key: record,
-    universalResolverAddress
+    universalResolverAddress,
+    blockNumber: options.blockNumber,
+    blockTag: options.blockTag
   });
 }
 
