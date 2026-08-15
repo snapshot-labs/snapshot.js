@@ -1,22 +1,21 @@
-import { Contract } from '@ethersproject/contracts';
 import { getAddress } from '@ethersproject/address';
 import { ensNormalize } from '@ethersproject/hash';
+import { parseAbi, ContractFunctionRevertedError } from 'viem';
 import { namehash } from 'viem/ens';
-import getProvider from './provider';
+import type { Address, Hex } from 'viem';
 import { getViemClient } from './viem';
 import { fetch } from '../utils';
 import networks from '../networks.json';
 
 type DomainType = 'ens' | 'tld' | 'other-tld' | 'subdomain';
 
-const MUTED_ERRORS = [
-  // mute error from coinbase, when the subdomain is not found
-  // most other resolvers just return an empty address
-  'response not found during CCIP fetch',
-  // mute error from missing offchain resolver (mostly for sepolia)
-  'UNSUPPORTED_OPERATION'
-];
 const ENS_REGISTRY = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e';
+const ENS_REGISTRY_ABI = parseAbi([
+  'function owner(bytes32 node) view returns (address)'
+]);
+const NAME_WRAPPER_ABI = parseAbi([
+  'function ownerOf(uint256 id) view returns (address)'
+]);
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 function getDomainType(domain: string): DomainType {
@@ -29,6 +28,38 @@ function getDomainType(domain: string): DomainType {
   else if (tokens.length > 2) return 'subdomain';
   else if (isEns) return 'ens';
   else throw new Error('Invalid domain');
+}
+
+// strict mode so gateway/infra failures throw; only reverts that mean the
+// name does not resolve (or a gateway 404) read as "no address"
+async function getEnsAddressStrict(
+  client: ReturnType<typeof getViemClient>,
+  name: string,
+  universalResolverAddress: Address
+): Promise<string | null> {
+  try {
+    return await client.getEnsAddress({
+      name,
+      universalResolverAddress,
+      strict: true
+    });
+  } catch (e: any) {
+    const revert =
+      typeof e?.walk === 'function'
+        ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
+        : undefined;
+    const errorName = (revert as any)?.data?.errorName;
+    if (
+      errorName === 'ResolverNotFound' ||
+      errorName === 'ResolverNotContract' ||
+      errorName === 'ResolverError' ||
+      errorName === 'UnsupportedResolverProfile' ||
+      (errorName === 'HttpError' && (revert as any)?.data?.args?.[0] === 404)
+    ) {
+      return null;
+    }
+    throw e;
+  }
 }
 
 // see https://docs.ens.domains/registry/dns#gasless-import
@@ -103,36 +134,43 @@ export async function getEnsOwner(
   }
 
   const domainType = getDomainType(ens);
-  const provider = getProvider(network, options);
-  const ensRegistry = new Contract(
-    ENS_REGISTRY,
-    ['function owner(bytes32) view returns (address)'],
-    provider
-  );
+  const client = getViemClient(network, options);
+  const universalResolverAddress = networks[network]?.ensUniversalResolver;
 
-  let ensHash: string;
+  let normalized: string;
+  let ensHash: Hex;
 
   try {
-    ensHash = namehash(ensNormalize(ens));
+    normalized = ensNormalize(ens);
+    ensHash = namehash(normalized);
   } catch (e: any) {
     return EMPTY_ADDRESS;
   }
 
   const ensNameWrapper =
     options.ensNameWrapper || networks[network].ensNameWrapper;
-  let owner = await ensRegistry.owner(ensHash);
+  let owner: string = await client.readContract({
+    address: ENS_REGISTRY,
+    abi: ENS_REGISTRY_ABI,
+    functionName: 'owner',
+    args: [ensHash]
+  });
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
   if (owner === ensNameWrapper) {
-    const ensNameWrapperContract = new Contract(
-      ensNameWrapper,
-      ['function ownerOf(uint256) view returns (address)'],
-      provider
-    );
-    owner = await ensNameWrapperContract.ownerOf(ensHash);
+    owner = await client.readContract({
+      address: ensNameWrapper as Address,
+      abi: NAME_WRAPPER_ABI,
+      functionName: 'ownerOf',
+      args: [BigInt(ensHash)]
+    });
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
-    const resolvedAddress = await provider.resolveName(ens);
+    const resolvedAddress = await getEnsAddressStrict(
+      client,
+      normalized,
+      universalResolverAddress
+    );
 
     // Filter out domains with valid TXT records, but not imported
     if (resolvedAddress) {
@@ -141,14 +179,12 @@ export async function getEnsOwner(
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
-    try {
-      owner = await provider.resolveName(ens);
-    } catch (e: any) {
-      if (MUTED_ERRORS.every((error) => !e.message.includes(error))) {
-        throw e;
-      }
-      owner = EMPTY_ADDRESS;
-    }
+    owner =
+      (await getEnsAddressStrict(
+        client,
+        normalized,
+        universalResolverAddress
+      )) || EMPTY_ADDRESS;
   }
 
   return owner || EMPTY_ADDRESS;
