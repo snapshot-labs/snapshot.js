@@ -119,6 +119,12 @@ describe('utils', () => {
       );
     });
 
+    test('resolve a DNS-imported space through its DNS owner', async () => {
+      await expect(getSpaceController('defi.app', '1')).resolves.toBe(
+        '0x7aeB96261e9dC2C9f01BaE6A516Df80a5a98c7eB'
+      );
+    });
+
     test('resolve a name the DNS wire format cannot carry', async () => {
       await expect(
         getSpaceController('🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂.eth', '1')

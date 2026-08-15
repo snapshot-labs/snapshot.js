@@ -39,9 +39,13 @@ function getDomainType(domain: string): DomainType {
   else throw new Error('Invalid domain');
 }
 
+// NotImplemented(): how TLD-level DNS resolvers answer for unsupported
+// record profiles (e.g. defi.app for text)
+const NOT_IMPLEMENTED_ERROR = '0xd6234725';
+
 // reverts that mean the name genuinely does not resolve: no resolver, a
-// resolver that reverted with no data (how unclaimed DNS names answer), or
-// a gateway 404; a data-carrying ResolverError, gateway 5xx/429 or
+// resolver that reverted with no data or NotImplemented() (how DNS names
+// answer), or a gateway 404; any other ResolverError, gateway 5xx/429 or
 // transport failure is a failure, not an answer
 function isNoRecordRevert(e: any): boolean {
   const revert =
@@ -54,7 +58,8 @@ function isNoRecordRevert(e: any): boolean {
     errorName === 'ResolverNotFound' ||
     errorName === 'ResolverNotContract' ||
     errorName === 'UnsupportedResolverProfile' ||
-    (errorName === 'ResolverError' && args?.[0] === '0x') ||
+    (errorName === 'ResolverError' &&
+      (args?.[0] === '0x' || args?.[0] === NOT_IMPLEMENTED_ERROR)) ||
     (errorName === 'HttpError' && args?.[0] === 404)
   );
 }
