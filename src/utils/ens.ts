@@ -5,11 +5,10 @@ import {
   parseAbi,
   stringToBytes,
   toHex,
-  HttpRequestError,
-  InvalidAddressError
+  ContractFunctionRevertedError
 } from 'viem';
 import { namehash } from 'viem/ens';
-import type { Address, Hex, PublicClient } from 'viem';
+import type { Address, Hex } from 'viem';
 import { getViemClient } from './viem';
 import { fetch } from '../utils';
 import networks from '../networks.json';
@@ -64,21 +63,36 @@ function dnsEncodeName(name: string): Hex {
   return toHex(encoded);
 }
 
-async function unwrapNameWrapperOwner(
-  owner: string,
-  ensHash: Hex,
-  ensNameWrapper: string,
-  client: PublicClient
-): Promise<string> {
-  if (!ensNameWrapper || owner.toLowerCase() !== ensNameWrapper.toLowerCase())
-    return owner;
-
-  return await client.readContract({
-    address: ensNameWrapper as Address,
-    abi: NAME_WRAPPER_ABI,
-    functionName: 'ownerOf',
-    args: [BigInt(ensHash)]
-  });
+// strict mode so gateway/infra failures throw; only reverts that mean the
+// name does not resolve (or a gateway 404) read as "no address"
+async function getEnsAddressStrict(
+  client: ReturnType<typeof getViemClient>,
+  name: string,
+  universalResolverAddress: Address
+): Promise<string | null> {
+  try {
+    return await client.getEnsAddress({
+      name,
+      universalResolverAddress,
+      strict: true
+    });
+  } catch (e: any) {
+    const revert =
+      typeof e?.walk === 'function'
+        ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
+        : undefined;
+    const errorName = (revert as any)?.data?.errorName;
+    if (
+      errorName === 'ResolverNotFound' ||
+      errorName === 'ResolverNotContract' ||
+      errorName === 'ResolverError' ||
+      errorName === 'UnsupportedResolverProfile' ||
+      (errorName === 'HttpError' && (revert as any)?.data?.args?.[0] === 404)
+    ) {
+      return null;
+    }
+    throw e;
+  }
 }
 
 // see https://docs.ens.domains/registry/dns#gasless-import
@@ -185,15 +199,11 @@ export async function getEnsOwner(
       args: [dnsEncodedName]
     });
   } catch (e: any) {
-    if (
-      typeof e?.walk !== 'function' ||
-      e.walk(
-        (err: any) =>
-          err instanceof HttpRequestError || err instanceof InvalidAddressError
-      )
-    ) {
-      throw e;
-    }
+    const revert =
+      typeof e?.walk === 'function'
+        ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
+        : undefined;
+    if (!revert) throw e;
     owner = EMPTY_ADDRESS;
   }
 
@@ -205,15 +215,22 @@ export async function getEnsOwner(
       args: [ensHash]
     });
   }
-
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
-  owner = await unwrapNameWrapperOwner(owner, ensHash, ensNameWrapper, client);
+  if (owner === ensNameWrapper) {
+    owner = await client.readContract({
+      address: ensNameWrapper as Address,
+      abi: NAME_WRAPPER_ABI,
+      functionName: 'ownerOf',
+      args: [BigInt(ensHash)]
+    });
+  }
 
   if (owner === EMPTY_ADDRESS && domainType === 'other-tld') {
-    const resolvedAddress = await client.getEnsAddress({
-      name: normalized,
+    const resolvedAddress = await getEnsAddressStrict(
+      client,
+      normalized,
       universalResolverAddress
-    });
+    );
 
     // Filter out domains with valid TXT records, but not imported
     if (resolvedAddress) {
@@ -222,22 +239,12 @@ export async function getEnsOwner(
   }
 
   if (owner === EMPTY_ADDRESS && domainType === 'subdomain') {
-    // a CCIP gateway 404 means the offchain name does not exist, matching
-    // the previously muted CCIP errors — anything else must propagate
-    try {
-      owner =
-        (await client.getEnsAddress({
-          name: normalized,
-          universalResolverAddress
-        })) || EMPTY_ADDRESS;
-    } catch (e: any) {
-      const httpError =
-        typeof e?.walk === 'function'
-          ? e.walk((err: any) => err instanceof HttpRequestError)
-          : undefined;
-      if (!httpError || httpError.status !== 404) throw e;
-      owner = EMPTY_ADDRESS;
-    }
+    owner =
+      (await getEnsAddressStrict(
+        client,
+        normalized,
+        universalResolverAddress
+      )) || EMPTY_ADDRESS;
   }
 
   return owner || EMPTY_ADDRESS;
