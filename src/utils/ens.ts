@@ -1,13 +1,7 @@
 import { getAddress } from '@ethersproject/address';
 import { ensNormalize } from '@ethersproject/hash';
-import {
-  concat,
-  parseAbi,
-  stringToBytes,
-  toHex,
-  ContractFunctionRevertedError
-} from 'viem';
-import { namehash } from 'viem/ens';
+import { parseAbi, toHex, ContractFunctionRevertedError } from 'viem';
+import { namehash, packetToBytes } from 'viem/ens';
 import type { Address, Hex } from 'viem';
 import { getViemClient } from './viem';
 import { fetch } from '../utils';
@@ -43,24 +37,6 @@ function getDomainType(domain: string): DomainType {
   else if (tokens.length > 2) return 'subdomain';
   else if (isEns) return 'ens';
   else throw new Error('Invalid domain');
-}
-
-// takes an already-normalized name; DNS wire format per RFC 1035
-function dnsEncodeName(name: string): Hex {
-  const labels = name.split('.');
-  const encodedLabels = labels.map((label) => {
-    // DNS limits are in bytes, not characters
-    const labelBytes = stringToBytes(label);
-    if (!labelBytes.length || labelBytes.length > 63) {
-      throw new Error(`Invalid ENS label: ${label}`);
-    }
-    return concat([Uint8Array.from([labelBytes.length]), labelBytes]);
-  });
-  const encoded = concat([...encodedLabels, new Uint8Array([0])]);
-  if (encoded.length > 255) {
-    throw new Error(`DNS-encoded name exceeds 255 bytes: ${name}`);
-  }
-  return toHex(encoded);
 }
 
 // reverts that mean the name genuinely does not resolve: no resolver, a
@@ -190,15 +166,9 @@ export async function getEnsOwner(
     return EMPTY_ADDRESS;
   }
 
-  // names the DNS wire format cannot carry (e.g. labels over 63 bytes)
-  // exist in the hash-based registry, so they skip findOwner only
-  let dnsEncodedName: Hex | undefined;
-
-  try {
-    dnsEncodedName = dnsEncodeName(normalized);
-  } catch (e: any) {
-    dnsEncodedName = undefined;
-  }
+  // same wire encoding viem uses for every Universal Resolver call, so
+  // names the strict DNS format cannot carry still resolve consistently
+  const dnsEncodedName = toHex(packetToBytes(normalized));
 
   const ensNameWrapper =
     options.ensNameWrapper || networks[network].ensNameWrapper;
@@ -209,22 +179,20 @@ export async function getEnsOwner(
   // decodable error, which falls back to the registry; a decoded revert from
   // an ENSv2 traversal or a transport failure must surface, not read as
   // "unowned" and resolve a stale v1 owner
-  if (dnsEncodedName) {
-    try {
-      owner = await client.readContract({
-        address: universalResolverAddress,
-        abi: UNIVERSAL_RESOLVER_ABI,
-        functionName: 'findOwner',
-        args: [dnsEncodedName]
-      });
-    } catch (e: any) {
-      const revert =
-        typeof e?.walk === 'function'
-          ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
-          : undefined;
-      if (!revert || (revert as any).data?.errorName) throw e;
-      owner = EMPTY_ADDRESS;
-    }
+  try {
+    owner = await client.readContract({
+      address: universalResolverAddress,
+      abi: UNIVERSAL_RESOLVER_ABI,
+      functionName: 'findOwner',
+      args: [dnsEncodedName]
+    });
+  } catch (e: any) {
+    const revert =
+      typeof e?.walk === 'function'
+        ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
+        : undefined;
+    if (!revert || (revert as any).data?.errorName) throw e;
+    owner = EMPTY_ADDRESS;
   }
 
   if (!owner || owner === EMPTY_ADDRESS) {

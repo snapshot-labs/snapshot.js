@@ -563,12 +563,9 @@ export async function getSpaceUri(
   network = '1',
   options: any = {}
 ): Promise<string | null> {
-  try {
-    return await getEnsTextRecord(id, 'snapshot', network, options);
-  } catch (e: any) {
-    console.log(e);
-    return null;
-  }
+  // no catch: a failed read must not look like a missing record, or the
+  // controller silently falls back to the name owner
+  return await getEnsTextRecord(id, 'snapshot', network, options);
 }
 
 async function getEnsSpaceController(
