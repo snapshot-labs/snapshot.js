@@ -63,8 +63,23 @@ function dnsEncodeName(name: string): Hex {
   return toHex(encoded);
 }
 
-// strict mode so gateway/infra failures throw; only reverts that mean the
-// name does not resolve (or a gateway 404) read as "no address"
+// reverts that mean the name genuinely does not resolve (or a gateway 404);
+// anything else — gateway 5xx/429, transport — is a failure, not an answer
+function isNoRecordRevert(e: any): boolean {
+  const revert =
+    typeof e?.walk === 'function'
+      ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
+      : undefined;
+  const errorName = (revert as any)?.data?.errorName;
+  return (
+    errorName === 'ResolverNotFound' ||
+    errorName === 'ResolverNotContract' ||
+    errorName === 'ResolverError' ||
+    errorName === 'UnsupportedResolverProfile' ||
+    (errorName === 'HttpError' && (revert as any)?.data?.args?.[0] === 404)
+  );
+}
+
 async function getEnsAddressStrict(
   client: ReturnType<typeof getViemClient>,
   name: string,
@@ -77,20 +92,7 @@ async function getEnsAddressStrict(
       strict: true
     });
   } catch (e: any) {
-    const revert =
-      typeof e?.walk === 'function'
-        ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
-        : undefined;
-    const errorName = (revert as any)?.data?.errorName;
-    if (
-      errorName === 'ResolverNotFound' ||
-      errorName === 'ResolverNotContract' ||
-      errorName === 'ResolverError' ||
-      errorName === 'UnsupportedResolverProfile' ||
-      (errorName === 'HttpError' && (revert as any)?.data?.args?.[0] === 404)
-    ) {
-      return null;
-    }
+    if (isNoRecordRevert(e)) return null;
     throw e;
   }
 }
@@ -146,15 +148,19 @@ export async function getEnsTextRecord(
 
   const client = getViemClient(network, options);
 
-  // unresolvable names and resolver-level failures resolve to null;
-  // transport failures throw instead of reading as "no record"
-  return await client.getEnsText({
-    name: normalized,
-    key: record,
-    universalResolverAddress,
-    blockNumber: options.blockNumber,
-    blockTag: options.blockTag
-  });
+  try {
+    return await client.getEnsText({
+      name: normalized,
+      key: record,
+      universalResolverAddress,
+      blockNumber: options.blockNumber,
+      blockTag: options.blockTag,
+      strict: true
+    });
+  } catch (e: any) {
+    if (isNoRecordRevert(e)) return null;
+    throw e;
+  }
 }
 
 export async function getEnsOwner(
