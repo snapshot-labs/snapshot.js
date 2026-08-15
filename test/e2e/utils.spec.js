@@ -119,6 +119,12 @@ describe('utils', () => {
       );
     });
 
+    test('resolve a name the DNS wire format cannot carry', async () => {
+      await expect(
+        getSpaceController('🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂.eth', '1')
+      ).resolves.toBe('0x1900c042Ce71f8384e19B207B6cd155dD069E3EC');
+    });
+
     test('resolve an ENSv2 name owner on testnet via findOwner', async () => {
       await expect(getSpaceController('test123.eth', '11155111')).resolves.toBe(
         '0x1208a26FAa0F4AC65B42098419EB4dAA5e580AC6'

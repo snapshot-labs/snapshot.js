@@ -173,14 +173,22 @@ export async function getEnsOwner(
 
   let normalized: string;
   let ensHash: Hex;
-  let dnsEncodedName: Hex;
 
   try {
     normalized = ensNormalize(ens);
     ensHash = namehash(normalized);
-    dnsEncodedName = dnsEncodeName(normalized);
   } catch (e: any) {
     return EMPTY_ADDRESS;
+  }
+
+  // names the DNS wire format cannot carry (e.g. labels over 63 bytes)
+  // exist in the hash-based registry, so they skip findOwner only
+  let dnsEncodedName: Hex | undefined;
+
+  try {
+    dnsEncodedName = dnsEncodeName(normalized);
+  } catch (e: any) {
+    dnsEncodedName = undefined;
   }
 
   const ensNameWrapper =
@@ -191,20 +199,22 @@ export async function getEnsOwner(
   // findOwner is ENSv2-only and reverts on deployments that predate it
   // (e.g. mainnet), which must fall back to the registry — but transport
   // failures must surface, not read as "unowned"
-  try {
-    owner = await client.readContract({
-      address: universalResolverAddress,
-      abi: UNIVERSAL_RESOLVER_ABI,
-      functionName: 'findOwner',
-      args: [dnsEncodedName]
-    });
-  } catch (e: any) {
-    const revert =
-      typeof e?.walk === 'function'
-        ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
-        : undefined;
-    if (!revert) throw e;
-    owner = EMPTY_ADDRESS;
+  if (dnsEncodedName) {
+    try {
+      owner = await client.readContract({
+        address: universalResolverAddress,
+        abi: UNIVERSAL_RESOLVER_ABI,
+        functionName: 'findOwner',
+        args: [dnsEncodedName]
+      });
+    } catch (e: any) {
+      const revert =
+        typeof e?.walk === 'function'
+          ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
+          : undefined;
+      if (!revert) throw e;
+      owner = EMPTY_ADDRESS;
+    }
   }
 
   if (!owner || owner === EMPTY_ADDRESS) {
