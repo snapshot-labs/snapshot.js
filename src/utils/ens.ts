@@ -63,20 +63,23 @@ function dnsEncodeName(name: string): Hex {
   return toHex(encoded);
 }
 
-// reverts that mean the name genuinely does not resolve (or a gateway 404);
-// anything else — gateway 5xx/429, transport — is a failure, not an answer
+// reverts that mean the name genuinely does not resolve: no resolver, a
+// resolver that reverted with no data (how unclaimed DNS names answer), or
+// a gateway 404; a data-carrying ResolverError, gateway 5xx/429 or
+// transport failure is a failure, not an answer
 function isNoRecordRevert(e: any): boolean {
   const revert =
     typeof e?.walk === 'function'
       ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
       : undefined;
   const errorName = (revert as any)?.data?.errorName;
+  const args = (revert as any)?.data?.args;
   return (
     errorName === 'ResolverNotFound' ||
     errorName === 'ResolverNotContract' ||
-    errorName === 'ResolverError' ||
     errorName === 'UnsupportedResolverProfile' ||
-    (errorName === 'HttpError' && (revert as any)?.data?.args?.[0] === 404)
+    (errorName === 'ResolverError' && args?.[0] === '0x') ||
+    (errorName === 'HttpError' && args?.[0] === 404)
   );
 }
 
@@ -202,9 +205,10 @@ export async function getEnsOwner(
 
   let owner: string = EMPTY_ADDRESS;
 
-  // findOwner is ENSv2-only and reverts on deployments that predate it
-  // (e.g. mainnet), which must fall back to the registry — but transport
-  // failures must surface, not read as "unowned"
+  // deployments that predate findOwner (e.g. mainnet) revert with no
+  // decodable error, which falls back to the registry; a decoded revert from
+  // an ENSv2 traversal or a transport failure must surface, not read as
+  // "unowned" and resolve a stale v1 owner
   if (dnsEncodedName) {
     try {
       owner = await client.readContract({
@@ -218,7 +222,7 @@ export async function getEnsOwner(
         typeof e?.walk === 'function'
           ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
           : undefined;
-      if (!revert) throw e;
+      if (!revert || (revert as any).data?.errorName) throw e;
       owner = EMPTY_ADDRESS;
     }
   }
