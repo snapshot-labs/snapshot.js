@@ -180,24 +180,26 @@ export async function getEnsOwner(
 
   let owner: string = EMPTY_ADDRESS;
 
-  // deployments that predate findOwner (e.g. mainnet) revert with no
-  // decodable error, which falls back to the registry; a decoded revert from
-  // an ENSv2 traversal or a transport failure must surface, not read as
-  // "unowned" and resolve a stale v1 owner
-  try {
-    owner = await client.readContract({
-      address: universalResolverAddress,
-      abi: UNIVERSAL_RESOLVER_ABI,
-      functionName: 'findOwner',
-      args: [dnsEncodedName]
-    });
-  } catch (e: any) {
-    const revert =
-      typeof e?.walk === 'function'
-        ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
-        : undefined;
-    if (!revert || (revert as any).data?.errorName) throw e;
-    owner = EMPTY_ADDRESS;
+  // findOwner is ENSv2-only, live on Sepolia and not yet on mainnet; a
+  // decoded revert from a v2 traversal or a transport failure must surface,
+  // not read as "unowned" and resolve a stale v1 owner. An undecodable revert
+  // (a Universal Resolver without findOwner) still falls back to the registry
+  if (network === '11155111') {
+    try {
+      owner = await client.readContract({
+        address: universalResolverAddress,
+        abi: UNIVERSAL_RESOLVER_ABI,
+        functionName: 'findOwner',
+        args: [dnsEncodedName]
+      });
+    } catch (e: any) {
+      const revert =
+        typeof e?.walk === 'function'
+          ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
+          : undefined;
+      if (!revert || (revert as any).data?.errorName) throw e;
+      owner = EMPTY_ADDRESS;
+    }
   }
 
   if (!owner || owner === EMPTY_ADDRESS) {
