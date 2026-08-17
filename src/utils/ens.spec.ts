@@ -9,21 +9,18 @@ const EMPTY = '0x0000000000000000000000000000000000000000';
 const OWNER = '0x1208a26FAa0F4AC65B42098419EB4dAA5e580AC6';
 const NOT_IMPLEMENTED = '0xd6234725';
 
-// an error viem raises for a Universal Resolver revert: a wrapper whose
-// walk() surfaces a ContractFunctionRevertedError carrying the decoded name
+// viem error shapes: walk() surfaces a ContractFunctionRevertedError with the
+// decoded errorName, or without one when the revert cannot be decoded
 function revertError(errorName: string, arg?: any) {
   const revert = Object.create(ContractFunctionRevertedError.prototype);
   revert.data = { errorName, args: arg === undefined ? [] : [arg] };
   return { walk: (fn: any) => (fn(revert) ? revert : undefined) };
 }
-// a revert viem could not decode: a ContractFunctionRevertedError with no
-// errorName — how a Universal Resolver without findOwner reverts
 function undecodedRevert() {
   const revert = Object.create(ContractFunctionRevertedError.prototype);
   revert.data = undefined;
   return { walk: (fn: any) => (fn(revert) ? revert : undefined) };
 }
-// a non-revert failure (transport/RPC): walk finds no revert
 const transportError = { walk: () => undefined };
 
 function mockClient(overrides: Record<string, any> = {}) {
@@ -93,7 +90,6 @@ describe('getEnsOwner findOwner fallback', () => {
   });
 
   test('falls back to the registry when findOwner reverts undecoded', async () => {
-    // undecoded revert = a v2 resolver that cannot answer findOwner
     const client = mockClient();
     client.readContract
       .mockRejectedValueOnce(undecodedRevert())

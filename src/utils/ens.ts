@@ -39,14 +39,11 @@ function getDomainType(domain: string): DomainType {
   else throw new Error('Invalid domain');
 }
 
-// NotImplemented(): how TLD-level DNS resolvers answer for unsupported
-// record profiles (e.g. defi.app for text)
+// NotImplemented(), how DNS resolvers answer unsupported record profiles
 const NOT_IMPLEMENTED_ERROR = '0xd6234725';
 
-// reverts that mean the name genuinely does not resolve: no resolver, a
-// resolver that reverted with no data or NotImplemented() (how DNS names
-// answer), or a gateway 404; any other ResolverError, gateway 5xx/429 or
-// transport failure is a failure, not an answer
+// reverts that mean "no record"; anything else (other ResolverError data,
+// gateway 5xx, transport) is a failure and must throw
 function isNoRecordRevert(e: any): boolean {
   const revert =
     typeof e?.walk === 'function'
@@ -171,8 +168,7 @@ export async function getEnsOwner(
     return EMPTY_ADDRESS;
   }
 
-  // same wire encoding viem uses for every Universal Resolver call, so
-  // names the strict DNS format cannot carry still resolve consistently
+  // viem's own encoding, so labels the strict DNS format rejects still resolve
   const dnsEncodedName = toHex(packetToBytes(normalized));
 
   const ensNameWrapper =
@@ -180,10 +176,8 @@ export async function getEnsOwner(
 
   let owner: string = EMPTY_ADDRESS;
 
-  // findOwner is ENSv2-only, live on Sepolia and not yet on mainnet; a
-  // decoded revert from a v2 traversal or a transport failure must surface,
-  // not read as "unowned" and resolve a stale v1 owner. An undecodable revert
-  // (a Universal Resolver without findOwner) still falls back to the registry
+  // findOwner is ENSv2-only, live on Sepolia and not yet on mainnet; a decoded
+  // revert or transport failure must throw, not resolve a stale v1 owner
   if (network === '11155111') {
     try {
       owner = await client.readContract({
