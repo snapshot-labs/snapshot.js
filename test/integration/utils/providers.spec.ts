@@ -2,9 +2,12 @@ import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { AddressInfo, createServer, Server, Socket } from 'net';
 import getProvider, {
   DEFAULT_TIMEOUT,
-  normalizeOptions
+  getProviderType,
+  normalizeOptions,
+  STARKNET_NETWORK_IDS
 } from '../../../src/utils/provider';
 import { getViemClient } from '../../../src/utils/viem';
+import networks from '../../../src/networks.json';
 import { LibraryError, RpcProvider } from 'starknet';
 
 const STARKNET_NETWORK = '0x534e5f4d41494e';
@@ -36,6 +39,14 @@ describe('test providers', () => {
     test('should throw an error for unsupported networks', () => {
       expect(() => getProvider('0x123')).toThrowError(
         "Network '0x123' is not supported"
+      );
+    });
+
+    test('should type every Starknet network in networks.json as Starknet', () => {
+      expect([...STARKNET_NETWORK_IDS].sort()).toEqual(
+        Object.keys(networks)
+          .filter((id) => getProviderType(id) === 'starknet')
+          .sort()
       );
     });
 
