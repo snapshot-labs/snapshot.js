@@ -3,7 +3,8 @@ import * as evm from './evm';
 import { isEvmAddress, isStarknetAddress } from '../utils';
 import type { StarknetType } from 'starknet';
 import type { TypedDataField } from '@ethersproject/abstract-signer';
-import type { ProviderOptions } from '../utils/provider';
+import { STARKNET_NETWORK_IDS } from '../utils/provider';
+import type { ProviderOptions, StarknetNetworkId } from '../utils/provider';
 
 export type SignaturePayload = {
   domain: Record<string, string | number>;
@@ -29,13 +30,21 @@ export async function verify(
     throw new Error('Invalid address');
   }
 
-  const networkType = starknet.isStarknetMessage(data) ? starknet : evm;
+  if (starknet.isStarknetMessage(data)) {
+    if (
+      !(STARKNET_NETWORK_IDS as readonly (string | number)[]).includes(network)
+    ) {
+      throw new Error(`Invalid Starknet network: ${network}`);
+    }
 
-  return await networkType.default(
-    address,
-    sig as any,
-    data,
-    network as any,
-    options
-  );
+    return starknet.default(
+      address,
+      sig as string[],
+      data,
+      network as StarknetNetworkId,
+      options
+    );
+  }
+
+  return evm.default(address, sig as string, data, network, options);
 }
