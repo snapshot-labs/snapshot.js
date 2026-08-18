@@ -58,7 +58,7 @@
     "dev": "rollup -c -w",
     "lint": "eslint . --ext .ts",
     "lint:fix": "yarn lint --fix",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit -p tsconfig.typecheck.json",
     "prepublishOnly": "yarn build"
   },
   "engines": {
