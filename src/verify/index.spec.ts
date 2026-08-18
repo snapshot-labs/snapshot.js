@@ -1,4 +1,4 @@
-import { test, expect, describe, vi } from 'vitest';
+import { beforeEach, test, expect, describe, vi } from 'vitest';
 import { verify, getHash } from '.';
 import evmMessage from '../../test/fixtures/evm/message-alias.json';
 import starknetMessage from '../../test/fixtures/starknet/message-alias.json';
@@ -16,6 +16,10 @@ evmGetHashMock.mockImplementation(() => '');
 starknetGetHashMock.mockImplementation(() => '');
 
 describe('sign/utils', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   describe('getHash', () => {
     test('should return an EVM hash on EVM address', () => {
       expect.assertions(1);
@@ -52,7 +56,8 @@ describe('sign/utils', () => {
       await verify(
         starknetMessage.address,
         starknetMessage.sig,
-        starknetMessage.data
+        starknetMessage.data,
+        '0x534e5f4d41494e'
       );
 
       expect(starknetVerificationMock).toHaveBeenCalled();
@@ -63,10 +68,40 @@ describe('sign/utils', () => {
       await verify(
         evmMessage.address,
         starknetMessage.sig,
-        starknetMessage.data
+        starknetMessage.data,
+        '0x534e5f4d41494e'
       );
 
       expect(starknetVerificationMock).toHaveBeenCalled();
+    });
+
+    test('should reject a Starknet payload on the default EVM network', async () => {
+      expect.assertions(2);
+
+      await expect(
+        verify(
+          starknetMessage.address,
+          starknetMessage.sig,
+          starknetMessage.data
+        )
+      ).rejects.toThrowError('Invalid Starknet network: 1');
+
+      expect(starknetVerificationMock).not.toHaveBeenCalled();
+    });
+
+    test('should reject a Starknet payload on an unsupported network', async () => {
+      expect.assertions(2);
+
+      await expect(
+        verify(
+          starknetMessage.address,
+          starknetMessage.sig,
+          starknetMessage.data,
+          'invalid-network'
+        )
+      ).rejects.toThrowError('Invalid Starknet network: invalid-network');
+
+      expect(starknetVerificationMock).not.toHaveBeenCalled();
     });
 
     test('should throw an error on empty address', () => {
