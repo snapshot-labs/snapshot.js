@@ -39,3 +39,11 @@ export const notStarknetFromUntyped: RpcProvider = getProvider(untyped);
 
 // @ts-expect-error a network the compiler cannot pin resolves to ethers
 export const notStarknetFromWidened: RpcProvider = getProvider(widenedString);
+
+// @ts-expect-error a Starknet network resolves to starknet.js, not ethers
+export const notEthersThroughPublicSurface: StaticJsonRpcProvider =
+  snapshot.utils.getProvider('0x534e5f4d41494e');
+
+// @ts-expect-error an EVM network resolves to ethers, not starknet.js
+export const notStarknetThroughPublicSurface: RpcProvider =
+  snapshot.utils.getProvider('1');
