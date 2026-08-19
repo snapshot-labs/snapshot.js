@@ -125,6 +125,12 @@ describe('utils', () => {
       );
     });
 
+    test('resolve a DNS name as unowned on testnet, where it reverts UnreachableName', async () => {
+      await expect(getSpaceController('defi.app', '11155111')).resolves.toBe(
+        EMPTY_ADDRESS
+      );
+    });
+
     test('resolve a name the DNS wire format cannot carry', async () => {
       await expect(
         getSpaceController('🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂🧛🏻‍♂.eth', '1')

@@ -50,10 +50,12 @@ const NOT_IMPLEMENTED_ERROR = '0xd6234725';
 // reverts that mean "no record"; anything else (other ResolverError data,
 // gateway 5xx, transport) is a failure and must throw: a record read that
 // falls through to the name owner may authorize the wrong controller. The
-// one class scoped by name: a resolver's bare revert() is how DNS domains
-// answer a read (their TLD resolvers predate the record profiles), so for
-// other-tld names it is a no-record answer; for .eth names it is a resolver
-// failure
+// one class scoped by name: resolver-level errors are how DNS domains answer
+// a read — their TLD resolvers revert NotImplemented() or bare on mainnet
+// and UnreachableName(name) on Sepolia — so for other-tld names any
+// ResolverError is a no-record answer (infrastructure failures arrive as
+// HttpError or transport errors, never ResolverError); for .eth names a
+// ResolverError beyond NotImplemented() is a resolver failure
 function isNoRecordRevert(domainType: DomainType, e: any): boolean {
   const revert =
     typeof e?.walk === 'function'
@@ -66,8 +68,7 @@ function isNoRecordRevert(domainType: DomainType, e: any): boolean {
     errorName === 'ResolverNotContract' ||
     errorName === 'UnsupportedResolverProfile' ||
     (errorName === 'ResolverError' &&
-      (args?.[0] === NOT_IMPLEMENTED_ERROR ||
-        (domainType === 'other-tld' && args?.[0] === '0x'))) ||
+      (args?.[0] === NOT_IMPLEMENTED_ERROR || domainType === 'other-tld')) ||
     (errorName === 'HttpError' && args?.[0] === 404)
   );
 }

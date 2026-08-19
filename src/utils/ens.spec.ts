@@ -65,9 +65,14 @@ describe('getEnsTextRecord fail-closed classification', () => {
     );
   });
 
-  test('returns null for a bare revert on a DNS name, how their TLD resolvers answer', async () => {
+  // how DNS TLD resolvers answer: bare revert on mainnet, UnreachableName
+  // on Sepolia
+  test.each([
+    ['a bare revert', '0x'],
+    ['UnreachableName', '0x5fe9a5df0000000000000000000000000000000000000000']
+  ])('returns null for %s on a DNS name', async (_label, data) => {
     const client = mockClient();
-    client.getEnsText.mockRejectedValue(revertError('ResolverError', '0x'));
+    client.getEnsText.mockRejectedValue(revertError('ResolverError', data));
     await expect(getEnsTextRecord('x.com', 'snapshot', '1')).resolves.toBe(
       null
     );
