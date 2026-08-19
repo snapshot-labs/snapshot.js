@@ -1,5 +1,5 @@
 import { typedData, TypedData } from 'starknet';
-import type { ProviderOptions } from '../utils/provider';
+import type { ProviderOptions, StarknetNetworkId } from '../utils/provider';
 import type { SignaturePayload } from '.';
 import getProvider from '../utils/provider';
 
@@ -21,7 +21,7 @@ export default async function verify(
   address: string,
   sig: string[],
   data: SignaturePayload,
-  network = '0x534e5f4d41494e',
+  network: StarknetNetworkId = '0x534e5f4d41494e',
   options: ProviderOptions = {}
 ): Promise<boolean> {
   try {
