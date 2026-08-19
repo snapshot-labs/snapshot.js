@@ -16,13 +16,18 @@ const ENS_REGISTRY_ABI = parseAbi([
 const NAME_WRAPPER_ABI = parseAbi([
   'function ownerOf(uint256 id) view returns (address)'
 ]);
+// errors mirror viem's universalResolverErrors, which it does not export
 const UNIVERSAL_RESOLVER_ABI = parseAbi([
-  'error ResolverNotFound(bytes name)',
-  'error ResolverNotContract(bytes name, address resolver)',
-  'error UnsupportedResolverProfile(bytes4 selector)',
-  'error ResolverError(bytes errorData)',
-  'error ReverseAddressMismatch(string primary, bytes primaryAddress)',
+  'error DNSDecodingFailed(bytes dns)',
+  'error DNSEncodingFailed(string ens)',
+  'error EmptyAddress()',
   'error HttpError(uint16 status, string message)',
+  'error InvalidBatchGatewayResponse()',
+  'error ResolverError(bytes errorData)',
+  'error ResolverNotContract(bytes name, address resolver)',
+  'error ResolverNotFound(bytes name)',
+  'error ReverseAddressMismatch(string primary, bytes primaryAddress)',
+  'error UnsupportedResolverProfile(bytes4 selector)',
   'function findOwner(bytes name) view returns (address owner)'
 ]);
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -176,24 +181,16 @@ export async function getEnsOwner(
 
   let owner: string = EMPTY_ADDRESS;
 
-  // findOwner is ENSv2-only, live on Sepolia and not yet on mainnet; a decoded
-  // revert or transport failure must throw, not resolve a stale v1 owner
-  if (network === '11155111') {
-    try {
-      owner = await client.readContract({
-        address: universalResolverAddress,
-        abi: UNIVERSAL_RESOLVER_ABI,
-        functionName: 'findOwner',
-        args: [dnsEncodedName]
-      });
-    } catch (e: any) {
-      const revert =
-        typeof e?.walk === 'function'
-          ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
-          : undefined;
-      if (!revert || (revert as any).data?.errorName) throw e;
-      owner = EMPTY_ADDRESS;
-    }
+  // findOwner is ENSv2-only, live on Sepolia and not yet on mainnet. A name
+  // absent from ENSv2 resolves EMPTY_ADDRESS successfully, so any revert is a
+  // genuine failure and must throw, never fall back to a stale v1 owner
+  if (String(network) === '11155111') {
+    owner = await client.readContract({
+      address: universalResolverAddress,
+      abi: UNIVERSAL_RESOLVER_ABI,
+      functionName: 'findOwner',
+      args: [dnsEncodedName]
+    });
   }
 
   if (!owner || owner === EMPTY_ADDRESS) {

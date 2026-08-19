@@ -1,6 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { ContractFunctionRevertedError } from 'viem';
 import { getEnsTextRecord, getEnsOwner } from './ens';
+import { getSpaceController } from '../utils';
 import { getViemClient } from './viem';
 
 vi.mock('./viem', () => ({ getViemClient: vi.fn() }));
@@ -39,6 +40,15 @@ beforeEach(() => {
 });
 
 describe('getEnsTextRecord fail-closed classification', () => {
+  test('reads in strict mode, so failures are not folded into null', async () => {
+    const client = mockClient();
+    client.getEnsText.mockResolvedValue('record');
+    await getEnsTextRecord('x.eth', 'snapshot', '1');
+    expect(client.getEnsText).toHaveBeenCalledWith(
+      expect.objectContaining({ strict: true })
+    );
+  });
+
   test.each([
     ['ResolverNotFound', undefined],
     ['ResolverNotContract', undefined],
@@ -71,6 +81,16 @@ describe('getEnsTextRecord fail-closed classification', () => {
   });
 });
 
+describe('getSpaceController fail-closed', () => {
+  test('rejects when the record read fails instead of falling back to the owner', async () => {
+    const client = mockClient();
+    client.getEnsText.mockRejectedValue(revertError('HttpError', 503));
+    client.readContract.mockResolvedValue(OWNER);
+    await expect(getSpaceController('x.eth', '1')).rejects.toBeDefined();
+    expect(client.readContract).not.toHaveBeenCalled();
+  });
+});
+
 describe('getEnsOwner findOwner fallback', () => {
   const opts = { ensNameWrapper: EMPTY };
 
@@ -87,28 +107,46 @@ describe('getEnsOwner findOwner fallback', () => {
     client.readContract.mockResolvedValueOnce(OWNER);
     await expect(getEnsOwner('x.eth', '11155111', opts)).resolves.toBe(OWNER);
     expect(client.readContract).toHaveBeenCalledTimes(1);
+    expect(client.readContract.mock.calls[0][0].functionName).toBe('findOwner');
   });
 
-  test('falls back to the registry when findOwner reverts undecoded', async () => {
+  test('takes the ENSv2 path for a numeric chain id too', async () => {
+    const client = mockClient();
+    client.readContract.mockResolvedValueOnce(OWNER);
+    await expect(getEnsOwner('x.eth', 11155111 as any, opts)).resolves.toBe(
+      OWNER
+    );
+    expect(client.readContract.mock.calls[0][0].functionName).toBe('findOwner');
+  });
+
+  test('falls back to the registry when findOwner returns no owner', async () => {
     const client = mockClient();
     client.readContract
-      .mockRejectedValueOnce(undecodedRevert())
+      .mockResolvedValueOnce(EMPTY)
       .mockResolvedValueOnce(OWNER);
     await expect(getEnsOwner('x.eth', '11155111', opts)).resolves.toBe(OWNER);
     expect(client.readContract).toHaveBeenCalledTimes(2);
+    expect(client.readContract.mock.calls[1][0].functionName).toBe('owner');
   });
 
-  test('throws when findOwner reverts with a decoded error', async () => {
+  test.each([
+    ['a decoded error', revertError('ResolverError', '0xdeadbeef')],
+    ['an undecoded revert', undecodedRevert()],
+    ['a transport failure', transportError]
+  ])('throws when findOwner fails with %s', async (_label, error) => {
     const client = mockClient();
-    client.readContract.mockRejectedValueOnce(
-      revertError('ResolverError', '0xdeadbeef')
+    client.readContract.mockRejectedValueOnce(error);
+    await expect(getEnsOwner('x.eth', '11155111', opts)).rejects.toBeDefined();
+    expect(client.readContract).toHaveBeenCalledTimes(1);
+  });
+
+  test('resolves subdomains through a strict address read', async () => {
+    const client = mockClient();
+    client.readContract.mockResolvedValue(EMPTY);
+    client.getEnsAddress.mockResolvedValue(OWNER);
+    await expect(getEnsOwner('a.x.eth', '1', opts)).resolves.toBe(OWNER);
+    expect(client.getEnsAddress).toHaveBeenCalledWith(
+      expect.objectContaining({ strict: true })
     );
-    await expect(getEnsOwner('x.eth', '11155111', opts)).rejects.toBeDefined();
-  });
-
-  test('throws when findOwner fails at the transport layer', async () => {
-    const client = mockClient();
-    client.readContract.mockRejectedValueOnce(transportError);
-    await expect(getEnsOwner('x.eth', '11155111', opts)).rejects.toBeDefined();
   });
 });
