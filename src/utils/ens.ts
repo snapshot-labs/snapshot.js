@@ -47,11 +47,14 @@ function getDomainType(domain: string): DomainType {
 // NotImplemented(), how DNS resolvers answer unsupported record profiles
 const NOT_IMPLEMENTED_ERROR = '0xd6234725';
 
-// reverts that mean "no record"; anything else (a bare revert(), other
-// ResolverError data, gateway 5xx, transport) is a failure and must throw:
-// a record read that falls through to the name owner may authorize the
-// wrong controller
-function isNoRecordRevert(e: any): boolean {
+// reverts that mean "no record"; anything else (other ResolverError data,
+// gateway 5xx, transport) is a failure and must throw: a record read that
+// falls through to the name owner may authorize the wrong controller. The
+// one class scoped by name: a resolver's bare revert() is how DNS domains
+// answer a read (their TLD resolvers predate the record profiles), so for
+// other-tld names it is a no-record answer; for .eth names it is a resolver
+// failure
+function isNoRecordRevert(domainType: DomainType, e: any): boolean {
   const revert =
     typeof e?.walk === 'function'
       ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
@@ -62,25 +65,13 @@ function isNoRecordRevert(e: any): boolean {
     errorName === 'ResolverNotFound' ||
     errorName === 'ResolverNotContract' ||
     errorName === 'UnsupportedResolverProfile' ||
-    (errorName === 'ResolverError' && args?.[0] === NOT_IMPLEMENTED_ERROR) ||
+    (errorName === 'ResolverError' &&
+      (args?.[0] === NOT_IMPLEMENTED_ERROR ||
+        (domainType === 'other-tld' && args?.[0] === '0x'))) ||
     (errorName === 'HttpError' && args?.[0] === 404)
   );
 }
 
-// a bare revert() wrapped by the Universal Resolver — how unclaimed DNS
-// domains answer an addr() read
-function isBareResolverRevert(e: any): boolean {
-  const revert =
-    typeof e?.walk === 'function'
-      ? e.walk((err: any) => err instanceof ContractFunctionRevertedError)
-      : undefined;
-  const { errorName, args } = (revert as any)?.data ?? {};
-  return errorName === 'ResolverError' && args?.[0] === '0x';
-}
-
-// address reads only feed the DNS and subdomain owner fallbacks, where "no
-// address" can at worst deny, never resolve a different owner — so a bare
-// resolver revert may read as "no record" here, unlike on the record path
 async function getEnsAddressStrict(
   client: ReturnType<typeof getViemClient>,
   name: string,
@@ -93,7 +84,7 @@ async function getEnsAddressStrict(
       strict: true
     });
   } catch (e: any) {
-    if (isNoRecordRevert(e) || isBareResolverRevert(e)) return null;
+    if (isNoRecordRevert(getDomainType(name), e)) return null;
     throw e;
   }
 }
@@ -159,7 +150,7 @@ export async function getEnsTextRecord(
       strict: true
     });
   } catch (e: any) {
-    if (isNoRecordRevert(e)) return null;
+    if (isNoRecordRevert(getDomainType(normalized), e)) return null;
     throw e;
   }
 }

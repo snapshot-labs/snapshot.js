@@ -65,6 +65,14 @@ describe('getEnsTextRecord fail-closed classification', () => {
     );
   });
 
+  test('returns null for a bare revert on a DNS name, how their TLD resolvers answer', async () => {
+    const client = mockClient();
+    client.getEnsText.mockRejectedValue(revertError('ResolverError', '0x'));
+    await expect(getEnsTextRecord('x.com', 'snapshot', '1')).resolves.toBe(
+      null
+    );
+  });
+
   test.each([
     ['HttpError 503', 'HttpError', 503],
     ['HttpError 500', 'HttpError', 500],
@@ -97,6 +105,16 @@ describe('getSpaceController fail-closed', () => {
     client.readContract.mockResolvedValue(OWNER);
     await expect(getSpaceController('x.eth', '1')).rejects.toBeDefined();
     expect(client.readContract).not.toHaveBeenCalled();
+  });
+
+  test('keeps resolving a DNS-domain space whose resolver reverts bare', async () => {
+    // un-imported DNS domains bare-revert both reads; the controller stays
+    // the empty address as on master, not a rejection
+    const client = mockClient();
+    client.getEnsText.mockRejectedValue(revertError('ResolverError', '0x'));
+    client.readContract.mockResolvedValue(EMPTY);
+    client.getEnsAddress.mockRejectedValue(revertError('ResolverError', '0x'));
+    await expect(getSpaceController('x.com', '1')).resolves.toBe(EMPTY);
   });
 });
 
@@ -161,13 +179,18 @@ describe('getEnsOwner findOwner fallback', () => {
     expect(client.readContract).toHaveBeenCalledTimes(1);
   });
 
-  test('reads a bare resolver revert as no address on the fallback path', async () => {
-    // the same ResolverError(0x) that must throw on the record path is how
-    // unclaimed DNS domains answer an addr() read
+  test('reads a bare revert as no address for an unclaimed DNS domain', async () => {
     const client = mockClient();
     client.readContract.mockResolvedValue(EMPTY);
     client.getEnsAddress.mockRejectedValue(revertError('ResolverError', '0x'));
-    await expect(getEnsOwner('a.x.eth', '1', opts)).resolves.toBe(EMPTY);
+    await expect(getEnsOwner('x.com', '1', opts)).resolves.toBe(EMPTY);
+  });
+
+  test('throws on a bare revert for a subdomain address read', async () => {
+    const client = mockClient();
+    client.readContract.mockResolvedValue(EMPTY);
+    client.getEnsAddress.mockRejectedValue(revertError('ResolverError', '0x'));
+    await expect(getEnsOwner('a.x.eth', '1', opts)).rejects.toBeDefined();
   });
 
   test('resolves subdomains through a strict address read', async () => {
