@@ -12,6 +12,13 @@ type ProviderInstance = StaticJsonRpcProvider | RpcProvider;
 
 export type ProviderType = 'evm' | 'starknet';
 
+export const STARKNET_NETWORK_IDS = [
+  '0x534e5f4d41494e',
+  '0x534e5f5345504f4c4941'
+] as const;
+
+export type StarknetNetworkId = typeof STARKNET_NETWORK_IDS[number];
+
 const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org' as const;
 export const DEFAULT_TIMEOUT = 25000 as const;
 
@@ -62,11 +69,22 @@ export function createMemoKey(
   return `${networkId}:${options.broviderUrl}:${options.timeout}`;
 }
 
-// return loose `any` type to avoid typecheck issues on package consumers
+type IsAny<T> = 0 extends 1 & T ? true : false;
+
+export type ProviderFor<T extends string | number> = IsAny<T> extends true
+  ? StaticJsonRpcProvider
+  : T extends StarknetNetworkId
+  ? RpcProvider
+  : StaticJsonRpcProvider;
+
+export default function getProvider<T extends string | number>(
+  network: T,
+  options?: ProviderOptions
+): ProviderFor<T>;
 export default function getProvider(
   network: string | number,
   options: ProviderOptions = {}
-): any {
+): ProviderInstance {
   const networkId = getBroviderNetworkId(network);
   const normalizedOptions = normalizeOptions(options);
   const memoKey = createMemoKey(networkId, normalizedOptions);
