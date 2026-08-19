@@ -173,9 +173,6 @@ export async function getEnsOwner(
     return EMPTY_ADDRESS;
   }
 
-  // viem's own encoding, so labels the strict DNS format rejects still resolve
-  const dnsEncodedName = toHex(packetToBytes(normalized));
-
   const ensNameWrapper =
     options.ensNameWrapper || networks[network].ensNameWrapper;
 
@@ -189,7 +186,8 @@ export async function getEnsOwner(
       address: universalResolverAddress,
       abi: UNIVERSAL_RESOLVER_ABI,
       functionName: 'findOwner',
-      args: [dnsEncodedName]
+      // viem's own encoding, so labels the strict DNS format rejects still resolve
+      args: [toHex(packetToBytes(normalized))]
     });
   }
 
