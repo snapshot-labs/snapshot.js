@@ -47,7 +47,7 @@ export function normalizeOptions(
     clientName !== undefined &&
     (typeof clientName !== 'string' || !CLIENT_NAME_PATTERN.test(clientName))
   ) {
-    console.warn(`Ignoring invalid clientName: ${String(clientName)}`);
+    console.warn('Ignoring invalid clientName');
     clientName = undefined;
   }
 

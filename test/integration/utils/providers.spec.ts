@@ -475,7 +475,8 @@ describe('normalizeOptions()', () => {
     ['score-api?client=sequencer', 'question marks'],
     ['score-api#sequencer', 'hashes'],
     ['a'.repeat(33), 'more than 32 characters'],
-    [null, 'non-string values']
+    [null, 'non-string values'],
+    [Object.create(null), 'non-coercible objects']
   ])('ignores client names with %s (%s)', (clientName) => {
     const warning = vi
       .spyOn(console, 'warn')
@@ -485,9 +486,7 @@ describe('normalizeOptions()', () => {
       expect(
         normalizeOptions({ clientName: clientName as any }).clientName
       ).toBeUndefined();
-      expect(warning).toHaveBeenCalledWith(
-        `Ignoring invalid clientName: ${String(clientName)}`
-      );
+      expect(warning).toHaveBeenCalledWith('Ignoring invalid clientName');
     } finally {
       warning.mockRestore();
     }

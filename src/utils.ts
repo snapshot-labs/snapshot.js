@@ -8,7 +8,7 @@ import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import addErrors from 'ajv-errors';
 import { getSnapshots } from './utils/blockfinder';
-import getProvider from './utils/provider';
+import getProvider, { type ProviderOptions } from './utils/provider';
 import { getEnsTextRecord, getEnsOwner } from './utils/ens';
 import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './verify';
@@ -612,7 +612,7 @@ export async function getShibariumNameOwner(
 export async function getUDNameOwner(
   id: string,
   network: string,
-  options: any = {}
+  options: ProviderOptions = {}
 ): Promise<string> {
   const tlds = UD_MAPPING[network]?.tlds || [];
   if (!tlds.some((tld: string) => id.endsWith(tld))) {
