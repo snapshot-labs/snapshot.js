@@ -40,18 +40,20 @@ const providerFnMap: Record<
 export function normalizeOptions(
   options: ProviderOptions = {}
 ): NormalizedProviderOptions {
-  const { timeout, clientName } = options;
+  const { timeout } = options;
+  let { clientName } = options;
 
   if (
     clientName !== undefined &&
     (typeof clientName !== 'string' || !CLIENT_NAME_PATTERN.test(clientName))
   ) {
-    throw new Error('Invalid clientName');
+    console.warn(`Ignoring invalid clientName: ${String(clientName)}`);
+    clientName = undefined;
   }
 
   return {
     broviderUrl: options.broviderUrl || DEFAULT_BROVIDER_URL,
-    clientName,
+    clientName: clientName?.toLowerCase(),
     // Not `??`: it passes `NaN` through (`Number()` of an unset env var), and
     // `setTimeout(..., NaN)` fires on the next tick, aborting every request.
     timeout:
@@ -79,15 +81,9 @@ export function createMemoKey(
   networkId: string,
   options: NormalizedProviderOptions
 ): string {
-  const key = `${networkId}:${options.broviderUrl}:${options.timeout}`;
-  return options.clientName
-    ? JSON.stringify([
-        networkId,
-        options.broviderUrl,
-        options.timeout,
-        options.clientName
-      ])
-    : key;
+  return `${networkId}:${options.broviderUrl}:${options.timeout}:${
+    options.clientName ?? ''
+  }`;
 }
 
 export function createProviderUrl(

@@ -51,10 +51,10 @@ describe('test providers', () => {
       );
     });
 
-    test('should add the client name to EVM and Starknet provider URLs', () => {
-      const evmProvider = getProvider('1', { clientName: 'sequencer' });
+    test('should add a lowercase client name to EVM and Starknet provider URLs', () => {
+      const evmProvider = getProvider('1', { clientName: 'Sequencer' });
       const starknetProvider = getProvider(STARKNET_NETWORK, {
-        clientName: 'sequencer'
+        clientName: 'Sequencer'
       });
 
       expect(evmProvider.connection.url).toBe(
@@ -75,8 +75,8 @@ describe('test providers', () => {
       );
     });
 
-    test('should memoize providers by client name', () => {
-      const provider1 = getProvider('1', { clientName: 'sequencer' });
+    test('should memoize providers by lowercase client name', () => {
+      const provider1 = getProvider('1', { clientName: 'Sequencer' });
       const provider2 = getProvider('1', { clientName: 'sequencer' });
       const provider3 = getProvider('1', { clientName: 'score-api' });
 
@@ -168,16 +168,16 @@ describe('test providers', () => {
       );
     });
 
-    test('should add the client name to the transport URL', () => {
-      const client = getViemClient('1', { clientName: 'score-api' });
+    test('should add a lowercase client name to the transport URL', () => {
+      const client = getViemClient('1', { clientName: 'Score-API' });
 
       expect(client.transport.url).toBe(
         'https://rpc.snapshot.org/1?client=score-api'
       );
     });
 
-    test('should memoize clients by client name', () => {
-      const client1 = getViemClient('1', { clientName: 'score-api' });
+    test('should memoize clients by lowercase client name', () => {
+      const client1 = getViemClient('1', { clientName: 'Score-API' });
       const client2 = getViemClient('1', { clientName: 'score-api' });
       const client3 = getViemClient('1', { clientName: 'sequencer' });
 
@@ -476,15 +476,26 @@ describe('normalizeOptions()', () => {
     ['score-api#sequencer', 'hashes'],
     ['a'.repeat(33), 'more than 32 characters'],
     [null, 'non-string values']
-  ])('rejects client names with %s (%s)', (clientName) => {
-    expect(() => normalizeOptions({ clientName: clientName as any })).toThrow(
-      'Invalid clientName'
-    );
+  ])('ignores client names with %s (%s)', (clientName) => {
+    const warning = vi
+      .spyOn(console, 'warn')
+      .mockImplementation(() => undefined);
+
+    try {
+      expect(
+        normalizeOptions({ clientName: clientName as any }).clientName
+      ).toBeUndefined();
+      expect(warning).toHaveBeenCalledWith(
+        `Ignoring invalid clientName: ${String(clientName)}`
+      );
+    } finally {
+      warning.mockRestore();
+    }
   });
 
-  test('preserves the memo key when no client name is set', () => {
+  test('uses a fixed memo key format without a client name', () => {
     expect(createMemoKey('1', normalizeOptions())).toBe(
-      '1:https://rpc.snapshot.org:25000'
+      '1:https://rpc.snapshot.org:25000:'
     );
   });
 
