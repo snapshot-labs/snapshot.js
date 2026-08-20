@@ -611,7 +611,8 @@ export async function getShibariumNameOwner(
 
 export async function getUDNameOwner(
   id: string,
-  network: string
+  network: string,
+  options: any = {}
 ): Promise<string> {
   const tlds = UD_MAPPING[network]?.tlds || [];
   if (!tlds.some((tld: string) => id.endsWith(tld))) {
@@ -621,7 +622,7 @@ export async function getUDNameOwner(
   try {
     const hash = namehash(ensNormalize(id));
     const tokenId = BigInt(hash);
-    const provider = getProvider(network);
+    const provider = getProvider(network, options);
 
     return await call(
       provider,
@@ -646,7 +647,7 @@ export async function getSpaceController(
   } else if (SHIBARIUM_CHAIN_IDS.includes(network)) {
     return getShibariumNameOwner(id, network);
   } else if (UD_MAPPING[String(network)]) {
-    return getUDNameOwner(id, network);
+    return getUDNameOwner(id, network, options);
   }
 
   throw new Error(`Network not supported: ${network}`);

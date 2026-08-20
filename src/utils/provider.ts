@@ -6,7 +6,11 @@ import networks from '../networks.json';
 export interface ProviderOptions {
   readonly broviderUrl?: string;
   readonly timeout?: number;
+  readonly clientName?: string;
 }
+
+type NormalizedProviderOptions = Required<Omit<ProviderOptions, 'clientName'>> &
+  Pick<ProviderOptions, 'clientName'>;
 
 type ProviderInstance = StaticJsonRpcProvider | RpcProvider;
 
@@ -20,13 +24,14 @@ export const STARKNET_NETWORK_IDS = [
 export type StarknetNetworkId = typeof STARKNET_NETWORK_IDS[number];
 
 const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org' as const;
+const CLIENT_NAME_PATTERN = /^[a-z0-9.-]{1,32}$/i;
 export const DEFAULT_TIMEOUT = 25000 as const;
 
 const providerMemo = new Map<string, ProviderInstance>();
 
 const providerFnMap: Record<
   ProviderType,
-  (networkId: string, options: Required<ProviderOptions>) => ProviderInstance
+  (networkId: string, options: NormalizedProviderOptions) => ProviderInstance
 > = {
   evm: getEvmProvider,
   starknet: getStarknetProvider
@@ -34,11 +39,19 @@ const providerFnMap: Record<
 
 export function normalizeOptions(
   options: ProviderOptions = {}
-): Required<ProviderOptions> {
-  const { timeout } = options;
+): NormalizedProviderOptions {
+  const { timeout, clientName } = options;
+
+  if (
+    clientName !== undefined &&
+    (typeof clientName !== 'string' || !CLIENT_NAME_PATTERN.test(clientName))
+  ) {
+    throw new Error('Invalid clientName');
+  }
 
   return {
     broviderUrl: options.broviderUrl || DEFAULT_BROVIDER_URL,
+    clientName,
     // Not `??`: it passes `NaN` through (`Number()` of an unset env var), and
     // `setTimeout(..., NaN)` fires on the next tick, aborting every request.
     timeout:
@@ -64,9 +77,25 @@ export function getProviderType(network: string | number): ProviderType {
 
 export function createMemoKey(
   networkId: string,
-  options: Required<ProviderOptions>
+  options: NormalizedProviderOptions
 ): string {
-  return `${networkId}:${options.broviderUrl}:${options.timeout}`;
+  const key = `${networkId}:${options.broviderUrl}:${options.timeout}`;
+  return options.clientName
+    ? JSON.stringify([
+        networkId,
+        options.broviderUrl,
+        options.timeout,
+        options.clientName
+      ])
+    : key;
+}
+
+export function createProviderUrl(
+  networkId: string,
+  options: NormalizedProviderOptions
+): string {
+  const url = `${options.broviderUrl}/${networkId}`;
+  return options.clientName ? `${url}?client=${options.clientName}` : url;
 }
 
 type IsAny<T> = 0 extends 1 & T ? true : false;
@@ -103,11 +132,11 @@ export default function getProvider(
 
 function getEvmProvider(
   networkId: string,
-  options: Required<ProviderOptions>
+  options: NormalizedProviderOptions
 ): StaticJsonRpcProvider {
   return new StaticJsonRpcProvider(
     {
-      url: `${options.broviderUrl}/${networkId}`,
+      url: createProviderUrl(networkId, options),
       timeout: options.timeout,
       allowGzip: true
     },
@@ -125,10 +154,10 @@ const starknetTimeoutError = (timeout: number) =>
 
 function getStarknetProvider(
   networkKey: string,
-  options: Required<ProviderOptions>
+  options: NormalizedProviderOptions
 ): RpcProvider {
   return new RpcProvider({
-    nodeUrl: `${options.broviderUrl}/${networkKey}`,
+    nodeUrl: createProviderUrl(networkKey, options),
     // At 0 there is no deadline to add, so leave starknet its own transport
     // (`baseFetch ?? ponyfill`) rather than swap the transport for nothing.
     // Native `fetch`, bound like starknet's own browser default: the package
