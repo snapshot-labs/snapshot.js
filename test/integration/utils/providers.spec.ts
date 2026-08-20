@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { AddressInfo, createServer, Server, Socket } from 'net';
 import getProvider, {
   DEFAULT_TIMEOUT,
+  createMemoKey,
   getProviderType,
   normalizeOptions,
   STARKNET_NETWORK_IDS
@@ -48,6 +49,53 @@ describe('test providers', () => {
           .filter((id) => getProviderType(id) === 'starknet')
           .sort()
       );
+    });
+
+    test('should add a lowercase client name to EVM and Starknet provider URLs', () => {
+      const evmProvider = getProvider('1', { clientName: 'Sequencer' });
+      const starknetProvider = getProvider(STARKNET_NETWORK, {
+        clientName: 'Sequencer'
+      });
+
+      expect(evmProvider.connection.url).toBe(
+        'https://rpc.snapshot.org/1?client=sequencer'
+      );
+      expect(starknetProvider.channel.nodeUrl).toBe(
+        'https://rpc.snapshot.org/sn?client=sequencer'
+      );
+    });
+
+    test('should leave provider URLs unchanged without a client name', () => {
+      const evmProvider = getProvider('1');
+      const starknetProvider = getProvider(STARKNET_NETWORK);
+
+      expect(evmProvider.connection.url).toBe('https://rpc.snapshot.org/1');
+      expect(starknetProvider.channel.nodeUrl).toBe(
+        'https://rpc.snapshot.org/sn'
+      );
+    });
+
+    test('should memoize providers by lowercase client name', () => {
+      const provider1 = getProvider('1', { clientName: 'Sequencer' });
+      const provider2 = getProvider('1', { clientName: 'sequencer' });
+      const provider3 = getProvider('1', { clientName: 'score-api' });
+
+      expect(provider1).toBe(provider2);
+      expect(provider1).not.toBe(provider3);
+    });
+
+    test('should not collide with legacy memo keys', () => {
+      const provider1 = getProvider('1', {
+        broviderUrl: 'http://localhost:3000',
+        timeout: 25000
+      });
+      const provider2 = getProvider('1', {
+        broviderUrl: 'http://localhost',
+        timeout: 3000,
+        clientName: '25000'
+      });
+
+      expect(provider1).not.toBe(provider2);
     });
 
     test('should memoize providers with same network and options', () => {
@@ -112,6 +160,29 @@ describe('test providers', () => {
       expect(() => getViemClient('0x534e5f4d41494e')).toThrowError(
         "Network '0x534e5f4d41494e' is not supported"
       );
+    });
+
+    test('should leave the transport URL unchanged without a client name', () => {
+      expect(getViemClient('1').transport.url).toBe(
+        'https://rpc.snapshot.org/1'
+      );
+    });
+
+    test('should add a lowercase client name to the transport URL', () => {
+      const client = getViemClient('1', { clientName: 'Score-API' });
+
+      expect(client.transport.url).toBe(
+        'https://rpc.snapshot.org/1?client=score-api'
+      );
+    });
+
+    test('should memoize clients by lowercase client name', () => {
+      const client1 = getViemClient('1', { clientName: 'Score-API' });
+      const client2 = getViemClient('1', { clientName: 'score-api' });
+      const client3 = getViemClient('1', { clientName: 'sequencer' });
+
+      expect(client1).toBe(client2);
+      expect(client1).not.toBe(client3);
     });
 
     test('should memoize clients with same network and options', () => {
@@ -395,6 +466,38 @@ describe('Starknet provider timeout', () => {
 });
 
 describe('normalizeOptions()', () => {
+  test.each([
+    ['', 'empty'],
+    ['space name', 'spaces'],
+    ['client_name', 'underscores'],
+    ['score-api&client=sequencer', 'ampersands'],
+    ['score-api=sequencer', 'equals signs'],
+    ['score-api?client=sequencer', 'question marks'],
+    ['score-api#sequencer', 'hashes'],
+    ['a'.repeat(33), 'more than 32 characters'],
+    [null, 'non-string values'],
+    [Object.create(null), 'non-coercible objects']
+  ])('ignores client names with %s (%s)', (clientName) => {
+    const warning = vi
+      .spyOn(console, 'warn')
+      .mockImplementation(() => undefined);
+
+    try {
+      expect(
+        normalizeOptions({ clientName: clientName as any }).clientName
+      ).toBeUndefined();
+      expect(warning).toHaveBeenCalledWith('Ignoring invalid clientName');
+    } finally {
+      warning.mockRestore();
+    }
+  });
+
+  test('uses a fixed memo key format without a client name', () => {
+    expect(createMemoKey('1', normalizeOptions())).toBe(
+      '1:https://rpc.snapshot.org:25000:'
+    );
+  });
+
   test.each([
     [undefined, DEFAULT_TIMEOUT],
     [NaN, DEFAULT_TIMEOUT],

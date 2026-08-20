@@ -4,8 +4,10 @@ import { packetToBytes } from 'viem/ens';
 import { getEnsTextRecord, getEnsOwner } from './ens';
 import { getSpaceController } from '../utils';
 import { getViemClient } from './viem';
+import getProvider from './provider';
 
 vi.mock('./viem', () => ({ getViemClient: vi.fn() }));
+vi.mock('./provider', () => ({ default: vi.fn() }));
 
 const EMPTY = '0x0000000000000000000000000000000000000000';
 const OWNER = '0x1208a26FAa0F4AC65B42098419EB4dAA5e580AC6';
@@ -38,6 +40,7 @@ function mockClient(overrides: Record<string, any> = {}) {
 
 beforeEach(() => {
   vi.mocked(getViemClient).mockReset();
+  vi.mocked(getProvider).mockReset();
 });
 
 describe('getEnsTextRecord fail-closed classification', () => {
@@ -96,6 +99,31 @@ describe('getEnsTextRecord fail-closed classification', () => {
 });
 
 describe('getSpaceController fail-closed', () => {
+  test('forwards the client name to its provider', async () => {
+    const client = mockClient();
+    client.getEnsText.mockResolvedValue(OWNER);
+
+    await expect(
+      getSpaceController('x.eth', '1', { clientName: 'sequencer' })
+    ).resolves.toBe(OWNER);
+    expect(getViemClient).toHaveBeenCalledWith('1', {
+      clientName: 'sequencer'
+    });
+  });
+
+  test('forwards the client name to the Sonic provider', async () => {
+    vi.mocked(getProvider).mockImplementation(() => {
+      throw new Error('stop');
+    });
+
+    await expect(
+      getSpaceController('review.sonic', '146', { clientName: 'sequencer' })
+    ).resolves.toBe(EMPTY);
+    expect(getProvider).toHaveBeenCalledWith('146', {
+      clientName: 'sequencer'
+    });
+  });
+
   test('rejects when the record read fails instead of falling back to the owner', async () => {
     const client = mockClient();
     client.getEnsText.mockRejectedValue(revertError('HttpError', 503));
