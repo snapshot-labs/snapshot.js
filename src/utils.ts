@@ -8,7 +8,7 @@ import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import addErrors from 'ajv-errors';
 import { getSnapshots } from './utils/blockfinder';
-import getProvider from './utils/provider';
+import getProvider, { type ProviderOptions } from './utils/provider';
 import { getEnsTextRecord, getEnsOwner } from './utils/ens';
 import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './verify';
@@ -611,7 +611,8 @@ export async function getShibariumNameOwner(
 
 export async function getUDNameOwner(
   id: string,
-  network: string
+  network: string,
+  options: ProviderOptions = {}
 ): Promise<string> {
   const tlds = UD_MAPPING[network]?.tlds || [];
   if (!tlds.some((tld: string) => id.endsWith(tld))) {
@@ -621,7 +622,7 @@ export async function getUDNameOwner(
   try {
     const hash = namehash(ensNormalize(id));
     const tokenId = BigInt(hash);
-    const provider = getProvider(network);
+    const provider = getProvider(network, options);
 
     return await call(
       provider,
@@ -646,7 +647,7 @@ export async function getSpaceController(
   } else if (SHIBARIUM_CHAIN_IDS.includes(network)) {
     return getShibariumNameOwner(id, network);
   } else if (UD_MAPPING[String(network)]) {
-    return getUDNameOwner(id, network);
+    return getUDNameOwner(id, network, options);
   }
 
   throw new Error(`Network not supported: ${network}`);

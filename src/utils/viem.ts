@@ -3,6 +3,7 @@ import type { CcipRequestParameters } from 'viem';
 import {
   ProviderOptions,
   createMemoKey,
+  createProviderUrl,
   getBroviderNetworkId,
   getProviderType,
   normalizeOptions
@@ -48,7 +49,7 @@ export function getViemClient(
       normalizedOptions.timeout > 0
         ? ccipReadWithDeadline(normalizedOptions.timeout)
         : undefined,
-    transport: http(`${normalizedOptions.broviderUrl}/${networkId}`, {
+    transport: http(createProviderUrl(networkId, normalizedOptions), {
       // single attempt within the timeout, like the ethers provider
       retryCount: 0,
       timeout: normalizedOptions.timeout
