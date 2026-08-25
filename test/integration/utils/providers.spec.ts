@@ -486,7 +486,10 @@ describe('normalizeOptions()', () => {
       expect(
         normalizeOptions({ clientName: clientName as any }).clientName
       ).toBeUndefined();
-      expect(warning).toHaveBeenCalledWith('Ignoring invalid clientName');
+      expect(warning).toHaveBeenCalledWith(
+        'Ignoring invalid clientName:',
+        clientName
+      );
     } finally {
       warning.mockRestore();
     }
