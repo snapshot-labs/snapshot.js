@@ -1134,6 +1134,20 @@
     "start": 1,
     "logo": "ipfs://QmaKRLxXPdeTsLx7MFLS3CJbhpSbResgoeL4fCgHB1mTsF"
   },
+  "4663": {
+    "key": "4663",
+    "name": "Robinhood Chain",
+    "shortName": "Robinhood Chain",
+    "chainId": 4663,
+    "network": "mainnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://robinhoodchain.blockscout.com"
+    },
+    "start": 0,
+    "logo": "ipfs://bafkreieuri5iyuxyku5ampl554fyc6iar7xyzwbd72e53gn5fs7dnd42uu"
+  },
   "4689": {
     "key": "4689",
     "name": "IoTeX",
@@ -1577,6 +1591,21 @@
     },
     "start": 536483,
     "logo": "ipfs://QmeS75uS7XLR8o8uUzhLRVYPX9vMFf4DXgKxQeCzyy7vM2"
+  },
+  "46630": {
+    "key": "46630",
+    "name": "Robinhood Chain Testnet",
+    "shortName": "testnet",
+    "chainId": 46630,
+    "network": "testnet",
+    "multicall": "0xcA11bde05977b3631167028862bE2a173976CA11",
+    "rpc": [],
+    "explorer": {
+      "url": "https://explorer.testnet.chain.robinhood.com"
+    },
+    "start": 2065766,
+    "logo": "ipfs://bafkreieuri5iyuxyku5ampl554fyc6iar7xyzwbd72e53gn5fs7dnd42uu",
+    "testnet": true
   },
   "47805": {
     "key": "47805",
