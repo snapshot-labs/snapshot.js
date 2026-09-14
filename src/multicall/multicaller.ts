@@ -1,5 +1,5 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
-import set from 'lodash.set';
+import set from 'lodash/set.js';
 import { RpcProvider } from 'starknet';
 import { multicall } from './';
 
