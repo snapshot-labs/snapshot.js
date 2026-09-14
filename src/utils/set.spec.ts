@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import set from './set';
+import set from 'lodash/set.js';
 
 describe('set', () => {
   describe('prototype pollution', () => {

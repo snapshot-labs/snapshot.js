@@ -1,7 +1,9 @@
 import { StaticJsonRpcProvider } from '@ethersproject/providers';
+import set from 'lodash/set.js';
 import { RpcProvider } from 'starknet';
 import { multicall } from './';
-import set, { Path } from '../utils/set';
+
+type Path = string | number | number[] | string[];
 
 export default class Multicaller {
   public network: string;
