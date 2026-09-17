@@ -465,6 +465,56 @@ describe('Starknet provider timeout', () => {
   });
 });
 
+describe('Starknet provider block tag', () => {
+  test('sends latest, not the starknet.js default, when a call names no block', async () => {
+    const bodies: string[] = [];
+    const open: Socket[] = [];
+    const rpcServer = createServer((socket) => {
+      open.push(socket);
+      socket.on('error', () => undefined);
+      socket.on('data', (chunk) => {
+        const request = chunk.toString();
+        bodies.push(request);
+        const body = request.includes('starknet_specVersion')
+          ? '{"jsonrpc":"2.0","id":1,"result":"0.8.1"}'
+          : '{"jsonrpc":"2.0","id":1,"result":["0x0"]}';
+        socket.write(
+          'HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n' +
+            `Content-Length: ${Buffer.byteLength(body)}\r\n\r\n${body}`
+        );
+      });
+    });
+    await new Promise<void>((resolve) =>
+      rpcServer.listen(0, '127.0.0.1', () => resolve())
+    );
+    const rpcUrl = `http://127.0.0.1:${
+      (rpcServer.address() as AddressInfo).port
+    }`;
+
+    try {
+      const provider = getProvider(STARKNET_NETWORK, {
+        broviderUrl: rpcUrl,
+        timeout: 1000
+      });
+
+      await provider.callContract({
+        contractAddress: '0x1',
+        entrypoint: 'address_to_domain',
+        calldata: []
+      });
+
+      const call = bodies
+        .map((request) => JSON.parse(request.split('\r\n\r\n')[1]))
+        .find(({ method }) => method === 'starknet_call');
+
+      expect(call.params.block_id).toBe('latest');
+    } finally {
+      open.forEach((socket) => socket.destroy());
+      await new Promise<void>((resolve) => rpcServer.close(() => resolve()));
+    }
+  });
+});
+
 describe('normalizeOptions()', () => {
   test.each([
     ['', 'empty'],
