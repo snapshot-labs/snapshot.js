@@ -185,7 +185,14 @@ export async function getEnsOwner(
     });
   }
 
-  if (!owner || owner === EMPTY_ADDRESS) {
+  if (
+    (!owner || owner === EMPTY_ADDRESS) &&
+    (!universalHelperAddress ||
+      (await client.getEnsResolver({
+        name: normalized,
+        universalResolverAddress
+      })) === networks[network].ensV1Resolver)
+  ) {
     owner = await client.readContract({
       address: ENS_REGISTRY,
       abi: ENS_REGISTRY_ABI,

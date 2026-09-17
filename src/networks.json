@@ -1925,6 +1925,7 @@
     ],
     "ensUniversalResolver": "0xeEeEEEeE14D718C2B47D9923Deab1335E144EeEe",
     "ensUniversalHelper": "0x33f571aa8A160a21b877cF6E0Fb8806692b97DF5",
+    "ensV1Resolver": "0xb2BF4a9A86d29661EA93223582b9945943931e42",
     "ensNameWrapper": "0x0635513f179D50A207757E05759CbD106d7dFcE8",
     "ensSubgraph": "https://subgrapher.snapshot.org/subgraph/arbitrum/CA5t8ep58QKXBdLrjJHaREETHpCsy63kro9Eem6zBQAD",
     "explorer": {

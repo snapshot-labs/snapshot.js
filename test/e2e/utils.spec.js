@@ -143,6 +143,12 @@ describe('utils', () => {
       );
     });
 
+    test('does not use stale v1 ownership beneath a native v2 name', async () => {
+      await expect(
+        getSpaceController('tiny.fox.eth', '11155111')
+      ).resolves.toBe(EMPTY_ADDRESS);
+    });
+
     test('return an empty address on testnet for a non-existent name', async () => {
       await expect(
         getSpaceController('snapshotdoesnotexist123.eth', '11155111')

@@ -30,6 +30,7 @@ const transportError = { walk: () => undefined };
 function mockClient(overrides: Record<string, any> = {}) {
   const client = {
     getEnsText: vi.fn(),
+    getEnsResolver: vi.fn(),
     getEnsAddress: vi.fn(),
     readContract: vi.fn(),
     ...overrides
@@ -154,6 +155,49 @@ describe('getSpaceController fail-closed', () => {
     expect(client.readContract).toHaveBeenCalledTimes(1);
   });
 
+  test.each([
+    ['a decoded error', revertError('ResolverError', '0xdeadbeef')],
+    ['an undecoded revert', undecodedRevert()],
+    ['a transport failure', transportError]
+  ])(
+    'rejects a Sepolia delegation lookup failure with %s',
+    async (_label, error) => {
+      const client = mockClient();
+      client.getEnsText.mockResolvedValue(null);
+      client.readContract
+        .mockResolvedValueOnce(EMPTY)
+        .mockResolvedValueOnce(OWNER);
+      client.getEnsResolver.mockRejectedValue(error);
+      await expect(getSpaceController('x.eth', '11155111')).rejects.toBe(error);
+      expect(client.readContract).toHaveBeenCalledTimes(1);
+    }
+  );
+
+  test.each([
+    ['native v2 resolver', OWNER, null, EMPTY],
+    ['no resolver', EMPTY, null, EMPTY],
+    ['canonical subdomain address', OWNER, OWNER, OWNER]
+  ])(
+    'ignores stale v1 ownership with %s',
+    async (_label, resolver, address, expected) => {
+      const client = mockClient();
+      client.getEnsText.mockResolvedValue(null);
+      client.readContract
+        .mockResolvedValueOnce(EMPTY)
+        .mockResolvedValueOnce('0x7Bc153b2a4C8a2f3428bd0da77a901b81c6dD809');
+      client.getEnsResolver.mockResolvedValue(resolver);
+      client.getEnsAddress.mockResolvedValue(address);
+      await expect(
+        getSpaceController('tiny.fox.eth', '11155111')
+      ).resolves.toBe(expected);
+      expect(client.readContract).toHaveBeenCalledTimes(1);
+      expect(client.getEnsResolver).toHaveBeenCalledWith({
+        name: 'tiny.fox.eth',
+        universalResolverAddress: '0xeEeEEEeE14D718C2B47D9923Deab1335E144EeEe'
+      });
+    }
+  );
+
   test('keeps resolving a DNS-domain space whose resolver reverts bare', async () => {
     // un-imported DNS domains bare-revert both reads; the controller stays
     // the empty address as on master, not a rejection
@@ -214,11 +258,14 @@ describe('getEnsOwner findExactOwner fallback', () => {
     );
   });
 
-  test('falls back to the registry when findExactOwner returns no owner', async () => {
+  test('falls back to the registry when canonical resolution delegates to v1', async () => {
     const client = mockClient();
     client.readContract
       .mockResolvedValueOnce(EMPTY)
       .mockResolvedValueOnce(OWNER);
+    client.getEnsResolver.mockResolvedValue(
+      '0xb2BF4a9A86d29661EA93223582b9945943931e42'
+    );
     await expect(getEnsOwner('x.eth', '11155111', opts)).resolves.toBe(OWNER);
     expect(client.readContract).toHaveBeenCalledTimes(2);
     expect(client.readContract.mock.calls[1][0].functionName).toBe('owner');
