@@ -174,8 +174,7 @@ describe('verify/starknet', () => {
             [shortString.encodeShortString('INVALID_SIG')],
             starknetMessageBraavos.data,
             '0x534e5f4d41494e',
-            // Not the default: providers are memoized, and this test must not
-            // reuse one built on the real fetch
+            // Not the default: providers are memoized on their URL
             { broviderUrl: 'https://rate-limited.invalid' }
           )
         ).rejects.toThrow('Too many requests');

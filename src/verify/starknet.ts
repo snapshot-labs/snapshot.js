@@ -3,9 +3,6 @@ import type { ProviderOptions, StarknetNetworkId } from '../utils/provider';
 import type { SignaturePayload } from '.';
 import getProvider from '../utils/provider';
 
-// starknet.js matches these revert reasons as text, but RPC 0.9 returns them
-// as a raw felt. `argent/invalid-signature` encodes to a prefix of the felt
-// for `argent/invalid-signature-format`, covering both Argent reasons.
 const INVALID_SIGNATURE_REVERTS = [
   'argent/invalid-signature',
   'INVALID_SIG'
@@ -39,7 +36,6 @@ export default async function verify(
     // Will throw on non-deployed contract
     await provider.getClassAt(address);
 
-    // Awaited, not returned: a returned promise rejects outside this try
     return await provider.verifyMessageInStarknet(
       data as TypedData,
       sig,
@@ -50,9 +46,7 @@ export default async function verify(
       throw new Error('Contract not deployed');
     }
 
-    // Only the segment after the request dump: starknet.js prefixes the RPC
-    // error with the calldata it sent, so a caller-supplied signature felt
-    // would otherwise match these markers on any node error.
+    // Skips the request dump, which echoes the caller's own signature felts
     const [, ...rpcError] = e.message.split('\n\n');
     const message = rpcError.join('\n\n').toLowerCase();
     if (INVALID_SIGNATURE_REVERTS.some((felt) => message.includes(felt))) {
