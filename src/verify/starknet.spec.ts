@@ -135,5 +135,16 @@ describe('verify/starknet', () => {
         )
       ).resolves.toBe(false);
     });
+
+    test('should return false when the signature is not valid on a Braavos account', async () => {
+      await expect(
+        verify(
+          starknetMessageBraavos.address,
+          ['1'],
+          starknetMessageBraavos.data,
+          '0x534e5f4d41494e'
+        )
+      ).resolves.toBe(false);
+    });
   });
 });
