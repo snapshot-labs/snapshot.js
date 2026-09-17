@@ -125,6 +125,12 @@ describe('utils', () => {
       );
     });
 
+    test('preserve an imported DNS name owner on testnet', async () => {
+      await expect(getSpaceController('ethplay.org', '11155111')).resolves.toBe(
+        '0x8D852E6cC57A855D0D75E1e2af57C9679D555958'
+      );
+    });
+
     test('resolve a DNS name as unowned on testnet, where it reverts UnreachableName', async () => {
       await expect(getSpaceController('defi.app', '11155111')).resolves.toBe(
         EMPTY_ADDRESS

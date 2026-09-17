@@ -1,6 +1,13 @@
 import { getAddress } from '@ethersproject/address';
 import { ensNormalize } from '@ethersproject/hash';
-import { parseAbi, toHex, ContractFunctionRevertedError } from 'viem';
+import {
+  parseAbi,
+  toHex,
+  ContractFunctionRevertedError,
+  encodeFunctionData,
+  decodeFunctionResult,
+  getContractError
+} from 'viem';
 import { namehash, packetToBytes } from 'viem/ens';
 import type { Address, Hex } from 'viem';
 import { getViemClient } from './viem';
@@ -19,7 +26,49 @@ const NAME_WRAPPER_ABI = parseAbi([
 const UNIVERSAL_HELPER_ABI = parseAbi([
   'function findExactOwner(bytes name) view returns (address owner)'
 ]);
+const DNS_TLD_RESOLVER_ABI = parseAbi([
+  'function getResolver(bytes name) view returns (address resolver, bool offchain)',
+  'error OffchainLookup(address sender, string[] urls, bytes callData, bytes4 callbackFunction, bytes extraData)'
+]);
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
+
+async function isEnsV1Delegation(
+  client: ReturnType<typeof getViemClient>,
+  name: string,
+  network: string,
+  universalResolverAddress: Address
+): Promise<boolean> {
+  const resolver = await client.getEnsResolver({
+    name,
+    universalResolverAddress
+  });
+  if (resolver === networks[network].ensV1Resolver) return true;
+  if (resolver !== networks[network].ensDnsTldResolver) return false;
+
+  const call = {
+    abi: DNS_TLD_RESOLVER_ABI,
+    functionName: 'getResolver',
+    args: [toHex(packetToBytes(name))]
+  } as const;
+
+  try {
+    const data = await client.request({
+      method: 'eth_call',
+      params: [{ to: resolver, data: encodeFunctionData(call) }, 'latest']
+    });
+    const [v1Resolver, offchain] = decodeFunctionResult({ ...call, data });
+    return v1Resolver !== EMPTY_ADDRESS && !offchain;
+  } catch (e: any) {
+    const revert = getContractError(e, call).walk(
+      (err) => err instanceof ContractFunctionRevertedError
+    );
+    const error = (revert as any)?.data;
+    if (error?.errorName === 'OffchainLookup' && error.args?.[0] === resolver) {
+      return false;
+    }
+    throw e;
+  }
+}
 
 function getDomainType(domain: string): DomainType {
   const isEns = domain.endsWith('.eth');
@@ -188,10 +237,12 @@ export async function getEnsOwner(
   if (
     (!owner || owner === EMPTY_ADDRESS) &&
     (!universalHelperAddress ||
-      (await client.getEnsResolver({
-        name: normalized,
+      (await isEnsV1Delegation(
+        client,
+        normalized,
+        network,
         universalResolverAddress
-      })) === networks[network].ensV1Resolver)
+      )))
   ) {
     owner = await client.readContract({
       address: ENS_REGISTRY,

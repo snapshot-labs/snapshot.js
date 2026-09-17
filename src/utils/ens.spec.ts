@@ -1,5 +1,12 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
-import { ContractFunctionRevertedError, toHex } from 'viem';
+import {
+  ContractFunctionRevertedError,
+  RawContractError,
+  encodeAbiParameters,
+  encodeErrorResult,
+  offchainLookupAbiItem,
+  toHex
+} from 'viem';
 import { packetToBytes } from 'viem/ens';
 import { getEnsTextRecord, getEnsOwner } from './ens';
 import { getSpaceController } from '../utils';
@@ -12,6 +19,7 @@ vi.mock('./provider', () => ({ default: vi.fn() }));
 const EMPTY = '0x0000000000000000000000000000000000000000';
 const OWNER = '0x1208a26FAa0F4AC65B42098419EB4dAA5e580AC6';
 const NOT_IMPLEMENTED = '0xd6234725';
+const DNS_RESOLVER = '0xb0C788195697dB17543bF22CBC1b0E2b4A04F9b8';
 
 // viem error shapes: walk() surfaces a ContractFunctionRevertedError with the
 // decoded errorName, or without one when the revert cannot be decoded
@@ -32,6 +40,7 @@ function mockClient(overrides: Record<string, any> = {}) {
     getEnsText: vi.fn(),
     getEnsResolver: vi.fn(),
     getEnsAddress: vi.fn(),
+    request: vi.fn(),
     readContract: vi.fn(),
     ...overrides
   };
@@ -195,6 +204,88 @@ describe('getSpaceController fail-closed', () => {
         name: 'tiny.fox.eth',
         universalResolverAddress: '0xeEeEEEeE14D718C2B47D9923Deab1335E144EeEe'
       });
+    }
+  );
+
+  test.each([
+    ['imported DNS', OWNER, false, OWNER, 2],
+    ['DNSSEC resolver', OWNER, true, EMPTY, 1],
+    ['missing DNS resolver', EMPTY, false, EMPTY, 1]
+  ] as const)(
+    'uses legacy ownership only for onchain DNS delegation: %s',
+    async (_label, resolver, offchain, expected, reads) => {
+      const client = mockClient();
+      client.getEnsText.mockResolvedValue(null);
+      client.getEnsResolver.mockResolvedValue(DNS_RESOLVER);
+      client.getEnsAddress.mockResolvedValue(null);
+      client.readContract
+        .mockResolvedValueOnce(EMPTY)
+        .mockResolvedValueOnce(OWNER);
+      client.request.mockResolvedValue(
+        encodeAbiParameters(
+          [{ type: 'address' }, { type: 'bool' }],
+          [resolver, offchain]
+        )
+      );
+      await expect(getSpaceController('x.org', '11155111')).resolves.toBe(
+        expected
+      );
+      expect(client.readContract).toHaveBeenCalledTimes(reads);
+      expect(client.request).toHaveBeenCalledWith({
+        method: 'eth_call',
+        params: [{ to: DNS_RESOLVER, data: expect.any(String) }, 'latest']
+      });
+    }
+  );
+
+  test('leaves DNSSEC resolution to the canonical resolver on OffchainLookup', async () => {
+    const client = mockClient();
+    client.getEnsText.mockResolvedValue(null);
+    client.getEnsResolver.mockResolvedValue(DNS_RESOLVER);
+    client.getEnsAddress.mockResolvedValue(null);
+    client.readContract
+      .mockResolvedValueOnce(EMPTY)
+      .mockResolvedValueOnce(OWNER);
+    client.request.mockRejectedValue(
+      new RawContractError({
+        data: encodeErrorResult({
+          abi: [offchainLookupAbiItem],
+          errorName: 'OffchainLookup',
+          args: [DNS_RESOLVER, [], '0x', '0x00000000', '0x']
+        })
+      })
+    );
+    await expect(getSpaceController('x.org', '11155111')).resolves.toBe(EMPTY);
+    expect(client.readContract).toHaveBeenCalledTimes(1);
+    expect(client.getEnsAddress).toHaveBeenCalled();
+  });
+
+  test.each([
+    ['a revert', new RawContractError({ data: '0xdeadbeef' })],
+    ['a bare revert', new RawContractError({ data: '0x' })],
+    ['a transport failure', new Error('DNS transport failed')],
+    [
+      'a mismatched OffchainLookup sender',
+      new RawContractError({
+        data: encodeErrorResult({
+          abi: [offchainLookupAbiItem],
+          errorName: 'OffchainLookup',
+          args: [OWNER, [], '0x', '0x00000000', '0x']
+        })
+      })
+    ]
+  ])(
+    'rejects a DNS delegation lookup failure with %s',
+    async (_label, error) => {
+      const client = mockClient();
+      client.getEnsText.mockResolvedValue(null);
+      client.getEnsResolver.mockResolvedValue(DNS_RESOLVER);
+      client.readContract
+        .mockResolvedValueOnce(EMPTY)
+        .mockResolvedValueOnce(OWNER);
+      client.request.mockRejectedValue(error);
+      await expect(getSpaceController('x.org', '11155111')).rejects.toBe(error);
+      expect(client.readContract).toHaveBeenCalledTimes(1);
     }
   );
 
