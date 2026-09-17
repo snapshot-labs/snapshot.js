@@ -143,6 +143,14 @@ describe('utils', () => {
       );
     });
 
+    // tiny.fox.eth has an ENSv1 registry entry, but its parent is registered in
+    // ENSv2 and resolution no longer goes through the v1 mirror
+    test('resolve a subdomain whose authority moved to ENSv2 as unowned', async () => {
+      await expect(
+        getSpaceController('tiny.fox.eth', '11155111')
+      ).resolves.toBe(EMPTY_ADDRESS);
+    });
+
     test('return an empty address on testnet for a non-existent name', async () => {
       await expect(
         getSpaceController('snapshotdoesnotexist123.eth', '11155111')
@@ -175,8 +183,7 @@ describe('utils', () => {
         );
       });
 
-      // 0x2F8A18… is a retired universal resolver implementation, still live
-      // and still bound to the root registry ENS has since replaced
+      // 0x2F8A18… is a retired implementation, still bound to the replaced root
       test('reject when the ENSv2 helper reads a retired root registry', async () => {
         await expect(
           getEnsOwner('ens.eth', '11155111', {

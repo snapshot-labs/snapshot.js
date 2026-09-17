@@ -1,6 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { ContractFunctionRevertedError, toHex } from 'viem';
-import { packetToBytes } from 'viem/ens';
+import { namehash, packetToBytes } from 'viem/ens';
+import networks from '../networks.json';
 import { getEnsTextRecord, getEnsOwner } from './ens';
 import { getSpaceController } from '../utils';
 import { getViemClient } from './viem';
@@ -153,8 +154,10 @@ describe('getSpaceController fail-closed', () => {
 
 describe('getEnsOwner findExactOwner fallback', () => {
   const opts = { ensNameWrapper: EMPTY };
-  // the ENSv2 path reads the helper root, the resolver root, then the owner
   const ROOT = '0x9703DBD26dAB89504490994138cF2c575251a9cE';
+  const V1_RESOLVER = networks['11155111'].ensV1Resolver;
+  const OTHER_RESOLVER = '0x264268534AC0103ad35abE49a7B2447436597b69';
+  const ensHash = namehash('x.eth');
 
   test('reads the registry only on mainnet', async () => {
     const client = mockClient();
@@ -218,16 +221,36 @@ describe('getEnsOwner findExactOwner fallback', () => {
     );
   });
 
-  test('falls back to the registry when findExactOwner returns no owner', async () => {
+  test('falls back to the registry for a name ENSv2 still mirrors from v1', async () => {
     const client = mockClient();
     client.readContract
       .mockResolvedValueOnce(ROOT)
       .mockResolvedValueOnce(ROOT)
       .mockResolvedValueOnce(EMPTY)
+      .mockResolvedValueOnce([V1_RESOLVER, ensHash, BigInt(0)])
       .mockResolvedValueOnce(OWNER);
     await expect(getEnsOwner('x.eth', '11155111', opts)).resolves.toBe(OWNER);
+    expect(client.readContract).toHaveBeenCalledTimes(5);
+    expect(client.readContract.mock.calls[3][0].functionName).toBe(
+      'findResolver'
+    );
+    expect(client.readContract.mock.calls[4][0].functionName).toBe('owner');
+  });
+
+  test('leaves a name resolving through ENSv2 unowned rather than reading its stale v1 entry', async () => {
+    const client = mockClient();
+    client.readContract
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(EMPTY)
+      .mockResolvedValueOnce([OTHER_RESOLVER, ensHash, BigInt(0)])
+      .mockResolvedValueOnce(OWNER);
+    await expect(
+      // a wrapper address of its own: the shared one is the empty address,
+      // which an unowned name would match
+      getEnsOwner('x.eth', '11155111', { ensNameWrapper: OTHER_RESOLVER })
+    ).resolves.toBe(EMPTY);
     expect(client.readContract).toHaveBeenCalledTimes(4);
-    expect(client.readContract.mock.calls[3][0].functionName).toBe('owner');
   });
 
   test.each([

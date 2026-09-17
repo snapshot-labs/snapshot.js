@@ -28,7 +28,8 @@ const UNIVERSAL_RESOLVER_ABI = parseAbi([
   'error ResolverNotFound(bytes name)',
   'error ReverseAddressMismatch(string primary, bytes primaryAddress)',
   'error UnsupportedResolverProfile(bytes4 selector)',
-  'function ROOT_REGISTRY() view returns (address registry)'
+  'function ROOT_REGISTRY() view returns (address registry)',
+  'function findResolver(bytes name) view returns (address resolver, bytes32 node, uint256 offset)'
 ]);
 const UNIVERSAL_HELPER_ABI = parseAbi([
   'function ROOT_REGISTRY() view returns (address registry)',
@@ -74,6 +75,24 @@ function isNoRecordRevert(domainType: DomainType, e: any): boolean {
     (errorName === 'ResolverError' &&
       (args?.[0] === NOT_IMPLEMENTED_ERROR || domainType === 'other-tld')) ||
     (errorName === 'HttpError' && args?.[0] === 404)
+  );
+}
+
+async function findsEnsV1Resolver(
+  client: ReturnType<typeof getViemClient>,
+  universalResolverAddress: Address,
+  ensV1Resolver: string | undefined,
+  name: string
+): Promise<boolean> {
+  const [resolver] = await client.readContract({
+    address: universalResolverAddress,
+    abi: UNIVERSAL_RESOLVER_ABI,
+    functionName: 'findResolver',
+    args: [toHex(packetToBytes(name))]
+  });
+
+  return (
+    !!ensV1Resolver && resolver.toLowerCase() === ensV1Resolver.toLowerCase()
   );
 }
 
@@ -228,13 +247,28 @@ export async function getEnsOwner(
     });
   }
 
+  // ENSv1 registry entries outlive the migration: where ENSv2 is authoritative
+  // it mirrors the names it still delegates through one resolver, and a name
+  // resolving through any other one keeps a v1 entry naming whoever held it
+  // before, which must not become the space controller
   if (!owner || owner === EMPTY_ADDRESS) {
-    owner = await client.readContract({
-      address: ENS_REGISTRY,
-      abi: ENS_REGISTRY_ABI,
-      functionName: 'owner',
-      args: [ensHash]
-    });
+    const readsEnsV1 =
+      !universalHelperAddress ||
+      (await findsEnsV1Resolver(
+        client,
+        universalResolverAddress,
+        networks[network].ensV1Resolver,
+        normalized
+      ));
+
+    if (readsEnsV1) {
+      owner = await client.readContract({
+        address: ENS_REGISTRY,
+        abi: ENS_REGISTRY_ABI,
+        functionName: 'owner',
+        args: [ensHash]
+      });
+    }
   }
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
   if (owner === ensNameWrapper) {
