@@ -151,6 +151,20 @@ describe('utils', () => {
       ).resolves.toBe(EMPTY_ADDRESS);
     });
 
+    // ethplay.org delegates on-chain to its v1 resolver, gregskril.com through
+    // the DNSSEC oracle; both keep the owner their v1 import recorded
+    test('resolve a DNS name imported on testnet through its v1 owner', async () => {
+      await expect(getSpaceController('ethplay.org', '11155111')).resolves.toBe(
+        '0x8D852E6cC57A855D0D75E1e2af57C9679D555958'
+      );
+    });
+
+    test('resolve a DNSSEC-delegated testnet name through its v1 owner', async () => {
+      await expect(
+        getSpaceController('gregskril.com', '11155111')
+      ).resolves.toBe('0x179A862703a4adfb29896552DF9e307980D19285');
+    });
+
     test('return an empty address on testnet for a non-existent name', async () => {
       await expect(
         getSpaceController('snapshotdoesnotexist123.eth', '11155111')

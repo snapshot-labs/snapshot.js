@@ -78,10 +78,10 @@ function isNoRecordRevert(domainType: DomainType, e: any): boolean {
   );
 }
 
-async function findsEnsV1Resolver(
+async function delegatesToEnsV1(
   client: ReturnType<typeof getViemClient>,
   universalResolverAddress: Address,
-  ensV1Resolver: string | undefined,
+  ensV1Delegates: (string | undefined)[],
   name: string
 ): Promise<boolean> {
   const [resolver] = await client.readContract({
@@ -91,8 +91,9 @@ async function findsEnsV1Resolver(
     args: [toHex(packetToBytes(name))]
   });
 
-  return (
-    !!ensV1Resolver && resolver.toLowerCase() === ensV1Resolver.toLowerCase()
+  return ensV1Delegates.some(
+    (delegate) =>
+      !!delegate && delegate.toLowerCase() === resolver.toLowerCase()
   );
 }
 
@@ -247,17 +248,18 @@ export async function getEnsOwner(
     });
   }
 
-  // ENSv1 registry entries outlive the migration: where ENSv2 is authoritative
-  // it mirrors the names it still delegates through one resolver, and a name
-  // resolving through any other one keeps a v1 entry naming whoever held it
-  // before, which must not become the space controller
+  // ENSv1 registry entries outlive the migration: a name ENSv2 has taken over
+  // keeps an entry naming whoever held it before, which must not become the
+  // space controller. ENSv2 resolves the names v1 still answers for through two
+  // resolvers of its own — the mirror for .eth names, the DNS TLD resolver for
+  // imported domains — and only those two make the v1 entry authoritative
   if (!owner || owner === EMPTY_ADDRESS) {
     const readsEnsV1 =
       !universalHelperAddress ||
-      (await findsEnsV1Resolver(
+      (await delegatesToEnsV1(
         client,
         universalResolverAddress,
-        networks[network].ensV1Resolver,
+        [networks[network].ensV1Resolver, networks[network].ensDnsTldResolver],
         normalized
       ));
 

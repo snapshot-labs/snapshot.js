@@ -156,6 +156,7 @@ describe('getEnsOwner findExactOwner fallback', () => {
   const opts = { ensNameWrapper: EMPTY };
   const ROOT = '0x9703DBD26dAB89504490994138cF2c575251a9cE';
   const V1_RESOLVER = networks['11155111'].ensV1Resolver;
+  const DNS_TLD_RESOLVER = networks['11155111'].ensDnsTldResolver;
   const OTHER_RESOLVER = '0x264268534AC0103ad35abE49a7B2447436597b69';
   const ensHash = namehash('x.eth');
 
@@ -234,6 +235,19 @@ describe('getEnsOwner findExactOwner fallback', () => {
     expect(client.readContract.mock.calls[3][0].functionName).toBe(
       'findResolver'
     );
+    expect(client.readContract.mock.calls[4][0].functionName).toBe('owner');
+  });
+
+  test('falls back to the registry for a DNS name ENSv2 resolves through the v1 import path', async () => {
+    const client = mockClient();
+    client.readContract
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(EMPTY)
+      .mockResolvedValueOnce([DNS_TLD_RESOLVER, ensHash, BigInt(0)])
+      .mockResolvedValueOnce(OWNER);
+    await expect(getEnsOwner('x.com', '11155111', opts)).resolves.toBe(OWNER);
+    expect(client.readContract).toHaveBeenCalledTimes(5);
     expect(client.readContract.mock.calls[4][0].functionName).toBe('owner');
   });
 
