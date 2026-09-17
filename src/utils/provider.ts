@@ -154,6 +154,7 @@ function getStarknetProvider(
 ): RpcProvider {
   return new RpcProvider({
     nodeUrl: createProviderUrl(networkKey, options),
+    blockIdentifier: 'latest',
     // At 0 there is no deadline to add, so leave starknet its own transport
     // (`baseFetch ?? ponyfill`) rather than swap the transport for nothing.
     // Native `fetch`, bound like starknet's own browser default: the package
