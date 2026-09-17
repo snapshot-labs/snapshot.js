@@ -50,7 +50,11 @@ export default async function verify(
       throw new Error('Contract not deployed');
     }
 
-    const message = e.message.toLowerCase();
+    // Only the segment after the request dump: starknet.js prefixes the RPC
+    // error with the calldata it sent, so a caller-supplied signature felt
+    // would otherwise match these markers on any node error.
+    const [, ...rpcError] = e.message.split('\n\n');
+    const message = rpcError.join('\n\n').toLowerCase();
     if (INVALID_SIGNATURE_REVERTS.some((felt) => message.includes(felt))) {
       return false;
     }
