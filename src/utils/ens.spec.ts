@@ -140,6 +140,20 @@ describe('getSpaceController fail-closed', () => {
     expect(client.readContract).not.toHaveBeenCalled();
   });
 
+  test.each([
+    ['a decoded error', revertError('ResolverError', '0xdeadbeef')],
+    ['an undecoded revert', undecodedRevert()],
+    ['a transport failure', transportError]
+  ])('rejects a Sepolia helper failure with %s', async (_label, error) => {
+    const client = mockClient();
+    client.getEnsText.mockResolvedValue(null);
+    client.readContract
+      .mockRejectedValueOnce(error)
+      .mockResolvedValueOnce(OWNER);
+    await expect(getSpaceController('x.eth', '11155111')).rejects.toBe(error);
+    expect(client.readContract).toHaveBeenCalledTimes(1);
+  });
+
   test('keeps resolving a DNS-domain space whose resolver reverts bare', async () => {
     // un-imported DNS domains bare-revert both reads; the controller stays
     // the empty address as on master, not a rejection
@@ -151,7 +165,7 @@ describe('getSpaceController fail-closed', () => {
   });
 });
 
-describe('getEnsOwner findOwner fallback', () => {
+describe('getEnsOwner findExactOwner fallback', () => {
   const opts = { ensNameWrapper: EMPTY };
 
   test('reads the registry only on mainnet', async () => {
@@ -159,15 +173,22 @@ describe('getEnsOwner findOwner fallback', () => {
     client.readContract.mockResolvedValueOnce(OWNER);
     await expect(getEnsOwner('x.eth', '1', opts)).resolves.toBe(OWNER);
     expect(client.readContract).toHaveBeenCalledTimes(1);
-    expect(client.readContract.mock.calls[0][0].functionName).toBe('owner');
+    expect(client.readContract.mock.calls[0][0]).toMatchObject({
+      address: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
+      functionName: 'owner'
+    });
   });
 
-  test('returns the findOwner result for a v2 name', async () => {
+  test('returns the findExactOwner result from the Sepolia helper', async () => {
     const client = mockClient();
     client.readContract.mockResolvedValueOnce(OWNER);
     await expect(getEnsOwner('x.eth', '11155111', opts)).resolves.toBe(OWNER);
     expect(client.readContract).toHaveBeenCalledTimes(1);
-    expect(client.readContract.mock.calls[0][0].functionName).toBe('findOwner');
+    expect(client.readContract.mock.calls[0][0]).toMatchObject({
+      address: '0x33f571aa8A160a21b877cF6E0Fb8806692b97DF5',
+      functionName: 'findExactOwner',
+      args: [toHex(packetToBytes('x.eth'))]
+    });
   });
 
   test('wire-encodes labels the strict DNS format cannot carry', async () => {
@@ -188,10 +209,12 @@ describe('getEnsOwner findOwner fallback', () => {
     await expect(getEnsOwner('x.eth', 11155111 as any, opts)).resolves.toBe(
       OWNER
     );
-    expect(client.readContract.mock.calls[0][0].functionName).toBe('findOwner');
+    expect(client.readContract.mock.calls[0][0].functionName).toBe(
+      'findExactOwner'
+    );
   });
 
-  test('falls back to the registry when findOwner returns no owner', async () => {
+  test('falls back to the registry when findExactOwner returns no owner', async () => {
     const client = mockClient();
     client.readContract
       .mockResolvedValueOnce(EMPTY)
@@ -205,10 +228,10 @@ describe('getEnsOwner findOwner fallback', () => {
     ['a decoded error', revertError('ResolverError', '0xdeadbeef')],
     ['an undecoded revert', undecodedRevert()],
     ['a transport failure', transportError]
-  ])('throws when findOwner fails with %s', async (_label, error) => {
+  ])('throws when findExactOwner fails with %s', async (_label, error) => {
     const client = mockClient();
     client.readContract.mockRejectedValueOnce(error);
-    await expect(getEnsOwner('x.eth', '11155111', opts)).rejects.toBeDefined();
+    await expect(getEnsOwner('x.eth', '11155111', opts)).rejects.toBe(error);
     expect(client.readContract).toHaveBeenCalledTimes(1);
   });
 

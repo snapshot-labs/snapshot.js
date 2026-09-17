@@ -16,19 +16,8 @@ const ENS_REGISTRY_ABI = parseAbi([
 const NAME_WRAPPER_ABI = parseAbi([
   'function ownerOf(uint256 id) view returns (address)'
 ]);
-// errors mirror viem's universalResolverErrors, which it does not export
-const UNIVERSAL_RESOLVER_ABI = parseAbi([
-  'error DNSDecodingFailed(bytes dns)',
-  'error DNSEncodingFailed(string ens)',
-  'error EmptyAddress()',
-  'error HttpError(uint16 status, string message)',
-  'error InvalidBatchGatewayResponse()',
-  'error ResolverError(bytes errorData)',
-  'error ResolverNotContract(bytes name, address resolver)',
-  'error ResolverNotFound(bytes name)',
-  'error ReverseAddressMismatch(string primary, bytes primaryAddress)',
-  'error UnsupportedResolverProfile(bytes4 selector)',
-  'function findOwner(bytes name) view returns (address owner)'
+const UNIVERSAL_HELPER_ABI = parseAbi([
+  'function findExactOwner(bytes name) view returns (address owner)'
 ]);
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -185,14 +174,12 @@ export async function getEnsOwner(
 
   let owner: string = EMPTY_ADDRESS;
 
-  // findOwner is ENSv2-only, live on Sepolia and not yet on mainnet. A name
-  // absent from ENSv2 resolves EMPTY_ADDRESS successfully, so any revert is a
-  // genuine failure and must throw, never fall back to a stale v1 owner
-  if (String(network) === '11155111') {
+  const universalHelperAddress = networks[network].ensUniversalHelper;
+  if (universalHelperAddress) {
     owner = await client.readContract({
-      address: universalResolverAddress,
-      abi: UNIVERSAL_RESOLVER_ABI,
-      functionName: 'findOwner',
+      address: universalHelperAddress,
+      abi: UNIVERSAL_HELPER_ABI,
+      functionName: 'findExactOwner',
       // viem's own encoding, so labels the strict DNS format rejects still resolve
       args: [toHex(packetToBytes(normalized))]
     });
