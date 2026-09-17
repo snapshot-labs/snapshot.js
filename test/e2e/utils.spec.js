@@ -137,9 +137,9 @@ describe('utils', () => {
       ).resolves.toBe('0x1900c042Ce71f8384e19B207B6cd155dD069E3EC');
     });
 
-    test('resolve an ENSv2 name owner on testnet via findOwner', async () => {
+    test('resolve a name held only by a retired ENSv2 deployment as unowned', async () => {
       await expect(getSpaceController('test123.eth', '11155111')).resolves.toBe(
-        '0x1208a26FAa0F4AC65B42098419EB4dAA5e580AC6'
+        EMPTY_ADDRESS
       );
     });
 
@@ -173,6 +173,16 @@ describe('utils', () => {
         await expect(getEnsOwner('ens.eth', '11155111')).resolves.toBe(
           '0x179A862703a4adfb29896552DF9e307980D19285'
         );
+      });
+
+      // 0x2F8A18… is a retired universal resolver implementation, still live
+      // and still bound to the root registry ENS has since replaced
+      test('reject when the ENSv2 helper reads a retired root registry', async () => {
+        await expect(
+          getEnsOwner('ens.eth', '11155111', {
+            ensUniversalHelper: '0x2F8A180604c42457Cb56C7c4f708748fF1F91DF1'
+          })
+        ).rejects.toThrow('reads root registry');
       });
 
       test('return an address for subdomain', async () => {

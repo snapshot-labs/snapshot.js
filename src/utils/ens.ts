@@ -28,7 +28,11 @@ const UNIVERSAL_RESOLVER_ABI = parseAbi([
   'error ResolverNotFound(bytes name)',
   'error ReverseAddressMismatch(string primary, bytes primaryAddress)',
   'error UnsupportedResolverProfile(bytes4 selector)',
-  'function findOwner(bytes name) view returns (address owner)'
+  'function ROOT_REGISTRY() view returns (address registry)'
+]);
+const UNIVERSAL_HELPER_ABI = parseAbi([
+  'function ROOT_REGISTRY() view returns (address registry)',
+  'function findExactOwner(bytes name) view returns (address owner)'
 ]);
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -185,14 +189,40 @@ export async function getEnsOwner(
 
   let owner: string = EMPTY_ADDRESS;
 
-  // findOwner is ENSv2-only, live on Sepolia and not yet on mainnet. A name
-  // absent from ENSv2 resolves EMPTY_ADDRESS successfully, so any revert is a
-  // genuine failure and must throw, never fall back to a stale v1 owner
-  if (String(network) === '11155111') {
+  // findExactOwner is ENSv2-only, live on Sepolia and not yet on mainnet, and
+  // sits on the UniversalHelper, which the Universal Resolver proxy does not
+  // front: a redeployment leaves this pinned address serving owners from an
+  // abandoned root registry, so trust it only while it shares the root the
+  // canonical resolver resolves through. A name absent from ENSv2 resolves
+  // EMPTY_ADDRESS successfully, so any revert is a genuine failure and must
+  // throw, never fall back to a stale v1 owner
+  const universalHelperAddress =
+    options.ensUniversalHelper || networks[network].ensUniversalHelper;
+
+  if (universalHelperAddress) {
+    const [helperRoot, resolverRoot] = await Promise.all([
+      client.readContract({
+        address: universalHelperAddress,
+        abi: UNIVERSAL_HELPER_ABI,
+        functionName: 'ROOT_REGISTRY'
+      }),
+      client.readContract({
+        address: universalResolverAddress,
+        abi: UNIVERSAL_RESOLVER_ABI,
+        functionName: 'ROOT_REGISTRY'
+      })
+    ]);
+
+    if (helperRoot !== resolverRoot) {
+      throw new Error(
+        `ENSv2 helper ${universalHelperAddress} reads root registry ${helperRoot}, universal resolver reads ${resolverRoot}`
+      );
+    }
+
     owner = await client.readContract({
-      address: universalResolverAddress,
-      abi: UNIVERSAL_RESOLVER_ABI,
-      functionName: 'findOwner',
+      address: universalHelperAddress,
+      abi: UNIVERSAL_HELPER_ABI,
+      functionName: 'findExactOwner',
       // viem's own encoding, so labels the strict DNS format rejects still resolve
       args: [toHex(packetToBytes(normalized))]
     });
