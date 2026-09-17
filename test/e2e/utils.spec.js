@@ -137,10 +137,32 @@ describe('utils', () => {
       ).resolves.toBe('0x1900c042Ce71f8384e19B207B6cd155dD069E3EC');
     });
 
-    test('resolve an ENSv2 name owner on testnet via findOwner', async () => {
+    test('resolve a name held only by a retired ENSv2 deployment as unowned', async () => {
       await expect(getSpaceController('test123.eth', '11155111')).resolves.toBe(
-        '0x1208a26FAa0F4AC65B42098419EB4dAA5e580AC6'
+        EMPTY_ADDRESS
       );
+    });
+
+    // tiny.fox.eth has an ENSv1 registry entry, but its parent is registered in
+    // ENSv2 and resolution no longer goes through the v1 mirror
+    test('resolve a subdomain whose authority moved to ENSv2 as unowned', async () => {
+      await expect(
+        getSpaceController('tiny.fox.eth', '11155111')
+      ).resolves.toBe(EMPTY_ADDRESS);
+    });
+
+    // ethplay.org delegates on-chain to its v1 resolver, gregskril.com through
+    // the DNSSEC oracle; both keep the owner their v1 import recorded
+    test('resolve a DNS name imported on testnet through its v1 owner', async () => {
+      await expect(getSpaceController('ethplay.org', '11155111')).resolves.toBe(
+        '0x8D852E6cC57A855D0D75E1e2af57C9679D555958'
+      );
+    });
+
+    test('resolve a DNSSEC-delegated testnet name through its v1 owner', async () => {
+      await expect(
+        getSpaceController('gregskril.com', '11155111')
+      ).resolves.toBe('0x179A862703a4adfb29896552DF9e307980D19285');
     });
 
     test('return an empty address on testnet for a non-existent name', async () => {
@@ -173,6 +195,15 @@ describe('utils', () => {
         await expect(getEnsOwner('ens.eth', '11155111')).resolves.toBe(
           '0x179A862703a4adfb29896552DF9e307980D19285'
         );
+      });
+
+      // 0x2F8A18… is a retired implementation, still bound to the replaced root
+      test('reject when the ENSv2 helper reads a retired root registry', async () => {
+        await expect(
+          getEnsOwner('ens.eth', '11155111', {
+            ensUniversalHelper: '0x2F8A180604c42457Cb56C7c4f708748fF1F91DF1'
+          })
+        ).rejects.toThrow('reads root registry');
       });
 
       test('return an address for subdomain', async () => {

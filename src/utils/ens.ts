@@ -28,7 +28,12 @@ const UNIVERSAL_RESOLVER_ABI = parseAbi([
   'error ResolverNotFound(bytes name)',
   'error ReverseAddressMismatch(string primary, bytes primaryAddress)',
   'error UnsupportedResolverProfile(bytes4 selector)',
-  'function findOwner(bytes name) view returns (address owner)'
+  'function ROOT_REGISTRY() view returns (address registry)',
+  'function findResolver(bytes name) view returns (address resolver, bytes32 node, uint256 offset)'
+]);
+const UNIVERSAL_HELPER_ABI = parseAbi([
+  'function ROOT_REGISTRY() view returns (address registry)',
+  'function findExactOwner(bytes name) view returns (address owner)'
 ]);
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -70,6 +75,25 @@ function isNoRecordRevert(domainType: DomainType, e: any): boolean {
     (errorName === 'ResolverError' &&
       (args?.[0] === NOT_IMPLEMENTED_ERROR || domainType === 'other-tld')) ||
     (errorName === 'HttpError' && args?.[0] === 404)
+  );
+}
+
+async function delegatesToEnsV1(
+  client: ReturnType<typeof getViemClient>,
+  universalResolverAddress: Address,
+  ensV1Delegates: (string | undefined)[],
+  name: string
+): Promise<boolean> {
+  const [resolver] = await client.readContract({
+    address: universalResolverAddress,
+    abi: UNIVERSAL_RESOLVER_ABI,
+    functionName: 'findResolver',
+    args: [toHex(packetToBytes(name))]
+  });
+
+  return ensV1Delegates.some(
+    (delegate) =>
+      !!delegate && delegate.toLowerCase() === resolver.toLowerCase()
   );
 }
 
@@ -185,26 +209,68 @@ export async function getEnsOwner(
 
   let owner: string = EMPTY_ADDRESS;
 
-  // findOwner is ENSv2-only, live on Sepolia and not yet on mainnet. A name
-  // absent from ENSv2 resolves EMPTY_ADDRESS successfully, so any revert is a
-  // genuine failure and must throw, never fall back to a stale v1 owner
-  if (String(network) === '11155111') {
+  // findExactOwner is ENSv2-only, live on Sepolia and not yet on mainnet, and
+  // sits on the UniversalHelper, which the Universal Resolver proxy does not
+  // front: a redeployment leaves this pinned address serving owners from an
+  // abandoned root registry, so trust it only while it shares the root the
+  // canonical resolver resolves through. A name absent from ENSv2 resolves
+  // EMPTY_ADDRESS successfully, so any revert is a genuine failure and must
+  // throw, never fall back to a stale v1 owner
+  const universalHelperAddress =
+    options.ensUniversalHelper || networks[network].ensUniversalHelper;
+
+  if (universalHelperAddress) {
+    const [helperRoot, resolverRoot] = await Promise.all([
+      client.readContract({
+        address: universalHelperAddress,
+        abi: UNIVERSAL_HELPER_ABI,
+        functionName: 'ROOT_REGISTRY'
+      }),
+      client.readContract({
+        address: universalResolverAddress,
+        abi: UNIVERSAL_RESOLVER_ABI,
+        functionName: 'ROOT_REGISTRY'
+      })
+    ]);
+
+    if (helperRoot !== resolverRoot) {
+      throw new Error(
+        `ENSv2 helper ${universalHelperAddress} reads root registry ${helperRoot}, universal resolver reads ${resolverRoot}`
+      );
+    }
+
     owner = await client.readContract({
-      address: universalResolverAddress,
-      abi: UNIVERSAL_RESOLVER_ABI,
-      functionName: 'findOwner',
+      address: universalHelperAddress,
+      abi: UNIVERSAL_HELPER_ABI,
+      functionName: 'findExactOwner',
       // viem's own encoding, so labels the strict DNS format rejects still resolve
       args: [toHex(packetToBytes(normalized))]
     });
   }
 
+  // ENSv1 registry entries outlive the migration: a name ENSv2 has taken over
+  // keeps an entry naming whoever held it before, which must not become the
+  // space controller. ENSv2 resolves the names v1 still answers for through two
+  // resolvers of its own — the mirror for .eth names, the DNS TLD resolver for
+  // imported domains — and only those two make the v1 entry authoritative
   if (!owner || owner === EMPTY_ADDRESS) {
-    owner = await client.readContract({
-      address: ENS_REGISTRY,
-      abi: ENS_REGISTRY_ABI,
-      functionName: 'owner',
-      args: [ensHash]
-    });
+    const readsEnsV1 =
+      !universalHelperAddress ||
+      (await delegatesToEnsV1(
+        client,
+        universalResolverAddress,
+        [networks[network].ensV1Resolver, networks[network].ensDnsTldResolver],
+        normalized
+      ));
+
+    if (readsEnsV1) {
+      owner = await client.readContract({
+        address: ENS_REGISTRY,
+        abi: ENS_REGISTRY_ABI,
+        functionName: 'owner',
+        args: [ensHash]
+      });
+    }
   }
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
   if (owner === ensNameWrapper) {

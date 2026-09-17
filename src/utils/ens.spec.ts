@@ -1,6 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { ContractFunctionRevertedError, toHex } from 'viem';
-import { packetToBytes } from 'viem/ens';
+import { namehash, packetToBytes } from 'viem/ens';
+import networks from '../networks.json';
 import { getEnsTextRecord, getEnsOwner } from './ens';
 import { getSpaceController } from '../utils';
 import { getViemClient } from './viem';
@@ -151,8 +152,13 @@ describe('getSpaceController fail-closed', () => {
   });
 });
 
-describe('getEnsOwner findOwner fallback', () => {
+describe('getEnsOwner findExactOwner fallback', () => {
   const opts = { ensNameWrapper: EMPTY };
+  const ROOT = '0x9703DBD26dAB89504490994138cF2c575251a9cE';
+  const V1_RESOLVER = networks['11155111'].ensV1Resolver;
+  const DNS_TLD_RESOLVER = networks['11155111'].ensDnsTldResolver;
+  const OTHER_RESOLVER = '0x264268534AC0103ad35abE49a7B2447436597b69';
+  const ensHash = namehash('x.eth');
 
   test('reads the registry only on mainnet', async () => {
     const client = mockClient();
@@ -162,54 +168,117 @@ describe('getEnsOwner findOwner fallback', () => {
     expect(client.readContract.mock.calls[0][0].functionName).toBe('owner');
   });
 
-  test('returns the findOwner result for a v2 name', async () => {
+  test('returns the findExactOwner result for a v2 name', async () => {
     const client = mockClient();
-    client.readContract.mockResolvedValueOnce(OWNER);
+    client.readContract
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(OWNER);
     await expect(getEnsOwner('x.eth', '11155111', opts)).resolves.toBe(OWNER);
-    expect(client.readContract).toHaveBeenCalledTimes(1);
-    expect(client.readContract.mock.calls[0][0].functionName).toBe('findOwner');
+    expect(client.readContract).toHaveBeenCalledTimes(3);
+    expect(client.readContract.mock.calls[2][0].functionName).toBe(
+      'findExactOwner'
+    );
+  });
+
+  test('throws when the helper reads a root registry the resolver does not', async () => {
+    const client = mockClient();
+    client.readContract
+      .mockResolvedValueOnce(EMPTY)
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(OWNER);
+    await expect(getEnsOwner('x.eth', '11155111', opts)).rejects.toThrow(
+      'root registry'
+    );
+    expect(client.readContract).toHaveBeenCalledTimes(2);
   });
 
   test('wire-encodes labels the strict DNS format cannot carry', async () => {
     const longLabel = 'a'.repeat(84);
     const client = mockClient();
-    client.readContract.mockResolvedValueOnce(OWNER);
+    client.readContract
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(OWNER);
     await expect(
       getEnsOwner(`${longLabel}.eth`, '11155111', opts)
     ).resolves.toBe(OWNER);
-    expect(client.readContract.mock.calls[0][0].args).toEqual([
+    expect(client.readContract.mock.calls[2][0].args).toEqual([
       toHex(packetToBytes(`${longLabel}.eth`))
     ]);
   });
 
   test('takes the ENSv2 path for a numeric chain id too', async () => {
     const client = mockClient();
-    client.readContract.mockResolvedValueOnce(OWNER);
+    client.readContract
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(OWNER);
     await expect(getEnsOwner('x.eth', 11155111 as any, opts)).resolves.toBe(
       OWNER
     );
-    expect(client.readContract.mock.calls[0][0].functionName).toBe('findOwner');
+    expect(client.readContract.mock.calls[2][0].functionName).toBe(
+      'findExactOwner'
+    );
   });
 
-  test('falls back to the registry when findOwner returns no owner', async () => {
+  test('falls back to the registry for a name ENSv2 still mirrors from v1', async () => {
     const client = mockClient();
     client.readContract
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(ROOT)
       .mockResolvedValueOnce(EMPTY)
+      .mockResolvedValueOnce([V1_RESOLVER, ensHash, BigInt(0)])
       .mockResolvedValueOnce(OWNER);
     await expect(getEnsOwner('x.eth', '11155111', opts)).resolves.toBe(OWNER);
-    expect(client.readContract).toHaveBeenCalledTimes(2);
-    expect(client.readContract.mock.calls[1][0].functionName).toBe('owner');
+    expect(client.readContract).toHaveBeenCalledTimes(5);
+    expect(client.readContract.mock.calls[3][0].functionName).toBe(
+      'findResolver'
+    );
+    expect(client.readContract.mock.calls[4][0].functionName).toBe('owner');
+  });
+
+  test('falls back to the registry for a DNS name ENSv2 resolves through the v1 import path', async () => {
+    const client = mockClient();
+    client.readContract
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(EMPTY)
+      .mockResolvedValueOnce([DNS_TLD_RESOLVER, ensHash, BigInt(0)])
+      .mockResolvedValueOnce(OWNER);
+    await expect(getEnsOwner('x.com', '11155111', opts)).resolves.toBe(OWNER);
+    expect(client.readContract).toHaveBeenCalledTimes(5);
+    expect(client.readContract.mock.calls[4][0].functionName).toBe('owner');
+  });
+
+  test('leaves a name resolving through ENSv2 unowned rather than reading its stale v1 entry', async () => {
+    const client = mockClient();
+    client.readContract
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(EMPTY)
+      .mockResolvedValueOnce([OTHER_RESOLVER, ensHash, BigInt(0)])
+      .mockResolvedValueOnce(OWNER);
+    await expect(
+      // a wrapper address of its own: the shared one is the empty address,
+      // which an unowned name would match
+      getEnsOwner('x.eth', '11155111', { ensNameWrapper: OTHER_RESOLVER })
+    ).resolves.toBe(EMPTY);
+    expect(client.readContract).toHaveBeenCalledTimes(4);
   });
 
   test.each([
     ['a decoded error', revertError('ResolverError', '0xdeadbeef')],
     ['an undecoded revert', undecodedRevert()],
     ['a transport failure', transportError]
-  ])('throws when findOwner fails with %s', async (_label, error) => {
+  ])('throws when an ENSv2 read fails with %s', async (_label, error) => {
     const client = mockClient();
-    client.readContract.mockRejectedValueOnce(error);
+    client.readContract
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(ROOT)
+      .mockRejectedValueOnce(error);
     await expect(getEnsOwner('x.eth', '11155111', opts)).rejects.toBeDefined();
-    expect(client.readContract).toHaveBeenCalledTimes(1);
+    expect(client.readContract).toHaveBeenCalledTimes(3);
   });
 
   test('reads a bare revert as no address for an unclaimed DNS domain', async () => {
