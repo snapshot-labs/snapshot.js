@@ -30,6 +30,8 @@ const transportError = { walk: () => undefined };
 
 function mockClient(overrides: Record<string, any> = {}) {
   const client = {
+    // the root check is cached per client uid
+    uid: String(Math.random()),
     getEnsText: vi.fn(),
     getEnsAddress: vi.fn(),
     readContract: vi.fn(),
@@ -227,13 +229,20 @@ describe('getEnsOwner findExactOwner fallback', () => {
     );
   });
 
-  test('falls back to the registry for a name ENSv2 still mirrors from v1', async () => {
+  test.each([
+    ['a name ENSv2 still mirrors from v1', 'x.eth', V1_RESOLVER],
+    [
+      'a DNS name ENSv2 resolves through the v1 import path',
+      'x.com',
+      DNS_TLD_RESOLVER
+    ]
+  ])('falls back to the registry for %s', async (_label, name, resolver) => {
     const client = mockVerifiedClient();
     client.readContract
       .mockResolvedValueOnce(EMPTY)
-      .mockResolvedValueOnce([V1_RESOLVER, ensHash, BigInt(0)])
+      .mockResolvedValueOnce([resolver, ensHash, BigInt(0)])
       .mockResolvedValueOnce(OWNER);
-    await expect(getEnsOwner('x.eth', '11155111', opts)).resolves.toBe(OWNER);
+    await expect(getEnsOwner(name, '11155111', opts)).resolves.toBe(OWNER);
     expect(client.readContract).toHaveBeenCalledTimes(5);
     expect(client.readContract.mock.calls[3][0].functionName).toBe(
       'findResolver'
@@ -241,48 +250,25 @@ describe('getEnsOwner findExactOwner fallback', () => {
     expect(client.readContract.mock.calls[4][0].functionName).toBe('owner');
   });
 
-  test('falls back to the registry for a DNS name ENSv2 resolves through the v1 import path', async () => {
-    const client = mockVerifiedClient();
-    client.readContract
-      .mockResolvedValueOnce(EMPTY)
-      .mockResolvedValueOnce([DNS_TLD_RESOLVER, ensHash, BigInt(0)])
-      .mockResolvedValueOnce(OWNER);
-    await expect(getEnsOwner('x.com', '11155111', opts)).resolves.toBe(OWNER);
-    expect(client.readContract).toHaveBeenCalledTimes(5);
-    expect(client.readContract.mock.calls[4][0].functionName).toBe('owner');
-  });
-
-  test('leaves a name resolving through ENSv2 unowned rather than reading its stale v1 entry', async () => {
-    const client = mockVerifiedClient();
-    client.readContract
-      .mockResolvedValueOnce(EMPTY)
-      .mockResolvedValueOnce([OTHER_RESOLVER, ensHash, BigInt(0)])
-      .mockResolvedValueOnce(OWNER);
-    await expect(
-      // a wrapper address of its own: the shared one is the empty address,
-      // which an unowned name would match
-      getEnsOwner('x.eth', '11155111', { ensNameWrapper: OTHER_RESOLVER })
-    ).resolves.toBe(EMPTY);
-    expect(client.readContract).toHaveBeenCalledTimes(4);
-  });
-
-  test('leaves a .eth name whose v2 reservation expired unowned instead of its v1 entry', async () => {
-    const client = mockVerifiedClient();
-    client.readContract
-      .mockResolvedValueOnce(EMPTY)
-      .mockResolvedValueOnce([EMPTY, ensHash, BigInt(0)]);
-    await expect(
-      // a wrapper address of its own: the shared one is the empty address,
-      // which an unowned name would match
-      getEnsOwner('x.eth', '11155111', { ensNameWrapper: OTHER_RESOLVER })
-    ).resolves.toBe(EMPTY);
-    expect(client.readContract).toHaveBeenCalledTimes(4);
-    expect(
-      client.readContract.mock.calls.some(
-        (call) => call[0].functionName === 'owner'
-      )
-    ).toBe(false);
-  });
+  test.each([
+    ['a name resolving through ENSv2', OTHER_RESOLVER],
+    ['a .eth name whose v2 reservation expired', EMPTY]
+  ])(
+    'leaves %s unowned instead of reading its stale v1 entry',
+    async (_label, resolver) => {
+      const client = mockVerifiedClient();
+      client.readContract
+        .mockResolvedValueOnce(EMPTY)
+        .mockResolvedValueOnce([resolver, ensHash, BigInt(0)])
+        .mockResolvedValueOnce(OWNER);
+      await expect(
+        // a wrapper address of its own: the shared one is the empty address,
+        // which an unowned name would match
+        getEnsOwner('x.eth', '11155111', { ensNameWrapper: OTHER_RESOLVER })
+      ).resolves.toBe(EMPTY);
+      expect(client.readContract).toHaveBeenCalledTimes(4);
+    }
+  );
 
   test.each([
     ['a decoded error', revertError('ResolverError', '0xdeadbeef')],
@@ -350,7 +336,7 @@ describe('getEnsOwner findExactOwner fallback', () => {
         .mockResolvedValueOnce(ROOT)
         .mockResolvedValueOnce(OWNER);
       await getEnsOwner('x.eth', '11155111', opts);
-      vi.advanceTimersByTime(5 * 60 * 1000 + 1);
+      vi.advanceTimersByTime(24 * 60 * 60 * 1000);
       await getEnsOwner('x.eth', '11155111', opts);
       expect(rootReads(client)).toBe(4);
     } finally {

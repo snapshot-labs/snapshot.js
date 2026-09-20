@@ -1,6 +1,11 @@
 import { getAddress } from '@ethersproject/address';
 import { ensNormalize } from '@ethersproject/hash';
-import { parseAbi, toHex, ContractFunctionRevertedError } from 'viem';
+import {
+  parseAbi,
+  toHex,
+  withCache,
+  ContractFunctionRevertedError
+} from 'viem';
 import { namehash, packetToBytes } from 'viem/ens';
 import type { Address, Hex } from 'viem';
 import { getViemClient } from './viem';
@@ -114,58 +119,42 @@ async function getEnsAddressStrict(
   }
 }
 
-// cache the promise, not the result, so concurrent callers share one in-flight
-// check; TTL rather than forever so a long-running process still catches a
-// redeploy
+// withCache shares one in-flight check between concurrent callers and never
+// caches a rejection; TTL rather than forever so a long-running process still
+// catches a redeploy
 const ROOT_MATCH_TTL_MS = 5 * 60 * 1000;
-const rootMatchCache = new WeakMap<
-  ReturnType<typeof getViemClient>,
-  Map<string, { promise: Promise<void>; expiresAt: number }>
->();
 
 function verifyRootMatch(
   client: ReturnType<typeof getViemClient>,
   universalHelperAddress: Address,
   universalResolverAddress: Address
 ): Promise<void> {
-  const key = `${universalHelperAddress}:${universalResolverAddress}`;
-  let clientCache = rootMatchCache.get(client);
-  if (!clientCache) {
-    clientCache = new Map();
-    rootMatchCache.set(client, clientCache);
-  }
+  return withCache(
+    async () => {
+      const [helperRoot, resolverRoot] = await Promise.all([
+        client.readContract({
+          address: universalHelperAddress,
+          abi: UNIVERSAL_HELPER_ABI,
+          functionName: 'ROOT_REGISTRY'
+        }),
+        client.readContract({
+          address: universalResolverAddress,
+          abi: UNIVERSAL_RESOLVER_ABI,
+          functionName: 'ROOT_REGISTRY'
+        })
+      ]);
 
-  const cached = clientCache.get(key);
-  if (cached && cached.expiresAt > Date.now()) {
-    return cached.promise;
-  }
-
-  const promise = (async () => {
-    const [helperRoot, resolverRoot] = await Promise.all([
-      client.readContract({
-        address: universalHelperAddress,
-        abi: UNIVERSAL_HELPER_ABI,
-        functionName: 'ROOT_REGISTRY'
-      }),
-      client.readContract({
-        address: universalResolverAddress,
-        abi: UNIVERSAL_RESOLVER_ABI,
-        functionName: 'ROOT_REGISTRY'
-      })
-    ]);
-
-    if (helperRoot !== resolverRoot) {
-      throw new Error(
-        `ENSv2 helper ${universalHelperAddress} reads root registry ${helperRoot}, universal resolver reads ${resolverRoot}`
-      );
+      if (helperRoot !== resolverRoot) {
+        throw new Error(
+          `ENSv2 helper ${universalHelperAddress} reads root registry ${helperRoot}, universal resolver reads ${resolverRoot}`
+        );
+      }
+    },
+    {
+      cacheKey: `ensRootMatch.${client.uid}.${universalHelperAddress}.${universalResolverAddress}`,
+      cacheTime: ROOT_MATCH_TTL_MS
     }
-  })();
-
-  clientCache.set(key, { promise, expiresAt: Date.now() + ROOT_MATCH_TTL_MS });
-  // evict on rejection so the next call retries
-  promise.catch(() => clientCache.delete(key));
-
-  return promise;
+  );
 }
 
 // see https://docs.ens.domains/registry/dns#gasless-import
@@ -269,20 +258,16 @@ export async function getEnsOwner(
   // the v1 fallback
   const universalHelperAddress =
     options.ensUniversalHelper || networks[network].ensUniversalHelper;
-
-  // without both pins the gate below silently skips the v1 read for every name
-  if (
-    universalHelperAddress &&
-    (!networks[network].ensV1Resolver || !networks[network].ensDnsTldResolver)
-  ) {
-    throw new Error(
-      `Network ${network} has ensUniversalHelper set but is missing ${
-        !networks[network].ensV1Resolver ? 'ensV1Resolver' : 'ensDnsTldResolver'
-      }`
-    );
-  }
+  const { ensV1Resolver, ensDnsTldResolver } = networks[network];
 
   if (universalHelperAddress) {
+    // without both pins the gate below silently skips the v1 read for every name
+    if (!ensV1Resolver || !ensDnsTldResolver) {
+      throw new Error(
+        `ensUniversalHelper is set for network ${network} without ensV1Resolver and ensDnsTldResolver`
+      );
+    }
+
     await verifyRootMatch(
       client,
       universalHelperAddress,
@@ -306,7 +291,7 @@ export async function getEnsOwner(
       (await delegatesToEnsV1(
         client,
         universalResolverAddress,
-        [networks[network].ensV1Resolver, networks[network].ensDnsTldResolver],
+        [ensV1Resolver, ensDnsTldResolver],
         normalized
       ));
 
