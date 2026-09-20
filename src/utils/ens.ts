@@ -114,13 +114,9 @@ async function getEnsAddressStrict(
   }
 }
 
-// the root-registry match is a deployment invariant, not a per-name fact:
-// cache the verified (or rejected) check per (client, helper, resolver) so
-// concurrent callers share one in-flight check instead of paying two extra
-// eth_calls on every getEnsOwner. Keyed off the client instance so it never
-// outlives the process's viem client memo, and TTL'd rather than cached
-// forever so a redeploy is still caught within a bounded window on a
-// long-running process instead of only until the next restart
+// cache the promise, not the result, so concurrent callers share one in-flight
+// check; TTL rather than forever so a long-running process still catches a
+// redeploy
 const ROOT_MATCH_TTL_MS = 5 * 60 * 1000;
 const rootMatchCache = new WeakMap<
   ReturnType<typeof getViemClient>,
@@ -166,7 +162,7 @@ function verifyRootMatch(
   })();
 
   clientCache.set(key, { promise, expiresAt: Date.now() + ROOT_MATCH_TTL_MS });
-  // a rejected check must not latch a false negative: evict so the next call retries
+  // evict on rejection so the next call retries
   promise.catch(() => clientCache.delete(key));
 
   return promise;
@@ -267,21 +263,14 @@ export async function getEnsOwner(
 
   let owner: string = EMPTY_ADDRESS;
 
-  // findExactOwner is ENSv2-only, live on Sepolia and not yet on mainnet, and
-  // sits on the UniversalHelper, which the Universal Resolver proxy does not
-  // front: a redeployment leaves this pinned address serving owners from an
-  // abandoned root registry, so trust it only while it shares the root the
-  // canonical resolver resolves through. A name absent from ENSv2 resolves
-  // EMPTY_ADDRESS successfully, so any revert is a genuine failure and must
-  // throw, never fall back to a stale v1 owner
+  // the helper is not behind the resolver proxy: a redeploy leaves this pin
+  // answering from an abandoned root, hence the root check. A name absent from
+  // ENSv2 returns EMPTY_ADDRESS, so a revert is a failure: never catch it into
+  // the v1 fallback
   const universalHelperAddress =
     options.ensUniversalHelper || networks[network].ensUniversalHelper;
 
-  // the v1 fallback gate below is keyed off these two, not off
-  // universalHelperAddress: an entry that arms the ENSv2 read without also
-  // pinning both delegates would silently disable the v1 registry read for
-  // every name instead of erroring, so fail loudly at the config read
-  // instead of degrading per name inside delegatesToEnsV1
+  // without both pins the gate below silently skips the v1 read for every name
   if (
     universalHelperAddress &&
     (!networks[network].ensV1Resolver || !networks[network].ensDnsTldResolver)
@@ -309,21 +298,14 @@ export async function getEnsOwner(
     });
   }
 
-  // ENSv1 registry entries outlive the migration: a name ENSv2 has taken over
-  // keeps an entry naming whoever held it before, which must not become the
-  // space controller. ENSv2 resolves the names v1 still answers for through two
-  // resolvers of its own — the mirror for .eth names, the DNS TLD resolver for
-  // imported domains — and only those two make the v1 entry authoritative.
-  // ENSv2 also drops the mirror once a .eth registration lapses past grace, so
-  // an expired name reads as unowned here: anyone may now register it in v2
+  // a name ENSv2 has taken over, or whose .eth registration lapsed past grace,
+  // keeps a stale v1 entry: read v1 only where ENSv2 still delegates to it
   if (!owner || owner === EMPTY_ADDRESS) {
     const readsEnsV1 =
       !universalHelperAddress ||
       (await delegatesToEnsV1(
         client,
         universalResolverAddress,
-        // validated above: universalHelperAddress being set guarantees both
-        // are present
         [networks[network].ensV1Resolver, networks[network].ensDnsTldResolver],
         normalized
       ));

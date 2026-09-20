@@ -151,8 +151,6 @@ describe('utils', () => {
       ).resolves.toBe(EMPTY_ADDRESS);
     });
 
-    // both match the shared DNS TLD resolver at the .org/.com ancestor, not a
-    // per-name on-chain delegation; both keep the owner their v1 import recorded
     test('resolve a DNS name imported on testnet through its v1 owner', async () => {
       await expect(getSpaceController('ethplay.org', '11155111')).resolves.toBe(
         '0x8D852E6cC57A855D0D75E1e2af57C9679D555958'

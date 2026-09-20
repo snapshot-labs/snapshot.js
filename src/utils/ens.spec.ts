@@ -154,18 +154,13 @@ describe('getSpaceController fail-closed', () => {
 
 describe('getEnsOwner findExactOwner fallback', () => {
   const opts = { ensNameWrapper: EMPTY };
-  // opaque, distinct stand-ins: unlike V1_RESOLVER/DNS_TLD_RESOLVER these
-  // don't need to be real chain addresses, just two values the mocked reads
-  // can return and the assertions can tell apart
   const ROOT = '0xa1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1';
   const V1_RESOLVER = networks['11155111'].ensV1Resolver;
   const DNS_TLD_RESOLVER = networks['11155111'].ensDnsTldResolver;
   const OTHER_RESOLVER = '0xb2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2';
   const ensHash = namehash('x.eth');
 
-  // most ENSv2-path tests open with the two ROOT_REGISTRY reads
-  // verifyRootMatch performs; queue those so each test only supplies the
-  // reads specific to what it's checking
+  // verifyRootMatch issues its two ROOT_REGISTRY reads before anything else
   function mockVerifiedClient() {
     const client = mockClient();
     client.readContract.mockResolvedValueOnce(ROOT).mockResolvedValueOnce(ROOT);
