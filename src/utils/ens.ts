@@ -81,7 +81,7 @@ function isNoRecordRevert(domainType: DomainType, e: any): boolean {
 async function delegatesToEnsV1(
   client: ReturnType<typeof getViemClient>,
   universalResolverAddress: Address,
-  ensV1Delegates: (string | undefined)[],
+  ensV1Delegates: string[],
   name: string
 ): Promise<boolean> {
   const [resolver] = await client.readContract({
@@ -112,6 +112,64 @@ async function getEnsAddressStrict(
     if (isNoRecordRevert(getDomainType(name), e)) return null;
     throw e;
   }
+}
+
+// the root-registry match is a deployment invariant, not a per-name fact:
+// cache the verified (or rejected) check per (client, helper, resolver) so
+// concurrent callers share one in-flight check instead of paying two extra
+// eth_calls on every getEnsOwner. Keyed off the client instance so it never
+// outlives the process's viem client memo, and TTL'd rather than cached
+// forever so a redeploy is still caught within a bounded window on a
+// long-running process instead of only until the next restart
+const ROOT_MATCH_TTL_MS = 5 * 60 * 1000;
+const rootMatchCache = new WeakMap<
+  ReturnType<typeof getViemClient>,
+  Map<string, { promise: Promise<void>; expiresAt: number }>
+>();
+
+function verifyRootMatch(
+  client: ReturnType<typeof getViemClient>,
+  universalHelperAddress: Address,
+  universalResolverAddress: Address
+): Promise<void> {
+  const key = `${universalHelperAddress}:${universalResolverAddress}`;
+  let clientCache = rootMatchCache.get(client);
+  if (!clientCache) {
+    clientCache = new Map();
+    rootMatchCache.set(client, clientCache);
+  }
+
+  const cached = clientCache.get(key);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.promise;
+  }
+
+  const promise = (async () => {
+    const [helperRoot, resolverRoot] = await Promise.all([
+      client.readContract({
+        address: universalHelperAddress,
+        abi: UNIVERSAL_HELPER_ABI,
+        functionName: 'ROOT_REGISTRY'
+      }),
+      client.readContract({
+        address: universalResolverAddress,
+        abi: UNIVERSAL_RESOLVER_ABI,
+        functionName: 'ROOT_REGISTRY'
+      })
+    ]);
+
+    if (helperRoot !== resolverRoot) {
+      throw new Error(
+        `ENSv2 helper ${universalHelperAddress} reads root registry ${helperRoot}, universal resolver reads ${resolverRoot}`
+      );
+    }
+  })();
+
+  clientCache.set(key, { promise, expiresAt: Date.now() + ROOT_MATCH_TTL_MS });
+  // a rejected check must not latch a false negative: evict so the next call retries
+  promise.catch(() => clientCache.delete(key));
+
+  return promise;
 }
 
 // see https://docs.ens.domains/registry/dns#gasless-import
@@ -219,25 +277,28 @@ export async function getEnsOwner(
   const universalHelperAddress =
     options.ensUniversalHelper || networks[network].ensUniversalHelper;
 
-  if (universalHelperAddress) {
-    const [helperRoot, resolverRoot] = await Promise.all([
-      client.readContract({
-        address: universalHelperAddress,
-        abi: UNIVERSAL_HELPER_ABI,
-        functionName: 'ROOT_REGISTRY'
-      }),
-      client.readContract({
-        address: universalResolverAddress,
-        abi: UNIVERSAL_RESOLVER_ABI,
-        functionName: 'ROOT_REGISTRY'
-      })
-    ]);
+  // the v1 fallback gate below is keyed off these two, not off
+  // universalHelperAddress: an entry that arms the ENSv2 read without also
+  // pinning both delegates would silently disable the v1 registry read for
+  // every name instead of erroring, so fail loudly at the config read
+  // instead of degrading per name inside delegatesToEnsV1
+  if (
+    universalHelperAddress &&
+    (!networks[network].ensV1Resolver || !networks[network].ensDnsTldResolver)
+  ) {
+    throw new Error(
+      `Network ${network} has ensUniversalHelper set but is missing ${
+        !networks[network].ensV1Resolver ? 'ensV1Resolver' : 'ensDnsTldResolver'
+      }`
+    );
+  }
 
-    if (helperRoot !== resolverRoot) {
-      throw new Error(
-        `ENSv2 helper ${universalHelperAddress} reads root registry ${helperRoot}, universal resolver reads ${resolverRoot}`
-      );
-    }
+  if (universalHelperAddress) {
+    await verifyRootMatch(
+      client,
+      universalHelperAddress,
+      universalResolverAddress
+    );
 
     owner = await client.readContract({
       address: universalHelperAddress,
@@ -252,13 +313,17 @@ export async function getEnsOwner(
   // keeps an entry naming whoever held it before, which must not become the
   // space controller. ENSv2 resolves the names v1 still answers for through two
   // resolvers of its own — the mirror for .eth names, the DNS TLD resolver for
-  // imported domains — and only those two make the v1 entry authoritative
+  // imported domains — and only those two make the v1 entry authoritative.
+  // ENSv2 also drops the mirror once a .eth registration lapses past grace, so
+  // an expired name reads as unowned here: anyone may now register it in v2
   if (!owner || owner === EMPTY_ADDRESS) {
     const readsEnsV1 =
       !universalHelperAddress ||
       (await delegatesToEnsV1(
         client,
         universalResolverAddress,
+        // validated above: universalHelperAddress being set guarantees both
+        // are present
         [networks[network].ensV1Resolver, networks[network].ensDnsTldResolver],
         normalized
       ));

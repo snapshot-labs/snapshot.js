@@ -137,7 +137,7 @@ describe('utils', () => {
       ).resolves.toBe('0x1900c042Ce71f8384e19B207B6cd155dD069E3EC');
     });
 
-    test('resolve a name held only by a retired ENSv2 deployment as unowned', async () => {
+    test('resolve a name whose v1 registration expired past grace as unowned', async () => {
       await expect(getSpaceController('test123.eth', '11155111')).resolves.toBe(
         EMPTY_ADDRESS
       );
@@ -151,8 +151,8 @@ describe('utils', () => {
       ).resolves.toBe(EMPTY_ADDRESS);
     });
 
-    // ethplay.org delegates on-chain to its v1 resolver, gregskril.com through
-    // the DNSSEC oracle; both keep the owner their v1 import recorded
+    // both match the shared DNS TLD resolver at the .org/.com ancestor, not a
+    // per-name on-chain delegation; both keep the owner their v1 import recorded
     test('resolve a DNS name imported on testnet through its v1 owner', async () => {
       await expect(getSpaceController('ethplay.org', '11155111')).resolves.toBe(
         '0x8D852E6cC57A855D0D75E1e2af57C9679D555958'
