@@ -266,7 +266,7 @@ describe('getEnsOwner findExactOwner fallback', () => {
     expect(client.readContract).toHaveBeenCalledTimes(4);
   });
 
-  test('leaves an expired-past-grace .eth name unowned instead of its v1 entry', async () => {
+  test('leaves a .eth name whose v2 reservation expired unowned instead of its v1 entry', async () => {
     const client = mockVerifiedClient();
     client.readContract
       .mockResolvedValueOnce(EMPTY)
@@ -311,6 +311,51 @@ describe('getEnsOwner findExactOwner fallback', () => {
       .mockRejectedValueOnce(transportError);
     await expect(getEnsOwner('x.eth', '11155111', opts)).rejects.toBeDefined();
     expect(client.readContract).toHaveBeenCalledTimes(2);
+  });
+
+  const rootReads = (client: ReturnType<typeof mockClient>) =>
+    client.readContract.mock.calls.filter(
+      (call) => call[0].functionName === 'ROOT_REGISTRY'
+    ).length;
+
+  test('retries the root check after a failed one', async () => {
+    const client = mockClient();
+    client.readContract
+      .mockRejectedValueOnce(transportError)
+      .mockResolvedValueOnce(ROOT);
+    await expect(getEnsOwner('x.eth', '11155111', opts)).rejects.toBeDefined();
+    client.readContract
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(ROOT)
+      .mockResolvedValueOnce(OWNER);
+    await expect(getEnsOwner('x.eth', '11155111', opts)).resolves.toBe(OWNER);
+    expect(rootReads(client)).toBe(4);
+  });
+
+  test('checks the root once per client within the TTL', async () => {
+    const client = mockVerifiedClient();
+    client.readContract.mockResolvedValue(OWNER);
+    await getEnsOwner('x.eth', '11155111', opts);
+    await getEnsOwner('x.eth', '11155111', opts);
+    expect(rootReads(client)).toBe(2);
+  });
+
+  test('re-checks the root once the TTL lapses', async () => {
+    vi.useFakeTimers();
+    try {
+      const client = mockVerifiedClient();
+      client.readContract
+        .mockResolvedValueOnce(OWNER)
+        .mockResolvedValueOnce(ROOT)
+        .mockResolvedValueOnce(ROOT)
+        .mockResolvedValueOnce(OWNER);
+      await getEnsOwner('x.eth', '11155111', opts);
+      vi.advanceTimersByTime(5 * 60 * 1000 + 1);
+      await getEnsOwner('x.eth', '11155111', opts);
+      expect(rootReads(client)).toBe(4);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   test('throws when the v1 delegation check findResolver call fails', async () => {

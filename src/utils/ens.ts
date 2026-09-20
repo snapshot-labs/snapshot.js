@@ -298,7 +298,7 @@ export async function getEnsOwner(
     });
   }
 
-  // a name ENSv2 has taken over, or whose .eth registration lapsed past grace,
+  // a name ENSv2 has taken over, or whose .eth reservation expired in v2,
   // keeps a stale v1 entry: read v1 only where ENSv2 still delegates to it
   if (!owner || owner === EMPTY_ADDRESS) {
     const readsEnsV1 =

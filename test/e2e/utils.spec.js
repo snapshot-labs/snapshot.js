@@ -113,9 +113,9 @@ describe('utils', () => {
       );
     });
 
-    test('fall back to the name owner on testnet for bob.eth', async () => {
-      await expect(getSpaceController('bob.eth', '11155111')).resolves.toBe(
-        '0x179A862703a4adfb29896552DF9e307980D19285'
+    test('resolve a name registered in ENSv2 through its ENSv2 owner', async () => {
+      await expect(getSpaceController('fox.eth', '11155111')).resolves.toBe(
+        '0x7Bc153b2a4C8a2f3428bd0da77a901b81c6dD809'
       );
     });
 
