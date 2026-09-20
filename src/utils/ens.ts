@@ -97,8 +97,7 @@ async function delegatesToEnsV1(
   });
 
   return ensV1Delegates.some(
-    (delegate) =>
-      !!delegate && delegate.toLowerCase() === resolver.toLowerCase()
+    (delegate) => delegate.toLowerCase() === resolver.toLowerCase()
   );
 }
 
@@ -261,7 +260,8 @@ export async function getEnsOwner(
   const { ensV1Resolver, ensDnsTldResolver } = networks[network];
 
   if (universalHelperAddress) {
-    // without both pins the gate below silently skips the v1 read for every name
+    // the gate below compares against both pins: fail for every name, before
+    // any read, not only for the names that reach it
     if (!ensV1Resolver || !ensDnsTldResolver) {
       throw new Error(
         `ensUniversalHelper is set for network ${network} without ensV1Resolver and ensDnsTldResolver`
