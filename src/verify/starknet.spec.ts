@@ -1,11 +1,11 @@
-import { test, expect, describe } from 'vitest';
+import { test, expect, describe, vi } from 'vitest';
 import starknetMessage from '../../test/fixtures/starknet/message-alias.json';
 import starknetMessageBraavos from '../../test/fixtures/starknet/message-alias-braavos.json';
 import starknetMessageArgentXGuardian from '../../test/fixtures/starknet/message-alias-argent-x-guardian.json';
 import starknetMessageArgentXStandard from '../../test/fixtures/starknet/message-alias-argent-x-standard.json';
 import starknetMessageArgentXMultisig from '../../test/fixtures/starknet/message-alias-argent-x-multisig.json';
 import verify, { getHash } from './starknet';
-import { validateAndParseAddress } from 'starknet';
+import { shortString, validateAndParseAddress } from 'starknet';
 import { clone } from '../utils';
 
 describe('verify/starknet', () => {
@@ -134,6 +134,53 @@ describe('verify/starknet', () => {
           '0x534e5f4d41494e'
         )
       ).resolves.toBe(false);
+    });
+
+    test('should return false when the signature is not valid on a Braavos account', async () => {
+      await expect(
+        verify(
+          starknetMessageBraavos.address,
+          ['1'],
+          starknetMessageBraavos.data,
+          '0x534e5f4d41494e'
+        )
+      ).resolves.toBe(false);
+    });
+
+    test('should throw when a node error echoes a revert marker from the signature', async () => {
+      const contractClass = {
+        sierra_program: ['0x1'],
+        contract_class_version: '0.1.0',
+        entry_points_by_type: { CONSTRUCTOR: [], EXTERNAL: [], L1_HANDLER: [] },
+        abi: '[]'
+      };
+      vi.stubGlobal('fetch', async (_url: string, init: any) => {
+        const { id, method } = JSON.parse(init.body);
+        const payload =
+          method === 'starknet_getClassAt'
+            ? { result: contractClass }
+            : { error: { code: 429, message: 'Too many requests' } };
+
+        return {
+          ok: true,
+          json: async () => ({ id, jsonrpc: '2.0', ...payload })
+        };
+      });
+
+      try {
+        await expect(
+          verify(
+            starknetMessageBraavos.address,
+            [shortString.encodeShortString('INVALID_SIG')],
+            starknetMessageBraavos.data,
+            '0x534e5f4d41494e',
+            // Not the default: providers are memoized on their URL
+            { broviderUrl: 'https://rate-limited.invalid' }
+          )
+        ).rejects.toThrow('Too many requests');
+      } finally {
+        vi.unstubAllGlobals();
+      }
     });
   });
 });
