@@ -1,6 +1,11 @@
 import { getAddress } from '@ethersproject/address';
 import { ensNormalize } from '@ethersproject/hash';
-import { parseAbi, toHex, ContractFunctionRevertedError } from 'viem';
+import {
+  parseAbi,
+  toHex,
+  withCache,
+  ContractFunctionRevertedError
+} from 'viem';
 import { namehash, packetToBytes } from 'viem/ens';
 import type { Address, Hex } from 'viem';
 import { getViemClient } from './viem';
@@ -28,7 +33,12 @@ const UNIVERSAL_RESOLVER_ABI = parseAbi([
   'error ResolverNotFound(bytes name)',
   'error ReverseAddressMismatch(string primary, bytes primaryAddress)',
   'error UnsupportedResolverProfile(bytes4 selector)',
-  'function findOwner(bytes name) view returns (address owner)'
+  'function ROOT_REGISTRY() view returns (address registry)',
+  'function findResolver(bytes name) view returns (address resolver, bytes32 node, uint256 offset)'
+]);
+const UNIVERSAL_HELPER_ABI = parseAbi([
+  'function ROOT_REGISTRY() view returns (address registry)',
+  'function findExactOwner(bytes name) view returns (address owner)'
 ]);
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -73,6 +83,24 @@ function isNoRecordRevert(domainType: DomainType, e: any): boolean {
   );
 }
 
+async function delegatesToEnsV1(
+  client: ReturnType<typeof getViemClient>,
+  universalResolverAddress: Address,
+  ensV1Delegates: string[],
+  name: string
+): Promise<boolean> {
+  const [resolver] = await client.readContract({
+    address: universalResolverAddress,
+    abi: UNIVERSAL_RESOLVER_ABI,
+    functionName: 'findResolver',
+    args: [toHex(packetToBytes(name))]
+  });
+
+  return ensV1Delegates.some(
+    (delegate) => delegate.toLowerCase() === resolver.toLowerCase()
+  );
+}
+
 async function getEnsAddressStrict(
   client: ReturnType<typeof getViemClient>,
   name: string,
@@ -88,6 +116,44 @@ async function getEnsAddressStrict(
     if (isNoRecordRevert(getDomainType(name), e)) return null;
     throw e;
   }
+}
+
+// withCache shares one in-flight check between concurrent callers and never
+// caches a rejection; TTL rather than forever so a long-running process still
+// catches a redeploy
+const ROOT_MATCH_TTL_MS = 5 * 60 * 1000;
+
+function verifyRootMatch(
+  client: ReturnType<typeof getViemClient>,
+  universalHelperAddress: Address,
+  universalResolverAddress: Address
+): Promise<void> {
+  return withCache(
+    async () => {
+      const [helperRoot, resolverRoot] = await Promise.all([
+        client.readContract({
+          address: universalHelperAddress,
+          abi: UNIVERSAL_HELPER_ABI,
+          functionName: 'ROOT_REGISTRY'
+        }),
+        client.readContract({
+          address: universalResolverAddress,
+          abi: UNIVERSAL_RESOLVER_ABI,
+          functionName: 'ROOT_REGISTRY'
+        })
+      ]);
+
+      if (helperRoot !== resolverRoot) {
+        throw new Error(
+          `ENSv2 helper ${universalHelperAddress} reads root registry ${helperRoot}, universal resolver reads ${resolverRoot}`
+        );
+      }
+    },
+    {
+      cacheKey: `ensRootMatch.${client.uid}.${universalHelperAddress}.${universalResolverAddress}`,
+      cacheTime: ROOT_MATCH_TTL_MS
+    }
+  );
 }
 
 // see https://docs.ens.domains/registry/dns#gasless-import
@@ -185,26 +251,58 @@ export async function getEnsOwner(
 
   let owner: string = EMPTY_ADDRESS;
 
-  // findOwner is ENSv2-only, live on Sepolia and not yet on mainnet. A name
-  // absent from ENSv2 resolves EMPTY_ADDRESS successfully, so any revert is a
-  // genuine failure and must throw, never fall back to a stale v1 owner
-  if (String(network) === '11155111') {
+  // the helper is not behind the resolver proxy: a redeploy leaves this pin
+  // answering from an abandoned root, hence the root check. A name absent from
+  // ENSv2 returns EMPTY_ADDRESS, so a revert is a failure: never catch it into
+  // the v1 fallback
+  const universalHelperAddress =
+    options.ensUniversalHelper || networks[network].ensUniversalHelper;
+  const { ensV1Resolver, ensDnsTldResolver } = networks[network];
+
+  if (universalHelperAddress) {
+    // the gate below compares against both pins: fail for every name, before
+    // any read, not only for the names that reach it
+    if (!ensV1Resolver || !ensDnsTldResolver) {
+      throw new Error(
+        `ensUniversalHelper is set for network ${network} without ensV1Resolver and ensDnsTldResolver`
+      );
+    }
+
+    await verifyRootMatch(
+      client,
+      universalHelperAddress,
+      universalResolverAddress
+    );
+
     owner = await client.readContract({
-      address: universalResolverAddress,
-      abi: UNIVERSAL_RESOLVER_ABI,
-      functionName: 'findOwner',
+      address: universalHelperAddress,
+      abi: UNIVERSAL_HELPER_ABI,
+      functionName: 'findExactOwner',
       // viem's own encoding, so labels the strict DNS format rejects still resolve
       args: [toHex(packetToBytes(normalized))]
     });
   }
 
+  // a name ENSv2 has taken over, or whose .eth reservation expired in v2,
+  // keeps a stale v1 entry: read v1 only where ENSv2 still delegates to it
   if (!owner || owner === EMPTY_ADDRESS) {
-    owner = await client.readContract({
-      address: ENS_REGISTRY,
-      abi: ENS_REGISTRY_ABI,
-      functionName: 'owner',
-      args: [ensHash]
-    });
+    const readsEnsV1 =
+      !universalHelperAddress ||
+      (await delegatesToEnsV1(
+        client,
+        universalResolverAddress,
+        [ensV1Resolver, ensDnsTldResolver],
+        normalized
+      ));
+
+    if (readsEnsV1) {
+      owner = await client.readContract({
+        address: ENS_REGISTRY,
+        abi: ENS_REGISTRY_ABI,
+        functionName: 'owner',
+        args: [ensHash]
+      });
+    }
   }
   // If owner is the ENSNameWrapper contract, resolve the owner of the name
   if (owner === ensNameWrapper) {
