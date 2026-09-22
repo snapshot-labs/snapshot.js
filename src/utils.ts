@@ -83,7 +83,7 @@ async function parseScoreAPIResponse(res: any) {
     });
   }
   if (data.error) return Promise.reject(data.error);
-  if (!res.ok || data.result === undefined) {
+  if (data.result === undefined) {
     return Promise.reject({
       code: res.ok ? 500 : res.status || 500,
       message: 'Invalid response from score API',
