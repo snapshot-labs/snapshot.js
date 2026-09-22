@@ -7,9 +7,6 @@ vi.mock('cross-fetch', () => ({ default: vi.fn() }));
 const ADDRESS = '0xD50D0f41dd217a0966dca6383E734f409cBC1A94';
 const STRATEGIES = [{ name: 'erc20-balance-of', params: {} }];
 
-// Measured 2026-09-22: a Cloudflare 5xx answered to snapshot.js's
-// `Accept: application/json` is a JSON problem-details body with neither
-// `result` nor `error`.
 const CLOUDFLARE_522 = {
   title: 'Error 522: Connection timed out',
   status: 522,
