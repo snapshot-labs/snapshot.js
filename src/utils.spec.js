@@ -177,6 +177,16 @@ describe('utils', () => {
         expect(_validate({})).rejects.toEqual(result);
       });
     });
+
+    describe('when the response carries a false result', () => {
+      test('still resolves false', async () => {
+        fetch.mockResolvedValue(
+          new Response(JSON.stringify({ jsonrpc: '2.0', result: false, id: 1 }))
+        );
+
+        await expect(_validate({})).resolves.toBe(false);
+      });
+    });
   });
   describe('getScores', () => {
     const payload = {
@@ -353,6 +363,19 @@ describe('utils', () => {
         expect(_getScores({})).rejects.toEqual(result);
       });
     });
+
+    describe('when the response is a 2xx JSON body without result', () => {
+      test('rejects with a 500 code', async () => {
+        fetch.mockResolvedValue(
+          new Response(JSON.stringify({ jsonrpc: '2.0', id: 1 }))
+        );
+
+        await expect(_getScores({})).rejects.toMatchObject({
+          code: 500,
+          message: 'Invalid response from score API'
+        });
+      });
+    });
   });
   describe('getVp', () => {
     const payload = {
@@ -498,6 +521,26 @@ describe('utils', () => {
         });
 
         expect(_getVp({})).rejects.toEqual(result);
+      });
+    });
+
+    describe('when the response is a non-2xx JSON body without result', () => {
+      test('rejects with the status and body', async () => {
+        const body = {
+          title: 'Error 522: Connection timed out',
+          status: 522,
+          error_code: 522,
+          cloudflare_error: true
+        };
+        fetch.mockResolvedValue(
+          new Response(JSON.stringify(body), { status: 522 })
+        );
+
+        await expect(_getVp({})).rejects.toEqual({
+          code: 522,
+          message: 'Invalid response from score API',
+          data: body
+        });
       });
     });
   });
