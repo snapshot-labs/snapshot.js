@@ -195,11 +195,11 @@ describe('utils', () => {
         );
       });
 
-      // 0x2F8A18… is a retired implementation, still bound to the replaced root
+      // 0x33f571… is a retired helper, still bound to the replaced root
       test('reject when the ENSv2 helper reads a retired root registry', async () => {
         await expect(
           getEnsOwner('ens.eth', '11155111', {
-            ensUniversalHelper: '0x2F8A180604c42457Cb56C7c4f708748fF1F91DF1'
+            ensUniversalHelper: '0x33f571aa8A160a21b877cF6E0Fb8806692b97DF5'
           })
         ).rejects.toThrow('reads root registry');
       });

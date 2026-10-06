@@ -1924,9 +1924,9 @@
       "0x8FADE66B79cC9f707aB26799354482EB93a5B7dD"
     ],
     "ensUniversalResolver": "0xeEeEEEeE14D718C2B47D9923Deab1335E144EeEe",
-    "ensUniversalHelper": "0x33f571aa8A160a21b877cF6E0Fb8806692b97DF5",
-    "ensV1Resolver": "0xb2BF4a9A86d29661EA93223582b9945943931e42",
-    "ensDnsTldResolver": "0xb0C788195697dB17543bF22CBC1b0E2b4A04F9b8",
+    "ensUniversalHelper": "0xd453e5Bdb62CC3beA84341B1e306319C8Ffd7DFe",
+    "ensV1Resolver": "0x322B7581cA210a69c6D0e0D7c88a7688D2789Cb0",
+    "ensDnsTldResolver": "0x0c9F5E9AE61165140b49919F0dF13C0a6642e80d",
     "ensNameWrapper": "0x0635513f179D50A207757E05759CbD106d7dFcE8",
     "ensSubgraph": "https://subgrapher.snapshot.org/subgraph/arbitrum/CA5t8ep58QKXBdLrjJHaREETHpCsy63kro9Eem6zBQAD",
     "explorer": {
