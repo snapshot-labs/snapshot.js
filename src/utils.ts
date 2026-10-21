@@ -311,7 +311,16 @@ export async function fetch(
 
   if (timeout > 0) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const callerSignal = fetchOptions.signal;
+    const abortFromCaller = () => controller.abort();
+    let timedOut = false;
+    const timeoutId = setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+    }, timeout);
+
+    if (callerSignal?.aborted) abortFromCaller();
+    else callerSignal?.addEventListener('abort', abortFromCaller);
 
     try {
       const response = await crossFetch(url, {
@@ -320,18 +329,17 @@ export async function fetch(
       });
       return response;
     } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') {
+      if (timedOut && error instanceof Error && error.name === 'AbortError') {
         throw new Error(`Request timeout after ${timeout}ms`);
       }
       throw error;
     } finally {
       clearTimeout(timeoutId);
+      callerSignal?.removeEventListener('abort', abortFromCaller);
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { signal, ...cleanFetchOptions } = fetchOptions;
-  return crossFetch(url, cleanFetchOptions);
+  return crossFetch(url, fetchOptions);
 }
 
 export async function getJSON(uri, options: any = {}) {
