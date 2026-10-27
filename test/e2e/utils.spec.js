@@ -120,13 +120,19 @@ describe('utils', () => {
     });
 
     test('resolve a DNS-imported space through its DNS owner', async () => {
-      await expect(getSpaceController('defi.app', '1')).resolves.toBe(
-        '0x7aeB96261e9dC2C9f01BaE6A516Df80a5a98c7eB'
+      await expect(getSpaceController('ens.domains', '1')).resolves.toBe(
+        '0xb8c2C29ee19D8307cb7255e1Cd9CbDE883A267d5'
+      );
+    });
+
+    test('resolve a live .app space through its DNS owner', async () => {
+      await expect(getSpaceController('coincollect.app', '1')).resolves.toBe(
+        '0x8fC2e77C47D5D9fDe1ff35098d6e22EB6F9e8258'
       );
     });
 
     test('resolve a DNS name as unowned on testnet, where it reverts UnreachableName', async () => {
-      await expect(getSpaceController('defi.app', '11155111')).resolves.toBe(
+      await expect(getSpaceController('ens.domains', '11155111')).resolves.toBe(
         EMPTY_ADDRESS
       );
     });
@@ -251,8 +257,8 @@ describe('utils', () => {
 
     describe('offchain DNS resolver', () => {
       test('return an address for claimed domain', async () => {
-        await expect(getEnsOwner('defi.app')).resolves.toBe(
-          '0x7aeB96261e9dC2C9f01BaE6A516Df80a5a98c7eB'
+        await expect(getEnsOwner('ens.domains')).resolves.toBe(
+          '0xb8c2C29ee19D8307cb7255e1Cd9CbDE883A267d5'
         );
       });
 
