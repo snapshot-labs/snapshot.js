@@ -3,10 +3,16 @@ import multicallStarknet from './starknet';
 import Multicaller from './multicaller';
 import networks from '../networks.json';
 
+// Canonical Multicall3, used for chains missing from networks.json
+const MULTICALL3_ADDRESS = '0xcA11bde05977b3631167028862bE2a173976CA11';
+
 const MULTICALLS_FN = {
   evm: multicallEvm,
   starknet: multicallStarknet
 } as const;
+
+const getMulticallAddress = (network: string | number): string =>
+  networks[network]?.multicall || MULTICALL3_ADDRESS;
 
 async function multicall(
   network: string,
@@ -15,11 +21,7 @@ async function multicall(
   calls: any[],
   options: Record<string, any> = {}
 ) {
-  const address = options?.multicallAddress || networks[network].multicall;
-
-  if (!address) {
-    throw new Error('missing multicall address');
-  }
+  const address = options?.multicallAddress || getMulticallAddress(network);
 
   const multicallOptions = { ...options };
   const limit = multicallOptions?.limit || 500;
@@ -39,4 +41,4 @@ async function multicall(
   );
 }
 
-export { multicall, Multicaller };
+export { multicall, Multicaller, getMulticallAddress };

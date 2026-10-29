@@ -6,6 +6,7 @@ import {
   createProviderUrl,
   getBroviderNetworkId,
   getProviderType,
+  MAX_MEMO_SIZE,
   normalizeOptions
 } from './provider';
 
@@ -56,6 +57,6 @@ export function getViemClient(
     })
   });
 
-  viemClientMemo.set(memoKey, client);
+  if (viemClientMemo.size < MAX_MEMO_SIZE) viemClientMemo.set(memoKey, client);
   return client;
 }

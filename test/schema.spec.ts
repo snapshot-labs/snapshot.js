@@ -59,3 +59,13 @@ describe.each([
     expect(isValid).toBe(true);
   });
 });
+
+describe('snapshotNetwork with a networks list', () => {
+  test('should allow only the listed networks', () => {
+    const networks = ['1', '0x534e5f4d41494e'];
+    expect(validateSchema(schemas.space, space, { networks })).toBe(true);
+    expect(validateSchema(schemas.space, space, { networks: [] })).not.toBe(
+      true
+    );
+  });
+});

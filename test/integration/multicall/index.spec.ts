@@ -1,6 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import getProvider from '../../../src/utils/provider';
-import { multicall } from '../../../src/multicall';
+import { getMulticallAddress, multicall } from '../../../src/multicall';
+import networks from '../../../src/networks.json';
+
+describe('getMulticallAddress()', () => {
+  it('should use networks.json, then Multicall3 for missing chain IDs', () => {
+    expect(getMulticallAddress('1')).toBe(networks['1'].multicall);
+    expect(getMulticallAddress('5042999')).toBe(
+      '0xcA11bde05977b3631167028862bE2a173976CA11'
+    );
+  });
+});
 
 describe('multicall()', () => {
   describe('on EVM networks', () => {
