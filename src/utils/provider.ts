@@ -81,13 +81,11 @@ export function getBroviderNetworkId(network: string | number): string {
   return networks[network]?.broviderId || String(network);
 }
 
-// Networks can come from request params, so unknown chain IDs are memoized
-// only up to MAX_MEMO_SIZE while networks.json ones always are
-export function canMemoize(
-  network: string | number,
-  memo: Map<string, unknown>
-) {
-  return !!networks[network] || memo.size < MAX_MEMO_SIZE;
+// Networks can come from request params, so evict the oldest entry once full
+export function memoize<T>(memo: Map<string, T>, key: string, value: T): T {
+  if (memo.size >= MAX_MEMO_SIZE) memo.delete(memo.keys().next().value);
+  memo.set(key, value);
+  return value;
 }
 
 export function getProviderType(network: string | number): ProviderType {
@@ -139,8 +137,7 @@ export default function getProvider(
   const providerType = getProviderType(network);
   const provider = providerFnMap[providerType](networkId, normalizedOptions);
 
-  if (canMemoize(network, providerMemo)) providerMemo.set(memoKey, provider);
-  return provider;
+  return memoize(providerMemo, memoKey, provider);
 }
 
 function getEvmProvider(

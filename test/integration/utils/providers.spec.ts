@@ -47,21 +47,23 @@ describe('test providers', () => {
       expect(getProvider('5042999').connection.url).toBe(
         'https://rpc.snapshot.org/5042999'
       );
-      expect(getViemClient('5042999').transport.url).toBe(
+      expect(getViemClient(5042999).transport.url).toBe(
         'https://rpc.snapshot.org/5042999'
       );
     });
 
-    test('should stop memoizing unknown chain IDs past MAX_MEMO_SIZE', async () => {
+    test('should evict the oldest provider once MAX_MEMO_SIZE is reached', async () => {
       vi.resetModules();
       const { default: freshGetProvider, MAX_MEMO_SIZE } = await import(
         '../../../src/utils/provider'
       );
-      for (let i = 1; i <= MAX_MEMO_SIZE; i++) freshGetProvider(`9${i}`);
+      const oldest = freshGetProvider('91');
+      for (let i = 2; i <= MAX_MEMO_SIZE; i++) freshGetProvider(`9${i}`);
+      expect(freshGetProvider('91')).toBe(oldest);
 
-      expect(freshGetProvider('91')).toBe(freshGetProvider('91'));
-      expect(freshGetProvider('1')).toBe(freshGetProvider('1'));
-      expect(freshGetProvider('5042999')).not.toBe(freshGetProvider('5042999'));
+      const newest = freshGetProvider('5042999');
+      expect(freshGetProvider('5042999')).toBe(newest);
+      expect(freshGetProvider('91')).not.toBe(oldest);
     });
 
     test('should type every Starknet network in networks.json as Starknet', () => {

@@ -68,4 +68,14 @@ describe('snapshotNetwork with a networks list', () => {
       true
     );
   });
+
+  test('should replace the mainnet filter of snapshotEnv', () => {
+    const testnetSpace = { ...space, network: '11155111' };
+    const networks = ['1', '11155111', '0x534e5f4d41494e'];
+    const options = { snapshotEnv: 'mainnet' };
+    expect(validateSchema(schemas.space, testnetSpace, options)).not.toBe(true);
+    expect(
+      validateSchema(schemas.space, testnetSpace, { ...options, networks })
+    ).toBe(true);
+  });
 });
