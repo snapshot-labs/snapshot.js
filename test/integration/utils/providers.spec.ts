@@ -43,6 +43,29 @@ describe('test providers', () => {
       );
     });
 
+    test('should return an EVM provider for chain IDs missing from networks.json', () => {
+      expect(getProvider('5042999').connection.url).toBe(
+        'https://rpc.snapshot.org/5042999'
+      );
+      expect(getViemClient(5042999).transport.url).toBe(
+        'https://rpc.snapshot.org/5042999'
+      );
+    });
+
+    test('should evict the oldest provider once MAX_MEMO_SIZE is reached', async () => {
+      vi.resetModules();
+      const { default: freshGetProvider, MAX_MEMO_SIZE } = await import(
+        '../../../src/utils/provider'
+      );
+      const oldest = freshGetProvider('91');
+      for (let i = 2; i <= MAX_MEMO_SIZE; i++) freshGetProvider(`9${i}`);
+      expect(freshGetProvider('91')).toBe(oldest);
+
+      const newest = freshGetProvider('5042999');
+      expect(freshGetProvider('5042999')).toBe(newest);
+      expect(freshGetProvider('91')).not.toBe(oldest);
+    });
+
     test('should type every Starknet network in networks.json as Starknet', () => {
       expect([...STARKNET_NETWORK_IDS].sort()).toEqual(
         Object.keys(networks)
@@ -254,7 +277,10 @@ describe('test providers', () => {
     test('should throw descriptive errors for invalid networks', () => {
       const invalidNetworks = [
         'invalid',
-        999,
+        '01',
+        '1.5',
+        'constructor',
+        '__proto__',
         '0xInvalid',
         '',
         null,

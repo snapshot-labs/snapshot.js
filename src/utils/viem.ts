@@ -6,6 +6,7 @@ import {
   createProviderUrl,
   getBroviderNetworkId,
   getProviderType,
+  memoize,
   normalizeOptions
 } from './provider';
 
@@ -56,6 +57,5 @@ export function getViemClient(
     })
   });
 
-  viemClientMemo.set(memoKey, client);
-  return client;
+  return memoize(viemClientMemo, memoKey, client);
 }

@@ -74,6 +74,7 @@ describe('utils', () => {
         ],
         ['network is not valid', { network: 'mainnet' }, /invalid network/i],
         ['network is empty', { network: '' }, /invalid network/i],
+        ['network is not a chain ID', { network: '01' }, /invalid network/i],
         [
           'snapshot is smaller than start block',
           { snapshot: 1234 },
@@ -87,6 +88,16 @@ describe('utils', () => {
     });
 
     describe('when passing valid args', () => {
+      test('accept a chain ID missing from networks.json', async () => {
+        fetch.mockReturnValue({
+          text: () => Promise.resolve(JSON.stringify({ result: true }))
+        });
+
+        await expect(
+          _validate({ network: '5042999', snapshot: 1234 })
+        ).resolves.toBe(true);
+      });
+
       test('send a JSON-RPC payload to score-api', async () => {
         const result = { result: 'OK' };
         fetch.mockReturnValue({

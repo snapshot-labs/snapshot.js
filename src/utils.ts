@@ -8,7 +8,10 @@ import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 import addErrors from 'ajv-errors';
 import { getSnapshots } from './utils/blockfinder';
-import getProvider, { type ProviderOptions } from './utils/provider';
+import getProvider, {
+  isValidNetwork,
+  type ProviderOptions
+} from './utils/provider';
 import { getEnsTextRecord, getEnsOwner } from './utils/ens';
 import { signMessage, getBlockNumber } from './utils/web3';
 import { getHash, verify } from './verify';
@@ -17,7 +20,7 @@ import networks from './networks.json';
 import voting from './voting';
 import getDelegatesBySpace, { SNAPSHOT_SUBGRAPH_URL } from './utils/delegation';
 import { validateAndParseAddress } from 'starknet';
-import { multicall, Multicaller } from './multicall';
+import { multicall, Multicaller, getMulticallAddress } from './multicall';
 
 interface Options {
   url?: string;
@@ -174,6 +177,8 @@ const mainnetNetworkIds = Object.keys(networks).filter(
 ajv.addKeyword({
   keyword: 'snapshotNetwork',
   validate: function (schema, data) {
+    // @ts-ignore
+    if (Array.isArray(this.networks)) return this.networks.includes(data);
     // @ts-ignore
     const snapshotEnv = this.snapshotEnv || 'default';
     if (snapshotEnv === 'mainnet') return mainnetNetworkIds.includes(data);
@@ -394,11 +399,8 @@ export async function getScores(
       `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
     );
   }
-  if (!isValidSnapshot(snapshot, network)) {
-    return inputError(
-      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
-    );
-  }
+  const snapshotError = getSnapshotError(snapshot, network);
+  if (snapshotError) return inputError(snapshotError);
 
   const urlObject = new URL(scoreApiUrl);
   urlObject.pathname = '/api/scores';
@@ -457,11 +459,8 @@ export async function getVp(
       `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
     );
   }
-  if (!isValidSnapshot(snapshot, network)) {
-    return inputError(
-      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
-    );
-  }
+  const snapshotError = getSnapshotError(snapshot, network);
+  if (snapshotError) return inputError(snapshotError);
 
   const init = {
     method: 'POST',
@@ -507,11 +506,8 @@ export async function validate(
   if (!isValidNetwork(network)) {
     return inputError(`Invalid network: ${network}`);
   }
-  if (!isValidSnapshot(snapshot, network)) {
-    return inputError(
-      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network].start})`
-    );
-  }
+  const snapshotError = getSnapshotError(snapshot, network);
+  if (snapshotError) return inputError(snapshotError);
 
   if (!options) options = {};
   const { url, headers } = formatScoreAPIUrl(options.url);
@@ -548,6 +544,8 @@ export async function validate(
 interface validateSchemaOptions {
   snapshotEnv?: string;
   spaceType?: string;
+  // Replaces networks.json, including the mainnet filter of snapshotEnv
+  networks?: string[];
 }
 
 export function validateSchema(
@@ -676,10 +674,6 @@ export function getNumberWithOrdinal(n) {
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
-function isValidNetwork(network: string) {
-  return !!networks[network];
-}
-
 function isValidAddress(address: string) {
   return (
     address !== EMPTY_ADDRESS &&
@@ -687,11 +681,14 @@ function isValidAddress(address: string) {
   );
 }
 
-function isValidSnapshot(snapshot: number | string, network: string) {
-  return (
+function getSnapshotError(snapshot: number | string, network: string) {
+  const start = networks[network]?.start ?? 0;
+  const isValid =
     snapshot === 'latest' ||
-    (typeof snapshot === 'number' && snapshot >= networks[network].start)
-  );
+    (typeof snapshot === 'number' && snapshot >= start);
+  if (!isValid) {
+    return `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${start})`;
+  }
 }
 
 export function isStarknetAddress(address: string): boolean {
@@ -736,6 +733,7 @@ export { getDelegatesBySpace, SNAPSHOT_SUBGRAPH_URL };
 export default {
   call,
   multicall,
+  getMulticallAddress,
   fetch,
   subgraphRequest,
   ipfsGet,

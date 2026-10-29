@@ -26,6 +26,7 @@ export type StarknetNetworkId = typeof STARKNET_NETWORK_IDS[number];
 const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org' as const;
 const CLIENT_NAME_PATTERN = /^[a-z0-9.-]{1,32}$/i;
 export const DEFAULT_TIMEOUT = 25000 as const;
+export const MAX_MEMO_SIZE = 1000;
 
 const providerMemo = new Map<string, ProviderInstance>();
 
@@ -65,12 +66,26 @@ export function normalizeOptions(
   };
 }
 
+// Chain IDs missing from networks.json are EVM chains served by Brovider
+export function isValidNetwork(network: string | number): boolean {
+  return (
+    Object.prototype.hasOwnProperty.call(networks, network) ||
+    /^[1-9]\d{0,14}$/.test(String(network))
+  );
+}
+
 export function getBroviderNetworkId(network: string | number): string {
-  const config = networks[network];
-  if (!config) {
+  if (!isValidNetwork(network)) {
     throw new Error(`Network '${network}' is not supported`);
   }
-  return config.broviderId || String(network);
+  return networks[network]?.broviderId || String(network);
+}
+
+// Networks can come from request params, so evict the oldest entry once full
+export function memoize<T>(memo: Map<string, T>, key: string, value: T): T {
+  if (memo.size >= MAX_MEMO_SIZE) memo.delete(memo.keys().next().value);
+  memo.set(key, value);
+  return value;
 }
 
 export function getProviderType(network: string | number): ProviderType {
@@ -122,8 +137,7 @@ export default function getProvider(
   const providerType = getProviderType(network);
   const provider = providerFnMap[providerType](networkId, normalizedOptions);
 
-  providerMemo.set(memoKey, provider);
-  return provider;
+  return memoize(providerMemo, memoKey, provider);
 }
 
 function getEvmProvider(
