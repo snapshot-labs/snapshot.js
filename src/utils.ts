@@ -399,11 +399,8 @@ export async function getScores(
       `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
     );
   }
-  if (!isValidSnapshot(snapshot, network)) {
-    return inputError(
-      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network]?.start})`
-    );
-  }
+  const snapshotError = getSnapshotError(snapshot, network);
+  if (snapshotError) return inputError(snapshotError);
 
   const urlObject = new URL(scoreApiUrl);
   urlObject.pathname = '/api/scores';
@@ -462,11 +459,8 @@ export async function getVp(
       `Invalid network (${invalidStrategy.network}) in strategy ${invalidStrategy.name}`
     );
   }
-  if (!isValidSnapshot(snapshot, network)) {
-    return inputError(
-      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network]?.start})`
-    );
-  }
+  const snapshotError = getSnapshotError(snapshot, network);
+  if (snapshotError) return inputError(snapshotError);
 
   const init = {
     method: 'POST',
@@ -512,11 +506,8 @@ export async function validate(
   if (!isValidNetwork(network)) {
     return inputError(`Invalid network: ${network}`);
   }
-  if (!isValidSnapshot(snapshot, network)) {
-    return inputError(
-      `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${networks[network]?.start})`
-    );
-  }
+  const snapshotError = getSnapshotError(snapshot, network);
+  if (snapshotError) return inputError(snapshotError);
 
   if (!options) options = {};
   const { url, headers } = formatScoreAPIUrl(options.url);
@@ -690,12 +681,14 @@ function isValidAddress(address: string) {
   );
 }
 
-function isValidSnapshot(snapshot: number | string, network: string) {
-  return (
+function getSnapshotError(snapshot: number | string, network: string) {
+  const start = networks[network]?.start ?? 0;
+  const isValid =
     snapshot === 'latest' ||
-    (typeof snapshot === 'number' &&
-      snapshot >= (networks[network]?.start ?? 0))
-  );
+    (typeof snapshot === 'number' && snapshot >= start);
+  if (!isValid) {
+    return `Snapshot (${snapshot}) must be 'latest' or greater than network start block (${start})`;
+  }
 }
 
 export function isStarknetAddress(address: string): boolean {

@@ -2,11 +2,11 @@ import { ccipRequest, createPublicClient, http, PublicClient } from 'viem';
 import type { CcipRequestParameters } from 'viem';
 import {
   ProviderOptions,
+  canMemoize,
   createMemoKey,
   createProviderUrl,
   getBroviderNetworkId,
   getProviderType,
-  MAX_MEMO_SIZE,
   normalizeOptions
 } from './provider';
 
@@ -57,6 +57,6 @@ export function getViemClient(
     })
   });
 
-  if (viemClientMemo.size < MAX_MEMO_SIZE) viemClientMemo.set(memoKey, client);
+  if (canMemoize(network, viemClientMemo)) viemClientMemo.set(memoKey, client);
   return client;
 }

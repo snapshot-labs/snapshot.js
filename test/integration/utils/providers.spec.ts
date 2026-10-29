@@ -52,7 +52,7 @@ describe('test providers', () => {
       );
     });
 
-    test('should stop memoizing providers past MAX_MEMO_SIZE', async () => {
+    test('should stop memoizing unknown chain IDs past MAX_MEMO_SIZE', async () => {
       vi.resetModules();
       const { default: freshGetProvider, MAX_MEMO_SIZE } = await import(
         '../../../src/utils/provider'
@@ -60,6 +60,7 @@ describe('test providers', () => {
       for (let i = 1; i <= MAX_MEMO_SIZE; i++) freshGetProvider(`9${i}`);
 
       expect(freshGetProvider('91')).toBe(freshGetProvider('91'));
+      expect(freshGetProvider('1')).toBe(freshGetProvider('1'));
       expect(freshGetProvider('5042999')).not.toBe(freshGetProvider('5042999'));
     });
 

@@ -26,7 +26,6 @@ export type StarknetNetworkId = typeof STARKNET_NETWORK_IDS[number];
 const DEFAULT_BROVIDER_URL = 'https://rpc.snapshot.org' as const;
 const CLIENT_NAME_PATTERN = /^[a-z0-9.-]{1,32}$/i;
 export const DEFAULT_TIMEOUT = 25000 as const;
-// Networks can come from request params, so cap the memo for unknown chain IDs
 export const MAX_MEMO_SIZE = 1000;
 
 const providerMemo = new Map<string, ProviderInstance>();
@@ -82,6 +81,15 @@ export function getBroviderNetworkId(network: string | number): string {
   return networks[network]?.broviderId || String(network);
 }
 
+// Networks can come from request params, so unknown chain IDs are memoized
+// only up to MAX_MEMO_SIZE while networks.json ones always are
+export function canMemoize(
+  network: string | number,
+  memo: Map<string, unknown>
+) {
+  return !!networks[network] || memo.size < MAX_MEMO_SIZE;
+}
+
 export function getProviderType(network: string | number): ProviderType {
   return networks[network]?.starknet ? 'starknet' : 'evm';
 }
@@ -131,7 +139,7 @@ export default function getProvider(
   const providerType = getProviderType(network);
   const provider = providerFnMap[providerType](networkId, normalizedOptions);
 
-  if (providerMemo.size < MAX_MEMO_SIZE) providerMemo.set(memoKey, provider);
+  if (canMemoize(network, providerMemo)) providerMemo.set(memoKey, provider);
   return provider;
 }
 
