@@ -114,9 +114,9 @@ describe('utils', () => {
     });
 
     test('resolve a name registered in ENSv2 through its ENSv2 owner', async () => {
-      await expect(getSpaceController('fox.eth', '11155111')).resolves.toBe(
-        '0x7Bc153b2a4C8a2f3428bd0da77a901b81c6dD809'
-      );
+      await expect(
+        getSpaceController('ethenagovernance.eth', '1')
+      ).resolves.toBe('0xC5ceB655E63c1B990150FeeFf4f63d8A43BbD6cb');
     });
 
     test('resolve a DNS-imported space through its DNS owner', async () => {
@@ -211,8 +211,8 @@ describe('utils', () => {
       });
 
       test('return an address for subdomain', async () => {
-        await expect(getEnsOwner('2.snapspace.eth')).resolves.toBe(
-          '0x24F15402C6Bb870554489b2fd2049A85d75B982f'
+        await expect(getEnsOwner('snapshot.dcl.eth')).resolves.toBe(
+          '0x9A6ebE7E2a7722F8200d0ffB63a1F6406A0d7dce'
         );
       });
 

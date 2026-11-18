@@ -11,6 +11,9 @@
       "0xF29100983E058B709F3D539b0c765937B804AC15"
     ],
     "ensUniversalResolver": "0xeEeEEEeE14D718C2B47D9923Deab1335E144EeEe",
+    "ensUniversalHelper": "0x46AE127D14683Ac74eF151e46ae2117A1A25C676",
+    "ensV1Resolver": "0x394D8EB4a4fDF599384DeAb25F31d111d755c398",
+    "ensDnsTldResolver": "0xaB48304A2520CE420E636AaCD48A8bb3e7e485Ee",
     "ensNameWrapper": "0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401",
     "ensSubgraph": "https://subgrapher.snapshot.org/subgraph/arbitrum/5XqPmWe6gjyrJtFn9cLy237i4cWw2j9HcUJEXsP5qGtH",
     "rpc": [

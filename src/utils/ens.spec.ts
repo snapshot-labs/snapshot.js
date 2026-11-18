@@ -161,6 +161,8 @@ describe('getEnsOwner findExactOwner fallback', () => {
   const DNS_TLD_RESOLVER = networks['11155111'].ensDnsTldResolver;
   const OTHER_RESOLVER = '0xb2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2';
   const ensHash = namehash('x.eth');
+  // no bundled network is without ENSv2 addresses any more
+  (networks as any).v1 = { ensUniversalResolver: ROOT };
 
   // verifyRootMatch issues its two ROOT_REGISTRY reads before anything else
   function mockVerifiedClient() {
@@ -169,10 +171,10 @@ describe('getEnsOwner findExactOwner fallback', () => {
     return client;
   }
 
-  test('reads the registry only on mainnet', async () => {
+  test('reads the registry only on a network without an ENSv2 helper', async () => {
     const client = mockClient();
     client.readContract.mockResolvedValueOnce(OWNER);
-    await expect(getEnsOwner('x.eth', '1', opts)).resolves.toBe(OWNER);
+    await expect(getEnsOwner('x.eth', 'v1', opts)).resolves.toBe(OWNER);
     expect(client.readContract).toHaveBeenCalledTimes(1);
     expect(client.readContract.mock.calls[0][0].functionName).toBe('owner');
   });
@@ -180,7 +182,7 @@ describe('getEnsOwner findExactOwner fallback', () => {
   test('throws when ensUniversalHelper is set on a network missing the v1 delegate pins', async () => {
     mockClient();
     await expect(
-      getEnsOwner('x.eth', '1', { ...opts, ensUniversalHelper: ROOT })
+      getEnsOwner('x.eth', 'v1', { ...opts, ensUniversalHelper: ROOT })
     ).rejects.toThrow('ensV1Resolver');
   });
 
