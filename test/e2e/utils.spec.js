@@ -114,9 +114,9 @@ describe('utils', () => {
     });
 
     test('resolve a name registered in ENSv2 through its ENSv2 owner', async () => {
-      await expect(getSpaceController('aavegotchi.eth', '1')).resolves.toBe(
-        '0xb54a8D75D59C110eb9e20ef37673a233B02Ccb08'
-      );
+      await expect(
+        getSpaceController('ethenagovernance.eth', '1')
+      ).resolves.toBe('0xC5ceB655E63c1B990150FeeFf4f63d8A43BbD6cb');
     });
 
     test('resolve a DNS-imported space through its DNS owner', async () => {
