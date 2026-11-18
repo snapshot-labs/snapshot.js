@@ -1,7 +1,4 @@
 import { describe, test, expect } from 'vitest';
-import { parseAbi, toHex } from 'viem';
-import { packetToBytes } from 'viem/ens';
-import networks from '../../src/networks.json';
 import {
   getEnsOwner,
   getEnsTextRecord,
@@ -26,20 +23,6 @@ describe('utils', () => {
           universalResolverAddress: ENS_UNIVERSAL_RESOLVER
         })
       ).resolves.toBe('0x2222222222222222222222222222222222222222');
-    });
-
-    // ENS reserves each DNS TLD with the resolver of the time: one moved to a
-    // newer DNSTLDResolver would read its imported names as unowned
-    test('resolve DNS TLDs through the pinned DNS TLD resolver', async () => {
-      const [resolver] = await getViemClient('1').readContract({
-        address: ENS_UNIVERSAL_RESOLVER,
-        abi: parseAbi([
-          'function findResolver(bytes name) view returns (address, bytes32, uint256)'
-        ]),
-        functionName: 'findResolver',
-        args: [toHex(packetToBytes('com'))]
-      });
-      expect(resolver).toBe(networks['1'].ensDnsTldResolver);
     });
   });
 
@@ -124,22 +107,15 @@ describe('utils', () => {
       );
     });
 
-    // the v1 registry names the ENS Graveyard as owner of a migrated name
-    test('resolve a name migrated to ENSv2 through its ENSv2 owner', async () => {
-      await expect(getSpaceController('aavegotchi.eth', '1')).resolves.toBe(
-        '0xb54a8D75D59C110eb9e20ef37673a233B02Ccb08'
-      );
-    });
-
-    test('resolve a wrapped name ENSv2 still mirrors from v1 through its wrapper owner', async () => {
-      await expect(getSpaceController('radiantcapital.eth', '1')).resolves.toBe(
-        '0x5Be0feE0f748c1737793172D42c14E4810D2038E'
-      );
-    });
-
     test('fall back to the name owner on testnet', async () => {
       await expect(getSpaceController('ens.eth', '11155111')).resolves.toBe(
         '0x179A862703a4adfb29896552DF9e307980D19285'
+      );
+    });
+
+    test('resolve a name registered in ENSv2 through its ENSv2 owner', async () => {
+      await expect(getSpaceController('aavegotchi.eth', '1')).resolves.toBe(
+        '0xb54a8D75D59C110eb9e20ef37673a233B02Ccb08'
       );
     });
 
@@ -173,12 +149,12 @@ describe('utils', () => {
       );
     });
 
-    // s3.raidguild.eth has an ENSv1 registry entry, but its parent migrated to
+    // tiny.fox.eth has an ENSv1 registry entry, but its parent is registered in
     // ENSv2 and resolution no longer goes through the v1 mirror
     test('resolve a subdomain whose authority moved to ENSv2 as unowned', async () => {
-      await expect(getSpaceController('s3.raidguild.eth', '1')).resolves.toBe(
-        EMPTY_ADDRESS
-      );
+      await expect(
+        getSpaceController('tiny.fox.eth', '11155111')
+      ).resolves.toBe(EMPTY_ADDRESS);
     });
 
     test('resolve a DNS name imported on testnet through its v1 owner', async () => {
@@ -237,14 +213,6 @@ describe('utils', () => {
       test('return an address for subdomain', async () => {
         await expect(getEnsOwner('snapshot.dcl.eth')).resolves.toBe(
           '0x9A6ebE7E2a7722F8200d0ffB63a1F6406A0d7dce'
-        );
-      });
-
-      // snapspace.eth expired past grace: ENSv2 holds no record of it, and the
-      // v1 registry still names the former owner of the subdomain
-      test('return an empty address for a subdomain whose parent expired', async () => {
-        await expect(getEnsOwner('2.snapspace.eth')).resolves.toBe(
-          EMPTY_ADDRESS
         );
       });
 

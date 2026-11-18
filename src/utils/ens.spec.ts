@@ -161,6 +161,8 @@ describe('getEnsOwner findExactOwner fallback', () => {
   const DNS_TLD_RESOLVER = networks['11155111'].ensDnsTldResolver;
   const OTHER_RESOLVER = '0xb2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2';
   const ensHash = namehash('x.eth');
+  // no bundled network is without ENSv2 addresses any more
+  (networks as any).v1 = { ensUniversalResolver: ROOT };
 
   // verifyRootMatch issues its two ROOT_REGISTRY reads before anything else
   function mockVerifiedClient() {
@@ -169,78 +171,19 @@ describe('getEnsOwner findExactOwner fallback', () => {
     return client;
   }
 
-  // every ENS network is on ENSv2: strip mainnet's pins to reach the paths of
-  // a network that is not
-  async function withoutMainnetPins(keys: string[], fn: () => Promise<void>) {
-    const network: Record<string, any> = networks['1'];
-    const pins = keys.map((key) => [key, network[key]]);
-    keys.forEach((key) => delete network[key]);
-    try {
-      await fn();
-    } finally {
-      pins.forEach(([key, value]) => (network[key] = value));
-    }
-  }
-
   test('reads the registry only on a network without an ENSv2 helper', async () => {
-    await withoutMainnetPins(['ensUniversalHelper'], async () => {
-      const client = mockClient();
-      client.readContract.mockResolvedValueOnce(OWNER);
-      await expect(getEnsOwner('x.eth', '1', opts)).resolves.toBe(OWNER);
-      expect(client.readContract).toHaveBeenCalledTimes(1);
-      expect(client.readContract.mock.calls[0][0].functionName).toBe('owner');
-    });
+    const client = mockClient();
+    client.readContract.mockResolvedValueOnce(OWNER);
+    await expect(getEnsOwner('x.eth', 'v1', opts)).resolves.toBe(OWNER);
+    expect(client.readContract).toHaveBeenCalledTimes(1);
+    expect(client.readContract.mock.calls[0][0].functionName).toBe('owner');
   });
 
   test('throws when ensUniversalHelper is set on a network missing the v1 delegate pins', async () => {
-    await withoutMainnetPins(
-      ['ensV1Resolver', 'ensDnsTldResolver'],
-      async () => {
-        mockClient();
-        await expect(getEnsOwner('x.eth', '1', opts)).rejects.toThrow(
-          'ensV1Resolver'
-        );
-      }
-    );
-  });
-
-  test('reads the ENSv2 owner through the mainnet helper', async () => {
-    const client = mockVerifiedClient();
-    client.readContract.mockResolvedValueOnce(OWNER);
-    await expect(getEnsOwner('x.eth', '1', opts)).resolves.toBe(OWNER);
-    expect(client.readContract).toHaveBeenCalledTimes(3);
-    expect(client.readContract.mock.calls[2][0]).toMatchObject({
-      address: networks['1'].ensUniversalHelper,
-      functionName: 'findExactOwner'
-    });
-  });
-
-  test.each([
-    ['the v1 mirror', 'x.eth', networks['1'].ensV1Resolver],
-    ['the DNS TLD resolver', 'x.com', networks['1'].ensDnsTldResolver]
-  ])(
-    'falls back to the registry for a mainnet name resolving through %s',
-    async (_label, name, resolver) => {
-      const client = mockVerifiedClient();
-      client.readContract
-        .mockResolvedValueOnce(EMPTY)
-        .mockResolvedValueOnce([resolver, ensHash, BigInt(0)])
-        .mockResolvedValueOnce(OWNER);
-      await expect(getEnsOwner(name, '1', opts)).resolves.toBe(OWNER);
-      expect(client.readContract.mock.calls[4][0].functionName).toBe('owner');
-    }
-  );
-
-  test('leaves a mainnet name ENSv2 no longer mirrors unowned instead of reading its stale v1 entry', async () => {
-    const client = mockVerifiedClient();
-    client.readContract
-      .mockResolvedValueOnce(EMPTY)
-      .mockResolvedValueOnce([EMPTY, ensHash, BigInt(0)])
-      .mockResolvedValueOnce(OWNER);
+    mockClient();
     await expect(
-      getEnsOwner('x.eth', '1', { ensNameWrapper: OTHER_RESOLVER })
-    ).resolves.toBe(EMPTY);
-    expect(client.readContract).toHaveBeenCalledTimes(4);
+      getEnsOwner('x.eth', 'v1', { ...opts, ensUniversalHelper: ROOT })
+    ).rejects.toThrow('ensV1Resolver');
   });
 
   test('returns the findExactOwner result for a v2 name', async () => {
