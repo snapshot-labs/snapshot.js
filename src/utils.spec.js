@@ -7,7 +7,8 @@ import {
   getVp,
   getFormattedAddress,
   getEnsOwner,
-  getEnsTextRecord
+  getEnsTextRecord,
+  fetch as fetchWithTimeout
 } from './utils';
 
 const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -25,6 +26,67 @@ const fetch = vi.mocked(crossFetch.default);
 describe('utils', () => {
   afterEach(() => {
     vi.resetAllMocks();
+  });
+
+  describe('fetch', () => {
+    const signalRespectingFetch = (_url, init = {}) =>
+      new Promise((_resolve, reject) => {
+        const { signal } = init;
+        if (signal?.aborted) return reject(signal.reason);
+        signal?.addEventListener('abort', () => reject(signal.reason));
+      });
+
+    test('aborts the request when the caller signal aborts', async () => {
+      fetch.mockImplementation(signalRespectingFetch);
+      const controller = new AbortController();
+
+      const request = fetchWithTimeout('https://snapshot.test', {
+        signal: controller.signal,
+        timeout: 1000
+      });
+      controller.abort();
+
+      await expect(request).rejects.toMatchObject({ name: 'AbortError' });
+    });
+
+    test('rejects at once when the caller signal is already aborted', async () => {
+      fetch.mockImplementation(signalRespectingFetch);
+      const controller = new AbortController();
+      controller.abort();
+
+      await expect(
+        fetchWithTimeout('https://snapshot.test', {
+          signal: controller.signal,
+          timeout: 1000
+        })
+      ).rejects.toMatchObject({ name: 'AbortError' });
+    });
+
+    test('still reports a timeout when the caller signal does not abort', async () => {
+      fetch.mockImplementation(signalRespectingFetch);
+      const controller = new AbortController();
+
+      await expect(
+        fetchWithTimeout('https://snapshot.test', {
+          signal: controller.signal,
+          timeout: 10
+        })
+      ).rejects.toThrow('Request timeout after 10ms');
+    });
+
+    test('forwards the caller signal when the timeout is disabled', async () => {
+      fetch.mockResolvedValue(new Response('{}'));
+      const controller = new AbortController();
+
+      await fetchWithTimeout('https://snapshot.test', {
+        signal: controller.signal,
+        timeout: 0
+      });
+
+      expect(fetch).toHaveBeenCalledWith('https://snapshot.test', {
+        signal: controller.signal
+      });
+    });
   });
 
   describe('validate', () => {
